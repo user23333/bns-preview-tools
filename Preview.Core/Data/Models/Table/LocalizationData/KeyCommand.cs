@@ -1,18 +1,15 @@
-﻿using SkiaSharp;
-
-using Xylia.Preview.Common.Attributes;
-using Xylia.Preview.Data.Helpers;
+﻿using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models.Sequence;
 
 namespace Xylia.Preview.Data.Models;
 public sealed class KeyCommand : ModelElement
 {
-	#region Field
+	#region Attributes
 	public KeyCommandSeq Command { get; set; }
 
-	[Name("default-keycap")]
 	public string DefaultKeycap { get; set; }
 	#endregion
+
 
 	#region Methods
 	private KeyCap[] GetKeyCaps()
@@ -21,17 +18,16 @@ public sealed class KeyCommand : ModelElement
 
 		if (this.DefaultKeycap != null)
 		{
-			//逗号分隔多个快捷键, 实际未支持处理
-			foreach (var o in this.DefaultKeycap.Split(','))
+			foreach (var o in DefaultKeycap.Split(','))
 			{
 				if (string.IsNullOrWhiteSpace(o) || o == "none") continue;
 
-				if (o.StartsWith("^"))
+				if (o.StartsWith('^'))
 				{
 					result.Add(KeyCap.Cast(KeyCode.Control));
 					result.Add(KeyCap.Cast(o[1..]));
 				}
-				else if (o.StartsWith("~"))
+				else if (o.StartsWith('~'))
 				{
 					result.Add(KeyCap.Cast(KeyCode.Alt));
 					result.Add(KeyCap.Cast(o[1..]));
@@ -40,18 +36,16 @@ public sealed class KeyCommand : ModelElement
 			}
 		}
 
-		return result.ToArray();
+		return [.. result];
 	}
 
 	private KeyCap GetKey(int Index) => this.GetKeyCaps().Length >= Index + 1 ? this.GetKeyCaps()[Index] : null;
+
 	public KeyCap Key1 => GetKey(0);
 	public KeyCap Key2 => GetKey(1);
 
+	public override string ToString() => this.Key1?.Image;
 
-	public string GetImage() => this.Key1?.Image;
-
-	public SKBitmap GetIcon() => this.Key1?.Icon;
-
-	public static KeyCommand Cast(KeyCommandSeq KeyCommand) => FileCache.Data.Get<KeyCommand>().FirstOrDefault(o => o.Command == KeyCommand);
+	public static KeyCommand Cast(KeyCommandSeq KeyCommand) => FileCache.Data.Provider.GetTable<KeyCommand>().FirstOrDefault(o => o.Command == KeyCommand);
 	#endregion
 }

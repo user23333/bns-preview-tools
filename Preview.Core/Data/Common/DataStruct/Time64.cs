@@ -111,8 +111,7 @@ public struct Time64(long ticks) : IFormattable
 	public int Second => (int)((Ticks / TicksPerSecond) % 60);
 	#endregion
 
-
-	#region Interface	
+	#region Override Methods	
 	public string ToString(string format, IFormatProvider formatProvider) => TimeFormat.Format(this + BnsTimeZoneInfo.FromPublisher()!.Offset, format, formatProvider);
 
 	public override string ToString() => ToString(null, null);
@@ -136,8 +135,8 @@ public struct Time64(long ticks) : IFormattable
 
 
 	#region Static Methods
-	public static implicit operator long(Time64 time) => (long)time.Ticks;
 	public static implicit operator Time64(long ticks) => new Time64(ticks);
+	public static implicit operator long(Time64 time) => (long)time.Ticks;
 
 	public static implicit operator Time64(DateTime dateTime) => Parse(dateTime);
 

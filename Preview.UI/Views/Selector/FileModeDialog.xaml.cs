@@ -1,23 +1,16 @@
-﻿using System.Windows.Input;
+﻿using System.ComponentModel;
+using System.Windows.Input;
 
 using CommunityToolkit.Mvvm.ComponentModel;
-
 using HandyControl.Tools.Extension;
 
 namespace Xylia.Preview.UI.Views.Selector;
 
 [ObservableObject]
+[DesignTimeVisible(false)]
 public partial class FileModeDialog : IDialogResultable<FileModeDialog.FileMode>
 {
-	#region Ctor
-	public enum FileMode
-	{
-		None,
-
-		Text,
-		Xlsx,
-	}
-
+	#region Constructors
 	public FileModeDialog()
 	{
 		DataContext = this;
@@ -41,9 +34,16 @@ public partial class FileModeDialog : IDialogResultable<FileModeDialog.FileMode>
 
 
 	#region Interface
+	public Action? CloseAction { get; set; }
+
 	[ObservableProperty]
 	private FileMode result;
 
-	public Action CloseAction { get; set; }
+	public enum FileMode
+	{
+		None,
+		Text,
+		Xlsx,
+	}
 	#endregion
 }

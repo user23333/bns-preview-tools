@@ -1,10 +1,11 @@
 <Window x:Class="Xylia.Preview.UI.Views.AudioPlayer"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
 		xmlns:converters="clr-namespace:Xylia.Preview.UI.Common.Converters"
 		xmlns:hc="https://handyorg.github.io/handycontrol"
-        Closing="OnClosing" 
-		Title="{DynamicResource AudioPlayer_Name}" WindowStartupLocation="CenterScreen"
+        Closing="OnClosing" WindowStartupLocation="CenterScreen" Title="{DynamicResource AudioPlayer_Name}" d:Title="AudioPlayer" 
         Height="{Binding Source={x:Static SystemParameters.MaximizedPrimaryScreenHeight}, Converter={converters:RatioConverter}, ConverterParameter='0.50'}"
         Width="{Binding Source={x:Static SystemParameters.MaximizedPrimaryScreenWidth}, Converter={converters:RatioConverter}, ConverterParameter='0.48'}">
 	<Grid Margin="5">
@@ -117,7 +118,7 @@
 
 					<StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
 						<!-- Loop -->
-						<Button x:Name="LoopButton" Style="{StaticResource TransparentButton}" Width="30" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="0,0,13,0" ToolTip="{DynamicResource Language_Loop}" Command="{Binding LoopCommand}">
+						<Button x:Name="LoopButton" Style="{StaticResource ButtonTransparent}" Width="30" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="0,0,13,0" ToolTip="{DynamicResource Language_Loop}" Command="{Binding LoopCommand}">
 							<Grid>
 								<TextBlock Text="&#xE8EE;" FontFamily="{StaticResource SegoeAssets}" Foreground="{DynamicResource PrimaryTextBrush}" FontSize="14" Visibility="{Binding ShowLoopNone,Converter={StaticResource Boolean2VisibilityConverter}}"/>
 								<TextBlock Text="&#xE8ED;" FontFamily="{StaticResource SegoeAssets}" Foreground="{DynamicResource PrimaryBrush}" FontSize="14" Visibility="{Binding ShowLoopOne,Converter={StaticResource Boolean2VisibilityConverter}}"/>
@@ -125,7 +126,7 @@
 							</Grid>
 						</Button>
 						<!-- Previous -->
-						<Button x:Name="PreviousButton" Style="{StaticResource TransparentButton}" Width="30" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="0,0,13,0" ToolTip="{DynamicResource Language_Previous}" Command="{Binding PreviousCommand}">
+						<Button x:Name="PreviousButton" Style="{StaticResource ButtonTransparent}" Width="30" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="0,0,13,0" ToolTip="{DynamicResource Language_Previous}" Command="{Binding PreviousCommand}">
 							<TextBlock Text="&#xE892;" FontFamily="{StaticResource SegoeAssets}" Foreground="{DynamicResource Brush_PrimaryText}" FontSize="16"/>
 						</Button>
 						<!-- Play and pause -->
@@ -134,21 +135,21 @@
 							<hc:LoadingCircle Width="20" Height="20" Foreground="{DynamicResource PrimaryTextBrush}" Visibility="{Binding IsLoadingTrack,Converter={StaticResource Boolean2VisibilityConverter}}"/>
 							<Grid Visibility="{Binding IsLoadingTrack,Converter={StaticResource Boolean2VisibilityReConverter}}">
 								<!-- Play -->
-								<Button x:Name="PlayButton" Style="{StaticResource TransparentButton}" Width="30" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ToolTip="{DynamicResource Language_Play}" Visibility="{Binding ShowPause,Converter={StaticResource Boolean2VisibilityReConverter}}" Command="{Binding PlayPauseCommand}">
+								<Button x:Name="PlayButton" Style="{StaticResource ButtonTransparent}" Width="30" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ToolTip="{DynamicResource Language_Play}" Visibility="{Binding ShowPause,Converter={StaticResource Boolean2VisibilityReConverter}}" Command="{Binding PlayPauseCommand}">
 									<TextBlock Text="&#xE768;" FontFamily="{StaticResource SegoeAssets}" Foreground="{DynamicResource PrimaryTextBrush}" FontSize="16"/>
 								</Button>
 								<!-- Pause -->
-								<Button x:Name="PauseButton" Style="{StaticResource TransparentButton}" Width="30" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ToolTip="{DynamicResource Language_Pause}" Visibility="{Binding ShowPause,Converter={StaticResource Boolean2VisibilityConverter}}" Command="{Binding PlayPauseCommand}">
+								<Button x:Name="PauseButton" Style="{StaticResource ButtonTransparent}" Width="30" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ToolTip="{DynamicResource Language_Pause}" Visibility="{Binding ShowPause,Converter={StaticResource Boolean2VisibilityConverter}}" Command="{Binding PlayPauseCommand}">
 									<TextBlock Text="&#xE769;" FontFamily="{StaticResource SegoeAssets}" Foreground="{DynamicResource PrimaryTextBrush}" FontSize="16"/>
 								</Button>
 							</Grid>
 						</Grid>
 						<!-- Next -->
-						<Button x:Name="NextButton" Style="{StaticResource TransparentButton}" Width="30" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="13,0,0,0" ToolTip="{DynamicResource Language_Next}" Command="{Binding NextCommand}">
+						<Button x:Name="NextButton" Style="{StaticResource ButtonTransparent}" Width="30" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="13,0,0,0" ToolTip="{DynamicResource Language_Next}" Command="{Binding NextCommand}">
 							<TextBlock Text="&#xE893;" FontFamily="{StaticResource SegoeAssets}" Foreground="{DynamicResource PrimaryTextBrush}" FontSize="16"/>
 						</Button>
 						<!-- Shuffle -->
-						<Button x:Name="ShuffleButton" Style="{StaticResource TransparentButton}" Width="30" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="13,0,0,0" ToolTip="{DynamicResource Language_Shuffle}" Command="{Binding ShuffleCommand}" Visibility="Collapsed">
+						<Button x:Name="ShuffleButton" Style="{StaticResource ButtonTransparent}" Width="30" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="13,0,0,0" ToolTip="{DynamicResource Language_Shuffle}" Command="{Binding ShuffleCommand}" Visibility="Collapsed">
 							<Grid>
 								<TextBlock Text="&#xE8B1;" FontFamily="{StaticResource SegoeAssets}" Foreground="{DynamicResource PrimaryTextBrush}" FontSize="16" Visibility="{Binding Shuffle,Converter={StaticResource Boolean2VisibilityReConverter}}"/>
 								<TextBlock Text="&#xE8B1;" FontFamily="{StaticResource SegoeAssets}" Foreground="{DynamicResource PrimaryBrush}" FontSize="16" Visibility="{Binding Shuffle,Converter={StaticResource Boolean2VisibilityConverter}}"/>
@@ -168,7 +169,7 @@
 						
 						<!-- Volume -->
 						<StackPanel PreviewMouseWheel="Grid_PreviewMouseWheel" Margin="0,0,20,0" Orientation="Horizontal">
-							<Button x:Name="VolumeButton" Style="{StaticResource TransparentButton}" 
+							<Button x:Name="VolumeButton" Style="{StaticResource ButtonTransparent}" 
 									Click="VolumeButton_Click" MouseEnter="VolumeButton_MouseEnter" 
 									HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
 								<Grid>
@@ -188,11 +189,11 @@
 											<!-- Mute and unmute -->
 											<Grid HorizontalAlignment="Center" Margin="0,3,0,0">
 												<!-- Mute -->
-												<Button x:Name="MuteButton" Style="{StaticResource TransparentButton}" Width="30" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" ToolTip="{DynamicResource Language_Mute}" Visibility="{Binding Mute,Converter={StaticResource Boolean2VisibilityReConverter}}" Command="{Binding MuteCommand}">
+												<Button x:Name="MuteButton" Style="{StaticResource ButtonTransparent}" Width="30" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" ToolTip="{DynamicResource Language_Mute}" Visibility="{Binding Mute,Converter={StaticResource Boolean2VisibilityReConverter}}" Command="{Binding MuteCommand}">
 													<TextBlock Text="&#xE767;" FontFamily="{StaticResource SegoeAssets}" Foreground="{DynamicResource Brush_PrimaryText}" FontSize="16"/>
 												</Button>
 												<!-- Unmute -->
-												<Button x:Name="UnmuteButton" Style="{StaticResource TransparentButton}" Width="30" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" ToolTip="{DynamicResource Language_Unmute}" Visibility="{Binding Mute,Converter={StaticResource Boolean2VisibilityConverter}}" Command="{Binding MuteCommand}">
+												<Button x:Name="UnmuteButton" Style="{StaticResource ButtonTransparent}" Width="30" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" ToolTip="{DynamicResource Language_Unmute}" Visibility="{Binding Mute,Converter={StaticResource Boolean2VisibilityConverter}}" Command="{Binding MuteCommand}">
 													<TextBlock Text="&#xE74F;" FontFamily="{StaticResource SegoeAssets}" Foreground="{DynamicResource Brush_Accent}" FontSize="16"/>
 												</Button>
 											</Grid>

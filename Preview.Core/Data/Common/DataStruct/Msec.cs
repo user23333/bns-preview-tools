@@ -79,8 +79,6 @@ public struct Msec : IFormattable
 	#endregion
 }
 
-
-
 public static class MsecFormat
 {
 	public enum MsecFormatType
@@ -145,8 +143,6 @@ public static class MsecFormat
 
 	internal static string Format(Msec value, MsecFormatType format, IFormatProvider formatProvider)
 	{
-		var sb = new StringBuilder(256);
-
 		if (format == MsecFormatType.hmsFormatColon) return $"{value.Days}.{value.Hours:00}:{value.Minutes:00}:{value.Seconds:00}";
 
 		// load text resource
@@ -157,6 +153,8 @@ public static class MsecFormat
 		var MinuteName = "Name.Time.minute".GetText() ?? ":";
 		var SecondName = "Name.Time.second".GetText();
 
+		// text build
+		var sb = new StringBuilder(256);
 
 		switch (format)
 		{
@@ -202,6 +200,7 @@ public static class MsecFormat
 				break;
 		}
 
-		return sb.ToString();
+		// return null if empty
+		return sb.Length == 0 ? null : sb.ToString();
 	}
 }

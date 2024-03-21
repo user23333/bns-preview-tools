@@ -10,6 +10,7 @@ using SkiaSharp;
 namespace CUE4Parse.BNS.Assets.Exports;
 public sealed class UImageSet : USerializeObject
 {
+	#region Properties
 	[UPROPERTY]
 	public FPackageIndex Image;
 
@@ -24,7 +25,9 @@ public sealed class UImageSet : USerializeObject
 
 	[UPROPERTY]
 	public float VL;
+	#endregion
 
-
+	#region Methods
 	public SKBitmap GetImage() => Image.Load<UTexture>()?.Decode()?.Clone((int)U, (int)V, (int)UL, (int)VL);
+	#endregion
 }

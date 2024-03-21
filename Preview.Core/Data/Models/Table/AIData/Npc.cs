@@ -1,9 +1,10 @@
-﻿using Xylia.Preview.Data.Helpers;
+﻿using Xylia.Preview.Data.Common.Abstractions;
+using Xylia.Preview.Data.Helpers;
 
 namespace Xylia.Preview.Data.Models;
-public sealed class Npc : ModelElement
+public sealed class Npc : ModelElement, IHaveName
 {
-	#region Public Properties
+	#region Properties
 	public string Text => this.Attributes["name2"].GetText();
 
 	public string Map
@@ -12,8 +13,8 @@ public sealed class Npc : ModelElement
 		{
 			var alias = this.ToString();
 
-			var MapUnit = FileCache.Data.Get<MapUnit>().Where(x => x.ToString() != null && x.ToString().Contains(alias, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
-			return MapUnit is null ? null : FileCache.Data.Get<MapInfo>().FirstOrDefault(x => x.Id == MapUnit.Mapid)?.Text;
+			var MapUnit = FileCache.Data.Provider.GetTable<MapUnit>().Where(x => x.ToString() != null && x.ToString().Contains(alias, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+			return MapUnit is null ? null : FileCache.Data.Provider.GetTable<MapInfo>().FirstOrDefault(x => x.Id == MapUnit.Mapid)?.Text;
 		}
 	}
 	#endregion
@@ -43,4 +44,15 @@ public sealed class Npc : ModelElement
 		}
 	}
 	#endregion
+
+
+	// Baekcheong
+	// Chicken_A
+	// Daesamak
+	// Dungeon
+	// Jeryongrim
+	// Pizza_A
+	// Summer_A
+	// Suweol
+	// Winter_A
 }

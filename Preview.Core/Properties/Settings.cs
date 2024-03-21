@@ -3,13 +3,15 @@ using System.Runtime.CompilerServices;
 using IniParser;
 using IniParser.Model;
 using Xylia.Preview.Common.Extension;
+using static Xylia.Preview.Data.Models.SkillTooltipAttribute;
 
 namespace Xylia.Preview.Properties;
 public class Settings : INotifyPropertyChanged
 {
-	internal static Settings Default { get; } = new();
-
+	#region Constructors
 	public static string ApplicationData => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Xylia");
+
+	protected internal static Settings Default { get; protected set; } = new();
 
 	protected Settings()
 	{
@@ -21,7 +23,7 @@ public class Settings : INotifyPropertyChanged
 			new FileIniDataParser().ReadFile(ConfigPath) : 
 			new IniData();
 	}
-
+	#endregion
 
 	#region PropertyChange	 
 	protected string ConfigPath;
@@ -48,7 +50,8 @@ public class Settings : INotifyPropertyChanged
 			name = split[1];
 		}
 
-		return Configuration[section][name];
+		var value =  Configuration[section][name];
+		return string.IsNullOrEmpty(value) ? null : value;
 	}
 
 	protected void SetValue(object value, string section = "Common", [CallerMemberName] string name = null)
@@ -95,5 +98,13 @@ public class Settings : INotifyPropertyChanged
 	public string OutputFolderResource { get => GetValue(); set => SetValue(value); }
 
 	public bool UseUserDefinition { get => GetValue().ToBool(); set => SetValue(value); }
+
+	public bool PreviewLoadData { get => GetValue().ToBool(); set => SetValue(value); }
+	#endregion
+
+	#region Skill
+	public DamageMode Skill_DamageMode { get => GetValue().ToEnum<DamageMode>(); set => SetValue(value); }
+	public int Skill_AttackPower { get => GetValue().ToInt32(); set => SetValue(value); }
+	public double Skill_AttackAttributePercent { get => GetValue().ToDouble(); set => SetValue(value); }
 	#endregion
 }

@@ -6,11 +6,11 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Xml;
 using HandyControl.Controls;
+using HandyControl.Data;
 using HandyControl.Interactivity;
 using ICSharpCode.AvalonEdit.Folding;
 using ICSharpCode.AvalonEdit.Rendering;
 using ICSharpCode.AvalonEdit.Search;
-
 using Microsoft.Win32;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Client;
@@ -23,7 +23,8 @@ namespace Xylia.Preview.UI.Views;
 public partial class TextView
 {
 	#region Constructor
-	private FoldingManager manager;
+	private readonly FoldingManager manager;
+	private readonly string token = nameof(TextView);
 
 	public TextView()
 	{
@@ -100,11 +101,11 @@ public partial class TextView
 	private LocalProvider source;
 	private List<TextDiffPiece> diffResult;
 
-	private bool OpenTextFile(out string file)
+	private static bool OpenTextFile(out string file)
 	{
 		var dialog = new OpenFileDialog
 		{
-			Filter = @"All files|*.*|game text file|local*.dat|output text file|*.x16"
+			Filter = @"game text file|local*.dat|source text file|*.x16|All files|*.*"
 		};
 
 		if (dialog.ShowDialog() == true)
@@ -113,7 +114,7 @@ public partial class TextView
 			return true;
 		}
 
-		file = null;
+		file = string.Empty;
 		return false;
 	}
 
@@ -125,8 +126,8 @@ public partial class TextView
 		var source1 = await Task.Run(() => new BnsDatabase(new LocalProvider(OldSource)));
 		var source2 = await Task.Run(() => new BnsDatabase(new LocalProvider(NewSource)));
 
-		var TextTable1 = source1.Get<Text>();
-		var TextTable2 = source2.Get<Text>();
+		var TextTable1 = source1.Provider.GetTable<Text>();
+		var TextTable2 = source2.Provider.GetTable<Text>();
 
 		var IsEmpty1 = TextTable1.IsEmpty();
 		var IsEmpty2 = TextTable2.IsEmpty();
@@ -285,10 +286,16 @@ public partial class TextView
 		{
 			try
 			{
+				Growl.Info(new GrowlInfo()
+				{
+				    Message = StringHelper.Get("TextView_TaskStart"),
+					Token = token,
+				});
+
 				var data = Encoding.Unicode.GetBytes(this.Dispatcher.Invoke(() => Editor.Text));
 				source.Save(data);
 
-				Growl.Success(StringHelper.Get("TextView_SaveCompleted"), nameof(TextView));
+				Growl.Success(StringHelper.Get("TextView_SaveCompleted"), token);
 			}
 			catch (Exception ex)
 			{
@@ -307,12 +314,12 @@ public partial class TextView
 #region Area
 internal class TextAreaManager
 {
-	ICSharpCode.AvalonEdit.TextEditor _editor;
-	List<TextArea> _areas;
+	readonly ICSharpCode.AvalonEdit.TextEditor _editor;
+	readonly List<TextArea> _areas;
 
 	public TextAreaManager(ICSharpCode.AvalonEdit.TextEditor TextEditor)
 	{
-		_areas = new();
+		_areas = [];
 		_editor = TextEditor;
 	}
 
