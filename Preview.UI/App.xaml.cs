@@ -1,13 +1,9 @@
-﻿//#define DEV
-
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.IO;
 using System.Reflection;
 using System.Windows;
-using System.Windows.Shell;
 using System.Windows.Threading;
-
 using CUE4Parse.BNS;
 using CUE4Parse.BNS.Conversion;
 using CUE4Parse.UE4.Assets.Exports.Sound;
@@ -15,12 +11,12 @@ using CUE4Parse.UE4.Assets.Objects;
 using CUE4Parse.UE4.VirtualFileSystem;
 using CUE4Parse_Conversion.Sounds;
 using CUE4Parse_Conversion.Textures;
-
 using HandyControl.Controls;
 using Serilog;
-using Xylia.Preview.Common;
 using Xylia.Preview.Common.Extension;
+using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Data.Helpers;
+using Xylia.Preview.UI.Resources.Themes;
 using Xylia.Preview.UI.Services;
 using Xylia.Preview.UI.ViewModels;
 using Kernel32 = Vanara.PInvoke.Kernel32;
@@ -30,36 +26,38 @@ public partial class App : Application
 {
 	protected override void OnStartup(StartupEventArgs e)
 	{
-		// Create a jump-list and assign it to the current application
-		JumpList.SetJumpList(Current, new JumpList());
-		AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-
 		// Process the command-line arguments
+		AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+		new ServiceManager() { new LogService(), new JumpListService() }.RegisterAll();
+
 		InitializeArgs(e.Args);
 
-		#region Log
-		var foloder = UserSettings.Default.OutputFolder ?? UserSettings.ApplicationData;
-		string template = "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level}] {Message:lj}{NewLine}{Exception}";
-		Log.Logger = new LoggerConfiguration()
-			.WriteTo.Debug(Serilog.Events.LogEventLevel.Warning, outputTemplate: template)
-			.WriteTo.File(Path.Combine(foloder, "Logs", $"{DateTime.Now:yyyy-MM-dd}.log"), outputTemplate: template)
-			.CreateLogger();
-		#endregion
+#if DEVELOP
+		//new Xylia.Preview.UI.Content.TestPanel().Show();
+		//return;
 
-		#region Service 
-		Console.SetOut(new ConsoleRedirect());
-		new JumpListService().CreateAsync();
-		#endregion
-
-#if DEV
-		//FileCache.Data = new(new Xylia.Preview.Data.Engine.DatData.FolderProvider(@"D:\资源\客户端相关\Auto\data"));
-		MainWindow = new Xylia.Preview.UI.Art.GameUI.Scene.Game_Broadcasting.Game_BroadcastingScene();
-		MainWindow.Show();
-		return;
-#endif
-
+		FileCache.Data = new Data.Client.BnsDatabase(new FolderProvider(@"D:\资源\客户端相关\Auto\data"));
+		new Xylia.Preview.UI.GameUI.Scene.Game_Tooltip.Skill3ToolTipPanel_1().Show();
+#else
 		MainWindow = new MainWindow();
 		MainWindow.Show();
+#endif
+	}
+
+	internal void UpdateSkin(SkinType skin, bool? night)
+	{
+		var skins0 = Resources.MergedDictionaries[0];
+		skins0.MergedDictionaries.Clear();
+		skins0.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri("pack://application:,,,/HandyControl;component/Themes/SkinDefault.xaml") });
+		skins0.MergedDictionaries.Add(SkinHelpers.GetDayNight(night));
+		skins0.MergedDictionaries.Add(SkinHelpers.GetSkin(skin));
+
+		var skins1 = Resources.MergedDictionaries[1];
+		skins1.MergedDictionaries.Clear();
+		skins1.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri("pack://application:,,,/HandyControl;component/Themes/Theme.xaml") });
+		skins1.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri("pack://application:,,,/Preview.UI;component/Resources/Themes/Theme.xaml") });
+
+		Current.MainWindow?.OnApplyTemplate();
 	}
 
 
@@ -80,11 +78,10 @@ public partial class App : Application
 
 	private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
 	{
-		var error = e.ExceptionObject as Exception;
+		var exception = e.ExceptionObject as Exception;
+		string str = StringHelper.Get("Application_CrashMessage", exception!.Message);
 
-		string str = $"The program crashed and is about to exit.\n{error.Message};\nat {DateTime.Now}";
-
-		Log.Fatal(str);
+		Log.Fatal(exception, "OnCrash");
 		HandyControl.Controls.MessageBox.Show(str, "Crash", MessageBoxButton.OK, MessageBoxImage.Stop);
 	}
 	#endregion
@@ -103,7 +100,7 @@ public partial class App : Application
 			.ToDictionary(x => x.Key, x => x.First());
 
 
-		if (_flagValue.TryGetValue("command", out string command))
+		if (_flagValue.TryGetValue("command", out var command))
 		{
 			Kernel32.AllocConsole();
 			Kernel32.SetConsoleCP(65001);
@@ -124,7 +121,7 @@ public partial class App : Application
 		}
 	}
 
-	private static void Command(string command)
+	private static void Command(string? command)
 	{
 		if (command == "query")
 		{
@@ -208,7 +205,7 @@ public partial class App : Application
 				{
 					current++;
 
-					var Object = provider.LoadObject<USoundWave>(asset.ObjectPath.Text);
+					var Object = provider.LoadObject<USoundWave>(asset.ObjectPath);
 					if (Object != null)
 					{
 						Object.Decode(true, out var audioFormat, out var data);

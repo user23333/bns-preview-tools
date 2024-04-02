@@ -587,13 +587,13 @@ public enum CreatureField
 
     HpRegenCombatEquip,
 
-    AttackHitBasePercent,
+	AttackHitBasePercent,
 
     AttackHitValue,
 
     AttackHitValueEquip,
 
-    AttackPierceBasePercent,
+	AttackPierceBasePercent,
 
     AttackParryPiercePercent,
 
@@ -601,9 +601,9 @@ public enum CreatureField
 
     AttackPierceValueEquip,
 
-    AttackCriticalBasePercent,
+	AttackCriticalBasePercent,
 
-    AttackCriticalDamagePercent,
+	AttackCriticalDamagePercent,
 
     AttackCriticalValue,
 
@@ -613,9 +613,9 @@ public enum CreatureField
 
     AttackCriticalDamageValueEquip,
 
-    DefendCriticalBasePercent,
+	DefendCriticalBasePercent,
 
-    DefendCriticalDamagePercent,
+	DefendCriticalDamagePercent,
 
     DefendCriticalValue,
 

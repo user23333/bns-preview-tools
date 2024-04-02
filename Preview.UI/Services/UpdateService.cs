@@ -1,23 +1,44 @@
-﻿using System.Windows;
+﻿using System.Text;
+using System.Windows;
 using AutoUpdaterDotNET;
+using CUE4Parse.UE4.Pak;
 using HandyControl.Controls;
 using HandyControl.Data;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 using Serilog;
 using Xylia.Preview.UI.ViewModels;
+using MessageBox = HandyControl.Controls.MessageBox;
 
 namespace Xylia.Preview.UI.Services;
-internal class UpdateService
+internal class UpdateService : IService
 {
-	public void CheckForUpdates()
+	const string APP_NAME = "bns-preview-tools";
+
+	internal static bool ShowLog { get; private set; } = false;
+
+	public bool Register()
 	{
-#if DEBUG
+		#region Logs 
+		using RegistryKey hkcu = Registry.CurrentUser;
+		using RegistryKey softWare = hkcu.CreateSubKey($@"Software\Xylia\{APP_NAME}", true);
+
+		ShowLog = softWare.GetValue("Version")?.ToString() != VersionHelper.InternalVersion.ToString();
+
+		softWare.SetValue("ExecutablePath", AppDomain.CurrentDomain.BaseDirectory, RegistryValueKind.String);
+		softWare.SetValue("Version", VersionHelper.InternalVersion, RegistryValueKind.String);
+		#endregion
+
+#if DEVELOP
+		return false;
+#elif DEBUG
 		Growl.Info(StringHelper.Get("Version_Tip1"));
 #endif
 		AutoUpdater.RemindLaterTimeSpan = 0;
 		AutoUpdater.ParseUpdateInfoEvent += ParseUpdateInfoEvent;
 		AutoUpdater.CheckForUpdateEvent += CheckForUpdateEvent;
-		AutoUpdater.Start("https://tools.bnszs.com/api/update?app=bns-preview-tools&version=1");
+		AutoUpdater.Start($"https://tools.bnszs.com/api/update?app={APP_NAME}&version={VersionHelper.InternalVersion}");
+		return true;
 	}
 
 	private void ParseUpdateInfoEvent(ParseUpdateInfoEventArgs args)
@@ -27,14 +48,16 @@ internal class UpdateService
 
 	private void CheckForUpdateEvent(UpdateInfoEventArgs args)
 	{
-		if (args is UpdateInfoArgs arg)
+		if (args is UpdateInfoArgs arg2)
 		{
-			if (arg.NoticeID < 0 || UserSettings.Default.NoticeId < arg.NoticeID)
+			IPlatformFilePak.Signature = Encoding.UTF8.GetBytes(arg2.Signature);
+
+			if (arg2.NoticeID < 0 || UserSettings.Default.NoticeId < arg2.NoticeID)
 			{
-				UserSettings.Default.NoticeId = arg.NoticeID;
+				UserSettings.Default.NoticeId = arg2.NoticeID;
 				Growl.Info(new GrowlInfo()
 				{
-					Message = arg.Notice,
+					Message = arg2.Notice,
 					StaysOpen = true,
 				});
 			}
@@ -43,7 +66,7 @@ internal class UpdateService
 		if (args.CurrentVersion != null)
 		{
 			var currentVersion = new Version(args.CurrentVersion);
-			if (currentVersion < args.InstalledVersion) return;
+			if (currentVersion <= args.InstalledVersion) return;
 
 			Growl.Ask(StringHelper.Get("Version_Tip2",
 				StringHelper.Get("ProductName"),
@@ -61,7 +84,7 @@ internal class UpdateService
 			Log.Error(args.Error.Message);
 			Growl.Error(StringHelper.Get("Version_Tip3"));
 
-			HandyControl.Controls.MessageBox.Show(StringHelper.Get("Version_Tip3"), icon: MessageBoxImage.Error);
+			MessageBox.Show(StringHelper.Get("Version_Tip3"), icon: MessageBoxImage.Error);
 			Environment.Exit(500);
 		}
 	}
@@ -70,8 +93,7 @@ internal class UpdateService
 	class UpdateInfoArgs : UpdateInfoEventArgs
 	{
 		public int NoticeID { get; set; }
-		public string Notice { get; set; }
-
-		public string CheckSum { get; set; }
+		public string? Notice { get; set; }
+		public string? Signature { get; set; }
 	}
 }

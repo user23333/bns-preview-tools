@@ -1,10 +1,10 @@
 ﻿using System.Diagnostics;
-using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
 
 using Vanara.PInvoke;
+using Xylia.Preview.Common.Extension;
 
 namespace Xylia.Preview.UI;
 public partial class ProcessFloatWindow 
@@ -52,10 +52,10 @@ public partial class ProcessFloatWindow
 			var value = (process.TotalProcessorTime - prevCpuTime).TotalMilliseconds / Interval / Environment.ProcessorCount;
 			prevCpuTime = process.TotalProcessorTime;
 
-			Application.Current.Dispatcher.Invoke(() =>
+			Dispatcher.Invoke(() =>
 			{
 				UsedCPU.Text = value.ToString("P0");
-				UsedMemory.Text = GetReadableSize(size);
+				UsedMemory.Text = BinaryExtension.GetReadableSize(size);
 			});
 		});
 
@@ -71,22 +71,17 @@ public partial class ProcessFloatWindow
 			timer = null;
 		}
 	}
+	#endregion
 
 
-	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	public static string GetReadableSize(double size)
+	#region Helpers
+	public static void ClearMemory()
 	{
-		if (size == 0) return "0 B";
+		GC.Collect();
+		GC.WaitForPendingFinalizers();
 
-		string[] sizes = { "B", "KB", "MB", "GB", "TB" };
-		var order = 0;
-		while (size >= 1024 && order < sizes.Length - 1)
-		{
-			order++;
-			size /= 1024;
-		}
-
-		return $"{size:# ###.##} {sizes[order]}".TrimStart();
+		if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+			Kernel32.SetProcessWorkingSetSize(Process.GetCurrentProcess().Handle, SizeT.MinValue, SizeT.MinValue);
 	}
 	#endregion
 }

@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Concurrent;
 using Newtonsoft.Json;
+using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Engine.Definitions;
-using Xylia.Preview.Document;
 
 namespace Xylia.Preview.Data.Models;
 public class AttributeDocument : AttributeValue, IDictionary<string, AttributeValue>
@@ -51,14 +51,8 @@ public class AttributeDocument : AttributeValue, IDictionary<string, AttributeVa
 	/// </summary>
 	public override AttributeValue this[string key]
 	{
-		get
-		{
-			return this.RawValue.GetOrDefault(key, Null);
-		}
-		set
-		{
-			this.RawValue[key] = value ?? Null;
-		}
+		get => this.RawValue.GetOrDefault(key, Null);
+		set => this.RawValue[key] = value ?? Null;
 	}
 
 	public override int CompareTo(AttributeValue other)
@@ -118,7 +112,7 @@ public class AttributeDocument : AttributeValue, IDictionary<string, AttributeVa
 		}
 	}
 
-	public void Add(string key, AttributeValue value) => this.RawValue.Add(key, value ?? AttributeValue.Null);
+	public void Add(string key, AttributeValue value) => this.RawValue.Add(key, value ?? Null);
 
 	public bool Remove(string key) => this.RawValue.Remove(key);
 
@@ -138,7 +132,7 @@ public class AttributeDocument : AttributeValue, IDictionary<string, AttributeVa
 
 	public void CopyTo(KeyValuePair<string, AttributeValue>[] array, int arrayIndex)
 	{
-		((ICollection<KeyValuePair<string, AttributeValue>>)this.RawValue).CopyTo(array, arrayIndex);
+		RawValue.CopyTo(array, arrayIndex);
 	}
 
 	public void CopyTo(AttributeDocument other)

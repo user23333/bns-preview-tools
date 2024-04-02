@@ -1,2 +1,8 @@
 ﻿namespace Xylia.Preview.Data.Models;
-public sealed class Zone : ModelElement { }
+public class Zone : ModelElement
+{
+	#region Attributes
+	public Ref<MapInfo> Map { get; set; }
+	public Ref<MapArea> Area { get; set; }
+	#endregion
+}

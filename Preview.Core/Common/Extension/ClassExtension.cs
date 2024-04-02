@@ -39,12 +39,34 @@ public static partial class ClassExtension
 		}
 	}
 
-	public static bool ContainAttribute<T>(this object EnumItem) where T : System.Attribute => EnumItem.ContainAttribute(out T _);
+	public static bool ContainAttribute<T>(this object EnumItem) where T : Attribute => EnumItem.ContainAttribute(out T _);
 
-	public static bool ContainAttribute<T>(this object EnumItemm, out T Target) where T : System.Attribute => (Target = EnumItemm.GetAttribute<T>()) != null;
+	public static bool ContainAttribute<T>(this object EnumItemm, out T Target) where T : Attribute => (Target = EnumItemm.GetAttribute<T>()) != null;
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static string GetDescription(this object EnumItem, bool ReturnNull = false)
 		=> EnumItem.GetAttribute<DescriptionAttribute>()?.Description ?? (ReturnNull ? null : EnumItem.ToString());
 	#endregion
+
+
+	public static bool IsNullOrDefault<T>(this T argument)
+	{
+		// deal with normal scenarios
+		if (argument == null) return true;
+		if (object.Equals(argument, default(T))) return true;
+
+		// deal with non-null nullables
+		Type methodType = typeof(T);
+		if (Nullable.GetUnderlyingType(methodType) != null) return false;
+
+		// deal with boxed value types
+		Type argumentType = argument.GetType();
+		if (argumentType.IsValueType && argumentType != methodType)
+		{
+			object obj = Activator.CreateInstance(argument.GetType());
+			return obj.Equals(argument);
+		}
+
+		return false;
+	}
 }

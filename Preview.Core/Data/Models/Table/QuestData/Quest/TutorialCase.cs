@@ -1,8 +1,6 @@
 ﻿using Xylia.Preview.Common.Attributes;
 using Xylia.Preview.Data.Models.QuestData.Enums;
-
-using static Xylia.Preview.Data.Models.Decision;
-using static Xylia.Preview.Data.Models.Item;
+using Xylia.Preview.Data.Models.Sequence;
 
 using Skill3Model = Xylia.Preview.Data.Models.Skill3;
 using SkillModel = Xylia.Preview.Data.Models.Skill;
@@ -15,11 +13,7 @@ public partial class TutorialCase : ModelElement
 	public List<ReactionSet> ReactionSet { get; set; }
 
 
-
 	public sbyte Prob { get; set; }
-
-	[Repeat(10)]
-	public Ref<MapUnit>[] MapUnit { get; set; }
 
 	public short RangeMax { get; set; }
 
@@ -27,17 +21,15 @@ public partial class TutorialCase : ModelElement
 
 	public ProgressMission ProgressMission { get; set; }
 
-	[Repeat(2)]
-	public Ref<Zone>[] ValidZone { get; set; }
 
 	[Side(ReleaseSide.Server)]
 	public Ref<Zone> Zone { get; set; }
 
-	[Side(ReleaseSide.Server)]
-	public Ref<QuestDecision> QuestDecision { get; set; }
+	//[Side(ReleaseSide.Server)]
+	//public Ref<QuestDecision> QuestDecision { get; set; }
 
 
-	public virtual List<Ref<ModelElement>> Attractions { get; }
+	public virtual List<Record> Attractions { get; }
 	#endregion
 
 	#region Sub
@@ -114,7 +106,7 @@ public partial class TutorialCase : ModelElement
 		{
 			Inverntory,
 
-					QuestJournal,
+			QuestJournal,
 
 			Skill,
 
@@ -122,18 +114,18 @@ public partial class TutorialCase : ModelElement
 
 			Auction,
 
-					CashShop,
+			CashShop,
 
 			Wardrobe,
 
-					AccountContents,
+			AccountContents,
 		}
 
 		public enum WindowOpenWaySeq
 		{
 			None,
 
-					ByNpcSellerButton,
+			ByNpcSellerButton,
 		}
 	}
 
@@ -172,7 +164,7 @@ public partial class TutorialCase : ModelElement
 
 	public sealed class Skill : TutorialCase
 	{
-		[Repeat(16)]
+		//[Repeat(16)]
 		public Ref<ModelElement>[] Object2 { get; set; }
 
 		public SkillCheckTypeSeq SkillCheckType { get; set; }
@@ -193,12 +185,12 @@ public partial class TutorialCase : ModelElement
 		public sbyte TargetEffectCount { get; set; }
 	}
 
-	public sealed class skillSequence : TutorialCase
+	public sealed class SkillSequence : TutorialCase
 	{
-		[Repeat(16)]
+		//[Repeat(16)]
 		public Ref<ModelElement>[] Object2 { get; set; }
 
-		public Ref<TutorialSkillSequence> SkillSequence { get; set; }
+		public Ref<TutorialSkillSequence> skillSequence { get; set; }
 	}
 
 	public sealed class SkillTraining : TutorialCase
@@ -270,7 +262,7 @@ public partial class TutorialCase : ModelElement
 		public Ref<EnvResponse> EnvResponse { get; set; }
 
 
-		public override List<Ref<ModelElement>> Attractions => new() { Object2 };
+		public override List<Record> Attractions => new() { Object2.Instance?.Source };
 	}
 
 	public sealed class EnlargeMiniMap : TutorialCase

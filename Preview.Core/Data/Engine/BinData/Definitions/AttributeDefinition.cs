@@ -1,4 +1,5 @@
 ﻿using System.Xml;
+using Xylia.Preview.Common.Attributes;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Common.Exceptions;
@@ -6,11 +7,12 @@ using Xylia.Preview.Data.Common.Exceptions;
 namespace Xylia.Preview.Data.Engine.Definitions;
 public partial class AttributeDefinition
 {
+	#region Metadata
 	public string Name { get; set; }
 	public AttributeType Type { get; set; }
 	public string DefaultValue { get; set; }
 	public ushort Repeat { get; set; }
-	public short ReferedTable { get; set; }
+	public ushort ReferedTable { get; set; }
 	public ushort Offset { get; set; }
 	public ushort Size { get; set; }
 	public bool IsDeprecated { get; set; }
@@ -18,36 +20,39 @@ public partial class AttributeDefinition
 	public bool IsRequired { get; set; }
 	public bool IsHidden { get; set; }
 	public SequenceDefinition Sequence { get; set; }
+	public ReleaseSide Side { get; set; } = ReleaseSide.Client | ReleaseSide.Server;
+	#endregion
 
 
 	public string ReferedTableName { get; set; }
+	public string ReferedElement { get; set; }
+
 	public double Max { get; set; }
 	public double Min { get; set; }
-	public bool CanOutput { get; set; } = true;
 	public bool CanInput { get; set; } = true;
-	public bool Server { get; set; } = true;
-	public bool Client { get; set; } = true;
 
 
 	#region Load Methods
+	public override string ToString() => this.Name;
+
 	public AttributeDefinition Clone() => (AttributeDefinition)MemberwiseClone();
 
-	public static AttributeDefinition LoadFrom(XmlElement node, ITableDefinition table, Func<SequenceDefinition> seqfun)
+	public static AttributeDefinition LoadFrom(XmlElement node, ElementBaseDefinition table, Func<SequenceDefinition> seqfun)
 	{
-		if ((node.Attributes["deprecated"]?.Value).ToBool())
-			return null;
+		var Name = node.GetAttribute("name").Trim();
+		var Deprecated = node.GetAttribute("deprecated").ToBool();
+		var Key = node.GetAttribute("key").ToBool();
+		var Required = node.GetAttribute("required").ToBool();
+		var Hidden = node.GetAttribute("hidden").ToBool();
 
-		var Name = node.Attributes["name"]?.Value?.Trim();
-		ArgumentNullException.ThrowIfNull(Name);
+		ArgumentException.ThrowIfNullOrEmpty(Name);
+		if (Deprecated) return null;
 
 		#region Type & Ref
 		var TypeName = node.Attributes["type"]?.Value;
 		var Type = Enum.TryParse("T" + TypeName?.Trim(), true, out AttributeType ParseVType) ? ParseVType : default;
 
 		var RefTable = node.Attributes["ref"]?.Value;
-		if (RefTable != null) Type = AttributeType.TRef;
-
-		if (Type == AttributeType.TIcon) RefTable = "IconTexture";
 		if (Type == AttributeType.TNone)
 		{
 			if (TypeName.Equals("struct", StringComparison.OrdinalIgnoreCase)) return null;
@@ -66,6 +71,7 @@ public partial class AttributeDefinition
 		double MaxValue = (node.Attributes["max"]?.Value).ToDouble();
 		double MinValue = (node.Attributes["min"]?.Value).ToDouble();
 		string DefaultValue = node.Attributes["default"]?.Value?.Trim();
+
 		if (string.IsNullOrEmpty(DefaultValue)) DefaultValue = null;
 
 		switch (Type)
@@ -130,16 +136,16 @@ public partial class AttributeDefinition
 			case AttributeType.TProp_seq:
 			case AttributeType.TProp_field:
 			{
-				if (Name.Contains("forwarding-types"))
-					seq.Default = seq.FirstOrDefault();
+				if (DefaultValue is null && seq != null)
+				{
+					DefaultValue = seq.Default;
 
-				DefaultValue ??= seq?.Default;
+					// Ignore unnecessary attribute output
+					if (Required || Hidden) DefaultValue ??= seq.FirstOrDefault();
+				}
+
 				break;
 			}
-
-			case AttributeType.TSub:
-				DefaultValue ??= "0";
-				break;
 
 			case AttributeType.TVector16:
 				DefaultValue ??= "0,0,0";
@@ -163,14 +169,19 @@ public partial class AttributeDefinition
 		#endregion
 
 
+		var side = ReleaseSide.None;
+		if (node.Attributes["client"]?.Value.ToBool() ?? true) side |= ReleaseSide.Client;
+		if (node.Attributes["server"]?.Value.ToBool() ?? true) side |= ReleaseSide.Server;
+
+
 		return new AttributeDefinition
 		{
 			Name = Name,
 
-			//IsDeprecated = (node.Attributes["deprecated"]?.Value).ToBool(),
-			IsKey = (node.Attributes["key"]?.Value).ToBool(),
-			IsRequired = (node.Attributes["required"]?.Value).ToBool(),
-			IsHidden = (node.Attributes["hidden"]?.Value).ToBool(),
+			IsDeprecated = Deprecated,
+			IsKey = Key,
+			IsRequired = Required,
+			IsHidden = Hidden,
 
 			Type = Type,
 			Offset = (ushort)(node.Attributes["offset"]?.Value).ToInt16(),
@@ -180,11 +191,7 @@ public partial class AttributeDefinition
 			DefaultValue = DefaultValue,
 			Max = MaxValue,
 			Min = MinValue,
-
-			Server = node.Attributes["server"]?.Value.ToBool() ?? true,
-			Client = node.Attributes["client"]?.Value.ToBool() ?? true,
-			CanInput = node.Attributes["input"]?.Value.ToBool() ?? true,
-			CanOutput = node.Attributes["output"]?.Value.ToBool() ?? true,
+			Side = side,
 		};
 	}
 
@@ -204,9 +211,7 @@ public partial class AttributeDefinition
 			AttributeType.TSeq16 or
 			AttributeType.TProp_field => 2,
 
-
 			AttributeType.TIColor => 3,
-
 
 			AttributeType.TInt64 or
 			AttributeType.TTime64 or
@@ -227,8 +232,6 @@ public partial class AttributeDefinition
 		};
 	}
 	#endregion
-
-
 
 	#region Static Methods
 	public static string ToString(AttributeDefinition attribute, object value)

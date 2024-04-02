@@ -1,6 +1,4 @@
-﻿using Xylia.Preview.Common.Attributes;
-
-namespace Xylia.Preview.Data.Models.Sequence;
+﻿namespace Xylia.Preview.Data.Models.Sequence;
 public enum Flag
 {
 	None,
@@ -239,4 +237,6 @@ public enum Flag
 	ConditionEvent8,
 	ConditionEvent9,
 	ConditionEvent10,
+
+	COUNT
 }

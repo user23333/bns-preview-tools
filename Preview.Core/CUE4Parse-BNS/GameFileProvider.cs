@@ -15,7 +15,7 @@ public sealed class GameFileProvider : DefaultFileProvider, IDisposable
 	internal const string _aesKey = "0xd2e5f7f94e625efe2726b5360c1039ce7cb9abb760a94f37bb15a6dc08741656";
 	public FAssetRegistryState AssetRegistryModule { get; private set; }
 
-	#region Ctors
+	#region Constructorss
 	static GameFileProvider()
 	{
 		// register game custom class
@@ -26,6 +26,8 @@ public sealed class GameFileProvider : DefaultFileProvider, IDisposable
 		GameDirectory, SearchOption.AllDirectories, true,
 		new() { Game = EGame.GAME_BladeAndSoul })
 	{
+		// IPlatformFilePak.DoSignatureCheck();
+
 		this.Initialize();
 		this.SubmitKey(new FGuid(), new FAesKey(_aesKey));
 		this.LoadLocalization(ELanguage.Korean);

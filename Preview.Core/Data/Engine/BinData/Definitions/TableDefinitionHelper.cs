@@ -1,9 +1,10 @@
-﻿using System.Reflection;
+﻿using System.Diagnostics;
 using System.Xml;
-
 using CUE4Parse.Utils;
+using Xylia.Preview.Common.Attributes;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.Exceptions;
+using Xylia.Preview.Data.Engine.BinData.Definitions;
 using Xylia.Preview.Data.Engine.BinData.Models;
 using Xylia.Preview.Data.Models;
 using Xylia.Preview.Properties;
@@ -11,58 +12,16 @@ using Xylia.Preview.Properties;
 namespace Xylia.Preview.Data.Engine.Definitions;
 public static class TableDefinitionHelper
 {
-	public static string GetResource(this string name)
-	{
-		var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(name);
-		if (stream is null) return null;
-
-		return new StreamReader(stream).ReadToEnd();
-	}
-
 	#region Load Methods
-	public static DatafileDefinition LoadDefinition()
-	{
-		#region load from program
-		var _assembly = Assembly.GetExecutingAssembly();
-
-		// public
-		var param = ConfigParam.LoadFrom(_assembly.GetManifestResourceNames()
-			.Where(name => name.StartsWith("Xylia.Preview.Data.Definition.Global"))
-			.Select(name => new StreamReader(_assembly.GetManifestResourceStream(name)).ReadToEnd()).ToArray());
-
-		// result
-		var defs = _assembly.GetManifestResourceNames()
-			.Where(name => name.StartsWith("Xylia.Preview.Data.Definition.") && !name.Contains(".Global"))
-			.Select(name => name.GetResource()).SelectMany(res => LoadTableDefinition(param, res));
-		#endregion
-
-		#region custom
-		var definition = new DatafileDefinition();
-		var UserDefs = new DirectoryInfo(Path.Combine(Settings.Default.OutputFolder, "definition"));
-		if (Settings.Default.UseUserDefinition && UserDefs.Exists)
-		{
-			definition.Header = UserDefs.GetFiles("definition.ini").FirstOrDefault();
-
-			var temp = LoadTableDefinition(param, UserDefs.GetFiles("*.xml"));
-			if (temp.Count != 0) temp.ForEach(definition.Add);
-		}
-
-		// HACK: full defs?
-		if (definition.Count < 200) defs.ForEach(definition.Add);
-		#endregion
-
-		return definition;
-	}
-
-
-
 	/// <summary>
 	/// load <see cref="TableDefinition"/> from files
 	/// </summary>
-	public static List<TableDefinition> LoadTableDefinition(ConfigParam param, params FileInfo[] files) =>
-		LoadTableDefinition(param, files.Select(f => File.ReadAllText(f.FullName)).ToArray());
+	public static List<TableDefinition> LoadTableDefinition(SequenceDefinitionLoader param, params FileInfo[] files)
+	{
+		return LoadTableDefinition(param, files.Select(f => File.ReadAllText(f.FullName)).ToArray());
+	}
 
-	public static List<TableDefinition> LoadTableDefinition(ConfigParam param, params string[] XmlContents)
+	public static List<TableDefinition> LoadTableDefinition(SequenceDefinitionLoader param, params string[] XmlContents)
 	{
 		var tables = new List<TableDefinition>();
 		foreach (var Content in XmlContents)
@@ -70,7 +29,7 @@ public static class TableDefinitionHelper
 			var xmlDoc = new XmlDocument();
 			xmlDoc.LoadXml(Content);
 
-			var table = TableDefinitionHelper.LoadFrom(param, xmlDoc.DocumentElement);
+			var table = LoadFrom(param, xmlDoc.DocumentElement);
 			if (table is null) continue;
 
 			tables.Add(table);
@@ -80,35 +39,57 @@ public static class TableDefinitionHelper
 	}
 
 
-	public static TableDefinition LoadFrom(ConfigParam param, XmlElement tableNode)
+	public static TableDefinition LoadFrom(SequenceDefinitionLoader param, XmlElement tableNode)
 	{
 		#region config 
-		if ((tableNode.Attributes["retired"]?.Value).ToBool())
-			return null;
+		var type = (ushort)(tableNode.Attributes["type"]?.Value).ToInt16();
+		var name = tableNode.Attributes["name"]?.Value;
+		if (type == 0 && string.IsNullOrWhiteSpace(name))
+			throw BnsDataException.InvalidDefinition("`type` or `name` field must exist in table!");
 
-		var type = (tableNode.Attributes["type"]?.Value).ToInt16();
-		var version = tableNode.Attributes["version"]?.Value?.Split('.');
-		var major = (ushort)version.ElementAtOrDefault(0).ToInt16();
-		var minor = (ushort)version.ElementAtOrDefault(1).ToInt16();
+		var autokey = (tableNode.Attributes["autokey"]?.Value).ToBool();
+		var maxid = (tableNode.Attributes["maxid"]?.Value).ToInt32();
+		var version = TableHeader.ParseVersion(tableNode.GetAttribute("version"));
+		var module = (TableModule)(tableNode.Attributes["module"]?.Value).ToInt32();
 		#endregion
 
 
 		#region els
-		List<ElDefinition> els = new();
-		foreach (var el in tableNode.SelectNodes("./el").OfType<XmlElement>())
+		List<ElementDefinition> els = [];
+		foreach (var source in tableNode.SelectNodes("./el").OfType<XmlElement>())
 		{
-			var def = new ElDefinition();
-			def.Name = el.Attributes["name"]?.Value;
+			var el = new ElementDefinition { Name = source.GetAttribute("name") };
+			els.Add(el);
+
+			// HACK: is record element
+			if (els.Count == 2)
+			{
+				// el.AutoKey = autokey;
+				el.MaxId = maxid;
+			}
+		}
+
+		foreach (var el in els)
+		{
+			var source = tableNode.SelectSingleNode($"./el[@name='{el.Name}']");
+			var Inherit = (source.Attributes["inherit"]?.Value).ToBool();
+			if (Inherit)
+			{
+				// TODO
+				continue;
+			}
+
 
 			#region body
-			foreach (var attrDef in LoadAttr(el.ChildNodes.OfType<XmlElement>().Where(e => e.Name == "attribute"), param, def))
+			// load attributes
+			foreach (var attrDef in LoadAttribute(source.ChildNodes.OfType<XmlElement>().Where(e => e.Name == "attribute"), param, el))
 			{
-				def.Attributes.Add(attrDef);
+				el.Attributes.Add(attrDef);
 
 				// Expand repeated attributes if needed
 				if (attrDef.Repeat == 1)
 				{
-					def.ExpandedAttributes.Add(attrDef);
+					el.ExpandedAttributes.Add(attrDef);
 					continue;
 				}
 
@@ -117,29 +98,71 @@ public static class TableDefinitionHelper
 					var newAttrDef = attrDef.Clone();
 					newAttrDef.Name += $"-{i}";
 					newAttrDef.Repeat = 1;
-					def.ExpandedAttributes.Add(newAttrDef);
+					el.ExpandedAttributes.Add(newAttrDef);
 				}
 			}
-			def.Size = GetOffsetAndSize(def.ExpandedAttributes, true);
-			def.CreateExpandedAttributeMap();
 
-
-			short subIndex = 0;
-			foreach (var sub in el.ChildNodes.OfType<XmlElement>().Where(e => e.Name == "sub"))
+			// Add auto key id
+			if (!el.Attributes.Any(attribute => attribute.IsKey))
 			{
-				var subtable = new SubtableDefinition();
-				def.Subtables.Add(subtable);
+				var autoIdAttr = new AttributeDefinition
+				{
+					Name = AttributeCollection.s_autoid,
+					Type = AttributeType.TInt64,
+					IsKey = true,
+					IsHidden = true,
+					Offset = 8,
+					Repeat = 1,
+
+					CanInput = false,
+				};
+
+				el.AutoKey = true;
+				el.Attributes.Insert(0, autoIdAttr);
+				el.ExpandedAttributes.Insert(0, autoIdAttr);
+			}
+
+			// Add type key
+			var subs = source.ChildNodes.OfType<XmlElement>().Where(e => e.Name == "sub");
+			if (subs.Any())
+			{
+				var typeAttr = new AttributeDefinition
+				{
+					Name = AttributeCollection.s_type,
+					Type = AttributeType.TSub,
+					Offset = 2,
+					Repeat = 1,
+					ReferedTableName = name,
+					ReferedElement = el.Name,
+				};
+
+				el.Attributes.Insert(0, typeAttr);
+				el.ExpandedAttributes.Insert(0, typeAttr);
+			}
+
+			el.Size = GetOffsetAndSize(el.ExpandedAttributes, true);
+			el.CreateAttributeMap();
+			#endregion
+
+			#region sub
+			short subIndex = 0;
+			foreach (var sub in subs)
+			{
+				var subtable = new ElementSubDefinition();
+				el.Subtables.Add(subtable);
 
 				subtable.Name = sub.Attributes["name"].Value;
 				subtable.SubclassType = subIndex++;
 
 				// Add parent expanded attributes
-				subtable.ExpandedAttributes.AddRange(def.ExpandedAttributes);
+				subtable.Attributes.AddRange(el.Attributes);
+				subtable.ExpandedAttributes.AddRange(el.ExpandedAttributes);
+				subtable.Children.AddRange(el.Children);
 
-				foreach (var attrDef in LoadAttr(sub.ChildNodes.OfType<XmlElement>(), param, def))
+				foreach (var attrDef in LoadAttribute(sub.ChildNodes.OfType<XmlElement>(), param, el))
 				{
 					// HACK: Handle case when there's name conflict in subtable
-					if (def.Attributes.Any(x => x.Name == attrDef.Name))
+					if (el.Attributes.Any(x => x.Name == attrDef.Name))
 					{
 						attrDef.Name += "-rep";
 					}
@@ -164,90 +187,63 @@ public static class TableDefinitionHelper
 					}
 				}
 
-				subtable.Size = GetOffsetAndSize(subtable.ExpandedAttributesSubOnly, true, def.Size);
-				subtable.CreateExpandedAttributeMap();
+				subtable.Size = GetOffsetAndSize(subtable.ExpandedAttributesSubOnly, true, el.Size);
+				subtable.CreateAttributeMap();
 			}
-			def.CreateSubtableMap();
+
+			el.CreateSubtableMap();
 			#endregion
 
-			els.Add(def);
-		}
-
-		foreach (var el in els)
-		{
-			var source = tableNode.SelectSingleNode($"./el[@name='{el.Name}']");
-			if (source.Attributes["child"] is null) continue;
-
-			foreach (var child in source.Attributes["child"].Value
-				.Split(',').Select(o => o.Trim()))
+			#region children
+			var children = source.Attributes["child"]?.Value.Split(',').Select(o => o.Trim());
+			if (children != null)
 			{
-				ElDefinition child_el = ushort.TryParse(child, out var index) ?
-					els.ElementAtOrDefault(index) :
-					els.FirstOrDefault(el => el.Name == child);
+				foreach (var child in children)
+				{
+					ElementDefinition child_el = ushort.TryParse(child, out var index) ?
+						els.ElementAtOrDefault(index) :
+						els.FirstOrDefault(el => el.Name == child);
 
-				if (child_el != null)
-					el.Children.Add(child_el);
+					if (child_el != null)
+						el.Children.Add(child_el);
+				}
 			}
+			#endregion
 		}
 		#endregion
 
 		#region table
-		var table = new TableDefinition();
-		table.Els.AddRange(els);
-		table.Name = tableNode.Attributes["name"]?.Value;
-		//table.Module = tableNode.Attributes["module"]?.Value;
-
-
-		table.ElRecord = table.Els.FirstOrDefault().Children.FirstOrDefault();
-		table.Type = type;
-		table.MajorVersion = major;
-		table.MinorVersion = minor;
-		table.ElRecord.AutoKey = (tableNode.Attributes["autokey"]?.Value).ToBool();
-		table.ElRecord.MaxId = (tableNode.Attributes["maxid"]?.Value).ToInt32();
-
-		if (type == 0 && string.IsNullOrWhiteSpace(table.Name))
-			throw BnsDataException.InvalidDefinition("table must set `type` or `name` fields");
-
-		// Add auto key id
-		if (table.ElRecord.AutoKey)
+		return new TableDefinition
 		{
-			var autoIdAttr = new AttributeDefinition
-			{
-				Name = AttributeCollection.s_autoid,
-				Size = 8,
-				Offset = 8,
-				Type = AttributeType.TInt64,
-				IsKey = true,
-				IsRequired = true,
-				Repeat = 1
-			};
+			Name = name,
+			Module = module,
+			Type = type,
+			MajorVersion = version.Item1,
+			MinorVersion = version.Item2,
 
-			table.ElRecord.Attributes.Insert(0, autoIdAttr);
-			table.ElRecord.ExpandedAttributes.Insert(0, autoIdAttr);
-			table.ElRecord.CreateExpandedAttributeMap();
-		}
-
-		return table;
+			Els = els,
+			ElRecord = els.FirstOrDefault().Children.FirstOrDefault(),
+		};
 		#endregion
 	}
 
-	private static List<AttributeDefinition> LoadAttr(IEnumerable<XmlElement> els, ConfigParam param, ElDefinition def)
+	private static List<AttributeDefinition> LoadAttribute(IEnumerable<XmlElement> els, SequenceDefinitionLoader param, ElementDefinition def)
 	{
 		var Attributes = new List<AttributeDefinition>();
 		foreach (XmlElement node in els)
 		{
 			try
 			{
-				string name = node.Attributes["alias"]?.Value;
+				string name = node.Attributes["name"]?.Value;
 
-				var record = AttributeDefinition.LoadFrom(node, def, () => SequenceDefinition.LoadFrom(node, name, param?.PublicSeq));
+				var record = AttributeDefinition.LoadFrom(node, def, () => param.Load(node, name));
 				if (record is null) continue;
 
 				Attributes.Add(record);
 			}
-			catch (Exception ee)
+			catch (Exception ex)
 			{
-				throw BnsDataException.InvalidDefinition($"attribute load failed: {node.OuterXml}");
+				throw BnsDataException.InvalidDefinition($"attribute load failed: {node.OuterXml}\n{ex.Message}");
 			}
 		}
 
@@ -259,7 +255,7 @@ public static class TableDefinitionHelper
 		int Offset_Key = 8;
 		foreach (var attribute in Attributes.OrderBy(x => !x.IsKey))
 		{
-			if (attribute.IsDeprecated || !attribute.Client)
+			if (attribute.IsDeprecated || !attribute.Side.HasFlag(ReleaseSide.Client))
 				continue;
 
 			#region set offset
@@ -280,7 +276,7 @@ public static class TableDefinitionHelper
 			if (attribute.Name.Equals("unk-")) attribute.Name = "unk" + attribute.Offset;
 			#endregion
 
-			#region next start offset
+			#region next offset
 			offset += attribute.Size;
 
 			if (attribute.IsKey)
@@ -288,7 +284,7 @@ public static class TableDefinitionHelper
 				Offset_Key = offset;
 				Offset = Math.Max(Offset, offset);
 			}
-			else Offset = offset;
+			else Offset = Math.Max(Offset, offset);
 			#endregion
 		}
 
@@ -296,21 +292,7 @@ public static class TableDefinitionHelper
 	}
 	#endregion
 
-
 	#region Check Methods
-	/// <summary>
-	/// compare config version with game real version
-	/// </summary>
-	public static void CheckVersion(this Table table, TableDefinition definition)
-	{
-		if (table.Type == 0 || definition is null) return;
-		if (table.MajorVersion == definition.MajorVersion &&
-			table.MinorVersion == definition.MinorVersion) return;
-
-		Serilog.Log.Warning($"check table `{definition.Name}` type: {table.Type} " +
-			$"version: {definition.MajorVersion}.{definition.MinorVersion} <> {table.MajorVersion}.{table.MinorVersion}");
-	}
-
 	public static void CheckSize(this Table table)
 	{
 		foreach (var type in table.Records.GroupBy(o => o.SubclassType).OrderBy(o => o.Key))
@@ -320,7 +302,7 @@ public static class TableDefinitionHelper
 		}
 	}
 
-	public static void CheckSize(this Record record, ITableDefinition definition)
+	public static void CheckSize(this Record record, ElementBaseDefinition definition)
 	{
 		var size = record.DataSize;
 		if (size == 0 || size == definition.Size) return;
@@ -331,14 +313,11 @@ public static class TableDefinitionHelper
 			var block = (size - definition.Size) / 4;
 			if (block == 0) return;
 
-			// skip default definition
-			if (size > 8)
-			{
-				Console.WriteLine($"[{DateTime.Now}] check field size, " +
-					 $"table: {record.Owner.Name} " +
-					 $"type: {(record.SubclassType == -1 ? "null" : definition.Name)} " +
-					 $"size: {definition.Size} <> {size} block: {block}");
-			}
+#if DEBUG
+			Console.WriteLine($"check field size, table: {record.Owner.Name} " +
+				 $"type: {(record.SubclassType == -1 ? "null" : definition.Name)} " +
+				 $"size: {definition.Size} <> {size} block: {block}");
+#endif
 
 			if (block > 0)
 			{
@@ -353,13 +332,12 @@ public static class TableDefinitionHelper
 						Offset = offset,
 						Type = AttributeType.TInt32,
 						DefaultValue = "0",
-						IsHidden = true,
 						Repeat = 1
 					});
 				}
 
 				definition.Size = size;
-				definition.CreateExpandedAttributeMap();
+				definition.CreateAttributeMap();
 			}
 			else
 			{
@@ -369,31 +347,52 @@ public static class TableDefinitionHelper
 		}
 	}
 	#endregion
-}
 
-public sealed class ConfigParam
-{
-	public readonly Dictionary<string, SequenceDefinition> PublicSeq = new(StringComparer.OrdinalIgnoreCase);
 
-	public static ConfigParam LoadFrom(params string[] XmlContents)
+	#region Helper
+	internal static DatafileDefinition LoadDefinition()
 	{
-		var param = new ConfigParam();
-		foreach (var content in XmlContents)
+		#region load from program
+		var _assembly = System.Reflection.Assembly.GetExecutingAssembly();
+
+		// public
+		var param = SequenceDefinitionLoader.LoadFrom(_assembly.GetManifestResourceNames()
+			.Where(name => name.StartsWith("Xylia.Preview.Data.Definition.Sequence"))
+			.Select(name => new StreamReader(_assembly.GetManifestResourceStream(name)).ReadToEnd()).ToArray());
+
+		// result
+		var defs = _assembly.GetManifestResourceNames()
+			.Where(name => name.StartsWith("Xylia.Preview.Data.Definition.") && !name.Contains(".Sequence"))
+			.Select(name => name.GetResource()).SelectMany(res => LoadTableDefinition(param, res));
+		#endregion
+
+		#region custom
+		var definition = new DatafileDefinition();
+		if (Settings.Default.OutputFolder != null)
 		{
-			var xmlDoc = new XmlDocument();
-			xmlDoc.LoadXml(content);
-
-			foreach (XmlElement record in xmlDoc.SelectNodes("table/record"))
+			var UserDefs = new DirectoryInfo(Path.Combine(Settings.Default.OutputFolder, "definition"));
+			if (Settings.Default.UseUserDefinition && UserDefs.Exists)
 			{
-				string name = record.Attributes["name"]?.Value?.Trim();
-				if (param.PublicSeq.ContainsKey(name))
-					throw BnsDataException.InvalidSequence($"has existed" , name);
+				definition.Header = UserDefs.GetFiles("definition.ini").FirstOrDefault();
 
-				var seq = SequenceDefinition.LoadFrom(record, name);
-				if (seq != null) param.PublicSeq[name] = seq;
+				var temp = LoadTableDefinition(param, UserDefs.GetFiles("*.xml"));
+				if (temp.Count != 0) temp.ForEach(definition.Add);
 			}
 		}
 
-		return param;
+		// HACK: full defs?
+		if (definition.Count < 200) defs.ForEach(definition.Add);
+		#endregion
+
+		return definition;
 	}
+
+	public static string GetResource(this string name)
+	{
+		var stream = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream(name);
+		if (stream is null) return null;
+
+		return new StreamReader(stream).ReadToEnd();
+	}
+	#endregion
 }

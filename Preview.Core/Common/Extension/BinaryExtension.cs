@@ -31,7 +31,23 @@ public static class BinaryExtension
 	}
 
 
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	public static string GetReadableSize(double size)
+	{
+		if (size == 0) return "0 B";
 
+		string[] sizes = ["B", "KB", "MB", "GB", "TB"];
+		var order = 0;
+		while (size >= 1024 && order < sizes.Length - 1)
+		{
+			order++;
+			size /= 1024;
+		}
+
+		return $"{size:# ###.##} {sizes[order]}".TrimStart();
+	}
+
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static string ToHex(this byte[] value, bool original = true)
 	{
 		if (value.Length == 0)
@@ -67,12 +83,12 @@ public static class BinaryExtension
 		return sb.ToString();
 	}
 
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static byte[] ToBytes(this string Hex)
 	{
 		Hex = Hex.UnCompress();
 		if (string.IsNullOrWhiteSpace(Hex))
 			return [];
-
 
 		var inputByteArray = new byte[Hex.Length / 2];
 		for (var x = 0; x < inputByteArray.Length; x++)
@@ -81,6 +97,7 @@ public static class BinaryExtension
 		return inputByteArray;
 	}
 
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static string UnCompress(this string Cipher)
 	{
 		if (string.IsNullOrWhiteSpace(Cipher))

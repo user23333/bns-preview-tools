@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-
 using CUE4Parse.BNS.Assets.Exports;
 using CUE4Parse.UE4.Assets;
 using CUE4Parse.UE4.Assets.Exports;
@@ -8,25 +7,15 @@ using CUE4Parse.UE4.Assets.Exports.Sound;
 using CUE4Parse.UE4.Assets.Exports.StaticMesh;
 using CUE4Parse.UE4.Assets.Exports.Texture;
 using CUE4Parse.Utils;
-
 using CUE4Parse_Conversion;
 using CUE4Parse_Conversion.Sounds;
 using CUE4Parse_Conversion.Textures;
-
 using Newtonsoft.Json;
-
 using Xylia.Preview.Common.Extension;
 
 namespace CUE4Parse.BNS.Conversion;
-public class Exporter
+public class Exporter(string Folder)
 {
-	public string Folder = null;
-
-	public Exporter(string OutputFolder)
-	{
-		Folder = OutputFolder;
-	}
-
 	public static string FixPath(string saveFolder, string path)
 	{
 		var fullPath = Path.Combine(saveFolder, path.SubstringBeforeLast('.'));
@@ -34,7 +23,6 @@ public class Exporter
 
 		return fullPath;
 	}
-
 
 	public void Run(IPackage package, bool ContainType = true)
 	{
@@ -48,7 +36,7 @@ public class Exporter
 			File.WriteAllText($"{FixPath(Folder, package.Name)}.json", JsonConvert.SerializeObject(objs, Formatting.Indented));
 		}
 
-#if (DEBUG)
+#if DEBUG
 		objs.Where(o => o.GetType() == typeof(UObject))
 			.ForEach(o => Debug.WriteLine("not supported class: " + o.Class.GetFullName()));
 #endif

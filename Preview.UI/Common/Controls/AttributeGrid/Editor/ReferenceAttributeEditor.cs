@@ -1,63 +1,81 @@
 ﻿using System.Globalization;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
-
 using HandyControl.Controls;
+using Xylia.Preview.Data.Engine.BinData.Helpers;
 using Xylia.Preview.Data.Engine.BinData.Models;
 using Xylia.Preview.Data.Helpers;
 
 namespace Xylia.Preview.UI.Controls;
-public class ReferenceAttributeEditor : PropertyEditorBase, IValueConverter
+internal class ReferenceAttributeEditor : PropertyEditorBase, IValueConverter
 {
+	#region Constructorss
+	protected TableCollection Tables { get; }
+
+	protected Table? ReferedTable { get; }
+
 	public ReferenceAttributeEditor(string reference)
 	{
-		ReferedTable = FileCache.Data.Provider.Tables[reference];
+		Tables = FileCache.Data.Provider.Tables;
+		ReferedTable = Tables[reference];
 	}
+	#endregion
 
-	public Table ReferedTable { get; set; }
-
-	public override FrameworkElement CreateElement(PropertyItem propertyItem)
+	#region Methods
+	public override FrameworkElement CreateElement(PropertyItem propertyItem) => new System.Windows.Controls.TextBox
 	{
-		// element
-		var element = new AutoCompleteTextBox
-		{
-			IsEnabled = !propertyItem.IsReadOnly,
-		};
+		IsReadOnly = propertyItem.IsReadOnly
+	};
 
-		// set source
-		BindingOperations.SetBinding(element, ItemsControl.ItemsSourceProperty,
-			new Binding($"Records")
-			{
-				Source = ReferedTable,
-				Mode = BindingMode.OneWay,
-				UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
-				IsAsync = true,
-				Delay = 100,
-			});
+	//public override FrameworkElement CreateElement(PropertyItem propertyItem)
+	//{
+	//	var element = new AutoCompleteTextBox
+	//	{
+	//		IsEnabled = !propertyItem.IsReadOnly,
+	//	};
 
-		return element;
-	}
+	//	// set source
+	//	BindingOperations.SetBinding(element, ItemsControl.ItemsSourceProperty,
+	//		new Binding("Records")
+	//		{
+	//			Source = ReferedTable,
+	//			Mode = BindingMode.OneWay,
+	//			UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+	//			IsAsync = true,
+	//			Delay = 100,
+	//		});
 
-	public override DependencyProperty GetDependencyProperty() => System.Windows.Controls.ComboBox.TextProperty;
+	//	// set tooltip
+	//	BindingOperations.SetBinding(element, Selector.ToolTipProperty,
+	//		new Binding("SelectedItem")
+	//		{
+	//			Source = element,
+	//			Mode = BindingMode.OneWay, 
+	//			Converter = new RecordNameConverter()
+	//		});
+
+	//	return element;
+	//}
+
+	public override DependencyProperty GetDependencyProperty() => System.Windows.Controls.TextBox.TextProperty;
 
 	public override UpdateSourceTrigger GetUpdateSourceTrigger(PropertyItem propertyItem) => UpdateSourceTrigger.LostFocus;
+	#endregion
 
+	#region IValueConverter
 	protected override IValueConverter GetConverter(PropertyItem propertyItem) => this;
 
-
-	#region Convert
-	public virtual object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+	public virtual object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
 	{
 		return value?.ToString();
 	}
 
-	public virtual object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+	public virtual object? ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
 	{
-		// var split = value.Split(':', 2);
 		if (value is string text)
 		{
-			return ReferedTable?[text];
+			if (text.Contains(':')) return Tables.GetRecord(text);
+			else return ReferedTable?[text];
 		}
 
 		throw new NotImplementedException();

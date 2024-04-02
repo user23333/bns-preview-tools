@@ -1,5 +1,4 @@
 ﻿using Xylia.Preview.Common.Attributes;
-using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Models.Sequence;
 
 namespace Xylia.Preview.Data.Models.QuestData;
@@ -25,16 +24,6 @@ public class MissionStep : ModelElement
 	public string Text => Attributes["desc"].GetText();
 }
 
-public partial class Case
-{
-	
-
-}
-
-public partial class TutorialCase
-{
-
-}
 
 
 public class Mission : ModelElement
@@ -43,8 +32,7 @@ public class Mission : ModelElement
 
 	public List<TutorialCase> TutorialCase { get; set; }
 
-
-	public sbyte id => Attributes["id"].ToInt8();
+	public sbyte Id => Attributes.Get<sbyte>("id");
 
 	public string Text => Attributes["name2"]?.GetText();
 
@@ -67,15 +55,14 @@ public class MissionStepFail : ModelElement
 	public List<TutorialCase> TutorialCase { get; set; }
 
 
-
 	[Side(ReleaseSide.Client)]
 	public Ref<TalkSocial> FailTalksocial { get; set; }
 
 	[Side(ReleaseSide.Client)]
 	public float FailTalksocialDelay { get; set; }
 
-	[Side(ReleaseSide.Server)]
-	public Ref<Decision.QuestDecision> QuestDecision { get; set; }
+	//[Side(ReleaseSide.Server)]
+	//public Ref<QuestDecision> QuestDecision { get; set; }
 
 	[Side(ReleaseSide.Server), Repeat(2)]
 	public Ref<Zone>[] Zone { get; set; }
@@ -90,7 +77,6 @@ public class NextQuest : ModelElement
 {
 	public Ref<Faction> Faction { get; set; }
 
-	[Repeat(15)]
 	public JobSeq[] Job { get; set; }
 
 	public Ref<Quest> Quest { get; set; }

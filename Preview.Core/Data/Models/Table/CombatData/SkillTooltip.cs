@@ -1,27 +1,46 @@
-﻿using Xylia.Preview.Common.Attributes;
+﻿using System.Text;
 
 namespace Xylia.Preview.Data.Models;
 public class SkillTooltip : ModelElement
 {
+	#region Attributes
 	public Ref<Skill3> Skill { get; set; }
 
-	public TooltipGroup tooltipGroup { get; set; }
+	public enum TooltipGroupSeq
+	{
+		M1,
+		M2,
+		SUB,
+		STANCE,
+		CONDITION,
+	}
 
-	public ECTOrder EctOrder { get; set; }
+	public TooltipGroupSeq TooltipGroup { get; set; }
 
-	public ECTOrder EctOrderEnglish { get; set; }
+	public enum EctOrderSeq
+	{
+		CTE,
+		CET,
+		TCE,
+		TEC,
+		ECT,
+		ETC
+	}
 
-	public ECTOrder EctOrderFrench { get; set; }
+	public EctOrderSeq EctOrder { get; set; }
 
-	public ECTOrder EctOrderGerman { get; set; }
+	public EctOrderSeq EctOrderEnglish { get; set; }
 
-	public ECTOrder EctOrderRussian { get; set; }
+	public EctOrderSeq EctOrderFrench { get; set; }
 
-	public ECTOrder EctOrderBportuguese { get; set; }
+	public EctOrderSeq EctOrderGerman { get; set; }
+
+	public EctOrderSeq EctOrderRussian { get; set; }
+
+	public EctOrderSeq EctOrderBportuguese { get; set; }
 
 	public Ref<SkillTooltipAttribute> EffectAttribute { get; set; }
 
-	[Repeat(4)] 
 	public string[] EffectArg { get; set; }
 
 	public Ref<SkillTooltipAttribute> ConditionAttribute { get; set; }
@@ -45,25 +64,49 @@ public class SkillTooltip : ModelElement
 	public Ref<Text> ItemDefaultText { get; set; }
 
 	public Ref<Text> ItemReplaceText { get; set; }
+	#endregion
 
-	#region Enums
-	public enum TooltipGroup
-	{
-		M1,
-		M2,
-		SUB,
-		STANCE,
-		CONDITION
-	}
 
-	public enum ECTOrder
+	#region Methods
+	public override string ToString()
 	{
-		CTE,
-		CET,
-		TCE,
-		TEC,
-		ECT,
-		ETC,
+		StringBuilder builder = new();
+
+		builder.Append(DefaultText.GetText());
+		builder.Append(AttributeColorText.GetText());
+		builder.Append(ItemDefaultText.GetText());
+		builder.Append(ItemReplaceText.GetText());
+
+		#region ECT
+		var EffectAttributeText = EffectAttribute.Instance?.ToString( [Skill.Instance, .. EffectArg] , SkillAttackAttributeCoefficientPercent);
+		var ConditionAttributeText = ConditionAttribute.Instance?.ToString( [Skill.Instance, .. ConditionArg] , SkillAttackAttributeCoefficientPercent);
+		var TargetAttributeText = TargetAttribute.Instance?.ToString();
+
+		builder.Append(string.Join(string.Empty, EctOrder switch
+		{
+			EctOrderSeq.CTE => [ConditionAttributeText, TargetAttributeText, EffectAttributeText],
+			EctOrderSeq.CET => [ConditionAttributeText, EffectAttributeText, TargetAttributeText],
+			EctOrderSeq.TCE => [TargetAttributeText, ConditionAttributeText, EffectAttributeText],
+			EctOrderSeq.TEC => [TargetAttributeText, EffectAttributeText, ConditionAttributeText],
+			EctOrderSeq.ECT => [EffectAttributeText, ConditionAttributeText, TargetAttributeText],
+			EctOrderSeq.ETC => [EffectAttributeText, TargetAttributeText, ConditionAttributeText],
+			_ => new List<string>(),
+		}));
+		#endregion
+
+		#region Stance
+		if (AfterStanceAttribute.Instance != null)
+		{
+			var BeforeStanceAttributeText = BeforeStanceAttribute.Instance?.ToString();
+			var AfterStanceAttributeText = AfterStanceAttribute.Instance?.ToString();
+
+			builder.Append(BeforeStanceAttribute.Instance != null ?
+				"SkillTooltipAttr.stance.before-after".GetText([BeforeStanceAttributeText, AfterStanceAttributeText]) :
+				"SkillTooltipAttr.stance.after-only".GetText([AfterStanceAttributeText]));
+		}
+		#endregion
+
+		return builder.ToString();
 	}
 	#endregion
 }

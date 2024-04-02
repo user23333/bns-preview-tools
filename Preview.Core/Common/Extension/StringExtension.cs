@@ -1,5 +1,4 @@
 ﻿using System.Runtime.CompilerServices;
-using System.Security.Cryptography;
 using System.Text;
 using Xylia.Preview.Data.Client;
 
@@ -35,6 +34,11 @@ public static class StringExtension
 		}
 
 		return sb.ToString();
+	}
+
+	public static bool IsNullOrWhiteSpace(this string str)
+	{
+		return str == null || str.Trim().Length == 0;
 	}
 
 
@@ -77,13 +81,6 @@ public static class StringExtension
 	public static bool ToBool(this string s) => ToBool(s, out bool Result) && Result;
 
 
-
-
-	public static bool IsNullOrWhiteSpace(this string str)
-	{
-		return str == null || str.Trim().Length == 0;
-	}
-
 	/// <summary>
 	/// Test if string is simple word pattern ([a-Z$_])
 	/// </summary>
@@ -99,37 +96,12 @@ public static class StringExtension
 		return true;
 	}
 
-	public static string TrimToNull(this string str)
-	{
-		var v = str.Trim();
-
-		return v.Length == 0 ? null : v;
-	}
-
-	public static string Sha1(this string value)
-	{
-		var data = Encoding.UTF8.GetBytes(value);
-
-		using (var sha = SHA1.Create())
-		{
-			var hashData = sha.ComputeHash(data);
-			var hash = new StringBuilder();
-
-			foreach (var b in hashData)
-			{
-				hash.Append(b.ToString("X2"));
-			}
-
-			return hash.ToString();
-		}
-	}
-
 	/// <summary>
 	/// Implement SqlLike in C# string - based on
 	/// https://stackoverflow.com/a/8583383/3286260
 	/// I remove support for [ and ] to avoid missing close brackets
 	/// </summary>
-	public static bool SqlLike(this string str, string pattern)
+	public static bool SqlLike(this string str, string pattern, Collation collation)
 	{
 		var isMatch = true;
 		var isWildCardOn = false;
@@ -145,7 +117,7 @@ public static class StringExtension
 		{
 			var c = str[i];
 
-			endOfPattern = patternIndex >= pattern.Length;
+			endOfPattern = (patternIndex >= pattern.Length);
 
 			if (!endOfPattern)
 			{
@@ -179,7 +151,7 @@ public static class StringExtension
 
 			if (isWildCardOn)
 			{
-				if (c.ToString().CompareTo(p.ToString()) == 0)
+				if (collation.Compare(c.ToString(), p.ToString()) == 0)
 				{
 					isWildCardOn = false;
 					patternIndex++;
@@ -211,7 +183,7 @@ public static class StringExtension
 			}
 			else
 			{
-				if (c.ToString().CompareTo(p.ToString()) == 0)
+				if (collation.Compare(c.ToString(), p.ToString()) == 0)
 				{
 					patternIndex++;
 				}
@@ -232,7 +204,7 @@ public static class StringExtension
 			}
 		}
 
-		endOfPattern = patternIndex >= pattern.Length;
+		endOfPattern = (patternIndex >= pattern.Length);
 
 		if (isMatch && !endOfPattern)
 		{
@@ -276,6 +248,6 @@ public static class StringExtension
 
 		hasMore = !(i == len || i == len - 1);
 
-		return str.Substring(0, i);
+		return str[..i];
 	}
 }

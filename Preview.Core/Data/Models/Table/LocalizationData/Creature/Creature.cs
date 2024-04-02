@@ -1,6 +1,4 @@
 ﻿using System.Runtime.InteropServices;
-
-using Xylia.Preview.Common.Attributes;
 using Xylia.Preview.Data.Models.Sequence;
 
 namespace Xylia.Preview.Data.Models.Creature;
@@ -8,56 +6,53 @@ namespace Xylia.Preview.Data.Models.Creature;
 [StructLayout(LayoutKind.Sequential)]
 public class Creature
 {
-    public short WorldId;
+	public short WorldId;
 
-    public RaceSeq Race;
+	public RaceSeq Race;
 
-    public SexSeq Sex;
+	public SexSeq Sex;
 
-    public Job Job;
+	public Job Job;
 
-    [Repeat(92)]
-    public sbyte[] Appearance { get; set; }
+	public sbyte[] Appearance = new sbyte[92];
 
+	public string Name;
 
+	public short GeoZone;
 
-    public string Name;
+	public int X;
 
-    public short GeoZone;
+	public int Y;
 
-    public int X;
+	public int Z;
 
-    public int Y;
+	public sbyte Yaw;
 
-    public int Z;
+	public sbyte Level;
 
-    public sbyte Yaw;
+	public int Exp;
 
-    public sbyte Level;
+	public sbyte MasteryLevel;
 
-    public int Exp;
+	public long MasteryExp;
 
-    public sbyte MasteryLevel;
+	public long Hp;
 
-    public long MasteryExp;
+	public sbyte GuardGauge;
 
-    public long Hp;
+	public int Money;
 
-    public sbyte GuardGauge;
-
-    public int Money;
-
-    public int MoneyDiff;
+	public int MoneyDiff;
 }
 
 
 public sealed class Npc : Creature
 {
-    //farthest-target 最远目标
-    //nearest-target 最近目标
-    //min-hate-target 最小仇恨目标
-    //top-hate-target 最大仇恨目标
-    //last-target 最后目标
+	//farthest-target 最远目标
+	//nearest-target 最近目标
+	//min-hate-target 最小仇恨目标
+	//top-hate-target 最大仇恨目标
+	//last-target 最后目标
 }
 
 public sealed class Pc : Creature

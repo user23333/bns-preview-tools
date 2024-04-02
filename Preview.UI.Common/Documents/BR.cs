@@ -2,8 +2,10 @@
 using HtmlAgilityPack;
 
 namespace Xylia.Preview.UI.Documents;
-public class BR : Element
+public class BR : BaseElement
 {
+	public const string Tag = "<br/>";
+
 	protected internal override void Load(HtmlNode node)
 	{
 

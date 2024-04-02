@@ -14,18 +14,22 @@ collection of record
 
 ### Record
 data element
+
+| Metadata | Describe |
+| :----:  | :----: |
+| ElementType  |  |
+| SubclassType |  |
+| DataSize |  |
+| Ref          | Primary key  |
+| Body |  |
+| StringLookup |  |
+
 | Field | Describe | 
 | :----:  | :----: |
-| Owner | Parent table |
 | ElDefinition |  |
 | Attributes | [Collection of attribute](#id-attributes) |
-| Children |  |
-| |
-| Data         | Raw data |
-| XmlNodeType  |  |
-| SubclassType |  |
-| Ref          | Primary key  |
-| StringLookup |  |
+| Children | child element (only xml) |
+
 
 ### Model Record
 Model record is the entity of record, it has the same data as the original record, but it has instance fields.
@@ -38,10 +42,7 @@ It was designed for interface presentation, is equal a ViewModel between record 
 
 attributes of the record
 
-This is a dynamic object, so it supports WPF data binding, such as
-```
-<TextBlock Text="{Binding Record.Attributes.alias}" />
-```
+
 
 #### attribute type
 + Int8

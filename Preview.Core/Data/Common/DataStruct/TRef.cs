@@ -8,17 +8,15 @@ namespace Xylia.Preview.Data.Common.DataStruct;
 public struct TRef
 {
 	public int Table;
-	public int Id;
-	public int Variant;
+	public Ref Ref;
 
-	public TRef(int table, int id, int variant = 0)
+	public TRef(ushort table, int id, int variant = 0)
 	{
 		Table = table;
-		Id = id;
-		Variant = variant;
+		Ref = new Ref(id, variant);
 	}
 
-	public TRef(int table, Ref Ref) : this(table, Ref.Id, Ref.Variant)
+	public TRef(ushort table, Ref Ref) : this(table, Ref.Id, Ref.Variant)
 	{
 	}
 
@@ -27,23 +25,16 @@ public struct TRef
 		if (record is null) return;
 
 		Table = record.Owner.Type;
-		Id = record.Ref.Id;
-		Variant = record.Ref.Variant;
+		Ref = record.PrimaryKey;
 	}
 
 
 
-	public override string ToString() => $"{Table}:{Id}.{Variant}";
-
-
-	public static implicit operator int(TRef r) => r.Id;
+	public override string ToString() => $"{Table}:{Ref}";
 
 	public static bool operator ==(TRef a, TRef b)
 	{
-		return
-			a.Table == b.Table &&
-			a.Id == b.Id &&
-			a.Variant == b.Variant;
+		return a.Table == b.Table && a.Ref == b.Ref;
 	}
 
 	public static bool operator !=(TRef a, TRef b)
@@ -53,16 +44,10 @@ public struct TRef
 
 	public bool Equals(TRef other)
 	{
-		return Table == other.Table && Id == other.Id && Variant == other.Variant;
+		return Table == other.Table && Ref == other.Ref;
 	}
 
-	public override bool Equals(object obj)
-	{
-		return obj is TRef other && Equals(other);
-	}
+	public override bool Equals(object obj) => obj is TRef other && Equals(other);
 
-	public override int GetHashCode()
-	{
-		return HashCode.Combine(Table, Id, Variant);
-	}
+	public override int GetHashCode() => HashCode.Combine(Table, Ref);
 }

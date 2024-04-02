@@ -1,6 +1,7 @@
 ﻿using System.Xml;
 using Newtonsoft.Json;
 using Xylia.Preview.Common.Extension;
+using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Engine.BinData.Helpers;
 using Xylia.Preview.Data.Engine.BinData.Models;
@@ -8,9 +9,9 @@ using Xylia.Preview.Data.Engine.Definitions;
 
 namespace Xylia.Preview.Data.Models;
 [JsonConverter(typeof(RecordConverter))]
-public sealed unsafe class Record : IDisposable
+public sealed unsafe class Record : IElement, IDisposable
 {
-	#region Ctor
+	#region Constructors
 	internal Record()
 	{
 		Attributes = new(this);
@@ -19,15 +20,15 @@ public sealed unsafe class Record : IDisposable
 
 
 	#region Fields
-	public byte XmlNodeType
+	public ElementType ElementType
 	{
 		get
 		{
-			fixed (byte* ptr = Data) return ptr[0];
+			fixed (byte* ptr = Data) return (ElementType)ptr[0];
 		}
 		set
 		{
-			fixed (byte* ptr = Data) ptr[0] = value;
+			fixed (byte* ptr = Data) ptr[0] = (byte)value;
 		}
 	}
 
@@ -55,39 +56,26 @@ public sealed unsafe class Record : IDisposable
 		}
 	}
 
-	public int RecordId
+	public Ref PrimaryKey
 	{
 		get
 		{
-			fixed (byte* ptr = Data) return ((int*)(ptr + 8))[0];
+			fixed (byte* ptr = Data) return ((Ref*)(ptr + 8))[0];
 		}
 		set
 		{
-			fixed (byte* ptr = Data) ((int*)(ptr + 8))[0] = value;
+			fixed (byte* ptr = Data) ((Ref*)(ptr + 8))[0] = value;
 		}
 	}
 
-	public int RecordVariationId
-	{
-		get
-		{
-			fixed (byte* ptr = Data) return ((int*)(ptr + 12))[0];
-		}
-		set
-		{
-			fixed (byte* ptr = Data) ((int*)(ptr + 12))[0] = value;
-		}
-	}
-
-	public byte[] Data { get; set; }
+	public byte[] Data { get; internal set; }
 
 	public StringLookup StringLookup { get; set; }
 
+
 	public Table Owner { get; internal set; }
 
-	public Ref Ref => Data is null ? default : new(RecordId, RecordVariationId);
-
-	public ITableDefinition ElDefinition
+	public ElementBaseDefinition Definition
 	{
 		get
 		{
@@ -100,25 +88,17 @@ public sealed unsafe class Record : IDisposable
 
 	public AttributeCollection Attributes { get; internal set; }
 
-	internal Dictionary<string, Record[]> Children { get; set; } = new();
-
+	internal Dictionary<string, Record[]> Children { get; set; } = [];
 
 	public bool HasChildren => Children.Count > 0;
-
-	internal Lazy<ModelElement> Model { get; set; }
 	#endregion
 
 	#region Serialize
-	public void WriteXml(XmlWriter writer, ElDefinition el)
+	public void WriteXml(XmlWriter writer, ElementDefinition el)
 	{
 		writer.WriteStartElement(el.Name);
 
 		// attribute
-		if (SubclassType > -1)
-		{
-			writer.WriteAttributeString(AttributeCollection.s_type, SubclassType < el.Subtables.Count ? el.Subtables[SubclassType].Name : SubclassType.ToString());
-		}
-
 		foreach (var attribute in Attributes)
 		{
 			if (attribute.Key.Name == AttributeCollection.s_autoid) continue;
@@ -143,36 +123,21 @@ public sealed unsafe class Record : IDisposable
 	#endregion
 
 	#region Interface
-	public override string ToString() => this.Attributes["alias"] ?? Ref.ToString();
+	public override string ToString() => this.Attributes.Get<string>("alias") ?? this.PrimaryKey.ToString();
 
-	public static bool operator ==(Record a, Record b)
+	public T As<T>(Type type = null) where T : ModelElement
 	{
-		// If both are null, or both are same instance, return true.
-		if (ReferenceEquals(a, b)) return true;
+		// NOTE: create new object
+		var subs = ModelElement.TypeHelper.Get(type ?? typeof(T), this.Owner.Name);
+		var subtype = this.Attributes[AttributeCollection.s_type]?.ToString();
 
-		// If one is null, but not both, return false.
-		if (a is null || b is null) return false;
-		if (a.GetType() != b.GetType()) return false;
-
-		// Return true if the fields match:
-		return a.Ref == b.Ref;
+		return ModelElement.As(this, subs.CreateInstance<T>(subtype));
 	}
-
-	public static bool operator !=(Record a, Record b) => !(a == b);
-
-	public override bool Equals(object other) => other is Record record && this == record;
-
-	public override int GetHashCode() => HashCode.Combine(GetType(), Ref);
-
 
 	public void Dispose()
 	{
-		Model = null;
-
 		Data = null;
 		StringLookup = null;
-
-		Attributes?.Dispose();
 		Attributes = null;
 
 		GC.SuppressFinalize(this);

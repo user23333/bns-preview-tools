@@ -1,15 +1,18 @@
-﻿using System.Data;
-using System.Diagnostics;
+﻿using System.Collections;
+using System.Collections.Concurrent;
+using System.Data;
 using System.Xml;
 using K4os.Hash.xxHash;
 using Newtonsoft.Json;
+using Serilog;
 using Xylia.Preview.Common.Extension;
-using Xylia.Preview.Data.Common;
+using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Common.DataStruct;
+using Xylia.Preview.Data.Engine.BinData.Definitions;
 using Xylia.Preview.Data.Engine.BinData.Helpers;
+using Xylia.Preview.Data.Engine.BinData.Serialization;
 using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Data.Engine.Definitions;
-using Xylia.Preview.Data.Engine.Readers;
 using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models;
 
@@ -18,16 +21,10 @@ namespace Xylia.Preview.Data.Engine.BinData.Models;
 /// bns data table
 /// </summary>
 [JsonConverter(typeof(TableConverter))]
-public class Table : TableHeader, IDisposable
+public class Table : TableHeader, IDisposable, IEnumerable<Record>
 {
 	#region Constructor
 	private TableDefinition definition;
-
-
-	/// <summary>
-	/// table name
-	/// </summary>
-	public string Name { get; set; }
 
 	/// <summary>
 	/// table owner
@@ -39,22 +36,27 @@ public class Table : TableHeader, IDisposable
 	/// </summary>
 	public TableDefinition Definition
 	{
-		// create default def if null
-		get => definition ??= TableDefinition.CreateDefault(this.Type);
+		get => definition;
 		set
 		{
+			// create default def if null
+			value ??= TableDefinition.CreateDefault(this.Type);
+
 			definition = value;
-			this.CheckVersion(definition);
+			Name = value.Name;
+
+			this.CheckVersion((definition.MajorVersion, definition.MinorVersion));
 		}
 	}
 
-
-	public string XmlPath { get; set; }
+	public string SearchPattern { get; set; }
 	#endregion
 
 
 	#region Data
 	internal TableArchive Archive { get; set; }
+
+	internal StringLookup GlobalString { get; set; }
 
 	/// <summary>
 	/// TODO: Hack because the table seems to offset it randomly?
@@ -65,51 +67,6 @@ public class Table : TableHeader, IDisposable
 	/// TODO: Hack because idk where this padding is coming from
 	/// </summary>
 	internal byte[] Padding { get; set; }
-
-	internal StringLookup GlobalString { get; set; }
-
-
-
-
-
-	internal Dictionary<Ref, Record> ByRef = new();
-
-	internal Dictionary<AttributeDefinition, Dictionary<string, Record[]>> ByRequired = new();
-
-
-	/// <summary>
-	/// the table index
-	/// should use hashmap
-	/// </summary>
-	/// <param name="attribute"></param>
-	/// <param name="value"></param>
-	/// <returns></returns>
-	public Record[] Search(AttributeDefinition attribute, string value)
-	{
-		if (attribute != null /*&& attribute.IsRequired*/)
-		{
-			lock (ByRequired)
-			{
-				// find group
-				if (!ByRequired.TryGetValue(attribute, out var index))
-				{
-					var comparer = StringComparer.OrdinalIgnoreCase;
-					index = _records
-						.ToLookup(record => record.Attributes.Get(attribute.Name)?.ToString(), comparer)
-						.Where(record => record.Key is not null)
-						.ToDictionary(record => record.Key, record => record.ToArray(), comparer);
-
-					ByRequired[attribute] = index;
-				}
-
-				// search item
-				if (value != null && index.TryGetValue(value, out var result))
-					return result;
-			}
-		}
-
-		return [];
-	}
 
 
 	protected List<Record> _records;
@@ -126,6 +83,11 @@ public class Table : TableHeader, IDisposable
 			return _records;
 		}
 	}
+
+
+	private Dictionary<Ref, Record> ByRef = [];
+
+	private AliasTable AliasTable;
 	#endregion
 
 
@@ -136,11 +98,10 @@ public class Table : TableHeader, IDisposable
 		{
 			if (_records != null) return;
 
-			if (XmlPath is null) LoadData();
-			else LoadXml(Owner.GetFiles(XmlPath));
+			if (SearchPattern is null) LoadData();
+			else LoadXml(Owner.GetFiles(SearchPattern));
 		}
 	});
-
 
 	private void LoadData()
 	{
@@ -148,60 +109,90 @@ public class Table : TableHeader, IDisposable
 		Archive = null;
 
 		foreach (var record in _records)
-			ByRef[record.Ref] = record;
+			ByRef[record.PrimaryKey] = record;
 	}
 
 	/// <summary>
 	/// load data from xml
 	/// </summary>
-	/// <param name="streams"></param>
 	/// <returns>data build actions</returns>
 	public List<Action> LoadXml(params Stream[] streams)
 	{
 		this.Clear();
+		_records = [];
 
 		var actions = new List<Action>();
 		foreach (var stream in streams)
 		{
-			XmlDocument xml = new();
+			XmlDocument xml = new() { PreserveWhitespace = true };
 			xml.Load(stream);
 			stream.Close();
 
-			LoadElement(xml.DocumentElement, actions);
+			var documentElement = xml.DocumentElement;
+			string type = documentElement.Attributes["type"]?.Value;
+			string version = documentElement.Attributes["version"]?.Value;
+
+			CheckVersion(ParseVersion(version));
+
+			// ignore step data
+			// TutorialSkillSequenceLoader ?
+			if (type != null && string.Compare(type, Name, true) != 0)
+			{
+				Log.Error($"[game-data-loader], load error. invalid type, fileName:{Name}, type:{type}");
+			}
+
+			LoadElement(documentElement, actions);
 		}
 
 		return actions;
 	}
 
+	/// <summary>
+	/// load xml element
+	/// </summary>
+	/// <param name="parent"></param>
+	/// <param name="actions">data build action collection</param>
 	internal void LoadElement(XmlElement parent, ICollection<Action> actions)
 	{
-		_records ??= [];	 
+		_records ??= [];
 
-		var elements = parent.SelectNodes($"./" + Definition.ElRecord.Name).OfType<XmlElement>();
-		foreach (var element in elements)
+		var length = _records.Count;
+		var elements = parent.SelectNodes($"./" + Definition.ElRecord.Name).OfType<XmlElement>().ToArray();
+
+		// load data
+		ConcurrentBag<Tuple<int, Record>> records = [];
+		Parallel.For(0, elements.Length, index =>
 		{
+			var element = elements[index];
+
 			// get definition
-			var definition = Definition.ElRecord.SubtableByName(element.GetAttribute(AttributeCollection.s_type));
+			var definition = Definition.ElRecord.SubtableByName(element.GetAttribute(AttributeCollection.s_type), Message);
 			var record = new Record
 			{
 				Owner = this,
 				Data = new byte[definition.Size],
 				DataSize = definition.Size,
-				XmlNodeType = 1,
+				ElementType = ElementType.Element,
 				SubclassType = definition.SubclassType,
 				StringLookup = IsCompressed ? new StringLookup() : GlobalString,
 			};
 
-			// create attributes
-			record.Attributes = new(record, element, Definition.ElRecord, _records.Count + 1);
-			record.Attributes.CreateData(definition , true);
+			// create attributes and primary key
+			record.Attributes = new(record, element, Definition.ElRecord, length + index + 1);
+			record.Attributes.BuildData(definition, true);
 
-			// create primary key
-			_records.Add(record);
-			ByRef[record.Ref] = record;
+			records.Add(new Tuple<int, Record>(index, record));
+
+			//Log.Warning($"[game-data-loader], load {Name} error, msg:{0}, fileName:{1}, nodeName:{element.Name}, record:{element.OuterXml}");
+		});
+
+		// insert element
+		foreach (var record in records.OrderBy(x => x.Item1).Select(x => x.Item2))
+		{
+			_records.Add(ByRef[record.PrimaryKey] = record);
 
 			// The ref is not determined at this time
-			actions?.Add(new Action(() => record.Attributes.CreateData(definition)));
+			actions?.Add(new Action(() => record.Attributes.BuildData(record.Definition)));
 		}
 	}
 	#endregion
@@ -209,30 +200,7 @@ public class Table : TableHeader, IDisposable
 
 
 	#region Get Methods
-	public Record this[string alias]
-	{
-		get
-		{
-			if (_records == null) LoadAsync().Wait();
-
-			if (string.IsNullOrEmpty(alias)) return null;
-
-			var objs = Search(Definition.ElRecord["alias"], alias);
-			if (objs.Length > 0) return objs.FirstOrDefault();
-			else if (int.TryParse(alias, out var MainID)) return this[new Ref(MainID)];
-			else if (alias.Contains('.'))
-			{
-				var o = alias.Split('.');
-				if (o.Length == 2 && int.TryParse(o[0], out var id) && int.TryParse(o[1], out var variant))
-					return this[new Ref(id, variant)];
-			}
-
-			if (Name != "text") Serilog.Log.Warning($"[{Name}] get failed, alias: {alias}");
-			return null;
-		}
-	}
-
-	public Record this[Ref Ref, bool message = true]
+	public Record this[Ref Ref]
 	{
 		get
 		{
@@ -240,10 +208,33 @@ public class Table : TableHeader, IDisposable
 			if (_records == null) LoadAsync().Wait();
 
 			if (ByRef.TryGetValue(Ref, out var item)) return item;
-			else if (_records.Any() && message)
-				Debug.WriteLine($"[{Name}] get failed, id: {Ref.Id} variation: {Ref.Variant}");
 
+#if DEVELOP
+			System.Diagnostics.Debug.WriteLine($"[{Name}] get failed, id: {Ref.Id} variation: {Ref.Variant}");
+#endif
 			return null;
+		}
+	}
+
+	public Record this[string alias]
+	{
+		get
+		{
+			if (_records == null) LoadAsync().Wait();
+			if (Ref.TryPrase(alias, out var key)) return this[key];
+
+			lock (this)
+			{
+				if (AliasTable is null)
+				{
+					AliasTable = new();
+
+					var def = this.Definition.ElRecord["alias"];
+					if (def != null) _records?.ForEach(x => AliasTable.Add(x));
+				}
+			}
+
+			return this[AliasTable.Find(AliasTable.MakeKey(Name, alias))];
 		}
 	}
 	#endregion
@@ -274,7 +265,7 @@ public class Table : TableHeader, IDisposable
 
 		writer.WriteStartDocument();
 		writer.WriteStartElement(Definition.ElRoot.Name);
-		writer.WriteAttributeString("release-module", Moudle.LocalizationData.ToString());
+		writer.WriteAttributeString("release-module", TableModule.LocalizationData.ToString());
 		writer.WriteAttributeString("release-side", settings.ReleaseSide.ToString().ToLower());
 		writer.WriteAttributeString("type", Definition.Name);
 		writer.WriteAttributeString("version", MajorVersion + "." + MinorVersion);
@@ -294,23 +285,33 @@ public class Table : TableHeader, IDisposable
 
 
 	#region Interface
-	public void Clear()
+	IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+	public IEnumerator<Record> GetEnumerator()
+	{
+		foreach (var record in this.Records)
+			yield return record;
+
+		yield break;
+	}
+
+	public virtual void Clear()
 	{
 		// prevent reload
 		Archive = null;
 		GlobalString = new StringLookup();
 
 		_records?.Clear();
-		_records = [];
+		_records = null;
 
 		ByRef.Clear();
-		ByRequired.Clear();
+		AliasTable?.Table.Clear();
 	}
 
 	public void Dispose()
 	{
 		this.Clear();
-		Definition = null;
+		definition = null;
 
 		GC.SuppressFinalize(this);
 	}
