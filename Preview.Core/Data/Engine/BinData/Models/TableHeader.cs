@@ -1,5 +1,5 @@
-﻿using Serilog;
-using Xylia.Preview.Common.Extension;
+﻿using Xylia.Preview.Common.Extension;
+using Xylia.Preview.Data.Helpers;
 
 namespace Xylia.Preview.Data.Engine.BinData.Models;
 public abstract class TableHeader
@@ -81,18 +81,5 @@ public abstract class TableHeader
 	}
 
 
-	internal MessageManager Message = new();
-}
-
-
-public class MessageManager : HashSet<string>
-{
-	public void Warning(string message)
-	{
-		if (!this.Contains(message))
-		{
-			this.Add(message);
-			Log.Warning(message);
-		}
-	}
+	internal MessageManager Message = [];
 }

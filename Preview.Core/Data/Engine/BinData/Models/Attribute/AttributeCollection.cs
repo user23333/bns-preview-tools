@@ -116,7 +116,7 @@ public class AttributeCollection : IReadOnlyDictionary<AttributeDefinition, obje
 	}
 
 	// TODO: Value convert
-	public T Get<T>(string name) => (T)Get(name);
+	public T Get<T>(string name) => (T) Get(name);
 
 	public object Get(string name)
 	{

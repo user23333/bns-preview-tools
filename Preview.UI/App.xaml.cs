@@ -14,7 +14,6 @@ using CUE4Parse_Conversion.Textures;
 using HandyControl.Controls;
 using Serilog;
 using Xylia.Preview.Common.Extension;
-using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.UI.Resources.Themes;
 using Xylia.Preview.UI.Services;

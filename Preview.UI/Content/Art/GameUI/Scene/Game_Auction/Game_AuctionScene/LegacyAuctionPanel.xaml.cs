@@ -12,7 +12,7 @@ using Xylia.Preview.Data.Models.Sequence;
 using Xylia.Preview.UI.Controls;
 
 namespace Xylia.Preview.UI.GameUI.Scene.Game_Auction;
-public partial class LegacyAuctionPanel  : INotifyPropertyChanged
+public partial class LegacyAuctionPanel : INotifyPropertyChanged
 {
 	#region Constructor
 	public LegacyAuctionPanel()
@@ -163,10 +163,10 @@ public partial class LegacyAuctionPanel  : INotifyPropertyChanged
 			if (int.TryParse(_nameFilter, out int id)) return record.PrimaryKey.Id == id;
 
 			var alias = record.Attributes.Get<string>("alias");
-			if (alias != null && alias.Contains(_nameFilter, StringComparison.OrdinalIgnoreCase)) return true;
+			if (alias != null && alias.Contains(_nameFilter!, StringComparison.OrdinalIgnoreCase)) return true;
 
 			var name = record.Attributes.Get<Record>("name2").GetText();
-			if (name != null && name.Contains(_nameFilter, StringComparison.OrdinalIgnoreCase)) return true;
+			if (name != null && name.Contains(_nameFilter!, StringComparison.OrdinalIgnoreCase)) return true;
 
 			return false;
 		}
@@ -187,9 +187,9 @@ public partial class LegacyAuctionPanel  : INotifyPropertyChanged
 
 	#region	PropertyChange
 
-	public event PropertyChangedEventHandler PropertyChanged;
+	public event PropertyChangedEventHandler? PropertyChanged;
 
-	protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
+	protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string? propertyName = null)
 	{
 		if (EqualityComparer<T>.Default.Equals(storage, value))
 			return false;

@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using Xylia.Preview.Data.Common.DataStruct;
+﻿using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.Data.Engine.BinData.Models;
@@ -32,7 +31,7 @@ internal class AliasTable
 		if (string.IsNullOrEmpty(fullAlias)) return default;
 		else if (Table.TryGetValue(fullAlias, out var value)) return value;
 
-		Debug.WriteLine($"cannot found alias map: {fullAlias}");
+		Serilog.Log.Warning($"cannot found alias map: {fullAlias}");
 		return default;
 	}
 

@@ -19,7 +19,10 @@ public static class ThirdSupport
 		#endregion
 
 		// delete old files
-		Directory.Delete(param.FolderPath, true);
+		if (Directory.Exists(param.FolderPath))
+			Directory.Delete(param.FolderPath, true);
+
+		// extract
 		Parallel.ForEach(new BNSDat(param).FileTable, file =>
 		{
 			string path = Path.Combine(param.FolderPath, file.FilePath);

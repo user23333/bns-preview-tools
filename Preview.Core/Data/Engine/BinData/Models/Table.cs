@@ -85,7 +85,7 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 	}
 
 
-	private Dictionary<Ref, Record> ByRef = [];
+	private readonly Dictionary<Ref, Record> ByRef = [];
 
 	private AliasTable AliasTable;
 	#endregion
@@ -194,6 +194,15 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 			// The ref is not determined at this time
 			actions?.Add(new Action(() => record.Attributes.BuildData(record.Definition)));
 		}
+	}
+
+
+	public void CheckSize()
+	{
+		Records.GroupBy(o => o.SubclassType).OrderBy(o => o.Key).ForEach(type =>
+		{
+			var def = Definition.ElRecord.SubtableByType(type.Key, type.First());
+		});
 	}
 	#endregion
 

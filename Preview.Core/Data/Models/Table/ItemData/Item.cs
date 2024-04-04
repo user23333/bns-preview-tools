@@ -7,44 +7,205 @@ using Xylia.Preview.Data.Models.Creature;
 using Xylia.Preview.Data.Models.Sequence;
 
 namespace Xylia.Preview.Data.Models;
-public abstract partial class Item : ModelElement
+public abstract class Item : ModelElement
 {
-	#region Fields
+	#region Attributes
 	public Ref<ItemCombat>[] ItemCombat { get; set; }
 
 	public Ref<ItemBrand> Brand { get; set; }
 
-	public bool Auctionable { get; set; }
+	public bool Auctionable => Attributes.Get<BnsBoolean>("auctionable");
 
-	public bool AccountUsed { get; set; }
+	public bool AccountUsed => Attributes.Get<BnsBoolean>("account-used");
 
 	public GameCategory3Seq GameCategory3 => Attributes["game-category-3"].ToEnum<GameCategory3Seq>();
 
 	public JobSeq[] EquipJobCheck { get; set; }
 
-	public SexSeq2 EquipSex { get; set; }
+	public SexSeq2 EquipSex => Attributes["equip-sex"].ToEnum<SexSeq2>();
+	public enum SexSeq2
+	{
+		SexNone,
+		All,
+		Male,
+		Female,
+	}
 
 	public Race EquipRace => Race.Get(Attributes["equip-race"].ToEnum<RaceSeq2>());
+	public enum RaceSeq2
+	{
+		RaceNone,
+		All,
+		Jin,
+		Gon,
+		Lyn,
+		Kun,
+		SummonedAll,
+		SummonedCat,
+	}
 
-	public EquipType EquipType { get; set; }
+	public EquipType EquipType => Attributes["equip-type"].ToEnum<EquipType>();
 
-	public sbyte ItemGrade { get; set; }
+	public sbyte ItemGrade => Attributes.Get<sbyte>("item-grade");
+
+	public ItemDecomposeInfo DecomposeInfo => new(this);
+
 	public LegendGradeBackgroundParticleTypeSeq LegendGradeBackgroundParticleType => Attributes["legend-grade-background-particle-type"].ToEnum<LegendGradeBackgroundParticleTypeSeq>();
+	public enum LegendGradeBackgroundParticleTypeSeq
+	{
+		None,
+		TypeGold,
+		TypeRedup,
+		TypeGoldup,
 
-	public int RandomOptionGroupId { get; set; }
+		COUNT
+	}
 
-	public int ImproveId { get; set; }
-	public sbyte ImproveLevel { get; set; }
+
+	public int RandomOptionGroupId => Attributes.Get<int>("random-option-group-id");
+
+	public int ImproveId => Attributes.Get<int>("improve-id");
+	public sbyte ImproveLevel => Attributes.Get<sbyte>("improve-level");
+
 	public string ItemName => $"""<font name="00008130.Program.Fontset_ItemGrade_{ItemGrade}">{ItemNameOnly}</font>""";
 	public string ItemNameOnly => Attributes["name2"].GetText();
 
 	public int ClosetGroupId => Attributes.Get<int>("closet-group-id");
 	#endregion
 
+	#region Sub
+	public sealed class Weapon : Item
+	{
+		public WeaponTypeSeq WeaponType => Attributes["weapon-type"].ToEnum<WeaponTypeSeq>();
+		public enum WeaponTypeSeq
+		{
+			None,
+			BareHand,
+			Sword,
+			Gauntlet,
+			AuraBangle,
+			Pistol,
+			Rifle,
+			TwoHandedAxe,
+			Bow,
+			Staff,
+			Dagger,
+			Pet1,
+			Pet2,
+			Gun,
+			GreatSword,
+			LongBow,
+			Spear,
+			Orb,
+			DualBlade,
+
+			COUNT
+		}
+	}
+
+	public sealed class Costume : Item
+	{
+
+	}
+
+	public sealed class Grocery : Item
+	{
+		public GroceryTypeSeq GroceryType => Attributes["grocery-type"].ToEnum<GroceryTypeSeq>();
+		public enum GroceryTypeSeq
+		{
+			Other,
+			Repair,
+			Seal,
+			RandomBox,
+			CaveEscape,
+			Key,
+			WeaponGemSlotExpander,
+			Sealed,
+			WeaponGemSlotAdder,
+			Messenger,
+			QuestReplayEpic,
+			BaseCampWarp,
+			PetFood,
+			ResetDungeon,
+			SkillBook,
+			FishingPaste,
+			Badge,
+			Scroll,
+			FusionSubitem,
+			Card,
+			Glyph,
+			SoulBoost,
+
+			COUNT
+		}
+	}
+
+	public sealed class Gem : Item
+	{
+		public WeaponEnchantGemSlotTypeSeq WeaponEnchantGemSlotType { get; set; }
+		public AccessoryEnchantGemEquipAccessoryTypeSeq AccessoryEnchantGemEquipAccessoryType { get; set; }
+
+		public enum WeaponEnchantGemSlotTypeSeq
+		{
+			None,
+			First,
+			Second,
+
+			COUNT
+		}
+		public enum AccessoryEnchantGemEquipAccessoryTypeSeq
+		{
+			None,
+			Ring,
+			Earring,
+			Necklace,
+			Belt,
+			Bracelet,
+			Gloves,
+
+			COUNT
+		}
+	}
+
+	public sealed class Accessory : Item
+	{
+		public AccessoryTypeSeq AccessoryType => Attributes["accessory-type"].ToEnum<AccessoryTypeSeq>();
+		public enum AccessoryTypeSeq
+		{
+			Accessory,
+			CostumeAttach,
+			Ring,
+			Earring,
+			Necklace,
+			Belt,
+			Bracelet,
+			Soul,
+			Soul2,
+			Gloves,
+			Rune1,
+			Rune2,
+			Nova,
+			Vehicle,
+			AppearanceNormalState,
+			AppearanceIdleState,
+			AppearanceChatting,
+			AppearancePortrait,
+			AppearanceHypermove,
+			AppearanceNamePlate,
+			AppearanceSpeechBubble,
+
+			COUNT
+		}
+	}
+
+	public sealed class Enchant : Item
+	{
+
+	}
+	#endregion
+
 
 	#region Methods
-	public ItemDecomposeInfo DecomposeInfo => new(this);
-
 	public ImageProperty BackIcon => IconTexture.GetBackground(ItemGrade);
 
 	public ImageProperty FrontIcon => IconTexture.Parse(Attributes.Get<string>("icon"));

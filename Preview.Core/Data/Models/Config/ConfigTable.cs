@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 
 namespace Xylia.Preview.Data.Models.Config;
 public abstract class ConfigTable : Group
@@ -22,18 +21,19 @@ public abstract class ConfigTable : Group
 	#endregion
 
 
+	#region Methods
 	public static T LoadFrom<T>(Stream stream) where T : ConfigTable
 	{
 		if (stream is null) return null;
 		return LoadFrom<T>(new StreamReader(stream).ReadToEnd());
 	}
 
-	[RequiresUnreferencedCode("This functionality is not compatible with trimming. Use 'MethodFriendlyToTrimming' instead")]
 	public static T LoadFrom<T>(string xml) where T : ConfigTable
 	{
 		var serializer = new XmlSerializer(typeof(T), new XmlRootAttribute("config"));
 		return serializer.Deserialize(new StringReader(xml)) as T;
 	}
+	#endregion
 }
 
 

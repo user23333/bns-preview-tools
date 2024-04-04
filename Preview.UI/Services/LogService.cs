@@ -8,22 +8,11 @@ using Xylia.Preview.UI.ViewModels;
 namespace Xylia.Preview.UI.Services;
 internal class LogService : TextWriter, IService
 {
-	public override Encoding Encoding => Encoding.UTF8;
-
-	public override void WriteLine(string? value)
-	{
-		// base.WriteLine(value);
-		Debug.WriteLine(value);
-	}
-
-
+	#region IService
 	public bool Register()
 	{
 		// redirect console
-		if (true)
-		{
-			Console.SetOut(this);
-		}
+		if (true) Console.SetOut(this);
 
 		// If output directory exists, register the service
 		if (Directory.Exists(UserSettings.Default.OutputFolder))
@@ -40,4 +29,15 @@ internal class LogService : TextWriter, IService
 
 		return false;
 	}
+	#endregion
+
+	#region Redirect
+	public override Encoding Encoding => Encoding.UTF8;
+
+	public override void WriteLine(string? value)
+	{
+		// base.WriteLine(value);
+		Debug.WriteLine(value);
+	}
+	#endregion
 }

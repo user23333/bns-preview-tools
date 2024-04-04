@@ -1,5 +1,7 @@
 ﻿using System.Windows;
+using System.Windows.Data;
 using Xylia.Preview.Data.Helpers;
+using Xylia.Preview.Data.Models;
 using Xylia.Preview.UI.ViewModels;
 using Xylia.Preview.UI.Views.Editor;
 
@@ -23,9 +25,11 @@ public partial class ItemPage
 	private void DatabaseGui_Click(object sender, RoutedEventArgs e) => new DatabaseStudio().Show();
 
 	private void ClearCacheData_Click(object sender, RoutedEventArgs e)
-	{  
-		FileCache.Clear();
-		ProcessFloatWindow.ClearMemory();
+	{
+		//FileCache.Clear();
+		//ProcessFloatWindow.ClearMemory();
+
+		CollectionViewSource.GetDefaultView(FileCache.Data.Provider.GetTable<Item>());
 	}
 	#endregion
 }

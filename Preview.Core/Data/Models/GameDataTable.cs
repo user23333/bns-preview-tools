@@ -22,7 +22,19 @@ public class GameDataTable<T> : IEnumerable<T>, IEnumerable, IDisposable where T
 
 	public Table Source { get; }
 
-	public List<T> Elements => elements ??= Source.Records.Select(LoadElement).ToList();
+	public List<T> Elements
+	{
+		get
+		{
+			if (elements == null)
+			{
+				elements = new List<T>(new T[Source.Records.Count]);
+				Parallel.For(0, elements.Count, i => elements[i] = LoadElement(Source.Records[i]));
+			}
+
+			return elements;
+		}
+	}
 	#endregion
 
 	#region Methods
@@ -48,16 +60,11 @@ public class GameDataTable<T> : IEnumerable<T>, IEnumerable, IDisposable where T
 	}
 	#endregion
 
-	#region IDisposable
+
+	#region Interface
 	IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-	public IEnumerator<T> GetEnumerator()
-	{
-		foreach (var element in this.Elements)
-			yield return element;
-
-		yield break;
-	}
+	public IEnumerator<T> GetEnumerator() => Elements.GetEnumerator();
 
 	public void Dispose()
 	{

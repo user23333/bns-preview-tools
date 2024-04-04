@@ -117,7 +117,7 @@ public abstract class BaseElement : ContentElement
 	/// DependencyProperty for <see cref="Foreground" /> property.
 	/// </summary>
 	public static readonly DependencyProperty ForegroundProperty = Control.ForegroundProperty.AddOwner(typeof(BaseElement),
-		new FrameworkPropertyMetadata(Brushes.White,
+		new FrameworkPropertyMetadata(SystemColors.ControlTextBrush,
 			FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.SubPropertiesDoNotAffectRender | FrameworkPropertyMetadataOptions.Inherits));
 
 	/// <summary>

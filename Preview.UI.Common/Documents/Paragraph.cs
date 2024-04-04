@@ -3,7 +3,6 @@ using CUE4Parse.UE4.Objects.UObject;
 using HtmlAgilityPack;
 using Xylia.Preview.UI.Controls.Helpers;
 using Xylia.Preview.UI.Documents.Primitives;
-using Xylia.Preview.UI.Extensions;
 
 namespace Xylia.Preview.UI.Documents;
 /// <summary>
@@ -25,13 +24,11 @@ public class Paragraph : BaseElement, IMetaData
 	#endregion
 
 	#region Public Properties
-	public float TopMargin { get; set; }
-	public float LeftMargin { get; set; }
-	public float RightMargin { get; set; }
-	public float BottomMargin { get; set; }
-	public VerticalAlignment VerticalAlignment { get; set; }
+	//bullethorizontalalignment
 	public HorizontalAlignment HorizontalAlignment { get; set; }
-	public bool Justification { get; set; }
+	public VerticalAlignment VerticalAlignment { get; set; }
+	//firstlinehorizontalalignment
+
 	public JustificationTypeSeq JustificationType { get; set; }
 	public enum JustificationTypeSeq
 	{
@@ -40,9 +37,27 @@ public class Paragraph : BaseElement, IMetaData
 		LineFeedByLineArea,
 	}
 
+	public float RightMargin { get; set; }
+	public float TopMargin { get; set; }
+	public float LeftMargin { get; set; }
+	public float BottomMargin { get; set; }
+
+
+
+	//idt
+	//spacebetweenlines
+	//BackgroundImagePaddingX
+	//BackgroundImagePaddingY
+	//wordwrap
+	public bool Justification { get; set; }
+	//disableparagraphbreak
+	public string? bulletsfontset { get; set; }
+	public string? bulletsfontset2 { get; set; }
 	public string? Bullets { get; set; }
-	public string? BulletsFontset { get; set; }
+	//bulletimage
+	//backgroundimagesetpath
 	#endregion
+
 
 	#region Protected Methods
 	protected internal override void Load(HtmlNode node)
@@ -60,9 +75,9 @@ public class Paragraph : BaseElement, IMetaData
 		VerticalAlignment = node.GetAttributeValue("verticalalignment", VerticalAlignment.Top);
 
 		Bullets = node.Attributes["bullets"]?.Value;
-		BulletsFontset = node.Attributes["bulletsfontset"]?.Value;
+		bulletsfontset = node.Attributes["bulletsfontset"]?.Value;
 
-		if (Bullets != null) Children.Insert(0, new Font(BulletsFontset, new Run(Bullets)));
+		if (Bullets != null) Children.Insert(0, new Font(bulletsfontset, new Run(Bullets)));
 	}
 
 	private void Load(string? InnerText, string? fontset = null)

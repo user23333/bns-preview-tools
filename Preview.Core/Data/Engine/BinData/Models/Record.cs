@@ -18,7 +18,6 @@ public sealed unsafe class Record : IElement, IDisposable
 	}
 	#endregion
 
-
 	#region Fields
 	public ElementType ElementType
 	{
@@ -72,19 +71,9 @@ public sealed unsafe class Record : IElement, IDisposable
 
 	public StringLookup StringLookup { get; set; }
 
-
 	public Table Owner { get; internal set; }
 
-	public ElementBaseDefinition Definition
-	{
-		get
-		{
-			var def = Owner.Definition.ElRecord.SubtableByType(SubclassType);
-			if (def != null) this.CheckSize(def);
-
-			return def;
-		}
-	}
+	public ElementBaseDefinition Definition => Owner.Definition.ElRecord.SubtableByType(SubclassType, this);
 
 	public AttributeCollection Attributes { get; internal set; }
 
@@ -92,6 +81,7 @@ public sealed unsafe class Record : IElement, IDisposable
 
 	public bool HasChildren => Children.Count > 0;
 	#endregion
+
 
 	#region Serialize
 	public void WriteXml(XmlWriter writer, ElementDefinition el)

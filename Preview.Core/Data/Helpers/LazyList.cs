@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-namespace Xylia.Preview.Data.Models;
+namespace Xylia.Preview.Data.Helpers;
 /// <summary>
 /// Provides support for lazy list initialization.
 /// </summary>

@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using Xylia.Preview.Data.Engine.BinData.Models;
 using Xylia.Preview.Data.Models;
 
@@ -110,10 +109,11 @@ internal class TableArchive
 
 		table.Records = records;
 
-		// test
-		if (true && table.RecordCountOffset != 0)
+#if DEVELOP
+		if (table.RecordCountOffset != 0)
 		{
 			Debug.WriteLine($"RecordCountOffset {table.Name ?? table.Type.ToString()}");
 		}
+#endif
 	}
 }

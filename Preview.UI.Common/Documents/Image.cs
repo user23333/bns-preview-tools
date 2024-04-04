@@ -25,14 +25,10 @@ public class Image : BaseElement
 	#endregion
 
 	#region Fields
+	// jpgpath
+
 	public string? Imagesetpath { get; set; }
 	public string? Path { get; set; }
-
-	/// <summary>
-	/// Relative to line height
-	/// </summary>
-	public bool Enablescale { get; set; }
-	public float Scalerate { get; set; }
 
 	public int U { get; set; }
 	public int V { get; set; }
@@ -41,11 +37,21 @@ public class Image : BaseElement
 	public int Width { get; set; }
 	public int Height { get; set; }
 
-	private BitmapSource? Source;
+	public sbyte Red { get; set; }
+	public sbyte Green { get; set; }
+	public sbyte Blue { get; set; }
+
+	/// <summary>
+	/// Relative to line height
+	/// </summary>
+	public bool Enablescale { get; set; }
+	public float Scalerate { get; set; }
 	#endregion
 
 
 	#region UIElement 
+	private BitmapSource? Source;
+
 	protected internal override void Load(HtmlNode node)
 	{
 		Path = node.Attributes["path"]?.Value;

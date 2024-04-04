@@ -17,7 +17,7 @@ public class TableDefinition : TableHeader
 	/// <summary>
 	/// main element
 	/// </summary>
-	public ElementDefinition ElRecord { get; set; }
+	public ElementDefinition ElRecord { get; internal set; }
 
 	/// <summary>
 	/// Has record element

@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Xml;
+﻿using System.Xml;
 using CUE4Parse.Utils;
 using Xylia.Preview.Common.Attributes;
 using Xylia.Preview.Common.Extension;
@@ -289,62 +288,6 @@ public static class TableDefinitionHelper
 		}
 
 		return (ushort)Offset.Align(4);
-	}
-	#endregion
-
-	#region Check Methods
-	public static void CheckSize(this Table table)
-	{
-		foreach (var type in table.Records.GroupBy(o => o.SubclassType).OrderBy(o => o.Key))
-		{
-			var def = table.Definition.ElRecord.SubtableByType(type.Key);
-			CheckSize(type.First(), def);
-		}
-	}
-
-	public static void CheckSize(this Record record, ElementBaseDefinition definition)
-	{
-		var size = record.DataSize;
-		if (size == 0 || size == definition.Size) return;
-
-		// get block
-		lock (definition)
-		{
-			var block = (size - definition.Size) / 4;
-			if (block == 0) return;
-
-#if DEBUG
-			Console.WriteLine($"check field size, table: {record.Owner.Name} " +
-				 $"type: {(record.SubclassType == -1 ? "null" : definition.Name)} " +
-				 $"size: {definition.Size} <> {size} block: {block}");
-#endif
-
-			if (block > 0)
-			{
-				// create unknown attribute
-				for (int i = 0; i < block; i++)
-				{
-					var offset = (ushort)(definition.Size + i * 4);
-					definition.ExpandedAttributes.Add(new AttributeDefinition()
-					{
-						Name = "unk" + offset,
-						Size = 4,
-						Offset = offset,
-						Type = AttributeType.TInt32,
-						DefaultValue = "0",
-						Repeat = 1
-					});
-				}
-
-				definition.Size = size;
-				definition.CreateAttributeMap();
-			}
-			else
-			{
-				// prevent duplicate message
-				definition.Size = size;
-			}
-		}
 	}
 	#endregion
 

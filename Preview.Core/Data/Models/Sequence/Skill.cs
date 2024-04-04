@@ -7,9 +7,8 @@ public enum ConsumeType
 	BaseMaxPercent,
 	TotalMaxPercent,
 	CurrentPercent,
+	COUNT
 }
-
-
 
 public enum SkillResult
 {
@@ -41,4 +40,5 @@ public enum SkillEventType
 	None,
 	Attack,
 	Attacked,
+	COUNT
 }

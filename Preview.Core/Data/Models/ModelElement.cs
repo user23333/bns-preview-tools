@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
-using System.Runtime.Serialization;
+using System.Runtime.CompilerServices;
+using System.Xml;
 using Xylia.Preview.Common.Attributes;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.Abstractions;
@@ -35,19 +36,42 @@ public abstract class ModelElement : IElement
 	#endregion
 
 	#region Methods
+	protected internal virtual void Load(XmlNode node, string tableDefName/*, AliasTable aliasTable*/)
+	{
+		//GameDataTableUtil.CheckAttribute(node, new string[]
+		//  {
+		//		"id",
+		//		"alias",
+		//		"zone"
+		//  });
+		//int num = Convert.ToInt32(node.Attributes["zone"].Value);
+		//short num2 = Convert.ToInt16(node.Attributes["id"].Value);
+		//string alias = AliasTable.MakeKey(tableDefName, node.Attributes["alias"].Value);
+		//long area = GameDataTableUtil.LoadMultiKeyRef(node.Attributes["area"], "ZoneArea", aliasTable, new ZoneAreaDataRefGenerator());
+		//ZoneRespawnData zoneRespawnData = new ZoneRespawnData(num, num2, alias, area);
+		//if (this._table.ContainsKey(zoneRespawnData.Key))
+		//{
+		//	throw new Exception(string.Format("already contains key {0}.{1}.", num, num2));
+		//}
+		//base.checkAlias(zoneRespawnData.Key, alias, aliasTable);
+		//this._table.Add(zoneRespawnData.Key, zoneRespawnData);
+	}
+
 	protected internal virtual void LoadHiddenField()
 	{
 
 	}
 
 
+
 	/// <summary>
-	/// Convert original record to ModelRecord
+	/// Convert original record to model instance
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
 	/// <param name="source"></param>
 	/// <param name="element"></param>
 	/// <returns></returns>
+	[MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
 	internal static T As<T>(Record source, T element) where T : ModelElement
 	{
 		element.Source = source;
@@ -55,9 +79,8 @@ public abstract class ModelElement : IElement
 		#region	instance
 		foreach (var prop in element.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
 		{
-			if (!prop.CanWrite || prop.ContainAttribute<IgnoreDataMemberAttribute>()) continue;
+			if (!prop.CanWrite) continue;
 
-			// props
 			var type = prop.PropertyType;
 			var name = (prop.GetAttribute<NameAttribute>()?.Name ?? prop.Name).TitleLowerCase();
 			if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(LazyList<>))
@@ -86,10 +109,10 @@ public abstract class ModelElement : IElement
 	/// <param name="repeat"></param>
 	/// <returns></returns>
 	/// <exception cref="Exception"></exception>
+	[MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
 	private static object Convert(ModelElement element, string name, Type type)
 	{
 		var record = element.Source;
-		var attribute = record.Definition.GetAttribute(name);
 
 		if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(List<>))
 		{
@@ -107,6 +130,7 @@ public abstract class ModelElement : IElement
 		}
 
 		// attribute
+		var attribute = record.Definition.GetAttribute(name);
 		if (attribute is null || attribute.Repeat == 1)
 		{
 			return AttributeConverter.Convert(record.Attributes[name], type);
@@ -133,6 +157,7 @@ public abstract class ModelElement : IElement
 	internal class TypeHelper
 	{
 		#region Helper
+		private static readonly MessageManager message = [];
 		private static readonly Dictionary<Type, TypeHelper> helpers = [];
 
 		public static TypeHelper Get(Type baseType, string name = null)
@@ -157,9 +182,8 @@ public abstract class ModelElement : IElement
 				return subs;
 			}
 		}
-		#endregion
 
-		#region Methods
+
 		private Type BaseType;
 		private readonly Dictionary<string, Type> _subs = new(TableNameComparer.Instance);
 
@@ -181,7 +205,7 @@ public abstract class ModelElement : IElement
 
 			if (!string.IsNullOrWhiteSpace(type) && !_subs.TryGetValue(type, out _type))
 			{
-				Trace.WriteLine($"cast object subclass failed: {BaseType} -> {type}");
+				message.Warning($"cast object subclass failed: {BaseType} -> {type}");
 			}
 
 			return (T)Activator.CreateInstance(_type ?? BaseType);
@@ -218,9 +242,6 @@ public struct Ref<TElement> where TElement : ModelElement
 		// get source
 		if (value.Contains(':')) source = provider.Tables.GetRecord(value);
 		else source = provider.Tables.GetRecord(typeof(TElement).Name, value);
-
-		// check null
-		if (source is null) Serilog.Log.Warning("invalid ref: " + value);
 	}
 	#endregion
 

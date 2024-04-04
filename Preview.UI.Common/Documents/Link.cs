@@ -7,18 +7,21 @@ namespace Xylia.Preview.UI.Documents;
 public class Link : BaseElement
 {
 	#region Fields
-	public bool IgnoreInput { get; set; }
-
 	public LinkId? Id;
+
+	public bool IgnoreInput { get; set; }
+	public bool Editable { get; set; }
 	#endregion
 
 	protected internal override void Load(HtmlNode node)
 	{
+		// fields
 		Children = TextContainer.Load(node.ChildNodes);
-		IgnoreInput = node.GetAttributeValue("ignore-input", false);
+		IgnoreInput = node.GetAttributeValue("ignoreinput", false);
 
 		var data = node.Attributes[nameof(Id)]?.Value;
 		if (string.IsNullOrWhiteSpace(data) || data == "none") return;
+
 
 		// split
 		var tmp = data.Split(':', 2);

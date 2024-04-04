@@ -44,8 +44,20 @@ public interface IDataProvider : IDisposable
 	/// <returns></returns>
 	Stream[] GetFiles(string pattern);
 
+	/// <summary>
+	/// Get table
+	/// </summary>
+	/// <param name="name"></param>
+	/// <returns></returns>
 	public Table GetTable(string name) => Tables[name];
 
+	/// <summary>
+	/// Get model table
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <param name="name"></param>
+	/// <param name="reload"></param>
+	/// <returns></returns>
 	public GameDataTable<T> GetTable<T>(string name = null, bool reload = false) where T : ModelElement => Tables.Get<T>(name , reload);
 
 

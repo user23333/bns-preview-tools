@@ -53,6 +53,7 @@ public sealed class BNSDat(PackageParam Params) : IDisposable
 		{
 			var signature = archive.ReadBytes(128);
 
+			// the signed data is?
 			var rsa = new RSACryptoServiceProvider();
 			rsa.ImportParameters(Params.RSA_KEY);
 			rsa.VerifyData(data, signature, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
