@@ -1,65 +1,64 @@
-﻿using System.Linq;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Media;
-
 using CUE4Parse.BNS.Assets.Exports;
-
 using HtmlAgilityPack;
-
 using Xylia.Preview.Data.Helpers;
+using Xylia.Preview.UI.Documents.Primitives;
 
 namespace Xylia.Preview.UI.Documents;
-public class Font : Element
+public class Font : BaseElement
 {
-	#region Property
-	/// <summary>
-	/// fontset path
-	/// </summary>
-	public string Name;
-	#endregion
-
-	#region Constructor
+	#region Constructors
 	public Font()
 	{
 
 	}
 
-	public Font(string Name, params Element[] elements)
+	internal Font(string Name, params BaseElement[] elements)
 	{
 		this.Name = Name;
 		this.Children = [.. elements];
 	}
 	#endregion
 
+	#region Public Properties
+	/// <summary>
+	/// fontset path
+	/// </summary>
+	public string? Name;
+	#endregion
 
-	#region Methods
+
+	#region Override Methods
 	protected internal override void Load(HtmlNode node)
 	{
-		Children = node.ChildNodes.Select(TextDocument.ToElement).ToList();
+		Children = TextContainer.Load(node.ChildNodes);
 		Name = node.Attributes["name"]?.Value;
 	}
 
 	protected override Size MeasureCore(Size availableSize)
 	{
-		GetFont(Name);
+		GetFont(FileCache.Provider.LoadObject<UFontSet>(Name));
 		return base.MeasureCore(availableSize);
 	}
+	#endregion
 
-	private void GetFont(string name)
+	#region Private Methods
+	private void GetFont(UFontSet fontset)
 	{
-		var FontSet = FileCache.Provider.LoadObject<UFontSet>(name);
-		if (FontSet is null) return;
+		if (fontset is null) return;
 
-
-		//param.Font = new Font(param.Font.FontFamily, size, style);
-
-		var FontFace = FontSet.FontFace?.Load<UBNSFontFace>();
-		if (FontFace != null)
+		var FontColor = fontset.FontColors?.Load<UFontColor>();
+		if (FontColor != null)
 		{
-			FontSize = FontFace.Height;
+			// get forecolor
+			var f = FontColor.FontColor.ToFColor(true);
+			var c = Color.FromArgb(f.A, f.R, f.G, f.B);
+
+			Foreground = new SolidColorBrush(c);
 		}
 
-		var FontAttribute = FontSet.FontAttribute?.Load<UFontAttribute>();
+		var FontAttribute = fontset.FontAttribute?.Load<UFontAttribute>();
 		if (FontAttribute != null)
 		{
 			var style = System.Drawing.FontStyle.Regular;
@@ -70,12 +69,10 @@ public class Font : Element
 			if (FontAttribute.Underline) style |= System.Drawing.FontStyle.Underline;
 		}
 
-		var FontColor = FontSet.FontColors?.Load<UFontColor>();
-		if (FontColor != null)
+		var FontFace = fontset.FontFace?.Load<UBNSFontFace>();
+		if (FontFace != null)
 		{
-			var f = FontColor.FontColor.ToFColor(true);
-			var c = Color.FromArgb(f.A, f.R, f.G, f.B);
-			Foreground = new SolidColorBrush(c);
+			FontSize = FontFace.Height;
 		}
 	}
 	#endregion

@@ -2,14 +2,13 @@
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Engine.BinData.Helpers;
-using Xylia.Preview.Data.Engine.BinData.Models;
 using Xylia.Preview.Data.Engine.Definitions;
 
 namespace Xylia.Preview.Data.Engine.DatData;
-public class FolderProvider(string path) : IDataProvider
+public class FolderProvider(string path, EPublisher publisher = default) : IDataProvider
 {
 	#region Properties
-	public virtual string Name => path.SubstringAfterLast('\\');	  
+	public virtual string Name => path.SubstringAfterLast('\\');
 	public virtual DateTimeOffset CreatedAt => default;
 	public virtual BnsVersion ClientVersion => default;
 	public TableCollection Tables { get; private set; }
@@ -45,13 +44,4 @@ public class FolderProvider(string path) : IDataProvider
 		GC.SuppressFinalize(this);
 	}
 	#endregion
-}
-
-
-public class CompressProvider(string filepath) : FolderProvider(filepath)
-{
-	public override Stream[] GetFiles(string pattern)
-	{
-		return base.GetFiles(pattern);
-	}
 }

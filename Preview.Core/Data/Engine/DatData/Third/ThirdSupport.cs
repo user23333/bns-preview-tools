@@ -18,6 +18,8 @@ public static class ThirdSupport
 		}
 		#endregion
 
+		// delete old files
+		Directory.Delete(param.FolderPath, true);
 		Parallel.ForEach(new BNSDat(param).FileTable, file =>
 		{
 			string path = Path.Combine(param.FolderPath, file.FilePath);
@@ -29,7 +31,14 @@ public static class ThirdSupport
 		Console.WriteLine("Extract completed");
 	}
 
-	public static void Pack(PackageParam param, IReadOnlyDictionary<string, byte[]> replaces = null, bool IgnoreExist = false)
+	/// <summary>
+	/// package data by thild party
+	/// </summary>
+	/// <param name="param"></param>
+	/// <param name="replaces"></param>
+	/// <param name="append"></param>
+	/// <exception cref="ArgumentException"></exception>
+	public static void Pack(PackageParam param, IReadOnlyDictionary<string, byte[]> replaces = null, bool append = false)
 	{
 		#region Initialize
 		if (string.IsNullOrWhiteSpace(param.FolderPath) && string.IsNullOrWhiteSpace(param.PackagePath))
@@ -48,24 +57,21 @@ public static class ThirdSupport
 		#endregion
 
 		#region Replace
-		if (!Directory.Exists(param.FolderPath))
-		{
-			Extract(param);
-		}
+		Extract(param);
 
 		if (replaces != null)
 		{
-			var FilePath = new BNSDat(param).FileTable.Select(Fte => Fte.FilePath).ToList();
+			var files = new BNSDat(param).FileTable.Select(file => file.FilePath).ToList();
 			foreach (var replace in replaces)
 			{
 				#region target
 				var Target = new List<string>();
-				if (FilePath.Contains(replace.Key)) Target.Add(replace.Key);
+				if (files.Contains(replace.Key)) Target.Add(replace.Key);
 				else if (replace.Key.Contains('*') || replace.Key.Contains('?'))
 				{
-					Target.AddRange(FilePath.Where(f => new Regex(replace.Key, RegexOptions.IgnoreCase).Match(f).Success));
+					Target.AddRange(files.Where(f => new Regex(replace.Key, RegexOptions.IgnoreCase).Match(f).Success));
 				}
-				else if (IgnoreExist) Target.Add(replace.Key);
+				else if (append) Target.Add(replace.Key);
 				#endregion
 
 				Target.ForEach(x => File.WriteAllBytes(param.FolderPath + "\\" + x, replace.Value));
@@ -78,7 +84,7 @@ public static class ThirdSupport
 		var rsa = BnsCompression.GetRSAKeyBlob(param.RSA_KEY);
 		double value = BnsCompression.CreateFromDirectory(param.FolderPath, param.PackagePath, param.Bit64, param.CompressionLevel,
 			param.AES_KEY, (uint)param.AES_KEY.Length, rsa, (uint)rsa.Length,
-			BnsCompression.BinaryXmlVersion.Version4, (string fileName, ulong fileSize) => BnsCompression.DelegateResult.Continue);
+			param.BinaryXmlVersion, (string fileName, ulong fileSize) => BnsCompression.DelegateResult.Continue);
 		#endregion
 	}
 }

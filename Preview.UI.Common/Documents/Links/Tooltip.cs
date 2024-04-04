@@ -1,18 +1,16 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-
 using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.UI.Documents.Links;
 public sealed class Tooltip : LinkId
 {
-	ToolTip _popup;
-
+	#region Methods
 	internal override void Load(string text)
 	{
 		_popup = new ToolTip();
-		_popup.Style = (Style)Application.Current.FindResource("BnsTooltip");
+		_popup.Style = (Style) Application.Current.FindResource("BnsTooltip");
 		_popup.Content = text.GetText();
 	}
 
@@ -25,4 +23,9 @@ public sealed class Tooltip : LinkId
 	{
 		_popup.IsOpen = false;
 	}
+	#endregion
+
+	#region Private Fields
+	ToolTip _popup;
+	#endregion
 }

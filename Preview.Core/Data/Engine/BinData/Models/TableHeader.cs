@@ -76,14 +76,23 @@ public abstract class TableHeader
 		}
 		else if (this.MajorVersion != version.Item1 || this.MinorVersion != version.Item2)
 		{
-			Log.Warning($"check table `{this.Name}` version: {version.Item1}.{version.Item2} <> {this.MajorVersion}.{this.MinorVersion}");
+			Message.Warning($"check table `{this.Name}` version: {version.Item1}.{version.Item2} <> {this.MajorVersion}.{this.MinorVersion}");
+		}
+	}
 
-			// non binary table
-			if (this.Size == 0)
-			{
-				this.MajorVersion = version.Item1;
-				this.MinorVersion = version.Item2;
-			}
+
+	internal MessageManager Message = new();
+}
+
+
+public class MessageManager : HashSet<string>
+{
+	public void Warning(string message)
+	{
+		if (!this.Contains(message))
+		{
+			this.Add(message);
+			Log.Warning(message);
 		}
 	}
 }

@@ -2,25 +2,26 @@
 using System.Reflection;
 using System.Windows.Controls;
 using System.Windows.Data;
-
 using CommunityToolkit.Mvvm.Input;
-
 using HandyControl.Data;
-
 using Xylia.Preview.Data.Engine.BinData.Models;
 using Xylia.Preview.Data.Models;
-using Xylia.Preview.UI.Interactivity;
+using Xylia.Preview.UI.Common.Converters;
+using Xylia.Preview.UI.Common.Interactivity;
 
 namespace Xylia.Preview.UI.Views;
 public partial class TableView
 {
-	#region Ctors
-	private ContextMenu ItemMenu;
+	#region Constructorss
+	private readonly RecordNameConverter NameConverter;
+	private readonly ContextMenu ItemMenu;
 
 	public TableView()
 	{
 		InitializeComponent();
+
 		ItemMenu = (ContextMenu)this.TryFindResource("ItemMenu");
+		NameConverter = new RecordNameConverter();
 	}
 	#endregion
 
@@ -40,29 +41,6 @@ public partial class TableView
 	#endregion
 
 	#region Methods
-	private void SearchStarted(object sender, FunctionEventArgs<string> e)
-	{
-		_source.Filter = (o) => Filter(o, e.Info);
-		_source.Refresh();
-	}
-
-	/// <summary>
-	/// filter item
-	/// </summary>	
-	public static bool Filter(object item, string rule)
-	{
-		if (item is Record record)
-		{
-			return record.ToString().Contains(rule, StringComparison.OrdinalIgnoreCase);
-		}
-
-		return false;
-	}
-	#endregion
-
-
-
-	#region ItemMenu
 	private void CreateItemMenu(string name)
 	{
 		ItemMenu.Items.Clear();
@@ -84,6 +62,27 @@ public partial class TableView
 				});
 			}
 		}
+	}
+
+	private void SearchStarted(object sender, FunctionEventArgs<string> e)
+	{
+		_source.Filter = (o) => Filter(o, e.Info);
+		_source.Refresh();
+	}
+
+	/// <summary>
+	/// filter item
+	/// </summary>	
+	public bool Filter(object item, string rule)
+	{
+		if (item is Record record)
+		{
+			if (record.ToString().Contains(rule, StringComparison.OrdinalIgnoreCase)) return true;
+			if (record.PrimaryKey.ToString().Contains(rule, StringComparison.OrdinalIgnoreCase)) return true;
+			if (NameConverter.Convert(record).Contains(rule, StringComparison.OrdinalIgnoreCase)) return true;
+		}
+
+		return false;
 	}
 	#endregion
 }

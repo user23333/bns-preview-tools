@@ -1,0 +1,39 @@
+﻿<BnsCustomWindowWidget x:Class="Xylia.Preview.UI.Content.TestPanel"
+		xmlns="https://github.com/xyliaup/bns-preview-tools"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:s="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		Height="258" Width="315">
+	<BnsCustomLabelWidget Name="Skill3ToolTipPanel_1_ScaleType" LayoutData.Anchors="0 1 0 1" LayoutData.Offsets="88 0 82 78.00195" Expansion="BackgroundFrameImage,TypeImage,Multi">
+		<BnsCustomLabelWidget.String>
+			<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="99m" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+		</BnsCustomLabelWidget.String>
+		<BnsCustomLabelWidget.ExpansionComponentList>
+			<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="BackgroundFrameImage" MetaData="">
+				<ExpansionComponent.ImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="1 35" ImageUVSize="31 31" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+				</ExpansionComponent.ImageProperty>
+			</ExpansionComponent>
+			<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="TypeImage" MetaData="">
+				<ExpansionComponent.ImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/HUD_Icon_Menu_Test_nocomp.HUD_Icon_Menu_Test_nocomp" ImageUV="139 777" ImageUVSize="33 33" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+				</ExpansionComponent.ImageProperty>
+			</ExpansionComponent>
+			<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="TypeImage_Diff_Before" MetaData="">
+				<ExpansionComponent.ImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/HUD_Icon_Menu_Test_nocomp.HUD_Icon_Menu_Test_nocomp" ImageUV="48 774" ImageUVSize="50 29" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="0 -20" Opacity="1" ImageScale="0.7" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+				</ExpansionComponent.ImageProperty>
+			</ExpansionComponent>
+			<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="TypeImage_Diff_Next" MetaData="">
+				<ExpansionComponent.ImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/HUD_Icon_Menu_Test_nocomp.HUD_Icon_Menu_Test_nocomp" ImageUV="0 774" ImageUVSize="46 32" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="0 20" Opacity="1" ImageScale="0.7" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+				</ExpansionComponent.ImageProperty>
+			</ExpansionComponent>
+			<ExpansionComponent bShow="true" ExpansionType="STRING" ExpansionName="Multi" MetaData="">
+				<ExpansionComponent.StringProperty>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="x9" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Bottom" Padding="0" Opacity="1" TextScale="1" AnimScale="1" />
+				</ExpansionComponent.StringProperty>
+			</ExpansionComponent>
+		</BnsCustomLabelWidget.ExpansionComponentList>
+	</BnsCustomLabelWidget>
+
+</BnsCustomWindowWidget>

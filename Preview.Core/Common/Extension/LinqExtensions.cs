@@ -1,15 +1,13 @@
-﻿namespace Xylia.Preview.Common.Extension;
+﻿using Xylia.Preview.Data.Models;
+
+namespace Xylia.Preview.Common.Extension;
 public static class LinqExtensions
 {
+	#region IEnumerable
 	public static void ForEach<T>(this IEnumerable<T> collection, Action<T> action)
 	{
 		foreach (var item in collection)
 			action(item);
-	}
-
-	public static bool IsEmpty<T>(this IEnumerable<T> source)
-	{
-		return source == null || !source.Any();
 	}
 
 	public static List<T> Randomize<T>(this IEnumerable<T> source)
@@ -31,33 +29,27 @@ public static class LinqExtensions
 		return randomList;
 	}
 
-	public static IEnumerable<string> Split(this IEnumerable<string> strings, char separator)
+	/// <summary>
+	/// Projects each element of a NotNull sequence into a new form.
+	/// </summary>
+	/// <typeparam name="TSource">The type of the elements of source.</typeparam>
+	/// <typeparam name="TResult">The type of the value returned by selector.</typeparam>
+	/// <param name="source">A sequence of values to invoke a transform function on.</param>
+	/// <param name="selector"> A transform function to apply to each element.</param>
+	/// <returns></returns>
+	public static IEnumerable<TResult> SelectNotNull<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector)
 	{
-		ArgumentNullException.ThrowIfNull(strings);
-		return strings.Where(o => !string.IsNullOrEmpty(o)).SelectMany(o => o.Split(separator));
+		return source.Select(selector).Where(x => x != null);
 	}
 
-	public static string Aggregate(this IEnumerable<string> source, string comma, Func<string, string> func = null)
-	{
-		ArgumentNullException.ThrowIfNull(source);
-
-		using var e = source.GetEnumerator();
-		if (!e.MoveNext()) return null;
-
-		string result = null;
-		while (true)
-		{
-			result += func is null ? e.Current : func(e.Current);
-
-			bool HasNext = e.MoveNext();
-			if (HasNext) result += comma;
-			else break;
-		}
-
-		return result;
-	}
-
-
+	/// <summary>
+	/// Determines whether a sequence is empty.
+	/// </summary>
+	/// <typeparam name="T">The type of the elements of source.</typeparam>
+	/// <param name="source">The System.Collections.Generic.IEnumerable`1 to check for emptiness.</param>
+	/// <returns></returns>
+	public static bool IsEmpty<T>(this IEnumerable<T> source) => source == null || !source.Any();
+	#endregion
 
 	#region Array
 	public static void For<T>(ref T[] array, int size, Func<int, T> func)
@@ -83,6 +75,25 @@ public static class LinqExtensions
 
 			func(item, idx);
 		}
+	}
+
+	public static Tuple<T1, T2>[] Combine<T1, T2>(T1[] array1, T2[] array2)
+	{
+		if (array1 is null) return null;
+
+		var source = For(array1.Length, (x) => new Tuple<T1, T2>(
+			array1[x - 1],
+			array2[x - 1]));
+
+		return source.Where(x => x.Item1 != null && x.Item2 != null).ToArray();
+	}
+	#endregion
+
+
+	#region Expand
+	public static void ForEach<TElement>(this Ref<TElement>[] source, Action<TElement> action) where TElement : ModelElement
+	{
+		source.Select(x => x.Instance).Where(x => x != null).ForEach(action);
 	}
 	#endregion
 }

@@ -1,51 +1,35 @@
 ﻿using System.Collections;
 using System.Diagnostics;
+using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Engine.BinData.Models;
 
 namespace Xylia.Preview.Data.Models;
 public class GameDataTable<T> : IEnumerable<T>, IEnumerable, IDisposable where T : ModelElement
 {
-	#region Interface
-	IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-
-	public IEnumerator<T> GetEnumerator()
+	#region Constructors
+	internal GameDataTable(Table source)
 	{
-		foreach (var element in this.Elements)
-			yield return element;
-
-		yield break;
-	}
-
-	public void Dispose()
-	{
-		Source.Dispose();
-		Elements.Clear();
-
-		GC.SuppressFinalize(this);
-	}
-	#endregion
-
-	#region Load Methods
-	ModelTypeHelper Helper;
-
-	public Table Source { get; }
-
-	public List<T> Elements { get; set; } = [];
-
-	public GameDataTable(Table source)
-	{
+		Helper = ModelElement.TypeHelper.Get(typeof(T));
 		Source = source;
-		Helper = ModelTypeHelper.Get(typeof(T));
-
-		foreach (var record in source.Records)
-		{
-			Elements.Add(LoadElement(record));
-		}
 
 		Trace.WriteLine($"[{DateTime.Now}] load table `{source.Name}` successful ({source.Records.Count})");
 	}
 	#endregion
 
+	#region Properties
+	private readonly ModelElement.TypeHelper Helper;
+	private List<T> elements;
+
+	public Table Source { get; }
+
+	public List<T> Elements => elements ??= Source.Records.Select(LoadElement).ToList();
+	#endregion
+
+	#region Methods
+	public T this[Ref Ref]
+	{
+		get => LoadElement(Source[Ref]);
+	}
 
 	public T this[string alias]
 	{
@@ -62,4 +46,25 @@ public class GameDataTable<T> : IEnumerable<T>, IEnumerable, IDisposable where T
 
 		return element;
 	}
+	#endregion
+
+	#region IDisposable
+	IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+	public IEnumerator<T> GetEnumerator()
+	{
+		foreach (var element in this.Elements)
+			yield return element;
+
+		yield break;
+	}
+
+	public void Dispose()
+	{
+		Source.Dispose();
+		Elements?.Clear();
+
+		GC.SuppressFinalize(this);
+	}
+	#endregion
 }
