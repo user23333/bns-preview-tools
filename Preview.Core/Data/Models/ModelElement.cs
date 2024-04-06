@@ -156,27 +156,24 @@ public abstract class ModelElement : IElement
 	#region Helper
 	internal class TypeHelper
 	{
-		#region Helper
 		private static readonly MessageManager message = [];
 		private static readonly Dictionary<Type, TypeHelper> helpers = [];
 
-		public static TypeHelper Get(Type baseType, string name = null)
+		public static TypeHelper Get(Type type, string name = null)
 		{
 			lock (helpers)
 			{
-				if (!helpers.TryGetValue(baseType, out var subs))
+				if (!helpers.TryGetValue(type, out var subs))
 				{
-					subs = helpers[baseType] = new TypeHelper();
-					subs.GetSubType(baseType);
+					subs = helpers[type] = new TypeHelper();
+					subs.GetSubType(type);
 				}
 
 				// Convert to real type
-				if (baseType == typeof(ModelElement))
+				if (type == typeof(ModelElement))
 				{
 					Debug.Assert(name != null);
-
-					baseType = subs._subs[name];
-					return Get(baseType);
+					return Get(subs._subs[name]);
 				}
 
 				return subs;
@@ -184,17 +181,18 @@ public abstract class ModelElement : IElement
 		}
 
 
+		#region Sub Class
 		private Type BaseType;
 		private readonly Dictionary<string, Type> _subs = new(TableNameComparer.Instance);
 
 		private void GetSubType(Type baseType)
 		{
-			var flag = baseType == typeof(ModelElement);
 			this.BaseType = baseType;
+			var flag = baseType == typeof(ModelElement);
 
 			foreach (var instance in Assembly.GetExecutingAssembly().GetTypes())
 			{
-				if ((flag || !instance.IsAbstract) && baseType.IsAssignableFrom(instance) && instance != baseType)
+				if ((flag || !instance.IsAbstract) && instance.BaseType == baseType)
 					_subs[instance.Name.TitleLowerCase()] = instance;
 			}
 		}

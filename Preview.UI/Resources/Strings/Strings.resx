@@ -309,9 +309,6 @@
   <data name="Name_About" xml:space="preserve">
     <value>About</value>
   </data>
-  <data name="Name_General" xml:space="preserve">
-    <value>General</value>
-  </data>
   <data name="PreviewModel" xml:space="preserve">
     <value>View Model</value>
   </data>
@@ -714,5 +711,17 @@ expand the response rectange with item preview</value>
   </data>
   <data name="TextView_TaskStart" xml:space="preserve">
     <value>Please wait task finish...</value>
+  </data>
+  <data name="Settings_Tab_Data" xml:space="preserve">
+    <value>Data</value>
+  </data>
+  <data name="Settings_Tab_General" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="Settings_Job" xml:space="preserve">
+    <value>Job</value>
+  </data>
+  <data name="Settings_DebugMode" xml:space="preserve">
+    <value>Use Debug Mode</value>
   </data>
 </root>

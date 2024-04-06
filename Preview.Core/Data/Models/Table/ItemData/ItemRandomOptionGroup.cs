@@ -28,13 +28,7 @@ public class ItemRandomOptionGroup : ModelElement
 			SkillTrainByItemList.ChangeSet.ForEach(SkillTrainByItem =>
 			{
 				Console.WriteLine(SkillTrainByItem);
-
-				for (int x = 0; x < 6; x++)
-				{
-					var OriginSkill = SkillTrainByItem.OriginSkill[x].Instance;
-					if (OriginSkill != null) Console.WriteLine(OriginSkill?.Name2 + "   " + SkillTrainByItem.ChangeSkill[x].Instance?.Name2);
-				}
-
+				Console.WriteLine(SkillTrainByItem.Description2);
 				Console.WriteLine();
 			});
 		}

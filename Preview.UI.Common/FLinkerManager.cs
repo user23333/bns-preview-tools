@@ -74,4 +74,7 @@ internal class FLinkerManager
     //nc://bns.SkillPowerBook/OpenSns
     //nc://bns.SkillPowerBook/OpenPowerBook
     //nc://bns.BestTip/OpenPowerBook
+
+
+    public string[] paramters;
 }

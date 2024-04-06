@@ -1,7 +1,5 @@
-﻿using Xylia.Preview.Data.Common.Abstractions;
-
-namespace Xylia.Preview.Data.Models;
-public class SkillSystematization : ModelElement, IHaveName
+﻿namespace Xylia.Preview.Data.Models;
+public class SkillSystematization : ModelElement
 {
 	#region Attributes
 	public SystematizationSeq Systematization { get; set; }
@@ -67,8 +65,6 @@ public class SkillSystematization : ModelElement, IHaveName
 
 	public string Name { get; set; }
 
-	public Ref<Text> Name2 { get; set; }
-
 	public Ref<Text> Description { get; set; }
 
 	public sbyte SortNo { get; set; }
@@ -76,7 +72,8 @@ public class SkillSystematization : ModelElement, IHaveName
 	public Ref<SkillSystematizationGroup> Group { get; set; }
 	#endregion
 
+
 	#region Methods
-	public string Text => Name2.GetText();
+	public string Name2 => this.Attributes.Get<Record>("name2").GetText() + " ";
 	#endregion
 }

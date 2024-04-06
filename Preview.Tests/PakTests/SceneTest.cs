@@ -9,6 +9,7 @@ using CUE4Parse.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Helpers;
+using Xylia.Preview.Tests.Extensions;
 
 namespace Xylia.Preview.Tests.PakTests;
 
@@ -20,8 +21,10 @@ public class SceneTest
 	{
 		var Output = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "scene");
 
-		using GameFileProvider Provider = new("G:\\Paks"  /*IniHelper.Instance.GameFolder*/);
-		var AssetPath = "BNSR/Content/Art/UI/GameUI/Scene/Game_QuestJournal/Game_QuestJournalScene/QuestJournalPanel.uasset";
+		using GameFileProvider Provider = new(IniHelper.Instance.GameFolder);
+		// using GameFileProvider Provider = new("G:\\Paks");
+		var AssetPath = "bnsr/content/art/ui/v3/common/contentswidget/item/legacyitemtooltipwidget.uasset";  
+		//"BNSR/Content/Art/UI/GameUI/Scene/Game_Tooltip/Game_TooltipScene/ItemTooltipPanel.uasset";
 		var Blueprint = Provider.LoadAllObjects(AssetPath).OfType<UWidgetBlueprintGeneratedClass>().First();
 
 		var dump = new WidgetDump() { Output = Path.Combine(Output, Path.GetFileNameWithoutExtension(AssetPath)) };
@@ -118,11 +121,10 @@ public class WidgetDump
 		// load widget which not on visual tree
 		if (blueprint.Name.StartsWith("Legacy", StringComparison.OrdinalIgnoreCase))
 		{
-			// Console.WriteLine(JsonConvert.SerializeObject(blueprint, Formatting.Indented));
-
-			parent ??= Root;
+			parent ??= (XElement)Root.FirstNode;
 			foreach (var widget in blueprint.Owner.GetExports().Where(x => x.Outer == WidgetTree))
 			{
+				// Console.WriteLine(JsonConvert.SerializeObject(widget, Formatting.Indented));
 				LoadWidget(widget, null, level, parent);
 			}
 		}

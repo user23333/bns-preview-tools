@@ -19,9 +19,7 @@ public sealed class ItemCombat : ModelElement
 	public override string ToString()
 	{
 		List<Ref<ItemSkill>> ItemSkills = [.. ItemSkill, .. ItemSkillSecond, .. ItemSkillThird];
-		return ItemSkills.Select(@ref => @ref.Instance)
-			.Where(record => record?.Description2 != null)
-			.Aggregate(SkillModifyInfoGroup.Instance?.ToString(), (sum, now) => sum + "<br/>" + now.Description2.GetText());
+		return SkillModifyInfoGroup.Instance?.ToString() + string.Join("<br/>", ItemSkills.Select(@ref => @ref.Instance).Where(record => record?.Description2 != null));
 	}
 	#endregion
 }

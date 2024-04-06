@@ -303,9 +303,6 @@
   <data name="Name_About" xml:space="preserve">
     <value>소개</value>
   </data>
-  <data name="Name_General" xml:space="preserve">
-    <value>일반</value>
-  </data>
   <data name="PreviewRaw" xml:space="preserve">
     <value>보기 원시</value>
   </data>

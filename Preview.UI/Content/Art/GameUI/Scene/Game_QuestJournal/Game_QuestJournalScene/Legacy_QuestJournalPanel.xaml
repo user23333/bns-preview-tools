@@ -43,9 +43,9 @@
 											<s:ColumnDefinition />
 										</s:Grid.ColumnDefinitions>
 
-										<BnsCustomLabelWidget s:Grid.Column="0" Text="{Binding Path=Attributes[id]}" FontSize="12" Margin="-20 0 3 0" />
+										<BnsCustomLabelWidget s:Grid.Column="0" String="{Binding Path=Attributes[id]}" FontSize="12" Margin="-20 0 3 0" />
 										<BnsCustomImageWidget s:Grid.Column="1" BaseImageProperty="{Binding Path=FrontIcon}" Width="20" Height="20" VerticalAlignment="Top" />
-										<BnsCustomLabelWidget s:Grid.Column="2" Text="{Binding Path=Text}" FontSize="14">
+										<BnsCustomLabelWidget s:Grid.Column="2" String="{Binding Path=Text}" FontSize="14">
 											<BnsCustomLabelWidget.Style>
 												<s:Style TargetType="BnsCustomLabelWidget">
 													<s:Style.Triggers>
@@ -68,10 +68,10 @@
 					<VerticalBox x:Name="QuestJournal_CurrentQuest_Info" Margin="10 0 0 0"
 						 Background="Transparent" ContextMenu="{s:StaticResource ItemMenu}"
 						 DataContext="{Binding Path=SelectedItem, ElementName=QuestJournal_ProgressQuestList}">
-						<BnsCustomLabelWidget Text="{Binding Title ,FallbackValue=Quest Information Title}" FontSize="17" Foreground= "Gray" />
+						<BnsCustomLabelWidget String="{Binding Title ,FallbackValue=Quest Information Title}" FontSize="17" Foreground= "Gray" />
 						<HorizontalBox>
 							<BnsCustomImageWidget BaseImageProperty="{Binding FrontIcon}" Width="20" Height="20" Margin="0 0 3 0"/>
-							<BnsCustomLabelWidget Text="{Binding Text}" FontSize="15" />
+							<BnsCustomLabelWidget String="{Binding Text}" FontSize="15" />
 						</HorizontalBox>
 
 						<BnsCustomLabelWidget x:Name="QuestJournal_Content" MetaData="textref=UI.QuestJournal.Info.Content">
@@ -135,7 +135,7 @@
 				<s:TreeView x:Name="TreeView2" s:Grid.Column="0" ContextMenu="{s:StaticResource ExtractMenu}" SelectedItemChanged="CompletedTab_SelectedItemChanged">
 					<s:TreeView.Resources>
 						<s:DataTemplate DataType="{x:Type data:Quest}">
-							<BnsCustomLabelWidget Text="{Binding Text}" />
+							<BnsCustomLabelWidget String="{Binding Text}" />
 						</s:DataTemplate>
 					</s:TreeView.Resources>
 				</s:TreeView>

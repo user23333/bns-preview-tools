@@ -8,12 +8,12 @@ public class EnumConverter : MarkupExtension, IValueConverter
 {
 	public override object ProvideValue(IServiceProvider serviceProvider) => this;
 
-	public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+	public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
 	{
-		if (value != null && value.GetType().IsEnum)
+		if (value != null && value is Enum seq)
 		{
 			if (targetType == typeof(int)) return (int)value;
-			if (targetType == typeof(string)) return value.GetDescription();
+			if (targetType == typeof(string)) return seq.GetDescription();
 		}
 
 		return value;

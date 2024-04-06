@@ -306,9 +306,6 @@
   <data name="Name_About" xml:space="preserve">
     <value>关于</value>
   </data>
-  <data name="Name_General" xml:space="preserve">
-    <value>通用</value>
-  </data>
   <data name="PreviewModel" xml:space="preserve">
     <value>查看模型</value>
   </data>
@@ -710,5 +707,17 @@
   </data>
   <data name="TextView_TaskStart" xml:space="preserve">
     <value>请耐心等待任务完成...</value>
+  </data>
+  <data name="Settings_Tab_Data" xml:space="preserve">
+    <value>数据</value>
+  </data>
+  <data name="Settings_Tab_General" xml:space="preserve">
+    <value>通用</value>
+  </data>
+  <data name="Settings_Job" xml:space="preserve">
+    <value>职业</value>
+  </data>
+  <data name="Settings_DebugMode" xml:space="preserve">
+    <value>使用调试模式</value>
   </data>
 </root>

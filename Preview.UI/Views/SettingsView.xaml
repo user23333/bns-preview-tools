@@ -89,7 +89,30 @@
 		</Grid.ColumnDefinitions>
 
 		<TabControl Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" TabStripPlacement="Left" Style="{StaticResource TabControlCapsule}">
-			<TabItem Tag="General" IsSelected="True">
+			<TabControl.Resources>
+				<Style TargetType="ItemsControl">
+					<Setter Property="ItemsPanel">
+						<Setter.Value>
+							<ItemsPanelTemplate>
+								<Grid>
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="Auto" SharedSizeGroup="Header" />
+										<ColumnDefinition Width="*" />
+										<ColumnDefinition Width="Auto" />
+									</Grid.ColumnDefinitions>
+								</Grid>
+							</ItemsPanelTemplate>
+						</Setter.Value>
+					</Setter>
+				</Style>
+				<Style TargetType="TextBlock">
+					<Setter Property="Margin" Value="0 0 5 0" />
+					<Setter Property="VerticalAlignment" Value="Center" />
+				</Style>
+			</TabControl.Resources>
+
+			<!-- General -->
+			<TabItem IsSelected="True">
 				<TabItem.Header>
 					<StackPanel Orientation="Horizontal">
 						<Viewbox Width="16" Height="16" Margin="0 0 7.5 0">
@@ -98,30 +121,9 @@
 								<Path Fill="AntiqueWhite" Data="M17,13c-2.21,0-4,1.79-4,4c0,2.21,1.79,4,4,4s4-1.79,4-4C21,14.79,19.21,13,17,13z M17,14.38c0.62,0,1.12,0.51,1.12,1.12 s-0.51,1.12-1.12,1.12s-1.12-0.51-1.12-1.12S16.38,14.38,17,14.38z M17,19.75c-0.93,0-1.74-0.46-2.24-1.17 c0.05-0.72,1.51-1.08,2.24-1.08s2.19,0.36,2.24,1.08C18.74,19.29,17.93,19.75,17,19.75z" />
 							</Canvas>
 						</Viewbox>
-						<TextBlock d:Text="General" Text="{DynamicResource Name_General}" VerticalAlignment="Center" />
+						<TextBlock d:Text="General" Text="{DynamicResource Settings_Tab_General}" VerticalAlignment="Center" />
 					</StackPanel>
 				</TabItem.Header>
-				<TabItem.Resources>
-					<Style TargetType="ItemsControl">
-						<Setter Property="ItemsPanel">
-							<Setter.Value>
-								<ItemsPanelTemplate>
-									<Grid>
-										<Grid.ColumnDefinitions>
-											<ColumnDefinition Width="Auto" SharedSizeGroup="Header" />
-											<ColumnDefinition Width="*" />
-											<ColumnDefinition Width="Auto" />
-										</Grid.ColumnDefinitions>
-									</Grid>
-								</ItemsPanelTemplate>
-							</Setter.Value>
-						</Setter>
-					</Style>
-					<Style TargetType="TextBlock">
-						<Setter Property="Margin" Value="0 0 5 0" />
-						<Setter Property="VerticalAlignment" Value="Center" />
-					</Style>
-				</TabItem.Resources>
 
 				<hc:UniformSpacingPanel Orientation="Vertical" Spacing="5" Grid.IsSharedSizeScope="True" >
 					<!-- Path -->
@@ -176,20 +178,51 @@
 						</ComboBox>
 					</ItemsControl>
 
-
-					<!-- Data Options -->
-					<hc:Divider Grid.ColumnSpan="10" Margin="0 5" d:Content="Data Options" Content="Data Options" />
 					<ItemsControl>
 						<TextBlock d:Text="Use Performance Monitor" Text="{DynamicResource Settings_UsePerformanceMonitor}" />
 						<CheckBox Grid.Column="1" IsChecked="{Binding UsePerformanceMonitor}" />
 					</ItemsControl>
+				</hc:UniformSpacingPanel>
+			</TabItem>
+
+			<!-- Data -->
+			<TabItem>
+				<TabItem.Header>
+					<StackPanel Orientation="Horizontal">
+						<Viewbox Width="16" Height="16" Margin="0 0 7.5 0" Visibility="Hidden">
+							<Canvas Width="24" Height="24">
+								<Path Fill="AntiqueWhite" Data="M17,11c0.34,0,0.67,0.04,1,0.09V7.58c0-0.8-0.47-1.52-1.2-1.83l-5.5-2.4c-0.51-0.22-1.09-0.22-1.6,0l-5.5,2.4 C3.47,6.07,3,6.79,3,7.58v3.6c0,4.54,3.2,8.79,7.5,9.82c0.55-0.13,1.08-0.32,1.6-0.55C11.41,19.47,11,18.28,11,17 C11,13.69,13.69,11,17,11z" />
+								<Path Fill="AntiqueWhite" Data="M17,13c-2.21,0-4,1.79-4,4c0,2.21,1.79,4,4,4s4-1.79,4-4C21,14.79,19.21,13,17,13z M17,14.38c0.62,0,1.12,0.51,1.12,1.12 s-0.51,1.12-1.12,1.12s-1.12-0.51-1.12-1.12S16.38,14.38,17,14.38z M17,19.75c-0.93,0-1.74-0.46-2.24-1.17 c0.05-0.72,1.51-1.08,2.24-1.08s2.19,0.36,2.24,1.08C18.74,19.29,17.93,19.75,17,19.75z" />
+							</Canvas>
+						</Viewbox>
+						<TextBlock d:Text="Data" Text="{DynamicResource Settings_Tab_Data}" VerticalAlignment="Center" />
+					</StackPanel>
+				</TabItem.Header>
+
+				<hc:UniformSpacingPanel Orientation="Vertical" Spacing="5" Grid.IsSharedSizeScope="True" >
+					<!-- Data Options -->
+					<hc:Divider Grid.ColumnSpan="10" Margin="0 5" d:Content="Data Options" Content="Data Options" />
 					<ItemsControl>
 						<TextBlock d:Text="Use User Definition" Text="{DynamicResource Settings_UseUserDefinition}" ToolTip="{DynamicResource Settings_UseUserDefinition_Tooltip}" />
 						<CheckBox Grid.Column="1" IsChecked="{Binding UseUserDefinition}" ToolTip="{DynamicResource Settings_UseUserDefinition_Tooltip}" />
 					</ItemsControl>
+					<ItemsControl>
+						<TextBlock d:Text="Use Debug Mode" Text="{DynamicResource Settings_DebugMode}" />
+						<CheckBox Grid.Column="1" IsChecked="{Binding UseDebugMode}" />
+					</ItemsControl>
+					
+					<ItemsControl>
+						<TextBlock d:Text="Job" Text="{DynamicResource Settings_Job}" />
+						<ComboBox Grid.Column="1" ItemsSource="{Binding Jobs,Mode=OneTime}" SelectedItem="{Binding Job}">
+							<ComboBox.ItemTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding Converter={converters:EnumConverter}}" />
+								</DataTemplate>
+							</ComboBox.ItemTemplate>
+						</ComboBox>
+					</ItemsControl>
 				</hc:UniformSpacingPanel>
 			</TabItem>
-
 
 			<TabItem Header="Models" Visibility="Collapsed">
 				<Grid >

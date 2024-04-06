@@ -15,7 +15,7 @@ public partial class ItemPage
 		InitializeComponent();
 
 		// debug
-		List<int> source =  [2, 10, 9, 20];  //FileCache.Data.Provider.GetTable<Quest>().Take(30);
+		List<string> source = ["a", "b", "c"];  //FileCache.Data.Provider.GetTable<Quest>().Take(30);
 		Test.ItemsSource = source;
 		Test.TestMethod();
 	}

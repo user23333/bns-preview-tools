@@ -9,66 +9,66 @@ public enum JobSeq
 	JobNone,
 
 	[Description("blade-master")]
-	[Name("Name.job.BladeMaster")]
+	[Text("Name.job.BladeMaster")]
 	검사,
 
 	[Description("kung-fu-fighter")]
-	[Name("Name.job.KungFuFighter")]
+	[Text("Name.job.KungFuFighter")]
 	권사,
 
 	[Description("force-master")]
-	[Name("Name.job.ForceMaster")]
+	[Text("Name.job.ForceMaster")]
 	기공사,
 
 	[Description("shooter")]
-	[Name("Name.job.Shooter")]
+	[Text("Name.job.Shooter")]
 	격사,
 
 	[Description("destroyer")]
-	[Name("Name.job.Destroyer")]
+	[Text("Name.job.Destroyer")]
 	역사,
 
 	[Description("summoner")]
-	[Name("Name.job.Summoner")]
+	[Text("Name.job.Summoner")]
 	소환사,
 
 	[Description("assassin")]
-	[Name("Name.job.Assassin")]
+	[Text("Name.job.Assassin")]
 	암살자,
 
 	[Description("sword-master")]
-	[Name("Name.job.SwordMaster")]
+	[Text("Name.job.SwordMaster")]
 	귀검사,
 
 	[Description("warlock")]
-	[Name("Name.job.Warlock")]
+	[Text("Name.job.Warlock")]
 	주술사,
 
 	[Description("soul-fighter")]
-	[Name("Name.job.SoulFighter")]
+	[Text("Name.job.SoulFighter")]
 	기권사,
 
 	[Description("warroir")]
-	[Name("Name.job.Warrior")]
+	[Text("Name.job.Warrior")]
 	투사,
 
 	[Description("archer")]
-	[Name("Name.job.Archer")]
+	[Text("Name.job.Archer")]
 	궁사,
 
 	[Description("spear-master")]
 	창술사,
 
 	[Description("thunderer")]
-	[Name("Name.job.Thunderer")]
+	[Text("Name.job.Thunderer")]
 	뇌전술사,
 
 	[Description("dual-blader")]
-	[Name("Name.job.Dual-Blader")]
+	[Text("Name.job.Dual-Blader")]
 	쌍검사,
 
 	[Description("bard")]
-	[Name("Name.job.Bard")]
+	[Text("Name.job.Bard")]
 	악사,
 
 	[Description("pc-max")]
@@ -92,4 +92,6 @@ public enum JobSeq
 public static partial class SequenceExtensions
 {
 	public static Job Convert(this JobSeq seq) => FileCache.Data.Provider.GetTable<Job>().FirstOrDefault(o => o.job == seq);
+
+	public static IEnumerable<JobSeq> EnumeratePcJob() => Enum.GetValues<JobSeq>().Where(x => x > JobSeq.JobNone && x < JobSeq.PcMax);
 }

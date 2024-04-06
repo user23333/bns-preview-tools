@@ -70,7 +70,7 @@ public partial class Legacy_QuestJournalPanel
 		if (e.OldValue == e.NewValue) return;
 		if (e.NewValue is not Quest quest) return;
 
-		TextBlock2.Text = quest.Attributes["completed-desc"].GetText();
+		TextBlock2.String.LabelText = quest.Attributes["completed-desc"].GetText();
 	}
 
 	// ------------------------------------------------------------------

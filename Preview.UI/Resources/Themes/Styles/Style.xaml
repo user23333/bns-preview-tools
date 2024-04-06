@@ -125,7 +125,7 @@
 			<Setter.Value>
 				<ControlTemplate>
 					<Border BorderBrush="{StaticResource BorderBrush}" Background="{StaticResource RegionBrush}" BorderThickness="1.5" Padding="3">
-						<UI:BnsCustomLabelWidget Text="{TemplateBinding ContentControl.Content}" FontSize="{TemplateBinding TextElement.FontSize}" Foreground="{StaticResource PrimaryTextBrush}" />
+						<UI:BnsCustomLabelWidget String="{TemplateBinding ContentControl.Content}" FontSize="{TemplateBinding TextElement.FontSize}" Foreground="{StaticResource PrimaryTextBrush}" />
 					</Border>
 				</ControlTemplate>
 			</Setter.Value>

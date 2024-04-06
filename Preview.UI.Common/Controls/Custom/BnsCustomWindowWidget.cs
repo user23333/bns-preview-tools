@@ -23,7 +23,7 @@ public class BnsCustomWindowWidget : BnsCustomBaseWidget
 	/// <summary>
 	/// Implement automatic layout in vertical tree 
 	/// </summary>
-	protected List<UIElement> VerticalTree { get; set; } = [];
+	public List<UIElement> VerticalTree { get; set; } = [];
 	#endregion
 
 

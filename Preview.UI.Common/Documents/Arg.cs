@@ -12,7 +12,7 @@ public class Arg : BaseElement
 	public string? Id { get; set; }
 	public string? Seq { get; set; }
 
-	TextArguments.Argument Argument;
+	TextArguments.Argument? Argument;
 	#endregion
 
 	#region Methods
@@ -28,7 +28,7 @@ public class Arg : BaseElement
 	{
 		this.Children = [];
 
-		var result = Argument.GetObject(this.Arguments);
+		var result = Argument!.GetObject(Arguments);
 		if (result is null) return new Size();
 		else if (result is ImageProperty bitmap) Children.Add(new Image(bitmap.Image?.ToWriteableBitmap()));
 		else if (result is int @int) Children.Add(new Run() { Text = @int.ToString("N0") });

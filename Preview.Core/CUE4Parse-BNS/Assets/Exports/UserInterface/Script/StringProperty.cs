@@ -72,15 +72,15 @@ public class StringProperty : IUStruct, INotifyPropertyChanged
 	#endregion
 }
 
-internal class StringPropertyConverter : StrConverter
+internal class StringPropertyConverter : TypeConverter
 {
+	public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType) => true;
+
 	public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
 	{
-		if (value is string s)
+		return new StringProperty() 
 		{
-			return new StringProperty() { LabelText = new FText(s) };
-		}
-
-		return base.ConvertFrom(context, culture, value);
+			LabelText = new FText(value?.ToString()) 
+		};
 	}
 }

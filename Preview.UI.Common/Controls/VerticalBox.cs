@@ -3,6 +3,8 @@ using System.Windows;
 using System.Windows.Controls;
 
 namespace Xylia.Preview.UI.Controls;
+
+// layout by slot in UMG, we ignore this temporarily
 public class VerticalBox : UserWidget
 {
 	// VerticalAlignment
@@ -87,4 +89,14 @@ public class HorizontalBox : StackPanel
 
 		return arrangeSize;
 	}
+}
+
+public class CanvasPanel : UserWidget
+{
+
+}
+
+public class Overlay : UserWidget
+{
+
 }

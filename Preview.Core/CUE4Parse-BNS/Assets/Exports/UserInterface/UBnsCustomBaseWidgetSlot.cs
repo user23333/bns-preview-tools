@@ -35,10 +35,9 @@ public struct FLayoutData : IUStruct
 	[TypeConverter(typeof(AnchorsConverter))]
 	public struct Anchor : IUStruct
 	{
+		// TopRight: 1 0 1 0
 		public FVector2D Minimum;
 		public FVector2D Maximum;
-
-		public override readonly string ToString() => $"{Minimum.X} {Minimum.Y} {Maximum.X} {Maximum.Y}";
 
 		public class AnchorsConverter : TypeConverter
 		{
@@ -69,8 +68,10 @@ public struct FLayoutData : IUStruct
 			}
 		}
 
+		public override readonly string ToString() => $"{Minimum.X} {Minimum.Y} {Maximum.X} {Maximum.Y}";
 
-		// TopRight: 1 0 1 0
+
+		public static Anchor Full = new() { Minimum = new FVector2D(0, 0), Maximum = new FVector2D(1, 1) };
 	}
 
 	[StructFallback]

@@ -17,7 +17,7 @@ public class SkillModifyInfo : ModelElement
 	//	if (this is Skill)
 	//	{
 	//		var Skill = ParentSkill3Id.Where(a => a != 0).Select(skill => FileCache.Data.Skill3[skill, 1]?.Name2.GetText()).Aggregate(", ");
-			
+
 	//		SkillPart = $"<font name=\"00008130.UI.Vital_LightBlue\">{Skill}</font> ";
 	//	}
 	//	#endregion
@@ -61,7 +61,6 @@ public class SkillModifyInfo : ModelElement
 	//	return Text.Select(o => SkillPart + o).Aggregate("<br/>");
 	//}
 	#endregion
-
 
 	#region Sub
 	public sealed class Normal : SkillModifyInfo

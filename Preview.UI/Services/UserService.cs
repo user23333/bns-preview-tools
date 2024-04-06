@@ -11,7 +11,7 @@ internal class UserService : IService
 	#endregion
 
 	#region Fields
-	public UserRole Role;
+	public UserRole Role = default;
 	#endregion
 }
 

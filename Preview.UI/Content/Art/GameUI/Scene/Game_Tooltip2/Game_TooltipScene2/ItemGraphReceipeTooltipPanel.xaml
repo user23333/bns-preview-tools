@@ -14,11 +14,11 @@
 			<ImageProperty Path="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="588 2" ImageUVSize="27 28" Opacity="0" />
 		</BnsCustomImageWidget.BaseImageProperty>
 		-->
-		<BnsCustomLabelWidget Name="ItemGraphReceipeTooltipPanel_1_Title" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="10 10 10 35.00099" LayoutData.Alignments="0 0" String="Item Name성장 재료Item Name성장 재료Item Name성장 재료" Text="{Binding Title}" />
+		<BnsCustomLabelWidget Name="ItemGraphReceipeTooltipPanel_1_Title" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="10 10 10 35.00099" LayoutData.Alignments="0 0" d:String="Item Name성장 재료Item Name성장 재료Item Name성장 재료" String="{Binding Title}" />
 		<BnsCustomWindowWidget Name="ItemGraphReceipeTooltipPanel_1_ItemHolder" LayoutData.Anchors="0 0 0 0" LayoutData.Offsets="12 55.00099 299.99982 53" LayoutData.Alignments="0 0">
 			<BnsCustomImageWidget Name="ItemGraphReceipeTooltipPanel_1_ItemIcon" LayoutData.Anchors="0 0 0 0" LayoutData.Offsets="3 0 50 50.000015" LayoutData.Alignments="0 0" BaseImageProperty="{Binding Recipe.MainItem.Icon}" />
-			<BnsCustomLabelWidget Name="ItemGraphReceipeTooltipPanel_1_ItemIcon_Name" LayoutData.Anchors="0 0 0 0" LayoutData.Offsets="65 0 235.00012 16.00161" LayoutData.Alignments="0 0" String="Item Name" Text="{Binding Recipe.MainItem.ItemName}" />
-			<BnsCustomLabelWidget Name="ItemGraphReceipeTooltipPanel_1_ItemIcon_Desc" LayoutData.Anchors="0 0 0 0" LayoutData.Offsets="65 21.00161 235.00012 14.00222" LayoutData.Alignments="0 0" String="획득처 1" Text="{Binding Recipe.MainItem.AcquireRoute}" />
+			<BnsCustomLabelWidget Name="ItemGraphReceipeTooltipPanel_1_ItemIcon_Name" LayoutData.Anchors="0 0 0 0" LayoutData.Offsets="65 0 235.00012 16.00161" LayoutData.Alignments="0 0" d:String="Item Name" String="{Binding Recipe.MainItem.ItemName}" />
+			<BnsCustomLabelWidget Name="ItemGraphReceipeTooltipPanel_1_ItemIcon_Desc" LayoutData.Anchors="0 0 0 0" LayoutData.Offsets="65 21.00161 235.00012 14.00222" LayoutData.Alignments="0 0" d:String="획득처 1" String="{Binding Recipe.MainItem.AcquireRoute}" />
 		</BnsCustomWindowWidget>
 		<BnsCustomImageWidget Name="ItemGraphReceipeTooltipPanel_1_MeterialItemHolder" LayoutData.Anchors="0 0 0 0" LayoutData.Offsets="12 113.00099 298 32.00003" LayoutData.Alignments="0 0">
 			<s:ItemsControl ItemsSource="{Binding Recipe.SubItemList}" >
@@ -34,9 +34,9 @@
 				</s:ItemsControl.ItemTemplate>
 			</s:ItemsControl>
 		</BnsCustomImageWidget>
-		<BnsCustomLabelWidget Name="ItemGraphReceipeTooltipPanel_1_Price" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="10 150.00102 10 20.001007" LayoutData.Alignments="0 0" String="Price" Text="{Binding Recipe.Price}"/>
-		<BnsCustomLabelWidget Name="ItemGraphReceipeTooltipPanel_1_Guide" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="10 195.00362 10 12.001007" LayoutData.Alignments="0 0" String="Guide" Text="{Binding Recipe.Guide}"/>
-		<BnsCustomLabelWidget Name="ItemGraphReceipeTooltipPanel_1_DiscountPrice" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="10 170.00203 10 20.001587" LayoutData.Alignments="0 0" String="Price" Text="{Binding Recipe.DiscountPrice}"/>
+		<BnsCustomLabelWidget Name="ItemGraphReceipeTooltipPanel_1_Price" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="10 150.00102 10 20.001007" LayoutData.Alignments="0 0" d:String="Price" String="{Binding Recipe.Price}"/>
+		<BnsCustomLabelWidget Name="ItemGraphReceipeTooltipPanel_1_Guide" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="10 195.00362 10 12.001007" LayoutData.Alignments="0 0" d:String="Guide" String="{Binding Recipe.Guide}"/>
+		<BnsCustomLabelWidget Name="ItemGraphReceipeTooltipPanel_1_DiscountPrice" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="10 170.00203 10 20.001587" LayoutData.Alignments="0 0" d:String="Price" String="{Binding Recipe.DiscountPrice}"/>
 		<BnsCustomImageWidget Name="ItemGraphReceipeTooltipPanel_1_HorizontalLine" LayoutData.Anchors="0 1 1 1" LayoutData.Offsets="0 0 0 1" LayoutData.Alignments="0 0">
 			<BnsCustomImageWidget.BaseImageProperty>
 				<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="199 61" ImageUVSize="5 1" Opacity="0.1" />

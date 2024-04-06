@@ -5,8 +5,8 @@
 		<RootNamespace>Xylia.Preview</RootNamespace>
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<FileVersion>1.1.0</FileVersion>
-		<AssemblyVersion>1.1.0</AssemblyVersion>
+		<FileVersion>1.2.0</FileVersion>
+		<AssemblyVersion>1.2.0</AssemblyVersion>
 		<Lisence>MIT</Lisence>
 		<SignAssembly>True</SignAssembly>
 		<DelaySign>True</DelaySign>
@@ -19,14 +19,17 @@
 	</PropertyGroup>
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
 		<DebugSymbols>false</DebugSymbols>
+		<IsTrimmable>False</IsTrimmable>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Develop|AnyCPU'">
 		<DefineConstants>$(DefineConstants);DEBUG</DefineConstants>
+		<IsTrimmable>False</IsTrimmable>
 	</PropertyGroup>
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
 		<GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
 		<DebugType>none</DebugType>
 		<IsAotCompatible>True</IsAotCompatible>
+		<IsTrimmable>False</IsTrimmable>
 	</PropertyGroup>
 
 	<ItemGroup>

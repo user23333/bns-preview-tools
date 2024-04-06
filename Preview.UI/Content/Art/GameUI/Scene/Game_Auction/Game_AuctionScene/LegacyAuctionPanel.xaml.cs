@@ -43,10 +43,11 @@ public partial class LegacyAuctionPanel : INotifyPropertyChanged
 		#endregion
 
 		#region Source
-		source = CollectionViewSource.GetDefaultView(FileCache.Data.Provider.GetTable<Item>());
-		source.Filter = Filter;
+		ViewSource = new CollectionViewSource();
+		ViewSource.Source = FileCache.Data.Provider.GetTable<Item>();
+		ViewSource.View.Filter = Filter;
 
-		ItemList.ItemsSource = source;
+		ItemList.ItemsSource = ViewSource.View;
 		#endregion
 	}
 	#endregion
@@ -84,7 +85,7 @@ public partial class LegacyAuctionPanel : INotifyPropertyChanged
 	#endregion
 
 	#region Fields
-	private readonly ICollectionView source;
+	private readonly CollectionViewSource ViewSource;
 
 	private string? _nameFilter;
 	public string? NameFilter
@@ -174,12 +175,12 @@ public partial class LegacyAuctionPanel : INotifyPropertyChanged
 
 	private void RefreshList()
 	{
-		Dispatcher.BeginInvoke(() =>
+		Application.Current.Dispatcher.BeginInvoke(() =>
 		{
-			source.Refresh();
-			source.MoveCurrentToFirst();
+			ViewSource.View.Refresh();
+			ViewSource.View.MoveCurrentToFirst();
 
-			ItemList.ScrollIntoView(source.CurrentItem);
+			ItemList.ScrollIntoView(ViewSource.View.CurrentItem);
 		});
 	}
 	#endregion

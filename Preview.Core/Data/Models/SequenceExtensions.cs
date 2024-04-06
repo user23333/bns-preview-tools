@@ -31,6 +31,10 @@ public static partial class SequenceExtensions
 		var TextAlias = value.GetAttribute<TextAttribute>()?.Alias;
 		if (TextAlias != null) return TextAlias.GetText();
 
+		// get description
+		var Description = value.GetAttribute<DescriptionAttribute>()?.Description;
+		if (Description != null) return Description;
+
 		// don't return default
 		return value is 0 ? null : value.ToString();
 	}

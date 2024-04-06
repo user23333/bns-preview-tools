@@ -396,7 +396,7 @@ public sealed class TextArguments : IEnumerable, ICollection, IList
 
 	class ArgItem(string target)
 	{
-		#region Props
+		#region Properties
 		public string Target => target;
 
 		public ArgItem Prev { get; private set; }
@@ -497,21 +497,22 @@ public sealed class TextArguments : IEnumerable, ICollection, IList
 				return true;
 			}
 
-			// element
+			// property
+			var member = instance.GetProperty(name);
+			if (member != null)
+			{
+				value = member.GetValue(instance);
+				if (value is Ref<Text> text) value = text.GetText();
+
+				return true;
+			}
+
+			// attribute
 			if (instance is ModelElement element && element.Attributes.TryGetValue(name, out value))
 			{
 				if (value is Record record && record.Owner.Name == "text")
 					value = record.Attributes["text"];
 
-				return true;
-			}
-
-			// instance
-			var member = instance.GetProperty(name);
-			if (member != null)
-			{
-				var obj = member.GetValue(instance);
-				value = obj is Ref<Text> text ? text.GetText() : obj;
 				return true;
 			}
 

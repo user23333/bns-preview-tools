@@ -68,7 +68,7 @@
 			<c:BnsCustomListBoxWidget x:Name="Test" ToolTip="2566">
 				<c:BnsCustomListBoxWidget.ItemTemplate>
 					<DataTemplate>
-						<c:BnsCustomLabelWidget Text="{Binding}" Foreground="Red" />
+						<c:BnsCustomLabelWidget String="{Binding}" Foreground="Red" />
 					</DataTemplate>
 				</c:BnsCustomListBoxWidget.ItemTemplate>
 			</c:BnsCustomListBoxWidget>

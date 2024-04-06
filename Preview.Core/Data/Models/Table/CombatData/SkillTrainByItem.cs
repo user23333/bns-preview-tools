@@ -1,4 +1,7 @@
-﻿namespace Xylia.Preview.Data.Models;
+﻿using System.Text;
+using Xylia.Preview.Common.Extension;
+
+namespace Xylia.Preview.Data.Models;
 public sealed class SkillTrainByItem : ModelElement
 {
 	#region Attributes
@@ -13,6 +16,27 @@ public sealed class SkillTrainByItem : ModelElement
 
 
 	#region Methods
-	public override string ToString() => Description.GetText();
+	public string Description2
+	{
+		get
+		{
+			StringBuilder builder = new();
+
+			for (int x = 0; x < 6; x++)
+			{
+				var OriginSkill = this.OriginSkill[x].Instance;
+				var ChangeSkill = this.ChangeSkill[x].Instance;
+				if (OriginSkill is null) continue;
+
+				// newline 
+				if (builder.Length != 0) builder.Append("<br/>");
+
+				builder.Append($"<font name=\"00008130.UI.Vital_LightBlue\">{OriginSkill?.Name2}</font>武功变更为<font name=\"00008130.UI.Vital_LightBlue\">{ChangeSkill.Name2}</font>");
+				ChangeSkill.Systematization.ForEach(s => builder.Append($" <arg id=\"skill-systematization:{s}\" p=\"id:skill-systematization.name2\"/>"));
+			}
+
+			return builder.ToString();
+		}
+	}
 	#endregion
 }

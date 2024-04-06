@@ -1,10 +1,13 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using CUE4Parse.BNS.Assets.Exports;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models;
 using Xylia.Preview.Data.Models.Sequence;
 using Xylia.Preview.UI.Controls;
+using Xylia.Preview.UI.Converters;
+using Xylia.Preview.UI.ViewModels;
 
 namespace Xylia.Preview.UI.GameUI.Scene.Game_Tooltip;
 public partial class ItemTooltipPanel
@@ -22,9 +25,14 @@ public partial class ItemTooltipPanel
 		if (DataContext is not Item record) return;
 
 		#region Decompose 
+		DecomposeDescription_Title.Visibility = Visibility.Collapsed;
+
 		var pages = DecomposePage.LoadFrom(record.DecomposeInfo);
 		if (pages.Count > 0)
 		{
+			DecomposeDescription_Title.Visibility = Visibility.Visible;
+			DecomposeDescription_Title.String.LabelText = (record is Item.Grocery ? "UI.ItemTooltip.RandomboxPreview.Title" : "UI.ItemTooltip.Decompose.Title").GetText();
+
 			var page = pages[0];
 			page.Update(DecomposeDescription.Children);
 		}
@@ -37,15 +45,42 @@ public partial class ItemTooltipPanel
 		ItemIcon.ExpansionComponentList["CanSaleItem"]?.SetValue(record.CanSaleItemImage);
 		ItemIcon.InvalidateVisual();
 
-		ItemDescription7.Text += string.Join("<br/>", record.ItemCombat.SelectNotNull(x => x.Instance));
+		ItemDescription7.String.LabelText = record.Attributes["description7"].GetText() + 
+			string.Join("<br/>", record.ItemCombat.SelectNotNull(x => x.Instance));
 
+		#region Combat Holder
+		Combat_Holder.Visibility = Visibility.Collapsed;
 		if (record.RandomOptionGroupId != 0)
 		{
-			var Job = JobSeq.귀검사;
+			var Job = UserSettings.Default.Job;
 			var ItemRandomOptionGroup = FileCache.Data.Provider.GetTable<ItemRandomOptionGroup>()[record.RandomOptionGroupId + ((long)Job << 32)];
 
-			ItemRandomOptionGroup.TestMethod();
+			// title
+			Combat_Holder.Children.Clear();
+			Combat_Holder.Children.Add(Combat_Holder_Title);
+			Combat_Holder_Title.String.LabelText = string.Format("{0} ({1}-{2})", ItemRandomOptionGroup.SkillTrainByItemListTitle,
+				ItemRandomOptionGroup.SkillTrainByItemListSelectMin, ItemRandomOptionGroup.SkillTrainByItemListSelectMax);
+
+			foreach (var SkillTrainByItemList in ItemRandomOptionGroup.SkillTrainByItemList.SelectNotNull(x => x.Instance))
+			{
+				SkillTrainByItemList.ChangeSet.ForEach(SkillTrainByItem =>
+				{
+					var box = new HorizontalBox();
+					Combat_Holder.Children.Add(box);
+					LayoutData.SetAnchors(box, FLayoutData.Anchor.Full);
+
+
+					var description = new BnsCustomLabelWidget();
+					description.String.LabelText = UserSettings.Default.UseDebugMode ? SkillTrainByItem.Description2 : SkillTrainByItem.Description.GetText();
+
+					box.Children.Add(description);
+				});
+			}
+
+			Combat_Holder.VerticalTree = Combat_Holder.Children.OfType<UIElement>().ToList();
+			Combat_Holder.Visibility = Visibility.Visible;
 		}
+		#endregion
 	}
 	#endregion
 
@@ -113,10 +148,13 @@ public partial class ItemTooltipPanel
 				collection.Add(new BnsCustomLabelWidget()
 				{
 					Arguments = new TextArguments { [1] = item, [2] = min, [3] = max },
-					Text = (min == max ? min == 1 ?
+					String = new StringProperty()
+					{
+						LabelText = (min == max ? min == 1 ?
 						"UI.ItemTooltip.RandomboxPreview.Fixed" :
 						"UI.ItemTooltip.RandomboxPreview.Fixed.Min" :
 						"UI.ItemTooltip.RandomboxPreview.Fixed.MinMax").GetText(),
+					}
 				});
 			});
 			DecomposeReward.SelectedItem.ForEach(x => x.Instance, (item, i) =>
@@ -124,16 +162,16 @@ public partial class ItemTooltipPanel
 				var count = DecomposeReward.SelectedItemCount[i];
 				collection.Add(new BnsCustomLabelWidget()
 				{
-					Text = "UI.ItemTooltip.RandomboxPreview.Selected".GetText(),
-					Arguments = new TextArguments { [1] = item, [2] = count }
+					Arguments = new TextArguments { [1] = item, [2] = count },
+					String = new StringProperty() { LabelText = "UI.ItemTooltip.RandomboxPreview.Selected".GetText() }
 				});
 			});
 			DecomposeReward.RandomItem.ForEach(x => x.Instance, (item, i) =>
 			{
 				collection.Add(new BnsCustomLabelWidget()
 				{
-					Text = "UI.ItemTooltip.RandomboxPreview.Random".GetText(),
-					Arguments = new TextArguments { [1] = item }
+					Arguments = new TextArguments { [1] = item },
+					String = new StringProperty() { LabelText = "UI.ItemTooltip.RandomboxPreview.Random".GetText() }
 				});
 			});
 		}

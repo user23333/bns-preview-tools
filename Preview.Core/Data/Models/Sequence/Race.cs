@@ -5,16 +5,16 @@ public enum RaceSeq
 {
     RaceNone,
 
-	[Name("Race.Name2.Kun")]
+	[Text("Race.Name2.Kun")]
 	건,
 
-	[Name("Race.Name2.Gon")]
+	[Text("Race.Name2.Gon")]
 	곤,
 
-	[Name("Race.Name2.Lyn")]
+	[Text("Race.Name2.Lyn")]
 	린,
 
-	[Name("Race.Name2.Jin")]
+	[Text("Race.Name2.Jin")]
 	진,
 
     나쁜몹,
@@ -27,10 +27,10 @@ public enum RaceSeq
 
     더더무서운몹,
 
-    [Name("Race.Name2.Cat")]
+    [Text("Race.Name2.Cat")]
     고양이,
 
-	[Name("Race.Name2.AdventSoul")]
+	[Text("Race.Name2.AdventSoul")]
 	강림체,
 
     악귀,

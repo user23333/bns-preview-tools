@@ -13,7 +13,7 @@ public abstract class Skill3 : ModelElement, IHaveName
 	public short[] RevisedEventProbabilityInExec { get; set; }
 
 
-	public Ref<SkillSystematization>[] Systematization;
+	public Ref<SkillSystematization>[] Systematization { get; set; }
 	public short DamageRatePvp { get; set; }
 	public short DamageRateStandardStats { get; set; }
 

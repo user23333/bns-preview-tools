@@ -46,7 +46,7 @@
 
 
 			<StackPanel Grid.Row="4">
-				<UI:BnsCustomLabelWidget Text="{DynamicResource AbilityPage_Result}">
+				<UI:BnsCustomLabelWidget String="{DynamicResource AbilityPage_Result}">
 					<UI:BnsCustomLabelWidget.Arguments>
 						<UI:ArgumentBinding>
 							<Binding Path="Level" />

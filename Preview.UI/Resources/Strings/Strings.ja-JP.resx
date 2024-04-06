@@ -300,9 +300,6 @@
   <data name="Name_About" xml:space="preserve">
     <value>について</value>
   </data>
-  <data name="Name_General" xml:space="preserve">
-    <value>汎用</value>
-  </data>
   <data name="PreviewModel" xml:space="preserve">
     <value>モデルを見る</value>
   </data>

@@ -81,8 +81,8 @@
 
 								<!-- Preview -->
 								<StackPanel Grid.Row="1" Margin="5">
-									<UI:BnsCustomLabelWidget Text="{Binding Tag.alias,Mode=OneWay}" FontWeight="Bold" Margin="0 0 0 5"/>
-									<UI:BnsCustomLabelWidget Text="{Binding Tag.text ,Mode=OneWay}" />
+									<UI:BnsCustomLabelWidget String="{Binding Tag.alias,Mode=OneWay}" FontWeight="Bold" Margin="0 0 0 5"/>
+									<UI:BnsCustomLabelWidget String="{Binding Tag.text ,Mode=OneWay}" />
 								</StackPanel>
 							</Grid>
 						</Border>

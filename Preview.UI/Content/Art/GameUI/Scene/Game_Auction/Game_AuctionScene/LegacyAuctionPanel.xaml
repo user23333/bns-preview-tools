@@ -61,7 +61,7 @@
 										</Grid.ToolTip>
 
 										<UI:BnsCustomImageWidget Grid.Column="0" BaseImageProperty="{Binding FrontIcon}" Width="64" Height="64" />
-										<UI:BnsCustomLabelWidget Grid.Column="1" Text="{Binding ItemName}" VerticalAlignment="Center" Margin="5 0 0 0" />
+										<UI:BnsCustomLabelWidget Grid.Column="1" String="{Binding ItemName}" VerticalAlignment="Center" Margin="5 0 0 0" />
 									</Grid>
 								</DataTemplate>
 							</GridViewColumn.CellTemplate>

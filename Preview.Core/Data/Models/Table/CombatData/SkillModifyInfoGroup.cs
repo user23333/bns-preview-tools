@@ -1,16 +1,13 @@
-﻿using Xylia.Preview.Common.Attributes;
-using Xylia.Preview.Data.Models.Sequence;
+﻿using Xylia.Preview.Data.Models.Sequence;
 
 namespace Xylia.Preview.Data.Models;
 public class SkillModifyInfoGroup : ModelElement
 {
-	[Name("job-style")]
+	#region Attributes
 	public JobStyleSeq JobStyle { get; set; }
 
-	[Name("skill-modify-info")]
 	public Ref<SkillModifyInfo>[] SkillModifyInfo { get; set; }
-
-
+	#endregion
 
 	#region Methods
 	public override string ToString()
