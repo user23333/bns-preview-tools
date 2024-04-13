@@ -36,7 +36,6 @@ public class BnsCustomGraphMapWidget : BnsCustomBaseWidget
 	#endregion
 
 	#region Commands
-	private static readonly Type Owner = typeof(BnsCustomGraphMapWidget);
 	public static RoutedCommand ChangeSubGroup { get; private set; }
 	public static RoutedCommand SetStartingPoint { get; private set; }
 	public static RoutedCommand SetDestination { get; private set; }
@@ -61,13 +60,7 @@ public class BnsCustomGraphMapWidget : BnsCustomBaseWidget
 
 
 	#region Public Properties
-	public static readonly DependencyProperty RowProperty = DependencyProperty.RegisterAttached("Row",
-		typeof(int), Owner, new FrameworkPropertyMetadata(-1,
-			FrameworkPropertyMetadataOptions.AffectsParentArrange | FrameworkPropertyMetadataOptions.AffectsParentArrange));
-
-	public static readonly DependencyProperty ColumnProperty = DependencyProperty.RegisterAttached("Column",
-		typeof(int), Owner, new FrameworkPropertyMetadata(-1,
-			FrameworkPropertyMetadataOptions.AffectsParentMeasure | FrameworkPropertyMetadataOptions.AffectsParentArrange));
+	private static readonly Type Owner = typeof(BnsCustomGraphMapWidget);
 
 	public static readonly DependencyProperty CellSizeProperty = Owner.Register(nameof(CellSize), new Size(150, 150),
 		FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender);
@@ -75,11 +68,9 @@ public class BnsCustomGraphMapWidget : BnsCustomBaseWidget
 	public static readonly DependencyProperty ShowLinesProperty = Owner.Register(nameof(ShowLines), BooleanBoxes.FalseBox);
 	internal static readonly DependencyProperty RatioProperty = Owner.Register(nameof(Ratio), 1d, callback: SetRatio);
 
-
 	public Size CellSize { get => (Size)this.GetValue(CellSizeProperty); set => this.SetValue(CellSizeProperty, value); }
 
 	public bool ShowLines { get => (bool)this.GetValue(ShowLinesProperty); set => this.SetValue(ShowLinesProperty, value); }
-
 
 
 	//public int ColumnGap { get; set; } = 45;
@@ -96,31 +87,6 @@ public class BnsCustomGraphMapWidget : BnsCustomBaseWidget
 	#endregion
 
 	#region Public Methods
-	public static int GetRow(UIElement element)
-	{
-		ArgumentNullException.ThrowIfNull(element);
-		return (int)element.GetValue(RowProperty);
-	}
-
-	public static void SetRow(UIElement element, int value)
-	{
-		ArgumentNullException.ThrowIfNull(element);
-		element.SetValue(RowProperty, value);
-	}
-
-	public static int GetColumn(UIElement element)
-	{
-		ArgumentNullException.ThrowIfNull(element);
-		return (int)element.GetValue(ColumnProperty);
-	}
-
-	public static void SetColumn(UIElement element, int value)
-	{
-		ArgumentNullException.ThrowIfNull(element);
-		element.SetValue(ColumnProperty, value);
-	}
-
-
 	public void Update(string? type, JobSeq job = JobSeq.JobNone)
 	{
 		Starting = Destination = null;
@@ -156,8 +122,8 @@ public class BnsCustomGraphMapWidget : BnsCustomBaseWidget
 			widget.DataContext = item;
 			widget.ContextMenu = NodeMenu;
 
-			SetRow(widget, seed.Row);
-			SetColumn(widget, seed.Column);
+			BnsCustomColumnListWidget.SetRow(widget, seed.Row);
+			BnsCustomColumnListWidget.SetColumn(widget, seed.Column);
 			#endregion
 
 			#region Expansion
@@ -270,8 +236,8 @@ public class BnsCustomGraphMapWidget : BnsCustomBaseWidget
 	{
 		var size = CellSize;
 
-		var column = GetColumn(child);
-		var row = GetRow(child);
+		var column = BnsCustomColumnListWidget.GetColumn(child);
+		var row = BnsCustomColumnListWidget.GetRow(child);
 
 		if (column >= 0)
 		{
@@ -302,8 +268,8 @@ public class BnsCustomGraphMapWidget : BnsCustomBaseWidget
 			{
 				if (child == null) continue;
 
-				MaxRow = Math.Max(MaxRow, GetRow(child) + 1);
-				MaxColumn = Math.Max(MaxColumn, GetColumn(child) + 1);
+				MaxRow = Math.Max(MaxRow, BnsCustomColumnListWidget.GetRow(child) + 1);
+				MaxColumn = Math.Max(MaxColumn, BnsCustomColumnListWidget.GetColumn(child) + 1);
 			}
 
 			for (int column = 0; column < MaxColumn; column++)
@@ -615,8 +581,8 @@ public class ItemGraphRouteHelper
 	}
 
 
-	public override string ToString() => Edges.Aggregate("", (a, n) => n.Data.StartItem.Instance.ItemNameOnly + " -> ") +
-		Edges.LastOrDefault()?.Data.EndItem.Instance.ItemNameOnly;
+	public override string ToString() => Edges.Aggregate("", (a, n) => n.Data.StartItem.Instance.Text + " -> ") +
+		Edges.LastOrDefault()?.Data.EndItem.Instance.Text;
 
 	public IReadOnlyDictionary<Item, int> Ingredients
 	{

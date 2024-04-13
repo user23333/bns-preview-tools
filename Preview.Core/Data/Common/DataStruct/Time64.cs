@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.Data.Common.DataStruct;
@@ -100,7 +101,7 @@ public struct Time64(long ticks) : IFormattable
 
 	// Returns the hour part of this DateTime. The returned value is an
 	// integer between 0 and 23.
-	public int Hour => (int)((uint)(Ticks / TicksPerHour) % 24);
+	public sbyte Hour => (sbyte)((uint)(Ticks / TicksPerHour) % 24);
 
 	// Returns the minute part of this DateTime. The returned value is
 	// an integer between 0 and 59.
@@ -110,6 +111,7 @@ public struct Time64(long ticks) : IFormattable
 	// an integer between 0 and 59.
 	public int Second => (int)((Ticks / TicksPerSecond) % 60);
 	#endregion
+
 
 	#region Override Methods	
 	public string ToString(string format, IFormatProvider formatProvider) => TimeFormat.Format(this + BnsTimeZoneInfo.FromPublisher()!.Offset, format, formatProvider);
@@ -133,26 +135,24 @@ public struct Time64(long ticks) : IFormattable
 	public static Time64 operator +(Time64 a, Msec b) => (long)(a.Ticks + b.TotalSeconds);
 	#endregion
 
-
 	#region Static Methods
 	public static implicit operator Time64(long ticks) => new Time64(ticks);
 	public static implicit operator long(Time64 time) => (long)time.Ticks;
 
 	public static implicit operator Time64(DateTime dateTime) => Parse(dateTime);
 
-	public static Time64 Parse(string s) => Parse(DateTime.TryParse(s, out var result) ? result : default);
+	public static Time64 Parse(string s, EPublisher publisher) => Parse(DateTime.TryParse(s, out var result) ? result : default, publisher);
 
-	public static Time64 Parse(DateTime time)
+	public static Time64 Parse(DateTime time, EPublisher? publisher = null)
 	{
-		return new Time64((time - new DateTime(1970, 1, 1)).Ticks / 10000000) - BnsTimeZoneInfo.FromPublisher()!.Offset;
+		return new Time64((time - new DateTime(1970, 1, 1)).Ticks / 10000000) - BnsTimeZoneInfo.FromPublisher(publisher).Offset;
 	}
 	#endregion
 }
 
-
-internal static class TimeFormat
+public static class TimeFormat
 {
-	public static string Format(Time64 value, string format, IFormatProvider formatProvider)
+	internal static string Format(Time64 value, string format, IFormatProvider formatProvider)
 	{
 		if (string.IsNullOrEmpty(format))
 		{
@@ -224,7 +224,6 @@ internal static class TimeFormat
 		}
 	}
 
-
 	internal static void FormatDigits(ref StringBuilder outputBuffer, int value, int length, int maximumLength)
 	{
 		if (length > maximumLength)
@@ -244,5 +243,5 @@ internal static class TimeFormat
 	}
 
 
-	public static string AMPM(int hour) => hour < 12 ? "Name.Time.Morning".GetText() : "Name.Time.Afternoon".GetText();
+	public static string AMPM(this sbyte value) => (value < 12 ? "Name.Time.Morning" : "Name.Time.Afternoon").GetText();
 }

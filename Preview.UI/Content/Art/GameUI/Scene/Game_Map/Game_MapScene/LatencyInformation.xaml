@@ -1,0 +1,18 @@
+﻿<BnsCustomWindowWidget x:Class="Xylia.Preview.UI.GameUI.Scene.Game_Map.LatencyInformation"
+	xmlns="https://github.com/xyliaup/bns-preview-tools"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:s="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<BnsCustomWindowWidget.BaseImageProperty>
+		<ImageProperty />
+	</BnsCustomWindowWidget.BaseImageProperty>
+	<BnsCustomWindowWidget.ExpansionComponentList>
+		<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="LatencyInformation" MetaData="">
+			<ExpansionComponent.ImageProperty>
+				<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+			</ExpansionComponent.ImageProperty>
+			<ExpansionComponent.StringProperty>
+				<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_14.Normal_14" LabelText="Latency : xxx, Latency : xxx, Latency : xxx, Latency : xxx" SpaceBetweenLines="3" ClippingBound="32 32" Opacity="1" TextScale="1" AnimScale="1" />
+			</ExpansionComponent.StringProperty>
+		</ExpansionComponent>
+	</BnsCustomWindowWidget.ExpansionComponentList>
+</BnsCustomWindowWidget>

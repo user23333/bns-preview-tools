@@ -124,7 +124,7 @@
     <value>レベル</value>
   </data>
   <data name="AbilityPage_Result" xml:space="preserve">
-    <value>対応する&lt;arg p="2"/&gt;レートが&lt;arg p="1"/&gt;レベルに達しました</value>
+    <value>The converted percent in Lv{0} is {2:P3}</value>
   </data>
   <data name="AbilityPage_Value" xml:space="preserve">
     <value>数値</value>
@@ -303,7 +303,7 @@
   <data name="PreviewModel" xml:space="preserve">
     <value>モデルを見る</value>
   </data>
-  <data name="PreviewRaw" xml:space="preserve">
+  <data name="PreviewBasic" xml:space="preserve">
     <value>ソースを表示</value>
   </data>
   <data name="PreviewShowObject" xml:space="preserve">
@@ -423,10 +423,10 @@
   <data name="Text_Search" xml:space="preserve">
     <value>検索</value>
   </data>
-  <data name="Version_Tip1" xml:space="preserve">
+  <data name="Application_VersionTip1" xml:space="preserve">
     <value>現在プレビュー版では、一部の機能が正しく動作しない場合があります。</value>
   </data>
-  <data name="Version_Tip2" xml:space="preserve">
+  <data name="Application_VersionTip2" xml:space="preserve">
     <value>{0}の最新バージョンは{1}です。今すぐ更新しますか？</value>
   </data>
   <data name="DatabaseStudio_SqlSave" xml:space="preserve">
@@ -435,7 +435,7 @@
   <data name="Text_Export" xml:space="preserve">
     <value>出力</value>
   </data>
-  <data name="Version_Tip3" xml:space="preserve">
+  <data name="Application_VersionTip3" xml:space="preserve">
     <value>アップデートの確認に失敗しました。しばらくしてからもう一度お試しください</value>
   </data>
   <data name="TextView_ReadWrite" xml:space="preserve">
@@ -476,7 +476,8 @@
     <value>詳細はこちら</value>
   </data>
   <data name="Application_CrashMessage" xml:space="preserve">
-    <value>回復不能な例外が発生し、アプリケーションが終了しようとしています。{0}</value>
+    <value>回復不能な例外が発生し、アプリケーションが終了しようとしています。
+{0}</value>
   </data>
   <data name="AbilityName.AbnormalAttackBasePercent" xml:space="preserve">
     <value>異常なダメージ率</value>

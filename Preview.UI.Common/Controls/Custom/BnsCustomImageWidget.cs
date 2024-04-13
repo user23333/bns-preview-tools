@@ -89,7 +89,6 @@ public class BnsCustomImageWidget : BnsCustomBaseWidget
 	}
 	#endregion
 
-
 	#region	Protected Methods
 	protected override Size MeasureOverride(Size constraint)
 	{

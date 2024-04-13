@@ -1,14 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Markup;
 using System.Windows.Media;
 
 namespace Xylia.Preview.UI.Controls;
-/// <summary>
-/// 
-/// </summary>
+
 [ContentProperty("Children")]
+[DesignTimeVisible(false)]
 public class BnsCustomUISceneWidget : FrameworkElement
 {
 	#region Properties

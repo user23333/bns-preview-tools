@@ -1,5 +1,4 @@
-﻿using Xylia.Preview.Common.Extension;
-using Xylia.Preview.Data.Common.DataStruct;
+﻿using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models.Sequence;
 
@@ -150,41 +149,5 @@ public class ItemGraph : ModelElement
 		public string Title => $"{StartItem.Instance?.ItemName} ➠ {EndItem.Instance?.ItemName}";
 		#endregion
 	}
-	#endregion
-}
-
-
-/// <summary>
-/// Provide statistical growth recipe information
-/// </summary>
-public class ItemRecipeHelper
-{
-	public Item MainItem { get; set; }
-
-	public short MainItemCount { get; set; }
-
-	public Item[] SubItem { get; set; }
-
-	public short[] SubItemCount { get; set; }
-
-	public int Money { get; set; }
-
-	/// <summary>
-	/// range 0 - 1000
-	/// the client does not display probability information in CN
-	/// </summary>
-	public short SuccessProbability { get; set; }
-
-
-	#region Properies
-	public static float DiscountRate = 0.2F;
-
-	public Tuple<Item, short>[] SubItemList => LinqExtensions.Combine(SubItem, SubItemCount);
-
-	public string Price => new Integer(Money).Money;
-
-	public string DiscountPrice => new Integer(Money * (1 - DiscountRate)).Money;
-
-	public string Guide { get; internal set; }
 	#endregion
 }

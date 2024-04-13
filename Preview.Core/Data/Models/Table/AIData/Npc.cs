@@ -1,9 +1,24 @@
 ﻿using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Helpers;
+using Xylia.Preview.Data.Models.Sequence;
 
 namespace Xylia.Preview.Data.Models;
 public sealed class Npc : ModelElement, IHaveName
 {
+	#region Attributes
+	public Ref<Store2>[] Store2 { get; set; }
+
+	public ForwardingType[] ForwardingTypes { get; set; }
+
+	public Ref<Quest>[] Quests { get; set; }
+
+	public sbyte[] Missions { get; set; }
+
+	public sbyte[] Cases { get; set; }
+
+	public short[] CaseSubtypes { get; set; }
+	#endregion
+
 	#region Properties
 	public string Text => this.Attributes["name2"].GetText();
 
@@ -43,16 +58,18 @@ public sealed class Npc : ModelElement, IHaveName
 				this.Attributes["formal-radius"] = this.Attributes["radius"];
 		}
 	}
+
+	internal void FileSplit()
+	{
+		// Baekcheong
+		// Chicken_A
+		// Daesamak
+		// Dungeon
+		// Jeryongrim
+		// Pizza_A
+		// Summer_A
+		// Suweol
+		// Winter_A
+	}
 	#endregion
-
-
-	// Baekcheong
-	// Chicken_A
-	// Daesamak
-	// Dungeon
-	// Jeryongrim
-	// Pizza_A
-	// Summer_A
-	// Suweol
-	// Winter_A
 }

@@ -13,6 +13,6 @@ public class IPlatformFilePak
 #endif
 
 		// ComputeHash
-		if (Signature == null) throw new WarningException("package error");
+		if (Signature == null) throw new WarningException("Invalid Signature!");
 	}
 }

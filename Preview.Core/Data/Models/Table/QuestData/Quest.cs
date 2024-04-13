@@ -5,15 +5,23 @@ using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models.QuestData;
-using Xylia.Preview.Data.Models.QuestData.Enums;
 using Xylia.Preview.Data.Models.Sequence;
 
 namespace Xylia.Preview.Data.Models;
-public sealed class Quest : ModelElement, IHaveName
+public class Quest : ModelElement, IHaveName
 {
 	#region Fields
 	[Side(ReleaseSide.Server)]
-	public BroadcastCategory BroadcastCategory { get; set; }
+	public BroadcastCategorySeq BroadcastCategory { get; set; }
+	public enum BroadcastCategorySeq
+	{
+		None,
+		Field,
+		Always,
+		[Name("solo-quartet")]
+		SoloQuartet,
+		Sextet,
+	}
 
 	[Side(ReleaseSide.Server), Repeat(3)]
 	public Ref<Achievement>[] ExtraQuestCompleteAchievement { get; set; }
@@ -23,13 +31,12 @@ public sealed class Quest : ModelElement, IHaveName
 
 	public LazyList<Acquisition> Acquisition { get; set; }
 
-	public LazyList<MissionStep> MissionStep { get; set; }
+	public LazyList<Mission_Step> MissionStep { get; set; }
 
 	public LazyList<Completion> Completion { get; set; }
 
 	public LazyList<Transit> Transit { get; set; }
 	#endregion
-
 
 	#region Properties
 	public string Text => this.Attributes["name2"]?.GetText();

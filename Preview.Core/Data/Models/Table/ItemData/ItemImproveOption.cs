@@ -1,15 +1,12 @@
-﻿using Xylia.Preview.Common.Extension;
+﻿using System.Text;
+using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Models.Creature;
 using Xylia.Preview.Data.Models.Sequence;
 
 namespace Xylia.Preview.Data.Models;
 public sealed class ItemImproveOption : ModelElement
 {
-	public int Id { get; set; }
-	public sbyte Level { get; set; }
-
-
-
+	#region Attributes
 	public MainAbility Ability { get; set; }
 
 	public int AbilityValue { get; set; }
@@ -23,20 +20,21 @@ public sealed class ItemImproveOption : ModelElement
 	public Ref<Text> Additional { get; set; }
 
 	public string DrawOptionIcon { get; set; }
+	#endregion
 
-
-
-	#region Functions
+	#region Methods
 	public override string ToString()
 	{
-		string AdditionalText = Additional.GetText();
+		var builder = new StringBuilder();
 
-		if (this.EffectDescription.Instance != null) return $"{this.EffectDescription.GetText()}{AdditionalText}";
-		if (this.Ability != MainAbility.None) return this.Ability.GetName(this.AbilityValue) + AdditionalText;
+		if (Ability != MainAbility.None) builder.Append("UI.Tooltip.ItemImprove.Ability.Enable".GetText([Ability.GetName(AbilityValue)]));
+		if (EffectDescription.HasValue) builder.Append(EffectDescription.GetText());
+		if (SkillModifyInfoGroup.Any(x => x.HasValue)) builder.Append(
+			string.Format("<font name=\"00008130.UI.Label_Green03_12\">{0}</font>",
+			string.Join("<br/>", SkillModifyInfoGroup.Skip(5).SelectNotNull(record => record.Instance))));
 
-		return SkillModifyInfoGroup.Skip(5)
-			.Select(record => record.Instance).Where(record => record is not null)
-			.Aggregate("<font name=\"00008130.UI.Label_Green03_12\">", (sum, now) => sum + "<br/>" + now) + "</font>";
+		builder.Append(Additional.GetText());
+		return builder.ToString();
 	}
 	#endregion
 }

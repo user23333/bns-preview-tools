@@ -190,8 +190,9 @@ public abstract class UserWidget : Control, IUserWidget
 		}
 
 		// auto size
-		if (double.IsInfinity(constraint.Width)) constraint.Width = Children.Count == 0 ? 0 : Children.OfType<UIElement>().Max(x => x.DesiredSize.Width);
-		if (double.IsInfinity(constraint.Height)) constraint.Height = Children.Count == 0 ? 0 : Children.OfType<UIElement>().Max(x => x.DesiredSize.Height);
+		var children = Children.OfType<UIElement>();
+		if (double.IsInfinity(constraint.Width)) constraint.Width = children.Select(x => LayoutData.GetOffsets(x).Left + x.DesiredSize.Width).DefaultIfEmpty().Max();
+		if (double.IsInfinity(constraint.Height)) constraint.Height = children.Select(x => LayoutData.GetOffsets(x).Top + x.DesiredSize.Height).DefaultIfEmpty().Max();
 
 		return constraint;
 	}
@@ -220,8 +221,8 @@ public abstract class UserWidget : Control, IUserWidget
 		var alignments = LayoutData.GetAlignments(child);
 
 		// Compute pos of the child	
-		var x = anchor.Minimum.X * (constraint.Width - child.DesiredSize.Width) + (alignments.X * child.DesiredSize.Width) + offset.Left;
-		var y = anchor.Minimum.Y * (constraint.Height - child.DesiredSize.Height) + (alignments.Y * child.DesiredSize.Height) + offset.Top;
+		var x = anchor.Minimum.X * (constraint.Width - child.DesiredSize.Width) - (alignments.X * child.DesiredSize.Width) + offset.Left;
+		var y = anchor.Minimum.Y * (constraint.Height - child.DesiredSize.Height) - (alignments.Y * child.DesiredSize.Height) + offset.Top;
 
 		// extra support
 		if (child is FrameworkElement fe)

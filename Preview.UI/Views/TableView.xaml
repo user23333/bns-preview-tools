@@ -25,9 +25,9 @@
 					<Rectangle Width="16" Height="16" Fill="{StaticResource SortByNameDrawingBrush}" />
 				</RadioButton>
 			</hc:ButtonGroup>
-			<hc:SearchBar IsRealTime="True" hc:InfoElement.ShowClearButton="True" Style="{StaticResource SearchBarPlus}" SearchStarted="SearchStarted"/>
+			<hc:SearchBar IsRealTime="True" hc:InfoElement.ShowClearButton="True" Style="{StaticResource SearchBarPlus}" SearchStarted="SearchStarted" />
 		</DockPanel>
-		<ListBox x:Name="ObjectList" Grid.Row="1" HorizontalContentAlignment="Stretch" BorderThickness="0">
+		<ListBox x:Name="ColumnList" Grid.Row="1" HorizontalContentAlignment="Stretch">
 			<ListBox.ItemTemplate>
 				<DataTemplate>
 					<Border MinHeight="40" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0 1 0 0" Background="Transparent" ContextMenu="{StaticResource ItemMenu}" ToolTip="{StaticResource TooltipHolder}">

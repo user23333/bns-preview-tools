@@ -12,6 +12,7 @@ public class FolderProvider(string path, EPublisher publisher = default) : IData
 	public virtual DateTimeOffset CreatedAt => default;
 	public virtual BnsVersion ClientVersion => default;
 	public TableCollection Tables { get; private set; }
+	public Locale Locale => new(publisher);
 	#endregion
 
 	#region Methods

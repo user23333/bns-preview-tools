@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using CUE4Parse.BNS.Assets.Exports;
 using CUE4Parse.UE4.Objects.Core.i18N;
-using CUE4Parse.UE4.Objects.Core.Math;
 using SkiaSharp.Views.WPF;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.UI.Controls.Helpers;
@@ -25,8 +23,8 @@ public abstract class BnsCustomBaseWidget : UserWidget, IMetaData
 		_container = new TextContainer(this);
 		_container.ChangedHandler += (s, e) => OnContainerChanged(e);
 
-		SetCurrentValue(ExpansionComponentListProperty, new ExpansionCollection());
 		SetCurrentValue(StringProperty, new StringProperty());
+		SetCurrentValue(ExpansionComponentListProperty, new ExpansionCollection());
 	}
 	#endregion
 
@@ -150,9 +148,8 @@ public abstract class BnsCustomBaseWidget : UserWidget, IMetaData
 		if (!ExpansionComponentList.IsEmpty())
 		{
 			// get active expansion
-			IEnumerable<ExpansionComponent> expansions;
-			if (Expansion is null) expansions = ExpansionComponentList;
-			else expansions = ExpansionComponentList.Where(e => Expansion.Contains(e.ExpansionName.PlainText));
+			var expansions = ExpansionComponentList.Where(e => Expansion is null ||
+				Expansion.Contains(e.ExpansionName.PlainText, StringComparer.OrdinalIgnoreCase));
 
 			// render
 			foreach (var e in expansions)
@@ -182,7 +179,7 @@ public abstract class BnsCustomBaseWidget : UserWidget, IMetaData
 		var size = p.Measure(RenderSize.Parse(), out var source);
 		if (source != null)
 		{
-			var pos = LayoutData.ComputeOffset(RenderSize, size, p.HorizontalAlignment, p.VerticalAlignment, p.Offset);
+			var pos = LayoutData.ComputeOffset(RenderSize, size, p.HorizontalAlignment, p.VerticalAlignment, p.StaticPadding, p.Offset);
 			ctx?.DrawImage(source.ToWriteableBitmap(), new Rect(pos, new Size(size.X, size.Y)));
 		}
 	}
@@ -197,8 +194,7 @@ public abstract class BnsCustomBaseWidget : UserWidget, IMetaData
 
 		// layout
 		var size = document.Measure(RenderSize);
-		var pos = LayoutData.ComputeOffset(RenderSize, size.Parse(), p.HorizontalAlignment, p.VerticalAlignment,
-			  new FVector2D(p.ClippingBound.X / 2, p.ClippingBound.Y / 2));
+		var pos = LayoutData.ComputeOffset(RenderSize, size.Parse(), p.HorizontalAlignment, p.VerticalAlignment, p.Padding, p.ClippingBound);
 
 		if (ctx != null)
 		{

@@ -1,8 +1,9 @@
 ﻿using Xylia.Preview.Common.Extension;
+using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Common.DataStruct;
 
 namespace Xylia.Preview.Data.Models;
-public sealed class ItemImprove : ModelElement
+public sealed class ItemImprove : ModelElement, IItemRecipeHelper
 {
 	#region Attributes
 	public int Id { get; set; }
@@ -15,6 +16,9 @@ public sealed class ItemImprove : ModelElement
 	#endregion
 
 	#region Methods
+	public string ImproveOptionAcquireLevel => SuccessOptionListId > 0 ? "UI.EquipmentGuide.ItemInfo.ImproveOptionAcquireLevel.Desc".GetText([Level]) : null;
+
+
 	internal static Item GetResultItem(Item item, sbyte improvelevel)
 	{
 		ArgumentNullException.ThrowIfNull(item);
@@ -39,13 +43,13 @@ public sealed class ItemImprove : ModelElement
 
 		for (sbyte i = 1; i <= 5; i++)
 		{
+			var CostMoney = Attributes.Get<int>("cost-money-" + i);
 			var CostMainItem = Attributes.Get<Record>("cost-main-item-" + i)?.As<Item>();
 			if (CostMainItem is null) continue;
 
 			var CostMainItemCount = Attributes.Get<short>("cost-main-item-count-" + i);
 			var CostSubItem = LinqExtensions.For(8, (id) => Attributes.Get<Record>($"cost-sub-item-{i}-{id}")?.As<Item>());
 			var CostSubItemCount = LinqExtensions.For(8, (id) => Attributes.Get<short>($"cost-sub-item-count-{i}-{id}"));
-			var CostMoney = Attributes.Get<int>("cost-money-" + i);
 			var SuccessProbability = Attributes.Get<short>("success-probability-" + i);
 			var UseSuccessProbability = Attributes.Get<BnsBoolean>("use-success-probability-" + i);
 			var FailLevelDiff = Attributes.Get<sbyte>("fail-level-diff-" + i);

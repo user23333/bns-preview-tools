@@ -6,10 +6,8 @@ using Xylia.Preview.Data.Models.Sequence;
 namespace Xylia.Preview.Data.Models;
 public class ItemBuyPrice : ModelElement
 {
-	#region Fields
-	public string Alias { get; set; }
-
-	public int money { get; set; }
+	#region Attributes
+	public int Money { get; set; }
 
 	public Ref<ItemBrand> RequiredItembrand { get; set; }
 
@@ -60,28 +58,13 @@ public class ItemBuyPrice : ModelElement
 	public short RequiredAccountLevel { get; set; }
 	#endregion
 
-
 	#region Properties
-	public object ExtraCost_DisposeItem
-	{
-		get
-		{
-			var source = new KeyValuePair<Item, short>[4];
-			for (int x = 0; x < source.Length; x++)
-				source[x] = new(RequiredItem[x].Instance, RequiredItemCount[x]);
-
-			return source.Where(x => x.Key != null);
-		}
-	}
-
-	public ItemBrandTooltip ExtraCost_ItemBrand
+	public ItemBrandTooltip ItemBrand
 	{
 		get
 		{
 			if (RequiredItembrand.Instance is null) return null;
-			return FileCache.Data.Provider.GetTable<ItemBrandTooltip>().FirstOrDefault(x =>
-				x.BrandId == RequiredItembrand.Instance.Id && 
-				x.ItemConditionType == RequiredItembrandConditionType);
+			return FileCache.Data.Provider.GetTable<ItemBrandTooltip>()[RequiredItembrand.Instance.Id + ((long)RequiredItembrandConditionType >> 32)];
 		}
 	}
 
@@ -105,7 +88,6 @@ public class ItemBuyPrice : ModelElement
 		}
 	}
 
-	// 999<image enablescale="true" imagesetpath="00009076.GuildBank_Coin_Gold" scalerate="1.2"/>99<image enablescale="true" imagesetpath="00009076.GuildBank_Coin_Silver" scalerate="1.2"/>99<image enablescale="true" imagesetpath="00009076.GuildBank_Coin_Bronze" scalerate="1.2"/>
-	public string Money => new Integer(money).Money;
+	public string money => new Integer(Money).Money;
 	#endregion
 }

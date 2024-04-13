@@ -5,10 +5,10 @@ using System.Windows.Markup;
 using System.Windows.Threading;
 using HandyControl.Controls;
 using Serilog;
+using Vanara.PInvoke;
 using Xylia.Preview.UI.Helpers;
 using Xylia.Preview.UI.Resources.Themes;
 using Xylia.Preview.UI.Services;
-using Kernel32 = Vanara.PInvoke.Kernel32;
 
 namespace Xylia.Preview.UI;
 public partial class App : Application
@@ -22,11 +22,7 @@ public partial class App : Application
 		InitializeArgs(e.Args);
 
 #if DEVELOP
-		//new Xylia.Preview.UI.Content.TestPanel().Show();
-		//return;
-
-		FileCache.Data = new Data.Client.BnsDatabase(new FolderProvider(@"D:\资源\客户端相关\Auto\data"));
-		new Xylia.Preview.UI.GameUI.Scene.Game_Tooltip.Skill3ToolTipPanel_1().Show();
+		new Xylia.Preview.UI.GameUI.Scene.Game_ItemGrowth2.ItemGrowth2TooltipPanel().Show();
 #else
 		MainWindow = new MainWindow();
 		MainWindow.Show();
@@ -64,7 +60,7 @@ public partial class App : Application
 		if (exception is not WarningException)
 			Log.Error(exception, "OnUnhandledException");
 
-		Growl.Error(exception.Message);
+		Growl.Error(exception?.Message);
 	}
 
 	private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
@@ -78,12 +74,9 @@ public partial class App : Application
 	#endregion
 
 	#region Command
-	private static Dictionary<string, string> _flagValue;
-
-	private static void InitializeArgs(string[] args)
+	private static void InitializeArgs(string[] Args)
 	{
-		// Process the command-line arguments
-		_flagValue = args
+		var args = Args
 			.Where(x => x[0] == '-' && x.IndexOf('=') > 0)
 			.ToLookup(
 				x => x[1..x.IndexOf('=')].ToLower(),
@@ -91,7 +84,7 @@ public partial class App : Application
 			.ToDictionary(x => x.Key, x => x.First());
 
 
-		if (_flagValue.TryGetValue("command", out var command))
+		if (args.TryGetValue("command", out var command))
 		{
 			Kernel32.AllocConsole();
 			Kernel32.SetConsoleCP(65001);
@@ -99,7 +92,7 @@ public partial class App : Application
 
 			try
 			{
-				Command(command);
+				Command(command, args);
 			}
 			catch (Exception error)
 			{
@@ -112,26 +105,26 @@ public partial class App : Application
 		}
 	}
 
-	private static void Command(string? command)
+	private static void Command(string? command, Dictionary<string, string> args)
 	{
 		if (command == "query")
-		{
-			var pause = false;
-			var type = _flagValue["type"];
+		{	
+			bool pause;
+			var type = args["type"];
 			switch (type)
 			{
 				case "ue":
 				case "ue4":
 				{
-					if (!_flagValue.TryGetValue("path", out var path))
+					if (!args.TryGetValue("path", out var path))
 					{
 						Console.Clear();
 						Console.WriteLine("please enter search rule...");
 						path = Console.ReadLine();
 					}
 
-					var ext = _flagValue.TryGetValue("class", out var c) ? c : null;
-					pause = Commands.QueryAsset(path!, ext , type != "ue4");
+					var ext = args.TryGetValue("class", out var c) ? c : null;
+					pause = Commands.QueryAsset(path!, ext, type != "ue4");
 				}
 				break;
 

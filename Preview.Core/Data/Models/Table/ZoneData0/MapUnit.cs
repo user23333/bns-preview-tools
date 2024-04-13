@@ -4,6 +4,7 @@ namespace Xylia.Preview.Data.Models;
 [Side(ReleaseSide.Client)]
 public class MapUnit : ModelElement
 {
+	#region Attributes
 	public short Mapid { get; set; }
 
 	public int ZoneId { get; set; }
@@ -20,86 +21,50 @@ public class MapUnit : ModelElement
 	public enum CategorySeq
 	{
 		None,
-
 		Player,
-
 		Party,
-
 		Team,
-
 		Guild,
-
 		Friend,
-
 		RevengeEnemy,
-
 		Faction,
-
 		DuelEnemy,
-
 		Quest,
-
 		Npc,
-
 		Env,
-
 		Teleport,
-
 		Airdash,
-
 		Link,
-
 		Convoy,
-
 		SpawnedEnv,
-
 		Static,
-
 		Auction,
-
 		Store,
-
 		Camp,
-
-			PartyCamp,
-
+		PartyCamp,
 		Roulette,
-
-			FieldBoss,
-
+		FieldBoss,
 		Gather,
-
 		Craft,
-
-			GatherEnv,
-
+		GatherEnv,
 		Heart,
-
-			EnterArena,
-
-			WeaponBox,
-
+		EnterArena,
+		WeaponBox,
 		Refiner,
+		Dungeon3,
+		Dungeon4,
+		Dungeon5,
+		RaidDungeon,
+		ClassicField,
+		FactionBattleField,
+		GuildBattleField,
+		PartyBattleStartpoint,
+		PartyBattleEnemy,
+		FishingField,
+		ExpeditionEnv,
+		WanderingNpc,
 
-			Dungeon3,
-
-			Dungeon4,
-
-			Dungeon5,
-
-			RaidDungeon,
-
-			ClassicField,
-
-			FactionBattleField,
-
-			GuildBattleField,
-
-			PartyBattleStartpoint,
-
-			PartyBattleEnemy,
-
-			FishingField,
+		COUNT
 	}
 
 
@@ -109,17 +74,11 @@ public class MapUnit : ModelElement
 	public enum MapDepthSeq : byte
 	{
 		N1,
-
 		N2,
-
 		N3,
-
 		N4,
-
 		N5,
 	}
-
-
 
 	public bool Zoom { get; set; }
 
@@ -158,7 +117,7 @@ public class MapUnit : ModelElement
 	public float CenterPosX { get; set; }
 
 	public float CenterPosY { get; set; }
-
+	#endregion
 
 	#region Sub
 	public sealed class Static : MapUnit

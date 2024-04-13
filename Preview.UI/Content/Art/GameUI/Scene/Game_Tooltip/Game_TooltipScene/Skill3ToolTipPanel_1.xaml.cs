@@ -178,11 +178,11 @@ public partial class Skill3ToolTipPanel_1
 
 		#region Tooltip
 		var ConditionTooltips = record.ConditionTooltip.SelectNotNull(x => x.Instance);
-		Skill3ToolTipPanel_1_ConditionTitle.Visibility = ConditionTooltips.Any().ToVisibility();
+		Skill3ToolTipPanel_1_ConditionTitle.SetVisibility(ConditionTooltips.Any());
 		Skill3ToolTipPanel_1_ConditionText.String.LabelText = string.Join("<br/>", ConditionTooltips);
 
 		var StanceTooltips = record.StanceTooltip.SelectNotNull(x => x.Instance);
-		Skill3ToolTipPanel_1_StanceTitle.Visibility = StanceTooltips.Any().ToVisibility();
+		Skill3ToolTipPanel_1_StanceTitle.SetVisibility(StanceTooltips.Any());
 		Skill3ToolTipPanel_1_StanceText.String.LabelText = string.Join("<br/>", StanceTooltips);
 
 		Skill3ToolTipPanel_1_ItemTitle.Visibility = Skill3ToolTipPanel_1_ItemName.Visibility = Visibility.Collapsed;

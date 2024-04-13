@@ -36,9 +36,9 @@ public partial class Legacy_QuestJournalPanel
 	//  ProgressTab
 	// 
 	// ------------------------------------------------------------------
-	private void SearcherRule_TextChanged(object sender, TextChangedEventArgs e)
+	private void SearchStarted(object sender, TextChangedEventArgs e)
 	{
-		source.Refresh();
+		source?.Refresh();
 	}
 
 	private bool QuestFilter(object obj)

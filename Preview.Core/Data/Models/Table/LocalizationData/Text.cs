@@ -8,7 +8,9 @@ using HtmlAgilityPack;
 using Xylia.Preview.Common.Attributes;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.DataStruct;
+using Xylia.Preview.Data.Engine.Definitions;
 using Xylia.Preview.Data.Helpers;
+using Xylia.Preview.Data.Models.QuestData;
 using Xylia.Preview.Data.Models.Sequence;
 using static Xylia.Preview.Data.Models.TextArguments;
 
@@ -51,6 +53,7 @@ public sealed class Text : ModelElement
 	}
 	#endregion
 }
+
 
 /// <summary>
 /// Represents a weakly typed list of objects that can be accessed by index.
@@ -376,9 +379,11 @@ public sealed class TextArguments : IEnumerable, ICollection, IList
 					for (int x = 0; x < args.Length; x++)
 					{
 						if (x == 0) args[0].ValidType(ref obj);
-						else obj = args[x].GetObject(obj);
-
-						if (obj is ImageProperty) break;
+						else
+						{
+							args[x].GetObject(ref obj, out var handle);
+							if (handle) break;
+						}
 					}
 				}
 				#endregion
@@ -404,7 +409,60 @@ public sealed class TextArguments : IEnumerable, ICollection, IList
 		public ArgItem Next { get; private set; }
 		#endregion
 
-		#region Methods		
+		#region Methods	
+		public override string ToString() => Target;
+
+		public void ValidType(ref object value)
+		{
+			var target = Target?.ToLower();
+			if (target is null || value is null) return;
+
+			if (value is Enum)
+			{
+				if (target == "job" && value is JobSeq job)
+					value = job.Convert() ?? value;
+
+				return;
+			}
+
+			// convert type
+			var type = value.GetBaseType();
+			if (target == "string")
+			{
+				if (type != typeof(string)) value = value.ToString();
+				return;
+			}
+			else if (target == "integer") value = new Integer(Convert.ToDouble(value));
+			else if (value is Integer integer && TryGetArgument(integer, target, out var temp)) value = temp;
+			else if (value is Item item && target.Equals("item-name")) value = item.ItemName;
+			else if (value is Skill3 && target.Equals("skill")) return;
+			else if (TableNameComparer.Instance.Equals(target, type.Name)) return;
+			else throw new InvalidCastException($"valid failed: {Target} >> {type}");
+		}
+
+		public void GetObject(ref object value, out bool handle)
+		{
+			handle = false;
+
+			if (value is null) return;
+			else if (value is string) return;
+			else if (value is ImageProperty image)
+			{
+				if (Target == "scale")
+				{
+					image.ImageScale = short.Parse(Next.Target) * 0.01F;
+					handle = true;
+				}
+			}
+			else if (value.GetType().IsClass && TryGetArgument(value, Target, out var param)) value = param;
+			else
+			{
+				Debug.WriteLine($"not supported class: {value} ({value.GetType().Name} > {Target})");
+				value = null;
+			}
+		}
+
+
 		public static ArgItem[] GetArgs(string text)
 		{
 			var args = text.Split('.').Select(o => new ArgItem(o)).ToArray();
@@ -419,75 +477,6 @@ public sealed class TextArguments : IEnumerable, ICollection, IList
 
 			return args;
 		}
-
-		public void ValidType(ref object value)
-		{
-			var target = Target?.ToLower();
-			if (target is null || value is null) return;
-
-			if (value is Enum)
-			{
-				// may be get null value, so keep origin value
-				var ori = value;
-				if (target == "job" && value is JobSeq job)
-					value = job.Convert();
-
-				value ??= ori;
-				return;
-			}
-
-			// convert type
-			var type = value.GetType();
-			if (target == "string")
-			{
-				if (type != typeof(string)) value = value.ToString();
-				return;
-			}
-			else if (target == "integer")
-			{
-				value = new Integer(Convert.ToDouble(value));
-				return;
-			}
-			else if (target.Equals("skill") && value is Skill3) return;
-			else if (target.Equals("item-name") && value is Item item)
-			{
-				value = item.ItemName;
-				return;
-			}
-			else if (value is Integer integer && TryGetArgument(integer, target, out var temp))
-			{
-				value = temp;
-				return;
-			}
-			else
-			{
-				target = target.Replace("-", null).Replace("_", null);
-				if (target.Equals(type.Name, StringComparison.OrdinalIgnoreCase)) return;
-				else if (target.Equals(type.BaseType?.Name, StringComparison.OrdinalIgnoreCase)) return;
-
-				throw new InvalidCastException($"valid failed: {Target} > {type}");
-			}
-		}
-
-		public object GetObject(object value)
-		{
-			if (value is null) return null;
-			else if (value is string) return value;
-			else if (value is ImageProperty ip)
-			{
-				if (Next!.Target == "scale")
-				{
-					ip.ImageScale = short.Parse(Next.Next.Target) * 0.01F;
-				}
-
-				return ip;
-			}
-			else if (value.GetType().IsClass && TryGetArgument(value, Target, out var param)) return param;
-
-			Debug.WriteLine($"not supported class: {value} ({value.GetType().Name} > {Target})");
-			return null;
-		}
-
 
 		public static bool TryGetArgument<T>(T instance, string name, out object value)
 		{
@@ -523,7 +512,6 @@ public sealed class TextArguments : IEnumerable, ICollection, IList
 	}
 	#endregion
 }
-
 
 public static class TextExtension
 {

@@ -2,11 +2,29 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Xylia.Preview.Common.Extension;
+using Xylia.Preview.Data.Common.DataStruct;
 
 namespace Xylia.Preview.Data.Engine.DatData;
 public struct Locale
 {
+	#region Fields
+	public BnsVersion ProductVersion { get; set; }
+
+	public EPublisher Publisher { get; set; }
+
+	public ELanguage Language { get; set; }
+
+	private EPublisher AdditionalPublisher { get; set; }
+
+	public int Universe { get; set; }
+	#endregion
+
 	#region Methods
+	public Locale(EPublisher publisher)
+	{
+		this.Publisher = publisher;
+	}
+
 	public Locale(DirectoryInfo directory)
 	{
 		Load(directory);
@@ -53,9 +71,10 @@ public struct Locale
 			{
 				var config = new FileIniDataParser().ReadFile(local.FullName);
 
-				_publisher = config["Locale"]["Publisher"];
-				_language = config["Locale"]["Language"];
-				Universe = config["Locale"]["Universe"];
+				Publisher = config["Locale"]["Publisher"].ToEnum<EPublisher>();
+				Language = config["Locale"]["Language"].ToEnum<ELanguage>();
+				Universe = config["Locale"]["Universe"].ToInt32();
+				AdditionalPublisher = config["Locale"]["AdditionalPublisher"].ToEnum<EPublisher>();
 				return;
 			}
 		}
@@ -67,24 +86,13 @@ public struct Locale
 			.GetDirectories().FirstOrDefault();
 		if (temp is not null)
 		{
-			_publisher = temp.Name;
-			_language = temp.GetDirectories().Where(o => o.Name != "data").FirstOrDefault()?.Name;
+			Publisher = temp.Name.ToEnum<EPublisher>();
+			Language = (temp.GetDirectories().Where(o => o.Name != "data").FirstOrDefault()?.Name).ToEnum<ELanguage>();
 
 			return;
 		}
 		#endregion
 	}
-	#endregion
-
-	#region Fields
-	private string _publisher;
-	public string _language;
-	private string AdditionalPublisher;
-	public string Universe;
-	public string ProductVersion;
-
-	public readonly ELanguage Language => _language.ToEnum<ELanguage>();
-	public readonly EPublisher Publisher => _publisher.ToEnum<EPublisher>();
 	#endregion
 
 

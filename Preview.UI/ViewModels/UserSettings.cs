@@ -10,6 +10,8 @@ using Xylia.Preview.Data.Models.Sequence;
 using Xylia.Preview.Properties;
 using Xylia.Preview.UI.Controls;
 using Xylia.Preview.UI.Resources.Themes;
+using Xylia.Preview.UI.Services;
+using static Xylia.Preview.UI.Services.UpdateService;
 
 namespace Xylia.Preview.UI.ViewModels;
 internal partial class UserSettings : Settings
@@ -25,7 +27,11 @@ internal partial class UserSettings : Settings
 
 
 	#region Common 
-	public int NoticeId { get => GetValue().ToInt32(); set => SetValue(value); }
+	public int NoticeId
+	{
+		get => GetValue().ToInt32();
+		set { if (value > 0) SetValue(value); }
+	}
 
 	public ObservableCollection<ELanguage> Languages => new(StringHelper.EnumerateLanguages());
 
@@ -65,6 +71,20 @@ internal partial class UserSettings : Settings
 		{
 			SetValue((int)value);
 			((App)Application.Current).UpdateSkin(value, NightMode);
+		}
+	}
+
+
+	/// <summary>
+	/// Gets or sets Update Mode
+	/// </summary>
+	public UpdateMode UpdateMode
+	{
+		get => (UpdateMode)GetValue().ToInt32();
+		set
+		{
+			SetValue((int)value);
+			new UpdateService().Register();
 		}
 	}
 

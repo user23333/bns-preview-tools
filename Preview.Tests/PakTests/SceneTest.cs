@@ -9,7 +9,6 @@ using CUE4Parse.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Helpers;
-using Xylia.Preview.Tests.Extensions;
 
 namespace Xylia.Preview.Tests.PakTests;
 
@@ -21,10 +20,10 @@ public class SceneTest
 	{
 		var Output = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "scene");
 
-		using GameFileProvider Provider = new(IniHelper.Instance.GameFolder);
-		// using GameFileProvider Provider = new("G:\\Paks");
-		var AssetPath = "bnsr/content/art/ui/v3/common/contentswidget/item/legacyitemtooltipwidget.uasset";  
-		//"BNSR/Content/Art/UI/GameUI/Scene/Game_Tooltip/Game_TooltipScene/ItemTooltipPanel.uasset";
+		// using GameFileProvider Provider = new(IniHelper.Instance.GameFolder);
+		using GameFileProvider Provider = new("G:\\Paks");
+		var AssetPath = //"bnsr/content/art/ui/v3/common/contentswidget/item/legacyitemtooltipwidget.uasset";
+		"BNSR/Content/Art/UI/GameUI/Scene/Game_ItemGrowth2/Game_ItemGrowth2Scene/ItemGrowth2Panel.uasset";
 		var Blueprint = Provider.LoadAllObjects(AssetPath).OfType<UWidgetBlueprintGeneratedClass>().First();
 
 		var dump = new WidgetDump() { Output = Path.Combine(Output, Path.GetFileNameWithoutExtension(AssetPath)) };
@@ -176,7 +175,7 @@ public class WidgetDump
 
 		// children
 		var Slots = obj.GetOrDefault<UBnsCustomBaseWidgetSlot[]>("Slots");
-		Slots?.Where(slot => slot != null)/*.Reverse()*/
+		Slots?.Where(slot => slot != null).Reverse()
 			.ForEach(slot => LoadWidget(slot.Content.Load(), slot, level, el));
 	}
 

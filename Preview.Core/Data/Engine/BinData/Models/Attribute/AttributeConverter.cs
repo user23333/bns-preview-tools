@@ -130,8 +130,8 @@ public class AttributeConverter
 		AttributeType.TVersion => new Version(value),
 		AttributeType.TIcon => value,
 		AttributeType.TTime32 => Time32.Parse(value),
-		AttributeType.TTime64 => Time64.Parse(value),
-		AttributeType.TXUnknown1 => Time64.Parse(value),
+		AttributeType.TTime64 => Time64.Parse(value, provider.Locale.Publisher),
+		AttributeType.TXUnknown1 => Time64.Parse(value, provider.Locale.Publisher),
 		AttributeType.TXUnknown2 => new ObjectPath(value),
 		_ => throw new Exception($"Unhandled type name: '{attribute.Type}'"),
 	};

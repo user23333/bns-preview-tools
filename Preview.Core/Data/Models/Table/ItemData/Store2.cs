@@ -1,9 +1,7 @@
-﻿using Xylia.Preview.Common.Extension;
-
-namespace Xylia.Preview.Data.Models;
+﻿namespace Xylia.Preview.Data.Models;
 public sealed class Store2 : ModelElement
 {
-	#region Fields
+	#region Attributes
 	public Ref<Text> Name2 { get; set; }
 
 	public string Icon { get; set; }
@@ -15,9 +13,5 @@ public sealed class Store2 : ModelElement
 	public Ref<Item>[] Item { get; set; }
 
 	public Ref<ItemBuyPrice>[] BuyPrice { get; set; }
-	#endregion
-
-	#region Properities
-	public object ItemList => LinqExtensions.Combine(Item, BuyPrice);
 	#endregion
 }

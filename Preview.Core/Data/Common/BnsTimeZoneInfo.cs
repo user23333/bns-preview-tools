@@ -15,14 +15,13 @@ public class BnsTimeZoneInfo(EPublisher publisher, Msec offset)
 		publisher ??= Locale.Current;
 		var offset = publisher switch
 		{
-			EPublisher.NcSoft or EPublisher.ZNcs => new Msec(9, 0, 0),   // Korea Standard Time
-			EPublisher.Tencent or EPublisher.ZTx => new Msec(8, 0, 0),   // China Standard Time
+			EPublisher.Tencent => new Msec(8, 0, 0),   // China Standard Time
 			EPublisher.Innova => new Msec(0, 0, 0),    //
 			EPublisher.NcJapan => new Msec(9, 0, 0),   // Tokyo Standard Time
 			EPublisher.NcTaiwan => new Msec(8, 0, 0),  // Taipei Standard Time
 			EPublisher.NcWest => new Msec(-5, 0, 0),   // Eastern Standard Time
 			EPublisher.Garena => new Msec(7, 0, 0),    // SE Asia Standard Time
-			_ => default,
+			_ => new Msec(9, 0, 0),						// Korea Standard Time
 		};
 
 		return new BnsTimeZoneInfo(publisher.Value, offset);

@@ -77,7 +77,7 @@ public class ElementDefinition : ElementBaseDefinition
 	}
 
 	internal ElementBaseDefinition SubtableByType(short type, Record record = null)
-	{				  
+	{
 		lock (this)
 		{
 			ElementBaseDefinition definition = null;
@@ -120,9 +120,10 @@ public class ElementDefinition : ElementBaseDefinition
 		{
 			var block = (record.DataSize - definition.Size) / 4;
 #if DEBUG
-			Console.WriteLine($"check field size, table: {record.Owner.Name} " +
-				 $"type: {(record.SubclassType == -1 ? "null" : definition.Name)} " +
-				 $"size: {definition.Size} <> {record.DataSize} block: {block}");
+			record.Owner.Message.Warning(
+				$"check field size, table: {record.Owner.Name} " +
+				$"type: {(record.SubclassType == -1 ? "null" : definition.Name)} " +
+				$"size: {definition.Size} <> {record.DataSize} block: {block}");
 #endif
 
 			if (block > 0)

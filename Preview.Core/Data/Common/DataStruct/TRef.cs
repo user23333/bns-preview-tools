@@ -1,5 +1,4 @@
 ﻿using System.Runtime.InteropServices;
-
 using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.Data.Common.DataStruct;
@@ -28,9 +27,8 @@ public struct TRef
 		Ref = record.PrimaryKey;
 	}
 
-
-
-	public override string ToString() => $"{Table}:{Ref}";
+	#region Methods
+	public override readonly string ToString() => $"{Table}:{Ref}";
 
 	public static bool operator ==(TRef a, TRef b)
 	{
@@ -50,4 +48,5 @@ public struct TRef
 	public override bool Equals(object obj) => obj is TRef other && Equals(other);
 
 	public override int GetHashCode() => HashCode.Combine(Table, Ref);
+	#endregion
 }

@@ -112,7 +112,7 @@ internal class TableArchive
 #if DEVELOP
 		if (table.RecordCountOffset != 0)
 		{
-			Debug.WriteLine($"RecordCountOffset {table.Name ?? table.Type.ToString()}");
+			System.Diagnostics.Debug.WriteLine($"RecordCountOffset {table.Name ?? table.Type.ToString()}");
 		}
 #endif
 	}

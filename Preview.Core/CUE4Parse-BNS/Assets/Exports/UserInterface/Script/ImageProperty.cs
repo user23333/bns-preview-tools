@@ -23,7 +23,7 @@ public class ImageProperty : IUStruct
 
 	public bool EnableImageSet { get; set; }
 	public bool EnableBrushOnly { get; set; }
-	public bool EnableDrawImage { get; set; }
+	public bool EnableDrawImage { get; set; } = true;
 	public bool EnableResourceSize { get; set; }
 	public bool EnableFullImage { get; set; }
 	public bool EnableFittedImage { get; set; }
@@ -50,11 +50,6 @@ public class ImageProperty : IUStruct
 
 
 	#region Methods
-	public override string ToString()
-	{
-		return $"<image path='{BaseImageTexture.GetPathName()}' u='{ImageUV.X}' v='{ImageUV.Y}' ul='{ImageUVSize.X}' vl='{ImageUVSize.Y}' enablescale='true' scalerate='1.5'/>";
-	}
-
 	public ImageProperty Clone()
 	{
 		return (ImageProperty)this.MemberwiseClone();
@@ -67,7 +62,8 @@ public class ImageProperty : IUStruct
 			#region Raw
 			SKBitmap bitmap = null;
 
-			if (BaseImageTexture != null)
+			if (!EnableDrawImage) bitmap = null;
+			else if (BaseImageTexture != null)
 			{
 				var obj = BaseImageTexture.LoadEx();
 				if (obj is UTexture texture) bitmap = texture.Decode()?.Clone(ImageUV, ImageUVSize);
@@ -82,10 +78,9 @@ public class ImageProperty : IUStruct
 			#endregion
 
 			#region Draw
-			SKColor? tint = EnableDrawColor ? TintColor.SpecifiedColor.ToSKColor() : null;
+			float opacity = 1 - Opacity;
+			var tint = EnableDrawColor ? TintColor.SpecifiedColor.ToSKColor() : (SKColor?)null;
 
-			// HACK: why there have different ways ?
-			float opacity = EnableDrawImage ? Opacity : (1 - Opacity);
 
 			// EnableResourceGray
 
@@ -115,10 +110,12 @@ public class ImageProperty : IUStruct
 		image = Image;
 		if (image is null) return FVector2D.ZeroVector;
 
+		// scale
 		if (ImageScale <= 0) ImageScale = 1.0F;
-		return EnableResourceSize ?
-			new FVector2D(ImageScale * image.Width, ImageScale * image.Height) :
-			new FVector2D(ImageScale * RenderSize.X, ImageScale * RenderSize.Y);
+		var w = (EnableResourceSize ? image.Width : RenderSize.X) - StaticPadding.X * 2;
+		var h = (EnableResourceSize ? image.Height : RenderSize.Y) - StaticPadding.Y * 2;
+
+		return new FVector2D(ImageScale * w, ImageScale * h);
 	}
 	#endregion
 }

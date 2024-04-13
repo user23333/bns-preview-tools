@@ -74,7 +74,7 @@ public class Snooper : GameWindow
 
 	private unsafe void LoadWindowIcon()
 	{
-		var info = Application.GetResourceStream(new Uri("/FModel/Resources/engine.png", UriKind.Relative));
+		var info = Application.GetResourceStream(new Uri("/Views/FModel/Resources/engine.png", UriKind.Relative));
 		using var img = SKBitmap.Decode(info.Stream);
 
 		// bgra

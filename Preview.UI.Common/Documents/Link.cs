@@ -8,23 +8,22 @@ public class Link : BaseElement
 {
 	#region Fields
 	public LinkId? Id;
-
 	public bool IgnoreInput { get; set; }
 	public bool Editable { get; set; }
 	#endregion
 
 	protected internal override void Load(HtmlNode node)
 	{
-		// fields
 		Children = TextContainer.Load(node.ChildNodes);
 		IgnoreInput = node.GetAttributeValue("ignoreinput", false);
+		Editable = node.GetAttributeValue("editable", false);
 
-		var data = node.Attributes[nameof(Id)]?.Value;
-		if (string.IsNullOrWhiteSpace(data) || data == "none") return;
+		var id = node.GetAttributeValue("id", null);
+		if (string.IsNullOrWhiteSpace(id) || id == "none") return;
 
 
 		// split
-		var tmp = data.Split(':', 2);
+		var tmp = id.Split(':', 2);
 		var type = tmp[0]?.Trim();
 		switch (type)
 		{
@@ -50,12 +49,12 @@ public abstract class LinkId
 
 	internal virtual void OnMouseEnter(object sender, MouseEventArgs e)
 	{
-		
+
 	}
 
 	internal virtual void OnMouseLeave(object sender, MouseEventArgs e)
 	{
-		
+
 	}
 
 	internal virtual void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -65,6 +64,6 @@ public abstract class LinkId
 
 	internal virtual void OnMouseRightButtonDown(object sender, MouseButtonEventArgs e)
 	{
-		
+
 	}
 }

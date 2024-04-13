@@ -39,9 +39,8 @@ internal sealed class ItemBuyPriceOut : OutSet
             Row++;
             int column = 1;
 
-
-            sheet.Cells[Row, column++].SetValue(record.Alias);
-            sheet.Cells[Row, column++].SetValue(record.money);
+            sheet.Cells[Row, column++].SetValue(record);
+            sheet.Cells[Row, column++].SetValue(record.Money);
 
             #region brand & item
             ItemBrandTooltip ItemBrandTooltip = null;
@@ -55,7 +54,7 @@ internal sealed class ItemBuyPriceOut : OutSet
                 var count = record.RequiredItemCount[i];
 
                 if (item is null) sheet.Cells[Row, column++].SetValue("");
-                else sheet.Cells[Row, column++].SetValue((item.ItemNameOnly ?? item.ToString()) + " " + count);
+                else sheet.Cells[Row, column++].SetValue(item.Text + " " + count);
             }
             #endregion
 

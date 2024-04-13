@@ -1,0 +1,872 @@
+﻿<BnsCustomWindowWidget x:Class="Xylia.Preview.UI.GameUI.Scene.Game_Map.TendencyFieldPanel"
+	xmlns="https://github.com/xyliaup/bns-preview-tools"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:s="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<BnsCustomWindowWidget.BaseImageProperty>
+		<ImageProperty />
+	</BnsCustomWindowWidget.BaseImageProperty>
+	<BnsCustomImageWidget Name="TendencyField_VerticalResizeTopDummy" LayoutData.Anchors="0.5 0 0.5 0" LayoutData.Offsets="0 0 319 0">
+		<BnsCustomImageWidget.BaseImageProperty>
+			<ImageProperty />
+		</BnsCustomImageWidget.BaseImageProperty>
+	</BnsCustomImageWidget>
+	<BnsCustomImageWidget Name="TendencyField_TopHolder" LayoutData.Anchors="1 0 1 0" LayoutData.Offsets="0 -1 380 65">
+		<BnsCustomImageWidget.BaseImageProperty>
+			<ImageProperty />
+		</BnsCustomImageWidget.BaseImageProperty>
+		<BnsCustomImageWidget Name="TendencyField_ChallengeHolder" LayoutData.Anchors="0 0.5 0 0.5" LayoutData.Offsets="292.1291 0 160 60">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget Name="TendencyField_ChallengeWeeklyHolder" LayoutData.Offsets="-8 30 144 0">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty />
+				</BnsCustomImageWidget.BaseImageProperty>
+				<BnsCustomImageWidget Name="TendencyField_ChallengeWeeklyCompletedIcon" LayoutData.Offsets="7.999634 4 22 22">
+					<BnsCustomImageWidget.BaseImageProperty>
+						<ImageProperty BaseImageTexture="/Game/Art/UI/GameUI_BNSR/Resource/GameUI_Window2_R/Img_QuestQuickSlot_02.Img_QuestQuickSlot_02" ImageUVSize="32 32" EnableResourceSize="true" />
+					</BnsCustomImageWidget.BaseImageProperty>
+					<BnsCustomImageWidget.ExpansionComponentList>
+						<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Over" MetaData="">
+							<ExpansionComponent.ImageProperty>
+								<ImageProperty BaseImageTexture="/Game/Art/UI/GameUI_BNSR/Resource/GameUI_Window2_R/Img_QuestQuickSlot_02_over.Img_QuestQuickSlot_02_over" ImageUVSize="32 32" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+							</ExpansionComponent.ImageProperty>
+						</ExpansionComponent>
+					</BnsCustomImageWidget.ExpansionComponentList>
+				</BnsCustomImageWidget>
+				<BnsCustomImageWidget Name="TendencyField_ChallengeWeeklyInfo" LayoutData.Offsets="33.999634 0 110.00037 0">
+					<BnsCustomImageWidget.BaseImageProperty>
+						<ImageProperty />
+					</BnsCustomImageWidget.BaseImageProperty>
+					<BnsCustomImageWidget.ExpansionComponentList>
+						<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="over" MetaData="">
+							<ExpansionComponent.ImageProperty>
+								<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="58 118" ImageUVSize="15 16" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="0.5" ImageScale="1" />
+							</ExpansionComponent.ImageProperty>
+						</ExpansionComponent>
+						<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="pressed" MetaData="">
+							<ExpansionComponent.ImageProperty>
+								<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="75 118" ImageUVSize="15 16" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="0.5" ImageScale="1" />
+							</ExpansionComponent.ImageProperty>
+						</ExpansionComponent>
+					</BnsCustomImageWidget.ExpansionComponentList>
+					<BnsCustomImageWidget Name="TendencyField_ChallengeWeeklyProgressIcon" LayoutData.Offsets="3 3.5 22 22">
+						<BnsCustomImageWidget.BaseImageProperty>
+							<ImageProperty BaseImageTexture="/Game/Art/UI/GameUI_BNSR/Resource/GameUI_Window2_R/Img_QuestQuickSlot_01.Img_QuestQuickSlot_01" ImageUVSize="31 31" EnableResourceSize="true" />
+						</BnsCustomImageWidget.BaseImageProperty>
+						<BnsCustomImageWidget.ExpansionComponentList>
+							<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Over" MetaData="">
+								<ExpansionComponent.ImageProperty>
+									<ImageProperty BaseImageTexture="/Game/Art/UI/GameUI_BNSR/Resource/GameUI_Window2_R/Img_QuestQuickSlot_01_over.Img_QuestQuickSlot_01_over" ImageUVSize="32 32" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+								</ExpansionComponent.ImageProperty>
+							</ExpansionComponent>
+						</BnsCustomImageWidget.ExpansionComponentList>
+					</BnsCustomImageWidget>
+					<BnsCustomLabelWidget Name="TendencyField_ChallengeWeeklyQuestCount" LayoutData.Anchors="0 0.5 0 0.5" LayoutData.Offsets="27 0 74.00098 15.001007">
+						<BnsCustomLabelWidget.String>
+							<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="주간 도전주간 도전 0/0" SpaceBetweenLines="3" VerticalAlignment="VAlign_Center" bWordWrap="true" LastRenderWidth="400" LastRenderHeight="50" />
+						</BnsCustomLabelWidget.String>
+					</BnsCustomLabelWidget>
+					<BnsCustomImageWidget Name="TendencyField_ChallengeWeeklyBack" LayoutData.Anchors="0 0.5 0 0.5" LayoutData.Offsets="0 0 137 25">
+						<BnsCustomImageWidget.BaseImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="128 100" ImageUVSize="84 7" EnableSkinColor="true" Opacity="0.8" />
+						</BnsCustomImageWidget.BaseImageProperty>
+					</BnsCustomImageWidget>
+					<!-- <Image Name="Image" LayoutData.Anchors="0 0.5 0 0.5" LayoutData.Offsets="2 0 160 29" /> -->
+				</BnsCustomImageWidget>
+			</BnsCustomImageWidget>
+			<BnsCustomImageWidget Name="TendencyField_ChallengeTodayHolder" LayoutData.Offsets="-8 0 144 0">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty />
+				</BnsCustomImageWidget.BaseImageProperty>
+				<BnsCustomImageWidget Name="TendencyField_ChallengeTodayCompletedIcon" LayoutData.Offsets="7.999634 4 22 22">
+					<BnsCustomImageWidget.BaseImageProperty>
+						<ImageProperty BaseImageTexture="/Game/Art/UI/GameUI_BNSR/Resource/GameUI_Window2_R/Img_QuestQuickSlot_02.Img_QuestQuickSlot_02" ImageUVSize="32 32" EnableResourceSize="true" />
+					</BnsCustomImageWidget.BaseImageProperty>
+					<BnsCustomImageWidget.ExpansionComponentList>
+						<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Over" MetaData="">
+							<ExpansionComponent.ImageProperty>
+								<ImageProperty BaseImageTexture="/Game/Art/UI/GameUI_BNSR/Resource/GameUI_Window2_R/Img_QuestQuickSlot_02_over.Img_QuestQuickSlot_02_over" ImageUVSize="32 32" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+							</ExpansionComponent.ImageProperty>
+						</ExpansionComponent>
+					</BnsCustomImageWidget.ExpansionComponentList>
+				</BnsCustomImageWidget>
+				<BnsCustomImageWidget Name="TendencyField_ChallengeTodayInfo" LayoutData.Offsets="33.999634 0 110.00037 0">
+					<BnsCustomImageWidget.BaseImageProperty>
+						<ImageProperty />
+					</BnsCustomImageWidget.BaseImageProperty>
+					<BnsCustomImageWidget.ExpansionComponentList>
+						<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="over" MetaData="">
+							<ExpansionComponent.ImageProperty>
+								<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="58 118" ImageUVSize="15 16" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="0.5" ImageScale="1" />
+							</ExpansionComponent.ImageProperty>
+						</ExpansionComponent>
+						<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="pressed" MetaData="">
+							<ExpansionComponent.ImageProperty>
+								<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="75 118" ImageUVSize="15 16" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="0.5" ImageScale="1" />
+							</ExpansionComponent.ImageProperty>
+						</ExpansionComponent>
+					</BnsCustomImageWidget.ExpansionComponentList>
+					<BnsCustomImageWidget Name="TendencyField_ChallengeTodayProgressIcon" LayoutData.Offsets="3 3.5 22 22">
+						<BnsCustomImageWidget.BaseImageProperty>
+							<ImageProperty BaseImageTexture="/Game/Art/UI/GameUI_BNSR/Resource/GameUI_Window2_R/Img_QuestQuickSlot_01.Img_QuestQuickSlot_01" ImageUVSize="31 31" EnableResourceSize="true" />
+						</BnsCustomImageWidget.BaseImageProperty>
+						<BnsCustomImageWidget.ExpansionComponentList>
+							<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Over" MetaData="">
+								<ExpansionComponent.ImageProperty>
+									<ImageProperty BaseImageTexture="/Game/Art/UI/GameUI_BNSR/Resource/GameUI_Window2_R/Img_QuestQuickSlot_01_over.Img_QuestQuickSlot_01_over" ImageUVSize="32 32" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+								</ExpansionComponent.ImageProperty>
+							</ExpansionComponent>
+						</BnsCustomImageWidget.ExpansionComponentList>
+					</BnsCustomImageWidget>
+					<BnsCustomLabelWidget Name="TendencyField_ChallengeTodayQuestCount" LayoutData.Anchors="0 0.5 0 0.5" LayoutData.Offsets="27 0 74.00101 15.000999">
+						<BnsCustomLabelWidget.String>
+							<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="일일 도전일일 도전 0/0" SpaceBetweenLines="3" VerticalAlignment="VAlign_Center" bWordWrap="true" LastRenderWidth="400" LastRenderHeight="50" />
+						</BnsCustomLabelWidget.String>
+					</BnsCustomLabelWidget>
+					<BnsCustomImageWidget Name="TendencyField_ChallengeTodayBack" LayoutData.Anchors="0 0.5 0 0.5" LayoutData.Offsets="0 0 137 25">
+						<BnsCustomImageWidget.BaseImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="128 100" ImageUVSize="84 7" EnableSkinColor="true" Opacity="0.8" />
+						</BnsCustomImageWidget.BaseImageProperty>
+					</BnsCustomImageWidget>
+					<!-- <Image Name="Image_173" LayoutData.Anchors="0 0.5 0 0.5" LayoutData.Offsets="2 0 160 29" /> -->
+				</BnsCustomImageWidget>
+			</BnsCustomImageWidget>
+			<BnsCustomImageWidget Name="TendencyField_ChallengeDummy" LayoutData.Offsets="-61 0 0 0">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomLabelButtonWidget Name="TendencyField_ChangeQuickSlotBtn" LayoutData.Anchors="1 0.5 1 0.5" LayoutData.Offsets="-335 0 25 25" MetaData="tooltip=UI.Map.ChangeQuickSlot">
+			<BnsCustomLabelButtonWidget.NormalImageProperty>
+				<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIButtonIcon.BNSR_UIButtonIcon" ImageUV="96 0" ImageUVSize="32 32" EnableResourceSize="true" />
+			</BnsCustomLabelButtonWidget.NormalImageProperty>
+		</BnsCustomLabelButtonWidget>
+		<BnsCustomToggleButtonWidget Name="TendencyField_ChallengeTodayListMode" LayoutData.Anchors="0 0.5 0 0.5" LayoutData.Offsets="0 0 20 20" MetaData="tooltip=UI.ChallengeToday.HUDCheckTooltip">
+			<BnsCustomToggleButtonWidget.String>
+				<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_Button_12.Normal_Button_12" SpaceBetweenLines="3" VerticalAlignment="VAlign_Center" ClippingBound="30 0" />
+			</BnsCustomToggleButtonWidget.String>
+			<BnsCustomToggleButtonWidget.NormalImageProperty>
+				<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="0 42" ImageUVSize="20 20" EnableResourceSize="true" />
+			</BnsCustomToggleButtonWidget.NormalImageProperty>
+			<BnsCustomToggleButtonWidget.ExpansionComponentList>
+				<ExpansionComponent bEnableSubState="true" bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="checked" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="68 30" ImageUVSize="12 10" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="4 0" Opacity="1" ImageScale="1" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bEnableSubState="true" bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="checked_D" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="68 30" ImageUVSize="12 10" EnableDrawImage="true" EnableResourceSize="true" EnableResourceGray="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="4 0" Opacity="1" ImageScale="1" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+				</ExpansionComponent>
+			</BnsCustomToggleButtonWidget.ExpansionComponentList>
+		</BnsCustomToggleButtonWidget>
+		<BnsCustomToggleButtonWidget Name="TendencyField_Toggle_Minimum" LayoutData.Anchors="1 0.5 1 0.5" LayoutData.Offsets="-9 -12.5 25 25">
+			<BnsCustomToggleButtonWidget.String>
+				<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" bWordWrap="true" />
+			</BnsCustomToggleButtonWidget.String>
+			<BnsCustomToggleButtonWidget.NormalImageProperty>
+				<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="193 39" ImageUVSize="14 8" EnableResourceSize="true" />
+			</BnsCustomToggleButtonWidget.NormalImageProperty>
+		</BnsCustomToggleButtonWidget>
+	</BnsCustomImageWidget>
+	<BnsCustomImageWidget Name="TendencyField_InvalidZoneWarning" LayoutData.Anchors="1 0 1 0" LayoutData.Offsets="0 61 313 34">
+		<BnsCustomImageWidget.BaseImageProperty>
+			<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="886 397" ImageUVSize="138 19" EnableResourceGray="true" Opacity="1.5" />
+		</BnsCustomImageWidget.BaseImageProperty>
+		<BnsCustomImageWidget.ExpansionComponentList>
+			<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Warning" MetaData="">
+				<ExpansionComponent.ImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="226 39.66667" ImageUVSize="24.333344 24.166672" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1.5" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+				</ExpansionComponent.ImageProperty>
+			</ExpansionComponent>
+		</BnsCustomImageWidget.ExpansionComponentList>
+	</BnsCustomImageWidget>
+	<BnsCustomImageWidget Name="TendencyField_FectionResult" LayoutData.Anchors="1 0 1 0" LayoutData.Offsets="0 100 313 27">
+		<BnsCustomImageWidget.BaseImageProperty>
+			<ImageProperty ImageSet="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/Contributor_Honchun_Back.Contributor_Honchun_Back" ImageUV="0 437" ImageUVSize="165 27" EnableImageSet="true" />
+		</BnsCustomImageWidget.BaseImageProperty>
+		<BnsCustomImageWidget.ExpansionComponentList>
+			<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="win" MetaData="textref=UI.ArenaLobbyDuel.DuelWin">
+				<ExpansionComponent.ImageProperty>
+					<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+				</ExpansionComponent.ImageProperty>
+				<ExpansionComponent.StringProperty>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_Out_14.Normal_Out_14" LabelText="승리#" SpaceBetweenLines="3" VerticalAlignment="VAlign_Center" ClippingBound="160 0" bWordWrap="true" Opacity="1" TextScale="1" AnimScale="1" />
+				</ExpansionComponent.StringProperty>
+			</ExpansionComponent>
+			<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="FactionIcon" MetaData="">
+				<ExpansionComponent.ImageProperty>
+					<ImageProperty ImageSet="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/Contributor_Honchun.Contributor_Honchun" EnableImageSet="true" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="-25 0" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+				</ExpansionComponent.ImageProperty>
+			</ExpansionComponent>
+		</BnsCustomImageWidget.ExpansionComponentList>
+	</BnsCustomImageWidget>
+	<BnsCustomImageWidget Name="TendencyField_TendencyQuest_Holder" LayoutData.Anchors="1 0 1 0" LayoutData.Offsets="0 127 345 243">
+		<BnsCustomImageWidget.BaseImageProperty>
+			<ImageProperty />
+		</BnsCustomImageWidget.BaseImageProperty>
+		<BnsCustomProgressBarWidget Name="TendencyField_TendencyQuest_TimeProgressBar" LayoutData.Anchors="1 0 1 0" LayoutData.Offsets="-28 20 263 14">
+			<BnsCustomLabelWidget Name="TendencyField_TendencyQuest_TimeText" LayoutData.Anchors="0 0.5 1 0.5" LayoutData.Offsets="0 0 0 20">
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_Out_14.Normal_Out_14" LabelText="hh 시 mm 분 ss 초" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" Padding="0 -10" bWordWrap="true" LastRenderWidth="263" LastRenderHeight="40" />
+				</BnsCustomLabelWidget.String>
+				<BnsCustomLabelWidget.ExpansionComponentList>
+					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Icon" MetaData="">
+						<ExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="799 561" ImageUVSize="16 19" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="-20 0" Opacity="1" ImageScale="1" VerticalAlignment="VAlign_Center" />
+						</ExpansionComponent.ImageProperty>
+					</ExpansionComponent>
+				</BnsCustomLabelWidget.ExpansionComponentList>
+			</BnsCustomLabelWidget>
+		</BnsCustomProgressBarWidget>
+		<BnsCustomColumnListWidget Name="TendencyField_TendencyQuest_QuickSlotList" LayoutData.Anchors="1 0 1 0" LayoutData.Offsets="0 44 345 200">
+			<BnsCustomScrollBarWidget Name="TendencyField_TendencyQuest_QuickSlotList_ScrollBar" LayoutData.Anchors="1 0 1 1" LayoutData.Offsets="0 0 18 0">
+				<BnsCustomSliderBarWidget Name="TendencyField_TendencyQuest_QuickSlotList_ScrollBar_SliderBar" LayoutData.Anchors="0.5 0 0.5 1" LayoutData.Offsets="0 20 15 20">
+					<BnsCustomLabelButtonWidget Name="TendencyField_TendencyQuest_QuickSlotList_ScrollBar_SliderBar_Marker" LayoutData.Anchors="0.5 0 0.5 0" LayoutData.Offsets="0 2 11 62.999878">
+						<BnsCustomLabelButtonWidget.NormalImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="1 101" ImageUVSize="11 63" />
+						</BnsCustomLabelButtonWidget.NormalImageProperty>
+					</BnsCustomLabelButtonWidget>
+				</BnsCustomSliderBarWidget>
+				<BnsCustomLabelButtonWidget Name="TendencyField_TendencyQuest_QuickSlotList_ScrollBar_IncrementButton" LayoutData.Anchors="0.5 1 0.5 1" LayoutData.Offsets="0 0 21 22">
+					<BnsCustomLabelButtonWidget.NormalImageProperty>
+						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="98 247" ImageUVSize="21 22" EnableSkinColor="true" />
+					</BnsCustomLabelButtonWidget.NormalImageProperty>
+					<BnsCustomLabelButtonWidget.ExpansionComponentList>
+						<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Down" MetaData="">
+							<ExpansionComponent.ImageProperty>
+								<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="344 578" ImageUVSize="11 8" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+							</ExpansionComponent.ImageProperty>
+						</ExpansionComponent>
+					</BnsCustomLabelButtonWidget.ExpansionComponentList>
+				</BnsCustomLabelButtonWidget>
+				<BnsCustomLabelButtonWidget Name="TendencyField_TendencyQuest_QuickSlotList_ScrollBar_DecrementButton" LayoutData.Anchors="0.5 0 0.5 0" LayoutData.Offsets="0 0 21 22">
+					<BnsCustomLabelButtonWidget.NormalImageProperty>
+						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="98 247" ImageUVSize="21 22" EnableSkinColor="true" />
+					</BnsCustomLabelButtonWidget.NormalImageProperty>
+					<BnsCustomLabelButtonWidget.ExpansionComponentList>
+						<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Normal" MetaData="">
+							<ExpansionComponent.ImageProperty>
+								<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="344 568" ImageUVSize="11 9" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+							</ExpansionComponent.ImageProperty>
+						</ExpansionComponent>
+					</BnsCustomLabelButtonWidget.ExpansionComponentList>
+				</BnsCustomLabelButtonWidget>
+			</BnsCustomScrollBarWidget>
+			<BnsCustomImageWidget Name="TendencyField_TendencyQuest_QuickSlotList_Column_3_1" LayoutData.Anchors="1 0 1 0" LayoutData.Offsets="-20 130 323 65">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty />
+				</BnsCustomImageWidget.BaseImageProperty>
+				<BnsCustomImageWidget Name="TendencyField_TendencyQuest_QuickSlotList_Column_3_1_Dummy" LayoutData.Offsets="0 0 73 0">
+					<BnsCustomImageWidget.BaseImageProperty>
+						<ImageProperty />
+					</BnsCustomImageWidget.BaseImageProperty>
+				</BnsCustomImageWidget>
+				<BnsCustomLabelWidget Name="TendencyField_TendencyQuest_QuickSlotList_Column_3_1_Name" LayoutData.Offsets="68 5 254 25.008911">
+					<BnsCustomLabelWidget.String>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_14.Normal_14" LabelText="천상분지QuestName" SpaceBetweenLines="3" ClippingBound="0 5" bWordWrap="true" />
+					</BnsCustomLabelWidget.String>
+				</BnsCustomLabelWidget>
+				<BnsCustomLabelButtonWidget Name="TendencyField_TendencyQuest_QuickSlotList_Column_3_1_IconBtn" LayoutData.Offsets="40 5 25 25" MetaData="tooltip=UI.TendencyField.SimpleQuestGuide">
+					<BnsCustomLabelButtonWidget.NormalImageProperty>
+						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Map_Indicator/Img_Simple_Progress_Mapunit_1.Img_Simple_Progress_Mapunit_1" ImageUVSize="32 32" />
+					</BnsCustomLabelButtonWidget.NormalImageProperty>
+				</BnsCustomLabelButtonWidget>
+				<BnsCustomImageWidget Name="TendencyField_TendencyQuest_QuickSlotList_Column_3_1_Map" LayoutData.Offsets="40 5 25 25">
+					<BnsCustomImageWidget.BaseImageProperty>
+						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/HUD_Icon_Menu_Test_nocomp.HUD_Icon_Menu_Test_nocomp" ImageUV="579 640" ImageUVSize="38 23" EnableResourceSize="true" Offset="0 5" ImageScale="0.65" VerticalAlignment="VAlign_Bottom" />
+					</BnsCustomImageWidget.BaseImageProperty>
+				</BnsCustomImageWidget>
+				<BnsCustomLabelWidget Name="TendencyField_TendencyQuest_QuickSlotList_Column_3_1_RewardBonus" LayoutData.Offsets="296 33.00891 30 14.000977">
+					<BnsCustomLabelWidget.String>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Login_Label_LightYellow_Out_14.Login_Label_LightYellow_Out_14" LabelText="X20" SpaceBetweenLines="3" VerticalAlignment="VAlign_Center" Padding="0 -5" bWordWrap="true" />
+					</BnsCustomLabelWidget.String>
+				</BnsCustomLabelWidget>
+				<BnsCustomLabelWidget Name="TendencyField_TendencyQuest_QuickSlotList_Column_3_1_Reward" LayoutData.Anchors="1 0 1 0" LayoutData.Offsets="-30 33.00891 60 14">
+					<BnsCustomLabelWidget.String>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="9999 &lt;image enablescale=&quot;true&quot; imagesetpath=&quot;00009076.Peach_small&quot; scalerate=&quot;1.2&quot;/&gt;" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" Padding="0 -10" bWordWrap="true" />
+					</BnsCustomLabelWidget.String>
+				</BnsCustomLabelWidget>
+				<BnsCustomLabelWidget Name="TendencyField_TendencyQuest_QuickSlotList_Column_3_1_Reward2" LayoutData.Offsets="173 33.00891 60 14">
+					<BnsCustomLabelWidget.String>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="9999 &lt;image enablescale='true' imagesetpath='00009076.FactionScoreIcon' scalerate='1.2'/&gt;" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" Padding="0 -5" bWordWrap="true" />
+					</BnsCustomLabelWidget.String>
+				</BnsCustomLabelWidget>
+				<BnsCustomLabelWidget Name="TendencyField_TendencyQuest_QuickSlotList_Column_3_1_Reward3Bonus" LayoutData.Offsets="137.99902 33.00891 35.000977 14.001953">
+					<BnsCustomLabelWidget.String>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Login_Label_LightYellow_Out_14.Login_Label_LightYellow_Out_14" LabelText="X20" SpaceBetweenLines="3" VerticalAlignment="VAlign_Center" ClippingBound="3 0" Padding="0 -5" bWordWrap="true" />
+					</BnsCustomLabelWidget.String>
+				</BnsCustomLabelWidget>
+				<BnsCustomLabelWidget Name="TendencyField_TendencyQuest_QuickSlotList_Column_3_1_Reward3" LayoutData.Offsets="77.99902 33.00891 60 14">
+					<BnsCustomLabelWidget.String>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="9999 &lt;image enablescale='true' imagesetpath='00047888.Tooltip_AccountEXP' scalerate='1.7'/&gt;" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" Padding="0 -5" bWordWrap="true" />
+					</BnsCustomLabelWidget.String>
+				</BnsCustomLabelWidget>
+				<BnsCustomLabelWidget Name="TendencyField_TendencyQuest_QuickSlotList_Column_3_1_ProgressValue" LayoutData.Anchors="0 1 0 1" LayoutData.Offsets="73 0 218 11">
+					<BnsCustomLabelWidget.String>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Gauge_10.Gauge_10" LabelText="200/200" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" Padding="0 -10" bWordWrap="true" />
+					</BnsCustomLabelWidget.String>
+				</BnsCustomLabelWidget>
+				<BnsCustomProgressBarWidget Name="TendencyField_TendencyQuest_QuickSlotList_Column_3_1_ProgressBar" LayoutData.Anchors="0 1 0 1" LayoutData.Offsets="73 0 218 11">
+					<BnsCustomProgressBarWidget.ExpansionComponentList>
+						<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="NO_NAME_0" MetaData="">
+							<ExpansionComponent.ImageProperty>
+								<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="886 397" ImageUVSize="138 19" EnableDrawImage="true" EnableResourceGray="true" TintColor="FFFFFF" GrayWeightValue="0.15" StaticPadding="-26 -10" Opacity="0.5" ImageScale="1" />
+							</ExpansionComponent.ImageProperty>
+						</ExpansionComponent>
+					</BnsCustomProgressBarWidget.ExpansionComponentList>
+				</BnsCustomProgressBarWidget>
+				<BnsCustomImageWidget Name="TendencyField_TendencyQuest_QuickSlotList_Column_3_1_Targeting" LayoutData.Offsets="0 4 43 28">
+					<BnsCustomImageWidget.BaseImageProperty>
+						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/HUD_Icon_Menu_Test_nocomp.HUD_Icon_Menu_Test_nocomp" ImageUV="513 183" ImageUVSize="43 26" EnableResourceSize="true" />
+					</BnsCustomImageWidget.BaseImageProperty>
+				</BnsCustomImageWidget>
+			</BnsCustomImageWidget>
+			<BnsCustomImageWidget Name="TendencyField_TendencyQuest_QuickSlotList_Column_2_1" LayoutData.Anchors="1 0 1 0" LayoutData.Offsets="-20 65 323 65">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty />
+				</BnsCustomImageWidget.BaseImageProperty>
+				<BnsCustomImageWidget Name="TendencyField_TendencyQuest_QuickSlotList_Column_2_1_Dummy" LayoutData.Offsets="0 0 73 0">
+					<BnsCustomImageWidget.BaseImageProperty>
+						<ImageProperty />
+					</BnsCustomImageWidget.BaseImageProperty>
+				</BnsCustomImageWidget>
+				<BnsCustomLabelWidget Name="TendencyField_TendencyQuest_QuickSlotList_Column_2_1_Name" LayoutData.Offsets="68 5 254 25.008911">
+					<BnsCustomLabelWidget.String>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_14.Normal_14" LabelText="천상분지QuestName" SpaceBetweenLines="3" ClippingBound="0 5" bWordWrap="true" />
+					</BnsCustomLabelWidget.String>
+				</BnsCustomLabelWidget>
+				<BnsCustomLabelButtonWidget Name="TendencyField_TendencyQuest_QuickSlotList_Column_2_1_IconBtn" LayoutData.Offsets="40 5 25 25" MetaData="tooltip=UI.TendencyField.SimpleQuestGuide">
+					<BnsCustomLabelButtonWidget.NormalImageProperty>
+						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Map_Indicator/Img_Simple_Progress_Mapunit_1.Img_Simple_Progress_Mapunit_1" ImageUVSize="32 32" />
+					</BnsCustomLabelButtonWidget.NormalImageProperty>
+				</BnsCustomLabelButtonWidget>
+				<BnsCustomImageWidget Name="TendencyField_TendencyQuest_QuickSlotList_Column_2_1_Map" LayoutData.Offsets="40 5 25 25">
+					<BnsCustomImageWidget.BaseImageProperty>
+						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/HUD_Icon_Menu_Test_nocomp.HUD_Icon_Menu_Test_nocomp" ImageUV="579 640" ImageUVSize="38 23" EnableResourceSize="true" Offset="0 5" ImageScale="0.65" VerticalAlignment="VAlign_Bottom" />
+					</BnsCustomImageWidget.BaseImageProperty>
+				</BnsCustomImageWidget>
+				<BnsCustomLabelWidget Name="TendencyField_TendencyQuest_QuickSlotList_Column_2_1_RewardBonus" LayoutData.Offsets="296 33.00891 30 14.000977">
+					<BnsCustomLabelWidget.String>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Login_Label_LightYellow_Out_14.Login_Label_LightYellow_Out_14" LabelText="X20" SpaceBetweenLines="3" VerticalAlignment="VAlign_Center" Padding="0 -5" bWordWrap="true" />
+					</BnsCustomLabelWidget.String>
+				</BnsCustomLabelWidget>
+				<BnsCustomLabelWidget Name="TendencyField_TendencyQuest_QuickSlotList_Column_2_1_Reward" LayoutData.Anchors="1 0 1 0" LayoutData.Offsets="-30 33.00891 60 14">
+					<BnsCustomLabelWidget.String>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="9999 &lt;image enablescale=&quot;true&quot; imagesetpath=&quot;00009076.Peach_small&quot; scalerate=&quot;1.2&quot;/&gt;" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" Padding="0 -10" bWordWrap="true" />
+					</BnsCustomLabelWidget.String>
+				</BnsCustomLabelWidget>
+				<BnsCustomLabelWidget Name="TendencyField_TendencyQuest_QuickSlotList_Column_2_1_Reward2" LayoutData.Offsets="173 33.00891 60 14">
+					<BnsCustomLabelWidget.String>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="9999 &lt;image enablescale='true' imagesetpath='00009076.FactionScoreIcon' scalerate='1.2'/&gt;" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" Padding="0 -5" bWordWrap="true" />
+					</BnsCustomLabelWidget.String>
+				</BnsCustomLabelWidget>
+				<BnsCustomLabelWidget Name="TendencyField_TendencyQuest_QuickSlotList_Column_2_1_Reward3Bonus" LayoutData.Offsets="137.99902 33.00891 35.000977 14.001953">
+					<BnsCustomLabelWidget.String>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Login_Label_LightYellow_Out_14.Login_Label_LightYellow_Out_14" LabelText="X20" SpaceBetweenLines="3" VerticalAlignment="VAlign_Center" ClippingBound="3 0" Padding="0 -5" bWordWrap="true" />
+					</BnsCustomLabelWidget.String>
+				</BnsCustomLabelWidget>
+				<BnsCustomLabelWidget Name="TendencyField_TendencyQuest_QuickSlotList_Column_2_1_Reward3" LayoutData.Offsets="77.99902 33.00891 60 14">
+					<BnsCustomLabelWidget.String>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="9999 &lt;image enablescale='true' imagesetpath='00047888.Tooltip_AccountEXP' scalerate='1.7'/&gt;" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" Padding="0 -5" bWordWrap="true" />
+					</BnsCustomLabelWidget.String>
+				</BnsCustomLabelWidget>
+				<BnsCustomLabelWidget Name="TendencyField_TendencyQuest_QuickSlotList_Column_2_1_ProgressValue" LayoutData.Anchors="0 1 0 1" LayoutData.Offsets="73 0 218 11">
+					<BnsCustomLabelWidget.String>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Gauge_10.Gauge_10" LabelText="200/200" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" Padding="0 -10" bWordWrap="true" />
+					</BnsCustomLabelWidget.String>
+				</BnsCustomLabelWidget>
+				<BnsCustomProgressBarWidget Name="TendencyField_TendencyQuest_QuickSlotList_Column_2_1_ProgressBar" LayoutData.Anchors="0 1 0 1" LayoutData.Offsets="73 0 218 11">
+					<BnsCustomProgressBarWidget.ExpansionComponentList>
+						<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="NO_NAME_0" MetaData="">
+							<ExpansionComponent.ImageProperty>
+								<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="886 397" ImageUVSize="138 19" EnableDrawImage="true" EnableResourceGray="true" TintColor="FFFFFF" GrayWeightValue="0.15" StaticPadding="-26 -10" Opacity="0.5" ImageScale="1" />
+							</ExpansionComponent.ImageProperty>
+						</ExpansionComponent>
+					</BnsCustomProgressBarWidget.ExpansionComponentList>
+				</BnsCustomProgressBarWidget>
+				<BnsCustomImageWidget Name="TendencyField_TendencyQuest_QuickSlotList_Column_2_1_Targeting" LayoutData.Offsets="0 4 43 28">
+					<BnsCustomImageWidget.BaseImageProperty>
+						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/HUD_Icon_Menu_Test_nocomp.HUD_Icon_Menu_Test_nocomp" ImageUV="513 183" ImageUVSize="43 26" EnableResourceSize="true" />
+					</BnsCustomImageWidget.BaseImageProperty>
+				</BnsCustomImageWidget>
+			</BnsCustomImageWidget>
+			<BnsCustomImageWidget Name="TendencyField_TendencyQuest_QuickSlotList_Column_1_1" LayoutData.Anchors="1 0 1 0" LayoutData.Offsets="-20 0 323 65">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty />
+				</BnsCustomImageWidget.BaseImageProperty>
+				<BnsCustomImageWidget Name="TendencyField_TendencyQuest_QuickSlotList_Column_1_1_dummy" LayoutData.Offsets="0 0 73 0">
+					<BnsCustomImageWidget.BaseImageProperty>
+						<ImageProperty />
+					</BnsCustomImageWidget.BaseImageProperty>
+				</BnsCustomImageWidget>
+				<BnsCustomLabelWidget Name="TendencyField_TendencyQuest_QuickSlotList_Column_1_1_Name" LayoutData.Offsets="68 5 254 25.008911">
+					<BnsCustomLabelWidget.String>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_14.Normal_14" LabelText="천상분지QuestName" SpaceBetweenLines="3" ClippingBound="0 5" bWordWrap="true" />
+					</BnsCustomLabelWidget.String>
+				</BnsCustomLabelWidget>
+				<BnsCustomLabelButtonWidget Name="TendencyField_TendencyQuest_QuickSlotList_Column_1_1_IconBtn" LayoutData.Offsets="40 5 25 25" MetaData="tooltip=UI.TendencyField.SimpleQuestGuide">
+					<BnsCustomLabelButtonWidget.NormalImageProperty>
+						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Map_Indicator/Img_Simple_Progress_Mapunit_1.Img_Simple_Progress_Mapunit_1" ImageUVSize="32 32" />
+					</BnsCustomLabelButtonWidget.NormalImageProperty>
+				</BnsCustomLabelButtonWidget>
+				<BnsCustomImageWidget Name="TendencyField_TendencyQuest_QuickSlotList_Column_1_1_Map" LayoutData.Offsets="40 5 25 25">
+					<BnsCustomImageWidget.BaseImageProperty>
+						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/HUD_Icon_Menu_Test_nocomp.HUD_Icon_Menu_Test_nocomp" ImageUV="579 640" ImageUVSize="38 23" EnableResourceSize="true" Offset="0 5" ImageScale="0.65" VerticalAlignment="VAlign_Bottom" />
+					</BnsCustomImageWidget.BaseImageProperty>
+				</BnsCustomImageWidget>
+				<BnsCustomLabelWidget Name="TendencyField_TendencyQuest_QuickSlotList_Column_1_1_RewardBonus" LayoutData.Offsets="296 33.00891 30 14.000977">
+					<BnsCustomLabelWidget.String>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Login_Label_LightYellow_Out_14.Login_Label_LightYellow_Out_14" LabelText="X20" SpaceBetweenLines="3" VerticalAlignment="VAlign_Center" Padding="0 -5" bWordWrap="true" />
+					</BnsCustomLabelWidget.String>
+				</BnsCustomLabelWidget>
+				<BnsCustomLabelWidget Name="TendencyField_TendencyQuest_QuickSlotList_Column_1_1_Reward" LayoutData.Anchors="1 0 1 0" LayoutData.Offsets="-30 33.00891 60 14">
+					<BnsCustomLabelWidget.String>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="9999 &lt;image enablescale=&quot;true&quot; imagesetpath=&quot;00009076.Peach_small&quot; scalerate=&quot;1.2&quot;/&gt;" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" Padding="0 -10" bWordWrap="true" />
+					</BnsCustomLabelWidget.String>
+				</BnsCustomLabelWidget>
+				<BnsCustomLabelWidget Name="TendencyField_TendencyQuest_QuickSlotList_Column_1_1_Reward2" LayoutData.Offsets="173 33.00891 60 14">
+					<BnsCustomLabelWidget.String>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="9999 &lt;image enablescale='true' imagesetpath='00009076.FactionScoreIcon' scalerate='1.2'/&gt;" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" Padding="0 -5" bWordWrap="true" />
+					</BnsCustomLabelWidget.String>
+				</BnsCustomLabelWidget>
+				<BnsCustomLabelWidget Name="TendencyField_TendencyQuest_QuickSlotList_Column_1_1_Reward3Bonus" LayoutData.Offsets="137.99902 33.00891 35.000977 14.001953">
+					<BnsCustomLabelWidget.String>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Login_Label_LightYellow_Out_14.Login_Label_LightYellow_Out_14" LabelText="X20" SpaceBetweenLines="3" VerticalAlignment="VAlign_Center" ClippingBound="3 0" Padding="0 -5" bWordWrap="true" />
+					</BnsCustomLabelWidget.String>
+				</BnsCustomLabelWidget>
+				<BnsCustomLabelWidget Name="TendencyField_TendencyQuest_QuickSlotList_Column_1_1_Reward3" LayoutData.Offsets="77.99902 33.00891 60 14">
+					<BnsCustomLabelWidget.String>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="9999 &lt;image enablescale='true' imagesetpath='00047888.Tooltip_AccountEXP' scalerate='1.7'/&gt;" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" Padding="0 -5" bWordWrap="true" />
+					</BnsCustomLabelWidget.String>
+				</BnsCustomLabelWidget>
+				<BnsCustomLabelWidget Name="TendencyField_TendencyQuest_QuickSlotList_Column_1_1_ProgressValue" LayoutData.Anchors="0 1 0 1" LayoutData.Offsets="73 0 218 11">
+					<BnsCustomLabelWidget.String>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Gauge_10.Gauge_10" LabelText="200/200" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" Padding="0 -10" bWordWrap="true" />
+					</BnsCustomLabelWidget.String>
+				</BnsCustomLabelWidget>
+				<BnsCustomProgressBarWidget Name="TendencyField_TendencyQuest_QuickSlotList_Column_1_1_ProgressBar" LayoutData.Anchors="0 1 0 1" LayoutData.Offsets="73 0 218 11">
+					<BnsCustomProgressBarWidget.ExpansionComponentList>
+						<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="NO_NAME_0" MetaData="">
+							<ExpansionComponent.ImageProperty>
+								<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="886 397" ImageUVSize="138 19" EnableDrawImage="true" EnableResourceGray="true" TintColor="FFFFFF" GrayWeightValue="0.15" StaticPadding="-26 -10" Opacity="0.5" ImageScale="1" />
+							</ExpansionComponent.ImageProperty>
+						</ExpansionComponent>
+					</BnsCustomProgressBarWidget.ExpansionComponentList>
+				</BnsCustomProgressBarWidget>
+				<BnsCustomImageWidget Name="TendencyField_TendencyQuest_QuickSlotList_Column_1_1_Targeting" LayoutData.Offsets="0 4 43 28">
+					<BnsCustomImageWidget.BaseImageProperty>
+						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/HUD_Icon_Menu_Test_nocomp.HUD_Icon_Menu_Test_nocomp" ImageUV="513 183" ImageUVSize="43 26" EnableResourceSize="true" />
+					</BnsCustomImageWidget.BaseImageProperty>
+				</BnsCustomImageWidget>
+			</BnsCustomImageWidget>
+		</BnsCustomColumnListWidget>
+	</BnsCustomImageWidget>
+	<BnsCustomLabelWidget Name="TendencyField_SimpleQuest_CompleteCount" LayoutData.Anchors="1 0 1 0" LayoutData.Offsets="0 375 313 34" MetaData="tooltip=UI.TendencyField.SimpleQuest.CompleteCount">
+		<BnsCustomLabelWidget.String>
+			<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_14.Normal_14" LabelText="심플 퀘스트 완료 0/3" SpaceBetweenLines="3" VerticalAlignment="VAlign_Center" ClippingBound="10 0" bWordWrap="true" />
+		</BnsCustomLabelWidget.String>
+		<BnsCustomLabelWidget.ExpansionComponentList>
+			<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="NO_NAME_0" MetaData="">
+				<ExpansionComponent.ImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="886 397" ImageUVSize="138 19" EnableDrawImage="true" EnableResourceGray="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1.5" ImageScale="1" />
+				</ExpansionComponent.ImageProperty>
+			</ExpansionComponent>
+		</BnsCustomLabelWidget.ExpansionComponentList>
+		<BnsCustomLabelButtonWidget Name="TendencyField_SimpleQuest_RefreshBtn" LayoutData.Anchors="1 0 1 0" LayoutData.Offsets="-10 -0.5 60 35" MetaData="tooltip=UI.TendencyField.Refresh">
+			<BnsCustomLabelButtonWidget.String>
+				<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_Button_12.Normal_Button_12" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+			</BnsCustomLabelButtonWidget.String>
+			<BnsCustomLabelButtonWidget.NormalImageProperty>
+				<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUVSize="15 40" />
+			</BnsCustomLabelButtonWidget.NormalImageProperty>
+			<BnsCustomLabelButtonWidget.ExpansionComponentList>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Icon" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIButtonIcon.BNSR_UIButtonIcon" ImageUV="64 448" ImageUVSize="32 32" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="0.8" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+				</ExpansionComponent>
+			</BnsCustomLabelButtonWidget.ExpansionComponentList>
+		</BnsCustomLabelButtonWidget>
+	</BnsCustomLabelWidget>
+	<BnsCustomColumnListWidget Name="TendencyField_SimpleQuest_QuickSlotList" LayoutData.Anchors="1 0 1 0" LayoutData.Offsets="0 409 345 188">
+		<BnsCustomScrollBarWidget Name="TendencyField_SimpleQuest_QuickSlotList_ScrollBar" LayoutData.Anchors="1 0 1 1" LayoutData.Offsets="0 0 18 0">
+			<BnsCustomLabelButtonWidget Name="TendencyField_SimpleQuest_QuickSlotList_ScrollBar_DecrementButton" LayoutData.Anchors="0.5 0 0.5 0" LayoutData.Offsets="0 0 21 22">
+				<BnsCustomLabelButtonWidget.NormalImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="98 247" ImageUVSize="21 22" EnableSkinColor="true" />
+				</BnsCustomLabelButtonWidget.NormalImageProperty>
+				<BnsCustomLabelButtonWidget.ExpansionComponentList>
+					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Normal" MetaData="">
+						<ExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="344 568" ImageUVSize="11 9" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+						</ExpansionComponent.ImageProperty>
+					</ExpansionComponent>
+				</BnsCustomLabelButtonWidget.ExpansionComponentList>
+			</BnsCustomLabelButtonWidget>
+			<BnsCustomLabelButtonWidget Name="TendencyField_SimpleQuest_QuickSlotList_ScrollBar_IncrementButton" LayoutData.Anchors="0.5 1 0.5 1" LayoutData.Offsets="0 0 21 22">
+				<BnsCustomLabelButtonWidget.NormalImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="98 247" ImageUVSize="21 22" EnableSkinColor="true" />
+				</BnsCustomLabelButtonWidget.NormalImageProperty>
+				<BnsCustomLabelButtonWidget.ExpansionComponentList>
+					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Down" MetaData="">
+						<ExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="344 578" ImageUVSize="11 8" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+						</ExpansionComponent.ImageProperty>
+					</ExpansionComponent>
+				</BnsCustomLabelButtonWidget.ExpansionComponentList>
+			</BnsCustomLabelButtonWidget>
+			<BnsCustomSliderBarWidget Name="TendencyField_SimpleQuest_QuickSlotList_ScrollBar_SliderBar" LayoutData.Anchors="0.5 0 0.5 1" LayoutData.Offsets="0 20 15 20">
+				<BnsCustomLabelButtonWidget Name="TendencyField_SimpleQuest_QuickSlotList_ScrollBar_SliderBar_Marker" LayoutData.Anchors="0.5 0 0.5 0" LayoutData.Offsets="0 2 11 62.999878">
+					<BnsCustomLabelButtonWidget.NormalImageProperty>
+						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="1 101" ImageUVSize="11 63" />
+					</BnsCustomLabelButtonWidget.NormalImageProperty>
+				</BnsCustomLabelButtonWidget>
+			</BnsCustomSliderBarWidget>
+		</BnsCustomScrollBarWidget>
+		<BnsCustomImageWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_5_1" LayoutData.Anchors="1 0 1 0" LayoutData.Offsets="-20 0 323 65">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomLabelWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_5_1_Reward3" LayoutData.Offsets="77.99902 33.00891 60 14">
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="9999 &lt;image enablescale='true' imagesetpath='00047888.Tooltip_AccountEXP' scalerate='1.7'/&gt;" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" Padding="0 -5" bWordWrap="true" />
+				</BnsCustomLabelWidget.String>
+			</BnsCustomLabelWidget>
+			<BnsCustomLabelWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_5_1_Reward3Bonus" LayoutData.Offsets="137.99902 33.00891 35.000977 14.001953">
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Login_Label_LightYellow_Out_14.Login_Label_LightYellow_Out_14" LabelText="X20" SpaceBetweenLines="3" VerticalAlignment="VAlign_Center" ClippingBound="3 0" Padding="0 -5" bWordWrap="true" />
+				</BnsCustomLabelWidget.String>
+			</BnsCustomLabelWidget>
+			<BnsCustomImageWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_5_1_Dummy" LayoutData.Offsets="0 0 73 0">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomLabelWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_5_1_Name" LayoutData.Offsets="68 5 254 25.008911">
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_14.Normal_14" LabelText="천상분지QuestName" SpaceBetweenLines="3" ClippingBound="0 5" bWordWrap="true" />
+				</BnsCustomLabelWidget.String>
+			</BnsCustomLabelWidget>
+			<BnsCustomLabelButtonWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_5_1_IconBtn" LayoutData.Offsets="40 5 25 25" MetaData="tooltip=UI.TendencyField.SimpleQuestGuide">
+				<BnsCustomLabelButtonWidget.NormalImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Map_Indicator/Img_Simple_Progress_Mapunit_1.Img_Simple_Progress_Mapunit_1" ImageUVSize="32 32" />
+				</BnsCustomLabelButtonWidget.NormalImageProperty>
+			</BnsCustomLabelButtonWidget>
+			<BnsCustomImageWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_5_1_Map" LayoutData.Offsets="40 5 25 25">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/HUD_Icon_Menu_Test_nocomp.HUD_Icon_Menu_Test_nocomp" ImageUV="579 640" ImageUVSize="38 23" EnableResourceSize="true" Offset="0 5" ImageScale="0.65" VerticalAlignment="VAlign_Bottom" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomLabelWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_5_1_RewardBonus" LayoutData.Offsets="296 33.00891 30 14.000977">
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Login_Label_LightYellow_Out_14.Login_Label_LightYellow_Out_14" LabelText="X20" SpaceBetweenLines="3" VerticalAlignment="VAlign_Center" Padding="0 -5" bWordWrap="true" />
+				</BnsCustomLabelWidget.String>
+			</BnsCustomLabelWidget>
+			<BnsCustomLabelWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_5_1_Reward" LayoutData.Anchors="1 0 1 0" LayoutData.Offsets="-30 33.00891 60 14">
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="9999 &lt;image enablescale=&quot;true&quot; imagesetpath=&quot;00009076.Peach_small&quot; scalerate=&quot;1.2&quot;/&gt;" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" Padding="0 -10" bWordWrap="true" />
+				</BnsCustomLabelWidget.String>
+			</BnsCustomLabelWidget>
+			<BnsCustomLabelWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_5_1_Reward2" LayoutData.Offsets="173 33.00891 60 14">
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="9999 &lt;image enablescale='true' imagesetpath='00009076.FactionScoreIcon' scalerate='1.2'/&gt;" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" Padding="0 -5" bWordWrap="true" />
+				</BnsCustomLabelWidget.String>
+			</BnsCustomLabelWidget>
+			<BnsCustomLabelWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_5_1_ProgressValue" LayoutData.Anchors="0 1 0 1" LayoutData.Offsets="73 0 218 11">
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Gauge_10.Gauge_10" LabelText="200/200" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" Padding="0 -10" bWordWrap="true" />
+				</BnsCustomLabelWidget.String>
+			</BnsCustomLabelWidget>
+			<BnsCustomProgressBarWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_5_1_ProgressBar" LayoutData.Anchors="0 1 0 1" LayoutData.Offsets="73 0 218 11">
+				<BnsCustomProgressBarWidget.ExpansionComponentList>
+					<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="NO_NAME_0" MetaData="">
+						<ExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="886 397" ImageUVSize="138 19" EnableDrawImage="true" EnableResourceGray="true" TintColor="FFFFFF" GrayWeightValue="0.15" StaticPadding="-26 -10" Opacity="0.5" ImageScale="1" />
+						</ExpansionComponent.ImageProperty>
+					</ExpansionComponent>
+				</BnsCustomProgressBarWidget.ExpansionComponentList>
+			</BnsCustomProgressBarWidget>
+			<BnsCustomImageWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_5_1_Targeting" LayoutData.Offsets="0 4 43 28">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/HUD_Icon_Menu_Test_nocomp.HUD_Icon_Menu_Test_nocomp" ImageUV="513 183" ImageUVSize="43 26" EnableResourceSize="true" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_4_1" LayoutData.Anchors="1 0 1 0" LayoutData.Offsets="-20 198.47223 323 64.99994">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomLabelWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_4_1_Reward3" LayoutData.Offsets="77.99902 33.00891 60 14">
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="9999 &lt;image enablescale='true' imagesetpath='00047888.Tooltip_AccountEXP' scalerate='1.7'/&gt;" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" Padding="0 -5" bWordWrap="true" />
+				</BnsCustomLabelWidget.String>
+			</BnsCustomLabelWidget>
+			<BnsCustomLabelWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_4_1_Reward3Bonus" LayoutData.Offsets="137.99902 33.00891 35.000977 14.001953">
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Login_Label_LightYellow_Out_14.Login_Label_LightYellow_Out_14" LabelText="X20" SpaceBetweenLines="3" VerticalAlignment="VAlign_Center" ClippingBound="3 0" Padding="0 -5" bWordWrap="true" />
+				</BnsCustomLabelWidget.String>
+			</BnsCustomLabelWidget>
+			<BnsCustomImageWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_4_1_Dummy" LayoutData.Offsets="0 0 73 0">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomLabelWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_4_1_Name" LayoutData.Offsets="68 5 254 25.008911">
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_14.Normal_14" LabelText="천상분지QuestName" SpaceBetweenLines="3" ClippingBound="0 5" bWordWrap="true" />
+				</BnsCustomLabelWidget.String>
+			</BnsCustomLabelWidget>
+			<BnsCustomLabelButtonWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_4_1_IconBtn" LayoutData.Offsets="40 5 25 25" MetaData="tooltip=UI.TendencyField.SimpleQuestGuide">
+				<BnsCustomLabelButtonWidget.NormalImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Map_Indicator/Img_Simple_Progress_Mapunit_1.Img_Simple_Progress_Mapunit_1" ImageUVSize="32 32" />
+				</BnsCustomLabelButtonWidget.NormalImageProperty>
+			</BnsCustomLabelButtonWidget>
+			<BnsCustomImageWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_4_1_Map" LayoutData.Offsets="40 5 25 25">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/HUD_Icon_Menu_Test_nocomp.HUD_Icon_Menu_Test_nocomp" ImageUV="579 640" ImageUVSize="38 23" EnableResourceSize="true" Offset="0 5" ImageScale="0.65" VerticalAlignment="VAlign_Bottom" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomLabelWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_4_1_RewardBonus" LayoutData.Offsets="296 33.00891 30 14.000977">
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Login_Label_LightYellow_Out_14.Login_Label_LightYellow_Out_14" LabelText="X20" SpaceBetweenLines="3" VerticalAlignment="VAlign_Center" Padding="0 -5" bWordWrap="true" />
+				</BnsCustomLabelWidget.String>
+			</BnsCustomLabelWidget>
+			<BnsCustomLabelWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_4_1_Reward" LayoutData.Anchors="1 0 1 0" LayoutData.Offsets="-30 33.00891 60 14">
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="9999 &lt;image enablescale=&quot;true&quot; imagesetpath=&quot;00009076.Peach_small&quot; scalerate=&quot;1.2&quot;/&gt;" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" Padding="0 -10" bWordWrap="true" />
+				</BnsCustomLabelWidget.String>
+			</BnsCustomLabelWidget>
+			<BnsCustomLabelWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_4_1_Reward2" LayoutData.Offsets="173 33.00891 60 14">
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="9999 &lt;image enablescale='true' imagesetpath='00009076.FactionScoreIcon' scalerate='1.2'/&gt;" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" Padding="0 -5" bWordWrap="true" />
+				</BnsCustomLabelWidget.String>
+			</BnsCustomLabelWidget>
+			<BnsCustomLabelWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_4_1_ProgressValue" LayoutData.Anchors="0 1 0 1" LayoutData.Offsets="73 0 218 10.999939">
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Gauge_10.Gauge_10" LabelText="200/200" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" Padding="0 -10" bWordWrap="true" />
+				</BnsCustomLabelWidget.String>
+			</BnsCustomLabelWidget>
+			<BnsCustomProgressBarWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_4_1_ProgressBar" LayoutData.Anchors="0 1 0 1" LayoutData.Offsets="73 0 218 10.999939">
+				<BnsCustomProgressBarWidget.ExpansionComponentList>
+					<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="NO_NAME_0" MetaData="">
+						<ExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="886 397" ImageUVSize="138 19" EnableDrawImage="true" EnableResourceGray="true" TintColor="FFFFFF" GrayWeightValue="0.15" StaticPadding="-26 -10" Opacity="0.5" ImageScale="1" />
+						</ExpansionComponent.ImageProperty>
+					</ExpansionComponent>
+				</BnsCustomProgressBarWidget.ExpansionComponentList>
+			</BnsCustomProgressBarWidget>
+			<BnsCustomImageWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_4_1_Targeting" LayoutData.Offsets="0 4 43 28">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/HUD_Icon_Menu_Test_nocomp.HUD_Icon_Menu_Test_nocomp" ImageUV="513 183" ImageUVSize="43 26" EnableResourceSize="true" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_3_1" LayoutData.Anchors="1 0 1 0" LayoutData.Offsets="-20 130 323 65">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomLabelWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_3_1_Reward3" LayoutData.Offsets="77.99902 33.00891 60 14">
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="9999 &lt;image enablescale='true' imagesetpath='00047888.Tooltip_AccountEXP' scalerate='1.7'/&gt;" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" Padding="0 -5" bWordWrap="true" />
+				</BnsCustomLabelWidget.String>
+			</BnsCustomLabelWidget>
+			<BnsCustomLabelWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_3_1_Reward3Bonus" LayoutData.Offsets="137.99902 33.00891 35.000977 14.001953">
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Login_Label_LightYellow_Out_14.Login_Label_LightYellow_Out_14" LabelText="X20" SpaceBetweenLines="3" VerticalAlignment="VAlign_Center" ClippingBound="3 0" Padding="0 -5" bWordWrap="true" />
+				</BnsCustomLabelWidget.String>
+			</BnsCustomLabelWidget>
+			<BnsCustomImageWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_3_1_Dummy" LayoutData.Offsets="0 0 73 0">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomLabelWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_3_1_Name" LayoutData.Offsets="68 5 254 25.008911">
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_14.Normal_14" LabelText="천상분지QuestName" SpaceBetweenLines="3" ClippingBound="0 5" bWordWrap="true" />
+				</BnsCustomLabelWidget.String>
+			</BnsCustomLabelWidget>
+			<BnsCustomLabelButtonWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_3_1_IconBtn" LayoutData.Offsets="40 5 25 25" MetaData="tooltip=UI.TendencyField.SimpleQuestGuide">
+				<BnsCustomLabelButtonWidget.NormalImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Map_Indicator/Img_Simple_Progress_Mapunit_1.Img_Simple_Progress_Mapunit_1" ImageUVSize="32 32" />
+				</BnsCustomLabelButtonWidget.NormalImageProperty>
+			</BnsCustomLabelButtonWidget>
+			<BnsCustomImageWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_3_1_Map" LayoutData.Offsets="40 5 25 25">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/HUD_Icon_Menu_Test_nocomp.HUD_Icon_Menu_Test_nocomp" ImageUV="579 640" ImageUVSize="38 23" EnableResourceSize="true" Offset="0 5" ImageScale="0.65" VerticalAlignment="VAlign_Bottom" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomLabelWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_3_1_RewardBonus" LayoutData.Offsets="296 33.00891 30 14.000977">
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Login_Label_LightYellow_Out_14.Login_Label_LightYellow_Out_14" LabelText="X20" SpaceBetweenLines="3" VerticalAlignment="VAlign_Center" Padding="0 -5" bWordWrap="true" />
+				</BnsCustomLabelWidget.String>
+			</BnsCustomLabelWidget>
+			<BnsCustomLabelWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_3_1_Reward" LayoutData.Anchors="1 0 1 0" LayoutData.Offsets="-30 33.00891 60 14">
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="9999 &lt;image enablescale=&quot;true&quot; imagesetpath=&quot;00009076.Peach_small&quot; scalerate=&quot;1.2&quot;/&gt;" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" Padding="0 -10" bWordWrap="true" />
+				</BnsCustomLabelWidget.String>
+			</BnsCustomLabelWidget>
+			<BnsCustomLabelWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_3_1_Reward2" LayoutData.Offsets="173 33.00891 60 14">
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="9999 &lt;image enablescale='true' imagesetpath='00009076.FactionScoreIcon' scalerate='1.2'/&gt;" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" Padding="0 -5" bWordWrap="true" />
+				</BnsCustomLabelWidget.String>
+			</BnsCustomLabelWidget>
+			<BnsCustomLabelWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_3_1_ProgressValue" LayoutData.Anchors="0 1 0 1" LayoutData.Offsets="73 0 218 11">
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Gauge_10.Gauge_10" LabelText="200/200" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" Padding="0 -10" bWordWrap="true" />
+				</BnsCustomLabelWidget.String>
+			</BnsCustomLabelWidget>
+			<BnsCustomProgressBarWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_3_1_ProgressBar" LayoutData.Anchors="0 1 0 1" LayoutData.Offsets="73 0 218 11">
+				<BnsCustomProgressBarWidget.ExpansionComponentList>
+					<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="NO_NAME_0" MetaData="">
+						<ExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="886 397" ImageUVSize="138 19" EnableDrawImage="true" EnableResourceGray="true" TintColor="FFFFFF" GrayWeightValue="0.15" StaticPadding="-26 -10" Opacity="0.5" ImageScale="1" />
+						</ExpansionComponent.ImageProperty>
+					</ExpansionComponent>
+				</BnsCustomProgressBarWidget.ExpansionComponentList>
+			</BnsCustomProgressBarWidget>
+			<BnsCustomImageWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_3_1_Targeting" LayoutData.Offsets="0 4 43 28">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/HUD_Icon_Menu_Test_nocomp.HUD_Icon_Menu_Test_nocomp" ImageUV="513 183" ImageUVSize="43 26" EnableResourceSize="true" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_2_1" LayoutData.Anchors="1 0 1 0" LayoutData.Offsets="-20 65 323 65">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomLabelWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_2_1_Reward3" LayoutData.Offsets="77.99902 33.00891 60 14">
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="9999 &lt;image enablescale='true' imagesetpath='00047888.Tooltip_AccountEXP' scalerate='1.7'/&gt;" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" Padding="0 -5" bWordWrap="true" />
+				</BnsCustomLabelWidget.String>
+			</BnsCustomLabelWidget>
+			<BnsCustomLabelWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_2_1_Reward3Bonus" LayoutData.Offsets="137.99902 33.00891 35.000977 14.001953">
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Login_Label_LightYellow_Out_14.Login_Label_LightYellow_Out_14" LabelText="X20" SpaceBetweenLines="3" VerticalAlignment="VAlign_Center" ClippingBound="3 0" Padding="0 -5" bWordWrap="true" />
+				</BnsCustomLabelWidget.String>
+			</BnsCustomLabelWidget>
+			<BnsCustomImageWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_2_1_Dummy" LayoutData.Offsets="0 0 73 0">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomLabelWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_2_1_Name" LayoutData.Offsets="68 5 254 25.008911">
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_14.Normal_14" LabelText="천상분지QuestName" SpaceBetweenLines="3" ClippingBound="0 5" bWordWrap="true" />
+				</BnsCustomLabelWidget.String>
+			</BnsCustomLabelWidget>
+			<BnsCustomLabelButtonWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_2_1_IconBtn" LayoutData.Offsets="40 5 25 25" MetaData="tooltip=UI.TendencyField.SimpleQuestGuide">
+				<BnsCustomLabelButtonWidget.NormalImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Map_Indicator/Img_Simple_Progress_Mapunit_1.Img_Simple_Progress_Mapunit_1" ImageUVSize="32 32" />
+				</BnsCustomLabelButtonWidget.NormalImageProperty>
+			</BnsCustomLabelButtonWidget>
+			<BnsCustomImageWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_2_1_Map" LayoutData.Offsets="40 5 25 25">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/HUD_Icon_Menu_Test_nocomp.HUD_Icon_Menu_Test_nocomp" ImageUV="579 640" ImageUVSize="38 23" EnableResourceSize="true" Offset="0 5" ImageScale="0.65" VerticalAlignment="VAlign_Bottom" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomLabelWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_2_1_RewardBonus" LayoutData.Offsets="296 33.00891 30 14.000977">
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Login_Label_LightYellow_Out_14.Login_Label_LightYellow_Out_14" LabelText="X20" SpaceBetweenLines="3" VerticalAlignment="VAlign_Center" Padding="0 -5" bWordWrap="true" />
+				</BnsCustomLabelWidget.String>
+			</BnsCustomLabelWidget>
+			<BnsCustomLabelWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_2_1_Reward" LayoutData.Anchors="1 0 1 0" LayoutData.Offsets="-30 33.00891 60 14">
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="9999 &lt;image enablescale=&quot;true&quot; imagesetpath=&quot;00009076.Peach_small&quot; scalerate=&quot;1.2&quot;/&gt;" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" Padding="0 -10" bWordWrap="true" />
+				</BnsCustomLabelWidget.String>
+			</BnsCustomLabelWidget>
+			<BnsCustomLabelWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_2_1_Reward2" LayoutData.Offsets="173 33.00891 60 14">
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="9999 &lt;image enablescale='true' imagesetpath='00009076.FactionScoreIcon' scalerate='1.2'/&gt;" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" Padding="0 -5" bWordWrap="true" />
+				</BnsCustomLabelWidget.String>
+			</BnsCustomLabelWidget>
+			<BnsCustomLabelWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_2_1_ProgressValue" LayoutData.Anchors="0 1 0 1" LayoutData.Offsets="73 0 218 11">
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Gauge_10.Gauge_10" LabelText="200/200" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" Padding="0 -10" bWordWrap="true" />
+				</BnsCustomLabelWidget.String>
+			</BnsCustomLabelWidget>
+			<BnsCustomProgressBarWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_2_1_ProgressBar" LayoutData.Anchors="0 1 0 1" LayoutData.Offsets="73 0 218 11">
+				<BnsCustomProgressBarWidget.ExpansionComponentList>
+					<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="NO_NAME_0" MetaData="">
+						<ExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="886 397" ImageUVSize="138 19" EnableDrawImage="true" EnableResourceGray="true" TintColor="FFFFFF" GrayWeightValue="0.15" StaticPadding="-26 -10" Opacity="0.5" ImageScale="1" />
+						</ExpansionComponent.ImageProperty>
+					</ExpansionComponent>
+				</BnsCustomProgressBarWidget.ExpansionComponentList>
+			</BnsCustomProgressBarWidget>
+			<BnsCustomImageWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_2_1_Targeting" LayoutData.Offsets="0 4 43 28">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/HUD_Icon_Menu_Test_nocomp.HUD_Icon_Menu_Test_nocomp" ImageUV="513 183" ImageUVSize="43 26" EnableResourceSize="true" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_1_1" LayoutData.Anchors="1 0 1 0" LayoutData.Offsets="-20 0 323 65">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomLabelWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_1_1_Reward3" LayoutData.Offsets="77.99902 33.00891 60 14">
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="9999 &lt;image enablescale='true' imagesetpath='00047888.Tooltip_AccountEXP' scalerate='1.7'/&gt;" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" Padding="0 -5" bWordWrap="true" />
+				</BnsCustomLabelWidget.String>
+			</BnsCustomLabelWidget>
+			<BnsCustomLabelWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_1_1_Reward3Bonus" LayoutData.Offsets="137.99902 33.00891 35.000977 14.001953">
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Login_Label_LightYellow_Out_14.Login_Label_LightYellow_Out_14" LabelText="X20" SpaceBetweenLines="3" VerticalAlignment="VAlign_Center" ClippingBound="3 0" Padding="0 -5" bWordWrap="true" />
+				</BnsCustomLabelWidget.String>
+			</BnsCustomLabelWidget>
+			<BnsCustomImageWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_1_1_dummy" LayoutData.Offsets="0 0 73 0">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomLabelWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_1_1_Name" LayoutData.Offsets="68 5 254 25.008911">
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_14.Normal_14" LabelText="천상분지QuestName" SpaceBetweenLines="3" ClippingBound="0 5" bWordWrap="true" />
+				</BnsCustomLabelWidget.String>
+			</BnsCustomLabelWidget>
+			<BnsCustomLabelButtonWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_1_1_IconBtn" LayoutData.Offsets="40 5 25 25" MetaData="tooltip=UI.TendencyField.SimpleQuestGuide">
+				<BnsCustomLabelButtonWidget.NormalImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Map_Indicator/Img_Simple_Progress_Mapunit_1.Img_Simple_Progress_Mapunit_1" ImageUVSize="32 32" />
+				</BnsCustomLabelButtonWidget.NormalImageProperty>
+			</BnsCustomLabelButtonWidget>
+			<BnsCustomImageWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_1_1_Map" LayoutData.Offsets="40 5 25 25">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/HUD_Icon_Menu_Test_nocomp.HUD_Icon_Menu_Test_nocomp" ImageUV="579 640" ImageUVSize="38 23" EnableResourceSize="true" Offset="0 5" ImageScale="0.65" VerticalAlignment="VAlign_Bottom" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomLabelWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_1_1_RewardBonus" LayoutData.Offsets="296 33.00891 30 14.000977">
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Login_Label_LightYellow_Out_14.Login_Label_LightYellow_Out_14" LabelText="X20" SpaceBetweenLines="3" VerticalAlignment="VAlign_Center" Padding="0 -5" bWordWrap="true" />
+				</BnsCustomLabelWidget.String>
+			</BnsCustomLabelWidget>
+			<BnsCustomLabelWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_1_1_Reward" LayoutData.Anchors="1 0 1 0" LayoutData.Offsets="-30 33.00891 60 14">
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="9999 &lt;image enablescale=&quot;true&quot; imagesetpath=&quot;00009076.Peach_small&quot; scalerate=&quot;1.2&quot;/&gt;" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" Padding="0 -10" bWordWrap="true" />
+				</BnsCustomLabelWidget.String>
+			</BnsCustomLabelWidget>
+			<BnsCustomLabelWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_1_1_Reward2" LayoutData.Offsets="173 33.00891 60 14">
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="9999 &lt;image enablescale='true' imagesetpath='00009076.FactionScoreIcon' scalerate='1.2'/&gt;" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" Padding="0 -5" bWordWrap="true" />
+				</BnsCustomLabelWidget.String>
+			</BnsCustomLabelWidget>
+			<BnsCustomLabelWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_1_1_ProgressValue" LayoutData.Anchors="0 1 0 1" LayoutData.Offsets="73 0 218 11">
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Gauge_10.Gauge_10" LabelText="200/200" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" Padding="0 -10" bWordWrap="true" />
+				</BnsCustomLabelWidget.String>
+			</BnsCustomLabelWidget>
+			<BnsCustomProgressBarWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_1_1_ProgressBar" LayoutData.Anchors="0 1 0 1" LayoutData.Offsets="73 0 218 11" />
+			<BnsCustomImageWidget Name="TendencyField_SimpleQuest_QuickSlotList_Column_1_1_Targeting" LayoutData.Offsets="0 4 43 28">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/HUD_Icon_Menu_Test_nocomp.HUD_Icon_Menu_Test_nocomp" ImageUV="513 183" ImageUVSize="43 26" EnableResourceSize="true" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+		</BnsCustomImageWidget>
+	</BnsCustomColumnListWidget>
+	<BnsCustomImageWidget Name="TendencyField_VerticalResizeBottomDummy" LayoutData.Anchors="0.5 1 0.5 1" LayoutData.Offsets="0 0 325 0">
+		<BnsCustomImageWidget.BaseImageProperty>
+			<ImageProperty />
+		</BnsCustomImageWidget.BaseImageProperty>
+	</BnsCustomImageWidget>
+</BnsCustomWindowWidget>

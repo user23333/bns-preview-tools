@@ -11,7 +11,6 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
-using System.Windows.Markup;
 using System.Windows.Media;
 using Xylia.Preview.UI.Controls.Automation.Peers;
 using Xylia.Preview.UI.Controls.Helpers;
@@ -22,10 +21,7 @@ namespace Xylia.Preview.UI.Controls.Primitives;
 /// <summary>
 ///     The base class for all controls that have multiple children.
 /// </summary>
-[DefaultEvent("OnItemsChanged"), DefaultProperty("Items")]
-[ContentProperty("Items")]
 [StyleTypedProperty(Property = "ItemContainerStyle", StyleTargetType = typeof(FrameworkElement))]
-[Localizability(LocalizationCategory.None, Readability = Readability.Unreadable)] // cannot be read & localized as string
 public class BnsCustomSourceBaseWidget : BnsCustomBaseWidget, IGeneratorHost, IContainItemStorage
 {
 	#region Constructors
@@ -48,7 +44,7 @@ public class BnsCustomSourceBaseWidget : BnsCustomBaseWidget, IGeneratorHost, IC
 		// Define default style in code instead of in theme files.
 		DefaultStyleKeyProperty.OverrideMetadata(typeof(BnsCustomSourceBaseWidget), new FrameworkPropertyMetadata(typeof(BnsCustomSourceBaseWidget)));
 		EventManager.RegisterClassHandler(typeof(BnsCustomSourceBaseWidget), Keyboard.GotKeyboardFocusEvent, new KeyboardFocusChangedEventHandler(OnGotFocus));
-		VirtualizingStackPanel.ScrollUnitProperty.OverrideMetadata(typeof(BnsCustomSourceBaseWidget), new FrameworkPropertyMetadata(new PropertyChangedCallback(OnScrollingModeChanged), new CoerceValueCallback(CoerceScrollingMode)));
+		VirtualizingPanel.ScrollUnitProperty.OverrideMetadata(typeof(BnsCustomSourceBaseWidget), new FrameworkPropertyMetadata(new PropertyChangedCallback(OnScrollingModeChanged), new CoerceValueCallback(CoerceScrollingMode)));
 		VirtualizingPanel.CacheLengthProperty.OverrideMetadata(typeof(BnsCustomSourceBaseWidget), new FrameworkPropertyMetadata(new PropertyChangedCallback(OnCacheSizeChanged)));
 		VirtualizingPanel.CacheLengthUnitProperty.OverrideMetadata(typeof(BnsCustomSourceBaseWidget), new FrameworkPropertyMetadata(new PropertyChangedCallback(OnCacheSizeChanged), new CoerceValueCallback(CoerceVirtualizationCacheLengthUnit)));
 	}
@@ -171,11 +167,11 @@ public class BnsCustomSourceBaseWidget : BnsCustomBaseWidget, IGeneratorHost, IC
 
 	private static void OnItemsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 	{
-		var ic = (BnsCustomSourceBaseWidget)d;
+		var widget = (BnsCustomSourceBaseWidget)d;
 		IEnumerable oldValue = (IEnumerable)e.OldValue;
 		IEnumerable newValue = (IEnumerable)e.NewValue;
 
-		((IContainItemStorage)ic).Clear();
+		((IContainItemStorage)widget).Clear();
 
 		BindingExpressionBase beb = BindingOperations.GetBindingExpressionBase(d, ItemsSourceProperty);
 		if (beb != null)
@@ -188,15 +184,15 @@ public class BnsCustomSourceBaseWidget : BnsCustomBaseWidget, IGeneratorHost, IC
 		else if (e.NewValue != null)
 		{
 			// ItemsSource is non-null, but not data-bound.  Go to ItemsSource mode
-			ic.Items.SetItemsSource(newValue);
+			widget.Items.SetItemsSource(newValue);
 		}
 		else
 		{
 			// ItemsSource is explicitly null.  Return to normal mode.
-			ic.Items.ClearItemsSource();
+			widget.Items.ClearItemsSource();
 		}
 
-		ic.OnItemsSourceChanged(oldValue, newValue);
+		widget.OnItemsSourceChanged(oldValue, newValue);
 	}
 
 	/// <summary>
@@ -1674,8 +1670,6 @@ public class BnsCustomSourceBaseWidget : BnsCustomBaseWidget, IGeneratorHost, IC
 		return null;
 	}
 
-
-
 	internal Panel ItemsHost
 	{
 		get
@@ -1686,7 +1680,6 @@ public class BnsCustomSourceBaseWidget : BnsCustomBaseWidget, IGeneratorHost, IC
 	}
 
 	#endregion
-
 
 	#region Keyboard Navigation
 
@@ -3029,21 +3022,20 @@ public class BnsCustomSourceBaseWidget : BnsCustomBaseWidget, IGeneratorHost, IC
 		UIElement focusedElement = e.OriginalSource as UIElement;
 		if ((focusedElement != null) && (focusedElement != BnsCustomSourceBaseWidget))
 		{
-			object item = BnsCustomSourceBaseWidget.ItemContainerGenerator.ItemFromContainer(focusedElement);
-			if (item != DependencyProperty.UnsetValue)
-			{
-				BnsCustomSourceBaseWidget._focusedInfo = BnsCustomSourceBaseWidget.NewItemInfo(item, focusedElement);
-			}
-			else if (BnsCustomSourceBaseWidget._focusedInfo != null)
-			{
-				//	UIElement itemContainer = BnsCustomSourceBaseWidget._focusedInfo.Container as UIElement;
-				//	if (itemContainer == null ||
-				//		!Helper.IsAnyAncestorOf(itemContainer, focusedElement))
-				//	{
-				//		BnsCustomSourceBaseWidget._focusedInfo = null;
-				//	}
-				//}
-			}
+			//object item = BnsCustomSourceBaseWidget.ItemContainerGenerator.ItemFromContainer(focusedElement);
+			//if (item != DependencyProperty.UnsetValue)
+			//{
+			//	BnsCustomSourceBaseWidget._focusedInfo = BnsCustomSourceBaseWidget.NewItemInfo(item, focusedElement);
+			//}
+			//else if (BnsCustomSourceBaseWidget._focusedInfo != null)
+			//{
+			//	UIElement itemContainer = BnsCustomSourceBaseWidget._focusedInfo.Container as UIElement;
+			//	if (itemContainer == null ||
+			//		!Helper.IsAnyAncestorOf(itemContainer, focusedElement))
+			//	{
+			//		BnsCustomSourceBaseWidget._focusedInfo = null;
+			//	}
+			//}
 		}
 	}
 
@@ -3843,7 +3835,6 @@ internal interface IGeneratorHost
 	/// <summary>
 	int AlternationCount { get; }
 }
-
 
 /// <summary>
 /// ItemCollection will contain items shaped as strings, objects, xml nodes,
@@ -5474,7 +5465,7 @@ public sealed class ItemCollection : CollectionView, IList, IEditableCollectionV
 			if (!_isInitializing)
 				HookCollectionView(_collectionView);
 		}
-		return (_collectionView != null);
+		return _collectionView != null;
 	}
 
 	void EnsureInternalView()

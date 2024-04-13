@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using Xylia.Preview.Common.Extension;
+using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Helpers;
 
 namespace Xylia.Preview.Data.Models;
@@ -31,7 +32,6 @@ public sealed class ItemImproveSuccession : ModelElement
 			FeedItem.ImproveId == record.FeedMainImproveId && FeedItem.ImproveLevel == record.FeedMainImproveLevel &&
 		   (SeedItem is null || SeedItem.ImproveId == record.ResultImproveId));
 	}
-
 
 	internal IEnumerable<ItemRecipeHelper> CreateRecipe(Item SeedItem, out Item ResultItem)
 	{

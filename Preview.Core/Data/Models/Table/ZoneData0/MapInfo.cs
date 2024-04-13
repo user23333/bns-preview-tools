@@ -7,8 +7,8 @@ public sealed class MapInfo : ModelElement, IHaveName
 {
 	#region Attributes
 	public short Id { get; set; }
-	public string Alias { get; set; }
 
+	public string Alias { get; set; }
 
 	public short GroupId { get; set; }
 
@@ -19,6 +19,12 @@ public sealed class MapInfo : ModelElement, IHaveName
 	public Ref<MapInfo> ParentMapinfo { get; set; }
 
 	public float Scale { get; set; }
+
+	[Name("map-group-1")]
+	public Ref<MapGroup1> MapGroup1 { get; set; }
+
+	[Name("map-group-2")]
+	public Ref<MapGroup2> MapGroup2 { get; set; }
 
 	public float LocalAxisX { get; set; }
 

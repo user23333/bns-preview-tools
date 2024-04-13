@@ -27,11 +27,7 @@ public partial class SettingsView : Window
 			return;
 
 		UserSettings.Default.GameFolder = path;
-		var Locale = new Locale(new DirectoryInfo(path));
-		if (Locale._language != null)
-		{
-			var region = Locale.Language == ELanguage.None ? Locale._language : Locale.Language.GetDescription();
-		}
+		// var Locale = new Locale(new DirectoryInfo(path));
 	}
 
 	private void OnBrowseDirectories2(object sender, RoutedEventArgs e)

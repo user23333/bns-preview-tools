@@ -57,7 +57,7 @@ public class BnsCustomLabelWidget : BnsCustomBaseWidget, IContentHost
 	{
 		base.OnMouseDoubleClick(e);
 
-		var raw = String?.LabelText.Text;
+		var raw = String.LabelText.Text;
 		var text = CopyMode switch
 		{
 			CopyMode.None => null,
@@ -94,9 +94,7 @@ public class BnsCustomLabelWidget : BnsCustomBaseWidget, IContentHost
 	private static void OnTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 	{
 		var widget = (BnsCustomLabelWidget)d;
-		var text = (string)e.NewValue;
-
-		widget.UpdateString(text);
+		widget.UpdateString((string)e.NewValue);
 	}
 	#endregion
 

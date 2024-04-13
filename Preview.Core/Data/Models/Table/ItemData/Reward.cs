@@ -1,4 +1,5 @@
 ﻿using Xylia.Preview.Common.Attributes;
+using Xylia.Preview.Common.Extension;
 
 namespace Xylia.Preview.Data.Models;
 public class Reward : ModelElement
@@ -97,7 +98,7 @@ public class Reward : ModelElement
 
 	public int[] RareItemProbWeight { get; set; }
 
-	public short Unk2504 { get; set; }
+	public short RareItemTotalCount { get; set; }
 
 	public short[] RareItemMin { get; set; }
 
@@ -110,137 +111,171 @@ public class Reward : ModelElement
 	public sbyte SelectedItemAssuredCount { get; set; }
 
 	public Ref<Item>[] RandomItem { get; set; }
-
 	#endregion
 
 	#region Methods
-	protected internal override void LoadHiddenField()
+	public List<RewardInfo> GetInfos()
 	{
-		if (Attributes["rare-item-1"] != null && Attributes["rare-item-1-max"] is null)
-		{
-			this.Attributes["rare-item-1-max"] = 1;
-			this.Attributes["rare-item-1-min"] = 1;
+		var FormatText = "获得其中{0}种";
+		var datas = new List<RewardInfo>();
 
-			for (int i = 1; i <= 40; i++)
-			{
-				var item = this.Attributes["rare-item-" + i];
-				if (item != null) this.Attributes["rare-item-prob-weight-" + i] = 50;
-			}
-		}
-
-		if (Attributes["group-3-item-1"] != null && Attributes["group-3-probability"] is null)
-		{
-			Attributes["group-3-probability"] = 1000;
-
-			for (int i = 1; i <= 35; i++)
-			{
-				if (Attributes["group-3-item-" + i] != null)
-				{
-					Attributes["group-3-item-prob-weight-" + i] = 3;
-				}
-			}
-		}
-
-		if (Attributes["group-1-2-probability"] is null)
-		{
-			bool UseGroup1 = false;
-			bool UseGroup2 = false;
-
-			if (Attributes["group-2-item-1"] != null)
-			{
-				Attributes["group-2-assured-count"] = 1;
-				UseGroup2 = true;
-			}
-
-			if (Attributes["group-1-item-1"] != null)
-			{
-				Attributes["group-1-assured-count"] = 1;
-				UseGroup1 = true;
-			}
-
-			if (UseGroup1 || UseGroup2)
-			{
-				Attributes["group-1-2-probability"] = 100;
-
-				if (UseGroup1) Attributes["group-1-prob-weight"] = UseGroup1 && UseGroup2 ? 50 : 100;
-				if (UseGroup2) Attributes["group-2-prob-weight"] = UseGroup1 && UseGroup2 ? 50 : 100;
-			}
-		}
-	}
-
-	public void TestMethods()
-	{
 		for (int i = 0; i < FixedItem.Length; i++)
 		{
 			var item = FixedItem[i].Instance;
-			var min = FixedItemMin[i];
-			var max = FixedItemMax[i];
-		}
+			if (item is null) continue;
 
+			datas.Add(new RewardInfo()
+			{
+				Item = item,
+				Group = new("fixed", "固定获得"),
+				Min = FixedItemMin[i],
+				Max = FixedItemMax[i],
+			});
+		}
 
 		if (Group12Probability > 0)
 		{
-			Console.WriteLine(" == Group 1-2 == " + Group12Probability + "%");
-			Console.WriteLine(" == Group 1 == " + Divide(Group1ProbWeight, Group12TotalProbWeight) + $"	count: {Group1AssuredCount}  total:{Group1ItemTotalCount}");
+			var probability = (double)Group12Probability / Group12TotalProbWeight;
+
 			for (int i = 0; i < Group1Item.Length; i++)
 			{
 				var item = Group1Item[i].Instance;
-				if (item != null) Console.WriteLine($"{item.ItemNameOnly}");
+				if (item is null) continue;
+
+				datas.Add(new RewardInfo()
+				{
+					Item = item,
+					Group = new("group-1", string.Format("{1}% " + FormatText, Group1AssuredCount, Group1ProbWeight * probability)),
+					Min = 1,
+					Max = 1,
+				});
 			}
 
-
-			Console.WriteLine(" == Group 2 == " + Divide(Group2ProbWeight, Group12TotalProbWeight) + $"	count: {Group2AssuredCount}  total:{Group2ItemTotalCount}");
 			for (int i = 0; i < Group2Item.Length; i++)
 			{
 				var item = Group2Item[i].Instance;
-				if (item != null) Console.WriteLine($"{item.ItemNameOnly}");
+				if (item is null) continue;
+
+				datas.Add(new RewardInfo()
+				{
+					Item = item,
+					Group = new("group-2", string.Format("{1}% " + FormatText, Group2AssuredCount, Group2ProbWeight * probability)),
+					Min = 1,
+					Max = 1,
+				});
 			}
 		}
 
 		if (Group3Probability > 0)
 		{
-			Console.WriteLine(" == Group3 == " + Group3Probability + "%");
 			for (int i = 0; i < Group3Item.Length; i++)
 			{
 				var item = Group3Item[i].Instance;
-				var weight = Group3ItemProbWeight[i];
+				if (item is null) continue;
 
-				if (item != null) Console.WriteLine($"{item.ItemNameOnly} {(double)weight / Group3TotalProbWeight:P5}");
+				datas.Add(new RewardInfo()
+				{
+					Item = item,
+					Group = new("group-3", string.Format("{1}% " + FormatText, 1, Group3Probability)),
+					Probability = Group3ItemProbWeight[i],
+					ProbabilityType = Group3TotalProbWeight,
+				});
 			}
 		}
 
 		if (Group4Probability > 0)
 		{
-			Console.WriteLine(" == Group4 == " + Group4Probability + "%");
+			var TotalProbWeight = Group4ItemMax.Sum();
 			for (int i = 0; i < Group4Item.Length; i++)
 			{
 				var item = Group4Item[i].Instance;
+				if (item is null) continue;
+
 				var min = Group4ItemMin[i];
 				var max = Group4ItemMax[i];
 
-				if (item != null) Console.WriteLine($"{item.ItemNameOnly}");
+				datas.Add(new RewardInfo()
+				{
+					Item = item,
+					Group = new("group-4", string.Format("{1}% " + FormatText, Group4SelectedCount, Group4Probability)),
+					Probability = max,
+					ProbabilityType = TotalProbWeight,
+				});
+			}
+		}
+
+		if (Group5Probability > 0)
+		{
+			var TotalProbWeight = Group5ItemMax.Sum();
+			for (int i = 0; i < Group5Item.Length; i++)
+			{
+				var item = Group5Item[i].Instance;
+				if (item is null) continue;
+
+				var min = Group5ItemMin[i];
+				var max = Group5ItemMax[i];
+
+				datas.Add(new RewardInfo()
+				{
+					Item = item,
+					Group = new("group-5", string.Format("{1}% " + FormatText, Group4SelectedCount, Group4Probability)),
+					Probability = max,
+					ProbabilityType = TotalProbWeight,
+				});
 			}
 		}
 
 		var RareItemTotalProbWeight = RareItemProbWeight.Sum();
 		if (RareItemTotalProbWeight > 0)
 		{
-			Console.WriteLine(" == Rare == " + Divide(RareItemTotalProbWeight, RareItemProbWeightType));
 			for (int i = 0; i < RareItem.Length; i++)
 			{
 				var item = RareItem[i].Instance;
-				var weight = RareItemProbWeight[i];
-				var min = RareItemMin[i];
-				var max = RareItemMax[i];
+				if (item is null) continue;
 
-				if (item != null) Console.WriteLine($"{item.ItemNameOnly} {min}-{max} {Divide(weight, RareItemProbWeightType, 5)}");
+				datas.Add(new RewardInfo()
+				{
+					Item = item,
+					Group = new("rare", string.Format(FormatText, 1)),
+					Min = RareItemMin[i],
+					Max = RareItemMax[i],
+					Probability = RareItemProbWeight[i],
+					ProbabilityType = RareItemProbWeightType,
+				});
 			}
 		}
+
+		if (SelectedItemAssuredCount > 0)
+		{
+			for (int i = 0; i < SelectedItem.Length; i++)
+			{
+				var item = SelectedItem[i].Instance;
+				if (item is null) continue;
+
+				datas.Add(new RewardInfo()
+				{
+					Item = item,
+					Group = new("selected", string.Format("选择" + FormatText, SelectedItemAssuredCount)),
+					Min = SelectedItemCount[i],
+					Max = SelectedItemCount[i],
+				});
+			}
+		}
+
+		return datas;
 	}
 
-	private static string Divide(int x, int y, int length = 2)
+	public class RewardInfo
 	{
-		return ((double)x / y).ToString("P" + length);
+		public Item Item;
+		public (string, string) Group;
+		public short Min = 1;
+		public short Max = 1;
+		public int Probability;
+		public int ProbabilityType;
+
+		public string CountInfo => Min != Max ? string.Format("{0}-{1}", Min, Max) : string.Format("{0}", Min);
+		public string ProbabilityInfo => Probability == 0 ? string.Empty : ((double)Probability / ProbabilityType).ToString("P" + ProbabilityType.GetPercentLength());
 	}
 	#endregion
 }

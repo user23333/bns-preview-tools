@@ -52,7 +52,7 @@ public static class LinqExtensions
 	#endregion
 
 	#region Array
-	public static void For<T>(ref T[] array, int size, Func<int, T> func)
+  public static void For<T>(ref T[] array, int size, Func<int, T> func)
 	{
 		array = For(size, func);
 	}
@@ -88,7 +88,6 @@ public static class LinqExtensions
 		return source.Where(x => x.Item1 != null && x.Item2 != null).ToArray();
 	}
 	#endregion
-
 
 	#region Expand
 	public static void ForEach<TElement>(this Ref<TElement>[] source, Action<TElement> action) where TElement : ModelElement

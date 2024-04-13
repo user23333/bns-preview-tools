@@ -73,11 +73,15 @@ public sealed unsafe class Record : IElement, IDisposable
 
 	public Table Owner { get; internal set; }
 
-	public ElementBaseDefinition Definition => Owner.Definition.ElRecord.SubtableByType(SubclassType, this);
-
 	public AttributeCollection Attributes { get; internal set; }
 
 	internal Dictionary<string, Record[]> Children { get; set; } = [];
+	#endregion
+
+	#region Properties
+	public string OwnerName => Owner.Name.ToLower();
+
+	public ElementBaseDefinition Definition => Owner.Definition.ElRecord.SubtableByType(SubclassType, this);
 
 	public bool HasChildren => Children.Count > 0;
 	#endregion

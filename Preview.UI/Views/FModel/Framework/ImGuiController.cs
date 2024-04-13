@@ -11,7 +11,6 @@ using ErrorCode = OpenTK.Graphics.OpenGL4.ErrorCode;
 using Keys = OpenTK.Windowing.GraphicsLibraryFramework.Keys;
 
 namespace FModel.Framework;
-
 public class ImGuiController : IDisposable
 {
     private bool _frameBegun;

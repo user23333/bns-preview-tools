@@ -10,9 +10,9 @@ public class BnsCustomComboBoxWidget : BnsCustomSelectBaseWidget
 	{
 		base.OnInitialized(e);
 
-		Button = GetChild<BnsCustomToggleButtonWidget>("Button");
-		Label = GetChild<BnsCustomLabelWidget>("Label");
-		List = GetChild<BnsCustomListCtrlWidget>("List");
+		Button = GetChild<BnsCustomToggleButtonWidget>("Button")!;
+		Label = GetChild<BnsCustomLabelWidget>("Label")!;
+		List = GetChild<BnsCustomListCtrlWidget>("List")!;
 
 		// set handler
 		Button.Checked += Button_Checked;
@@ -30,6 +30,7 @@ public class BnsCustomComboBoxWidget : BnsCustomSelectBaseWidget
 		// TODO: Mesure 
 	}
 	#endregion
+
 
 	#region Private Helpers
 	private void Button_Checked(object sender, RoutedEventArgs e)

@@ -18,9 +18,22 @@ public static class ControlHelpers
 		}
 	}
 
-	public static Visibility ToVisibility(this bool flag)
+	public static void SetVisibility(this FrameworkElement element, bool visible)
 	{
-		return flag ? Visibility.Visible : Visibility.Collapsed;
+		element.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
+	}
+
+	public static byte[] Snapshot(this FrameworkElement element)
+	{
+		var bounds = new Rect(element.DesiredSize);
+		element.Arrange(bounds);
+
+		// If you need to create a bitmap with a specified resolution, you could directly
+		// pass the specified dpiX and dpiY values to RenderTargetBitmap constructor.
+		var bmp = new RenderTargetBitmap((int)bounds.Width, (int)bounds.Height, 96d, 96d, PixelFormats.Pbgra32);
+		bmp.Render(element);
+
+		return bmp.AsData();
 	}
 	#endregion
 
@@ -79,19 +92,4 @@ public static class ControlHelpers
 		}
 	}
 	#endregion
-
-
-
-	public static byte[] Snapshot(this FrameworkElement element)
-	{
-		var bounds = new Rect(element.DesiredSize);
-		element.Arrange(bounds);
-
-		// If you need to create a bitmap with a specified resolution, you could directly
-		// pass the specified dpiX and dpiY values to RenderTargetBitmap constructor.
-		var bmp = new RenderTargetBitmap((int)bounds.Width, (int)bounds.Height, 96d, 96d, PixelFormats.Pbgra32);
-		bmp.Render(element);
-
-		return bmp.AsData();
-	}
 }

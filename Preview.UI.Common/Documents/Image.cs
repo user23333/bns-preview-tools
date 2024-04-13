@@ -18,15 +18,17 @@ public class Image : BaseElement
 
 	}
 
-	internal Image(BitmapSource? source)
+	internal Image(ImageProperty property)
 	{
-		this.Source = source;
+		Source = property.Image?.ToWriteableBitmap();
+
+		Enablescale = true;
+		Scalerate = property.ImageScale;
 	}
 	#endregion
 
 	#region Fields
 	// jpgpath
-
 	public string? Imagesetpath { get; set; }
 	public string? Path { get; set; }
 
@@ -68,12 +70,16 @@ public class Image : BaseElement
 	}
 
 	protected override Size MeasureCore(Size availableSize)
-	{
-		var image = FileCache.Provider.LoadObject<UImageSet>(Imagesetpath)?.GetImage() ??
-			FileCache.Provider.LoadObject<UTexture2D>(Path)?.Decode()?.Clone(U, V, UL, VL);
+	{	
+		// load if not exist
+		if (Source is null)
+		{
+			var image = FileCache.Provider.LoadObject<UImageSet>(Imagesetpath)?.GetImage() ??
+				FileCache.Provider.LoadObject<UTexture2D>(Path)?.Decode()?.Clone(U, V, UL, VL);
 
-		Source = image?.ToWriteableBitmap();
-		if (Source is null) return new Size();
+			Source = image?.ToWriteableBitmap();
+			if (Source is null) return new Size();
+		}
 
 		double width = Source.Width;
 		double height = Source.Height;

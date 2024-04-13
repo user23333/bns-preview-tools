@@ -38,7 +38,7 @@ public class TreeViewItemMarginConverter : MarkupExtension, IValueConverter
 	public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 	{
 		var left = 0.0;
-		UIElement element = value as TreeViewItem;
+		UIElement? element = value as TreeViewItem;
 		while (element != null && element.GetType() != typeof(TreeView))
 		{
 			element = (UIElement)VisualTreeHelper.GetParent(element);

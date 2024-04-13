@@ -134,7 +134,7 @@ public partial class ModelGui : SnimGui
 			{
 				if (model.Export is null) continue;
 
-				if (ImGui.MenuItem(model.DisplayName))
+				if (ImGui.MenuItem(model.DisplayName ?? "Default"))
 				{
 					view.Renderer.Options = new Options();   //clear model 
 					view.TryLoadExport(default, model);

@@ -10,38 +10,49 @@ namespace Xylia.Preview.UI.Common.Interactivity;
 /// </summary>
 public abstract class RecordCommand : MarkupExtension, ICommand
 {
+	#region Override Methods   
 	public override object ProvideValue(IServiceProvider serviceProvider) => this;
 
+	public event EventHandler? CanExecuteChanged;
+
+	public bool CanExecute(object? parameter)
+	{
+		// get available command instances base on table name
+		if (parameter is string name) return Type is null || Type.Contains(name.ToLower());
+		// process the source element
+		else if (parameter is Record record) return CanExecute(record);
+		else if (parameter is ModelElement model) return CanExecute(model.Source);
+		else return false;
+	}
+
+	public void Execute(object? parameter) => Task.Run(() =>
+	{
+		if (parameter is Record record) Execute(record);
+		if (parameter is ModelElement model) Execute(model.Source);
+	});
+	#endregion
+
+	#region Methods
+	/// <summary>
+	/// Display text
+	/// </summary>
 	public virtual string Name => GetType().Name;
 
-    public event EventHandler? CanExecuteChanged;
-
-
-    public virtual bool CanExecute(object? parameter)
-	{
-		if (parameter is Record record) { }
-		else if (parameter is ModelElement model) record = model.Source;
-		else return false;
-
-		return CanExecute(record.Owner.Name);
-	}
+	/// <summary>
+	/// Supported table type
+	/// </summary>
+	protected abstract List<string>? Type { get; }
 
 	/// <summary>
 	/// Defines the method that determines whether the command can execute in its current state.
 	/// </summary>
-	/// <param name="name">owner table name</param>
 	/// <returns></returns>
-	public abstract bool CanExecute(string name);
-
-    public void Execute(object? parameter) => Task.Run(() =>
-    {
-        if (parameter is Record record) Execute(record);
-		if (parameter is ModelElement model) Execute(model.Source);
-	});
+	protected virtual bool CanExecute(Record record) => true;
 
 	/// <summary>
 	/// Defines the method to be called when the command is invoked.
 	/// </summary>
 	/// <param name="record"></param>
-	public abstract void Execute(Record record);
+	protected abstract void Execute(Record record);
+	#endregion
 }

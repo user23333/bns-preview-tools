@@ -11,11 +11,38 @@ public class BnsCustomToggleButtonWidget : BnsCustomLabelButtonWidget
 	#region Constructors
 	public BnsCustomToggleButtonWidget()
 	{
-
+		SetCurrentValue(ExpansionProperty, new ExpansionManager());
 	}
 	#endregion
 
-	#region Properties and Events
+	#region Properties
+	public ImageProperty? PressedImageProperty { get; set; }
+
+	/// <summary>
+	///     The DependencyProperty for the IsChecked property.
+	///     Flags:              BindsTwoWayByDefault
+	///     Default Value:      false
+	/// </summary>
+	public static readonly DependencyProperty bIsCheckedProperty = DependencyProperty.Register("bIsChecked",
+		typeof(bool), typeof(BnsCustomToggleButtonWidget),
+		new FrameworkPropertyMetadata(BooleanBoxes.FalseBox,
+			FrameworkPropertyMetadataOptions.BindsTwoWayByDefault | FrameworkPropertyMetadataOptions.Journal,
+			new PropertyChangedCallback(OnIsCheckedChanged)));
+
+	/// <summary>
+	///     Indicates whether the BnsCustomToggleButtonWidget is checked
+	/// </summary>
+	[Category("Appearance")]
+	[TypeConverter(typeof(NullableBoolConverter))]
+	[Localizability(LocalizationCategory.None, Readability = Readability.Unreadable)]
+	public bool bIsChecked
+	{
+		get { return (bool)GetValue(bIsCheckedProperty); }
+		set { SetValue(bIsCheckedProperty, value); }
+	}
+	#endregion
+
+	#region Events
 	/// <summary>
 	///     Checked event
 	/// </summary>
@@ -61,29 +88,6 @@ public class BnsCustomToggleButtonWidget : BnsCustomLabelButtonWidget
 	}
 
 	/// <summary>
-	///     The DependencyProperty for the IsChecked property.
-	///     Flags:              BindsTwoWayByDefault
-	///     Default Value:      false
-	/// </summary>
-	public static readonly DependencyProperty bIsCheckedProperty = DependencyProperty.Register("bIsChecked",
-		typeof(bool), typeof(BnsCustomToggleButtonWidget),
-		new FrameworkPropertyMetadata(BooleanBoxes.FalseBox,
-			FrameworkPropertyMetadataOptions.BindsTwoWayByDefault | FrameworkPropertyMetadataOptions.Journal,
-			new PropertyChangedCallback(OnIsCheckedChanged)));
-
-	/// <summary>
-	///     Indicates whether the ToggleButton is checked
-	/// </summary>
-	[Category("Appearance")]
-	[TypeConverter(typeof(NullableBoolConverter))]
-	[Localizability(LocalizationCategory.None, Readability = Readability.Unreadable)]
-	public bool bIsChecked
-	{
-		get { return (bool)GetValue(bIsCheckedProperty); }
-		set { SetValue(bIsCheckedProperty, value); }
-	}
-
-	/// <summary>
 	///     Called when IsChecked is changed on "d."
 	/// </summary>
 	/// <param name="d">The object on which the property was changed.</param>
@@ -122,6 +126,8 @@ public class BnsCustomToggleButtonWidget : BnsCustomLabelButtonWidget
 	{
 		// If RadioButton is checked we should uncheck the others in the same group
 		UpdateRadioButtonGroup();
+
+		Expansion.Add("checked");
 		RaiseEvent(e);
 	}
 
@@ -131,11 +137,11 @@ public class BnsCustomToggleButtonWidget : BnsCustomLabelButtonWidget
 	/// <param name="e">Event arguments for the routed event that is raised by the default implementation of this method.</param>
 	private void OnUnchecked(RoutedEventArgs e)
 	{
+		Expansion.Remove("checked");
 		RaiseEvent(e);
 	}
-
-	public ImageProperty PressedImageProperty { get; set; }
 	#endregion
+
 
 	#region Override methods
 	/// <summary>

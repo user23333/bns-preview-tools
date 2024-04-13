@@ -137,7 +137,6 @@ internal sealed class ItemOut : OutSet, IDisposable
     }
     #endregion
 
-
     #region Data
     DateTimeOffset? CreatedAt;
 
@@ -180,7 +179,6 @@ class ItemSimple
         Job = GetJob(Alias);
     }
     #endregion
-
 
     #region Text
     private string GetName2(GameDataTable<Text> text)

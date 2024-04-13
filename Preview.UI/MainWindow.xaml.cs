@@ -44,10 +44,7 @@ public partial class MainWindow
 	#region Methods
 	private void OnLoaded(object sender, EventArgs e)
 	{
-		if (UpdateService.ShowLog)
-		{
-			HandyControl.Controls.Dialog.Show<UpdateLogDialog>("MainContainer");
-		}
+		if (UpdateService.ShowLog) OpenUpdateLog(sender, new RoutedEventArgs());
 	}
 
 	protected override void OnClosing(CancelEventArgs e)
@@ -88,6 +85,11 @@ public partial class MainWindow
 	private void OpenSettings(object sender, RoutedEventArgs e)
 	{
 		new SettingsView().ShowDialog();
+	}
+
+	private void OpenUpdateLog(object sender, RoutedEventArgs e)
+	{
+		HandyControl.Controls.Dialog.Show<UpdateLogDialog>("MainContainer");
 	}
 
 	private void OpenPopupSkin(object sender, RoutedEventArgs e) => PopupSkin.IsOpen = true;

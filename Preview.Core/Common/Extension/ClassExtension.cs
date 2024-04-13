@@ -5,7 +5,6 @@ using System.Runtime.CompilerServices;
 namespace Xylia.Preview.Common.Extension;
 public static partial class ClassExtension
 {
-	#region Common
 	public static PropertyInfo GetProperty<T>(this T instance, string name)
 	{
 		var flags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.IgnoreCase;
@@ -34,7 +33,7 @@ public static partial class ClassExtension
 
 		return false;
 	}
-	#endregion
+
 
 	#region Attribute
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]

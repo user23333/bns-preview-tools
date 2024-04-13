@@ -20,7 +20,7 @@ public partial class PropertyEditor
 
 	private void ViewSource_Click(object sender, RoutedEventArgs e)
 	{
-		if (Source.HasChildren) new PreviewRaw().Execute(Source, true);
+		if (Source.HasChildren) PreviewBasic.Execute(Source, true);
 		else Clipboard.SetText(Source.Data.ToHex());
 	}
 	#endregion

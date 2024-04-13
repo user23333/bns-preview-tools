@@ -8,7 +8,7 @@
 	  xmlns:VM="clr-namespace:Xylia.Preview.UI.ViewModels">
 	<TabControl BorderThickness="0">
 		<TabItem Header="{DynamicResource ItemList_Name}" d:Header="ItemList">
-			<Grid >
+			<Grid>
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
@@ -51,7 +51,7 @@
 					hc:InfoElement.Placeholder="{DynamicResource ItemPage_SearchItemRule_Placeholder}"/>
 
 				<Button Content="ItemStore"     Command="{Binding PreviewCommand}" CommandParameter="Game_ItemStore.LegacyItemStorePanel" />
-				<Button Content="Map"           Command="{Binding PreviewCommand}" CommandParameter="Game_Map.Game_MapScene" />
+				<Button Content="Map"           Command="{Binding PreviewCommand}" CommandParameter="Game_MapWindow.Legacy_MapWindowPanel" />
 				<Button Content="CharacterInfo" Command="{Binding PreviewCommand}" CommandParameter="Game_CharacterInfo.CharacterInfoPanel" Visibility="Collapsed" />
 
 				<Button d:Content="Data GUI"	Content="{DynamicResource ItemPage_DataGUI}" Click="DatabaseGui_Click" Foreground="{StaticResource PrimaryBrush}" />

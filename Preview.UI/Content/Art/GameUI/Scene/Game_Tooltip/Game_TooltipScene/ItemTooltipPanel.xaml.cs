@@ -2,11 +2,13 @@
 using System.Windows.Controls;
 using CUE4Parse.BNS.Assets.Exports;
 using Xylia.Preview.Common.Extension;
+using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models;
 using Xylia.Preview.Data.Models.Sequence;
 using Xylia.Preview.UI.Controls;
 using Xylia.Preview.UI.Converters;
+using Xylia.Preview.UI.Extensions;
 using Xylia.Preview.UI.ViewModels;
 
 namespace Xylia.Preview.UI.GameUI.Scene.Game_Tooltip;
@@ -24,8 +26,86 @@ public partial class ItemTooltipPanel
 	{
 		if (DataContext is not Item record) return;
 
+		#region Common
+		ItemIcon.ExpansionComponentList["BackgroundImage"]?.SetValue(record.BackIcon);
+		ItemIcon.ExpansionComponentList["IconImage"]?.SetValue(record.FrontIcon);
+		ItemIcon.ExpansionComponentList["UnusableImage"]?.SetValue(null);
+		ItemIcon.ExpansionComponentList["Grade_Image"]?.SetValue(null);
+		ItemIcon.ExpansionComponentList["CanSaleItem"]?.SetValue(record.CanSaleItemImage);
+		ItemIcon.InvalidateVisual();
+
+		ItemDescription7.String.LabelText = record.Attributes["description7"].GetText() +
+			string.Join("<br/>", record.ItemCombat.SelectNotNull(x => x.Instance));
+
+		SealEnable.SetVisibility(record.SealRenewalAuctionable);
+		if (record.SealRenewalAuctionable)
+		{
+			var SealConsumeItem1 = record.Attributes.Get<Record>("seal-consume-item-1")?.As<Item>();
+			var SealConsumeItem2 = record.Attributes.Get<Record>("seal-consume-item-2")?.As<Item>();
+			var SealConsumeItemCount1 = record.Attributes.Get<short>("seal-consume-item-count-1");
+			var SealConsumeItemCount2 = record.Attributes.Get<short>("seal-consume-item-count-2");
+			// seal-acquire-item
+			var SealKeepLevel = record.Attributes.Get<BnsBoolean>("seal-keep-level");
+			var SealEnableCount = record.Attributes.Get<sbyte>("seal-enable-count");
+
+			SealEnable.String.LabelText = (SealEnableCount == 0 ? "UI.Item.Tooltip.SealEnable" : "UI.Item.Tooltip.SealEnable.Count")
+				.GetText([SealConsumeItem1, SealConsumeItemCount1, SealEnableCount]);
+		}
+		#endregion
+
+		#region Combat Holder
+		Combat_Holder.Visibility = Visibility.Collapsed;
+		if (record.RandomOptionGroupId != 0)
+		{
+			var Job = UserSettings.Default.Job;
+			var ItemRandomOptionGroup = FileCache.Data.Provider.GetTable<ItemRandomOptionGroup>()[record.RandomOptionGroupId + ((long)Job << 32)];
+			if (ItemRandomOptionGroup != null)
+			{
+				// title
+				Combat_Holder.Children.Clear();
+				Combat_Holder.Children.Add(Combat_Holder_Title);
+				Combat_Holder_Title.String.LabelText = string.Format("{0} ({1}-{2})", ItemRandomOptionGroup.SkillTrainByItemListTitle,
+					ItemRandomOptionGroup.SkillTrainByItemListSelectMin, ItemRandomOptionGroup.SkillTrainByItemListSelectMax);
+
+				foreach (var SkillTrainByItemList in ItemRandomOptionGroup.SkillTrainByItemList.SelectNotNull(x => x.Instance))
+				{
+					var ChangeSets = SkillTrainByItemList.ChangeSet.SelectNotNull(x => x.Instance);
+					if (ChangeSets.Count() > 1) Combat_Holder.Children.Add(new BnsCustomLabelWidget() { Text = "在以下效果中获得其中一种" });
+
+					foreach (var SkillTrainByItem in ChangeSets)
+					{
+						// element
+						var icon = new BnsCustomImageWidget
+						{
+							BaseImageProperty = IconTexture.Parse(SkillTrainByItem.Icon),
+							Width = 32,
+							Height = 32,
+							Margin = new Thickness(0, 0, 10, 0),
+							VerticalAlignment = VerticalAlignment.Top,
+						};
+
+						var description = new BnsCustomLabelWidget();
+						description.String.LabelText = UserSettings.Default.UseDebugMode ? SkillTrainByItem.Description2 : SkillTrainByItem.Description.GetText();
+
+						// layout
+						var box = new HorizontalBox() { Margin = new Thickness(0, 0, 0, 3) };
+						LayoutData.SetAnchors(box, FLayoutData.Anchor.Full);
+						Combat_Holder.Children.Add(box);
+
+						box.Children.Add(icon);
+						box.Children.Add(description);
+					}
+				}
+
+				Combat_Holder.VerticalTree = Combat_Holder.Children.OfType<UIElement>().ToList();
+				Combat_Holder.Visibility = Visibility.Visible;
+			}
+		}
+		#endregion
+
 		#region Decompose 
 		DecomposeDescription_Title.Visibility = Visibility.Collapsed;
+		DecomposeDescription.Children.Clear();
 
 		var pages = DecomposePage.LoadFrom(record.DecomposeInfo);
 		if (pages.Count > 0)
@@ -36,51 +116,7 @@ public partial class ItemTooltipPanel
 			var page = pages[0];
 			page.Update(DecomposeDescription.Children);
 		}
-		#endregion
-
-		ItemIcon.ExpansionComponentList["BackgroundImage"]?.SetValue(record.BackIcon);
-		ItemIcon.ExpansionComponentList["IconImage"]?.SetValue(record.FrontIcon);
-		ItemIcon.ExpansionComponentList["UnusableImage"]?.SetValue(null);
-		ItemIcon.ExpansionComponentList["Grade_Image"]?.SetValue(null);
-		ItemIcon.ExpansionComponentList["CanSaleItem"]?.SetValue(record.CanSaleItemImage);
-		ItemIcon.InvalidateVisual();
-
-		ItemDescription7.String.LabelText = record.Attributes["description7"].GetText() + 
-			string.Join("<br/>", record.ItemCombat.SelectNotNull(x => x.Instance));
-
-		#region Combat Holder
-		Combat_Holder.Visibility = Visibility.Collapsed;
-		if (record.RandomOptionGroupId != 0)
-		{
-			var Job = UserSettings.Default.Job;
-			var ItemRandomOptionGroup = FileCache.Data.Provider.GetTable<ItemRandomOptionGroup>()[record.RandomOptionGroupId + ((long)Job << 32)];
-
-			// title
-			Combat_Holder.Children.Clear();
-			Combat_Holder.Children.Add(Combat_Holder_Title);
-			Combat_Holder_Title.String.LabelText = string.Format("{0} ({1}-{2})", ItemRandomOptionGroup.SkillTrainByItemListTitle,
-				ItemRandomOptionGroup.SkillTrainByItemListSelectMin, ItemRandomOptionGroup.SkillTrainByItemListSelectMax);
-
-			foreach (var SkillTrainByItemList in ItemRandomOptionGroup.SkillTrainByItemList.SelectNotNull(x => x.Instance))
-			{
-				SkillTrainByItemList.ChangeSet.ForEach(SkillTrainByItem =>
-				{
-					var box = new HorizontalBox();
-					Combat_Holder.Children.Add(box);
-					LayoutData.SetAnchors(box, FLayoutData.Anchor.Full);
-
-
-					var description = new BnsCustomLabelWidget();
-					description.String.LabelText = UserSettings.Default.UseDebugMode ? SkillTrainByItem.Description2 : SkillTrainByItem.Description.GetText();
-
-					box.Children.Add(description);
-				});
-			}
-
-			Combat_Holder.VerticalTree = Combat_Holder.Children.OfType<UIElement>().ToList();
-			Combat_Holder.Visibility = Visibility.Visible;
-		}
-		#endregion
+		#endregion	 	
 	}
 	#endregion
 
@@ -138,7 +174,6 @@ public partial class ItemTooltipPanel
 		public void Update(UIElementCollection collection)
 		{
 			ArgumentNullException.ThrowIfNull(DecomposeReward);
-			collection.Clear();
 
 			DecomposeReward.FixedItem.ForEach(x => x.Instance, (item, i) =>
 			{

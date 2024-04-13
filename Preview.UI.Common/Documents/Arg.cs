@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using CUE4Parse.BNS.Assets.Exports;
 using HtmlAgilityPack;
-using SkiaSharp.Views.WPF;
 using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.UI.Documents;
@@ -11,16 +10,19 @@ public class Arg : BaseElement
 	public string? P { get; set; }
 	public string? Id { get; set; }
 	public string? Seq { get; set; }
+	public bool Link { get; set; }
 
 	TextArguments.Argument? Argument;
 	#endregion
 
+
 	#region Methods
 	protected internal override void Load(HtmlNode node)
 	{
-		this.P = node.Attributes["p"]?.Value;
-		this.Id = node.Attributes["id"]?.Value;
-		this.Seq = node.Attributes["seq"]?.Value;
+		this.P = node.GetAttributeValue("p", null);
+		this.Id = node.GetAttributeValue("id", null);
+		this.Seq = node.GetAttributeValue("seq", null);
+		this.Link = node.GetAttributeValue("link", false);
 		this.Argument = new TextArguments.Argument(P, Id, Seq);
 	}
 
@@ -30,7 +32,7 @@ public class Arg : BaseElement
 
 		var result = Argument!.GetObject(Arguments);
 		if (result is null) return new Size();
-		else if (result is ImageProperty bitmap) Children.Add(new Image(bitmap.Image?.ToWriteableBitmap()));
+		else if (result is ImageProperty property) Children.Add(new Image(property));
 		else if (result is int @int) Children.Add(new Run() { Text = @int.ToString("N0") });
 		else if (result is not null) Children.Add(new Paragraph(result.ToString()));
 

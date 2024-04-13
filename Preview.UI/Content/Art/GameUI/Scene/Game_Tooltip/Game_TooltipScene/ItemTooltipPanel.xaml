@@ -4,7 +4,7 @@
 	xmlns:s="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
-	MetaData="2" Width="370" Height="650">
+	MetaData="2" Width="400">
 	<BnsCustomWindowWidget.BaseImageProperty>
 		<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_Window.BNSR_Window" ImageUV="7 7" ImageUVSize="49 49" EnableSkinAlpha="true" StaticPadding="-17 -17" />
 	</BnsCustomWindowWidget.BaseImageProperty>
@@ -97,6 +97,10 @@
 			</BnsCustomLabelWidget>
 			<BnsCustomLabelWidget Name="ItemDescription_6" String="{TextResource Attributes[description6]}" d:String="Item Description6" />
 			<BnsCustomLabelWidget Name="ItemDescription" String="{TextResource Attributes[description2]}" d:String="Item Description2" />
+
+			<!-- processcomparisonholder -->
+
+			<BnsCustomLabelWidget Name="SealEnable" />
 		</VerticalBox>
 	</Overlay>
 </BnsCustomWindowWidget>

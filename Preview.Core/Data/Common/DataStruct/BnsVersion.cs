@@ -25,5 +25,10 @@ public struct BnsVersion
 	}
 
 
+	#region Methods
 	public readonly override string ToString() => $"{Major}.{Minor}.{Build}.{Revision}";
+
+
+	public static implicit operator BnsVersion(string data) => new BnsVersion(data);
+	#endregion
 }

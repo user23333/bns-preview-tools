@@ -2,19 +2,23 @@
 using CUE4Parse.BNS.Assets.Exports;
 using CUE4Parse.UE4.Objects.UObject;
 using Xylia.Preview.Common.Extension;
+using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Models.Creature;
 using Xylia.Preview.Data.Models.Sequence;
 
 namespace Xylia.Preview.Data.Models;
-public abstract class Item : ModelElement
+public abstract class Item : ModelElement , IHaveName
 {
 	#region Attributes
 	public Ref<ItemCombat>[] ItemCombat { get; set; }
 
 	public Ref<ItemBrand> Brand { get; set; }
 
+
 	public bool Auctionable => Attributes.Get<BnsBoolean>("auctionable");
+	public bool WorldBossAuctionable => Attributes.Get<BnsBoolean>("world-boss-auctionable");
+	public bool SealRenewalAuctionable => Attributes.Get<BnsBoolean>("seal-renewal-auctionable");
 
 	public bool AccountUsed => Attributes.Get<BnsBoolean>("account-used");
 
@@ -48,7 +52,6 @@ public abstract class Item : ModelElement
 
 	public sbyte ItemGrade => Attributes.Get<sbyte>("item-grade");
 
-	public ItemDecomposeInfo DecomposeInfo => new(this);
 
 	public LegendGradeBackgroundParticleTypeSeq LegendGradeBackgroundParticleType => Attributes["legend-grade-background-particle-type"].ToEnum<LegendGradeBackgroundParticleTypeSeq>();
 	public enum LegendGradeBackgroundParticleTypeSeq
@@ -57,9 +60,10 @@ public abstract class Item : ModelElement
 		TypeGold,
 		TypeRedup,
 		TypeGoldup,
-
 		COUNT
 	}
+
+	public ItemDecomposeInfo DecomposeInfo => new(this);
 
 
 	public int RandomOptionGroupId => Attributes.Get<int>("random-option-group-id");
@@ -67,9 +71,9 @@ public abstract class Item : ModelElement
 	public int ImproveId => Attributes.Get<int>("improve-id");
 	public sbyte ImproveLevel => Attributes.Get<sbyte>("improve-level");
 
-	public string ItemName => $"""<font name="00008130.Program.Fontset_ItemGrade_{ItemGrade}">{ItemNameOnly}</font>""";
-	public string ItemNameOnly => Attributes["name2"].GetText();
-
+	public string ItemName => ItemNameOnly;
+	public string ItemNameOnly => $"<font name=\"00008130.Program.Fontset_ItemGrade_{ItemGrade}\">{Attributes["name2"].GetText()}</font>";
+	
 	public int ClosetGroupId => Attributes.Get<int>("closet-group-id");
 	#endregion
 
@@ -206,13 +210,15 @@ public abstract class Item : ModelElement
 
 
 	#region Methods
+	public string Text => Attributes["name2"].GetText() ?? base.ToString();
+
 	public ImageProperty BackIcon => IconTexture.GetBackground(ItemGrade);
 
 	public ImageProperty FrontIcon => IconTexture.Parse(Attributes.Get<string>("icon"));
 
 	public FPackageIndex CanSaleItemImage => new MyFPackageIndex(
-		AccountUsed ? "BNSR/Content/Art/UI/GameUI/Resource/GameUI_Icon/SlotItem_privateSale.SlotItem_privateSale" :
-		(Auctionable ? "BNSR/Content/Art/UI/GameUI/Resource/GameUI_Icon/SlotItem_marketBusiness.SlotItem_marketBusiness" : null));
+		Auctionable ? "BNSR/Content/Art/UI/GameUI/Resource/GameUI_Icon/SlotItem_marketBusiness.SlotItem_marketBusiness" :
+		AccountUsed ? "BNSR/Content/Art/UI/GameUI/Resource/GameUI_Icon/SlotItem_privateSale.SlotItem_privateSale" : null);
 
 	public Tuple<string, string> CollectionSubstitute
 	{

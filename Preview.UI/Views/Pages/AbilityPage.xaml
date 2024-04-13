@@ -3,7 +3,8 @@
 	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	  xmlns:hc="https://handyorg.github.io/handycontrol"
 	  xmlns:LiveCharts="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
-	  xmlns:UI="https://github.com/xyliaup/bns-preview-tools">
+	  xmlns:UI="https://github.com/xyliaup/bns-preview-tools"
+	  Foreground="{DynamicResource PrimaryTextBrush}">
 	<Grid>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="230"/>
@@ -30,33 +31,18 @@
 				<ColumnDefinition Width="*"/>
 			</Grid.ColumnDefinitions>
 
-
 			<LiveCharts:CartesianChart Grid.Row="0" Grid.ColumnSpan="3" x:Name="Chart" />
-
 
 			<hc:UniformSpacingPanel Grid.Row="2" Grid.Column="0" Spacing="20">
 				<TextBlock Text="{DynamicResource AbilityPage_Level}" />
-				<hc:NumericUpDown x:Name="LevelText" MinWidth="100" Value="{Binding Level}" />
+				<hc:NumericUpDown x:Name="LevelText" MinWidth="100" Value="{Binding Level}" Minimum="0" Maximum="100" />
 			</hc:UniformSpacingPanel>
 			<hc:UniformSpacingPanel Grid.Row="3" Grid.Column="0" Spacing="20">
 				<TextBlock Text="{DynamicResource AbilityPage_Value}" />
-				<hc:NumericUpDown x:Name="AbilityText" MinWidth="100" Value="{Binding Value}" />
+				<hc:NumericUpDown x:Name="AbilityText" MinWidth="100" Value="{Binding Value}" Minimum="0" />
 			</hc:UniformSpacingPanel>
-
-
-
-			<StackPanel Grid.Row="4">
-				<UI:BnsCustomLabelWidget String="{DynamicResource AbilityPage_Result}">
-					<UI:BnsCustomLabelWidget.Arguments>
-						<UI:ArgumentBinding>
-							<Binding Path="Level" />
-							<Binding Path="Selected" />
-							<Binding Path="Percent" />
-						</UI:ArgumentBinding>
-					</UI:BnsCustomLabelWidget.Arguments>
-				</UI:BnsCustomLabelWidget>
-				<TextBlock Text="{Binding Percent,StringFormat=P3}" />
-			</StackPanel>
+			
+			<TextBlock Text="{Binding Text}" Grid.Row="4"/>
 		</Grid>
 	</Grid>
 </Page>

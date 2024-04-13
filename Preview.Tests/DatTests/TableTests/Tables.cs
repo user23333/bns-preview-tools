@@ -1,10 +1,8 @@
 ﻿using System.Security.Cryptography;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Client;
 using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Data.Models;
-using Xylia.Preview.Data.Models.Sequence;
 
 namespace Xylia.Preview.Tests.DatTests;
 
@@ -65,14 +63,9 @@ public partial class Tables
 		//}
 
 
-		//var table = Database.Provider.GetTable<Reward>();
-		//table["General_Grocery_Event_Box_12"].TestMethods();
+		var x = 0d;
+		var y = 0;
 
-
-		//var Job = JobSeq.귀검사;
-		//var RandomOptionGroupId = Database.Provider.GetTable<Item>()["General_Accessory_Belt_3021_031"].RandomOptionGroupId;
-		//var ItemRandomOptionGroup = Database.Provider.GetTable<ItemRandomOptionGroup>()[RandomOptionGroupId + ((long)Job << 32)];
-
-		//ItemRandomOptionGroup.TestMethod();
+		Console.WriteLine((x / y).ToString("P2"));
 	}
 }

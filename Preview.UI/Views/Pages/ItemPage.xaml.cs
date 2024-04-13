@@ -1,7 +1,7 @@
 ﻿using System.Windows;
-using System.Windows.Data;
 using Xylia.Preview.Data.Helpers;
-using Xylia.Preview.Data.Models;
+using Xylia.Preview.UI.Helpers.Output;
+using Xylia.Preview.UI.Helpers.Output.Tables;
 using Xylia.Preview.UI.ViewModels;
 using Xylia.Preview.UI.Views.Editor;
 
@@ -26,10 +26,10 @@ public partial class ItemPage
 
 	private void ClearCacheData_Click(object sender, RoutedEventArgs e)
 	{
-		//FileCache.Clear();
-		//ProcessFloatWindow.ClearMemory();
+		FileCache.Clear();
+		ProcessFloatWindow.ClearMemory();
 
-		CollectionViewSource.GetDefaultView(FileCache.Data.Provider.GetTable<Item>());
+		// OutSet.Start<WeeklyTimeTableOut>();
 	}
 	#endregion
 }

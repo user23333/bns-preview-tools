@@ -1,10 +1,19 @@
 ﻿using System.Text;
 
 namespace Xylia.Preview.Data.Common.DataStruct;
-public struct Integer(double Value)
+public readonly struct Integer(double value)
 {
+	#region Override Methods
+	public double Value { get; } = value;
+
+	public override string ToString() => Value.ToString();
+
+	public static implicit operator Integer(double value) => new(value);
+	public static implicit operator double(Integer struc) => struc.Value;
+	#endregion
+
+
 	#region Float
-	public override readonly string ToString() => Value.ToString();
 	public readonly string FloatDot0 => $"{Value / 10: 0}";
 	public readonly string FloatDot1 => $"{Value / 10: 0.0}";
 	public readonly string FloatDot2 => $"{Value / 10: 0.00}";

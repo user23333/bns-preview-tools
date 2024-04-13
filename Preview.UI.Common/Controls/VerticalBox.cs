@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace Xylia.Preview.UI.Controls;
 
@@ -48,7 +47,7 @@ public class VerticalBox : UserWidget
 	}
 }
 
-public class HorizontalBox : StackPanel
+public class HorizontalBox : UserWidget
 {
 	// HorizontalAlignment
 
@@ -98,5 +97,5 @@ public class CanvasPanel : UserWidget
 
 public class Overlay : UserWidget
 {
-
+	
 }

@@ -31,15 +31,13 @@
 				<CheckBox Content="{DynamicResource ItemList_Auctionable}" IsChecked="{Binding Auctionable}"/>
 			</ToolBar>
 			
-			<!-- <TextBlock Grid.Row="1" x:Name="loader" Text="Loading..." HorizontalAlignment="Center" VerticalAlignment="Center"/> -->
 			<ListView Grid.Row="1" x:Name="ItemList" HorizontalContentAlignment="Stretch" VirtualizingStackPanel.IsVirtualizing="True">
 				<ListView.Resources>
 					<ContextMenu x:Key="ItemMenu">
-						<MenuItem Header="{DynamicResource PreviewRaw}" Command="{i:PreviewRaw}" CommandParameter="{Binding}"/>
+						<MenuItem Header="{DynamicResource PreviewBasic}" Command="{i:PreviewBasic}" CommandParameter="{Binding}"/>
 						<MenuItem Header="{DynamicResource PreviewModel}" Command="{i:PreviewModel}" CommandParameter="{Binding}"/>
 					</ContextMenu>
 				</ListView.Resources>
-				
 				<ListView.ItemContainerStyle>
 					<Style TargetType="{x:Type ListViewItem}">
 						<Setter Property="Focusable" Value="False"/>
@@ -59,7 +57,7 @@
 										<Grid.ToolTip>
 											<t:ItemTooltipPanel />
 										</Grid.ToolTip>
-
+										
 										<UI:BnsCustomImageWidget Grid.Column="0" BaseImageProperty="{Binding FrontIcon}" Width="64" Height="64" />
 										<UI:BnsCustomLabelWidget Grid.Column="1" String="{Binding ItemName}" VerticalAlignment="Center" Margin="5 0 0 0" />
 									</Grid>

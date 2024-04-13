@@ -4,6 +4,11 @@ using CUE4Parse.UE4.Objects.Core.Math;
 using CUE4Parse.UE4.Objects.UObject;
 
 namespace CUE4Parse.BNS.Assets.Exports;
+public class UBnsCustomCandidateWidget : UBnsCustomBaseWidget
+{
+
+}
+
 public class UBnsCustomCaptionWidget : UBnsCustomBaseWidget
 {
 
@@ -86,6 +91,11 @@ public class UBnsCustomLabelButtonWidget : UBnsCustomBaseWidget
 	[UPROPERTY] public FPackageIndex PresedEvent;  // SOUND
 }
 
+public class UBnsCustomMinimapWidget : UBnsCustomBaseWidget
+{
+
+}
+
 public class UBnsCustomProgressBarWidget : UBnsCustomBaseWidget
 {
 }
@@ -93,6 +103,11 @@ public class UBnsCustomProgressBarWidget : UBnsCustomBaseWidget
 public class UBnsCustomScrollBarWidget : UBnsCustomBaseWidget
 {
 	[UPROPERTY] public bool ScrollHide;
+}
+
+public class UBnsCustomSizerWidget : UBnsCustomBaseWidget
+{
+
 }
 
 public class UBnsCustomSliderBarWidget : UBnsCustomBaseWidget
@@ -110,6 +125,11 @@ public class UBnsCustomToggleButtonWidget : UBnsCustomLabelButtonWidget
 {
 	[UPROPERTY] public bool bIsChecked;
 	[UPROPERTY] public string ToggleType;   //BNSCustomToggleType_Toggle
+}
+
+public class UBnsCustomUIMeshWidget : UBnsCustomBaseWidget
+{
+
 }
 
 public class UBnsCustomUISceneWidget : UBnsCustomBaseWidget

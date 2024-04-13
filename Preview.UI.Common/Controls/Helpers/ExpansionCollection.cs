@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Threading.Tasks;
 using System.Windows;
 using CUE4Parse.BNS.Assets.Exports;
+using SharpGLTF.Schema2;
 using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models;
 
@@ -69,7 +70,6 @@ public class ExpansionCollection : Collection<ExpansionComponent>
 [TypeConverter(typeof(ExpansionManagerConvert))]
 public class ExpansionManager : ObservableCollection<string>
 {
-
 	#region TypeConverter
 	internal class ExpansionManagerConvert : TypeConverter
 	{
@@ -103,6 +103,7 @@ public class ExpansionManager : ObservableCollection<string>
 	}
 	#endregion
 }
+
 
 internal interface IMetaData
 {
@@ -145,8 +146,10 @@ internal interface IMetaData
 				switch (ls[0])
 				{
 					case "textref": widget.UpdateString(ls[1].GetText()); return;
-					case "tooltip": widget.UpdateTooltip(ls[1].GetText()); return;
-					case "config": case "width": case "height": return;
+					case "tooltip" or "tootip": widget.UpdateTooltip(ls[1].GetText()); return;
+					case "config": 
+					case "width":
+					case "height": return;
 
 					default: throw new NotSupportedException();
 				}

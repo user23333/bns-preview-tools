@@ -4,6 +4,7 @@
         <ResourceDictionary Source="Brushes.xaml"/>
         <ResourceDictionary Source="Converters.xaml"/>
         <ResourceDictionary Source="Fonts.xaml"/>
-    </ResourceDictionary.MergedDictionaries>
+		<ResourceDictionary Source="Geometry.xaml"/>
+	</ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

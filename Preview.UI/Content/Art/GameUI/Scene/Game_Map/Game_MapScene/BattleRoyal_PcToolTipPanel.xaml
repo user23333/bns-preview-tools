@@ -1,0 +1,1286 @@
+﻿<BnsCustomWindowWidget	x:Class="Xylia.Preview.UI.GameUI.Scene.Game_Map.BattleRoyal_PcToolTipPanel"
+	xmlns="https://github.com/xyliaup/bns-preview-tools"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:s="http://schemas.microsoft.com/winfx/2006/xaml/presentation" MetaData="8">
+  <BnsCustomWindowWidget.BaseImageProperty>
+    <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_Window.BNSR_Window" ImageUV="7 7" ImageUVSize="49 49" EnableSkinAlpha="true" StaticPadding="-17 -17" />
+  </BnsCustomWindowWidget.BaseImageProperty>
+  <BnsCustomWindowWidget.ExpansionComponentList>
+    <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Line" MetaData="">
+      <ExpansionComponent.ImageProperty>
+        <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_Window_Outfocus.BNSR_Window_Outfocus" ImageUV="7 7" ImageUVSize="49 49" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" StaticPadding="-17 -18" Opacity="1" ImageScale="1" />
+      </ExpansionComponent.ImageProperty>
+    </ExpansionComponent>
+  </BnsCustomWindowWidget.ExpansionComponentList>
+  <BnsCustomImageWidget Name="BattleRoyal_PcToolTip_HorizontalLine" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="15 161.00488 15 1">
+    <BnsCustomImageWidget.BaseImageProperty>
+      <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="199 61" ImageUVSize="5 1" Opacity="0.3" />
+    </BnsCustomImageWidget.BaseImageProperty>
+  </BnsCustomImageWidget>
+  <BnsCustomWindowWidget Name="BattleRoyal_PcToolTip_Name_Dummy" LayoutData.Offsets="0 10 10 35">
+    <BnsCustomWindowWidget.BaseImageProperty>
+      <ImageProperty />
+    </BnsCustomWindowWidget.BaseImageProperty>
+  </BnsCustomWindowWidget>
+  <BnsCustomImageWidget Name="BattleRoyal_PcToolTip_Name_TeamIcon" LayoutData.Offsets="10 10 35 35">
+    <BnsCustomImageWidget.BaseImageProperty>
+      <ImageProperty />
+    </BnsCustomImageWidget.BaseImageProperty>
+    <BnsCustomImageWidget.ExpansionComponentList>
+      <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="TeamIcon" MetaData="">
+        <ExpansionComponent.ImageProperty>
+          <ImageProperty ImageSet="BNSR/Content/Art/UI/GameUI/Resource/GameUI_NamePlate/Indicator/BattleRoyalMarkIndicator_01.BattleRoyalMarkIndicator_01" EnableImageSet="true" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="0.6" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+        </ExpansionComponent.ImageProperty>
+      </ExpansionComponent>
+    </BnsCustomImageWidget.ExpansionComponentList>
+  </BnsCustomImageWidget>
+  <BnsCustomLabelWidget Name="BattleRoyal_PcToolTip_Name" LayoutData.Offsets="76.99994 10 175 35.005035">
+    <BnsCustomLabelWidget.String>
+      <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_14.Normal_14" LabelText="캐릭터이름은열두글자까지" SpaceBetweenLines="3" VerticalAlignment="VAlign_Center" />
+    </BnsCustomLabelWidget.String>
+    <BnsCustomLabelWidget.ExpansionComponentList>
+      <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="TeamIcon" MetaData="">
+        <ExpansionComponent.ImageProperty>
+          <ImageProperty ImageSet="BNSR/Content/Art/UI/GameUI/Resource/GameUI_NamePlate/Indicator/BattleRoyalMarkIndicator_01.BattleRoyalMarkIndicator_01" EnableImageSet="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="-3 -0.5" Opacity="1" ImageScale="0.6" VerticalAlignment="VAlign_Center" />
+        </ExpansionComponent.ImageProperty>
+      </ExpansionComponent>
+      <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="JopIcon" MetaData="">
+        <ExpansionComponent.ImageProperty>
+          <ImageProperty ImageSet="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/Job_summoner.Job_summoner" ImageUVSize="0 32" EnableImageSet="true" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="-30 0" Opacity="1" ImageScale="0.8" VerticalAlignment="VAlign_Center" />
+        </ExpansionComponent.ImageProperty>
+      </ExpansionComponent>
+    </BnsCustomLabelWidget.ExpansionComponentList>
+  </BnsCustomLabelWidget>
+  <BnsCustomLabelWidget Name="BattleRoyal_PcToolTip_Meta_Label_2" LayoutData.Anchors="1 0 1 0" LayoutData.Offsets="-14 10 150 35.001007">
+    <BnsCustomLabelWidget.String>
+      <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="처치 99" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" />
+    </BnsCustomLabelWidget.String>
+  </BnsCustomLabelWidget>
+  <BnsCustomImageWidget Name="BattleRoyal_PcToolTip_GaurdHPBackground" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="10 51.005035 10 13">
+    <BnsCustomImageWidget.BaseImageProperty>
+      <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="164 771" ImageUVSize="8 14" EnableResourceSize="true" />
+    </BnsCustomImageWidget.BaseImageProperty>
+    <BnsCustomProgressBarWidget Name="BattleRoyal_PcToolTip_GaurdHP" LayoutData.Anchors="0 0 1 1" LayoutData.Offsets="2 2 2 2">
+      <BnsCustomProgressBarWidget.String>
+        <StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_Out_10.Normal_Out_10" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" Padding="0 -10" />
+      </BnsCustomProgressBarWidget.String>
+    </BnsCustomProgressBarWidget>
+  </BnsCustomImageWidget>
+  <BnsCustomImageWidget Name="BattleRoyal_PcToolTip_HPBackground" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="10 64.005035 10 16.99997">
+    <BnsCustomImageWidget.BaseImageProperty>
+      <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="164 771" ImageUVSize="8 14" EnableResourceSize="true" />
+    </BnsCustomImageWidget.BaseImageProperty>
+    <BnsCustomProgressBarWidget Name="BattleRoyal_PcToolTip_HP" LayoutData.Anchors="0 0 1 1" LayoutData.Offsets="2 2 2 2">
+      <BnsCustomProgressBarWidget.String>
+        <StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_Out_12.Normal_Out_12" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+      </BnsCustomProgressBarWidget.String>
+    </BnsCustomProgressBarWidget>
+  </BnsCustomImageWidget>
+  <BnsCustomImageWidget Name="BattleRoyal_PcToolTip_SkillBarHolder" LayoutData.Anchors="0.5 0 0.5 0" LayoutData.Offsets="0 81.005005 286 79.99988">
+    <BnsCustomImageWidget.BaseImageProperty>
+      <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_03.GameUI_New_Scene_03" ImageUV="991 294" ImageUVSize="21 20" EnableResourceGray="true" />
+    </BnsCustomImageWidget.BaseImageProperty>
+    <BnsCustomWindowWidget Name="BattleRoyal_SkillBar_Line_Extra" LayoutData.Anchors="0.5 0 0.5 0" LayoutData.Offsets="0 7 260.00006 65">
+      <BnsCustomWindowWidget.BaseImageProperty>
+        <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_03.GameUI_New_Scene_03" ImageUV="991 294" ImageUVSize="21 20" EnableResourceGray="true" StaticPadding="-13 -7" />
+      </BnsCustomWindowWidget.BaseImageProperty>
+      <BnsCustomWindowWidget.ExpansionComponentList>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="chain1" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window2/GameUI_New_Scene_20.GameUI_New_Scene_20" ImageUV="213 70" ImageUVSize="8 42" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="54 7" Opacity="1" ImageScale="1" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="chain2" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window2/GameUI_New_Scene_20.GameUI_New_Scene_20" ImageUV="213 70" ImageUVSize="8 42" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="106 7" Opacity="1" ImageScale="1" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="chain3" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window2/GameUI_New_Scene_20.GameUI_New_Scene_20" ImageUV="213 70" ImageUVSize="8 42" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="158 7" Opacity="1" ImageScale="1" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Frame" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window2/GameUI_New_Scene_20.GameUI_New_Scene_20" ImageUV="190 70" ImageUVSize="21 52" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" StaticPadding="9 5.5" Offset="-4 -4.5" Opacity="1" ImageScale="1" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+      </BnsCustomWindowWidget.ExpansionComponentList>
+      <BnsCustomImageWidget Name="BattleRoyal_SkillBar_Extra_Icon_1" LayoutData.Offsets="0 7.999878 39.999756 39.99951">
+        <BnsCustomImageWidget.BaseImageProperty>
+          <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="685 583" ImageUVSize="40 40" EnableResourceSize="true" />
+        </BnsCustomImageWidget.BaseImageProperty>
+        <BnsCustomImageWidget.ExpansionComponentList>
+          <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="DefaultIcon" MetaData="">
+            <ExpansionComponent.ImageProperty>
+              <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Icon3rd/Skill_icon_Common_0.Skill_icon_Common_0" ImageUV="448 64" ImageUVSize="64 64" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+            </ExpansionComponent.ImageProperty>
+          </ExpansionComponent>
+          <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="IMAGE" MetaData="">
+            <ExpansionComponent.ImageProperty>
+              <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Icon/Skill_Icon_ForceMaster_0.Skill_Icon_ForceMaster_0" ImageUVSize="64 64" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+            </ExpansionComponent.ImageProperty>
+          </ExpansionComponent>
+          <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="FRAME_PURPLE" MetaData="">
+            <ExpansionComponent.ImageProperty>
+              <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_ProgressBar.BNSR_ProgressBar" ImageUV="970 306" ImageUVSize="54 54" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="0.8" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+            </ExpansionComponent.ImageProperty>
+          </ExpansionComponent>
+          <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="KEYMAPPINGBack" MetaData="">
+            <ExpansionComponent.ImageProperty>
+              <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="772 678" ImageUVSize="25 16" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+            </ExpansionComponent.ImageProperty>
+          </ExpansionComponent>
+          <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="KEYMAPPING" MetaData="">
+            <ExpansionComponent.ImageProperty>
+              <ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+            </ExpansionComponent.ImageProperty>
+            <ExpansionComponent.StringProperty>
+              <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Key.Key" LabelText="5" SpaceBetweenLines="3" ClippingBound="3 1" Opacity="1" TextScale="1" AnimScale="1" />
+            </ExpansionComponent.StringProperty>
+          </ExpansionComponent>
+          <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="NAME" MetaData="">
+            <ExpansionComponent.ImageProperty>
+              <ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+            </ExpansionComponent.ImageProperty>
+            <ExpansionComponent.StringProperty>
+              <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="name" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" Opacity="1" TextScale="1" AnimScale="1" />
+            </ExpansionComponent.StringProperty>
+          </ExpansionComponent>
+          <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="NOT_ACQUIRED" MetaData="">
+            <ExpansionComponent.ImageProperty>
+              <ImageProperty ImageUV="542 285" ImageUVSize="40 40" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+            </ExpansionComponent.ImageProperty>
+          </ExpansionComponent>
+          <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="CantUseMouse" MetaData="">
+            <ExpansionComponent.ImageProperty>
+              <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_ImageSet/GameUI_Tag_CantUseMouse.GameUI_Tag_CantUseMouse" ImageUVSize="32 32" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="5 3" Opacity="1" ImageScale="0.6" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Bottom" />
+            </ExpansionComponent.ImageProperty>
+          </ExpansionComponent>
+          <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="StackableLabel" MetaData="">
+            <ExpansionComponent.ImageProperty>
+              <ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+            </ExpansionComponent.ImageProperty>
+            <ExpansionComponent.StringProperty>
+              <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_Out_10.Normal_Out_10" LabelText="999" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Bottom" Padding="2 1" bWordWrap="true" Opacity="1" TextScale="1" AnimScale="1" />
+            </ExpansionComponent.StringProperty>
+          </ExpansionComponent>
+        </BnsCustomImageWidget.ExpansionComponentList>
+        <BnsCustomLabelWidget Name="BattleRoyal_SkillBar_Extra_Icon_1_Name" LayoutData.Anchors="0 1 0 1" LayoutData.Offsets="-8 17 55 14.006958">
+          <BnsCustomLabelWidget.String>
+            <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/ContextIcon2.ContextIcon2" LabelText="#NAME#" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+          </BnsCustomLabelWidget.String>
+        </BnsCustomLabelWidget>
+      </BnsCustomImageWidget>
+      <BnsCustomImageWidget Name="BattleRoyal_SkillBar_Extra_Icon_2" LayoutData.Offsets="54.999756 7.999878 40 39.99951">
+        <BnsCustomImageWidget.BaseImageProperty>
+          <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="685 583" ImageUVSize="40 40" EnableResourceSize="true" />
+        </BnsCustomImageWidget.BaseImageProperty>
+        <BnsCustomImageWidget.ExpansionComponentList>
+          <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="DefaultIcon" MetaData="">
+            <ExpansionComponent.ImageProperty>
+              <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Icon3rd/Skill_icon_Common_0.Skill_icon_Common_0" ImageUV="448 64" ImageUVSize="64 64" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+            </ExpansionComponent.ImageProperty>
+          </ExpansionComponent>
+          <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="IMAGE" MetaData="">
+            <ExpansionComponent.ImageProperty>
+              <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Icon/Skill_Icon_ForceMaster_0.Skill_Icon_ForceMaster_0" ImageUVSize="64 64" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+            </ExpansionComponent.ImageProperty>
+          </ExpansionComponent>
+          <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="FRAME_GREEN" MetaData="">
+            <ExpansionComponent.ImageProperty>
+              <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_ProgressBar.BNSR_ProgressBar" ImageUV="804 306" ImageUVSize="54 54" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="0.8" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+            </ExpansionComponent.ImageProperty>
+          </ExpansionComponent>
+          <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="KEYMAPPINGBack" MetaData="">
+            <ExpansionComponent.ImageProperty>
+              <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="772 678" ImageUVSize="25 16" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+            </ExpansionComponent.ImageProperty>
+          </ExpansionComponent>
+          <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="KEYMAPPING" MetaData="">
+            <ExpansionComponent.ImageProperty>
+              <ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+            </ExpansionComponent.ImageProperty>
+            <ExpansionComponent.StringProperty>
+              <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Key.Key" LabelText="5" SpaceBetweenLines="3" ClippingBound="3 1" Opacity="1" TextScale="1" AnimScale="1" />
+            </ExpansionComponent.StringProperty>
+          </ExpansionComponent>
+          <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="NAME" MetaData="">
+            <ExpansionComponent.ImageProperty>
+              <ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+            </ExpansionComponent.ImageProperty>
+            <ExpansionComponent.StringProperty>
+              <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="name" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" Opacity="1" TextScale="1" AnimScale="1" />
+            </ExpansionComponent.StringProperty>
+          </ExpansionComponent>
+          <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="NOT_ACQUIRED" MetaData="">
+            <ExpansionComponent.ImageProperty>
+              <ImageProperty ImageUV="542 285" ImageUVSize="40 40" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+            </ExpansionComponent.ImageProperty>
+          </ExpansionComponent>
+          <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="CantUseMouse" MetaData="">
+            <ExpansionComponent.ImageProperty>
+              <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_ImageSet/GameUI_Tag_CantUseMouse.GameUI_Tag_CantUseMouse" ImageUVSize="32 32" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="5 3" Opacity="1" ImageScale="0.6" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Bottom" />
+            </ExpansionComponent.ImageProperty>
+          </ExpansionComponent>
+          <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="StackableLabel" MetaData="">
+            <ExpansionComponent.ImageProperty>
+              <ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+            </ExpansionComponent.ImageProperty>
+            <ExpansionComponent.StringProperty>
+              <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_Out_10.Normal_Out_10" LabelText="999" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Bottom" Padding="2 1" bWordWrap="true" Opacity="1" TextScale="1" AnimScale="1" />
+            </ExpansionComponent.StringProperty>
+          </ExpansionComponent>
+        </BnsCustomImageWidget.ExpansionComponentList>
+        <BnsCustomLabelWidget Name="BattleRoyal_SkillBar_Extra_Icon_2_Name" LayoutData.Anchors="0.5 1 0.5 1" LayoutData.Offsets="0 17 55 14.005005">
+          <BnsCustomLabelWidget.String>
+            <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/ContextIcon2.ContextIcon2" LabelText="#NAME#" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+          </BnsCustomLabelWidget.String>
+        </BnsCustomLabelWidget>
+      </BnsCustomImageWidget>
+      <BnsCustomImageWidget Name="BattleRoyal_SkillBar_Extra_Icon_3" LayoutData.Offsets="109.999756 7.999878 40.00055 39.99951">
+        <BnsCustomImageWidget.BaseImageProperty>
+          <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="685 583" ImageUVSize="40 40" EnableResourceSize="true" />
+        </BnsCustomImageWidget.BaseImageProperty>
+        <BnsCustomImageWidget.ExpansionComponentList>
+          <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="DefaultIcon" MetaData="">
+            <ExpansionComponent.ImageProperty>
+              <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Icon3rd/Skill_icon_Common_0.Skill_icon_Common_0" ImageUV="448 64" ImageUVSize="64 64" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+            </ExpansionComponent.ImageProperty>
+          </ExpansionComponent>
+          <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="IMAGE" MetaData="">
+            <ExpansionComponent.ImageProperty>
+              <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Icon/Skill_Icon_ForceMaster_0.Skill_Icon_ForceMaster_0" ImageUVSize="64 64" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+            </ExpansionComponent.ImageProperty>
+          </ExpansionComponent>
+          <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="FRAME_BLUE" MetaData="">
+            <ExpansionComponent.ImageProperty>
+              <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_ProgressBar.BNSR_ProgressBar" ImageUV="860 306" ImageUVSize="52 54" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="0.8" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+            </ExpansionComponent.ImageProperty>
+          </ExpansionComponent>
+          <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="KEYMAPPINGBack" MetaData="">
+            <ExpansionComponent.ImageProperty>
+              <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="772 678" ImageUVSize="25 16" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+            </ExpansionComponent.ImageProperty>
+          </ExpansionComponent>
+          <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="KEYMAPPING" MetaData="">
+            <ExpansionComponent.ImageProperty>
+              <ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+            </ExpansionComponent.ImageProperty>
+            <ExpansionComponent.StringProperty>
+              <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Key.Key" LabelText="5" SpaceBetweenLines="3" ClippingBound="3 1" Opacity="1" TextScale="1" AnimScale="1" />
+            </ExpansionComponent.StringProperty>
+          </ExpansionComponent>
+          <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="NAME" MetaData="">
+            <ExpansionComponent.ImageProperty>
+              <ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+            </ExpansionComponent.ImageProperty>
+            <ExpansionComponent.StringProperty>
+              <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="name" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" Opacity="1" TextScale="1" AnimScale="1" />
+            </ExpansionComponent.StringProperty>
+          </ExpansionComponent>
+          <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="NOT_ACQUIRED" MetaData="">
+            <ExpansionComponent.ImageProperty>
+              <ImageProperty ImageUV="542 285" ImageUVSize="40 40" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+            </ExpansionComponent.ImageProperty>
+          </ExpansionComponent>
+          <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="CantUseMouse" MetaData="">
+            <ExpansionComponent.ImageProperty>
+              <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_ImageSet/GameUI_Tag_CantUseMouse.GameUI_Tag_CantUseMouse" ImageUVSize="32 32" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="5 3" Opacity="1" ImageScale="0.6" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Bottom" />
+            </ExpansionComponent.ImageProperty>
+          </ExpansionComponent>
+          <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="StackableLabel" MetaData="">
+            <ExpansionComponent.ImageProperty>
+              <ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+            </ExpansionComponent.ImageProperty>
+            <ExpansionComponent.StringProperty>
+              <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_Out_10.Normal_Out_10" LabelText="999" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Bottom" Padding="2 1" bWordWrap="true" Opacity="1" TextScale="1" AnimScale="1" />
+            </ExpansionComponent.StringProperty>
+          </ExpansionComponent>
+        </BnsCustomImageWidget.ExpansionComponentList>
+        <BnsCustomLabelWidget Name="BattleRoyal_SkillBar_Extra_Icon_3_Name" LayoutData.Anchors="0.5 1 0.5 1" LayoutData.Offsets="0 17 55.00006 14.005981">
+          <BnsCustomLabelWidget.String>
+            <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/ContextIcon2.ContextIcon2" LabelText="#NAME#" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+          </BnsCustomLabelWidget.String>
+        </BnsCustomLabelWidget>
+      </BnsCustomImageWidget>
+      <BnsCustomImageWidget Name="BattleRoyal_SkillBar_Extra_Icon_4" LayoutData.Offsets="165.0003 7.999878 40.000122 39.99951">
+        <BnsCustomImageWidget.BaseImageProperty>
+          <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="685 583" ImageUVSize="40 40" EnableResourceSize="true" />
+        </BnsCustomImageWidget.BaseImageProperty>
+        <BnsCustomImageWidget.ExpansionComponentList>
+          <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="DefaultIcon" MetaData="">
+            <ExpansionComponent.ImageProperty>
+              <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Icon3rd/Skill_icon_Common_0.Skill_icon_Common_0" ImageUV="448 64" ImageUVSize="64 64" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+            </ExpansionComponent.ImageProperty>
+          </ExpansionComponent>
+          <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="IMAGE" MetaData="">
+            <ExpansionComponent.ImageProperty>
+              <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Icon/Skill_Icon_ForceMaster_0.Skill_Icon_ForceMaster_0" ImageUVSize="64 64" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+            </ExpansionComponent.ImageProperty>
+          </ExpansionComponent>
+          <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="FRAME_YELLOW" MetaData="">
+            <ExpansionComponent.ImageProperty>
+              <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_ProgressBar.BNSR_ProgressBar" ImageUV="914 306" ImageUVSize="54 54" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="0.8" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+            </ExpansionComponent.ImageProperty>
+          </ExpansionComponent>
+          <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="KEYMAPPINGBack" MetaData="">
+            <ExpansionComponent.ImageProperty>
+              <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="772 678" ImageUVSize="25 16" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+            </ExpansionComponent.ImageProperty>
+          </ExpansionComponent>
+          <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="KEYMAPPING" MetaData="">
+            <ExpansionComponent.ImageProperty>
+              <ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+            </ExpansionComponent.ImageProperty>
+            <ExpansionComponent.StringProperty>
+              <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Key.Key" LabelText="5" SpaceBetweenLines="3" ClippingBound="3 1" Opacity="1" TextScale="1" AnimScale="1" />
+            </ExpansionComponent.StringProperty>
+          </ExpansionComponent>
+          <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="NAME" MetaData="">
+            <ExpansionComponent.ImageProperty>
+              <ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+            </ExpansionComponent.ImageProperty>
+            <ExpansionComponent.StringProperty>
+              <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="name" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" Opacity="1" TextScale="1" AnimScale="1" />
+            </ExpansionComponent.StringProperty>
+          </ExpansionComponent>
+          <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="NOT_ACQUIRED" MetaData="">
+            <ExpansionComponent.ImageProperty>
+              <ImageProperty ImageUV="542 285" ImageUVSize="40 40" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+            </ExpansionComponent.ImageProperty>
+          </ExpansionComponent>
+          <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="CantUseMouse" MetaData="">
+            <ExpansionComponent.ImageProperty>
+              <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_ImageSet/GameUI_Tag_CantUseMouse.GameUI_Tag_CantUseMouse" ImageUVSize="32 32" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="5 3" Opacity="1" ImageScale="0.6" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Bottom" />
+            </ExpansionComponent.ImageProperty>
+          </ExpansionComponent>
+          <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="StackableLabel" MetaData="">
+            <ExpansionComponent.ImageProperty>
+              <ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+            </ExpansionComponent.ImageProperty>
+            <ExpansionComponent.StringProperty>
+              <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_Out_10.Normal_Out_10" LabelText="999" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Bottom" Padding="2 1" bWordWrap="true" Opacity="1" TextScale="1" AnimScale="1" />
+            </ExpansionComponent.StringProperty>
+          </ExpansionComponent>
+        </BnsCustomImageWidget.ExpansionComponentList>
+        <BnsCustomLabelWidget Name="BattleRoyal_SkillBar_Extra_Icon_4_Name" LayoutData.Anchors="0.5 1 0.5 1" LayoutData.Offsets="0 17 55 14.009888">
+          <BnsCustomLabelWidget.String>
+            <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/ContextIcon2.ContextIcon2" LabelText="#NAME#" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+          </BnsCustomLabelWidget.String>
+        </BnsCustomLabelWidget>
+      </BnsCustomImageWidget>
+      <BnsCustomImageWidget Name="BattleRoyal_SkillBar_Extra_Icon_5" LayoutData.Offsets="220.00043 8 40 39.99951">
+        <BnsCustomImageWidget.BaseImageProperty>
+          <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="685 583" ImageUVSize="40 40" EnableResourceSize="true" HorizontalAlignment="HAlign_Right" />
+        </BnsCustomImageWidget.BaseImageProperty>
+        <BnsCustomImageWidget.ExpansionComponentList>
+          <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="DefaultIcon" MetaData="">
+            <ExpansionComponent.ImageProperty>
+              <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Icon3rd/Skill_icon_Common_0.Skill_icon_Common_0" ImageUV="448 64" ImageUVSize="64 64" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+            </ExpansionComponent.ImageProperty>
+          </ExpansionComponent>
+          <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="IMAGE" MetaData="">
+            <ExpansionComponent.ImageProperty>
+              <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Icon/Skill_Icon_ForceMaster_0.Skill_Icon_ForceMaster_0" ImageUVSize="64 64" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+            </ExpansionComponent.ImageProperty>
+          </ExpansionComponent>
+          <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="FRAME_RED" MetaData="">
+            <ExpansionComponent.ImageProperty>
+              <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_ProgressBar.BNSR_ProgressBar" ImageUV="749 306" ImageUVSize="53 53" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="0.8" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+            </ExpansionComponent.ImageProperty>
+          </ExpansionComponent>
+          <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="KEYMAPPINGBack" MetaData="">
+            <ExpansionComponent.ImageProperty>
+              <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="772 678" ImageUVSize="25 16" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+            </ExpansionComponent.ImageProperty>
+          </ExpansionComponent>
+          <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="KEYMAPPING" MetaData="">
+            <ExpansionComponent.ImageProperty>
+              <ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+            </ExpansionComponent.ImageProperty>
+            <ExpansionComponent.StringProperty>
+              <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Key.Key" LabelText="5" SpaceBetweenLines="3" ClippingBound="3 1" Opacity="1" TextScale="1" AnimScale="1" />
+            </ExpansionComponent.StringProperty>
+          </ExpansionComponent>
+          <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="NAME" MetaData="">
+            <ExpansionComponent.ImageProperty>
+              <ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+            </ExpansionComponent.ImageProperty>
+            <ExpansionComponent.StringProperty>
+              <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="name" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" Opacity="1" TextScale="1" AnimScale="1" />
+            </ExpansionComponent.StringProperty>
+          </ExpansionComponent>
+          <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="NOT_ACQUIRED" MetaData="">
+            <ExpansionComponent.ImageProperty>
+              <ImageProperty ImageUV="542 285" ImageUVSize="40 40" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+            </ExpansionComponent.ImageProperty>
+          </ExpansionComponent>
+          <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="CantUseMouse" MetaData="">
+            <ExpansionComponent.ImageProperty>
+              <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_ImageSet/GameUI_Tag_CantUseMouse.GameUI_Tag_CantUseMouse" ImageUVSize="32 32" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="5 3" Opacity="1" ImageScale="0.6" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Bottom" />
+            </ExpansionComponent.ImageProperty>
+          </ExpansionComponent>
+          <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="StackableLabel" MetaData="">
+            <ExpansionComponent.ImageProperty>
+              <ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+            </ExpansionComponent.ImageProperty>
+            <ExpansionComponent.StringProperty>
+              <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_Out_10.Normal_Out_10" LabelText="999" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Bottom" Padding="2 1" bWordWrap="true" Opacity="1" TextScale="1" AnimScale="1" />
+            </ExpansionComponent.StringProperty>
+          </ExpansionComponent>
+        </BnsCustomImageWidget.ExpansionComponentList>
+        <BnsCustomLabelWidget Name="BattleRoyal_SkillBar_Extra_Icon_5_Name" LayoutData.Anchors="1 1 1 1" LayoutData.Offsets="8 17 54.999756 14.006958">
+          <BnsCustomLabelWidget.String>
+            <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/ContextIcon2.ContextIcon2" LabelText="#NAME#" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+          </BnsCustomLabelWidget.String>
+        </BnsCustomLabelWidget>
+      </BnsCustomImageWidget>
+    </BnsCustomWindowWidget>
+  </BnsCustomImageWidget>
+  <BnsCustomWindowWidget Name="BattleRoyal_PcToolTip_BuffEffectHolder" LayoutData.Anchors="0.5 0 0.5 0" LayoutData.Offsets="0 162.00488 275 70">
+    <BnsCustomWindowWidget.BaseImageProperty>
+      <ImageProperty Opacity="0.2" />
+    </BnsCustomWindowWidget.BaseImageProperty>
+    <BnsCustomImageWidget Name="BattleRoyal_PcToolTip_BuffIcon_1" LayoutData.Offsets="6.987976 7.999756 40 40">
+      <BnsCustomImageWidget.BaseImageProperty>
+        <ImageProperty ImageUV="721 872" ImageUVSize="26 26" />
+      </BnsCustomImageWidget.BaseImageProperty>
+      <BnsCustomImageWidget.ExpansionComponentList>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Grade_Image" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="RECYCLETIME" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="225 791" ImageUVSize="40 40" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="FRAME" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement_01.BNSR_UIElement_01" ImageUV="418 70" ImageUVSize="52 52" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="Background" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="861 996" ImageUVSize="26 26" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="STACK_COUNT" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+          </ExpansionComponent.ImageProperty>
+          <ExpansionComponent.StringProperty>
+            <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Stackable.Stackable" LabelText="1" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Bottom" Padding="3 2" Opacity="1" TextScale="1" AnimScale="1" />
+          </ExpansionComponent.StringProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="EXPIRATION_TIME" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="861 996" ImageUVSize="26 26" EnableSkinColor="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="-7.5 -7.5" Opacity="1" ImageScale="0.4" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+      </BnsCustomImageWidget.ExpansionComponentList>
+      <BnsCustomLabelWidget Name="BattleRoyal_PcToolTip_BuffIcon_1_Name" LayoutData.Anchors="0.5 1 0.5 1" LayoutData.Offsets="0 18 49 15.00061">
+        <BnsCustomLabelWidget.String>
+          <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_10.Normal_10" LabelText="Name" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" Padding="0 2" />
+        </BnsCustomLabelWidget.String>
+      </BnsCustomLabelWidget>
+      <BnsCustomLabelWidget Name="BattleRoyal_PcToolTip_BuffIcon_1_Time" LayoutData.Anchors="0.5 0.5 0.5 0.5" LayoutData.Offsets="0 0 36 20">
+        <BnsCustomLabelWidget.String>
+          <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/LeftTime_16.LeftTime_16" LabelText="Buff" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+        </BnsCustomLabelWidget.String>
+      </BnsCustomLabelWidget>
+    </BnsCustomImageWidget>
+    <BnsCustomImageWidget Name="BattleRoyal_PcToolTip_BuffIcon_2" LayoutData.Offsets="61.9881 7.999756 40 40">
+      <BnsCustomImageWidget.BaseImageProperty>
+        <ImageProperty ImageUV="721 872" ImageUVSize="26 26" />
+      </BnsCustomImageWidget.BaseImageProperty>
+      <BnsCustomImageWidget.ExpansionComponentList>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Grade_Image" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="RECYCLETIME" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="225 791" ImageUVSize="40 40" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="FRAME" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement_01.BNSR_UIElement_01" ImageUV="418 70" ImageUVSize="52 52" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="Background" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="861 996" ImageUVSize="26 26" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="STACK_COUNT" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+          </ExpansionComponent.ImageProperty>
+          <ExpansionComponent.StringProperty>
+            <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Stackable.Stackable" LabelText="1" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Bottom" Padding="3 2" Opacity="1" TextScale="1" AnimScale="1" />
+          </ExpansionComponent.StringProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="EXPIRATION_TIME" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="861 996" ImageUVSize="26 26" EnableSkinColor="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="-7.5 -7.5" Opacity="1" ImageScale="0.4" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+      </BnsCustomImageWidget.ExpansionComponentList>
+      <BnsCustomLabelWidget Name="BattleRoyal_PcToolTip_BuffIcon_2_Name" LayoutData.Anchors="0.5 1 0.5 1" LayoutData.Offsets="0 18 49 15.00061">
+        <BnsCustomLabelWidget.String>
+          <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_10.Normal_10" LabelText="Name" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" Padding="0 2" />
+        </BnsCustomLabelWidget.String>
+      </BnsCustomLabelWidget>
+      <BnsCustomLabelWidget Name="BattleRoyal_PcToolTip_BuffIcon_2_Time" LayoutData.Anchors="0.5 0.5 0.5 0.5" LayoutData.Offsets="0 0 36 20">
+        <BnsCustomLabelWidget.String>
+          <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/LeftTime_16.LeftTime_16" LabelText="Buff" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+        </BnsCustomLabelWidget.String>
+      </BnsCustomLabelWidget>
+    </BnsCustomImageWidget>
+    <BnsCustomImageWidget Name="BattleRoyal_PcToolTip_BuffIcon_3" LayoutData.Offsets="116.9881 7.999756 39.99994 40">
+      <BnsCustomImageWidget.BaseImageProperty>
+        <ImageProperty ImageUV="721 872" ImageUVSize="26 26" />
+      </BnsCustomImageWidget.BaseImageProperty>
+      <BnsCustomImageWidget.ExpansionComponentList>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Grade_Image" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="RECYCLETIME" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="225 791" ImageUVSize="40 40" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="FRAME" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement_01.BNSR_UIElement_01" ImageUV="418 70" ImageUVSize="52 52" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="Background" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="861 996" ImageUVSize="26 26" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="STACK_COUNT" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+          </ExpansionComponent.ImageProperty>
+          <ExpansionComponent.StringProperty>
+            <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Stackable.Stackable" LabelText="1" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Bottom" Padding="3 2" Opacity="1" TextScale="1" AnimScale="1" />
+          </ExpansionComponent.StringProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="EXPIRATION_TIME" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="861 996" ImageUVSize="26 26" EnableSkinColor="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="-7.5 -7.5" Opacity="1" ImageScale="0.4" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+      </BnsCustomImageWidget.ExpansionComponentList>
+      <BnsCustomLabelWidget Name="BattleRoyal_PcToolTip_BuffIcon_3_Name" LayoutData.Anchors="0.5 1 0.5 1" LayoutData.Offsets="0 18 48.99994 15.00061">
+        <BnsCustomLabelWidget.String>
+          <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_10.Normal_10" LabelText="Name" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" Padding="0 2" />
+        </BnsCustomLabelWidget.String>
+      </BnsCustomLabelWidget>
+      <BnsCustomLabelWidget Name="BattleRoyal_PcToolTip_BuffIcon_3_Time" LayoutData.Anchors="0.5 0.5 0.5 0.5" LayoutData.Offsets="0 0 35.99994 20">
+        <BnsCustomLabelWidget.String>
+          <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/LeftTime_16.LeftTime_16" LabelText="Buff" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+        </BnsCustomLabelWidget.String>
+      </BnsCustomLabelWidget>
+    </BnsCustomImageWidget>
+    <BnsCustomImageWidget Name="BattleRoyal_PcToolTip_BuffIcon_4" LayoutData.Offsets="171.98804 7.999756 40 40">
+      <BnsCustomImageWidget.BaseImageProperty>
+        <ImageProperty ImageUV="721 872" ImageUVSize="26 26" />
+      </BnsCustomImageWidget.BaseImageProperty>
+      <BnsCustomImageWidget.ExpansionComponentList>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Grade_Image" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="RECYCLETIME" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="225 791" ImageUVSize="40 40" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="FRAME" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement_01.BNSR_UIElement_01" ImageUV="418 70" ImageUVSize="52 52" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="Background" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="861 996" ImageUVSize="26 26" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="STACK_COUNT" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+          </ExpansionComponent.ImageProperty>
+          <ExpansionComponent.StringProperty>
+            <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Stackable.Stackable" LabelText="1" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Bottom" Padding="3 2" Opacity="1" TextScale="1" AnimScale="1" />
+          </ExpansionComponent.StringProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="EXPIRATION_TIME" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="861 996" ImageUVSize="26 26" EnableSkinColor="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="-7.5 -7.5" Opacity="1" ImageScale="0.4" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+      </BnsCustomImageWidget.ExpansionComponentList>
+      <BnsCustomLabelWidget Name="BattleRoyal_PcToolTip_BuffIcon_4_Name" LayoutData.Anchors="0.5 1 0.5 1" LayoutData.Offsets="0 18 49 15.00061">
+        <BnsCustomLabelWidget.String>
+          <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_10.Normal_10" LabelText="Name" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" Padding="0 2" />
+        </BnsCustomLabelWidget.String>
+      </BnsCustomLabelWidget>
+      <BnsCustomLabelWidget Name="BattleRoyal_PcToolTip_BuffIcon_4_Time" LayoutData.Anchors="0.5 0.5 0.5 0.5" LayoutData.Offsets="0 0 36 20">
+        <BnsCustomLabelWidget.String>
+          <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/LeftTime_16.LeftTime_16" LabelText="Buff" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+        </BnsCustomLabelWidget.String>
+      </BnsCustomLabelWidget>
+    </BnsCustomImageWidget>
+    <BnsCustomImageWidget Name="BattleRoyal_PcToolTip_BuffIcon_5" LayoutData.Offsets="226.98804 7.999756 40 40">
+      <BnsCustomImageWidget.BaseImageProperty>
+        <ImageProperty ImageUV="721 872" ImageUVSize="26 26" />
+      </BnsCustomImageWidget.BaseImageProperty>
+      <BnsCustomImageWidget.ExpansionComponentList>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Grade_Image" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="RECYCLETIME" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="225 791" ImageUVSize="40 40" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="FRAME" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement_01.BNSR_UIElement_01" ImageUV="418 70" ImageUVSize="52 52" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="Background" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="861 996" ImageUVSize="26 26" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="STACK_COUNT" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+          </ExpansionComponent.ImageProperty>
+          <ExpansionComponent.StringProperty>
+            <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Stackable.Stackable" LabelText="1" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Bottom" Padding="3 2" Opacity="1" TextScale="1" AnimScale="1" />
+          </ExpansionComponent.StringProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="EXPIRATION_TIME" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="861 996" ImageUVSize="26 26" EnableSkinColor="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="-7.5 -7.5" Opacity="1" ImageScale="0.4" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+      </BnsCustomImageWidget.ExpansionComponentList>
+      <BnsCustomLabelWidget Name="BattleRoyal_PcToolTip_BuffIcon_5_Name" LayoutData.Anchors="0.5 1 0.5 1" LayoutData.Offsets="0 18 49 15.00061">
+        <BnsCustomLabelWidget.String>
+          <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_10.Normal_10" LabelText="Name" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" Padding="0 2" />
+        </BnsCustomLabelWidget.String>
+      </BnsCustomLabelWidget>
+      <BnsCustomLabelWidget Name="BattleRoyal_PcToolTip_BuffIcon_5_Time" LayoutData.Anchors="0.5 0.5 0.5 0.5" LayoutData.Offsets="0 0 36 20">
+        <BnsCustomLabelWidget.String>
+          <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/LeftTime_16.LeftTime_16" LabelText="Buff" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+        </BnsCustomLabelWidget.String>
+      </BnsCustomLabelWidget>
+    </BnsCustomImageWidget>
+  </BnsCustomWindowWidget>
+  <BnsCustomWindowWidget Name="BattleRoyal_PcToolTip_DebuffEffectHolder" LayoutData.Anchors="0.5 0 0.5 0" LayoutData.Offsets="0 232.00488 275 130">
+    <BnsCustomWindowWidget.BaseImageProperty>
+      <ImageProperty Opacity="0.2" />
+    </BnsCustomWindowWidget.BaseImageProperty>
+    <BnsCustomImageWidget Name="BattleRoyal_PcToolTip_DebuffIcon_1" LayoutData.Offsets="6.999695 6.999878 40 40">
+      <BnsCustomImageWidget.BaseImageProperty>
+        <ImageProperty ImageUV="721 872" ImageUVSize="26 26" />
+      </BnsCustomImageWidget.BaseImageProperty>
+      <BnsCustomImageWidget.ExpansionComponentList>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Grade_Image" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="RECYCLETIME" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="225 791" ImageUVSize="40 40" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="FRAME" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement_01.BNSR_UIElement_01" ImageUV="418 124" ImageUVSize="52 52" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="Background" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="891 996" ImageUVSize="26 26" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="STACK_COUNT" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+          </ExpansionComponent.ImageProperty>
+          <ExpansionComponent.StringProperty>
+            <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Stackable.Stackable" LabelText="1" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Bottom" Padding="3 2" Opacity="1" TextScale="1" AnimScale="1" />
+          </ExpansionComponent.StringProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bShow="true" ExpansionType="STRING" ExpansionName="HudCustomize" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+          </ExpansionComponent.ImageProperty>
+          <ExpansionComponent.StringProperty>
+            <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/LeftTime_10.LeftTime_10" LabelText=" " SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" Opacity="1" TextScale="1" AnimScale="1" />
+          </ExpansionComponent.StringProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="EXPIRATION_TIME" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="861 996" ImageUVSize="26 26" EnableSkinColor="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="-7.5 -7.5" Opacity="1" ImageScale="0.4" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+      </BnsCustomImageWidget.ExpansionComponentList>
+      <BnsCustomLabelWidget Name="BattleRoyal_PcToolTip_DeBuffIcon_1_Name" LayoutData.Anchors="0.5 1 0.5 1" LayoutData.Offsets="0 18 49 15.00061">
+        <BnsCustomLabelWidget.String>
+          <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_10.Normal_10" LabelText="Name" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" Padding="0 2" />
+        </BnsCustomLabelWidget.String>
+      </BnsCustomLabelWidget>
+      <BnsCustomLabelWidget Name="BattleRoyal_PcToolTip_DebuffIcon_1_Time" LayoutData.Anchors="0.5 0.5 0.5 0.5" LayoutData.Offsets="0 0 36 20">
+        <BnsCustomLabelWidget.String>
+          <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/LeftTime_16.LeftTime_16" LabelText="DeBuff" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+        </BnsCustomLabelWidget.String>
+      </BnsCustomLabelWidget>
+    </BnsCustomImageWidget>
+    <BnsCustomImageWidget Name="BattleRoyal_PcToolTip_DebuffIcon_2" LayoutData.Offsets="61.999695 6.999878 40 40">
+      <BnsCustomImageWidget.BaseImageProperty>
+        <ImageProperty ImageUV="721 872" ImageUVSize="26 26" />
+      </BnsCustomImageWidget.BaseImageProperty>
+      <BnsCustomImageWidget.ExpansionComponentList>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Grade_Image" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="RECYCLETIME" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="225 791" ImageUVSize="40 40" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="FRAME" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement_01.BNSR_UIElement_01" ImageUV="418 124" ImageUVSize="52 52" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="Background" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="891 996" ImageUVSize="26 26" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="STACK_COUNT" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+          </ExpansionComponent.ImageProperty>
+          <ExpansionComponent.StringProperty>
+            <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Stackable.Stackable" LabelText="1" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Bottom" Padding="3 2" Opacity="1" TextScale="1" AnimScale="1" />
+          </ExpansionComponent.StringProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bShow="true" ExpansionType="STRING" ExpansionName="HudCustomize" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+          </ExpansionComponent.ImageProperty>
+          <ExpansionComponent.StringProperty>
+            <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/LeftTime_10.LeftTime_10" LabelText=" " SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" Opacity="1" TextScale="1" AnimScale="1" />
+          </ExpansionComponent.StringProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="EXPIRATION_TIME" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="861 996" ImageUVSize="26 26" EnableSkinColor="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="-7.5 -7.5" Opacity="1" ImageScale="0.4" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+      </BnsCustomImageWidget.ExpansionComponentList>
+      <BnsCustomLabelWidget Name="BattleRoyal_PcToolTip_DeBuffIcon_2_Name" LayoutData.Anchors="0.5 1 0.5 1" LayoutData.Offsets="0 18 49 15.00061">
+        <BnsCustomLabelWidget.String>
+          <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_10.Normal_10" LabelText="Name" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" Padding="0 2" />
+        </BnsCustomLabelWidget.String>
+      </BnsCustomLabelWidget>
+      <BnsCustomLabelWidget Name="BattleRoyal_PcToolTip_DebuffIcon_2_Time" LayoutData.Anchors="0.5 0.5 0.5 0.5" LayoutData.Offsets="0 0 36 20">
+        <BnsCustomLabelWidget.String>
+          <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/LeftTime_16.LeftTime_16" LabelText="DeBuff" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+        </BnsCustomLabelWidget.String>
+      </BnsCustomLabelWidget>
+    </BnsCustomImageWidget>
+    <BnsCustomImageWidget Name="BattleRoyal_PcToolTip_DebuffIcon_3" LayoutData.Offsets="116.999695 6.999878 40.00006 40">
+      <BnsCustomImageWidget.BaseImageProperty>
+        <ImageProperty ImageUV="721 872" ImageUVSize="26 26" />
+      </BnsCustomImageWidget.BaseImageProperty>
+      <BnsCustomImageWidget.ExpansionComponentList>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Grade_Image" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="RECYCLETIME" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="225 791" ImageUVSize="40 40" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="FRAME" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement_01.BNSR_UIElement_01" ImageUV="418 124" ImageUVSize="52 52" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="Background" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="891 996" ImageUVSize="26 26" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="STACK_COUNT" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+          </ExpansionComponent.ImageProperty>
+          <ExpansionComponent.StringProperty>
+            <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Stackable.Stackable" LabelText="1" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Bottom" Padding="3 2" Opacity="1" TextScale="1" AnimScale="1" />
+          </ExpansionComponent.StringProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bShow="true" ExpansionType="STRING" ExpansionName="HudCustomize" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+          </ExpansionComponent.ImageProperty>
+          <ExpansionComponent.StringProperty>
+            <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/LeftTime_10.LeftTime_10" LabelText=" " SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" Opacity="1" TextScale="1" AnimScale="1" />
+          </ExpansionComponent.StringProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="EXPIRATION_TIME" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="861 996" ImageUVSize="26 26" EnableSkinColor="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="-7.5 -7.5" Opacity="1" ImageScale="0.4" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+      </BnsCustomImageWidget.ExpansionComponentList>
+      <BnsCustomLabelWidget Name="BattleRoyal_PcToolTip_DeBuffIcon_3_Name" LayoutData.Anchors="0.5 1 0.5 1" LayoutData.Offsets="0 18 49.00006 15.00061">
+        <BnsCustomLabelWidget.String>
+          <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_10.Normal_10" LabelText="Name" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" Padding="0 2" />
+        </BnsCustomLabelWidget.String>
+      </BnsCustomLabelWidget>
+      <BnsCustomLabelWidget Name="BattleRoyal_PcToolTip_DebuffIcon_3_Time" LayoutData.Anchors="0.5 0.5 0.5 0.5" LayoutData.Offsets="0 0 36.00006 20">
+        <BnsCustomLabelWidget.String>
+          <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/LeftTime_16.LeftTime_16" LabelText="DeBuff" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+        </BnsCustomLabelWidget.String>
+      </BnsCustomLabelWidget>
+    </BnsCustomImageWidget>
+    <BnsCustomImageWidget Name="BattleRoyal_PcToolTip_DebuffIcon_4" LayoutData.Offsets="171.99976 6.999878 40 40">
+      <BnsCustomImageWidget.BaseImageProperty>
+        <ImageProperty ImageUV="721 872" ImageUVSize="26 26" />
+      </BnsCustomImageWidget.BaseImageProperty>
+      <BnsCustomImageWidget.ExpansionComponentList>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Grade_Image" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="RECYCLETIME" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="225 791" ImageUVSize="40 40" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="FRAME" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement_01.BNSR_UIElement_01" ImageUV="418 124" ImageUVSize="52 52" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="Background" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="891 996" ImageUVSize="26 26" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="STACK_COUNT" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+          </ExpansionComponent.ImageProperty>
+          <ExpansionComponent.StringProperty>
+            <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Stackable.Stackable" LabelText="1" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Bottom" Padding="3 2" Opacity="1" TextScale="1" AnimScale="1" />
+          </ExpansionComponent.StringProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bShow="true" ExpansionType="STRING" ExpansionName="HudCustomize" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+          </ExpansionComponent.ImageProperty>
+          <ExpansionComponent.StringProperty>
+            <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/LeftTime_10.LeftTime_10" LabelText=" " SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" Opacity="1" TextScale="1" AnimScale="1" />
+          </ExpansionComponent.StringProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="EXPIRATION_TIME" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="861 996" ImageUVSize="26 26" EnableSkinColor="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="-7.5 -7.5" Opacity="1" ImageScale="0.4" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+      </BnsCustomImageWidget.ExpansionComponentList>
+      <BnsCustomLabelWidget Name="BattleRoyal_PcToolTip_DeBuffIcon_4_Name" LayoutData.Anchors="0.5 1 0.5 1" LayoutData.Offsets="0 18 49 15.00061">
+        <BnsCustomLabelWidget.String>
+          <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_10.Normal_10" LabelText="Name" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" Padding="0 2" />
+        </BnsCustomLabelWidget.String>
+      </BnsCustomLabelWidget>
+      <BnsCustomLabelWidget Name="BattleRoyal_PcToolTip_DebuffIcon_4_Time" LayoutData.Anchors="0.5 0.5 0.5 0.5" LayoutData.Offsets="0 0 36 20">
+        <BnsCustomLabelWidget.String>
+          <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/LeftTime_16.LeftTime_16" LabelText="DeBuff" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+        </BnsCustomLabelWidget.String>
+      </BnsCustomLabelWidget>
+    </BnsCustomImageWidget>
+    <BnsCustomImageWidget Name="BattleRoyal_PcToolTip_DebuffIcon_5" LayoutData.Offsets="226.99951 6.999878 40 40">
+      <BnsCustomImageWidget.BaseImageProperty>
+        <ImageProperty ImageUV="721 872" ImageUVSize="26 26" />
+      </BnsCustomImageWidget.BaseImageProperty>
+      <BnsCustomImageWidget.ExpansionComponentList>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Grade_Image" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="RECYCLETIME" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="225 791" ImageUVSize="40 40" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="FRAME" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement_01.BNSR_UIElement_01" ImageUV="418 124" ImageUVSize="52 52" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="Background" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="891 996" ImageUVSize="26 26" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="STACK_COUNT" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+          </ExpansionComponent.ImageProperty>
+          <ExpansionComponent.StringProperty>
+            <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Stackable.Stackable" LabelText="1" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Bottom" Padding="3 2" Opacity="1" TextScale="1" AnimScale="1" />
+          </ExpansionComponent.StringProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bShow="true" ExpansionType="STRING" ExpansionName="HudCustomize" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+          </ExpansionComponent.ImageProperty>
+          <ExpansionComponent.StringProperty>
+            <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/LeftTime_10.LeftTime_10" LabelText=" " SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" Opacity="1" TextScale="1" AnimScale="1" />
+          </ExpansionComponent.StringProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="EXPIRATION_TIME" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="861 996" ImageUVSize="26 26" EnableSkinColor="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="-7.5 -7.5" Opacity="1" ImageScale="0.4" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+      </BnsCustomImageWidget.ExpansionComponentList>
+      <BnsCustomLabelWidget Name="BattleRoyal_PcToolTip_DeBuffIcon_5_Name" LayoutData.Anchors="0.5 1 0.5 1" LayoutData.Offsets="0 18 49 15.00061">
+        <BnsCustomLabelWidget.String>
+          <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_10.Normal_10" LabelText="Name" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" Padding="0 2" />
+        </BnsCustomLabelWidget.String>
+      </BnsCustomLabelWidget>
+      <BnsCustomLabelWidget Name="BattleRoyal_PcToolTip_DebuffIcon_5_Time" LayoutData.Anchors="0.5 0.5 0.5 0.5" LayoutData.Offsets="0 0 36 20">
+        <BnsCustomLabelWidget.String>
+          <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/LeftTime_16.LeftTime_16" LabelText="DeBuff" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+        </BnsCustomLabelWidget.String>
+      </BnsCustomLabelWidget>
+    </BnsCustomImageWidget>
+    <BnsCustomImageWidget Name="BattleRoyal_PcToolTip_DebuffIcon_6" LayoutData.Offsets="6.999695 69.99994 40 40">
+      <BnsCustomImageWidget.BaseImageProperty>
+        <ImageProperty ImageUV="721 872" ImageUVSize="26 26" />
+      </BnsCustomImageWidget.BaseImageProperty>
+      <BnsCustomImageWidget.ExpansionComponentList>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Grade_Image" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="RECYCLETIME" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="225 791" ImageUVSize="40 40" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="FRAME" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement_01.BNSR_UIElement_01" ImageUV="418 124" ImageUVSize="52 52" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="Background" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="891 996" ImageUVSize="26 26" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="STACK_COUNT" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+          </ExpansionComponent.ImageProperty>
+          <ExpansionComponent.StringProperty>
+            <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Stackable.Stackable" LabelText="1" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Bottom" Padding="3 2" Opacity="1" TextScale="1" AnimScale="1" />
+          </ExpansionComponent.StringProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bShow="true" ExpansionType="STRING" ExpansionName="HudCustomize" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+          </ExpansionComponent.ImageProperty>
+          <ExpansionComponent.StringProperty>
+            <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/LeftTime_10.LeftTime_10" LabelText=" " SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" Opacity="1" TextScale="1" AnimScale="1" />
+          </ExpansionComponent.StringProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="EXPIRATION_TIME" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="861 996" ImageUVSize="26 26" EnableSkinColor="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="-7.5 -7.5" Opacity="1" ImageScale="0.4" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+      </BnsCustomImageWidget.ExpansionComponentList>
+      <BnsCustomLabelWidget Name="BattleRoyal_PcToolTip_DeBuffIcon_6_Name" LayoutData.Anchors="0.5 1 0.5 1" LayoutData.Offsets="0 18 49 15.00061">
+        <BnsCustomLabelWidget.String>
+          <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_10.Normal_10" LabelText="Name" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" Padding="0 2" />
+        </BnsCustomLabelWidget.String>
+      </BnsCustomLabelWidget>
+      <BnsCustomLabelWidget Name="BattleRoyal_PcToolTip_DebuffIcon_6_Time" LayoutData.Anchors="0.5 0.5 0.5 0.5" LayoutData.Offsets="0 0 36 20">
+        <BnsCustomLabelWidget.String>
+          <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/LeftTime_16.LeftTime_16" LabelText="DeBuff" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+        </BnsCustomLabelWidget.String>
+      </BnsCustomLabelWidget>
+    </BnsCustomImageWidget>
+    <BnsCustomImageWidget Name="BattleRoyal_PcToolTip_DebuffIcon_7" LayoutData.Offsets="61.999695 69.99994 40 40">
+      <BnsCustomImageWidget.BaseImageProperty>
+        <ImageProperty ImageUV="721 872" ImageUVSize="26 26" />
+      </BnsCustomImageWidget.BaseImageProperty>
+      <BnsCustomImageWidget.ExpansionComponentList>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Grade_Image" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="RECYCLETIME" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="225 791" ImageUVSize="40 40" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="FRAME" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement_01.BNSR_UIElement_01" ImageUV="418 124" ImageUVSize="52 52" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="Background" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="891 996" ImageUVSize="26 26" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="STACK_COUNT" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+          </ExpansionComponent.ImageProperty>
+          <ExpansionComponent.StringProperty>
+            <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Stackable.Stackable" LabelText="1" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Bottom" Padding="3 2" Opacity="1" TextScale="1" AnimScale="1" />
+          </ExpansionComponent.StringProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bShow="true" ExpansionType="STRING" ExpansionName="HudCustomize" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+          </ExpansionComponent.ImageProperty>
+          <ExpansionComponent.StringProperty>
+            <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/LeftTime_10.LeftTime_10" LabelText=" " SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" Opacity="1" TextScale="1" AnimScale="1" />
+          </ExpansionComponent.StringProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="EXPIRATION_TIME" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="861 996" ImageUVSize="26 26" EnableSkinColor="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="-7.5 -7.5" Opacity="1" ImageScale="0.4" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+      </BnsCustomImageWidget.ExpansionComponentList>
+      <BnsCustomLabelWidget Name="BattleRoyal_PcToolTip_DeBuffIcon_7_Name" LayoutData.Anchors="0.5 1 0.5 1" LayoutData.Offsets="0 18 49 15.00061">
+        <BnsCustomLabelWidget.String>
+          <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_10.Normal_10" LabelText="Name" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" Padding="0 2" />
+        </BnsCustomLabelWidget.String>
+      </BnsCustomLabelWidget>
+      <BnsCustomLabelWidget Name="BattleRoyal_PcToolTip_DebuffIcon_7_Time" LayoutData.Anchors="0.5 0.5 0.5 0.5" LayoutData.Offsets="0 0 36 20">
+        <BnsCustomLabelWidget.String>
+          <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/LeftTime_16.LeftTime_16" LabelText="DeBuff" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+        </BnsCustomLabelWidget.String>
+      </BnsCustomLabelWidget>
+    </BnsCustomImageWidget>
+    <BnsCustomImageWidget Name="BattleRoyal_PcToolTip_DebuffIcon_8" LayoutData.Offsets="116.999695 69.99994 40.00006 40">
+      <BnsCustomImageWidget.BaseImageProperty>
+        <ImageProperty ImageUV="721 872" ImageUVSize="26 26" />
+      </BnsCustomImageWidget.BaseImageProperty>
+      <BnsCustomImageWidget.ExpansionComponentList>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Grade_Image" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="RECYCLETIME" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="225 791" ImageUVSize="40 40" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="FRAME" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement_01.BNSR_UIElement_01" ImageUV="418 124" ImageUVSize="52 52" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="Background" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="891 996" ImageUVSize="26 26" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="STACK_COUNT" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+          </ExpansionComponent.ImageProperty>
+          <ExpansionComponent.StringProperty>
+            <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Stackable.Stackable" LabelText="1" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Bottom" Padding="3 2" Opacity="1" TextScale="1" AnimScale="1" />
+          </ExpansionComponent.StringProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bShow="true" ExpansionType="STRING" ExpansionName="HudCustomize" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+          </ExpansionComponent.ImageProperty>
+          <ExpansionComponent.StringProperty>
+            <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/LeftTime_10.LeftTime_10" LabelText=" " SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" Opacity="1" TextScale="1" AnimScale="1" />
+          </ExpansionComponent.StringProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="EXPIRATION_TIME" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="861 996" ImageUVSize="26 26" EnableSkinColor="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="-7.5 -7.5" Opacity="1" ImageScale="0.4" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+      </BnsCustomImageWidget.ExpansionComponentList>
+      <BnsCustomLabelWidget Name="BattleRoyal_PcToolTip_DeBuffIcon_8_Name" LayoutData.Anchors="0.5 1 0.5 1" LayoutData.Offsets="0 18 49.00006 15.00061">
+        <BnsCustomLabelWidget.String>
+          <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_10.Normal_10" LabelText="Name" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" Padding="0 2" />
+        </BnsCustomLabelWidget.String>
+      </BnsCustomLabelWidget>
+      <BnsCustomLabelWidget Name="BattleRoyal_PcToolTip_DebuffIcon_8_Time" LayoutData.Anchors="0.5 0.5 0.5 0.5" LayoutData.Offsets="0 0 36.00006 20">
+        <BnsCustomLabelWidget.String>
+          <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/LeftTime_16.LeftTime_16" LabelText="DeBuff" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+        </BnsCustomLabelWidget.String>
+      </BnsCustomLabelWidget>
+    </BnsCustomImageWidget>
+    <BnsCustomImageWidget Name="BattleRoyal_PcToolTip_DebuffIcon_9" LayoutData.Offsets="171.99976 69.99994 40 40">
+      <BnsCustomImageWidget.BaseImageProperty>
+        <ImageProperty ImageUV="721 872" ImageUVSize="26 26" />
+      </BnsCustomImageWidget.BaseImageProperty>
+      <BnsCustomImageWidget.ExpansionComponentList>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Grade_Image" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="RECYCLETIME" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="225 791" ImageUVSize="40 40" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="FRAME" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement_01.BNSR_UIElement_01" ImageUV="418 124" ImageUVSize="52 52" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="Background" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="891 996" ImageUVSize="26 26" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="STACK_COUNT" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+          </ExpansionComponent.ImageProperty>
+          <ExpansionComponent.StringProperty>
+            <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Stackable.Stackable" LabelText="1" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Bottom" Padding="3 2" Opacity="1" TextScale="1" AnimScale="1" />
+          </ExpansionComponent.StringProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bShow="true" ExpansionType="STRING" ExpansionName="HudCustomize" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+          </ExpansionComponent.ImageProperty>
+          <ExpansionComponent.StringProperty>
+            <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/LeftTime_10.LeftTime_10" LabelText=" " SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" Opacity="1" TextScale="1" AnimScale="1" />
+          </ExpansionComponent.StringProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="EXPIRATION_TIME" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="861 996" ImageUVSize="26 26" EnableSkinColor="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="-7.5 -7.5" Opacity="1" ImageScale="0.4" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+      </BnsCustomImageWidget.ExpansionComponentList>
+      <BnsCustomLabelWidget Name="BattleRoyal_PcToolTip_DeBuffIcon_9_Name" LayoutData.Anchors="0.5 1 0.5 1" LayoutData.Offsets="0 18 49 15.00061">
+        <BnsCustomLabelWidget.String>
+          <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_10.Normal_10" LabelText="Name" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" Padding="0 2" />
+        </BnsCustomLabelWidget.String>
+      </BnsCustomLabelWidget>
+      <BnsCustomLabelWidget Name="BattleRoyal_PcToolTip_DebuffIcon_9_Time" LayoutData.Anchors="0.5 0.5 0.5 0.5" LayoutData.Offsets="0 0 36 20">
+        <BnsCustomLabelWidget.String>
+          <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/LeftTime_16.LeftTime_16" LabelText="DeBuff" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+        </BnsCustomLabelWidget.String>
+      </BnsCustomLabelWidget>
+    </BnsCustomImageWidget>
+    <BnsCustomImageWidget Name="BattleRoyal_PcToolTip_DebuffIcon_10" LayoutData.Offsets="226.99951 69.99994 40 40">
+      <BnsCustomImageWidget.BaseImageProperty>
+        <ImageProperty ImageUV="721 872" ImageUVSize="26 26" />
+      </BnsCustomImageWidget.BaseImageProperty>
+      <BnsCustomImageWidget.ExpansionComponentList>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Grade_Image" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="RECYCLETIME" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="225 791" ImageUVSize="40 40" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="FRAME" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement_01.BNSR_UIElement_01" ImageUV="418 124" ImageUVSize="52 52" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="Background" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="891 996" ImageUVSize="26 26" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="STACK_COUNT" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+          </ExpansionComponent.ImageProperty>
+          <ExpansionComponent.StringProperty>
+            <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Stackable.Stackable" LabelText="1" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Bottom" Padding="3 2" Opacity="1" TextScale="1" AnimScale="1" />
+          </ExpansionComponent.StringProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bShow="true" ExpansionType="STRING" ExpansionName="HudCustomize" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+          </ExpansionComponent.ImageProperty>
+          <ExpansionComponent.StringProperty>
+            <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/LeftTime_10.LeftTime_10" LabelText=" " SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" Opacity="1" TextScale="1" AnimScale="1" />
+          </ExpansionComponent.StringProperty>
+        </ExpansionComponent>
+        <ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="EXPIRATION_TIME" MetaData="">
+          <ExpansionComponent.ImageProperty>
+            <ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="861 996" ImageUVSize="26 26" EnableSkinColor="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="-7.5 -7.5" Opacity="1" ImageScale="0.4" />
+          </ExpansionComponent.ImageProperty>
+        </ExpansionComponent>
+      </BnsCustomImageWidget.ExpansionComponentList>
+      <BnsCustomLabelWidget Name="BattleRoyal_PcToolTip_DeBuffIcon_10_Name" LayoutData.Anchors="0.5 1 0.5 1" LayoutData.Offsets="0 18 49 15.00061">
+        <BnsCustomLabelWidget.String>
+          <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_10.Normal_10" LabelText="Name" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" Padding="0 2" />
+        </BnsCustomLabelWidget.String>
+      </BnsCustomLabelWidget>
+      <BnsCustomLabelWidget Name="BattleRoyal_PcToolTip_DebuffIcon_10_Time" LayoutData.Anchors="0.5 0.5 0.5 0.5" LayoutData.Offsets="0 0 36 20">
+        <BnsCustomLabelWidget.String>
+          <StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/LeftTime_16.LeftTime_16" LabelText="DeBuff" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+        </BnsCustomLabelWidget.String>
+      </BnsCustomLabelWidget>
+    </BnsCustomImageWidget>
+    <BnsCustomImageWidget Name="BattleRoyal_PcToolTip_DebuffEffectResizeDummy" LayoutData.Offsets="-0.00030517578 56 6.1035156E-05 52.00006">
+      <BnsCustomImageWidget.BaseImageProperty>
+        <ImageProperty />
+      </BnsCustomImageWidget.BaseImageProperty>
+    </BnsCustomImageWidget>
+  </BnsCustomWindowWidget>
+</BnsCustomWindowWidget>

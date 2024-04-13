@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Engine.BinData.Helpers;
@@ -22,6 +23,7 @@ public partial class LegacyAuctionPanel : INotifyPropertyChanged
 
 		#region Category
 		TreeView.Items.Add(new TreeViewImageItem() { Header = "UI.Market.Category.All".GetText(), Tag = "all" });
+		TreeView.Items.Add(new TreeViewImageItem() { Header = "UI.Market.Category.WorldBoss".GetText(), Tag = "WorldBoss", FontSize = 15 });
 		TreeView.Items.Add(new TreeViewImageItem() { Header = "UI.Market.Category.Favorites".GetText(), Tag = "favorites" });
 
 		foreach (var category2 in SequenceExtensions.MarketCategory2Group())
@@ -66,6 +68,8 @@ public partial class LegacyAuctionPanel : INotifyPropertyChanged
 		if (e.OldValue == e.NewValue) return;
 		if (e.NewValue is not FrameworkElement item) return;
 
+		worldBoss = item.Tag is "WorldBoss";
+
 		if (item.Tag is MarketCategory2Seq seq2)
 		{
 			marketCategory2 = seq2;
@@ -81,6 +85,14 @@ public partial class LegacyAuctionPanel : INotifyPropertyChanged
 		}
 
 		RefreshList();
+	}
+
+	protected override void OnPreviewKeyDown(KeyEventArgs e)
+	{
+		if (Keyboard.IsKeyDown(Key.LeftCtrl))
+		{
+
+		}
 	}
 	#endregion
 
@@ -123,22 +135,28 @@ public partial class LegacyAuctionPanel : INotifyPropertyChanged
 	}
 
 
+	private bool worldBoss;
 	private MarketCategory2Seq marketCategory2;
 	private MarketCategory3Seq marketCategory3;
 
 	private bool Filter(object obj)
 	{
+		#region Initialize
 		if (obj is Record record) { }
 		else if (obj is ModelElement model) record = model.Source;
 		else return false;
 
 		if (_lst != null && _lst.CheckFailed(record.PrimaryKey)) return false;
 
-		var IsAll = marketCategory2 == default && marketCategory3 == default;
 		var IsEmpty = string.IsNullOrEmpty(_nameFilter);
+		#endregion
 
-		// must set rule
-		if (IsAll)
+		#region Category
+		if (worldBoss)
+		{
+			if (!record.Attributes.Get<BnsBoolean>("world-boss-auctionable")) return false;
+		}
+		else if (marketCategory2 == default && marketCategory3 == default)  // all
 		{
 			if (_lst is null && IsEmpty) return false;
 		}
@@ -150,14 +168,15 @@ public partial class LegacyAuctionPanel : INotifyPropertyChanged
 			if (marketCategory3 != default && marketCategory3 != MarketCategory3) return false;
 			else if (marketCategory2 != default && marketCategory2 != MarketCategory2) return false;
 		}
+		#endregion
 
 
-		// filter 
+		#region Filter
 		if (_auctionable &&
 			!record.Attributes.Get<BnsBoolean>("auctionable") &&
 			!record.Attributes.Get<BnsBoolean>("seal-renewal-auctionable")) return false;
 
-		// filter rule
+		// rule
 		if (IsEmpty) return true;
 		else
 		{
@@ -171,6 +190,7 @@ public partial class LegacyAuctionPanel : INotifyPropertyChanged
 
 			return false;
 		}
+		#endregion
 	}
 
 	private void RefreshList()

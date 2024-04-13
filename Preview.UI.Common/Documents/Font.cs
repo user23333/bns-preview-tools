@@ -51,11 +51,8 @@ public class Font : BaseElement
 		var FontColor = fontset.FontColors?.Load<UFontColor>();
 		if (FontColor != null)
 		{
-			// get forecolor
 			var f = FontColor.FontColor.ToFColor(true);
-			var c = Color.FromArgb(f.A, f.R, f.G, f.B);
-
-			Foreground = new SolidColorBrush(c);
+			Foreground = new SolidColorBrush(Color.FromArgb(f.A, f.R, f.G, f.B));
 		}
 
 		var FontAttribute = fontset.FontAttribute?.Load<UFontAttribute>();

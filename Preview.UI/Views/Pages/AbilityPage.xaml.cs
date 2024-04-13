@@ -9,9 +9,9 @@ namespace Xylia.Preview.UI.Views.Pages;
 public partial class AbilityPage
 {
 	public AbilityPage()
-	{
-		DataContext = _viewModel = new AbilityPageViewModel();
+	{	
 		InitializeComponent();
+		DataContext = _viewModel = new AbilityPageViewModel();
 	}
 
 	private void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)

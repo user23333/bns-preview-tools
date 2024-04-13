@@ -51,16 +51,12 @@ public static class CreateClass
             AttributeType.TFloat32 => "float",
             AttributeType.TBool => "bool",
             AttributeType.TString or AttributeType.TNative => "string",
-            AttributeType.TXUnknown1 or AttributeType.TTime64 => "DateTime",
-            AttributeType.TXUnknown2 => "FPath",
             AttributeType.TRef => $"Ref<{attribute.ReferedTableName?.TitleCase()}>",
             AttributeType.TTRef => $"Ref<ModelElement>",
             AttributeType.TSub => $"Sub<{attribute.ReferedTableName?.TitleCase()}>",
-
             AttributeType.TSeq or AttributeType.TSeq16 or AttributeType.TProp_seq or AttributeType.TProp_field
                 => attribute.Sequence?.Name?.TitleCase() ?? attribute.Name.TitleCase() + "Seq",
-
-            _ => attribute.Type.ToString(),
+            _ => attribute.Type.ToString().Remove(0, 1),
         };
 
         #endregion

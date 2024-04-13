@@ -55,7 +55,7 @@ public static class BinaryExtension
 			return string.Empty;
 		}
 
-		StringBuilder sb = new StringBuilder();
+		StringBuilder sb = new();
 		for (int i = 0; i < value.Length; i++)
 		{
 			var b = value[i];

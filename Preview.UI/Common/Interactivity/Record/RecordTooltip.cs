@@ -18,6 +18,7 @@ public sealed class RecordTooltip : ContentControl
 	static RecordTooltip()
 	{
 		RegisterTemplate<ItemTooltipPanel>(typeof(Item));
+		RegisterTemplate<RewardTooltipPanel>(typeof(Reward));
 		RegisterTemplate<Skill3ToolTipPanel_1>(typeof(Skill3));
 	}
 
@@ -32,7 +33,7 @@ public sealed class RecordTooltip : ContentControl
 	{
 		base.OnVisualParentChanged(oldParent);
 
-		// fix issue when backgorund is white
+		// fix display issue when backgorund is white
 		var parent = this.GetParent<Border>();
 		if (parent != null) parent.Background = new SolidColorBrush(BnsCustomWindowWidget.BackgroundColor);
 	}
@@ -42,24 +43,19 @@ public sealed class RecordTooltip : ContentControl
 		FrameworkElement? visualTree;
 		switch (DataContext)
 		{
-			case ModelElement model when ModelTemplate.TryGetValue(model.GetType(), out var template):
-			{
+			case ModelElement model when ModelTemplate.TryGetValue(model.GetBaseType(), out var template):
 				visualTree = template.Value;
 				visualTree.DataContext = DataContext;
-			}
-			break;
+				break;
 
-			case Record record when RecordTemplate.TryGetValue(record.Owner.Name ?? string.Empty, out var template):
-			{
+			case Record record when RecordTemplate.TryGetValue(record.Owner.Name, out var template):
 				visualTree = template.Value;
 				visualTree.DataContext = record.As<ModelElement>();
-			}
-			break;
+				break;
 
 			default:
-				if (DataContext is null) return;
 				visualTree = new TextBlock();
-				visualTree.SetValue(TextBlock.TextProperty, DataContext.ToString());
+				visualTree.SetValue(TextBlock.TextProperty, DataContext?.ToString());
 				break;
 		}
 
@@ -75,7 +71,7 @@ public sealed class RecordTooltip : ContentControl
 	static void RegisterTemplate<T>(Type type, string? name = null) where T : FrameworkElement, new()
 	{
 		name ??= type.Name.TitleLowerCase();
-		ModelTemplate[typeof(Item)] = RecordTemplate[name] = new(() => new T());
+		ModelTemplate[type] = RecordTemplate[name] = new(() => new T());
 	}
 	#endregion
 }

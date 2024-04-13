@@ -1,0 +1,628 @@
+﻿<BnsCustomWindowWidget x:Class="Xylia.Preview.UI.GameUI.Scene.Game_ItemGrowth2.ItemImproveSetAllPanel"
+	xmlns="https://github.com/xyliaup/bns-preview-tools"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:s="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	Width="454" Height="560">
+	<BnsCustomWindowWidget.BaseImageProperty>
+		<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_Window.BNSR_Window" ImageUV="7 7" ImageUVSize="49 49" EnableSkinAlpha="true" StaticPadding="-17 -17" />
+	</BnsCustomWindowWidget.BaseImageProperty>
+	<BnsCustomWindowWidget.ExpansionComponentList>
+		<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Line" MetaData="">
+			<ExpansionComponent.ImageProperty>
+				<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_Window_Outfocus.BNSR_Window_Outfocus" ImageUV="7 7" ImageUVSize="49 49" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" StaticPadding="-17 -17" Opacity="1" ImageScale="1" />
+			</ExpansionComponent.ImageProperty>
+		</ExpansionComponent>
+	</BnsCustomWindowWidget.ExpansionComponentList>
+	<BnsCustomImageWidget Name="ItemImproveSetAllPanel_BackgroundImage" LayoutData.Anchors="0 0 1 1" LayoutData.Offsets="0 51 0 0">
+		<BnsCustomImageWidget.BaseImageProperty>
+			<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="0 125" ImageUVSize="18 10" EnableDrawColor="true" TintColor="000000" Opacity="0.3" />
+		</BnsCustomImageWidget.BaseImageProperty>
+	</BnsCustomImageWidget>
+	<BnsCustomImageWidget Name="ItemImproveSetAllPanel_BackgroundImage2" LayoutData.Anchors="0 0 0 1" LayoutData.Offsets="21.000061 62 413 20">
+		<BnsCustomImageWidget.BaseImageProperty>
+			<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="20 116" ImageUVSize="18 18" Opacity="0.1" />
+		</BnsCustomImageWidget.BaseImageProperty>
+		<BnsCustomImageWidget.ExpansionComponentList>
+			<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="Completed" MetaData="">
+				<ExpansionComponent.ImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="20 116" ImageUVSize="18 18" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="0.1" ImageScale="1" />
+				</ExpansionComponent.ImageProperty>
+			</ExpansionComponent>
+			<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="Progress" MetaData="">
+				<ExpansionComponent.ImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="20 116" ImageUVSize="18 18" EnableDrawImage="true" EnableDrawColor="true" TintColor="3767A0" GrayWeightValue="0.15" Opacity="0.3" ImageScale="1" />
+				</ExpansionComponent.ImageProperty>
+			</ExpansionComponent>
+			<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="NotProgress" MetaData="">
+				<ExpansionComponent.ImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="0 116" ImageUVSize="18 18" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="0.5" ImageScale="1" />
+				</ExpansionComponent.ImageProperty>
+			</ExpansionComponent>
+		</BnsCustomImageWidget.ExpansionComponentList>
+	</BnsCustomImageWidget>
+	<BnsCustomCaptionWidget Name="ItemImproveSetAllPanel_TitleBar" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="0 0 0 50.000004" MetaData="textref=UI.ItemSumImprove.Bonus">
+		<BnsCustomCaptionWidget.String>
+			<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_16.Normal_16" LabelText="#강화단계 보너스" VerticalAlignment="VAlign_Center" ClippingBound="70 0" />
+		</BnsCustomCaptionWidget.String>
+		<BnsCustomCaptionWidget.BaseImageProperty>
+			<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_PictogramIcon_2.BNSR_PictogramIcon_2" ImageUV="0 64" ImageUVSize="64 64" EnableResourceSize="true" Offset="0 -8" />
+		</BnsCustomCaptionWidget.BaseImageProperty>
+	</BnsCustomCaptionWidget>
+	<BnsCustomImageWidget Name="ItemImproveSetAllPanel_UIInfo" LayoutData.Offsets="382.00006 12 30 30.000004" MetaData="tooltip=UI.Tooltip.UIInfo.ImproveSetOptionGroupPopupPanel">
+		<BnsCustomImageWidget.BaseImageProperty>
+			<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="142 48" ImageUVSize="12 22" EnableResourceSize="true" Offset="0 -1" />
+		</BnsCustomImageWidget.BaseImageProperty>
+	</BnsCustomImageWidget>
+	<BnsCustomLabelButtonWidget Name="ItemImproveSetAllPanel_Title_CloseBtn" LayoutData.Anchors="1 0 1 0" LayoutData.Offsets="-12 12 30 30.000004">
+		<BnsCustomLabelButtonWidget.NormalImageProperty>
+			<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="156 50" ImageUVSize="18 18" EnableResourceSize="true" />
+		</BnsCustomLabelButtonWidget.NormalImageProperty>
+	</BnsCustomLabelButtonWidget>
+	<BnsCustomColumnListWidget Name="ItemImproveSetAllPanel_DetailList" LayoutData.Anchors="0.5 0 0.5 1" LayoutData.Offsets="5 120 414.00006 20">
+		<BnsCustomScrollBarWidget Name="ItemImproveSetAllPanel_DetailList_ScrollBar" LayoutData.Anchors="1 0 1 1" LayoutData.Offsets="8 0 8 0">
+			<BnsCustomLabelButtonWidget Name="ItemImproveSetAllPanel_DetailList_ScrollBar_IncrementButton" LayoutData.Anchors="0.5 1 0.5 1">
+				<BnsCustomLabelButtonWidget.NormalImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="28 167" ImageUVSize="19 18" EnableResourceSize="true" EnableSkinColor="true" />
+				</BnsCustomLabelButtonWidget.NormalImageProperty>
+				<BnsCustomLabelButtonWidget.ExpansionComponentList>
+					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Down" MetaData="">
+						<ExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="344 578" ImageUVSize="11 8" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+						</ExpansionComponent.ImageProperty>
+					</ExpansionComponent>
+				</BnsCustomLabelButtonWidget.ExpansionComponentList>
+			</BnsCustomLabelButtonWidget>
+			<BnsCustomLabelButtonWidget Name="ItemImproveSetAllPanel_DetailList_ScrollBar_DecrementButton" LayoutData.Anchors="0.5 0 0.5 0">
+				<BnsCustomLabelButtonWidget.NormalImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="28 167" ImageUVSize="19 18" EnableSkinColor="true" />
+				</BnsCustomLabelButtonWidget.NormalImageProperty>
+				<BnsCustomLabelButtonWidget.ExpansionComponentList>
+					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Normal" MetaData="">
+						<ExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="344 568" ImageUVSize="11 9" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+						</ExpansionComponent.ImageProperty>
+					</ExpansionComponent>
+				</BnsCustomLabelButtonWidget.ExpansionComponentList>
+			</BnsCustomLabelButtonWidget>
+			<BnsCustomSliderBarWidget Name="ItemImproveSetAllPanel_DetailList_ScrollBar_SliderBar" LayoutData.Anchors="0.5 0 0.5 1" LayoutData.Offsets="0 1 8 1">
+				<BnsCustomLabelButtonWidget Name="ItemImproveSetAllPanel_DetailList_ScrollBar_SliderBar_Marker" LayoutData.Anchors="0.5 0 0.5 0" LayoutData.Offsets="0 -3.0517578E-05 4 62.999725">
+					<BnsCustomLabelButtonWidget.NormalImageProperty>
+						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="142 30" ImageUVSize="4 13" />
+					</BnsCustomLabelButtonWidget.NormalImageProperty>
+				</BnsCustomLabelButtonWidget>
+			</BnsCustomSliderBarWidget>
+		</BnsCustomScrollBarWidget>
+		<BnsCustomImageWidget Name="ItemImproveSetAllPanel_DetailList_Column_1_1" LayoutData.Offsets="0 0 400.00006 98">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty BaseImageTexture="/Game/Art/UI/GameUI_BNSR/Resource/GameUI_Window3_R/BNSR_UIOnly_06.BNSR_UIOnly_06" ImageUV="992 817" ImageUVSize="401 83" EnableResourceSize="true" Offset="-1 1" VerticalAlignment="VAlign_Bottom" />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget.ExpansionComponentList>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Active" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty BaseImageTexture="/Game/Art/UI/GameUI_BNSR/Resource/GameUI_Window3_R/BNSR_UIOnly_06.BNSR_UIOnly_06" ImageUV="993 897.5" ImageUVSize="401 83" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" VerticalAlignment="VAlign_Bottom" />
+					</ExpansionComponent.ImageProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Slotbg" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty BaseImageTexture="/Game/Art/UI/GameUI_BNSR/Resource/GameUI_Window2_R/BNSR_Battlepass.BNSR_Battlepass" ImageUV="17 549" ImageUVSize="74 77" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="0 5" Opacity="1" ImageScale="1.1" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="SumImprove" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="강화된 합산 24 이상" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" ClippingBound="0 5" Opacity="0.7" TextScale="1" AnimScale="1" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Count" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_22.Normal_22" LabelText="10" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" ClippingBound="-322 18" Opacity="1" TextScale="1" AnimScale="1" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+			</BnsCustomImageWidget.ExpansionComponentList>
+			<BnsCustomLabelWidget Name="ItemImproveSetAllPanel_DetailList_Column_1_1_Ability" LayoutData.Anchors="0 0.5 0 0.5" LayoutData.Offsets="84 10 308.01178 72">
+				<BnsCustomLabelWidget Name="ItemImproveSetAllPanel_DetailList_Column_1_1_Ability_Label" LayoutData.Anchors="0 0.5 0 0.5" LayoutData.Offsets="0 0 300.00885 52.502">
+					<BnsCustomLabelWidget.String>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="흑풍효과 발동 시 공격력 5, 치명피해 300 증가흑풍효과 발동 시 공격력 5, 치명피해 300 증가흑풍효과 발동 시 공격력 5, 치명피해 300 증가흑풍효과 발동 시 공격력 5, 치명피해 300 증가" SpaceBetweenLines="1.5" VerticalAlignment="VAlign_Center" />
+					</BnsCustomLabelWidget.String>
+				</BnsCustomLabelWidget>
+			</BnsCustomLabelWidget>
+			<BnsCustomLabelWidget Name="ItemImproveSetAllPanel_DetailList_Column_1_1_ActiveMark" LayoutData.Anchors="0 0.5 0 0.5" LayoutData.Offsets="14 30 49.999985 24" MetaData="textref=UI.ImproveSet.ImproveWidget.AppliedLabel">
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Label_Green03_12.Label_Green03_12" LabelText="적용중" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" ClippingBound="-1 0" />
+				</BnsCustomLabelWidget.String>
+				<BnsCustomLabelWidget.ExpansionComponentList>
+					<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="bg" MetaData="">
+						<ExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="/Game/Art/UI/GameUI_BNSR/Resource/GameUI_Window2_R/BNSR_Battlepass.BNSR_Battlepass" ImageUV="13.066668 696.5333" ImageUVSize="66.13333 26.133362" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="0.8" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+						</ExpansionComponent.ImageProperty>
+					</ExpansionComponent>
+				</BnsCustomLabelWidget.ExpansionComponentList>
+			</BnsCustomLabelWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="ItemImproveSetAllPanel_DetailList_Column_2_1" LayoutData.Offsets="0 108 400.00006 98">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty BaseImageTexture="/Game/Art/UI/GameUI_BNSR/Resource/GameUI_Window3_R/BNSR_UIOnly_06.BNSR_UIOnly_06" ImageUV="992 817" ImageUVSize="401 83" EnableResourceSize="true" Offset="-1 1" VerticalAlignment="VAlign_Bottom" />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget.ExpansionComponentList>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Active" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty BaseImageTexture="/Game/Art/UI/GameUI_BNSR/Resource/GameUI_Window3_R/BNSR_UIOnly_06.BNSR_UIOnly_06" ImageUV="993 897.5" ImageUVSize="401 83" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" VerticalAlignment="VAlign_Bottom" />
+					</ExpansionComponent.ImageProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Slotbg" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty BaseImageTexture="/Game/Art/UI/GameUI_BNSR/Resource/GameUI_Window2_R/BNSR_Battlepass.BNSR_Battlepass" ImageUV="17 549" ImageUVSize="74 77" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="0 5" Opacity="1" ImageScale="1.1" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="SumImprove" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="강화된 합산 24 이상" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" ClippingBound="0 5" Opacity="0.7" TextScale="1" AnimScale="1" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Count" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_22.Normal_22" LabelText="10" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" ClippingBound="-322 18" Opacity="1" TextScale="1" AnimScale="1" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+			</BnsCustomImageWidget.ExpansionComponentList>
+			<BnsCustomLabelWidget Name="ItemImproveSetAllPanel_DetailList_Column_2_1_Ability" LayoutData.Anchors="0 0.5 0 0.5" LayoutData.Offsets="84 10 308.01178 72">
+				<BnsCustomLabelWidget Name="ItemImproveSetAllPanel_DetailList_Column_2_1_Ability_Label" LayoutData.Anchors="0 0.5 0 0.5" LayoutData.Offsets="0 0 300.00885 52.502014">
+					<BnsCustomLabelWidget.String>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="흑풍효과 발동 시 공격력 5, 치명피해 300 증가흑풍효과 발동 시 공격력 5, 치명피해 300 증가흑풍효과 발동 시 공격력 5, 치명피해 300 증가흑풍효과 발동 시 공격력 5, 치명피해 300 증가" SpaceBetweenLines="1.5" VerticalAlignment="VAlign_Center" />
+					</BnsCustomLabelWidget.String>
+				</BnsCustomLabelWidget>
+			</BnsCustomLabelWidget>
+			<BnsCustomLabelWidget Name="ItemImproveSetAllPanel_DetailList_Column_2_1_ActiveMark" LayoutData.Anchors="0 0.5 0 0.5" LayoutData.Offsets="14 30 49.999985 24" MetaData="textref=UI.ImproveSet.ImproveWidget.AppliedLabel">
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Label_Green03_12.Label_Green03_12" LabelText="적용중" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" ClippingBound="-1 0" />
+				</BnsCustomLabelWidget.String>
+				<BnsCustomLabelWidget.ExpansionComponentList>
+					<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="bg" MetaData="">
+						<ExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="/Game/Art/UI/GameUI_BNSR/Resource/GameUI_Window2_R/BNSR_Battlepass.BNSR_Battlepass" ImageUV="13.066668 696.5333" ImageUVSize="66.13333 26.133362" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="0.8" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+						</ExpansionComponent.ImageProperty>
+					</ExpansionComponent>
+				</BnsCustomLabelWidget.ExpansionComponentList>
+			</BnsCustomLabelWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="ItemImproveSetAllPanel_DetailList_Column_3_1" LayoutData.Offsets="0 216 400.00006 98">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty BaseImageTexture="/Game/Art/UI/GameUI_BNSR/Resource/GameUI_Window3_R/BNSR_UIOnly_06.BNSR_UIOnly_06" ImageUV="992 817" ImageUVSize="401 83" EnableResourceSize="true" Offset="-1 1" VerticalAlignment="VAlign_Bottom" />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget.ExpansionComponentList>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Active" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty BaseImageTexture="/Game/Art/UI/GameUI_BNSR/Resource/GameUI_Window3_R/BNSR_UIOnly_06.BNSR_UIOnly_06" ImageUV="993 897.5" ImageUVSize="401 83" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" VerticalAlignment="VAlign_Bottom" />
+					</ExpansionComponent.ImageProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Slotbg" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty BaseImageTexture="/Game/Art/UI/GameUI_BNSR/Resource/GameUI_Window2_R/BNSR_Battlepass.BNSR_Battlepass" ImageUV="17 549" ImageUVSize="74 77" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="0 5" Opacity="1" ImageScale="1.1" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="SumImprove" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="강화된 합산 24 이상" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" ClippingBound="0 5" Opacity="0.7" TextScale="1" AnimScale="1" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Count" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_22.Normal_22" LabelText="10" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" ClippingBound="-322 18" Opacity="1" TextScale="1" AnimScale="1" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+			</BnsCustomImageWidget.ExpansionComponentList>
+			<BnsCustomLabelWidget Name="ItemImproveSetAllPanel_DetailList_Column_3_1_Ability" LayoutData.Anchors="0 0.5 0 0.5" LayoutData.Offsets="84 10 308.01178 72">
+				<BnsCustomLabelWidget Name="ItemImproveSetAllPanel_DetailList_Column_3_1_Ability_Label" LayoutData.Anchors="0 0.5 0 0.5" LayoutData.Offsets="0 0 300.00885 52.502014">
+					<BnsCustomLabelWidget.String>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="흑풍효과 발동 시 공격력 5, 치명피해 300 증가흑풍효과 발동 시 공격력 5, 치명피해 300 증가흑풍효과 발동 시 공격력 5, 치명피해 300 증가흑풍효과 발동 시 공격력 5, 치명피해 300 증가" SpaceBetweenLines="1.5" VerticalAlignment="VAlign_Center" />
+					</BnsCustomLabelWidget.String>
+				</BnsCustomLabelWidget>
+			</BnsCustomLabelWidget>
+			<BnsCustomLabelWidget Name="ItemImproveSetAllPanel_DetailList_Column_3_1_ActiveMark" LayoutData.Anchors="0 0.5 0 0.5" LayoutData.Offsets="14 30 49.999985 24" MetaData="textref=UI.ImproveSet.ImproveWidget.AppliedLabel">
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Label_Green03_12.Label_Green03_12" LabelText="적용중" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" ClippingBound="-1 0" />
+				</BnsCustomLabelWidget.String>
+				<BnsCustomLabelWidget.ExpansionComponentList>
+					<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="bg" MetaData="">
+						<ExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="/Game/Art/UI/GameUI_BNSR/Resource/GameUI_Window2_R/BNSR_Battlepass.BNSR_Battlepass" ImageUV="13.066668 696.5333" ImageUVSize="66.13333 26.133362" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="0.8" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+						</ExpansionComponent.ImageProperty>
+					</ExpansionComponent>
+				</BnsCustomLabelWidget.ExpansionComponentList>
+			</BnsCustomLabelWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="ItemImproveSetAllPanel_DetailList_Column_4_1" LayoutData.Offsets="0 324 400.00006 98.00003">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty BaseImageTexture="/Game/Art/UI/GameUI_BNSR/Resource/GameUI_Window3_R/BNSR_UIOnly_06.BNSR_UIOnly_06" ImageUV="992 817" ImageUVSize="401 83" EnableResourceSize="true" Offset="-1 1" VerticalAlignment="VAlign_Bottom" />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget.ExpansionComponentList>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Active" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty BaseImageTexture="/Game/Art/UI/GameUI_BNSR/Resource/GameUI_Window3_R/BNSR_UIOnly_06.BNSR_UIOnly_06" ImageUV="993 897.5" ImageUVSize="401 83" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" VerticalAlignment="VAlign_Bottom" />
+					</ExpansionComponent.ImageProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Slotbg" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty BaseImageTexture="/Game/Art/UI/GameUI_BNSR/Resource/GameUI_Window2_R/BNSR_Battlepass.BNSR_Battlepass" ImageUV="17 549" ImageUVSize="74 77" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="0 5" Opacity="1" ImageScale="1.1" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="SumImprove" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="강화된 합산 24 이상" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" ClippingBound="0 5" Opacity="0.7" TextScale="1" AnimScale="1" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Count" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_22.Normal_22" LabelText="10" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" ClippingBound="-322 18" Opacity="1" TextScale="1" AnimScale="1" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+			</BnsCustomImageWidget.ExpansionComponentList>
+			<BnsCustomLabelWidget Name="ItemImproveSetAllPanel_DetailList_Column_4_1_Ability" LayoutData.Anchors="0 0.5 0 0.5" LayoutData.Offsets="84 10 308.01178 72.00003">
+				<BnsCustomLabelWidget Name="ItemImproveSetAllPanel_DetailList_Column_4_1_Ability_Label" LayoutData.Anchors="0 0.5 0 0.5" LayoutData.Offsets="0 0 300.00885 52.502014">
+					<BnsCustomLabelWidget.String>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="흑풍효과 발동 시 공격력 5, 치명피해 300 증가흑풍효과 발동 시 공격력 5, 치명피해 300 증가흑풍효과 발동 시 공격력 5, 치명피해 300 증가흑풍효과 발동 시 공격력 5, 치명피해 300 증가" SpaceBetweenLines="1.5" VerticalAlignment="VAlign_Center" />
+					</BnsCustomLabelWidget.String>
+				</BnsCustomLabelWidget>
+			</BnsCustomLabelWidget>
+			<BnsCustomLabelWidget Name="ItemImproveSetAllPanel_DetailList_Column_4_1_ActiveMark" LayoutData.Anchors="0 0.5 0 0.5" LayoutData.Offsets="14 30 49.999985 24" MetaData="textref=UI.ImproveSet.ImproveWidget.AppliedLabel">
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Label_Green03_12.Label_Green03_12" LabelText="적용중" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" ClippingBound="-1 0" />
+				</BnsCustomLabelWidget.String>
+				<BnsCustomLabelWidget.ExpansionComponentList>
+					<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="bg" MetaData="">
+						<ExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="/Game/Art/UI/GameUI_BNSR/Resource/GameUI_Window2_R/BNSR_Battlepass.BNSR_Battlepass" ImageUV="13.066668 696.5333" ImageUVSize="66.13333 26.133362" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="0.8" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+						</ExpansionComponent.ImageProperty>
+					</ExpansionComponent>
+				</BnsCustomLabelWidget.ExpansionComponentList>
+			</BnsCustomLabelWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="ItemImproveSetAllPanel_DetailList_Column_5_1" LayoutData.Offsets="0 0 400.00006 98">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty BaseImageTexture="/Game/Art/UI/GameUI_BNSR/Resource/GameUI_Window3_R/BNSR_UIOnly_06.BNSR_UIOnly_06" ImageUV="992 817" ImageUVSize="401 83" EnableResourceSize="true" Offset="-1 1" VerticalAlignment="VAlign_Bottom" />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget.ExpansionComponentList>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Active" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty BaseImageTexture="/Game/Art/UI/GameUI_BNSR/Resource/GameUI_Window3_R/BNSR_UIOnly_06.BNSR_UIOnly_06" ImageUV="993 897.5" ImageUVSize="401 83" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" VerticalAlignment="VAlign_Bottom" />
+					</ExpansionComponent.ImageProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Slotbg" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty BaseImageTexture="/Game/Art/UI/GameUI_BNSR/Resource/GameUI_Window2_R/BNSR_Battlepass.BNSR_Battlepass" ImageUV="17 549" ImageUVSize="74 77" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="0 5" Opacity="1" ImageScale="1.1" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="SumImprove" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="강화된 합산 24 이상" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" ClippingBound="0 5" Opacity="0.7" TextScale="1" AnimScale="1" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Count" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_22.Normal_22" LabelText="10" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" ClippingBound="-322 18" Opacity="1" TextScale="1" AnimScale="1" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+			</BnsCustomImageWidget.ExpansionComponentList>
+			<BnsCustomLabelWidget Name="ItemImproveSetAllPanel_DetailList_Column_5_1_Ability" LayoutData.Anchors="0 0.5 0 0.5" LayoutData.Offsets="84 10 308.01178 72">
+				<BnsCustomLabelWidget Name="ItemImproveSetAllPanel_DetailList_Column_5_1_Ability_Label" LayoutData.Anchors="0 0.5 0 0.5" LayoutData.Offsets="0 0 300.00885 52.502">
+					<BnsCustomLabelWidget.String>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="흑풍효과 발동 시 공격력 5, 치명피해 300 증가흑풍효과 발동 시 공격력 5, 치명피해 300 증가흑풍효과 발동 시 공격력 5, 치명피해 300 증가흑풍효과 발동 시 공격력 5, 치명피해 300 증가" SpaceBetweenLines="1.5" VerticalAlignment="VAlign_Center" />
+					</BnsCustomLabelWidget.String>
+				</BnsCustomLabelWidget>
+			</BnsCustomLabelWidget>
+			<BnsCustomLabelWidget Name="ItemImproveSetAllPanel_DetailList_Column_5_1_ActiveMark" LayoutData.Anchors="0 0.5 0 0.5" LayoutData.Offsets="14 30 49.999985 24" MetaData="textref=UI.ImproveSet.ImproveWidget.AppliedLabel">
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Label_Green03_12.Label_Green03_12" LabelText="적용중" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" ClippingBound="-1 0" />
+				</BnsCustomLabelWidget.String>
+				<BnsCustomLabelWidget.ExpansionComponentList>
+					<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="bg" MetaData="">
+						<ExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="/Game/Art/UI/GameUI_BNSR/Resource/GameUI_Window2_R/BNSR_Battlepass.BNSR_Battlepass" ImageUV="13.066668 696.5333" ImageUVSize="66.13333 26.133362" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="0.8" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+						</ExpansionComponent.ImageProperty>
+					</ExpansionComponent>
+				</BnsCustomLabelWidget.ExpansionComponentList>
+			</BnsCustomLabelWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="ItemImproveSetAllPanel_DetailList_Column_6_1" LayoutData.Offsets="0 0 400.00006 98">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty BaseImageTexture="/Game/Art/UI/GameUI_BNSR/Resource/GameUI_Window3_R/BNSR_UIOnly_06.BNSR_UIOnly_06" ImageUV="992 817" ImageUVSize="401 83" EnableResourceSize="true" Offset="-1 1" VerticalAlignment="VAlign_Bottom" />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget.ExpansionComponentList>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Active" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty BaseImageTexture="/Game/Art/UI/GameUI_BNSR/Resource/GameUI_Window3_R/BNSR_UIOnly_06.BNSR_UIOnly_06" ImageUV="993 897.5" ImageUVSize="401 83" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" VerticalAlignment="VAlign_Bottom" />
+					</ExpansionComponent.ImageProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Slotbg" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty BaseImageTexture="/Game/Art/UI/GameUI_BNSR/Resource/GameUI_Window2_R/BNSR_Battlepass.BNSR_Battlepass" ImageUV="17 549" ImageUVSize="74 77" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="0 5" Opacity="1" ImageScale="1.1" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="SumImprove" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="강화된 합산 24 이상" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" ClippingBound="0 5" Opacity="0.7" TextScale="1" AnimScale="1" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Count" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_22.Normal_22" LabelText="10" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" ClippingBound="-322 18" Opacity="1" TextScale="1" AnimScale="1" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+			</BnsCustomImageWidget.ExpansionComponentList>
+			<BnsCustomLabelWidget Name="ItemImproveSetAllPanel_DetailList_Column_6_1_Ability" LayoutData.Anchors="0 0.5 0 0.5" LayoutData.Offsets="84 10 308.01178 72">
+				<BnsCustomLabelWidget Name="ItemImproveSetAllPanel_DetailList_Column_6_1_Ability_Label" LayoutData.Anchors="0 0.5 0 0.5" LayoutData.Offsets="0 0 300.00885 52.502">
+					<BnsCustomLabelWidget.String>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="흑풍효과 발동 시 공격력 5, 치명피해 300 증가흑풍효과 발동 시 공격력 5, 치명피해 300 증가흑풍효과 발동 시 공격력 5, 치명피해 300 증가흑풍효과 발동 시 공격력 5, 치명피해 300 증가" SpaceBetweenLines="1.5" VerticalAlignment="VAlign_Center" />
+					</BnsCustomLabelWidget.String>
+				</BnsCustomLabelWidget>
+			</BnsCustomLabelWidget>
+			<BnsCustomLabelWidget Name="ItemImproveSetAllPanel_DetailList_Column_6_1_ActiveMark" LayoutData.Anchors="0 0.5 0 0.5" LayoutData.Offsets="14 30 49.999985 24" MetaData="textref=UI.ImproveSet.ImproveWidget.AppliedLabel">
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Label_Green03_12.Label_Green03_12" LabelText="적용중" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" ClippingBound="-1 0" />
+				</BnsCustomLabelWidget.String>
+				<BnsCustomLabelWidget.ExpansionComponentList>
+					<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="bg" MetaData="">
+						<ExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="/Game/Art/UI/GameUI_BNSR/Resource/GameUI_Window2_R/BNSR_Battlepass.BNSR_Battlepass" ImageUV="13.066668 696.5333" ImageUVSize="66.13333 26.133362" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="0.8" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+						</ExpansionComponent.ImageProperty>
+					</ExpansionComponent>
+				</BnsCustomLabelWidget.ExpansionComponentList>
+			</BnsCustomLabelWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="ItemImproveSetAllPanel_DetailList_Column_7_1" LayoutData.Offsets="0 0 400.00006 98">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty BaseImageTexture="/Game/Art/UI/GameUI_BNSR/Resource/GameUI_Window3_R/BNSR_UIOnly_06.BNSR_UIOnly_06" ImageUV="992 817" ImageUVSize="401 83" EnableResourceSize="true" Offset="-1 1" VerticalAlignment="VAlign_Bottom" />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget.ExpansionComponentList>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Active" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty BaseImageTexture="/Game/Art/UI/GameUI_BNSR/Resource/GameUI_Window3_R/BNSR_UIOnly_06.BNSR_UIOnly_06" ImageUV="993 897.5" ImageUVSize="401 83" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" VerticalAlignment="VAlign_Bottom" />
+					</ExpansionComponent.ImageProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Slotbg" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty BaseImageTexture="/Game/Art/UI/GameUI_BNSR/Resource/GameUI_Window2_R/BNSR_Battlepass.BNSR_Battlepass" ImageUV="17 549" ImageUVSize="74 77" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="0 5" Opacity="1" ImageScale="1.1" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="SumImprove" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="강화된 합산 24 이상" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" ClippingBound="0 5" Opacity="0.7" TextScale="1" AnimScale="1" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Count" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_22.Normal_22" LabelText="10" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" ClippingBound="-322 18" Opacity="1" TextScale="1" AnimScale="1" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+			</BnsCustomImageWidget.ExpansionComponentList>
+			<BnsCustomLabelWidget Name="ItemImproveSetAllPanel_DetailList_Column_7_1_Ability" LayoutData.Anchors="0 0.5 0 0.5" LayoutData.Offsets="84 10 308.01178 72">
+				<BnsCustomLabelWidget Name="ItemImproveSetAllPanel_DetailList_Column_7_1_Ability_Label" LayoutData.Anchors="0 0.5 0 0.5" LayoutData.Offsets="0 0 300.00885 52.502">
+					<BnsCustomLabelWidget.String>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="흑풍효과 발동 시 공격력 5, 치명피해 300 증가흑풍효과 발동 시 공격력 5, 치명피해 300 증가흑풍효과 발동 시 공격력 5, 치명피해 300 증가흑풍효과 발동 시 공격력 5, 치명피해 300 증가" SpaceBetweenLines="1.5" VerticalAlignment="VAlign_Center" />
+					</BnsCustomLabelWidget.String>
+				</BnsCustomLabelWidget>
+			</BnsCustomLabelWidget>
+			<BnsCustomLabelWidget Name="ItemImproveSetAllPanel_DetailList_Column_7_1_ActiveMark" LayoutData.Anchors="0 0.5 0 0.5" LayoutData.Offsets="14 30 49.999985 24" MetaData="textref=UI.ImproveSet.ImproveWidget.AppliedLabel">
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Label_Green03_12.Label_Green03_12" LabelText="적용중" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" ClippingBound="-1 0" />
+				</BnsCustomLabelWidget.String>
+				<BnsCustomLabelWidget.ExpansionComponentList>
+					<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="bg" MetaData="">
+						<ExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="/Game/Art/UI/GameUI_BNSR/Resource/GameUI_Window2_R/BNSR_Battlepass.BNSR_Battlepass" ImageUV="13.066668 696.5333" ImageUVSize="66.13333 26.133362" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="0.8" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+						</ExpansionComponent.ImageProperty>
+					</ExpansionComponent>
+				</BnsCustomLabelWidget.ExpansionComponentList>
+			</BnsCustomLabelWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="ItemImproveSetAllPanel_DetailList_Column_8_1" LayoutData.Offsets="0 0 400.00006 98">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty BaseImageTexture="/Game/Art/UI/GameUI_BNSR/Resource/GameUI_Window3_R/BNSR_UIOnly_06.BNSR_UIOnly_06" ImageUV="992 817" ImageUVSize="401 83" EnableResourceSize="true" Offset="-1 1" VerticalAlignment="VAlign_Bottom" />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget.ExpansionComponentList>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Active" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty BaseImageTexture="/Game/Art/UI/GameUI_BNSR/Resource/GameUI_Window3_R/BNSR_UIOnly_06.BNSR_UIOnly_06" ImageUV="993 897.5" ImageUVSize="401 83" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" VerticalAlignment="VAlign_Bottom" />
+					</ExpansionComponent.ImageProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Slotbg" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty BaseImageTexture="/Game/Art/UI/GameUI_BNSR/Resource/GameUI_Window2_R/BNSR_Battlepass.BNSR_Battlepass" ImageUV="17 549" ImageUVSize="74 77" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="0 5" Opacity="1" ImageScale="1.1" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="SumImprove" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="강화된 합산 24 이상" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" ClippingBound="0 5" Opacity="0.7" TextScale="1" AnimScale="1" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Count" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_22.Normal_22" LabelText="10" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" ClippingBound="-322 18" Opacity="1" TextScale="1" AnimScale="1" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+			</BnsCustomImageWidget.ExpansionComponentList>
+			<BnsCustomLabelWidget Name="ItemImproveSetAllPanel_DetailList_Column_8_1_Ability" LayoutData.Anchors="0 0.5 0 0.5" LayoutData.Offsets="84 10 308.01178 72">
+				<BnsCustomLabelWidget Name="ItemImproveSetAllPanel_DetailList_Column_8_1_Ability_Label" LayoutData.Anchors="0 0.5 0 0.5" LayoutData.Offsets="0 0 300.00885 52.502">
+					<BnsCustomLabelWidget.String>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="흑풍효과 발동 시 공격력 5, 치명피해 300 증가흑풍효과 발동 시 공격력 5, 치명피해 300 증가흑풍효과 발동 시 공격력 5, 치명피해 300 증가흑풍효과 발동 시 공격력 5, 치명피해 300 증가" SpaceBetweenLines="1.5" VerticalAlignment="VAlign_Center" />
+					</BnsCustomLabelWidget.String>
+				</BnsCustomLabelWidget>
+			</BnsCustomLabelWidget>
+			<BnsCustomLabelWidget Name="ItemImproveSetAllPanel_DetailList_Column_8_1_ActiveMark" LayoutData.Anchors="0 0.5 0 0.5" LayoutData.Offsets="14 30 49.999985 24" MetaData="textref=UI.ImproveSet.ImproveWidget.AppliedLabel">
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Label_Green03_12.Label_Green03_12" LabelText="적용중" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" ClippingBound="-1 0" />
+				</BnsCustomLabelWidget.String>
+				<BnsCustomLabelWidget.ExpansionComponentList>
+					<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="bg" MetaData="">
+						<ExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="/Game/Art/UI/GameUI_BNSR/Resource/GameUI_Window2_R/BNSR_Battlepass.BNSR_Battlepass" ImageUV="13.066668 696.5333" ImageUVSize="66.13333 26.133362" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="0.8" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+						</ExpansionComponent.ImageProperty>
+					</ExpansionComponent>
+				</BnsCustomLabelWidget.ExpansionComponentList>
+			</BnsCustomLabelWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="ItemImproveSetAllPanel_DetailList_Column_9_1" LayoutData.Offsets="0 0 400.00006 98">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty BaseImageTexture="/Game/Art/UI/GameUI_BNSR/Resource/GameUI_Window3_R/BNSR_UIOnly_06.BNSR_UIOnly_06" ImageUV="992 817" ImageUVSize="401 83" EnableResourceSize="true" Offset="-1 1" VerticalAlignment="VAlign_Bottom" />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget.ExpansionComponentList>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Active" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty BaseImageTexture="/Game/Art/UI/GameUI_BNSR/Resource/GameUI_Window3_R/BNSR_UIOnly_06.BNSR_UIOnly_06" ImageUV="993 897.5" ImageUVSize="401 83" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" VerticalAlignment="VAlign_Bottom" />
+					</ExpansionComponent.ImageProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Slotbg" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty BaseImageTexture="/Game/Art/UI/GameUI_BNSR/Resource/GameUI_Window2_R/BNSR_Battlepass.BNSR_Battlepass" ImageUV="17 549" ImageUVSize="74 77" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="0 5" Opacity="1" ImageScale="1.1" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="SumImprove" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="강화된 합산 24 이상" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" ClippingBound="0 5" Opacity="0.7" TextScale="1" AnimScale="1" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Count" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_22.Normal_22" LabelText="10" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" ClippingBound="-322 18" Opacity="1" TextScale="1" AnimScale="1" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+			</BnsCustomImageWidget.ExpansionComponentList>
+			<BnsCustomLabelWidget Name="ItemImproveSetAllPanel_DetailList_Column_9_1_Ability" LayoutData.Anchors="0 0.5 0 0.5" LayoutData.Offsets="84 10 308.01178 72">
+				<BnsCustomLabelWidget Name="ItemImproveSetAllPanel_DetailList_Column_9_1_Ability_Label" LayoutData.Anchors="0 0.5 0 0.5" LayoutData.Offsets="0 0 300.00885 52.502">
+					<BnsCustomLabelWidget.String>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="흑풍효과 발동 시 공격력 5, 치명피해 300 증가흑풍효과 발동 시 공격력 5, 치명피해 300 증가흑풍효과 발동 시 공격력 5, 치명피해 300 증가흑풍효과 발동 시 공격력 5, 치명피해 300 증가" SpaceBetweenLines="1.5" VerticalAlignment="VAlign_Center" />
+					</BnsCustomLabelWidget.String>
+				</BnsCustomLabelWidget>
+			</BnsCustomLabelWidget>
+			<BnsCustomLabelWidget Name="ItemImproveSetAllPanel_DetailList_Column_9_1_ActiveMark" LayoutData.Anchors="0 0.5 0 0.5" LayoutData.Offsets="14 30 49.999985 24" MetaData="textref=UI.ImproveSet.ImproveWidget.AppliedLabel">
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Label_Green03_12.Label_Green03_12" LabelText="적용중" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" ClippingBound="-1 0" />
+				</BnsCustomLabelWidget.String>
+				<BnsCustomLabelWidget.ExpansionComponentList>
+					<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="bg" MetaData="">
+						<ExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="/Game/Art/UI/GameUI_BNSR/Resource/GameUI_Window2_R/BNSR_Battlepass.BNSR_Battlepass" ImageUV="13.066668 696.5333" ImageUVSize="66.13333 26.133362" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="0.8" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+						</ExpansionComponent.ImageProperty>
+					</ExpansionComponent>
+				</BnsCustomLabelWidget.ExpansionComponentList>
+			</BnsCustomLabelWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="ItemImproveSetAllPanel_DetailList_Column_10_1" LayoutData.Offsets="0 0 400.00006 98">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty BaseImageTexture="/Game/Art/UI/GameUI_BNSR/Resource/GameUI_Window3_R/BNSR_UIOnly_06.BNSR_UIOnly_06" ImageUV="992 817" ImageUVSize="401 83" EnableResourceSize="true" Offset="-1 1" VerticalAlignment="VAlign_Bottom" />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget.ExpansionComponentList>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Active" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty BaseImageTexture="/Game/Art/UI/GameUI_BNSR/Resource/GameUI_Window3_R/BNSR_UIOnly_06.BNSR_UIOnly_06" ImageUV="993 897.5" ImageUVSize="401 83" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" VerticalAlignment="VAlign_Bottom" />
+					</ExpansionComponent.ImageProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Slotbg" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty BaseImageTexture="/Game/Art/UI/GameUI_BNSR/Resource/GameUI_Window2_R/BNSR_Battlepass.BNSR_Battlepass" ImageUV="17 549" ImageUVSize="74 77" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="0 5" Opacity="1" ImageScale="1.1" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="SumImprove" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="강화된 합산 24 이상" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" ClippingBound="0 5" Opacity="0.7" TextScale="1" AnimScale="1" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Count" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_22.Normal_22" LabelText="10" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" ClippingBound="-322 18" Opacity="1" TextScale="1" AnimScale="1" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+			</BnsCustomImageWidget.ExpansionComponentList>
+			<BnsCustomLabelWidget Name="ItemImproveSetAllPanel_DetailList_Column_10_1_Ability" LayoutData.Anchors="0 0.5 0 0.5" LayoutData.Offsets="84 10 308.01178 72">
+				<BnsCustomLabelWidget Name="ItemImproveSetAllPanel_DetailList_Column_10_1_Ability_Label" LayoutData.Anchors="0 0.5 0 0.5" LayoutData.Offsets="0 0 300.00885 52.502">
+					<BnsCustomLabelWidget.String>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="흑풍효과 발동 시 공격력 5, 치명피해 300 증가흑풍효과 발동 시 공격력 5, 치명피해 300 증가흑풍효과 발동 시 공격력 5, 치명피해 300 증가흑풍효과 발동 시 공격력 5, 치명피해 300 증가" SpaceBetweenLines="1.5" VerticalAlignment="VAlign_Center" />
+					</BnsCustomLabelWidget.String>
+				</BnsCustomLabelWidget>
+			</BnsCustomLabelWidget>
+			<BnsCustomLabelWidget Name="ItemImproveSetAllPanel_DetailList_Column_10_1_ActiveMark" LayoutData.Anchors="0 0.5 0 0.5" LayoutData.Offsets="14 30 49.999985 24" MetaData="textref=UI.ImproveSet.ImproveWidget.AppliedLabel">
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Label_Green03_12.Label_Green03_12" LabelText="적용중" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" ClippingBound="-1 0" />
+				</BnsCustomLabelWidget.String>
+				<BnsCustomLabelWidget.ExpansionComponentList>
+					<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="bg" MetaData="">
+						<ExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="/Game/Art/UI/GameUI_BNSR/Resource/GameUI_Window2_R/BNSR_Battlepass.BNSR_Battlepass" ImageUV="13.066668 696.5333" ImageUVSize="66.13333 26.133362" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="0.8" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+						</ExpansionComponent.ImageProperty>
+					</ExpansionComponent>
+				</BnsCustomLabelWidget.ExpansionComponentList>
+			</BnsCustomLabelWidget>
+		</BnsCustomImageWidget>
+	</BnsCustomColumnListWidget>
+	<BnsCustomLabelWidget Name="ItemImproveSetAllPanel_DetailList_Column_1_1_Holder_1_Title" LayoutData.Anchors="0.5 0 0.5 0" LayoutData.Offsets="1 70 373.00006 29.563004" MetaData="textref=UI.ItemSumImprove.Label">
+		<BnsCustomLabelWidget.String>
+			<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_14.Normal_14" LabelText="#강화단계 합산 보너스" SpaceBetweenLines="3" VerticalAlignment="VAlign_Center" ClippingBound="10 0" />
+		</BnsCustomLabelWidget.String>
+		<BnsCustomLabelWidget.ExpansionComponentList>
+			<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="bg" MetaData="">
+				<ExpansionComponent.ImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement_01.BNSR_UIElement_01" ImageUV="650 842" ImageUVSize="467.2 24" EnableDrawImage="true" EnableDrawColor="true" TintColor="ACCCE9" GrayWeightValue="0.15" StaticPadding="-20 0" Offset="20 0" Opacity="0.2" ImageScale="1" />
+				</ExpansionComponent.ImageProperty>
+			</ExpansionComponent>
+		</BnsCustomLabelWidget.ExpansionComponentList>
+	</BnsCustomLabelWidget>
+</BnsCustomWindowWidget>

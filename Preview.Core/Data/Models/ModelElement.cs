@@ -63,7 +63,6 @@ public abstract class ModelElement : IElement
 	}
 
 
-
 	/// <summary>
 	/// Convert original record to model instance
 	/// </summary>
@@ -227,18 +226,18 @@ public struct Ref<TElement> where TElement : ModelElement
 		source = value.Source;
 	}
 
-
 	/* Not recommended to use the constructor */
 	public Ref(string value)
 	{
 		// Prevent designer request to load data
 		if (!Settings.Default.PreviewLoadData && !FileCache.Data.IsInitialized) return;
 
-		// get available package
+		// get available provider
 		var provider = FileCache.Data.Provider;
 
 		// get source
-		if (value.Contains(':')) source = provider.Tables.GetRecord(value);
+		if (value is null) return;
+		else if (value.Contains(':')) source = provider.Tables.GetRecord(value);
 		else source = provider.Tables.GetRecord(typeof(TElement).Name, value);
 	}
 	#endregion
@@ -257,14 +256,15 @@ public struct Ref<TElement> where TElement : ModelElement
 
 	public static implicit operator Ref<TElement>(Record value) => new(value);
 
+	public static bool operator ==(Ref<TElement> left, Ref<TElement> right) => left.Equals(right);
+	public static bool operator !=(Ref<TElement> left, Ref<TElement> right) => !(left == right);
+
+
+	public readonly bool HasValue => source != null;
 
 	public override readonly int GetHashCode() => source?.GetHashCode() ?? 0;
 
 	public override readonly bool Equals(object obj) => obj is Ref<TElement> other && this.source == other.source;
-
-	public static bool operator ==(Ref<TElement> left, Ref<TElement> right) => left.Equals(right);
-
-	public static bool operator !=(Ref<TElement> left, Ref<TElement> right) => !(left == right);
 
 	public override string ToString() => Instance?.ToString();
 	#endregion

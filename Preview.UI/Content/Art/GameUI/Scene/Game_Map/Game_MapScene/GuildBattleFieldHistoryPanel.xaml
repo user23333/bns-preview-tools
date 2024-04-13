@@ -1,0 +1,636 @@
+﻿<BnsCustomWindowWidget x:Class="Xylia.Preview.UI.GameUI.Scene.Game_Map.GuildBattleFieldHistoryPanel"
+	xmlns="https://github.com/xyliaup/bns-preview-tools"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:s="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	Height="550">
+	<BnsCustomWindowWidget.BaseImageProperty>
+		<ImageProperty Opacity="0.5" />
+	</BnsCustomWindowWidget.BaseImageProperty>
+	<BnsCustomWindowWidget.ExpansionComponentList>
+		<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="NormalImag" MetaData="">
+			<ExpansionComponent.ImageProperty>
+				<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_02.GameUI_New_Scene_02" ImageUV="459 881" ImageUVSize="134 134" TintColor="FFFFFF" GrayWeightValue="0.15" StaticPadding="3 0" Opacity="1" ImageScale="1" />
+			</ExpansionComponent.ImageProperty>
+		</ExpansionComponent>
+		<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="OverImg" MetaData="">
+			<ExpansionComponent.ImageProperty>
+				<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_01.GameUI_New_Scene_01" ImageUV="1346 1217" ImageUVSize="290 288" TintColor="FFFFFF" GrayWeightValue="0.15" StaticPadding="3 0" Opacity="1" ImageScale="1" />
+			</ExpansionComponent.ImageProperty>
+		</ExpansionComponent>
+	</BnsCustomWindowWidget.ExpansionComponentList>
+	<BnsCustomLabelWidget Name="GuildBattleFieldHistory_Amount" LayoutData.Offsets="15 9 123.99939 20" MetaData="Textref=UI.GiuldBattleFeildHistory.Amount">
+		<BnsCustomLabelWidget.String>
+			<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_14.Normal_14" LabelText="#문파원" SpaceBetweenLines="3" />
+		</BnsCustomLabelWidget.String>
+	</BnsCustomLabelWidget>
+	<BnsCustomToggleButtonWidget Name="GuildBattleFieldHistory_Toggle_Minimum" LayoutData.Offsets="286 3.999939 25 25">
+		<BnsCustomToggleButtonWidget.String>
+			<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+		</BnsCustomToggleButtonWidget.String>
+		<BnsCustomToggleButtonWidget.NormalImageProperty>
+			<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="408 141" ImageUVSize="21 21" EnableSkinColor="true" />
+		</BnsCustomToggleButtonWidget.NormalImageProperty>
+		<BnsCustomToggleButtonWidget.ExpansionComponentList>
+			<ExpansionComponent bEnableSubState="true" bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Icon" MetaData="">
+				<ExpansionComponent.ImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_15.GameUI_New_Scene_15" ImageUV="581 160" ImageUVSize="23 24" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="0 1" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+				</ExpansionComponent.ImageProperty>
+			</ExpansionComponent>
+			<ExpansionComponent bEnableSubState="true" bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Icon_d" MetaData="">
+				<ExpansionComponent.ImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_15.GameUI_New_Scene_15" ImageUV="581 160" ImageUVSize="23 24" EnableDrawImage="true" EnableResourceSize="true" EnableResourceGray="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="0 1" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+				</ExpansionComponent.ImageProperty>
+			</ExpansionComponent>
+			<ExpansionComponent bEnableSubState="true" bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="C_Icon" MetaData="">
+				<ExpansionComponent.ImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_15.GameUI_New_Scene_15" ImageUV="553 148" ImageUVSize="24 23" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+				</ExpansionComponent.ImageProperty>
+			</ExpansionComponent>
+			<ExpansionComponent bEnableSubState="true" bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="C_Icon_d" MetaData="">
+				<ExpansionComponent.ImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_15.GameUI_New_Scene_15" ImageUV="553 148" ImageUVSize="24 23" EnableDrawImage="true" EnableResourceSize="true" EnableResourceGray="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+				</ExpansionComponent.ImageProperty>
+			</ExpansionComponent>
+		</BnsCustomToggleButtonWidget.ExpansionComponentList>
+	</BnsCustomToggleButtonWidget>
+	<BnsCustomColumnListWidget Name="GuildBattleFieldHistorySlotList" LayoutData.Anchors="1 0 1 1" LayoutData.Offsets="-9 35 301.99878 0">
+		<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_30_1" LayoutData.Offsets="0.00012207031 0 282.0039 22.000397">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_30_1_Icon" LayoutData.Offsets="10 1.5 20 20">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_03.GameUI_New_Scene_03" ImageUV="275 444" ImageUVSize="32 32" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomLabelButtonWidget Name="GuildBattleFieldHistorySlotList_Column_30_1_Text" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="33 0 0 22.002228">
+				<BnsCustomLabelButtonWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText=" 전황 지옥도 전황 지옥   전황 지옥도 전황 지옥" SpaceBetweenLines="5" Padding="0 5" />
+				</BnsCustomLabelButtonWidget.String>
+				<BnsCustomLabelButtonWidget.NormalImageProperty>
+					<ImageProperty />
+				</BnsCustomLabelButtonWidget.NormalImageProperty>
+			</BnsCustomLabelButtonWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_29_1" LayoutData.Offsets="0.00012207031 0 282.0039 22.000397">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_29_1_Icon" LayoutData.Offsets="10 1.5 20 20">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_03.GameUI_New_Scene_03" ImageUV="275 444" ImageUVSize="32 32" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomLabelButtonWidget Name="GuildBattleFieldHistorySlotList_Column_29_1_Text" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="33 0 0 22.002228">
+				<BnsCustomLabelButtonWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText=" 전황 지옥도 전황 지옥   전황 지옥도 전황 지옥" SpaceBetweenLines="5" Padding="0 5" />
+				</BnsCustomLabelButtonWidget.String>
+				<BnsCustomLabelButtonWidget.NormalImageProperty>
+					<ImageProperty />
+				</BnsCustomLabelButtonWidget.NormalImageProperty>
+			</BnsCustomLabelButtonWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_28_1" LayoutData.Offsets="0.00012207031 0 282.0039 22.000397">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_28_1_Icon" LayoutData.Offsets="10 1.5 20 20">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_03.GameUI_New_Scene_03" ImageUV="275 444" ImageUVSize="32 32" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomLabelButtonWidget Name="GuildBattleFieldHistorySlotList_Column_28_1_Text" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="33 0 0 22.002228">
+				<BnsCustomLabelButtonWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText=" 전황 지옥도 전황 지옥   전황 지옥도 전황 지옥" SpaceBetweenLines="5" Padding="0 5" />
+				</BnsCustomLabelButtonWidget.String>
+				<BnsCustomLabelButtonWidget.NormalImageProperty>
+					<ImageProperty />
+				</BnsCustomLabelButtonWidget.NormalImageProperty>
+			</BnsCustomLabelButtonWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_27_1" LayoutData.Offsets="0.00012207031 0 282.0039 22.000397">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_27_1_Icon" LayoutData.Offsets="10 1.5 20 20">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_03.GameUI_New_Scene_03" ImageUV="275 444" ImageUVSize="32 32" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomLabelButtonWidget Name="GuildBattleFieldHistorySlotList_Column_27_1_Text" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="33 0 0 22.002228">
+				<BnsCustomLabelButtonWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText=" 전황 지옥도 전황 지옥   전황 지옥도 전황 지옥" SpaceBetweenLines="5" Padding="0 5" />
+				</BnsCustomLabelButtonWidget.String>
+				<BnsCustomLabelButtonWidget.NormalImageProperty>
+					<ImageProperty />
+				</BnsCustomLabelButtonWidget.NormalImageProperty>
+			</BnsCustomLabelButtonWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_26_1" LayoutData.Offsets="0.00012207031 0 282.0039 22.000397">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_26_1_Icon" LayoutData.Offsets="10 1.5 20 20">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_03.GameUI_New_Scene_03" ImageUV="275 444" ImageUVSize="32 32" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomLabelButtonWidget Name="GuildBattleFieldHistorySlotList_Column_26_1_Text" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="33 0 0 22.002228">
+				<BnsCustomLabelButtonWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText=" 전황 지옥도 전황 지옥   전황 지옥도 전황 지옥" SpaceBetweenLines="5" Padding="0 5" />
+				</BnsCustomLabelButtonWidget.String>
+				<BnsCustomLabelButtonWidget.NormalImageProperty>
+					<ImageProperty />
+				</BnsCustomLabelButtonWidget.NormalImageProperty>
+			</BnsCustomLabelButtonWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_25_1" LayoutData.Offsets="0.00012207031 0 282.0039 22.000397">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_25_1_Icon" LayoutData.Offsets="10 1.5 20 20">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_03.GameUI_New_Scene_03" ImageUV="275 444" ImageUVSize="32 32" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomLabelButtonWidget Name="GuildBattleFieldHistorySlotList_Column_25_1_Text" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="33 0 0 22.002228">
+				<BnsCustomLabelButtonWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText=" 전황 지옥도 전황 지옥   전황 지옥도 전황 지옥" SpaceBetweenLines="5" Padding="0 5" />
+				</BnsCustomLabelButtonWidget.String>
+				<BnsCustomLabelButtonWidget.NormalImageProperty>
+					<ImageProperty />
+				</BnsCustomLabelButtonWidget.NormalImageProperty>
+			</BnsCustomLabelButtonWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_24_1" LayoutData.Offsets="0.00012207031 0 282.0039 22.000397">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_24_1_Icon" LayoutData.Offsets="10 1.5 20 20">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_03.GameUI_New_Scene_03" ImageUV="275 444" ImageUVSize="32 32" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomLabelButtonWidget Name="GuildBattleFieldHistorySlotList_Column_24_1_Text" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="33 0 0 22.002228">
+				<BnsCustomLabelButtonWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText=" 전황 지옥도 전황 지옥   전황 지옥도 전황 지옥" SpaceBetweenLines="5" Padding="0 5" />
+				</BnsCustomLabelButtonWidget.String>
+				<BnsCustomLabelButtonWidget.NormalImageProperty>
+					<ImageProperty />
+				</BnsCustomLabelButtonWidget.NormalImageProperty>
+			</BnsCustomLabelButtonWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_23_1" LayoutData.Offsets="0.00012207031 0 282.0039 22.000397">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_23_1_Icon" LayoutData.Offsets="10 1.5 20 20">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_03.GameUI_New_Scene_03" ImageUV="275 444" ImageUVSize="32 32" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomLabelButtonWidget Name="GuildBattleFieldHistorySlotList_Column_23_1_Text" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="33 0 0 22.002228">
+				<BnsCustomLabelButtonWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText=" 전황 지옥도 전황 지옥   전황 지옥도 전황 지옥" SpaceBetweenLines="5" Padding="0 5" />
+				</BnsCustomLabelButtonWidget.String>
+				<BnsCustomLabelButtonWidget.NormalImageProperty>
+					<ImageProperty />
+				</BnsCustomLabelButtonWidget.NormalImageProperty>
+			</BnsCustomLabelButtonWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_22_1" LayoutData.Offsets="0 462.00836 282.0039 22.000366">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_22_1_Icon" LayoutData.Offsets="10 1.5 20 20">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_03.GameUI_New_Scene_03" ImageUV="275 444" ImageUVSize="32 32" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomLabelButtonWidget Name="GuildBattleFieldHistorySlotList_Column_22_1_Text" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="33 0 0 22.002197">
+				<BnsCustomLabelButtonWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText=" 전황 지옥도 전황 지옥   전황 지옥도 전황 지옥" SpaceBetweenLines="5" Padding="0 5" />
+				</BnsCustomLabelButtonWidget.String>
+				<BnsCustomLabelButtonWidget.NormalImageProperty>
+					<ImageProperty />
+				</BnsCustomLabelButtonWidget.NormalImageProperty>
+			</BnsCustomLabelButtonWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_21_1" LayoutData.Offsets="0 440.00793 282.0039 22.000366">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_21_1_Icon" LayoutData.Offsets="10 1.5 20 20">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_03.GameUI_New_Scene_03" ImageUV="275 444" ImageUVSize="32 32" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomLabelButtonWidget Name="GuildBattleFieldHistorySlotList_Column_21_1_Text" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="33 0 0 22.002197">
+				<BnsCustomLabelButtonWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText=" 전황 지옥도 전황 지옥   전황 지옥도 전황 지옥" SpaceBetweenLines="5" Padding="0 5" />
+				</BnsCustomLabelButtonWidget.String>
+				<BnsCustomLabelButtonWidget.NormalImageProperty>
+					<ImageProperty />
+				</BnsCustomLabelButtonWidget.NormalImageProperty>
+			</BnsCustomLabelButtonWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_20_1" LayoutData.Offsets="0 418.0075 282.0039 22.000366">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_20_1_Icon" LayoutData.Offsets="10 1.5 20 20">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_03.GameUI_New_Scene_03" ImageUV="275 444" ImageUVSize="32 32" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomLabelButtonWidget Name="GuildBattleFieldHistorySlotList_Column_20_1_Text" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="33 0 0 22.002197">
+				<BnsCustomLabelButtonWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText=" 전황 지옥도 전황 지옥   전황 지옥도 전황 지옥" SpaceBetweenLines="5" Padding="0 5" />
+				</BnsCustomLabelButtonWidget.String>
+				<BnsCustomLabelButtonWidget.NormalImageProperty>
+					<ImageProperty />
+				</BnsCustomLabelButtonWidget.NormalImageProperty>
+			</BnsCustomLabelButtonWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_19_1" LayoutData.Offsets="0 396.00714 282.0039 22.000366">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_19_1_Icon" LayoutData.Offsets="10 1.5 20 20">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_03.GameUI_New_Scene_03" ImageUV="275 444" ImageUVSize="32 32" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomLabelButtonWidget Name="GuildBattleFieldHistorySlotList_Column_19_1_Text" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="33 0 0 22.002197">
+				<BnsCustomLabelButtonWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText=" 전황 지옥도 전황 지옥   전황 지옥도 전황 지옥" SpaceBetweenLines="5" Padding="0 5" />
+				</BnsCustomLabelButtonWidget.String>
+				<BnsCustomLabelButtonWidget.NormalImageProperty>
+					<ImageProperty />
+				</BnsCustomLabelButtonWidget.NormalImageProperty>
+			</BnsCustomLabelButtonWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_18_1" LayoutData.Offsets="0 374.00677 282.0039 22.000366">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_18_1_Icon" LayoutData.Offsets="10 1.5 20 20">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_03.GameUI_New_Scene_03" ImageUV="275 444" ImageUVSize="32 32" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomLabelButtonWidget Name="GuildBattleFieldHistorySlotList_Column_18_1_Text" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="33 0 0 22.002197">
+				<BnsCustomLabelButtonWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText=" 전황 지옥도 전황 지옥   전황 지옥도 전황 지옥" SpaceBetweenLines="5" Padding="0 5" />
+				</BnsCustomLabelButtonWidget.String>
+				<BnsCustomLabelButtonWidget.NormalImageProperty>
+					<ImageProperty />
+				</BnsCustomLabelButtonWidget.NormalImageProperty>
+			</BnsCustomLabelButtonWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_17_1" LayoutData.Offsets="0 352.00635 282.0039 22.000366">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_17_1_Icon" LayoutData.Offsets="10 1.5 20 20">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_03.GameUI_New_Scene_03" ImageUV="275 444" ImageUVSize="32 32" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomLabelButtonWidget Name="GuildBattleFieldHistorySlotList_Column_17_1_Text" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="33 0 0 22.002197">
+				<BnsCustomLabelButtonWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText=" 전황 지옥도 전황 지옥   전황 지옥도 전황 지옥" SpaceBetweenLines="5" Padding="0 5" />
+				</BnsCustomLabelButtonWidget.String>
+				<BnsCustomLabelButtonWidget.NormalImageProperty>
+					<ImageProperty />
+				</BnsCustomLabelButtonWidget.NormalImageProperty>
+			</BnsCustomLabelButtonWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_16_1" LayoutData.Offsets="0 330.00598 282.0039 22.000366">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_16_1_Icon" LayoutData.Offsets="10 1.5 20 20">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_03.GameUI_New_Scene_03" ImageUV="275 444" ImageUVSize="32 32" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomLabelButtonWidget Name="GuildBattleFieldHistorySlotList_Column_16_1_Text" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="33 0 0 22.002197">
+				<BnsCustomLabelButtonWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText=" 전황 지옥도 전황 지옥   전황 지옥도 전황 지옥" SpaceBetweenLines="5" Padding="0 5" />
+				</BnsCustomLabelButtonWidget.String>
+				<BnsCustomLabelButtonWidget.NormalImageProperty>
+					<ImageProperty />
+				</BnsCustomLabelButtonWidget.NormalImageProperty>
+			</BnsCustomLabelButtonWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_15_1" LayoutData.Offsets="0 308.00555 282.0039 22.000366">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_15_1_Icon" LayoutData.Offsets="10 1.5 20 20">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_03.GameUI_New_Scene_03" ImageUV="275 444" ImageUVSize="32 32" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomLabelButtonWidget Name="GuildBattleFieldHistorySlotList_Column_15_1_Text" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="33 0 0 22.002197">
+				<BnsCustomLabelButtonWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText=" 전황 지옥도 전황 지옥   전황 지옥도 전황 지옥" SpaceBetweenLines="5" Padding="0 5" />
+				</BnsCustomLabelButtonWidget.String>
+				<BnsCustomLabelButtonWidget.NormalImageProperty>
+					<ImageProperty />
+				</BnsCustomLabelButtonWidget.NormalImageProperty>
+			</BnsCustomLabelButtonWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_14_1" LayoutData.Offsets="0 286.00513 282.0039 22.000366">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_14_1_Icon" LayoutData.Offsets="10 1.5 20 20">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_03.GameUI_New_Scene_03" ImageUV="275 444" ImageUVSize="32 32" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomLabelButtonWidget Name="GuildBattleFieldHistorySlotList_Column_14_1_Text" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="33 0 0 22.002197">
+				<BnsCustomLabelButtonWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText=" 전황 지옥도 전황 지옥   전황 지옥도 전황 지옥" SpaceBetweenLines="5" Padding="0 5" />
+				</BnsCustomLabelButtonWidget.String>
+				<BnsCustomLabelButtonWidget.NormalImageProperty>
+					<ImageProperty />
+				</BnsCustomLabelButtonWidget.NormalImageProperty>
+			</BnsCustomLabelButtonWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_13_1" LayoutData.Offsets="0 264.00476 282.0039 22.000366">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_13_1_Icon" LayoutData.Offsets="10 1.5 20 20">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_03.GameUI_New_Scene_03" ImageUV="275 444" ImageUVSize="32 32" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomLabelButtonWidget Name="GuildBattleFieldHistorySlotList_Column_13_1_Text" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="33 0 0 22.002197">
+				<BnsCustomLabelButtonWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText=" 전황 지옥도 전황 지옥   전황 지옥도 전황 지옥" SpaceBetweenLines="5" Padding="0 5" />
+				</BnsCustomLabelButtonWidget.String>
+				<BnsCustomLabelButtonWidget.NormalImageProperty>
+					<ImageProperty />
+				</BnsCustomLabelButtonWidget.NormalImageProperty>
+			</BnsCustomLabelButtonWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_12_1" LayoutData.Offsets="0 242.0044 282.0039 22.000366">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_12_1_Icon" LayoutData.Offsets="10 1.5 20 20">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_03.GameUI_New_Scene_03" ImageUV="275 444" ImageUVSize="32 32" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomLabelButtonWidget Name="GuildBattleFieldHistorySlotList_Column_12_1_Text" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="33 0 0 22.002197">
+				<BnsCustomLabelButtonWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText=" 전황 지옥도 전황 지옥   전황 지옥도 전황 지옥" SpaceBetweenLines="5" Padding="0 5" />
+				</BnsCustomLabelButtonWidget.String>
+				<BnsCustomLabelButtonWidget.NormalImageProperty>
+					<ImageProperty />
+				</BnsCustomLabelButtonWidget.NormalImageProperty>
+			</BnsCustomLabelButtonWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_11_1" LayoutData.Offsets="0 220.00397 282.0039 22.000366">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_11_1_Icon" LayoutData.Offsets="10 1.5 20 20">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_03.GameUI_New_Scene_03" ImageUV="275 444" ImageUVSize="32 32" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomLabelButtonWidget Name="GuildBattleFieldHistorySlotList_Column_11_1_Text" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="33 0 0 22.002197">
+				<BnsCustomLabelButtonWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText=" 전황 지옥도 전황 지옥   전황 지옥도 전황 지옥" SpaceBetweenLines="5" Padding="0 5" />
+				</BnsCustomLabelButtonWidget.String>
+				<BnsCustomLabelButtonWidget.NormalImageProperty>
+					<ImageProperty />
+				</BnsCustomLabelButtonWidget.NormalImageProperty>
+			</BnsCustomLabelButtonWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_10_1" LayoutData.Offsets="0 198.00354 282.0039 22.000366">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_10_1_Icon" LayoutData.Offsets="10 1.5 20 20">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_03.GameUI_New_Scene_03" ImageUV="275 444" ImageUVSize="32 32" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomLabelButtonWidget Name="GuildBattleFieldHistorySlotList_Column_10_1_Text" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="33 0 0 22.002197">
+				<BnsCustomLabelButtonWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText=" 전황 지옥도 전황 지옥   전황 지옥도 전황 지옥" SpaceBetweenLines="5" Padding="0 5" />
+				</BnsCustomLabelButtonWidget.String>
+				<BnsCustomLabelButtonWidget.NormalImageProperty>
+					<ImageProperty />
+				</BnsCustomLabelButtonWidget.NormalImageProperty>
+			</BnsCustomLabelButtonWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_9_1" LayoutData.Offsets="0 176.00317 282.0039 22.000366">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_9_1_Icon" LayoutData.Offsets="10 1.5 20 20">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_03.GameUI_New_Scene_03" ImageUV="275 444" ImageUVSize="32 32" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomLabelButtonWidget Name="GuildBattleFieldHistorySlotList_Column_9_1_Text" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="33 0 0 22.002197">
+				<BnsCustomLabelButtonWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText=" 전황 지옥도 전황 지옥   전황 지옥도 전황 지옥" SpaceBetweenLines="5" Padding="0 5" />
+				</BnsCustomLabelButtonWidget.String>
+				<BnsCustomLabelButtonWidget.NormalImageProperty>
+					<ImageProperty />
+				</BnsCustomLabelButtonWidget.NormalImageProperty>
+			</BnsCustomLabelButtonWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_8_1" LayoutData.Offsets="0 154.00278 282.0039 22.000397">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_8_1_Icon" LayoutData.Offsets="10 1.5 20 20">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_03.GameUI_New_Scene_03" ImageUV="275 444" ImageUVSize="32 32" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomLabelButtonWidget Name="GuildBattleFieldHistorySlotList_Column_8_1_Text" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="33 0 0 22.002228">
+				<BnsCustomLabelButtonWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText=" 전황 지옥도 전황 지옥   전황 지옥도 전황 지옥" SpaceBetweenLines="5" Padding="0 5" />
+				</BnsCustomLabelButtonWidget.String>
+				<BnsCustomLabelButtonWidget.NormalImageProperty>
+					<ImageProperty />
+				</BnsCustomLabelButtonWidget.NormalImageProperty>
+			</BnsCustomLabelButtonWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_7_1" LayoutData.Offsets="0 132.00238 282.0039 22.000366">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_7_1_Icon" LayoutData.Offsets="10 1.5 20 20">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_03.GameUI_New_Scene_03" ImageUV="275 444" ImageUVSize="32 32" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomLabelButtonWidget Name="GuildBattleFieldHistorySlotList_Column_7_1_Text" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="33 0 0 22.002197">
+				<BnsCustomLabelButtonWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText=" 전황 지옥도 전황 지옥   전황 지옥도 전황 지옥" SpaceBetweenLines="5" Padding="0 5" />
+				</BnsCustomLabelButtonWidget.String>
+				<BnsCustomLabelButtonWidget.NormalImageProperty>
+					<ImageProperty />
+				</BnsCustomLabelButtonWidget.NormalImageProperty>
+			</BnsCustomLabelButtonWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_6_1" LayoutData.Offsets="0 110.00198 282.0039 22.000366">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_6_1_Icon" LayoutData.Offsets="10 1.5 20 20">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_03.GameUI_New_Scene_03" ImageUV="275 444" ImageUVSize="32 32" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomLabelButtonWidget Name="GuildBattleFieldHistorySlotList_Column_6_1_Text" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="33 0 0 22.002197">
+				<BnsCustomLabelButtonWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText=" 전황 지옥도 전황 지옥   전황 지옥도 전황 지옥" SpaceBetweenLines="5" Padding="0 5" />
+				</BnsCustomLabelButtonWidget.String>
+				<BnsCustomLabelButtonWidget.NormalImageProperty>
+					<ImageProperty />
+				</BnsCustomLabelButtonWidget.NormalImageProperty>
+			</BnsCustomLabelButtonWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_5_1" LayoutData.Offsets="0 88.00159 282.0039 22.000366">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_5_1_Icon" LayoutData.Offsets="10 1.5 20 20">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_03.GameUI_New_Scene_03" ImageUV="275 444" ImageUVSize="32 32" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomLabelButtonWidget Name="GuildBattleFieldHistorySlotList_Column_5_1_Text" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="33 0 0 22.002197">
+				<BnsCustomLabelButtonWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText=" 전황 지옥도 전황 지옥   전황 지옥도 전황 지옥" SpaceBetweenLines="5" Padding="0 5" />
+				</BnsCustomLabelButtonWidget.String>
+				<BnsCustomLabelButtonWidget.NormalImageProperty>
+					<ImageProperty />
+				</BnsCustomLabelButtonWidget.NormalImageProperty>
+			</BnsCustomLabelButtonWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_4_1" LayoutData.Offsets="0 66.00119 282.0039 22.000397">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_4_1_Icon" LayoutData.Offsets="10 1.5 20 20">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_03.GameUI_New_Scene_03" ImageUV="275 444" ImageUVSize="32 32" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomLabelButtonWidget Name="GuildBattleFieldHistorySlotList_Column_4_1_Text" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="33 0 0 22.002228">
+				<BnsCustomLabelButtonWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText=" 전황 지옥도 전황 지옥   전황 지옥도 전황 지옥" SpaceBetweenLines="5" Padding="0 5" />
+				</BnsCustomLabelButtonWidget.String>
+				<BnsCustomLabelButtonWidget.NormalImageProperty>
+					<ImageProperty />
+				</BnsCustomLabelButtonWidget.NormalImageProperty>
+			</BnsCustomLabelButtonWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_3_1" LayoutData.Offsets="0 44.000793 282.0039 22.000397">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_3_1_Icon" LayoutData.Offsets="10 1.5 20 20">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_03.GameUI_New_Scene_03" ImageUV="275 444" ImageUVSize="32 32" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomLabelButtonWidget Name="GuildBattleFieldHistorySlotList_Column_3_1_Text" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="33 0 0 22.002228">
+				<BnsCustomLabelButtonWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText=" 전황 지옥도 전황 지옥   전황 지옥도 전황 지옥" SpaceBetweenLines="5" Padding="0 5" />
+				</BnsCustomLabelButtonWidget.String>
+				<BnsCustomLabelButtonWidget.NormalImageProperty>
+					<ImageProperty />
+				</BnsCustomLabelButtonWidget.NormalImageProperty>
+			</BnsCustomLabelButtonWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_2_1" LayoutData.Offsets="0 22.000397 282.0039 22.000397">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_2_1_Icon" LayoutData.Offsets="10 1.5 20 19.99997">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_03.GameUI_New_Scene_03" ImageUV="275 444" ImageUVSize="32 32" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomLabelButtonWidget Name="GuildBattleFieldHistorySlotList_Column_2_1_Text" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="33 0 0 22.002228">
+				<BnsCustomLabelButtonWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText=" 전황 지옥도 전황 지옥   전황 지옥도 전황 지옥" SpaceBetweenLines="5" Padding="0 5" />
+				</BnsCustomLabelButtonWidget.String>
+				<BnsCustomLabelButtonWidget.NormalImageProperty>
+					<ImageProperty />
+				</BnsCustomLabelButtonWidget.NormalImageProperty>
+			</BnsCustomLabelButtonWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomScrollBarWidget Name="GuildBattleFieldHistorySlotList_ScrollBar" LayoutData.Anchors="1 0 1 1" LayoutData.Offsets="0 0 17.999512 0">
+			<BnsCustomLabelButtonWidget Name="GuildBattleFieldHistorySlotList_ScrollBar_DecrementButton" LayoutData.Offsets="0 0 19.000122 20">
+				<BnsCustomLabelButtonWidget.NormalImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="28 167" ImageUVSize="19 18" EnableResourceSize="true" EnableSkinColor="true" />
+				</BnsCustomLabelButtonWidget.NormalImageProperty>
+				<BnsCustomLabelButtonWidget.ExpansionComponentList>
+					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Normal" MetaData="">
+						<ExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="344 568" ImageUVSize="11 9" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+						</ExpansionComponent.ImageProperty>
+					</ExpansionComponent>
+				</BnsCustomLabelButtonWidget.ExpansionComponentList>
+			</BnsCustomLabelButtonWidget>
+			<BnsCustomLabelButtonWidget Name="GuildBattleFieldHistorySlotList_ScrollBar_IncrementButton" LayoutData.Anchors="0 1 0 1" LayoutData.Offsets="-0.0031738281 0 19.000122 18">
+				<BnsCustomLabelButtonWidget.NormalImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="28 167" ImageUVSize="19 18" EnableResourceSize="true" EnableSkinColor="true" />
+				</BnsCustomLabelButtonWidget.NormalImageProperty>
+				<BnsCustomLabelButtonWidget.ExpansionComponentList>
+					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Normal" MetaData="">
+						<ExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="344 578" ImageUVSize="11 8" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+						</ExpansionComponent.ImageProperty>
+					</ExpansionComponent>
+				</BnsCustomLabelButtonWidget.ExpansionComponentList>
+			</BnsCustomLabelButtonWidget>
+			<BnsCustomSliderBarWidget Name="GuildBattleFieldHistorySlotList_ScrollBar_SliderBar" LayoutData.Anchors="0 0 0 1" LayoutData.Offsets="3.0004883 18 14 18">
+				<BnsCustomLabelButtonWidget Name="GuildBattleFieldHistorySlotList_ScrollBar_SliderBar_Marker" LayoutData.Offsets="1.5004883 2.4999695 11 62.99997">
+					<BnsCustomLabelButtonWidget.NormalImageProperty>
+						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="1 101" ImageUVSize="11 17" />
+					</BnsCustomLabelButtonWidget.NormalImageProperty>
+				</BnsCustomLabelButtonWidget>
+			</BnsCustomSliderBarWidget>
+		</BnsCustomScrollBarWidget>
+		<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_1_1" LayoutData.Offsets="0 0 282.0039 22.000397">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget Name="GuildBattleFieldHistorySlotList_Column_1_1_Icon" LayoutData.Offsets="10 1.5 20 20">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_03.GameUI_New_Scene_03" ImageUV="275 444" ImageUVSize="32 32" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomLabelButtonWidget Name="GuildBattleFieldHistorySlotList_Column_1_1_Text" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="33 0 0 22.002228">
+				<BnsCustomLabelButtonWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText=" 전황 지옥도 전황 지옥   전황 지옥도 전황 지옥" SpaceBetweenLines="5" Padding="0 5" />
+				</BnsCustomLabelButtonWidget.String>
+				<BnsCustomLabelButtonWidget.NormalImageProperty>
+					<ImageProperty />
+				</BnsCustomLabelButtonWidget.NormalImageProperty>
+			</BnsCustomLabelButtonWidget>
+		</BnsCustomImageWidget>
+	</BnsCustomColumnListWidget>
+	<BnsCustomWindowWidget Name="GuildBattleFieldHistory_HorizontalBackgroundDummy" LayoutData.Anchors="1 0 1 0" LayoutData.Offsets="0 -6.1035156E-05 298 0">
+		<BnsCustomWindowWidget.BaseImageProperty>
+			<ImageProperty />
+		</BnsCustomWindowWidget.BaseImageProperty>
+	</BnsCustomWindowWidget>
+</BnsCustomWindowWidget>

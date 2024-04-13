@@ -1,11 +1,12 @@
-﻿using Xylia.Preview.Common.Attributes;
+﻿using CUE4Parse.BNS.Assets.Exports;
+using Xylia.Preview.Common.Attributes;
 using Xylia.Preview.Data.Models.Sequence;
 using static Xylia.Preview.Data.Models.Item;
 
 namespace Xylia.Preview.Data.Models;
 public sealed class ItemBrandTooltip : ModelElement
 {
-	#region Fields
+	#region Attributes
 	public int BrandId { get; set; }
 
 	public ConditionType ItemConditionType { get; set; }
@@ -23,5 +24,9 @@ public sealed class ItemBrandTooltip : ModelElement
 
 	[Name("equip-race")]
 	public RaceSeq2 EquipRace { get; set; }
+	#endregion
+
+	#region Properies
+	public ImageProperty FrontIcon => IconTexture.Parse(Attributes.Get<string>("icon"));
 	#endregion
 }

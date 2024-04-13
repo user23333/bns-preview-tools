@@ -124,7 +124,7 @@
     <value>等级</value>
   </data>
   <data name="AbilityPage_Result" xml:space="preserve">
-    <value>在&lt;arg p="1"/&gt;级时所对应的 &lt;arg p="2"/&gt;率</value>
+    <value>在{0}级时所对应的比率是  {2:P3}</value>
   </data>
   <data name="AbilityPage_Value" xml:space="preserve">
     <value>数值</value>
@@ -309,7 +309,7 @@
   <data name="PreviewModel" xml:space="preserve">
     <value>查看模型</value>
   </data>
-  <data name="PreviewRaw" xml:space="preserve">
+  <data name="PreviewBasic" xml:space="preserve">
     <value>查看源</value>
   </data>
   <data name="PreviewShowObject" xml:space="preserve">
@@ -429,13 +429,13 @@
   <data name="Text_Search" xml:space="preserve">
     <value>查找</value>
   </data>
-  <data name="Version_Tip1" xml:space="preserve">
+  <data name="Application_VersionTip1" xml:space="preserve">
     <value>当前是预览版本, 部分功能可能不会正常运行。</value>
   </data>
-  <data name="Version_Tip2" xml:space="preserve">
+  <data name="Application_VersionTip2" xml:space="preserve">
     <value>{0} 的最新版本是{1}，你想要立刻更新吗?</value>
   </data>
-  <data name="Version_Tip3" xml:space="preserve">
+  <data name="Application_VersionTip3" xml:space="preserve">
     <value>检查更新失败，请稍后再试</value>
   </data>
   <data name="TextView_ReadWrite" xml:space="preserve">
@@ -476,7 +476,8 @@
     <value>查看详细</value>
   </data>
   <data name="Application_CrashMessage" xml:space="preserve">
-    <value>遇到了无法恢复的异常, 应用程序即将退出. {0}</value>
+    <value>遇到了无法恢复的异常, 应用程序即将退出。
+{0}</value>
   </data>
   <data name="AbilityName.AbnormalAttackBasePercent" xml:space="preserve">
     <value>异常伤害率</value>
@@ -698,7 +699,8 @@
     <value>[3.0.4]
 增加主题系统
 增加支持NEO Classic客户端
-增加技能预览功能
+增加技能、奖励预览功能
+增加NEO服务器的物品奖励技能预览（职业可在设置中实时变更）
 修复部分控件布局不正常的问题
 扩大了物品预览的响应范围</value>
   </data>
@@ -719,5 +721,29 @@
   </data>
   <data name="Settings_DebugMode" xml:space="preserve">
     <value>使用调试模式</value>
+  </data>
+  <data name="Settings_UpdateMode" xml:space="preserve">
+    <value>更新模式</value>
+  </data>
+  <data name="Settings_UpdateMode_Beta" xml:space="preserve">
+    <value>预发布</value>
+  </data>
+  <data name="Settings_UpdateMode_Stabble" xml:space="preserve">
+    <value>稳定</value>
+  </data>
+  <data name="Application_Github" xml:space="preserve">
+    <value>Github</value>
+  </data>
+  <data name="Extract_ItemBuyPrice" xml:space="preserve">
+    <value>输出物品购买价格</value>
+  </data>
+  <data name="Extract_Quest" xml:space="preserve">
+    <value>输出任务列表</value>
+  </data>
+  <data name="Extract_QuestEpic" xml:space="preserve">
+    <value>输出主线任务列表</value>
+  </data>
+  <data name="PreviewTransform" xml:space="preserve">
+    <value>查看物品成长</value>
   </data>
 </root>

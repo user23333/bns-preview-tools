@@ -2,7 +2,6 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace Xylia.Preview.UI.Controls;
 
@@ -41,13 +40,6 @@ public abstract class GameWindow : Window
     }
     #endregion
 
-    #region Properties
-    public static readonly DependencyProperty TitleForegroundProperty = DependencyProperty.Register(nameof(TitleForeground), typeof(Brush), typeof(GameWindow));
-    public static readonly DependencyProperty SysButtonColorProperty = DependencyProperty.Register(nameof(SysButtonColor), typeof(Brush), typeof(GameWindow));
-
-    public Brush TitleForeground { get { return (Brush)GetValue(TitleForegroundProperty); } set { SetValue(TitleForegroundProperty, value); } }
-    public Brush SysButtonColor { get { return (Brush)GetValue(SysButtonColorProperty); } set { SetValue(SysButtonColorProperty, value); } }
-    #endregion
 
     #region Methods
     public override void OnApplyTemplate()

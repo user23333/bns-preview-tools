@@ -124,7 +124,7 @@
     <value>Level</value>
   </data>
   <data name="AbilityPage_Result" xml:space="preserve">
-    <value>&lt;arg p="2"/&gt; converted percent in Lv&lt;arg p="1"/&gt;</value>
+    <value>The converted percent in Lv{0} is {2:P3}</value>
   </data>
   <data name="AbilityPage_Value" xml:space="preserve">
     <value>Value</value>
@@ -312,7 +312,7 @@
   <data name="PreviewModel" xml:space="preserve">
     <value>View Model</value>
   </data>
-  <data name="PreviewRaw" xml:space="preserve">
+  <data name="PreviewBasic" xml:space="preserve">
     <value>View Raw</value>
   </data>
   <data name="PreviewShowObject" xml:space="preserve">
@@ -433,13 +433,13 @@
   <data name="Text_Search" xml:space="preserve">
     <value>Search</value>
   </data>
-  <data name="Version_Tip1" xml:space="preserve">
+  <data name="Application_VersionTip1" xml:space="preserve">
     <value>This is a preview version, some features may not work.</value>
   </data>
-  <data name="Version_Tip2" xml:space="preserve">
+  <data name="Application_VersionTip2" xml:space="preserve">
     <value>The latest version of {0} is {1}. Do you want to update the application now?</value>
   </data>
-  <data name="Version_Tip3" xml:space="preserve">
+  <data name="Application_VersionTip3" xml:space="preserve">
     <value>There is a problem when check update, please try again later.</value>
   </data>
   <data name="TextView_ReadWrite" xml:space="preserve">
@@ -476,11 +476,9 @@ Please note that do not modify the order of nodes</value>
   <data name="TextView_SaveCompleted" xml:space="preserve">
     <value>Save completed!</value>
   </data>
-  <data name="PreviewTooltip" xml:space="preserve">
-    <value>View Detail</value>
-  </data>
   <data name="Application_CrashMessage" xml:space="preserve">
-    <value>an unrecoverable exception was encountered, the application is about to exit. {0}</value>
+    <value>an unrecoverable exception was encountered, the application is about to exit. 
+{0}</value>
   </data>
   <data name="AbilityName.AbnormalAttackBasePercent" xml:space="preserve">
     <value>AbnormalAttackBasePercent</value>
@@ -700,14 +698,15 @@ Please note that do not modify the order of nodes</value>
   </data>
   <data name="Application_UpdateLog" xml:space="preserve">
     <value>[3.0.4]
-add theme system
-add support NEO Classic client
-add skill preview
-fix issue on control layout
-expand the response rectange with item preview</value>
+Add theme system.
+Add support NEO Classic client.
+Add skill and reward preview.
+Add item reward skill preview for NEO server (job can be selected in real-time in settings).
+Fix issue on control layout.
+Expand the response rectange with item preview.</value>
   </data>
   <data name="Application_UpdateLog_Name" xml:space="preserve">
-    <value>Update Log</value>
+    <value>What‘s New</value>
   </data>
   <data name="TextView_TaskStart" xml:space="preserve">
     <value>Please wait task finish...</value>
@@ -723,5 +722,32 @@ expand the response rectange with item preview</value>
   </data>
   <data name="Settings_DebugMode" xml:space="preserve">
     <value>Use Debug Mode</value>
+  </data>
+  <data name="Settings_UpdateMode" xml:space="preserve">
+    <value>Update Mode</value>
+  </data>
+  <data name="Settings_UpdateMode_Beta" xml:space="preserve">
+    <value>Beta</value>
+  </data>
+  <data name="Settings_UpdateMode_Stabble" xml:space="preserve">
+    <value>Stabble</value>
+  </data>
+  <data name="Application_Github" xml:space="preserve">
+    <value>Github</value>
+  </data>
+  <data name="Extract_ItemBuyPrice" xml:space="preserve">
+    <value>Extract ItemBuyPrice</value>
+  </data>
+  <data name="Extract_Quest" xml:space="preserve">
+    <value>Extract Quest</value>
+  </data>
+  <data name="Extract_QuestEpic" xml:space="preserve">
+    <value>Extract Epic Quest</value>
+  </data>
+  <data name="PreviewTooltip" xml:space="preserve">
+    <value>View Detail</value>
+  </data>
+  <data name="PreviewTransform" xml:space="preserve">
+    <value>View Item Growth</value>
   </data>
 </root>
