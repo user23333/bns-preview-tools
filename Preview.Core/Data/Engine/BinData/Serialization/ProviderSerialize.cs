@@ -2,9 +2,8 @@
 using System.Text.RegularExpressions;
 using System.Xml;
 using CUE4Parse.Utils;
-
 using K4os.Hash.xxHash;
-
+using Serilog;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Engine.BinData.Models;
 using Xylia.Preview.Data.Engine.DatData;
@@ -15,9 +14,13 @@ public class ProviderSerialize(IDataProvider Provider)
 {
 	private const string hash = "hashes.txt";
 
+	/// <summary>
+	/// action after the data save finished
+	/// </summary>
 	private event Action DataSaved;
 
 
+	#region Methods
 	public async Task ExportAsync(string folder, Action<int, int> progress, params Table[] tables) => await Task.Run(() =>
 	{
 		var hashes = new ConcurrentBag<HashInfo>();
@@ -27,10 +30,18 @@ public class ProviderSerialize(IDataProvider Provider)
 
 		Parallel.ForEach(tables, table =>
 		{
-			var hash = table.WriteXml(folder);
-			hash.ForEach(x => hashes.Add(x));
+			try
+			{
+				var hash = table.WriteXml(folder);
+				hash.ForEach(x => hashes.Add(x));
 
-			progress(++current, tables.Length);
+				progress(++current, tables.Length);
+			}
+			catch(Exception ex)
+			{
+				++current;
+				Log.Error($"output failed, table: `{table.Name}` error: {ex.Message}");
+			}
 		});
 
 		// save hashes
@@ -162,4 +173,5 @@ public class ProviderSerialize(IDataProvider Provider)
 		Provider.WriteData(savePath, new() { Is64bit = true, Mode = Mode.Datafile });
 		DataSaved?.Invoke();
 	});
+	#endregion
 }

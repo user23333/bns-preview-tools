@@ -1,12 +1,21 @@
-﻿namespace Xylia.Preview.Data.Models;
-public sealed class Effect : ModelElement
+﻿using Xylia.Preview.Data.Common.Abstractions;
+
+namespace Xylia.Preview.Data.Models;
+public sealed class Effect : ModelElement, IHaveName
 {
+	#region Attributes
+	public Ref<Text> Name2 { get; set; }
+	#endregion
+
+	#region Methods
+	public string Name => Name2.GetText();
+
 	protected internal override void LoadHiddenField()
 	{
-		if (this.Attributes["power-percent-max"] is not null)
+		if (Attributes["power-percent-max"] is not null)
 			return;
 
-		var type = this.Attributes["type"];
+		var type = this.Attributes.Get<string>("type");
 		if (type == "melee-physical-attack" ||
 			type == "melee-physical-attack-hate" ||
 			type == "melee-physical-attack-drain" ||
@@ -24,4 +33,5 @@ public sealed class Effect : ModelElement
 			this.Attributes["power-percent-min"] = "100";
 		}
 	}
+	#endregion
 }

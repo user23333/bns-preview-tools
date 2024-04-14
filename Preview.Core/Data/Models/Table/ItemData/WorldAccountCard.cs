@@ -9,6 +9,6 @@ public sealed class WorldAccountCard : ModelElement, IHaveName
 
 
 	#region Interface
-	public string Text => Item.Instance?.ItemNameOnly;
+	public string Name => Item.Instance?.Name;
 	#endregion
 }

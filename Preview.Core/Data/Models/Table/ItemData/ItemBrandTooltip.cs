@@ -1,6 +1,4 @@
-﻿using CUE4Parse.BNS.Conversion;
-
-using SkiaSharp;
+﻿using CUE4Parse.BNS.Assets.Exports;
 using Xylia.Preview.Common.Attributes;
 using Xylia.Preview.Data.Models.Sequence;
 using static Xylia.Preview.Data.Models.Item;
@@ -8,8 +6,9 @@ using static Xylia.Preview.Data.Models.Item;
 namespace Xylia.Preview.Data.Models;
 public sealed class ItemBrandTooltip : ModelElement
 {
-	#region Fields
+	#region Attributes
 	public int BrandId { get; set; }
+
 	public ConditionType ItemConditionType { get; set; }
 
 	public Ref<Text> Name2 { get; set; }
@@ -18,7 +17,6 @@ public sealed class ItemBrandTooltip : ModelElement
 
 	public sbyte ItemGrade { get; set; }
 
-	[Repeat(4)]
 	public JobSeq[] EquipJobCheck { get; set; }
 
 	[Name("equip-sex")]
@@ -28,9 +26,7 @@ public sealed class ItemBrandTooltip : ModelElement
 	public RaceSeq2 EquipRace { get; set; }
 	#endregion
 
-	#region Properties
-	public SKBitmap FrontIcon => this.Attributes["icon"]?.ToString().GetIcon();
-
-	public SKBitmap Icon => ItemGrade.GetBackground().Compose(FrontIcon);
+	#region Properies
+	public ImageProperty FrontIcon => IconTexture.Parse(Attributes.Get<string>("icon"));
 	#endregion
 }

@@ -1,7 +1,9 @@
 ﻿using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Engine.BinData.Helpers;
+using Xylia.Preview.Data.Engine.BinData.Models;
 using Xylia.Preview.Data.Engine.BinData.Serialization;
 using Xylia.Preview.Data.Engine.Definitions;
+using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.Data.Engine.DatData;
 /// <summary>
@@ -36,19 +38,33 @@ public interface IDataProvider : IDisposable
 	Locale Locale => default;
 	#endregion
 
-
 	#region Methods
-	/// <summary>
-	/// Get raw file
-	/// </summary>
-	/// <param name="pattern"></param>
+	/// <summary>Get raw file stream</summary>
+	/// <remarks>The result will not be null</remarks>
 	/// <returns></returns>
 	Stream[] GetFiles(string pattern);
 
 	/// <summary>
+	/// Get table
+	/// </summary>
+	/// <param name="name"></param>
+	/// <returns></returns>
+	public Table GetTable(string name) => Tables[name];
+
+	/// <summary>
+	/// Get model table
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <param name="name"></param>
+	/// <param name="reload"></param>
+	/// <returns></returns>
+	public GameDataTable<T> GetTable<T>(string name = null, bool reload = false) where T : ModelElement => Tables.Get<T>(name , reload);
+
+
+	/// <summary>
 	/// Load package
 	/// </summary>
-	/// <remarks>In some cases, require automatic parse <see langword="definitions"/></remarks>
+	/// <remarks>In some case, require automatic parse <see langword="definitions"/></remarks>
 	/// <param name="definitions"></param>
 	public void LoadData(DatafileDefinition definitions);
 

@@ -1,29 +1,29 @@
 ﻿using System.Diagnostics;
-using System.Linq;
 using System.Windows.Input;
-
 using HtmlAgilityPack;
-
-using Xylia.Preview.Common.Attributes;
+using Xylia.Preview.UI.Documents.Primitives;
 
 namespace Xylia.Preview.UI.Documents;
-public class Link : Element
+public class Link : BaseElement
 {
-	[Name("ignore-input")]
-	public bool IgnoreInput;
-	public LinkId Id;
+	#region Fields
+	public LinkId? Id;
+	public bool IgnoreInput { get; set; }
+	public bool Editable { get; set; }
+	#endregion
 
 	protected internal override void Load(HtmlNode node)
 	{
-		Children = node.ChildNodes.Select(TextDocument.ToElement).ToList();
+		Children = TextContainer.Load(node.ChildNodes);
+		IgnoreInput = node.GetAttributeValue("ignoreinput", false);
+		Editable = node.GetAttributeValue("editable", false);
 
-		//IgnoreInput = (node.Attributes[nameof(IgnoreInput)]?.Value).ToBool();
-		var data = node.Attributes[nameof(Id)]?.Value;
-		if (string.IsNullOrWhiteSpace(data) || data == "none") return;
+		var id = node.GetAttributeValue("id", null);
+		if (string.IsNullOrWhiteSpace(id) || id == "none") return;
 
 
 		// split
-		var tmp = data.Split(':', 2);
+		var tmp = id.Split(':', 2);
 		var type = tmp[0]?.Trim();
 		switch (type)
 		{
@@ -35,6 +35,7 @@ public class Link : Element
 
 		Id.Load(tmp[1]);
 
+		// events
 		this.MouseEnter += Id.OnMouseEnter;
 		this.MouseLeave += Id.OnMouseLeave;
 		this.MouseLeftButtonDown += Id.OnMouseLeftButtonDown;
@@ -48,12 +49,12 @@ public abstract class LinkId
 
 	internal virtual void OnMouseEnter(object sender, MouseEventArgs e)
 	{
-		
+
 	}
 
 	internal virtual void OnMouseLeave(object sender, MouseEventArgs e)
 	{
-		
+
 	}
 
 	internal virtual void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -63,6 +64,6 @@ public abstract class LinkId
 
 	internal virtual void OnMouseRightButtonDown(object sender, MouseButtonEventArgs e)
 	{
-		
+
 	}
 }

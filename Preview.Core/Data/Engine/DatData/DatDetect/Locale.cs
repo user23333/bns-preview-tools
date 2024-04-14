@@ -2,26 +2,35 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Xylia.Preview.Common.Extension;
-using Xylia.Preview.Data.Common;
+using Xylia.Preview.Data.Common.DataStruct;
 
 namespace Xylia.Preview.Data.Engine.DatData;
 public struct Locale
 {
-	private string _publisher;
-	public string _language;
-	public string Universe;
-	public string ProductVersion;
+	#region Fields
+	public BnsVersion ProductVersion { get; set; }
 
-	public readonly ELanguage Language => _language.ToEnum<ELanguage>();
-	public readonly Publisher Publisher => _publisher.ToEnum<Publisher>();
+	public EPublisher Publisher { get; set; }
 
+	public ELanguage Language { get; set; }
+
+	private EPublisher AdditionalPublisher { get; set; }
+
+	public int Universe { get; set; }
+	#endregion
+
+	#region Methods
+	public Locale(EPublisher publisher)
+	{
+		this.Publisher = publisher;
+	}
 
 	public Locale(DirectoryInfo directory)
 	{
 		Load(directory);
-		BnsTimeZoneInfo.Current = Publisher;
+		Current = Publisher;
 
-		if (Publisher == Publisher.Tencent)
+		if (Publisher == EPublisher.Tencent)
 		{
 			int game = 0;
 
@@ -34,9 +43,12 @@ public struct Locale
 			while (directory != null && rail_game is null);
 
 			if (rail_game != null) game = JToken.ReadFrom(new JsonTextReader(File.OpenText(rail_game.FullName)))["game_id"]?.Value<int>() ?? 0;
-#if !DEBUG
-			if (game != 48 && game != 10048 && game != 10148 && game != 10248)
-				throw Xylia.Preview.Data.Common.Exceptions.BnsDataException.InvalidGame("invalid game", game);
+#if !DEVELOP
+			if (game != 48 &&
+				game != 10048 && game != 10148 && game != 10248 &&  //TEST
+				game != 2002085  //NEO
+			)
+				throw Common.Exceptions.BnsDataException.InvalidGame(game);
 #endif
 		}
 	}
@@ -59,9 +71,10 @@ public struct Locale
 			{
 				var config = new FileIniDataParser().ReadFile(local.FullName);
 
-				_publisher = config["Locale"]["Publisher"];
-				_language = config["Locale"]["Language"];
-				Universe = config["Locale"]["Universe"];
+				Publisher = config["Locale"]["Publisher"].ToEnum<EPublisher>();
+				Language = config["Locale"]["Language"].ToEnum<ELanguage>();
+				Universe = config["Locale"]["Universe"].ToInt32();
+				AdditionalPublisher = config["Locale"]["AdditionalPublisher"].ToEnum<EPublisher>();
 				return;
 			}
 		}
@@ -73,11 +86,18 @@ public struct Locale
 			.GetDirectories().FirstOrDefault();
 		if (temp is not null)
 		{
-			_publisher = temp.Name;
-			_language = temp.GetDirectories().Where(o => o.Name != "data").FirstOrDefault()?.Name;
+			Publisher = temp.Name.ToEnum<EPublisher>();
+			Language = (temp.GetDirectories().Where(o => o.Name != "data").FirstOrDefault()?.Name).ToEnum<ELanguage>();
 
 			return;
 		}
 		#endregion
 	}
+	#endregion
+
+
+	/// <summary>
+	/// Unable to exclude members in Time64, therefore as a global attribute
+	/// </summary>
+	internal static EPublisher Current { get; private set; }
 }

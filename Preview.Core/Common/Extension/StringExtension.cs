@@ -36,6 +36,12 @@ public static class StringExtension
 		return sb.ToString();
 	}
 
+	public static bool IsNullOrWhiteSpace(this string str)
+	{
+		return str == null || str.Trim().Length == 0;
+	}
+
+
 
 
 	public static byte ToByte(this string s) => byte.TryParse(s, out var result) ? result : (byte)0;
@@ -75,13 +81,6 @@ public static class StringExtension
 	public static bool ToBool(this string s) => ToBool(s, out bool Result) && Result;
 
 
-
-
-	public static bool IsNullOrWhiteSpace(this string str)
-	{
-		return str == null || str.Trim().Length == 0;
-	}
-
 	/// <summary>
 	/// Test if string is simple word pattern ([a-Z$_])
 	/// </summary>
@@ -96,7 +95,6 @@ public static class StringExtension
 
 		return true;
 	}
-
 
 	/// <summary>
 	/// Implement SqlLike in C# string - based on

@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel;
 using System.Text;
 using Xylia.Preview.Common.Extension;
+using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Models;
 using static Xylia.Preview.Data.Common.DataStruct.MsecFormat;
 
 namespace Xylia.Preview.Data.Common.DataStruct;
-public struct Msec : IFormattable
+public struct Msec : IFormattable, IInteger
 {
 	#region Const
 	/// <summary>
@@ -21,7 +22,6 @@ public struct Msec : IFormattable
 
 	public const int TicksPerDay = TicksPerHour * 24;          // 864,000,000
 	#endregion
-
 
 	#region Constructors
 	private readonly int value;
@@ -53,16 +53,19 @@ public struct Msec : IFormattable
 	public readonly double TotalSeconds => (double)value / TicksPerSecond;
 	#endregion
 
+	#region Interface
+	public readonly TypeCode GetTypeCode() => TypeCode.Object;
+
+	readonly double IConvertible.ToDouble(IFormatProvider provider) => TotalSeconds;
+	#endregion
+
 	#region Methods	   	
 	public override readonly string ToString() => value.ToString();
 	public readonly string ToString(string format, IFormatProvider formatProvider) => ToString(format.ToEnum<MsecFormatType>(), formatProvider);
 	public readonly string ToString(MsecFormatType format, IFormatProvider formatProvider = null) => MsecFormat.Format(this, format, formatProvider);
 
-
 	public readonly bool Equals(Msec other) => value == other.value;
-
 	public override readonly bool Equals(object obj) => obj is Msec other && Equals(other);
-
 	public override readonly int GetHashCode() => HashCode.Combine(value);
 	#endregion
 
@@ -78,8 +81,6 @@ public struct Msec : IFormattable
 	public static Msec operator -(Msec a, Msec b) => a.value - b.value;
 	#endregion
 }
-
-
 
 public static class MsecFormat
 {
@@ -145,8 +146,6 @@ public static class MsecFormat
 
 	internal static string Format(Msec value, MsecFormatType format, IFormatProvider formatProvider)
 	{
-		var sb = new StringBuilder(256);
-
 		if (format == MsecFormatType.hmsFormatColon) return $"{value.Days}.{value.Hours:00}:{value.Minutes:00}:{value.Seconds:00}";
 
 		// load text resource
@@ -157,6 +156,8 @@ public static class MsecFormat
 		var MinuteName = "Name.Time.minute".GetText() ?? ":";
 		var SecondName = "Name.Time.second".GetText();
 
+		// text build
+		var sb = new StringBuilder(256);
 
 		switch (format)
 		{
@@ -202,6 +203,7 @@ public static class MsecFormat
 				break;
 		}
 
-		return sb.ToString();
+		// return null if empty
+		return sb.Length == 0 ? null : sb.ToString();
 	}
 }

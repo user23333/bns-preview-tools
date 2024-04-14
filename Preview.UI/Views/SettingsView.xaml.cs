@@ -26,28 +26,18 @@ public partial class SettingsView : Window
 		if (!TryBrowseFolder(out var path))
 			return;
 
-		this.Activate();
-
 		UserSettings.Default.GameFolder = path;
-		var Locale = new Locale(new DirectoryInfo(path));
-		if (Locale._language != null)
-		{
-			var region = Locale.Language == ELanguage.None ? Locale._language : Locale.Language.GetDescription();
-		}
+		// var Locale = new Locale(new DirectoryInfo(path));
 	}
 
 	private void OnBrowseDirectories2(object sender, RoutedEventArgs e)
 	{
 		if (TryBrowseFolder(out var path)) UserSettings.Default.OutputFolder = path;
-
-		this.Activate();
 	}
 
 	private void OnBrowseDirectories3(object sender, RoutedEventArgs e)
 	{
 		if (TryBrowseFolder(out var path)) UserSettings.Default.OutputFolderResource = path;
-
-		this.Activate();
 	}
 
 

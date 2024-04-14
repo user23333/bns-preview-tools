@@ -1,15 +1,9 @@
 ﻿using Xylia.Preview.Data.Common.Abstractions;
 
 namespace Xylia.Preview.Data.Models;
-public class FieldZone : ModelElement, IAttraction
+public abstract class FieldZone : ModelElement, IAttraction
 {
-	#region IAttraction
-	public string Text => this.Attributes["name2"].GetText();
-
-	public string Describe => this.Attributes["desc"].GetText();
-	#endregion
-
-
+	#region Attributes
 	public sealed class Normal : FieldZone
 	{
 	}
@@ -20,4 +14,11 @@ public class FieldZone : ModelElement, IAttraction
 
 		public sbyte MinFixedChannel { get; set; }
 	}
+	#endregion
+
+	#region IAttraction
+	public string Name => this.Attributes["name2"].GetText();
+
+	public string Description => this.Attributes["desc"].GetText();
+	#endregion
 }

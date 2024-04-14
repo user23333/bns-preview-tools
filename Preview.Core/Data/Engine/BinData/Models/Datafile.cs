@@ -5,23 +5,24 @@ using Xylia.Preview.Data.Engine.BinData.Serialization;
 namespace Xylia.Preview.Data.Engine.BinData.Models;
 public abstract class Datafile
 {
-	public bool Is64Bit { get; set; }
-
+	#region Fields
 	public byte DatafileVersion { get; set; } = 5;
 	public BnsVersion ClientVersion { get; set; }
 	public DateTimeOffset CreatedAt { get; set; }
-
 	public long AliasCount { get; set; }
 	public long AliasMapSize { get; set; }
-	public AliasTable AliasTable { get; set; }
+	internal AliasTable AliasTable { get; set; }
 
 	public TableCollection Tables { get; set; }
-
+	public bool Is64Bit { get; protected set; }
+	#endregion
 
 
 	#region	Serialize
 	protected void ReadFrom(byte[] bytes, bool is64bit)
 	{
+		if (bytes is null) return;
+
 		using var reader = new DataArchive(bytes, is64bit);
 
 		var bin = new DatafileHeader();
@@ -61,15 +62,15 @@ public abstract class Datafile
 			TotalTableSize = 0x1,  //TotalTableSize 好像等于               必须 >0 但是无所谓值
 		};
 
-		var overwriteNameTableSize = datafileHeader.WriteHeaderTo(writer, tables.Length, this.AliasCount, is64bit);
+		var overwriteNameTableSize = datafileHeader.WriteHeaderTo(writer, tables.Length, AliasCount, is64bit);
 
 		if (this.AliasTable == null)
-			overwriteNameTableSize(this.AliasMapSize);
+			overwriteNameTableSize(AliasMapSize);
 
 		if (tables.Length > 10)
 		{
-			if (this.AliasTable is not AliasTableArchive alias)
-				throw new NullReferenceException("NameTable was null on main datafile");
+			if (AliasTable is not AliasTableArchive alias)
+				throw new NullReferenceException("AliasTable was null on main datafile");
 
 			var oldPosition = writer.Position;
 			AliasTableWriter.WriteTo(writer, alias, is64bit);

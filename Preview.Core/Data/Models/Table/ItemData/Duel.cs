@@ -13,8 +13,8 @@ public sealed class Duel : ModelElement, IAttraction
 
 
 	#region IAttraction
-	public string Text => this.Attributes["duel-name2"].GetText();
+	public string Name => this.Attributes["duel-name2"].GetText();
 
-	public string Describe => this.Attributes["duel-desc"].GetText();
+	public string Description => this.Attributes["duel-desc"].GetText();
 	#endregion
 }

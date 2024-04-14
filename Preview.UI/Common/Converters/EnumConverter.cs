@@ -6,12 +6,14 @@ using Xylia.Preview.Common.Extension;
 namespace Xylia.Preview.UI.Common.Converters;
 public class EnumConverter : MarkupExtension, IValueConverter
 {
-	public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+	public override object ProvideValue(IServiceProvider serviceProvider) => this;
+
+	public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
 	{
-		if (value.GetType().IsEnum)
+		if (value != null && value is Enum seq)
 		{
 			if (targetType == typeof(int)) return (int)value;
-			if (targetType == typeof(string)) return value.GetDescription();
+			if (targetType == typeof(string)) return seq.GetDescription();
 		}
 
 		return value;
@@ -26,6 +28,4 @@ public class EnumConverter : MarkupExtension, IValueConverter
 
 		return value;
 	}
-
-	public override object ProvideValue(IServiceProvider serviceProvider) => this;
 }

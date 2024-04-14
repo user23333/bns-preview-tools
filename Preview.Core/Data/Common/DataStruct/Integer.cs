@@ -1,10 +1,19 @@
 ﻿using System.Text;
 
 namespace Xylia.Preview.Data.Common.DataStruct;
-public struct Integer(double Value)
+public readonly struct Integer(double value)
 {
+	#region Override Methods
+	public double Value { get; } = value;
+
+	public override string ToString() => Value.ToString();
+
+	public static implicit operator Integer(double value) => new(value);
+	public static implicit operator double(Integer struc) => struc.Value;
+	#endregion
+
+
 	#region Float
-	public override readonly string ToString() => Value.ToString();
 	public readonly string FloatDot0 => $"{Value / 10: 0}";
 	public readonly string FloatDot1 => $"{Value / 10: 0.0}";
 	public readonly string FloatDot2 => $"{Value / 10: 0.00}";
@@ -27,9 +36,9 @@ public struct Integer(double Value)
 
 	private readonly string ToMoney(bool IsDefault, bool Tooltip = true)
 	{
-		var gold = Value / 10000;
-		var silver = Value % 10000 / 100;
-		var copper = Value % 100;
+		var gold = (int)(Value / 10000);
+		var silver = (int)(Value % 10000 / 100);
+		var copper = (int)(Value % 100);
 
 		var builder = new StringBuilder();
 		if (IsDefault || gold > 0)

@@ -1,5 +1,5 @@
-﻿using Serilog;
-using Xylia.Preview.Common.Extension;
+﻿using Xylia.Preview.Common.Extension;
+using Xylia.Preview.Data.Helpers;
 
 namespace Xylia.Preview.Data.Engine.BinData.Models;
 public abstract class TableHeader
@@ -76,14 +76,10 @@ public abstract class TableHeader
 		}
 		else if (this.MajorVersion != version.Item1 || this.MinorVersion != version.Item2)
 		{
-			Log.Warning($"check table `{this.Name}` version: {version.Item1}.{version.Item2} <> {this.MajorVersion}.{this.MinorVersion}");
-
-			// non binary table
-			if (this.Size == 0)
-			{
-				this.MajorVersion = version.Item1;
-				this.MinorVersion = version.Item2;
-			}
+			Message.Warning($"check table `{this.Name}` version: {version.Item1}.{version.Item2} <> {this.MajorVersion}.{this.MinorVersion}");
 		}
 	}
+
+
+	internal MessageManager Message = [];
 }

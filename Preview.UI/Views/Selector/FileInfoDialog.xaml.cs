@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -11,6 +12,7 @@ using Xylia.Preview.UI.ViewModels;
 namespace Xylia.Preview.UI.Views.Selector;
 
 [ObservableObject]
+[DesignTimeVisible(false)]
 public partial class FileInfoDialog : IDialogResultable<PackageParam.FileParam>	
 {
 	public FileInfoDialog()
@@ -27,7 +29,7 @@ public partial class FileInfoDialog : IDialogResultable<PackageParam.FileParam>
 		var dialog = new VistaOpenFileDialog();
 		if (dialog.ShowDialog() == true)
 		{
-			Result.Path = dialog.FileName;
+			Result!.Path = dialog.FileName;
 			OnPropertyChanged(nameof(Result));
 		}
 	}
@@ -37,13 +39,13 @@ public partial class FileInfoDialog : IDialogResultable<PackageParam.FileParam>
 		ArgumentNullException.ThrowIfNull(Result.Path);
 		ArgumentNullException.ThrowIfNull(Result.Vfs);
 
-		CloseAction.Invoke();
+		CloseAction?.Invoke();
 	}
 
 	private void CloseCommand(object sender, RoutedEventArgs e)
 	{
 		Result = null;
-		this.CloseAction.Invoke();
+		CloseAction?.Invoke();
 	}
 
 
@@ -52,8 +54,8 @@ public partial class FileInfoDialog : IDialogResultable<PackageParam.FileParam>
 	public ObservableCollection<CompressionMethod> CompressionModes => new(Enum.GetValues<CompressionMethod>());
 
 	[ObservableProperty]
-	private PackageParam.FileParam result = new();
+	private PackageParam.FileParam? result = new();
 
-	public Action CloseAction { get; set; }
+	public Action? CloseAction { get; set; }
 	#endregion
 }

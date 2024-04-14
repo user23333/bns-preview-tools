@@ -1,18 +1,135 @@
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
+using System.Windows;
 using CUE4Parse.UE4.Assets.Exports.Material;
 using CUE4Parse_Conversion.Meshes;
 using CUE4Parse_Conversion.Textures;
 using FModel.Views.Snooper;
-
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Engine.DatData;
+using Xylia.Preview.Data.Models.Sequence;
 using Xylia.Preview.Properties;
 using Xylia.Preview.UI.Controls;
+using Xylia.Preview.UI.Resources.Themes;
+using Xylia.Preview.UI.Services;
+using static Xylia.Preview.UI.Services.UpdateService;
 
 namespace Xylia.Preview.UI.ViewModels;
-public partial class UserSettings : Settings
+internal partial class UserSettings : Settings
 {
-	public static UserSettings Default { get; } = new();
+	#region Constructors 
+	public new static UserSettings Default { get; }
+
+	static UserSettings()
+	{
+		Settings.Default = Default = new UserSettings();
+	}
+	#endregion
+
+
+	#region Common 
+	public int NoticeId
+	{
+		get => GetValue().ToInt32();
+		set { if (value > 0) SetValue(value); }
+	}
+
+	public ObservableCollection<ELanguage> Languages => new(StringHelper.EnumerateLanguages());
+
+	/// <summary>
+	/// Gets or sets public language
+	/// </summary>
+	public ELanguage Language
+	{
+		set => SetValue(StringHelper.Current!.Language = value);
+		get
+		{
+			var e = GetValue().ToEnum<ELanguage>();
+			return e > ELanguage.None ? e : StringHelper.Current!.Language;
+		}
+	}
+
+	/// <summary>
+	/// Gets or sets night mode
+	/// </summary>
+	public bool? NightMode
+	{
+		get => GetValue()?.ToBool();
+		set
+		{
+			SetValue(value);
+			((App)Application.Current).UpdateSkin(SkinType, NightMode);
+		}
+	}
+
+	/// <summary>
+	/// Gets or sets skin type
+	/// </summary>
+	public SkinType SkinType
+	{
+		get => (SkinType)GetValue().ToInt32();
+		set
+		{
+			SetValue((int)value);
+			((App)Application.Current).UpdateSkin(value, NightMode);
+		}
+	}
+
+
+	/// <summary>
+	/// Gets or sets Update Mode
+	/// </summary>
+	public UpdateMode UpdateMode
+	{
+		get => (UpdateMode)GetValue().ToInt32();
+		set
+		{
+			SetValue((int)value);
+			new UpdateService().Register();
+		}
+	}
+
+	/// <summary>
+	/// Gets or sets <see cref="BnsCustomLabelWidget"/> Copy Mode
+	/// </summary>
+	public CopyMode CopyMode
+	{
+		get => (CopyMode)GetValue().ToInt32();
+		set
+		{
+			SetValue((int)value);
+			BnsCustomLabelWidget.CopyMode = value;
+		}
+	}
+
+	public bool UsePerformanceMonitor
+	{
+		get => GetValue().ToBool();
+		set
+		{
+			SetValue(value);
+
+			if (value) ProcessFloatWindow.Instance.Show();
+			else ProcessFloatWindow.Instance.Close();
+		}
+	}
+	#endregion
+
+	#region Preview
+	public ObservableCollection<JobSeq> Jobs => new(SequenceExtensions.EnumeratePcJob());
+
+	public JobSeq Job
+	{
+		set => SetValue(value);
+		get => GetValue().ToEnum(JobSeq.검사);
+	}
+
+	public bool UseDebugMode { get => GetValue().ToBool(); set => SetValue(value); }
+
+	public bool Text_LoadPrevious { get => GetValue().ToBool(); set => SetValue(value); }
+	public string Text_OldPath { get => GetValue(); set => SetValue(value); }
+	public string Text_NewPath { get => GetValue(); set => SetValue(value); }
+	#endregion
+
 
 	#region Model
 	private string _modelDirectory;
@@ -142,44 +259,5 @@ public partial class UserSettings : Settings
 		get => _saveSkeletonAsMesh;
 		set => SetProperty(ref _saveSkeletonAsMesh, value);
 	}
-	#endregion
-
-	#region Preview 
-	public ObservableCollection<ELanguage> Languages => new(StringHelper.EnumerateLanguages());
-
-	public ELanguage Language
-	{
-		get => GetValue().ToEnum<ELanguage>();
-		set => SetValue(StringHelper.Instance.Language = value);
-	}
-
-	public CopyMode CopyMode
-	{
-		get => (CopyMode)GetValue().ToInt32();
-		set
-		{
-			SetValue((int)value);
-			BnsCustomLabelWidget.CopyMode = value;
-		}
-	}
-
-	public bool Text_LoadPrevious { get => GetValue().ToBool(); set => SetValue(value); }
-	public string Text_OldPath { get => GetValue(); set => SetValue(value); }
-	public string Text_NewPath { get => GetValue(); set => SetValue(value); }
-
-	public bool UsePerformanceMonitor
-	{
-		get => GetValue().ToBool();
-		set
-		{
-			SetValue(value);
-
-			if (value) ProcessFloatWindow.Instance.Show();
-			else ProcessFloatWindow.Instance.Close();
-		}
-	}
-
-
-	public int NoticeId { get => GetValue().ToInt32(); set => SetValue(value); }
 	#endregion
 }

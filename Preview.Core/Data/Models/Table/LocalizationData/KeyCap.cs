@@ -1,4 +1,4 @@
-﻿using SkiaSharp;
+﻿using CUE4Parse.BNS.Assets.Exports;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models.Sequence;
@@ -6,23 +6,25 @@ using Xylia.Preview.Data.Models.Sequence;
 namespace Xylia.Preview.Data.Models;
 public sealed class KeyCap : ModelElement
 {
-	#region Methods
+	#region Properies
 	public KeyCode KeyCode => this.Attributes["key-code"].ToEnum<KeyCode>();
 
-	public SKBitmap Icon => this.Attributes["icon"]?.ToString().GetIcon();
+	public ImageProperty Icon => IconTexture.Parse(Attributes.Get<string>("icon"));
 
 	public string Image => this.Attributes["image"].GetText();
+	#endregion
 
-
+	#region Methods
 	public static KeyCode GetKeyCode(string o)
 	{
+		// diffrent from sequence
 		if (o == "SPACEBAR") return KeyCode.Space;
 
-		return o.ToEnum<KeyCode>();
+		return o.Replace("_", null).ToEnum<KeyCode>();
 	}
 
 	public static KeyCap Cast(string KeyCode) => Cast(GetKeyCode(KeyCode));
 
-	public static KeyCap Cast(KeyCode KeyCode) => FileCache.Data.Get<KeyCap>().FirstOrDefault(x => x.KeyCode == KeyCode) ;
+	public static KeyCap Cast(KeyCode KeyCode) => FileCache.Data.Provider.GetTable<KeyCap>()[(byte)KeyCode];
 	#endregion
 }

@@ -1,10 +1,26 @@
-﻿using Xylia.Preview.Data.Helpers;
+﻿using Xylia.Preview.Data.Common.Abstractions;
+using Xylia.Preview.Data.Helpers;
+using Xylia.Preview.Data.Models.Sequence;
 
 namespace Xylia.Preview.Data.Models;
-public sealed class Npc : ModelElement
+public sealed class Npc : ModelElement, IHaveName
 {
-	#region Public Properties
-	public string Text => this.Attributes["name2"].GetText();
+	#region Attributes
+	public Ref<Store2>[] Store2 { get; set; }
+
+	public ForwardingType[] ForwardingTypes { get; set; }
+
+	public Ref<Quest>[] Quests { get; set; }
+
+	public sbyte[] Missions { get; set; }
+
+	public sbyte[] Cases { get; set; }
+
+	public short[] CaseSubtypes { get; set; }
+	#endregion
+
+	#region Properties
+	public string Name => this.Attributes["name2"].GetText();
 
 	public string Map
 	{
@@ -12,8 +28,8 @@ public sealed class Npc : ModelElement
 		{
 			var alias = this.ToString();
 
-			var MapUnit = FileCache.Data.Get<MapUnit>().Where(x => x.ToString() != null && x.ToString().Contains(alias, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
-			return MapUnit is null ? null : FileCache.Data.Get<MapInfo>().FirstOrDefault(x => x.Id == MapUnit.Mapid)?.Text;
+			var MapUnit = FileCache.Data.Provider.GetTable<MapUnit>().Where(x => x.ToString() != null && x.ToString().Contains(alias, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+			return MapUnit is null ? null : FileCache.Data.Provider.GetTable<MapInfo>().FirstOrDefault(x => x.Id == MapUnit.Mapid)?.Name;
 		}
 	}
 	#endregion
@@ -41,6 +57,19 @@ public sealed class Npc : ModelElement
 			if (this.Attributes["radius"] is not null)
 				this.Attributes["formal-radius"] = this.Attributes["radius"];
 		}
+	}
+
+	internal void FileSplit()
+	{
+		// Baekcheong
+		// Chicken_A
+		// Daesamak
+		// Dungeon
+		// Jeryongrim
+		// Pizza_A
+		// Summer_A
+		// Suweol
+		// Winter_A
 	}
 	#endregion
 }

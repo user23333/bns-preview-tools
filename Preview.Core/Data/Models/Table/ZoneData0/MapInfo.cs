@@ -3,11 +3,12 @@ using Xylia.Preview.Data.Common.Abstractions;
 
 namespace Xylia.Preview.Data.Models;
 [Side(ReleaseSide.Client)]
-public sealed class MapInfo : ModelElement  ,IHaveName
+public sealed class MapInfo : ModelElement, IHaveName
 {
-	public int Id { get; set; }
-	public string Alias { get; set; }
+	#region Attributes
+	public short Id { get; set; }
 
+	public string Alias { get; set; }
 
 	public short GroupId { get; set; }
 
@@ -18,6 +19,12 @@ public sealed class MapInfo : ModelElement  ,IHaveName
 	public Ref<MapInfo> ParentMapinfo { get; set; }
 
 	public float Scale { get; set; }
+
+	[Name("map-group-1")]
+	public Ref<MapGroup1> MapGroup1 { get; set; }
+
+	[Name("map-group-2")]
+	public Ref<MapGroup2> MapGroup2 { get; set; }
 
 	public float LocalAxisX { get; set; }
 
@@ -48,10 +55,10 @@ public sealed class MapInfo : ModelElement  ,IHaveName
 	public float ArenaDungeonPosInParentX { get; set; }
 
 	public float ArenaDungeonPosInParentY { get; set; }
-
+	#endregion
 
 	#region Methods
-	public string Text => Name2.GetText();
+	public string Name => Name2.GetText();
 
 	public static MapUnit.MapDepthSeq GetMapDepth(MapInfo MapInfo)
 	{

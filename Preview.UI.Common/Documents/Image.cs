@@ -2,33 +2,57 @@
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using CUE4Parse.BNS.Assets.Exports;
+using CUE4Parse.BNS.Conversion;
+using CUE4Parse.UE4.Assets.Exports.Texture;
+using CUE4Parse_Conversion.Textures;
 using HtmlAgilityPack;
 using SkiaSharp.Views.WPF;
 using Xylia.Preview.Data.Helpers;
 
 namespace Xylia.Preview.UI.Documents;
-public class Image : Element
+public class Image : BaseElement
 {
+	#region Constructors
+	public Image()
+	{
+
+	}
+
+	internal Image(ImageProperty property)
+	{
+		Source = property.Image?.ToWriteableBitmap();
+
+		Enablescale = true;
+		Scalerate = property.ImageScale;
+	}
+	#endregion
+
 	#region Fields
-	public string Imagesetpath;
-	public string Path;
+	// jpgpath
+	public string? Imagesetpath { get; set; }
+	public string? Path { get; set; }
+
+	public int U { get; set; }
+	public int V { get; set; }
+	public int UL { get; set; }
+	public int VL { get; set; }
+	public int Width { get; set; }
+	public int Height { get; set; }
+
+	public sbyte Red { get; set; }
+	public sbyte Green { get; set; }
+	public sbyte Blue { get; set; }
 
 	/// <summary>
 	/// Relative to line height
 	/// </summary>
-	public bool Enablescale;
-	public float Scalerate;
-
-	public int U;
-	public int V;
-	public int UL;
-	public int VL;
-	public int Width;
-	public int Height;
+	public bool Enablescale { get; set; }
+	public float Scalerate { get; set; }
 	#endregion
 
+
 	#region UIElement 
-	private BitmapSource Source { get; set; }
+	private BitmapSource? Source;
 
 	protected internal override void Load(HtmlNode node)
 	{
@@ -46,12 +70,17 @@ public class Image : Element
 	}
 
 	protected override Size MeasureCore(Size availableSize)
-	{
-		// keep empty space
-		var image = FileCache.Provider.LoadObject<UImageSet>(Imagesetpath)?.GetImage();
-		if (image is null) return new Size(5, 5);
+	{	
+		// load if not exist
+		if (Source is null)
+		{
+			var image = FileCache.Provider.LoadObject<UImageSet>(Imagesetpath)?.GetImage() ??
+				FileCache.Provider.LoadObject<UTexture2D>(Path)?.Decode()?.Clone(U, V, UL, VL);
 
-		Source = image.ToWriteableBitmap();
+			Source = image?.ToWriteableBitmap();
+			if (Source is null) return new Size();
+		}
+
 		double width = Source.Width;
 		double height = Source.Height;
 
@@ -64,7 +93,7 @@ public class Image : Element
 		return new Size(width, height);
 	}
 
-	internal override void Render(DrawingContext ctx)
+	protected internal override void OnRender(DrawingContext ctx)
 	{
 		if (Source != null)
 			ctx.DrawImage(Source, FinalRect);

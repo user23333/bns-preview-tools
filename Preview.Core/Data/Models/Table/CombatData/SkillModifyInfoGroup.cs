@@ -1,24 +1,19 @@
-﻿using Xylia.Preview.Common.Attributes;
-using Xylia.Preview.Common.Extension;
+﻿using Xylia.Preview.Common.Extension;
+using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Models.Sequence;
 
 namespace Xylia.Preview.Data.Models;
-public class SkillModifyInfoGroup : ModelElement
+public class SkillModifyInfoGroup : ModelElement, IAttraction
 {
-	[Name("job-style")]
+	#region Attributes
 	public JobStyleSeq JobStyle { get; set; }
 
-	[Name("skill-modify-info")]
 	public Ref<SkillModifyInfo>[] SkillModifyInfo { get; set; }
-
-
+	#endregion
 
 	#region Methods
-	public override string ToString()
-	{
-		var objs = SkillModifyInfo.Select(o => o.Instance?.ToString()).Where(o => o is not null);
-		if (!objs.Any()) return null;
-		return $"<font name=\"00008130.UI.Label_Green03_12\">{objs.Aggregate("<br/>")}</font>";
-	}
+	public string Name => base.ToString();
+
+	public string Description => string.Join("<br/>", SkillModifyInfo.SelectNotNull(o => o.Instance?.Describe));
 	#endregion
 }

@@ -117,20 +117,126 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AbilityPage" xml:space="preserve">
-    <value>角色能力</value>
+  <data name="AbilityName.AbnormalAttackBasePercent" xml:space="preserve">
+    <value>异常伤害率</value>
+  </data>
+  <data name="AbilityName.AbnormalDefendBasePercent" xml:space="preserve">
+    <value>异常伤害防御率</value>
+  </data>
+  <data name="AbilityName.AoeDefendBasePercent" xml:space="preserve">
+    <value>范围伤害防御率</value>
+  </data>
+  <data name="AbilityName.AttackAbnormalHitBasePercent" xml:space="preserve">
+    <value>异常状态命中率</value>
+  </data>
+  <data name="AbilityName.AttackAttributeBasePercent" xml:space="preserve">
+    <value>功力率</value>
+  </data>
+  <data name="AbilityName.AttackCriticalBasePercent" xml:space="preserve">
+    <value>暴击率</value>
+  </data>
+  <data name="AbilityName.AttackCriticalDamagePercent" xml:space="preserve">
+    <value>暴击伤害率</value>
+  </data>
+  <data name="AbilityName.AttackHitBasePercent" xml:space="preserve">
+    <value>命中率</value>
+  </data>
+  <data name="AbilityName.AttackParryPiercePercent" xml:space="preserve">
+    <value>AttackParryPiercePercent</value>
+  </data>
+  <data name="AbilityName.AttackPierceBasePercent" xml:space="preserve">
+    <value>穿刺率</value>
+  </data>
+  <data name="AbilityName.CounterEnhance" xml:space="preserve">
+    <value>CounterEnhance</value>
+  </data>
+  <data name="AbilityName.DefenceParryDamageReduce" xml:space="preserve">
+    <value>防御武功 强化</value>
+  </data>
+  <data name="AbilityName.DefendAbnormalDodgeBasePercent" xml:space="preserve">
+    <value>DefendAbnormalDodgeBasePercent</value>
+  </data>
+  <data name="AbilityName.DefendBouncePercent" xml:space="preserve">
+    <value>反制率</value>
+  </data>
+  <data name="AbilityName.DefendCounterReducePercent" xml:space="preserve">
+    <value>DefendCounterReducePercent</value>
+  </data>
+  <data name="AbilityName.DefendCriticalBasePercent" xml:space="preserve">
+    <value>暴击防御率</value>
+  </data>
+  <data name="AbilityName.DefendCriticalDamagePercent" xml:space="preserve">
+    <value>暴击伤害防御率</value>
+  </data>
+  <data name="AbilityName.DefendDodgeBasePercent" xml:space="preserve">
+    <value>闪避率</value>
+  </data>
+  <data name="AbilityName.DefendImmuneBasePercent" xml:space="preserve">
+    <value>抗性</value>
+  </data>
+  <data name="AbilityName.DefendMissBasePercent" xml:space="preserve">
+    <value>DefendMissBasePercent</value>
+  </data>
+  <data name="AbilityName.DefendParryBasePercent" xml:space="preserve">
+    <value>格挡率</value>
+  </data>
+  <data name="AbilityName.DefendParryReducePercent" xml:space="preserve">
+    <value>完全格挡穿刺率</value>
+  </data>
+  <data name="AbilityName.DefendPerfectParryBasePercent" xml:space="preserve">
+    <value>完美格挡率</value>
+  </data>
+  <data name="AbilityName.DefendPerfectParryReducePercent" xml:space="preserve">
+    <value>DefendPerfectParryReducePercent</value>
+  </data>
+  <data name="AbilityName.HateBasePercent" xml:space="preserve">
+    <value>仇恨率</value>
+  </data>
+  <data name="AbilityName.HealPowerBasePercent" xml:space="preserve">
+    <value>治疗率</value>
+  </data>
+  <data name="AbilityName.SupportPowerBasePercent" xml:space="preserve">
+    <value>SupportPowerBasePercent</value>
   </data>
   <data name="AbilityPage_Level" xml:space="preserve">
     <value>等级</value>
   </data>
   <data name="AbilityPage_Result" xml:space="preserve">
-    <value>在&lt;arg p="1"/&gt;级时所对应的 &lt;arg p="2"/&gt;率</value>
+    <value>在{0}级时所对应的比率是  {2:P3}</value>
   </data>
   <data name="AbilityPage_Value" xml:space="preserve">
     <value>数值</value>
   </data>
+  <data name="Application_CrashMessage" xml:space="preserve">
+    <value>遇到了无法恢复的异常, 应用程序即将退出。
+{0}</value>
+  </data>
   <data name="Application_ExitMessage" xml:space="preserve">
     <value>您正在关闭应用程序, 是否确认这么做吗？</value>
+  </data>
+  <data name="Application_Github" xml:space="preserve">
+    <value>Github</value>
+  </data>
+  <data name="Application_UpdateLog" xml:space="preserve">
+    <value>[3.1.0]
+增加主题系统
+增加支持NEO Classic客户端
+增加技能、奖励预览功能
+增加NEO服务器的物品奖励技能预览（职业可在设置中实时变更）
+修复部分控件布局不正常的问题
+扩大了物品预览的响应范围</value>
+  </data>
+  <data name="Application_UpdateLog_Name" xml:space="preserve">
+    <value>更新日志</value>
+  </data>
+  <data name="Application_VersionTip1" xml:space="preserve">
+    <value>当前是预览版本, 部分功能可能不会正常运行。</value>
+  </data>
+  <data name="Application_VersionTip2" xml:space="preserve">
+    <value>{0} 的最新{1}版本是{2}，你想要立刻更新吗?</value>
+  </data>
+  <data name="Application_VersionTip3" xml:space="preserve">
+    <value>检查更新失败，请稍后再试</value>
   </data>
   <data name="Asset_Extract" xml:space="preserve">
     <value>提取</value>
@@ -140,6 +246,9 @@
   </data>
   <data name="Asset_OutputClassName" xml:space="preserve">
     <value>输出对象类名</value>
+  </data>
+  <data name="Asset_Repack" xml:space="preserve">
+    <value>打包</value>
   </data>
   <data name="Assets_Name" xml:space="preserve">
     <value>资产</value>
@@ -168,14 +277,56 @@
   <data name="DatSelector_Tooltip" xml:space="preserve">
     <value>由于您选择的路径下存在多个相关文件，需要进行主动选择。</value>
   </data>
+  <data name="DatabaseStudio_Connect" xml:space="preserve">
+    <value>连接</value>
+  </data>
+  <data name="DatabaseStudio_ConnectMessage1" xml:space="preserve">
+    <value>Not Used</value>
+  </data>
+  <data name="DatabaseStudio_ConnectMessage2" xml:space="preserve">
+    <value>当前是全局数据源，是否确认断开链接？</value>
+  </data>
+  <data name="DatabaseStudio_ConnectionManager" xml:space="preserve">
+    <value>连接管理器</value>
+  </data>
+  <data name="DatabaseStudio_Disconnect" xml:space="preserve">
+    <value>断开</value>
+  </data>
   <data name="DatabaseStudio_Extract" xml:space="preserve">
     <value>提取</value>
   </data>
   <data name="DatabaseStudio_ExtractAll" xml:space="preserve">
     <value>提取全部</value>
   </data>
+  <data name="DatabaseStudio_Grid" xml:space="preserve">
+    <value>表格</value>
+  </data>
+  <data name="DatabaseStudio_Mode_Folder" xml:space="preserve">
+    <value>目录</value>
+  </data>
+  <data name="DatabaseStudio_Mode_Game" xml:space="preserve">
+    <value>游戏</value>
+  </data>
+  <data name="DatabaseStudio_Mode_Global" xml:space="preserve">
+    <value>全局（默认）</value>
+  </data>
   <data name="DatabaseStudio_Name" xml:space="preserve">
     <value>Database Studio</value>
+  </data>
+  <data name="DatabaseStudio_OutputExcel" xml:space="preserve">
+    <value>另存为表格</value>
+  </data>
+  <data name="DatabaseStudio_Paramters" xml:space="preserve">
+    <value>参数</value>
+  </data>
+  <data name="DatabaseStudio_Provider" xml:space="preserve">
+    <value>数据源</value>
+  </data>
+  <data name="DatabaseStudio_SqlLoad" xml:space="preserve">
+    <value>加载</value>
+  </data>
+  <data name="DatabaseStudio_SqlSave" xml:space="preserve">
+    <value>保存</value>
   </data>
   <data name="DatabaseStudio_TaskMessage1" xml:space="preserve">
     <value>当前保存进度 {0}/{1} ({2:P0})</value>
@@ -183,17 +334,32 @@
   <data name="DatabaseStudio_TaskMessage2" xml:space="preserve">
     <value>已完成！</value>
   </data>
+  <data name="DatabaseStudio_Text" xml:space="preserve">
+    <value>文本</value>
+  </data>
+  <data name="DatabaseStudio_ViewDefinition" xml:space="preserve">
+    <value>查看定义</value>
+  </data>
+  <data name="DatabaseStudio_ViewDefinitions" xml:space="preserve">
+    <value>查看所有定义</value>
+  </data>
   <data name="DatabaseStudio_ViewTable" xml:space="preserve">
     <value>查看</value>
   </data>
-  <data name="GameDirectory" xml:space="preserve">
-    <value>游戏目录</value>
+  <data name="Extract_ItemBuyPrice" xml:space="preserve">
+    <value>输出物品购买价格</value>
   </data>
-  <data name="GameResourcePage" xml:space="preserve">
-    <value>资源</value>
+  <data name="Extract_Quest" xml:space="preserve">
+    <value>输出任务列表</value>
   </data>
-  <data name="Game_QuestJournalScene" xml:space="preserve">
-    <value>任务</value>
+  <data name="Extract_QuestEpic" xml:space="preserve">
+    <value>输出主线任务列表</value>
+  </data>
+  <data name="FileMode_ExcelFile" xml:space="preserve">
+    <value>表格文件</value>
+  </data>
+  <data name="FileMode_TextFile" xml:space="preserve">
+    <value>文本文件</value>
   </data>
   <data name="IconOut_CreateList" xml:space="preserve">
     <value>输出列表</value>
@@ -243,6 +409,18 @@
   <data name="IconOut_UseBackground" xml:space="preserve">
     <value>生成品质背景</value>
   </data>
+  <data name="ItemList_Auctionable" xml:space="preserve">
+    <value>可交易</value>
+  </data>
+  <data name="ItemList_Compare" xml:space="preserve">
+    <value>对比</value>
+  </data>
+  <data name="ItemList_Empty" xml:space="preserve">
+    <value>没有新增物品</value>
+  </data>
+  <data name="ItemList_ItemName" xml:space="preserve">
+    <value>物品名称</value>
+  </data>
   <data name="ItemList_Name" xml:space="preserve">
     <value>物品列表</value>
   </data>
@@ -254,6 +432,9 @@
   </data>
   <data name="ItemList_Path" xml:space="preserve">
     <value>选择先前的物品列表</value>
+  </data>
+  <data name="ItemList_Path_Invalid" xml:space="preserve">
+    <value>需要选择一个有效的缓存文件</value>
   </data>
   <data name="ItemList_Path_Tooltip" xml:space="preserve">
     <value />
@@ -267,8 +448,17 @@
   <data name="ItemList_TaskCompleted2" xml:space="preserve">
     <value>任务已经完成, 总耗{1}秒。</value>
   </data>
-  <data name="ItemPage" xml:space="preserve">
-    <value>物品</value>
+  <data name="ItemPage_DataClear" xml:space="preserve">
+    <value>缓存清理</value>
+  </data>
+  <data name="ItemPage_DataGUI" xml:space="preserve">
+    <value>数据编辑器</value>
+  </data>
+  <data name="ItemPage_SearchItemRule_Placeholder" xml:space="preserve">
+    <value>输入物品信息  (编号 / 别名 / 名称)</value>
+  </data>
+  <data name="ItemPage_SearchItemRule_Title" xml:space="preserve">
+    <value>搜索物品</value>
   </data>
   <data name="MergeIcon_BackgroundMode" xml:space="preserve">
     <value>新背景</value>
@@ -298,7 +488,7 @@
     <value>古代</value>
   </data>
   <data name="MergeIcon_Grade9" xml:space="preserve">
-    <value>唯一</value>
+    <value>神话</value>
   </data>
   <data name="MergeIcon_Name" xml:space="preserve">
     <value>合成</value>
@@ -309,23 +499,32 @@
   <data name="Name_About" xml:space="preserve">
     <value>关于</value>
   </data>
-  <data name="Name_General" xml:space="preserve">
-    <value>通用</value>
+  <data name="Page_AbilityPage" xml:space="preserve">
+    <value>角色能力</value>
   </data>
-  <data name="OutputDirectory" xml:space="preserve">
-    <value>输出目录</value>
+  <data name="Page_GameResourcePage" xml:space="preserve">
+    <value>资源</value>
   </data>
-  <data name="OutputDirectory_Resource" xml:space="preserve">
-    <value>输出目录 （资源）</value>
+  <data name="Page_ItemPage" xml:space="preserve">
+    <value>物品</value>
+  </data>
+  <data name="Page_QuestJournalPanel" xml:space="preserve">
+    <value>任务</value>
+  </data>
+  <data name="PreviewBasic" xml:space="preserve">
+    <value>查看源</value>
   </data>
   <data name="PreviewModel" xml:space="preserve">
     <value>查看模型</value>
   </data>
-  <data name="PreviewRaw" xml:space="preserve">
-    <value>查看源</value>
-  </data>
   <data name="PreviewShowObject" xml:space="preserve">
     <value>查看显示对象</value>
+  </data>
+  <data name="PreviewTooltip" xml:space="preserve">
+    <value>查看详细</value>
+  </data>
+  <data name="PreviewTransform" xml:space="preserve">
+    <value>查看物品成长</value>
   </data>
   <data name="ProductName" xml:space="preserve">
     <value>Blade &amp; Soul Preview Tool</value>
@@ -354,14 +553,65 @@
   <data name="Settings_CopyMode_Trimmed" xml:space="preserve">
     <value>去除特殊字符</value>
   </data>
+  <data name="Settings_DebugMode" xml:space="preserve">
+    <value>使用调试模式</value>
+  </data>
+  <data name="Settings_GameDirectory" xml:space="preserve">
+    <value>游戏目录</value>
+  </data>
+  <data name="Settings_GameDirectory_Invalid" xml:space="preserve">
+    <value>请先设置游戏目录</value>
+  </data>
+  <data name="Settings_Job" xml:space="preserve">
+    <value>职业</value>
+  </data>
   <data name="Settings_Language" xml:space="preserve">
     <value>语言</value>
   </data>
   <data name="Settings_Name" xml:space="preserve">
     <value>设置</value>
   </data>
+  <data name="Settings_NightMode" xml:space="preserve">
+    <value>夜间模式</value>
+  </data>
+  <data name="Settings_NightMode_Ask" xml:space="preserve">
+    <value>当前设置为自动切换，您确认更改吗？</value>
+  </data>
+  <data name="Settings_NightMode_Auto" xml:space="preserve">
+    <value>自动</value>
+  </data>
+  <data name="Settings_NightMode_Day" xml:space="preserve">
+    <value>白天</value>
+  </data>
+  <data name="Settings_NightMode_Night" xml:space="preserve">
+    <value>黑夜</value>
+  </data>
+  <data name="Settings_OutputDirectory" xml:space="preserve">
+    <value>输出目录</value>
+  </data>
+  <data name="Settings_OutputDirectory2" xml:space="preserve">
+    <value>输出目录 (资源)</value>
+  </data>
+  <data name="Settings_OutputDirectory_Invalid" xml:space="preserve">
+    <value>请先设置输出目录</value>
+  </data>
+  <data name="Settings_Tab_Data" xml:space="preserve">
+    <value>数据</value>
+  </data>
+  <data name="Settings_Tab_General" xml:space="preserve">
+    <value>通用</value>
+  </data>
   <data name="Settings_TestMode" xml:space="preserve">
     <value>数据测试模式</value>
+  </data>
+  <data name="Settings_UpdateMode" xml:space="preserve">
+    <value>更新模式</value>
+  </data>
+  <data name="Settings_UpdateMode_Beta" xml:space="preserve">
+    <value>预发布</value>
+  </data>
+  <data name="Settings_UpdateMode_Stabble" xml:space="preserve">
+    <value>稳定</value>
   </data>
   <data name="Settings_UsePerformanceMonitor" xml:space="preserve">
     <value>启用性能监视器</value>
@@ -384,32 +634,75 @@
   <data name="TextEditor_Name" xml:space="preserve">
     <value>文本编辑器</value>
   </data>
-  <data name="TextView" xml:space="preserve">
-    <value>文本查看</value>
+  <data name="TextView_LoadData" xml:space="preserve">
+    <value>预览时加载数据</value>
+  </data>
+  <data name="TextView_LoadData_Tooltip" xml:space="preserve">
+    <value>加载非文本数据将会花费较长时间</value>
   </data>
   <data name="TextView_LoadLastOnStartup" xml:space="preserve">
     <value>启动时载入上次数据</value>
   </data>
+  <data name="TextView_Name" xml:space="preserve">
+    <value>文本查看</value>
+  </data>
+  <data name="TextView_NotExist_x16" xml:space="preserve">
+    <value>选择的文件夹中没有x16文件。</value>
+  </data>
   <data name="TextView_ReadOnly" xml:space="preserve">
     <value>只读</value>
+  </data>
+  <data name="TextView_ReadStatus" xml:space="preserve">
+    <value>当查看单个文件时，可以启用编辑
+请注意不要修改节点顺序</value>
+  </data>
+  <data name="TextView_ReadWrite" xml:space="preserve">
+    <value>可编辑</value>
+  </data>
+  <data name="TextView_ReplaceCompleted" xml:space="preserve">
+    <value>替换成功！</value>
+  </data>
+  <data name="TextView_SaveCompleted" xml:space="preserve">
+    <value>保存成功！</value>
+  </data>
+  <data name="TextView_TaskStart" xml:space="preserve">
+    <value>请耐心等待任务完成...</value>
+  </data>
+  <data name="Text_Add" xml:space="preserve">
+    <value>增加</value>
   </data>
   <data name="Text_Cancel" xml:space="preserve">
     <value>取消</value>
   </data>
+  <data name="Text_ColumnNumber" xml:space="preserve">
+    <value>列</value>
+  </data>
   <data name="Text_Edit" xml:space="preserve">
     <value>编辑</value>
+  </data>
+  <data name="Text_Export" xml:space="preserve">
+    <value>输出</value>
   </data>
   <data name="Text_File" xml:space="preserve">
     <value>文件</value>
   </data>
+  <data name="Text_Import" xml:space="preserve">
+    <value>输入</value>
+  </data>
   <data name="Text_Left" xml:space="preserve">
     <value>左</value>
+  </data>
+  <data name="Text_LineNumber" xml:space="preserve">
+    <value>行</value>
   </data>
   <data name="Text_None" xml:space="preserve">
     <value>无</value>
   </data>
   <data name="Text_Ok" xml:space="preserve">
     <value>确定</value>
+  </data>
+  <data name="Text_Options" xml:space="preserve">
+    <value>首选项</value>
   </data>
   <data name="Text_Output" xml:space="preserve">
     <value>输出</value>
@@ -419,6 +712,12 @@
   </data>
   <data name="Text_PublishOn" xml:space="preserve">
     <value>发布于</value>
+  </data>
+  <data name="Text_Refresh" xml:space="preserve">
+    <value>刷新</value>
+  </data>
+  <data name="Text_Remove" xml:space="preserve">
+    <value>移除</value>
   </data>
   <data name="Text_Replace" xml:space="preserve">
     <value>替换</value>
@@ -432,6 +731,9 @@
   <data name="Text_Right" xml:space="preserve">
     <value>右</value>
   </data>
+  <data name="Text_Run" xml:space="preserve">
+    <value>运行</value>
+  </data>
   <data name="Text_Save" xml:space="preserve">
     <value>保存</value>
   </data>
@@ -441,50 +743,7 @@
   <data name="Text_Search" xml:space="preserve">
     <value>查找</value>
   </data>
-  <data name="Version_Tip1" xml:space="preserve">
-    <value>当前是预览版本, 部分功能可能不会正常运行。</value>
-  </data>
-  <data name="Version_Tip2" xml:space="preserve">
-    <value>{0} 的最新版本是{1}，你想要立刻更新吗?</value>
-  </data>
-  <data name="Version_Tip3" xml:space="preserve">
-    <value>检查更新失败，请稍后再试</value>
-  </data>
-  <data name="TextView_ReadWrite" xml:space="preserve">
-    <value>可编辑</value>
-  </data>
-  <data name="Text_ColumnNumber" xml:space="preserve">
-    <value>列</value>
-  </data>
-  <data name="Text_LineNumber" xml:space="preserve">
-    <value>行</value>
-  </data>
-  <data name="TextView_ReadStatus" xml:space="preserve">
-    <value>当查看单个文件时，可以启用编辑
-请注意不要修改节点顺序</value>
-  </data>
-  <data name="Asset_Repack" xml:space="preserve">
-    <value>打包</value>
-  </data>
-  <data name="Text_Add" xml:space="preserve">
-    <value>增加</value>
-  </data>
-  <data name="Text_Remove" xml:space="preserve">
-    <value>移除</value>
-  </data>
   <data name="Text_Update" xml:space="preserve">
     <value>更新</value>
-  </data>
-  <data name="TextView_NotExist_x16" xml:space="preserve">
-    <value>选择的文件夹中没有x16文件。</value>
-  </data>
-  <data name="TextView_ReplaceCompleted" xml:space="preserve">
-    <value>替换成功！</value>
-  </data>
-  <data name="TextView_SaveCompleted" xml:space="preserve">
-    <value>保存成功！</value>
-  </data>
-  <data name="PreviewTooltip" xml:space="preserve">
-    <value>查看详细</value>
   </data>
 </root>

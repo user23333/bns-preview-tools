@@ -1,6 +1,7 @@
 ﻿using System.Xml;
 using Newtonsoft.Json;
 using Xylia.Preview.Common.Extension;
+using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Engine.BinData.Helpers;
 using Xylia.Preview.Data.Engine.BinData.Models;
@@ -8,26 +9,25 @@ using Xylia.Preview.Data.Engine.Definitions;
 
 namespace Xylia.Preview.Data.Models;
 [JsonConverter(typeof(RecordConverter))]
-public sealed unsafe class Record : IDisposable
+public sealed unsafe class Record : IElement, IDisposable
 {
-	#region Ctor
+	#region Constructors
 	internal Record()
 	{
 		Attributes = new(this);
 	}
 	#endregion
 
-
 	#region Fields
-	public byte XmlNodeType
+	public ElementType ElementType
 	{
 		get
 		{
-			fixed (byte* ptr = Data) return ptr[0];
+			fixed (byte* ptr = Data) return (ElementType)ptr[0];
 		}
 		set
 		{
-			fixed (byte* ptr = Data) ptr[0] = value;
+			fixed (byte* ptr = Data) ptr[0] = (byte)value;
 		}
 	}
 
@@ -55,27 +55,15 @@ public sealed unsafe class Record : IDisposable
 		}
 	}
 
-	public int RecordId
+	public Ref PrimaryKey
 	{
 		get
 		{
-			fixed (byte* ptr = Data) return ((int*)(ptr + 8))[0];
+			fixed (byte* ptr = Data) return ((Ref*)(ptr + 8))[0];
 		}
 		set
 		{
-			fixed (byte* ptr = Data) ((int*)(ptr + 8))[0] = value;
-		}
-	}
-
-	public int RecordVariationId
-	{
-		get
-		{
-			fixed (byte* ptr = Data) return ((int*)(ptr + 12))[0];
-		}
-		set
-		{
-			fixed (byte* ptr = Data) ((int*)(ptr + 12))[0] = value;
+			fixed (byte* ptr = Data) ((Ref*)(ptr + 8))[0] = value;
 		}
 	}
 
@@ -85,24 +73,19 @@ public sealed unsafe class Record : IDisposable
 
 	public Table Owner { get; internal set; }
 
-	public ElementBaseDefinition Definition
-	{
-		get
-		{
-			var def = Owner.Definition.ElRecord.SubtableByType(SubclassType);
-			if (def != null) this.CheckSize(def);
-
-			return def;
-		}
-	}
-
 	public AttributeCollection Attributes { get; internal set; }
 
-	internal Dictionary<string, Record[]> Children { get; set; } = new();
+	internal Dictionary<string, Record[]> Children { get; set; } = [];
+	#endregion
 
+	#region Properties
+	public string OwnerName => Owner.Name.ToLower();
+
+	public ElementBaseDefinition Definition => Owner.Definition.ElRecord.SubtableByType(SubclassType, this);
 
 	public bool HasChildren => Children.Count > 0;
 	#endregion
+
 
 	#region Serialize
 	public void WriteXml(XmlWriter writer, ElementDefinition el)
@@ -134,12 +117,12 @@ public sealed unsafe class Record : IDisposable
 	#endregion
 
 	#region Interface
-	public override string ToString() => this.Attributes.Get<string>("alias") ?? ((Ref)this).ToString();
+	public override string ToString() => this.Attributes.Get<string>("alias") ?? this.PrimaryKey.ToString();
 
 	public T As<T>(Type type = null) where T : ModelElement
 	{
 		// NOTE: create new object
-		var subs = ModelTypeHelper.Get(type ?? typeof(T), this.Owner.Name);
+		var subs = ModelElement.TypeHelper.Get(type ?? typeof(T), this.Owner.Name);
 		var subtype = this.Attributes[AttributeCollection.s_type]?.ToString();
 
 		return ModelElement.As(this, subs.CreateInstance<T>(subtype));

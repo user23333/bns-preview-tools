@@ -3,7 +3,7 @@
 namespace Xylia.Preview.Common.Extension;
 public static partial class EnumExtension
 {
-	public static T ToEnum<T>(this object str) where T : Enum
+	public static T ToEnum<T>(this object str , T def = default) where T : Enum
 	{
 		if (str is string s)
 		{
@@ -11,7 +11,7 @@ public static partial class EnumExtension
 				return (T)value;
 		}
 
-		return default;
+		return def;
 	}
 
 	public static bool TryParseToEnum(this string str, Type type, out object value)

@@ -1,0 +1,782 @@
+﻿<BnsCustomWindowWidget x:Class="Xylia.Preview.UI.GameUI.Scene.Game_Tooltip2.DamageMeterToolTipPanel"
+	xmlns="https://github.com/xyliaup/bns-preview-tools"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:s="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	Width="500" Height="600">
+	<BnsCustomWindowWidget.BaseImageProperty>
+		<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_Window.BNSR_Window" ImageUV="7 7" ImageUVSize="49 49" EnableSkinAlpha="true" StaticPadding="-17 -17" />
+	</BnsCustomWindowWidget.BaseImageProperty>
+	<BnsCustomWindowWidget.ExpansionComponentList>
+		<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Line" MetaData="">
+			<ExpansionComponent.ImageProperty>
+				<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_Window_Outfocus.BNSR_Window_Outfocus" ImageUV="7 7" ImageUVSize="49 49" EnableBrushOnly="true" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" StaticPadding="-13 -13" Opacity="1" ImageScale="1" />
+			</ExpansionComponent.ImageProperty>
+		</ExpansionComponent>
+	</BnsCustomWindowWidget.ExpansionComponentList>
+	<BnsCustomLabelWidget Name="DamageMeterToolTipPanel_BossEvasionLabel" LayoutData.Offsets="245 83.00299 0 20.00299" MetaData="textref=UI.DamageMeterToolTip.BossEvasion">
+		<BnsCustomLabelWidget.String>
+			<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_Out_12.Normal_Out_12" LabelText="보스 회피비율#" SpaceBetweenLines="3" VerticalAlignment="VAlign_Center" />
+		</BnsCustomLabelWidget.String>
+	</BnsCustomLabelWidget>
+	<BnsCustomLabelWidget Name="DamageMeterToolTipPanel_BossBlockedLabel" LayoutData.Offsets="245 60.000977 0 20.002014" MetaData="textref=UI.DamageMeterToolTip.BossBlockedn">
+		<BnsCustomLabelWidget.String>
+			<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_Out_12.Normal_Out_12" LabelText="보스 막기비율#" SpaceBetweenLines="3" VerticalAlignment="VAlign_Center" />
+		</BnsCustomLabelWidget.String>
+	</BnsCustomLabelWidget>
+	<BnsCustomLabelWidget Name="DamageMeterToolTipPanel_ContributionLabel" LayoutData.Offsets="20 83.00397 0 20.004028" MetaData="textref=UI.DamageMeterToolTip.Contribution">
+		<BnsCustomLabelWidget.String>
+			<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_Out_12.Normal_Out_12" LabelText="피해량 기여도#" SpaceBetweenLines="3" VerticalAlignment="VAlign_Center" />
+		</BnsCustomLabelWidget.String>
+	</BnsCustomLabelWidget>
+	<BnsCustomLabelWidget Name="DamageMeterToolTipPanel_AccumulateDamageLabel" LayoutData.Offsets="20 60.000977 0 20.00299" MetaData="textref=UI.DamageMeterToolTip.AccumulateDamage">
+		<BnsCustomLabelWidget.String>
+			<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_Out_12.Normal_Out_12" LabelText="누적 피해량#" SpaceBetweenLines="3" VerticalAlignment="VAlign_Center" />
+		</BnsCustomLabelWidget.String>
+	</BnsCustomLabelWidget>
+	<BnsCustomLabelWidget Name="DamageMeterToolTipPanel_ElapsedTimeLabel" LayoutData.Offsets="20 106.007996 0 20.004028" MetaData="textref=UI.DamageMeter.ElapsedTime1">
+		<BnsCustomLabelWidget.String>
+			<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_Out_12.Normal_Out_12" LabelText="전투 시간#" SpaceBetweenLines="3" VerticalAlignment="VAlign_Center" />
+		</BnsCustomLabelWidget.String>
+	</BnsCustomLabelWidget>
+	<BnsCustomImageWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="10 136.01202 10 440">
+		<BnsCustomImageWidget.BaseImageProperty>
+			<ImageProperty />
+		</BnsCustomImageWidget.BaseImageProperty>
+		<BnsCustomImageWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Title" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="0 0 0 28">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="29 125" ImageUVSize="3 3" EnableDrawColor="true" TintColor="262B33" Opacity="0.7" />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget.ExpansionComponentList>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="SkillLabel" MetaData="textref=UI.DamageMeterToolTip.Skill">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="#무공무공" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" ClippingBound="-320 0" Padding="320 0" bWordWrap="true" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="164" LastRenderHeight="28" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="CriticalLabel" MetaData="textref=UI.DamageMeterToolTip.Critical">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="#명중횟수(치명)#명중횟수(치명)" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" ClippingBound="-40 0" Padding="200 0" bWordWrap="true" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="124" LastRenderHeight="28" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="DamageLabel" MetaData="textref=UI.DamageMeterToolTip.AccumulateDamage">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="#누적 피해량#누적 피해량#누적 피해량#누적 피해량#누적 피해량" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" ClippingBound="280 0" bWordWrap="true" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="204" LastRenderHeight="28" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+			</BnsCustomImageWidget.ExpansionComponentList>
+			<BnsCustomImageWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Title_Line1" LayoutData.Anchors="0 0 0 1" LayoutData.Offsets="125 0 1 0">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="193 59" ImageUVSize="1 5" Opacity="0.1" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomImageWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Title_Line2" LayoutData.Anchors="0 0 0 1" LayoutData.Offsets="220 0 1 0">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="193 59" ImageUVSize="1 5" Opacity="0.1" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_10" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="0 398 0 50">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="29 125" ImageUVSize="3 3" EnableDrawColor="true" TintColor="262B33" Opacity="0.4" />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget.ExpansionComponentList>
+				<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="back2" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="726 217" ImageUVSize="59 89" EnableResourceSize="true" EnableSkinColor="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="98 0" Opacity="0.1" ImageScale="0.24" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="SkillName" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Over_12.Over_12" LabelText="SkillName&lt;image enablescale=&quot;true&quot; imagesetpath=&quot;00009076.CharInfo_tooltip_fire&quot; scalerate=&quot;1.2&quot;/&gt;&lt;image enablescale='true' imagesetpath='00009076.CharInfo_tooltip_lightning' scalerate='1.2'/&gt;" VerticalAlignment="VAlign_Center" ClippingBound="310 0" Padding="5 0" bWordWrap="true" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="170" LastRenderHeight="40" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Critical" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="99" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="265 0" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="215" LastRenderHeight="40" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Fatal" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="(100%)" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="220 0" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="260" LastRenderHeight="40" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+			</BnsCustomImageWidget.ExpansionComponentList>
+			<BnsCustomImageWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_10_Line2" LayoutData.Anchors="0 0 0 1" LayoutData.Offsets="220 0 1 0">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="193 59" ImageUVSize="1 5" Opacity="0.1" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomImageWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_10_Line1" LayoutData.Anchors="0 0 0 1" LayoutData.Offsets="125 0 1 0">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="193 59" ImageUVSize="1 5" Opacity="0.1" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomProgressBarWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_10_Guige" LayoutData.Anchors="1 0.5 1 0.5" LayoutData.Offsets="-2 0 200 40">
+				<BnsCustomProgressBarWidget.ExpansionComponentList>
+					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Damage" MetaData="">
+						<ExpansionComponent.ImageProperty>
+							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+						</ExpansionComponent.ImageProperty>
+						<ExpansionComponent.StringProperty>
+							<StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="9.999.999" SpaceBetweenLines="2" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="55 0" Padding="0 -5" Opacity="1" TextScale="1" AnimScale="1" />
+						</ExpansionComponent.StringProperty>
+					</ExpansionComponent>
+					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Percentage" MetaData="">
+						<ExpansionComponent.ImageProperty>
+							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+						</ExpansionComponent.ImageProperty>
+						<ExpansionComponent.StringProperty>
+							<StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="(99%)" SpaceBetweenLines="2" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="10 0" Padding="0 -5" Opacity="1" TextScale="1" AnimScale="1" />
+						</ExpansionComponent.StringProperty>
+					</ExpansionComponent>
+				</BnsCustomProgressBarWidget.ExpansionComponentList>
+			</BnsCustomProgressBarWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_9" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="0 357 0 50">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="29 125" ImageUVSize="3 3" EnableDrawColor="true" TintColor="262B33" Opacity="0.4" />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget.ExpansionComponentList>
+				<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="back2" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="726 217" ImageUVSize="59 89" EnableResourceSize="true" EnableSkinColor="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="98 0" Opacity="0.1" ImageScale="0.24" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="SkillName" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Over_12.Over_12" LabelText="SkillName&lt;image enablescale=&quot;true&quot; imagesetpath=&quot;00009076.CharInfo_tooltip_fire&quot; scalerate=&quot;1.2&quot;/&gt;&lt;image enablescale='true' imagesetpath='00009076.CharInfo_tooltip_lightning' scalerate='1.2'/&gt;" VerticalAlignment="VAlign_Center" ClippingBound="310 0" Padding="5 0" bWordWrap="true" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="170" LastRenderHeight="40" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Critical" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="99" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="265 0" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="215" LastRenderHeight="40" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Fatal" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="(100%)" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="220 0" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="260" LastRenderHeight="40" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+			</BnsCustomImageWidget.ExpansionComponentList>
+			<BnsCustomImageWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_9_Line2" LayoutData.Anchors="0 0 0 1" LayoutData.Offsets="220 0 1 0">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="193 59" ImageUVSize="1 5" Opacity="0.1" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomImageWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_9_Line1" LayoutData.Anchors="0 0 0 1" LayoutData.Offsets="125 0 1 0">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="193 59" ImageUVSize="1 5" Opacity="0.1" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomProgressBarWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_9_Guige" LayoutData.Anchors="1 0.5 1 0.5" LayoutData.Offsets="-2 0 200 40">
+				<BnsCustomProgressBarWidget.ExpansionComponentList>
+					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Damage" MetaData="">
+						<ExpansionComponent.ImageProperty>
+							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+						</ExpansionComponent.ImageProperty>
+						<ExpansionComponent.StringProperty>
+							<StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="9.999.999" SpaceBetweenLines="2" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="55 0" Padding="0 -5" Opacity="1" TextScale="1" AnimScale="1" />
+						</ExpansionComponent.StringProperty>
+					</ExpansionComponent>
+					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Percentage" MetaData="">
+						<ExpansionComponent.ImageProperty>
+							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+						</ExpansionComponent.ImageProperty>
+						<ExpansionComponent.StringProperty>
+							<StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="(99%)" SpaceBetweenLines="2" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="10 0" Padding="0 -5" Opacity="1" TextScale="1" AnimScale="1" />
+						</ExpansionComponent.StringProperty>
+					</ExpansionComponent>
+				</BnsCustomProgressBarWidget.ExpansionComponentList>
+			</BnsCustomProgressBarWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_8" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="0 316 0 50">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="29 125" ImageUVSize="3 3" EnableDrawColor="true" TintColor="262B33" Opacity="0.4" />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget.ExpansionComponentList>
+				<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="back2" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="726 217" ImageUVSize="59 89" EnableResourceSize="true" EnableSkinColor="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="98 0" Opacity="0.1" ImageScale="0.24" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="SkillName" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Over_12.Over_12" LabelText="SkillName&lt;image enablescale=&quot;true&quot; imagesetpath=&quot;00009076.CharInfo_tooltip_fire&quot; scalerate=&quot;1.2&quot;/&gt;&lt;image enablescale='true' imagesetpath='00009076.CharInfo_tooltip_lightning' scalerate='1.2'/&gt;" VerticalAlignment="VAlign_Center" ClippingBound="310 0" Padding="5 0" bWordWrap="true" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="170" LastRenderHeight="40" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Critical" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="99" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="265 0" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="215" LastRenderHeight="40" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Fatal" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="(100%)" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="220 0" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="260" LastRenderHeight="40" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+			</BnsCustomImageWidget.ExpansionComponentList>
+			<BnsCustomImageWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_8_Line2" LayoutData.Anchors="0 0 0 1" LayoutData.Offsets="220 0 1 0">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="193 59" ImageUVSize="1 5" Opacity="0.1" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomImageWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_8_Line1" LayoutData.Anchors="0 0 0 1" LayoutData.Offsets="125 0 1 0">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="193 59" ImageUVSize="1 5" Opacity="0.1" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomProgressBarWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_8_Guige" LayoutData.Anchors="1 0.5 1 0.5" LayoutData.Offsets="-2 0 200 40">
+				<BnsCustomProgressBarWidget.ExpansionComponentList>
+					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Damage" MetaData="">
+						<ExpansionComponent.ImageProperty>
+							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+						</ExpansionComponent.ImageProperty>
+						<ExpansionComponent.StringProperty>
+							<StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="9.999.999" SpaceBetweenLines="2" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="55 0" Padding="0 -5" Opacity="1" TextScale="1" AnimScale="1" />
+						</ExpansionComponent.StringProperty>
+					</ExpansionComponent>
+					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Percentage" MetaData="">
+						<ExpansionComponent.ImageProperty>
+							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+						</ExpansionComponent.ImageProperty>
+						<ExpansionComponent.StringProperty>
+							<StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="(99%)" SpaceBetweenLines="2" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="10 0" Padding="0 -5" Opacity="1" TextScale="1" AnimScale="1" />
+						</ExpansionComponent.StringProperty>
+					</ExpansionComponent>
+				</BnsCustomProgressBarWidget.ExpansionComponentList>
+			</BnsCustomProgressBarWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_7" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="0 275 0 50">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="29 125" ImageUVSize="3 3" EnableDrawColor="true" TintColor="262B33" Opacity="0.4" />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget.ExpansionComponentList>
+				<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="back2" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="726 217" ImageUVSize="59 89" EnableResourceSize="true" EnableSkinColor="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="98 0" Opacity="0.1" ImageScale="0.24" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="SkillName" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Over_12.Over_12" LabelText="SkillName&lt;image enablescale=&quot;true&quot; imagesetpath=&quot;00009076.CharInfo_tooltip_fire&quot; scalerate=&quot;1.2&quot;/&gt;&lt;image enablescale='true' imagesetpath='00009076.CharInfo_tooltip_lightning' scalerate='1.2'/&gt;" VerticalAlignment="VAlign_Center" ClippingBound="310 0" Padding="5 0" bWordWrap="true" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="170" LastRenderHeight="40" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Critical" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="99" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="265 0" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="215" LastRenderHeight="40" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Fatal" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="(100%)" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="220 0" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="260" LastRenderHeight="40" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+			</BnsCustomImageWidget.ExpansionComponentList>
+			<BnsCustomImageWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_7_Line2" LayoutData.Anchors="0 0 0 1" LayoutData.Offsets="220 0 1 0">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="193 59" ImageUVSize="1 5" Opacity="0.1" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomImageWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_7_Line1" LayoutData.Anchors="0 0 0 1" LayoutData.Offsets="125 0 1 0">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="193 59" ImageUVSize="1 5" Opacity="0.1" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomProgressBarWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_7_Guige" LayoutData.Anchors="1 0.5 1 0.5" LayoutData.Offsets="-2 0 200 40">
+				<BnsCustomProgressBarWidget.ExpansionComponentList>
+					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Damage" MetaData="">
+						<ExpansionComponent.ImageProperty>
+							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+						</ExpansionComponent.ImageProperty>
+						<ExpansionComponent.StringProperty>
+							<StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="9.999.999" SpaceBetweenLines="2" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="55 0" Padding="0 -5" Opacity="1" TextScale="1" AnimScale="1" />
+						</ExpansionComponent.StringProperty>
+					</ExpansionComponent>
+					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Percentage" MetaData="">
+						<ExpansionComponent.ImageProperty>
+							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+						</ExpansionComponent.ImageProperty>
+						<ExpansionComponent.StringProperty>
+							<StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="(99%)" SpaceBetweenLines="2" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="10 0" Padding="0 -5" Opacity="1" TextScale="1" AnimScale="1" />
+						</ExpansionComponent.StringProperty>
+					</ExpansionComponent>
+				</BnsCustomProgressBarWidget.ExpansionComponentList>
+			</BnsCustomProgressBarWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_6" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="0 234 0 50">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="29 125" ImageUVSize="3 3" EnableDrawColor="true" TintColor="262B33" Opacity="0.4" />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget.ExpansionComponentList>
+				<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="back2" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="726 217" ImageUVSize="59 89" EnableResourceSize="true" EnableSkinColor="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="98 0" Opacity="0.1" ImageScale="0.24" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="SkillName" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Over_12.Over_12" LabelText="SkillName&lt;image enablescale=&quot;true&quot; imagesetpath=&quot;00009076.CharInfo_tooltip_fire&quot; scalerate=&quot;1.2&quot;/&gt;&lt;image enablescale='true' imagesetpath='00009076.CharInfo_tooltip_lightning' scalerate='1.2'/&gt;" VerticalAlignment="VAlign_Center" ClippingBound="310 0" Padding="5 0" bWordWrap="true" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="170" LastRenderHeight="40" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Critical" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="99" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="265 0" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="215" LastRenderHeight="40" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Fatal" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="(100%)" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="220 0" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="260" LastRenderHeight="40" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+			</BnsCustomImageWidget.ExpansionComponentList>
+			<BnsCustomImageWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_6_Line2" LayoutData.Anchors="0 0 0 1" LayoutData.Offsets="220 0 1 0">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="193 59" ImageUVSize="1 5" Opacity="0.1" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomImageWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_6_Line1" LayoutData.Anchors="0 0 0 1" LayoutData.Offsets="125 0 1 0">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="193 59" ImageUVSize="1 5" Opacity="0.1" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomProgressBarWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_6_Guige" LayoutData.Anchors="1 0.5 1 0.5" LayoutData.Offsets="-2 0 200 40">
+				<BnsCustomProgressBarWidget.ExpansionComponentList>
+					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Damage" MetaData="">
+						<ExpansionComponent.ImageProperty>
+							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+						</ExpansionComponent.ImageProperty>
+						<ExpansionComponent.StringProperty>
+							<StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="9.999.999" SpaceBetweenLines="2" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="55 0" Padding="0 -5" Opacity="1" TextScale="1" AnimScale="1" />
+						</ExpansionComponent.StringProperty>
+					</ExpansionComponent>
+					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Percentage" MetaData="">
+						<ExpansionComponent.ImageProperty>
+							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+						</ExpansionComponent.ImageProperty>
+						<ExpansionComponent.StringProperty>
+							<StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="(99%)" SpaceBetweenLines="2" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="10 0" Padding="0 -5" Opacity="1" TextScale="1" AnimScale="1" />
+						</ExpansionComponent.StringProperty>
+					</ExpansionComponent>
+				</BnsCustomProgressBarWidget.ExpansionComponentList>
+			</BnsCustomProgressBarWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_5" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="0 193 0 50">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="29 125" ImageUVSize="3 3" EnableDrawColor="true" TintColor="262B33" Opacity="0.4" />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget.ExpansionComponentList>
+				<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="back2" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="726 217" ImageUVSize="59 89" EnableResourceSize="true" EnableSkinColor="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="98 0" Opacity="0.1" ImageScale="0.24" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="SkillName" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Over_12.Over_12" LabelText="SkillName&lt;image enablescale=&quot;true&quot; imagesetpath=&quot;00009076.CharInfo_tooltip_fire&quot; scalerate=&quot;1.2&quot;/&gt;&lt;image enablescale='true' imagesetpath='00009076.CharInfo_tooltip_lightning' scalerate='1.2'/&gt;" VerticalAlignment="VAlign_Center" ClippingBound="310 0" Padding="5 0" bWordWrap="true" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="170" LastRenderHeight="40" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Critical" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="99" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="265 0" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="215" LastRenderHeight="40" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Fatal" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="(100%)" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="220 0" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="260" LastRenderHeight="40" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+			</BnsCustomImageWidget.ExpansionComponentList>
+			<BnsCustomImageWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_5_Line2" LayoutData.Anchors="0 0 0 1" LayoutData.Offsets="220 0 1 0">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="193 59" ImageUVSize="1 5" Opacity="0.1" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomImageWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_5_Line1" LayoutData.Anchors="0 0 0 1" LayoutData.Offsets="125 0 1 0">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="193 59" ImageUVSize="1 5" Opacity="0.1" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomProgressBarWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_5_Guige" LayoutData.Anchors="1 0.5 1 0.5" LayoutData.Offsets="-2 0 200 40">
+				<BnsCustomProgressBarWidget.ExpansionComponentList>
+					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Damage" MetaData="">
+						<ExpansionComponent.ImageProperty>
+							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+						</ExpansionComponent.ImageProperty>
+						<ExpansionComponent.StringProperty>
+							<StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="9.999.999" SpaceBetweenLines="2" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="55 0" Padding="0 -5" Opacity="1" TextScale="1" AnimScale="1" />
+						</ExpansionComponent.StringProperty>
+					</ExpansionComponent>
+					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Percentage" MetaData="">
+						<ExpansionComponent.ImageProperty>
+							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+						</ExpansionComponent.ImageProperty>
+						<ExpansionComponent.StringProperty>
+							<StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="(99%)" SpaceBetweenLines="2" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="10 0" Padding="0 -5" Opacity="1" TextScale="1" AnimScale="1" />
+						</ExpansionComponent.StringProperty>
+					</ExpansionComponent>
+				</BnsCustomProgressBarWidget.ExpansionComponentList>
+			</BnsCustomProgressBarWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_4" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="0 152 0 50">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="29 125" ImageUVSize="3 3" EnableDrawColor="true" TintColor="262B33" Opacity="0.4" />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget.ExpansionComponentList>
+				<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="back2" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="726 217" ImageUVSize="59 89" EnableResourceSize="true" EnableSkinColor="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="98 0" Opacity="0.1" ImageScale="0.24" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="SkillName" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Over_12.Over_12" LabelText="SkillName&lt;image enablescale=&quot;true&quot; imagesetpath=&quot;00009076.CharInfo_tooltip_fire&quot; scalerate=&quot;1.2&quot;/&gt;&lt;image enablescale='true' imagesetpath='00009076.CharInfo_tooltip_lightning' scalerate='1.2'/&gt;" VerticalAlignment="VAlign_Center" ClippingBound="310 0" Padding="5 0" bWordWrap="true" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="170" LastRenderHeight="40" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Critical" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="99" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="265 0" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="215" LastRenderHeight="40" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Fatal" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="(100%)" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="220 0" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="260" LastRenderHeight="40" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+			</BnsCustomImageWidget.ExpansionComponentList>
+			<BnsCustomImageWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_4_Line2" LayoutData.Anchors="0 0 0 1" LayoutData.Offsets="220 0 1 0">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="193 59" ImageUVSize="1 5" Opacity="0.1" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomImageWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_4_Line1" LayoutData.Anchors="0 0 0 1" LayoutData.Offsets="125 0 1 0">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="193 59" ImageUVSize="1 5" Opacity="0.1" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomProgressBarWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_4_Guige" LayoutData.Anchors="1 0.5 1 0.5" LayoutData.Offsets="-2 0 200 40">
+				<BnsCustomProgressBarWidget.ExpansionComponentList>
+					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Damage" MetaData="">
+						<ExpansionComponent.ImageProperty>
+							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+						</ExpansionComponent.ImageProperty>
+						<ExpansionComponent.StringProperty>
+							<StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="9.999.999" SpaceBetweenLines="2" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="55 0" Padding="0 -5" Opacity="1" TextScale="1" AnimScale="1" />
+						</ExpansionComponent.StringProperty>
+					</ExpansionComponent>
+					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Percentage" MetaData="">
+						<ExpansionComponent.ImageProperty>
+							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+						</ExpansionComponent.ImageProperty>
+						<ExpansionComponent.StringProperty>
+							<StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="(99%)" SpaceBetweenLines="2" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="10 0" Padding="0 -5" Opacity="1" TextScale="1" AnimScale="1" />
+						</ExpansionComponent.StringProperty>
+					</ExpansionComponent>
+				</BnsCustomProgressBarWidget.ExpansionComponentList>
+			</BnsCustomProgressBarWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_3" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="0 111 0 50">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="29 125" ImageUVSize="3 3" EnableDrawColor="true" TintColor="262B33" Opacity="0.4" />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget.ExpansionComponentList>
+				<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="back2" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="726 217" ImageUVSize="59 89" EnableResourceSize="true" EnableSkinColor="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="98 0" Opacity="0.1" ImageScale="0.24" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="SkillName" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Over_12.Over_12" LabelText="SkillName&lt;image enablescale=&quot;true&quot; imagesetpath=&quot;00009076.CharInfo_tooltip_fire&quot; scalerate=&quot;1.2&quot;/&gt;&lt;image enablescale='true' imagesetpath='00009076.CharInfo_tooltip_lightning' scalerate='1.2'/&gt;" VerticalAlignment="VAlign_Center" ClippingBound="310 0" Padding="5 0" bWordWrap="true" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="170" LastRenderHeight="40" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Critical" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="99" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="265 0" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="215" LastRenderHeight="40" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Fatal" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="(100%)" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="220 0" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="260" LastRenderHeight="40" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+			</BnsCustomImageWidget.ExpansionComponentList>
+			<BnsCustomImageWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_3_Line2" LayoutData.Anchors="0 0 0 1" LayoutData.Offsets="220 0 1 0">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="193 59" ImageUVSize="1 5" Opacity="0.1" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomImageWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_3_Line1" LayoutData.Anchors="0 0 0 1" LayoutData.Offsets="125 0 1 0">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="193 59" ImageUVSize="1 5" Opacity="0.1" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomProgressBarWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_3_Guige" LayoutData.Anchors="1 0.5 1 0.5" LayoutData.Offsets="-2 0 200 40">
+				<BnsCustomProgressBarWidget.ExpansionComponentList>
+					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Damage" MetaData="">
+						<ExpansionComponent.ImageProperty>
+							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+						</ExpansionComponent.ImageProperty>
+						<ExpansionComponent.StringProperty>
+							<StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="9.999.999" SpaceBetweenLines="2" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="55 0" Padding="0 -5" Opacity="1" TextScale="1" AnimScale="1" />
+						</ExpansionComponent.StringProperty>
+					</ExpansionComponent>
+					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Percentage" MetaData="">
+						<ExpansionComponent.ImageProperty>
+							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+						</ExpansionComponent.ImageProperty>
+						<ExpansionComponent.StringProperty>
+							<StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="(99%)" SpaceBetweenLines="2" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="10 0" Padding="0 -5" Opacity="1" TextScale="1" AnimScale="1" />
+						</ExpansionComponent.StringProperty>
+					</ExpansionComponent>
+				</BnsCustomProgressBarWidget.ExpansionComponentList>
+			</BnsCustomProgressBarWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_2" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="0 70 0 50">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="29 125" ImageUVSize="3 3" EnableDrawColor="true" TintColor="262B33" Opacity="0.4" />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget.ExpansionComponentList>
+				<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="back2" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="726 217" ImageUVSize="59 89" EnableResourceSize="true" EnableSkinColor="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="98 0" Opacity="0.1" ImageScale="0.24" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="SkillName" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Over_12.Over_12" LabelText="SkillName&lt;image enablescale=&quot;true&quot; imagesetpath=&quot;00009076.CharInfo_tooltip_fire&quot; scalerate=&quot;1.2&quot;/&gt;&lt;image enablescale='true' imagesetpath='00009076.CharInfo_tooltip_lightning' scalerate='1.2'/&gt;" VerticalAlignment="VAlign_Center" ClippingBound="310 0" Padding="5 0" bWordWrap="true" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="164" LastRenderHeight="50" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Critical" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="99" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="265 0" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="219" LastRenderHeight="50" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Fatal" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="(100%)" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="220 0" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="264" LastRenderHeight="50" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+			</BnsCustomImageWidget.ExpansionComponentList>
+			<BnsCustomImageWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_2_Line2" LayoutData.Anchors="0 0 0 1" LayoutData.Offsets="220 0 1 0">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="193 59" ImageUVSize="1 5" Opacity="0.1" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomImageWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_2_Line1" LayoutData.Anchors="0 0 0 1" LayoutData.Offsets="125 0 1 0">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="193 59" ImageUVSize="1 5" Opacity="0.1" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomProgressBarWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_2_Guige" LayoutData.Anchors="1 0.5 1 0.5" LayoutData.Offsets="-2 0 200 40">
+				<BnsCustomProgressBarWidget.ExpansionComponentList>
+					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Damage" MetaData="">
+						<ExpansionComponent.ImageProperty>
+							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+						</ExpansionComponent.ImageProperty>
+						<ExpansionComponent.StringProperty>
+							<StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="9.999.999" SpaceBetweenLines="2" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="55 0" Padding="0 -5" Opacity="1" TextScale="1" AnimScale="1" />
+						</ExpansionComponent.StringProperty>
+					</ExpansionComponent>
+					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Percentage" MetaData="">
+						<ExpansionComponent.ImageProperty>
+							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+						</ExpansionComponent.ImageProperty>
+						<ExpansionComponent.StringProperty>
+							<StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="(99%)" SpaceBetweenLines="2" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="10 0" Padding="0 -5" Opacity="1" TextScale="1" AnimScale="1" />
+						</ExpansionComponent.StringProperty>
+					</ExpansionComponent>
+				</BnsCustomProgressBarWidget.ExpansionComponentList>
+			</BnsCustomProgressBarWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_1" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="0 29 0 50">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="29 125" ImageUVSize="3 3" EnableDrawColor="true" TintColor="262B33" Opacity="0.4" />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget.ExpansionComponentList>
+				<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="back2" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="726 217" ImageUVSize="59 89" EnableResourceSize="true" EnableSkinColor="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="98 0" Opacity="0.1" ImageScale="0.24" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="SkillName" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Over_12.Over_12" LabelText="각성각성각성각성각성각성각성각성각성각성각성각성각성각성각성각성각성각성각성각성각성&lt;image enablescale=&quot;true&quot; imagesetpath=&quot;00009076.CharInfo_tooltip_fire&quot; scalerate=&quot;1.2&quot;/&gt;" VerticalAlignment="VAlign_Center" ClippingBound="310 0" Padding="5 0" bWordWrap="true" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="140" LastRenderHeight="40" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Critical" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="99" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="265 0" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="215" LastRenderHeight="40" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Fatal" MetaData="">
+					<ExpansionComponent.ImageProperty>
+						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+					</ExpansionComponent.ImageProperty>
+					<ExpansionComponent.StringProperty>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="(100%)" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="220 0" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="260" LastRenderHeight="40" />
+					</ExpansionComponent.StringProperty>
+				</ExpansionComponent>
+			</BnsCustomImageWidget.ExpansionComponentList>
+			<BnsCustomImageWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_1_Line2" LayoutData.Anchors="0 0 0 1" LayoutData.Offsets="220 0 1 0">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="193 59" ImageUVSize="1 5" Opacity="0.1" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomImageWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_1_Line1" LayoutData.Anchors="0 0 0 1" LayoutData.Offsets="125 0 1 0">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="193 59" ImageUVSize="1 5" Opacity="0.1" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomProgressBarWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_1_Guige" LayoutData.Anchors="1 0.5 1 0.5" LayoutData.Offsets="-2 0 200 40">
+				<BnsCustomProgressBarWidget.ExpansionComponentList>
+					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Damage" MetaData="">
+						<ExpansionComponent.ImageProperty>
+							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+						</ExpansionComponent.ImageProperty>
+						<ExpansionComponent.StringProperty>
+							<StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="9.999.999" SpaceBetweenLines="2" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="55 0" Padding="0 -5" Opacity="1" TextScale="1" AnimScale="1" />
+						</ExpansionComponent.StringProperty>
+					</ExpansionComponent>
+					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Percentage" MetaData="">
+						<ExpansionComponent.ImageProperty>
+							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+						</ExpansionComponent.ImageProperty>
+						<ExpansionComponent.StringProperty>
+							<StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="(100%)" SpaceBetweenLines="2" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="10 0" Padding="0 -5" Opacity="1" TextScale="1" AnimScale="1" />
+						</ExpansionComponent.StringProperty>
+					</ExpansionComponent>
+				</BnsCustomProgressBarWidget.ExpansionComponentList>
+			</BnsCustomProgressBarWidget>
+		</BnsCustomImageWidget>
+	</BnsCustomImageWidget>
+	<BnsCustomLabelWidget Name="DamageMeterToolTipPanel_BattleRecord" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="0 0 0 50.000977" MetaData="textref=UI.DamageMeteBattleRecord">
+		<BnsCustomLabelWidget.String>
+			<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_Out_16.Normal_Out_16" LabelText="#전투 상세 기록 &lt;font name=&quot;00008130.UI.disable_14&quot;&gt;기절&lt;/font&gt;" VerticalAlignment="VAlign_Center" ClippingBound="18 0" />
+		</BnsCustomLabelWidget.String>
+		<BnsCustomImageWidget Name="DamageMeterToolTipPanel_BattleRecord_HorizontalLine" LayoutData.Anchors="0 1 1 1" LayoutData.Offsets="18 0 18 1">
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="199 61" ImageUVSize="5 1" Opacity="0.1" />
+			</BnsCustomImageWidget.BaseImageProperty>
+		</BnsCustomImageWidget>
+	</BnsCustomLabelWidget>
+	<BnsCustomLabelWidget Name="DamageMeterToolTipPanel_ElapsedTime" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="18 106.007996 20 20.000977">
+		<BnsCustomLabelWidget.String>
+			<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Label_Green03_12_Out.Label_Green03_12_Out" LabelText="10시간 10분 10초" VerticalAlignment="VAlign_Center" ClippingBound="100 0" />
+		</BnsCustomLabelWidget.String>
+	</BnsCustomLabelWidget>
+	<BnsCustomLabelWidget Name="DamageMeterToolTipPanel_AccumulateDamage" LayoutData.Offsets="18 60.000977 225 24.003906">
+		<BnsCustomLabelWidget.String>
+			<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Label_Green03_12_Out.Label_Green03_12_Out" LabelText="108,240,897,274,24" VerticalAlignment="VAlign_Center" ClippingBound="100 0" />
+		</BnsCustomLabelWidget.String>
+	</BnsCustomLabelWidget>
+	<BnsCustomLabelWidget Name="DamageMeterToolTipPanel_Contribution" LayoutData.Offsets="18 87.00488 203 20.000977">
+		<BnsCustomLabelWidget.String>
+			<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Label_Green03_12_Out.Label_Green03_12_Out" LabelText="99%" VerticalAlignment="VAlign_Center" ClippingBound="100 0" />
+		</BnsCustomLabelWidget.String>
+	</BnsCustomLabelWidget>
+	<BnsCustomLabelWidget Name="DamageMeterToolTipPanel_BossBlocked" LayoutData.Offsets="245 60.000977 160 20.002014">
+		<BnsCustomLabelWidget.String>
+			<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Label_Green03_12_Out.Label_Green03_12_Out" LabelText="99%" VerticalAlignment="VAlign_Center" ClippingBound="100 0" />
+		</BnsCustomLabelWidget.String>
+	</BnsCustomLabelWidget>
+	<BnsCustomLabelWidget Name="DamageMeterToolTipPanel_BossEvasion" LayoutData.Offsets="245 83.00299 160 24.00299">
+		<BnsCustomLabelWidget.String>
+			<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Label_Green03_12_Out.Label_Green03_12_Out" LabelText="99999%" VerticalAlignment="VAlign_Center" ClippingBound="100 0" />
+		</BnsCustomLabelWidget.String>
+	</BnsCustomLabelWidget>
+</BnsCustomWindowWidget>

@@ -7,7 +7,7 @@ public class TableDefinition : TableHeader
 	/// <summary>
 	/// element definitions
 	/// </summary>
-	public List<ElementDefinition> Els { get; internal set; } = new();
+	public List<ElementDefinition> Els { get; internal set; } = [];
 
 	/// <summary>
 	/// root element
@@ -17,7 +17,7 @@ public class TableDefinition : TableHeader
 	/// <summary>
 	/// main element
 	/// </summary>
-	public ElementDefinition ElRecord { get; set; }
+	public ElementDefinition ElRecord { get; internal set; }
 
 	/// <summary>
 	/// Has record element

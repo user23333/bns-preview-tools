@@ -1,21 +1,30 @@
 ﻿using System.IO;
-
+using CUE4Parse.Utils;
+using HandyControl.Controls;
 using OfficeOpenXml;
+using Ookii.Dialogs.Wpf;
+using Xylia.Preview.Data.Client;
+using Xylia.Preview.Data.Helpers;
 
-namespace Xylia.Preview.Data.Helpers.Output;
+namespace Xylia.Preview.UI.Helpers.Output;
 public abstract class OutSet
 {
 	#region Fields
-	protected ExcelPackage package;
+	protected ExcelPackage? package;
+	protected BnsDatabase Source { get; set; } = FileCache.Data;
+	#endregion
 
-	public virtual string Name => GetType().Name;
+	#region Properies
+	public virtual string Name => GetType().Name.SubstringBefore("Out", StringComparison.OrdinalIgnoreCase);
 
 	public int Column { get; protected set; } = 1;
+
 	public int Row { get; protected set; } = 1;
 	#endregion
 
+
 	#region Methods
-	public Task Output(FileInfo path = null) => Task.Run(() =>
+	public Task Output(FileInfo path) => Task.Run(() =>
 	{
 		ArgumentNullException.ThrowIfNull(path);
 
@@ -45,22 +54,26 @@ public abstract class OutSet
 	/// </summary>
 	/// <exception cref="NotImplementedException"></exception>
 	protected virtual void CreateText() => throw new NotImplementedException();
+
+
+	/// <summary>
+	/// entry method for output
+	/// </summary>
+	public static async void Start<T>() where T : OutSet, new()
+	{
+		var instance = new T();
+
+		var save = new VistaSaveFileDialog
+		{
+			Filter = "Excel Files|*.xlsx",
+			FileName = $"{instance.Name} ({DateTime.Now:yyyyMM}).xlsx",
+		};
+		if (save.ShowDialog() != true) return;
+
+		DateTime dt = DateTime.Now;
+		await instance.Output(new FileInfo(save.FileName));
+
+		Growl.Success(StringHelper.Get("ItemList_TaskCompleted2", 0, (DateTime.Now - dt).TotalSeconds));
+	}
 	#endregion
-}
-
-
-public static class FileExtension
-{
-	public static void SetColumn(this ExcelWorksheet sheet, int index, string header, int width = 10)
-	{
-		sheet.Column(index).Width = width;
-		sheet.Cells[1, index].Value = header;
-	}
-
-	public static void SetValue(this ExcelRange cell, object value)
-	{
-		if (value is null) return;
-
-		cell.Value = value;
-	}
 }

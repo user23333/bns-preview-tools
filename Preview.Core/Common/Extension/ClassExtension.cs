@@ -5,21 +5,39 @@ using System.Runtime.CompilerServices;
 namespace Xylia.Preview.Common.Extension;
 public static partial class ClassExtension
 {
-	#region PropertyInfo
 	public static PropertyInfo GetProperty<T>(this T instance, string name)
-    {
-		var MyFlags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.IgnoreCase;
-
+	{
+		var flags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.IgnoreCase;
 		var type = instance.GetType();
-		var Members = type.GetProperty(name.Replace("-", null), MyFlags);
-        Members ??= type.GetProperty(name.Replace("-", "_"), MyFlags);
 
-        return Members;
-    }
-	#endregion
+		return type.GetProperty(name.Replace("-", null), flags);
+	}
+
+	public static bool IsNullOrDefault<T>(this T argument)
+	{
+		// deal with normal scenarios
+		if (argument == null) return true;
+		if (object.Equals(argument, default(T))) return true;
+
+		// deal with non-null nullables
+		Type methodType = typeof(T);
+		if (Nullable.GetUnderlyingType(methodType) != null) return false;
+
+		// deal with boxed value types
+		Type argumentType = argument.GetType();
+		if (argumentType.IsValueType && argumentType != methodType)
+		{
+			object obj = Activator.CreateInstance(argument.GetType());
+			return obj.Equals(argument);
+		}
+
+		return false;
+	}
+
 
 	#region Attribute
-	public static T GetAttribute<T>(this object value) where T : System.Attribute
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	public static T GetAttribute<T>(this object value) where T : Attribute
 	{
 		switch (value)
 		{
@@ -28,7 +46,7 @@ public static partial class ClassExtension
 			case Enum e:
 				return value.GetType().GetField(e.ToString()).GetAttribute<T>();
 			case MemberInfo m:
-				var attributes = System.Attribute.GetCustomAttributes(m, typeof(T), false);
+				var attributes = Attribute.GetCustomAttributes(m, typeof(T), false);
 				if (attributes.Length == 0) return default;
 
 				return (T)attributes[0];
@@ -39,12 +57,13 @@ public static partial class ClassExtension
 		}
 	}
 
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static bool ContainAttribute<T>(this object EnumItem) where T : Attribute => EnumItem.ContainAttribute(out T _);
 
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static bool ContainAttribute<T>(this object EnumItemm, out T Target) where T : Attribute => (Target = EnumItemm.GetAttribute<T>()) != null;
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	public static string GetDescription(this object EnumItem, bool ReturnNull = false)
-		=> EnumItem.GetAttribute<DescriptionAttribute>()?.Description ?? (ReturnNull ? null : EnumItem.ToString());
+	public static string GetDescription(this object EnumItem) => EnumItem.GetAttribute<DescriptionAttribute>()?.Description;
 	#endregion
 }

@@ -1,78 +1,35 @@
-﻿using System.Data;
-using System.Linq;
-using System.Windows;
-
+﻿using System.Windows;
+using CUE4Parse.UE4.Objects.UObject;
 using HtmlAgilityPack;
+using Xylia.Preview.UI.Controls.Helpers;
+using Xylia.Preview.UI.Documents.Primitives;
 
 namespace Xylia.Preview.UI.Documents;
 /// <summary>
 /// Paragraph element 
 /// </summary>
-public class Paragraph : Element
+public class Paragraph : BaseElement, IMetaData
 {
-	#region Constructor
+	#region Constructors
 	public Paragraph()
 	{
-		this.Children = new();
+		this.Children = [];
 	}
 
-	public Paragraph(string InnerText) : this()
+	internal Paragraph(string? InnerText, FPackageIndex? fontset = null) : this()
 	{
-		var doc = new HtmlDocument();
-		doc.LoadHtml(InnerText);
-
-		this.Children = doc.DocumentNode.ChildNodes.Select(TextDocument.ToElement).ToList();
-	}
-	#endregion
-
-	#region Dependency Properties
-	/// <summary>
-	/// HorizontalContentAlignment Dependency Property.
-	///     Flags:              Can be used in style rules
-	///     Default Value:      HorizontalAlignment.Left
-	/// </summary>
-	public static readonly DependencyProperty HorizontalAlignmentProperty =
-		DependencyProperty.Register("HorizontalContentAlignment", typeof(HorizontalAlignment), typeof(Paragraph),
-			new FrameworkPropertyMetadata(HorizontalAlignment.Left));
-
-	/// <summary>
-	///     The horizontal alignment of the control.
-	///     This will only affect controls whose template uses the property
-	///     as a parameter. On other controls, the property will do nothing.
-	/// </summary>
-	public HorizontalAlignment HorizontalAlignment
-	{
-		get { return (HorizontalAlignment)GetValue(HorizontalAlignmentProperty); }
-		set { SetValue(HorizontalAlignmentProperty, value); }
-	}
-
-	/// <summary>
-	/// VerticalAlignment Dependency Property.
-	/// </summary>
-	public static readonly DependencyProperty VerticalAlignmentProperty =
-		DependencyProperty.Register("VerticalAlignment", typeof(VerticalAlignment), typeof(Paragraph),
-			  new FrameworkPropertyMetadata(VerticalAlignment.Top));
-
-	/// <summary>
-	///     The vertical alignment of the control.
-	///     This will only affect controls whose template uses the property
-	///     as a parameter. On other controls, the property will do nothing.
-	/// </summary>
-	public VerticalAlignment VerticalAlignment
-	{
-		get { return (VerticalAlignment)GetValue(VerticalAlignmentProperty); }
-		set { SetValue(VerticalAlignmentProperty, value); }
+		FontSet = fontset;
+		UpdateString(InnerText);
 	}
 	#endregion
 
 	#region Public Properties
-	public float TopMargin;
-	public float LeftMargin;
-	public float RightMargin;
-	public float BottomMargin;
+	//bullethorizontalalignment
+	public HorizontalAlignment HorizontalAlignment { get; set; }
+	public VerticalAlignment VerticalAlignment { get; set; }
+	//firstlinehorizontalalignment
 
-	public bool Justification;
-	public JustificationTypeSeq JustificationType;
+	public JustificationTypeSeq JustificationType { get; set; }
 	public enum JustificationTypeSeq
 	{
 		Default,
@@ -80,16 +37,32 @@ public class Paragraph : Element
 		LineFeedByLineArea,
 	}
 
+	public float RightMargin { get; set; }
+	public float TopMargin { get; set; }
+	public float LeftMargin { get; set; }
+	public float BottomMargin { get; set; }
 
-	public string Bullets;
-	public string BulletsFontset;
+
+
+	//idt
+	//spacebetweenlines
+	//BackgroundImagePaddingX
+	//BackgroundImagePaddingY
+	//wordwrap
+	public bool Justification { get; set; }
+	//disableparagraphbreak
+	public string? bulletsfontset { get; set; }
+	public string? bulletsfontset2 { get; set; }
+	public string? Bullets { get; set; }
+	//bulletimage
+	//backgroundimagesetpath
 	#endregion
 
 
 	#region Protected Methods
 	protected internal override void Load(HtmlNode node)
 	{
-		Children = node.ChildNodes.Select(TextDocument.ToElement).ToList();
+		Children = TextContainer.Load(node.ChildNodes);
 
 		TopMargin = node.GetAttributeValue("topmargin", 0f);
 		LeftMargin = node.GetAttributeValue("leftmargin", 0f);
@@ -102,9 +75,20 @@ public class Paragraph : Element
 		VerticalAlignment = node.GetAttributeValue("verticalalignment", VerticalAlignment.Top);
 
 		Bullets = node.Attributes["bullets"]?.Value;
-		BulletsFontset = node.Attributes["bulletsfontset"]?.Value;
+		bulletsfontset = node.Attributes["bulletsfontset"]?.Value;
 
-		if (Bullets != null) Children.Insert(0, new Font(BulletsFontset, new Run(Bullets)));
+		if (Bullets != null) Children.Insert(0, new Font(bulletsfontset, new Run(Bullets)));
+	}
+
+	private void Load(string? InnerText, string? fontset = null)
+	{
+		if (InnerText is null) return;
+
+		var doc = new HtmlDocument();
+		doc.LoadHtml(InnerText.Replace("\n", "<br/>"));
+
+		var elements = TextContainer.Load(doc.DocumentNode.ChildNodes);
+		this.Children = fontset is null ? [.. elements] : [new Font(fontset, elements.ToArray())];
 	}
 
 	protected override Size MeasureCore(Size availableSize)
@@ -116,12 +100,12 @@ public class Paragraph : Element
 		return size;
 	}
 
-	internal Vector ComputeAlignmentOffset(Size clientSize, Size inkSize)
+	public Vector ComputeAlignmentOffset(Size clientSize, Size inkSize)
 	{
-		Vector offset = new Vector();
+		var ha = this.HorizontalAlignment;
+		var va = this.VerticalAlignment;
 
-		HorizontalAlignment ha = HorizontalAlignment;
-		VerticalAlignment va = VerticalAlignment;
+		Vector offset = new Vector();
 
 		//this is to degenerate Stretch to Top-Left in case when clipping is about to occur
 		//if we need it to be Center instead, simply remove these 2 ifs
@@ -163,6 +147,21 @@ public class Paragraph : Element
 		}
 
 		return offset;
+	}
+	#endregion
+
+
+	#region IMetaData
+	internal FPackageIndex? FontSet;
+
+	public void UpdateString(string? text)
+	{
+		this.Load(text, FontSet?.GetPathName());
+	}
+
+	public void UpdateTooltip(string? title)
+	{
+		//throw new System.NotImplementedException();
 	}
 	#endregion
 }

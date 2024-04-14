@@ -1,0 +1,25 @@
+﻿<BnsCustomWindowWidget x:Class="Xylia.Preview.UI.GameUI.Scene.Game_Tooltip.RewardTooltipPanel"
+	xmlns="https://github.com/xyliaup/bns-preview-tools"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:s="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Width="500">
+
+	<s:ScrollViewer Width="480" Margin="5">
+		<BnsCustomColumnListWidget Name="ColumnList" ShowLines="True" CellMerge="ColumnList_CellMerge">
+			<BnsCustomColumnListWidget.ColumnDefinitions>
+				<s:ColumnDefinition Width="4*" />
+				<s:ColumnDefinition Width="2.5*" />
+				<s:ColumnDefinition Width="2*" />
+				<s:ColumnDefinition Width="*" />
+			</BnsCustomColumnListWidget.ColumnDefinitions>
+			<BnsCustomColumnListWidget.RowDefinitions>
+				<s:RowDefinition Height="30" />
+			</BnsCustomColumnListWidget.RowDefinitions>
+
+			<BnsCustomLabelWidget Name="Column1" Text="名称" BnsCustomColumnListWidget.Row="0" BnsCustomColumnListWidget.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" />
+			<BnsCustomLabelWidget Name="Column2" Text="信息" BnsCustomColumnListWidget.Row="0" BnsCustomColumnListWidget.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" />
+			<BnsCustomLabelWidget Name="Column3" Text="概率" BnsCustomColumnListWidget.Row="0" BnsCustomColumnListWidget.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" />
+			<BnsCustomLabelWidget Name="Column4" Text="数量" BnsCustomColumnListWidget.Row="0" BnsCustomColumnListWidget.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" />
+		</BnsCustomColumnListWidget>
+	</s:ScrollViewer>
+	
+</BnsCustomWindowWidget>
