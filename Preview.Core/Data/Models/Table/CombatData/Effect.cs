@@ -8,7 +8,7 @@ public sealed class Effect : ModelElement, IHaveName
 	#endregion
 
 	#region Methods
-	public string Text => Name2.GetText();
+	public string Name => Name2.GetText();
 
 	protected internal override void LoadHiddenField()
 	{

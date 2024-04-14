@@ -46,7 +46,7 @@ internal class UpdateService : IService
 
 	private static void CheckForUpdateEvent(UpdateInfoEventArgs args)
 	{
-		if (args is UpdateInfoArgs args2) 
+		if (args is UpdateInfoArgs args2)
 			CheckForUpdateEvent(args2);
 	}
 
@@ -75,7 +75,8 @@ internal class UpdateService : IService
 
 			Growl.Ask(StringHelper.Get("Application_VersionTip2",
 				StringHelper.Get("ProductName"),
-				args.CurrentVersion,
+				StringHelper.Get("Settings_UpdateMode_" + UserSettings.Default.UpdateMode.ToString()),
+				args.CurrentVersion, 
 				args.InstalledVersion), isConfirmed =>
 				{
 					if (isConfirmed && AutoUpdater.DownloadUpdate(args))
@@ -97,8 +98,8 @@ internal class UpdateService : IService
 
 	internal enum UpdateMode
 	{
-		stabble,
-		beta,
+		Stabble,
+		Beta,
 	}
 	#endregion
 

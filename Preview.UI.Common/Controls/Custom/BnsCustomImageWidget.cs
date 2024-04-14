@@ -14,24 +14,6 @@ public class BnsCustomImageWidget : BnsCustomBaseWidget
 {
 	#region Private Methods
 	/// <summary>
-	/// Contains the code common for MeasureOverride and ArrangeOverride.
-	/// </summary>
-	/// <param name="inputSize">input size is the parent-provided space that Image should use to "fit in", according to other properties.</param>
-	/// <returns>Image's desired size.</returns>
-	private Size MeasureArrangeHelper(Size inputSize)
-	{
-		if (!double.IsInfinity(inputSize.Width) && !double.IsInfinity(inputSize.Height))
-			return inputSize;
-
-		//get computed scale factor
-		var naturalSize = BaseImageProperty?.ImageUVSize ?? default;
-		var scaleFactor = ComputeScaleFactor(inputSize, naturalSize);
-
-		// Returns our minimum size & sets DesiredSize.
-		return new Size(naturalSize.X * scaleFactor.Width, naturalSize.Y * scaleFactor.Height);
-	}
-
-	/// <summary>
 	/// This is a helper function that computes scale factors depending on a target size and a content size
 	/// </summary>
 	/// <param name="availableSize">Size into which the content is being fitted.</param>
@@ -92,8 +74,16 @@ public class BnsCustomImageWidget : BnsCustomBaseWidget
 	#region	Protected Methods
 	protected override Size MeasureOverride(Size constraint)
 	{
-		if (double.IsInfinity(constraint.Width) || double.IsInfinity(constraint.Height))
-			constraint = MeasureArrangeHelper(constraint);
+		if (false && (double.IsInfinity(constraint.Width) || double.IsInfinity(constraint.Height)))
+		{
+			// get computed scale factor
+			var naturalSize = BaseImageProperty?.ImageUVSize ?? default;
+			var scaleFactor = ComputeScaleFactor(constraint, naturalSize);
+
+			// Returns our minimum size & sets DesiredSize.
+			constraint.Width = naturalSize.X * scaleFactor.Width;
+			constraint.Height = naturalSize.Y * scaleFactor.Height;
+		}
 
 		return base.MeasureOverride(constraint);
 	}

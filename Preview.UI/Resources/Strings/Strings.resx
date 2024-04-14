@@ -117,369 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Page_AbilityPage" xml:space="preserve">
-    <value>Role Ability</value>
-  </data>
-  <data name="AbilityPage_Level" xml:space="preserve">
-    <value>Level</value>
-  </data>
-  <data name="AbilityPage_Result" xml:space="preserve">
-    <value>The converted percent in Lv{0} is {2:P3}</value>
-  </data>
-  <data name="AbilityPage_Value" xml:space="preserve">
-    <value>Value</value>
-  </data>
-  <data name="Application_ExitMessage" xml:space="preserve">
-    <value>Are you sure you are closing the application?</value>
-  </data>
-  <data name="Asset_Extract" xml:space="preserve">
-    <value>Extract</value>
-  </data>
-  <data name="Asset_FilterPah" xml:space="preserve">
-    <value>Asset Path</value>
-  </data>
-  <data name="Asset_OutputClassName" xml:space="preserve">
-    <value>Output class name</value>
-  </data>
-  <data name="Assets_Name" xml:space="preserve">
-    <value>Assets</value>
-  </data>
-  <data name="AudioPlayer_Name" xml:space="preserve">
-    <value>AudioPlayer</value>
-  </data>
-  <data name="Command_QueryAsset" xml:space="preserve">
-    <value>Query Asset</value>
-  </data>
-  <data name="Command_QueryAsset2" xml:space="preserve">
-    <value>Query Asset (old path)</value>
-  </data>
-  <data name="DatSelector_CountDown" xml:space="preserve">
-    <value>Automatically select after {0} second</value>
-  </data>
-  <data name="DatSelector_Name" xml:space="preserve">
-    <value>DatSelector</value>
-  </data>
-  <data name="DatSelector_Source1" xml:space="preserve">
-    <value>Xml Dat</value>
-  </data>
-  <data name="DatSelector_Source2" xml:space="preserve">
-    <value>Local Dat</value>
-  </data>
-  <data name="DatSelector_Tooltip" xml:space="preserve">
-    <value>Due to exists multiple files in your selected path, it is necessary to manually select.</value>
-  </data>
-  <data name="DatabaseStudio_Extract" xml:space="preserve">
-    <value>Extract</value>
-  </data>
-  <data name="DatabaseStudio_ExtractAll" xml:space="preserve">
-    <value>Extract All</value>
-  </data>
-  <data name="DatabaseStudio_Name" xml:space="preserve">
-    <value>Database Studio</value>
-  </data>
-  <data name="DatabaseStudio_TaskMessage1" xml:space="preserve">
-    <value>Progress: {0}/{1} ({2:P0})</value>
-  </data>
-  <data name="DatabaseStudio_TaskMessage2" xml:space="preserve">
-    <value>Task completed!</value>
-  </data>
-  <data name="DatabaseStudio_ViewTable" xml:space="preserve">
-    <value>View</value>
-  </data>
-  <data name="Page_GameResourcePage" xml:space="preserve">
-    <value>Engine</value>
-  </data>
-  <data name="Page_QuestJournalPanel" xml:space="preserve">
-    <value>Quest</value>
-  </data>
-  <data name="IconOut_CreateList" xml:space="preserve">
-    <value>Output List</value>
-  </data>
-  <data name="IconOut_CreateList_Tooltip" xml:space="preserve">
-    <value>Create item list from generated images</value>
-  </data>
-  <data name="IconOut_Error1" xml:space="preserve">
-    <value>The list file is seem to not exist, please confirm.</value>
-  </data>
-  <data name="IconOut_Error2" xml:space="preserve">
-    <value>When selecting whitelist filter, list file must be selected.</value>
-  </data>
-  <data name="IconOut_Error3" xml:space="preserve">
-    <value>The output name format must contain at least one special rule.</value>
-  </data>
-  <data name="IconOut_FilterMode" xml:space="preserve">
-    <value>Whitelist filtering</value>
-  </data>
-  <data name="IconOut_FilterMode_Tooltip" xml:space="preserve">
-    <value>create item only in list when checked, otherwise ignore listed item</value>
-  </data>
-  <data name="IconOut_Goods" xml:space="preserve">
-    <value>Extract Good Icon</value>
-  </data>
-  <data name="IconOut_ItemList" xml:space="preserve">
-    <value>Select item list</value>
-  </data>
-  <data name="IconOut_Items" xml:space="preserve">
-    <value>Extract Item Icon</value>
-  </data>
-  <data name="IconOut_Name" xml:space="preserve">
-    <value>Icon</value>
-  </data>
-  <data name="IconOut_NameFormat" xml:space="preserve">
-    <value>Output name format</value>
-  </data>
-  <data name="IconOut_TaskCancel" xml:space="preserve">
-    <value>There is a task already being executed, are you sure to cancel it?</value>
-  </data>
-  <data name="IconOut_TaskCompleted" xml:space="preserve">
-    <value>Task completed, taking {0: hh} hours {0: mm} minutes {0: ss} seconds.</value>
-  </data>
-  <data name="IconOut_TaskException" xml:space="preserve">
-    <value>Task unexpectedly terminated, because {0}</value>
-  </data>
-  <data name="IconOut_UseBackground" xml:space="preserve">
-    <value>Grade Background</value>
-  </data>
-  <data name="IconOut_UseBackground_Tooltip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ItemList_Name" xml:space="preserve">
-    <value>Item List</value>
-  </data>
-  <data name="ItemList_OnlyUpdate" xml:space="preserve">
-    <value>only update</value>
-  </data>
-  <data name="ItemList_OnlyUpdate_Tooltip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ItemList_Path" xml:space="preserve">
-    <value>Select prev item list</value>
-  </data>
-  <data name="ItemList_Path_Tooltip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ItemList_Run" xml:space="preserve">
-    <value>Create</value>
-  </data>
-  <data name="ItemList_TaskCompleted" xml:space="preserve">
-    <value>Pull {0} piece(s) of data, taking {1} seconds.</value>
-  </data>
-  <data name="ItemList_TaskCompleted2" xml:space="preserve">
-    <value>Task completed, taking {1} seconds.</value>
-  </data>
-  <data name="Page_ItemPage" xml:space="preserve">
-    <value>Item</value>
-  </data>
-  <data name="MergeIcon_BackgroundMode" xml:space="preserve">
-    <value>New Background</value>
-  </data>
-  <data name="MergeIcon_Grade1" xml:space="preserve">
-    <value>Grade1</value>
-  </data>
-  <data name="MergeIcon_Grade2" xml:space="preserve">
-    <value>Grade2</value>
-  </data>
-  <data name="MergeIcon_Grade3" xml:space="preserve">
-    <value>Grade3</value>
-  </data>
-  <data name="MergeIcon_Grade4" xml:space="preserve">
-    <value>Grade4</value>
-  </data>
-  <data name="MergeIcon_Grade5" xml:space="preserve">
-    <value>Grade5</value>
-  </data>
-  <data name="MergeIcon_Grade6" xml:space="preserve">
-    <value>Grade6</value>
-  </data>
-  <data name="MergeIcon_Grade7" xml:space="preserve">
-    <value>Grade7</value>
-  </data>
-  <data name="MergeIcon_Grade8" xml:space="preserve">
-    <value>Grade8</value>
-  </data>
-  <data name="MergeIcon_Grade9" xml:space="preserve">
-    <value>Grade9</value>
-  </data>
-  <data name="MergeIcon_Name" xml:space="preserve">
-    <value>Merge Icon</value>
-  </data>
-  <data name="Message_Tip" xml:space="preserve">
-    <value>Message</value>
-  </data>
-  <data name="Name_About" xml:space="preserve">
-    <value>About</value>
-  </data>
-  <data name="PreviewModel" xml:space="preserve">
-    <value>View Model</value>
-  </data>
-  <data name="PreviewBasic" xml:space="preserve">
-    <value>View Raw</value>
-  </data>
-  <data name="PreviewShowObject" xml:space="preserve">
-    <value>View Show Object</value>
-  </data>
-  <data name="ProductName" xml:space="preserve">
-    <value>Blade &amp; Soul Preview Tool</value>
-    <comment>Title</comment>
-  </data>
-  <data name="PropertyEditor_Name" xml:space="preserve">
-    <value>Property Editor</value>
-  </data>
-  <data name="PropertyEditor_ViewSource_Tooltip" xml:space="preserve">
-    <value>Copy raw data to clipboard, or open text editor when invalid</value>
-  </data>
-  <data name="Repository" xml:space="preserve">
-    <value>Repository</value>
-  </data>
-  <data name="Settings_CopyMode" xml:space="preserve">
-    <value>Text Copy Mode</value>
-  </data>
-  <data name="Settings_CopyMode_None" xml:space="preserve">
-    <value>None</value>
-  </data>
-  <data name="Settings_CopyMode_Regular" xml:space="preserve">
-    <value>Regular</value>
-  </data>
-  <data name="Settings_CopyMode_Source" xml:space="preserve">
-    <value>Source</value>
-  </data>
-  <data name="Settings_CopyMode_Trimmed" xml:space="preserve">
-    <value>Trimmed</value>
-  </data>
-  <data name="Settings_Language" xml:space="preserve">
-    <value>Language</value>
-  </data>
-  <data name="Settings_Name" xml:space="preserve">
-    <value>Settings</value>
-  </data>
-  <data name="Settings_TestMode" xml:space="preserve">
-    <value>Data Test Mode</value>
-  </data>
-  <data name="Settings_UsePerformanceMonitor" xml:space="preserve">
-    <value>Use Performance Monitor</value>
-  </data>
-  <data name="Settings_UseUserDefinition" xml:space="preserve">
-    <value>Enable custome definitions</value>
-  </data>
-  <data name="Settings_UseUserDefinition_Ask" xml:space="preserve">
-    <value>Are you sure to enable custom definition? This may cause reading exceptions.</value>
-  </data>
-  <data name="Settings_UseUserDefinition_Tooltip" xml:space="preserve">
-    <value>If you do not know the usage, do not check it!</value>
-  </data>
-  <data name="ShowObjectPlayer_Name" xml:space="preserve">
-    <value>Show Object Player</value>
-  </data>
-  <data name="TableView_Name" xml:space="preserve">
-    <value>Table View</value>
-  </data>
-  <data name="TextEditor_Name" xml:space="preserve">
-    <value>Text Editor</value>
-  </data>
-  <data name="TextView_Name" xml:space="preserve">
-    <value>Text Viewer</value>
-  </data>
-  <data name="TextView_LoadLastOnStartup" xml:space="preserve">
-    <value>Load last on startup</value>
-  </data>
-  <data name="TextView_ReadOnly" xml:space="preserve">
-    <value>ReadOnly</value>
-  </data>
-  <data name="Text_Cancel" xml:space="preserve">
-    <value>Cancel</value>
-  </data>
-  <data name="Text_Edit" xml:space="preserve">
-    <value>Edit</value>
-  </data>
-  <data name="Text_File" xml:space="preserve">
-    <value>File</value>
-  </data>
-  <data name="Text_Left" xml:space="preserve">
-    <value>Left</value>
-  </data>
-  <data name="Text_None" xml:space="preserve">
-    <value>None</value>
-  </data>
-  <data name="Text_Ok" xml:space="preserve">
-    <value>Ok</value>
-  </data>
-  <data name="Text_Output" xml:space="preserve">
-    <value>Output</value>
-  </data>
-  <data name="Text_Preview" xml:space="preserve">
-    <value>Preview</value>
-  </data>
-  <data name="Text_PublishOn" xml:space="preserve">
-    <value>Publish at</value>
-  </data>
-  <data name="Text_Replace" xml:space="preserve">
-    <value>Replace</value>
-  </data>
-  <data name="Text_ReplaceInFiles" xml:space="preserve">
-    <value>Replace in Files</value>
-  </data>
-  <data name="Text_Reset" xml:space="preserve">
-    <value>Reset</value>
-  </data>
-  <data name="Text_Right" xml:space="preserve">
-    <value>Right</value>
-  </data>
-  <data name="Text_Save" xml:space="preserve">
-    <value>Save</value>
-  </data>
-  <data name="Text_SaveAs" xml:space="preserve">
-    <value>Save As...</value>
-  </data>
-  <data name="Text_Search" xml:space="preserve">
-    <value>Search</value>
-  </data>
-  <data name="Application_VersionTip1" xml:space="preserve">
-    <value>This is a preview version, some features may not work.</value>
-  </data>
-  <data name="Application_VersionTip2" xml:space="preserve">
-    <value>The latest version of {0} is {1}. Do you want to update the application now?</value>
-  </data>
-  <data name="Application_VersionTip3" xml:space="preserve">
-    <value>There is a problem when check update, please try again later.</value>
-  </data>
-  <data name="TextView_ReadWrite" xml:space="preserve">
-    <value>ReadWrite</value>
-  </data>
-  <data name="Text_ColumnNumber" xml:space="preserve">
-    <value>Column</value>
-  </data>
-  <data name="Text_LineNumber" xml:space="preserve">
-    <value>Line</value>
-  </data>
-  <data name="TextView_ReadStatus" xml:space="preserve">
-    <value>When viewing single file, you can edit the file
-Please note that do not modify the order of nodes</value>
-  </data>
-  <data name="Asset_Repack" xml:space="preserve">
-    <value>Repack</value>
-  </data>
-  <data name="Text_Add" xml:space="preserve">
-    <value>Add</value>
-  </data>
-  <data name="Text_Remove" xml:space="preserve">
-    <value>Remove</value>
-  </data>
-  <data name="Text_Update" xml:space="preserve">
-    <value>Update</value>
-  </data>
-  <data name="TextView_NotExist_x16" xml:space="preserve">
-    <value>There is no .x16 files in selected directory.</value>
-  </data>
-  <data name="TextView_ReplaceCompleted" xml:space="preserve">
-    <value>Replace completed!</value>
-  </data>
-  <data name="TextView_SaveCompleted" xml:space="preserve">
-    <value>Save completed!</value>
-  </data>
-  <data name="Application_CrashMessage" xml:space="preserve">
-    <value>an unrecoverable exception was encountered, the application is about to exit. 
-{0}</value>
-  </data>
   <data name="AbilityName.AbnormalAttackBasePercent" xml:space="preserve">
     <value>AbnormalAttackBasePercent</value>
   </data>
@@ -561,143 +198,27 @@ Please note that do not modify the order of nodes</value>
   <data name="AbilityName.SupportPowerBasePercent" xml:space="preserve">
     <value>SupportPowerBasePercent</value>
   </data>
-  <data name="Text_Refresh" xml:space="preserve">
-    <value>Refresh</value>
+  <data name="AbilityPage_Level" xml:space="preserve">
+    <value>Level</value>
   </data>
-  <data name="Text_Run" xml:space="preserve">
-    <value>Run</value>
+  <data name="AbilityPage_Result" xml:space="preserve">
+    <value>The converted percent in Lv{0} is {2:P3}</value>
   </data>
-  <data name="DatabaseStudio_ViewDefinition" xml:space="preserve">
-    <value>View Definition</value>
+  <data name="AbilityPage_Value" xml:space="preserve">
+    <value>Value</value>
   </data>
-  <data name="DatabaseStudio_ViewDefinitions" xml:space="preserve">
-    <value>View Definitions</value>
+  <data name="Application_CrashMessage" xml:space="preserve">
+    <value>an unrecoverable exception was encountered, the application is about to exit. 
+{0}</value>
   </data>
-  <data name="DatabaseStudio_Connect" xml:space="preserve">
-    <value>Connect</value>
+  <data name="Application_ExitMessage" xml:space="preserve">
+    <value>Are you sure you are closing the application?</value>
   </data>
-  <data name="DatabaseStudio_Disconnect" xml:space="preserve">
-    <value>Disconnect</value>
-  </data>
-  <data name="DatabaseStudio_Grid" xml:space="preserve">
-    <value>Grid</value>
-  </data>
-  <data name="DatabaseStudio_SqlLoad" xml:space="preserve">
-    <value>Load</value>
-  </data>
-  <data name="DatabaseStudio_SqlSave" xml:space="preserve">
-    <value>Save</value>
-  </data>
-  <data name="DatabaseStudio_Text" xml:space="preserve">
-    <value>Text</value>
-  </data>
-  <data name="Text_Export" xml:space="preserve">
-    <value>Export</value>
-  </data>
-  <data name="Text_Import" xml:space="preserve">
-    <value>Import</value>
-  </data>
-  <data name="ItemPage_SearchItemRule_Placeholder" xml:space="preserve">
-    <value>Input item info  (id / alias / name)</value>
-  </data>
-  <data name="ItemPage_SearchItemRule_Title" xml:space="preserve">
-    <value>Search Item</value>
-  </data>
-  <data name="ItemPage_DataClear" xml:space="preserve">
-    <value>Data Clear</value>
-  </data>
-  <data name="ItemPage_DataGUI" xml:space="preserve">
-    <value>Data GUI</value>
-  </data>
-  <data name="Text_Options" xml:space="preserve">
-    <value>Options</value>
-  </data>
-  <data name="TextView_LoadData" xml:space="preserve">
-    <value>Load data when preview</value>
-  </data>
-  <data name="TextView_LoadData_Tooltip" xml:space="preserve">
-    <value>Loading non text data will take up a longer time.</value>
-  </data>
-  <data name="FileMode_ExcelFile" xml:space="preserve">
-    <value>Excel File</value>
-  </data>
-  <data name="FileMode_TextFile" xml:space="preserve">
-    <value>Text File</value>
-  </data>
-  <data name="DatabaseStudio_ConnectionManager" xml:space="preserve">
-    <value>Connection Manager</value>
-  </data>
-  <data name="DatabaseStudio_Mode_Folder" xml:space="preserve">
-    <value>Folder</value>
-  </data>
-  <data name="DatabaseStudio_Mode_Game" xml:space="preserve">
-    <value>Game</value>
-  </data>
-  <data name="DatabaseStudio_Paramters" xml:space="preserve">
-    <value>Paramters</value>
-  </data>
-  <data name="DatabaseStudio_Provider" xml:space="preserve">
-    <value>Provider</value>
-  </data>
-  <data name="DatabaseStudio_Mode_Global" xml:space="preserve">
-    <value>Global (Default)</value>
-  </data>
-  <data name="DatabaseStudio_ConnectMessage1" xml:space="preserve">
-    <value>Not Used</value>
-  </data>
-  <data name="DatabaseStudio_ConnectMessage2" xml:space="preserve">
-    <value>It is global data provider currently. Are you still sure to disconnect?</value>
-  </data>
-  <data name="DatabaseStudio_OutputExcel" xml:space="preserve">
-    <value>Save as excel</value>
-  </data>
-  <data name="Settings_NightMode_Day" xml:space="preserve">
-    <value>Day</value>
-  </data>
-  <data name="Settings_NightMode_Night" xml:space="preserve">
-    <value>Night</value>
-  </data>
-  <data name="Settings_NightMode" xml:space="preserve">
-    <value>Night Mode</value>
-  </data>
-  <data name="Settings_NightMode_Auto" xml:space="preserve">
-    <value>Auto</value>
-  </data>
-  <data name="Settings_NightMode_Ask" xml:space="preserve">
-    <value>Currently set to automatic switching, do you confirm the change?</value>
-  </data>
-  <data name="ItemList_Empty" xml:space="preserve">
-    <value>No added items.</value>
-  </data>
-  <data name="ItemList_Path_Invalid" xml:space="preserve">
-    <value>Select a valid item list.</value>
-  </data>
-  <data name="Settings_GameDirectory" xml:space="preserve">
-    <value>Game Directory</value>
-  </data>
-  <data name="Settings_GameDirectory_Invalid" xml:space="preserve">
-    <value>Must to set game directory.</value>
-  </data>
-  <data name="Settings_OutputDirectory" xml:space="preserve">
-    <value>Output Directory</value>
-  </data>
-  <data name="Settings_OutputDirectory2" xml:space="preserve">
-    <value>Output Directory (Resource)</value>
-  </data>
-  <data name="Settings_OutputDirectory_Invalid" xml:space="preserve">
-    <value>Must to set output directory.</value>
-  </data>
-  <data name="ItemList_Auctionable" xml:space="preserve">
-    <value>Auctionable</value>
-  </data>
-  <data name="ItemList_Compare" xml:space="preserve">
-    <value>Compare</value>
-  </data>
-  <data name="ItemList_ItemName" xml:space="preserve">
-    <value>Item Name</value>
+  <data name="Application_Github" xml:space="preserve">
+    <value>Github</value>
   </data>
   <data name="Application_UpdateLog" xml:space="preserve">
-    <value>[3.0.4]
+    <value>[3.1.0]
 Add theme system.
 Add support NEO Classic client.
 Add skill and reward preview.
@@ -708,32 +229,122 @@ Expand the response rectange with item preview.</value>
   <data name="Application_UpdateLog_Name" xml:space="preserve">
     <value>What‘s New</value>
   </data>
-  <data name="TextView_TaskStart" xml:space="preserve">
-    <value>Please wait task finish...</value>
+  <data name="Application_VersionTip1" xml:space="preserve">
+    <value>This is a preview version, some features may not work.</value>
   </data>
-  <data name="Settings_Tab_Data" xml:space="preserve">
-    <value>Data</value>
+  <data name="Application_VersionTip2" xml:space="preserve">
+    <value>The latest {1} version of {0} is {2}. Do you want to update the application now?</value>
   </data>
-  <data name="Settings_Tab_General" xml:space="preserve">
-    <value>General</value>
+  <data name="Application_VersionTip3" xml:space="preserve">
+    <value>There is a problem when check update, please try again later.</value>
   </data>
-  <data name="Settings_Job" xml:space="preserve">
-    <value>Job</value>
+  <data name="Asset_Extract" xml:space="preserve">
+    <value>Extract</value>
   </data>
-  <data name="Settings_DebugMode" xml:space="preserve">
-    <value>Use Debug Mode</value>
+  <data name="Asset_FilterPah" xml:space="preserve">
+    <value>Asset Path</value>
   </data>
-  <data name="Settings_UpdateMode" xml:space="preserve">
-    <value>Update Mode</value>
+  <data name="Asset_OutputClassName" xml:space="preserve">
+    <value>Output class name</value>
   </data>
-  <data name="Settings_UpdateMode_Beta" xml:space="preserve">
-    <value>Beta</value>
+  <data name="Asset_Repack" xml:space="preserve">
+    <value>Repack</value>
   </data>
-  <data name="Settings_UpdateMode_Stabble" xml:space="preserve">
-    <value>Stabble</value>
+  <data name="Assets_Name" xml:space="preserve">
+    <value>Assets</value>
   </data>
-  <data name="Application_Github" xml:space="preserve">
-    <value>Github</value>
+  <data name="AudioPlayer_Name" xml:space="preserve">
+    <value>AudioPlayer</value>
+  </data>
+  <data name="Command_QueryAsset" xml:space="preserve">
+    <value>Query Asset</value>
+  </data>
+  <data name="Command_QueryAsset2" xml:space="preserve">
+    <value>Query Asset (old path)</value>
+  </data>
+  <data name="DatSelector_CountDown" xml:space="preserve">
+    <value>Automatically select after {0} second</value>
+  </data>
+  <data name="DatSelector_Name" xml:space="preserve">
+    <value>DatSelector</value>
+  </data>
+  <data name="DatSelector_Source1" xml:space="preserve">
+    <value>Xml Dat</value>
+  </data>
+  <data name="DatSelector_Source2" xml:space="preserve">
+    <value>Local Dat</value>
+  </data>
+  <data name="DatSelector_Tooltip" xml:space="preserve">
+    <value>Due to exists multiple files in your selected path, it is necessary to manually select.</value>
+  </data>
+  <data name="DatabaseStudio_Connect" xml:space="preserve">
+    <value>Connect</value>
+  </data>
+  <data name="DatabaseStudio_ConnectMessage1" xml:space="preserve">
+    <value>Not Used</value>
+  </data>
+  <data name="DatabaseStudio_ConnectMessage2" xml:space="preserve">
+    <value>It is global data provider currently. Are you still sure to disconnect?</value>
+  </data>
+  <data name="DatabaseStudio_ConnectionManager" xml:space="preserve">
+    <value>Connection Manager</value>
+  </data>
+  <data name="DatabaseStudio_Disconnect" xml:space="preserve">
+    <value>Disconnect</value>
+  </data>
+  <data name="DatabaseStudio_Extract" xml:space="preserve">
+    <value>Extract</value>
+  </data>
+  <data name="DatabaseStudio_ExtractAll" xml:space="preserve">
+    <value>Extract All</value>
+  </data>
+  <data name="DatabaseStudio_Grid" xml:space="preserve">
+    <value>Grid</value>
+  </data>
+  <data name="DatabaseStudio_Mode_Folder" xml:space="preserve">
+    <value>Folder</value>
+  </data>
+  <data name="DatabaseStudio_Mode_Game" xml:space="preserve">
+    <value>Game</value>
+  </data>
+  <data name="DatabaseStudio_Mode_Global" xml:space="preserve">
+    <value>Global (Default)</value>
+  </data>
+  <data name="DatabaseStudio_Name" xml:space="preserve">
+    <value>Database Studio</value>
+  </data>
+  <data name="DatabaseStudio_OutputExcel" xml:space="preserve">
+    <value>Save as excel</value>
+  </data>
+  <data name="DatabaseStudio_Paramters" xml:space="preserve">
+    <value>Paramters</value>
+  </data>
+  <data name="DatabaseStudio_Provider" xml:space="preserve">
+    <value>Provider</value>
+  </data>
+  <data name="DatabaseStudio_SqlLoad" xml:space="preserve">
+    <value>Load</value>
+  </data>
+  <data name="DatabaseStudio_SqlSave" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="DatabaseStudio_TaskMessage1" xml:space="preserve">
+    <value>Progress: {0}/{1} ({2:P0})</value>
+  </data>
+  <data name="DatabaseStudio_TaskMessage2" xml:space="preserve">
+    <value>Task completed!</value>
+  </data>
+  <data name="DatabaseStudio_Text" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="DatabaseStudio_ViewDefinition" xml:space="preserve">
+    <value>View Definition</value>
+  </data>
+  <data name="DatabaseStudio_ViewDefinitions" xml:space="preserve">
+    <value>View Definitions</value>
+  </data>
+  <data name="DatabaseStudio_ViewTable" xml:space="preserve">
+    <value>View</value>
   </data>
   <data name="Extract_ItemBuyPrice" xml:space="preserve">
     <value>Extract ItemBuyPrice</value>
@@ -744,10 +355,399 @@ Expand the response rectange with item preview.</value>
   <data name="Extract_QuestEpic" xml:space="preserve">
     <value>Extract Epic Quest</value>
   </data>
+  <data name="FileMode_ExcelFile" xml:space="preserve">
+    <value>Excel File</value>
+  </data>
+  <data name="FileMode_TextFile" xml:space="preserve">
+    <value>Text File</value>
+  </data>
+  <data name="IconOut_CreateList" xml:space="preserve">
+    <value>Output List</value>
+  </data>
+  <data name="IconOut_CreateList_Tooltip" xml:space="preserve">
+    <value>Create item list from generated images</value>
+  </data>
+  <data name="IconOut_Error1" xml:space="preserve">
+    <value>The list file is seem to not exist, please confirm.</value>
+  </data>
+  <data name="IconOut_Error2" xml:space="preserve">
+    <value>When selecting whitelist filter, list file must be selected.</value>
+  </data>
+  <data name="IconOut_Error3" xml:space="preserve">
+    <value>The output name format must contain at least one special rule.</value>
+  </data>
+  <data name="IconOut_FilterMode" xml:space="preserve">
+    <value>Whitelist filtering</value>
+  </data>
+  <data name="IconOut_FilterMode_Tooltip" xml:space="preserve">
+    <value>create item only in list when checked, otherwise ignore listed item</value>
+  </data>
+  <data name="IconOut_Goods" xml:space="preserve">
+    <value>Extract Good Icon</value>
+  </data>
+  <data name="IconOut_ItemList" xml:space="preserve">
+    <value>Select item list</value>
+  </data>
+  <data name="IconOut_Items" xml:space="preserve">
+    <value>Extract Item Icon</value>
+  </data>
+  <data name="IconOut_Name" xml:space="preserve">
+    <value>Icon</value>
+  </data>
+  <data name="IconOut_NameFormat" xml:space="preserve">
+    <value>Output name format</value>
+  </data>
+  <data name="IconOut_TaskCancel" xml:space="preserve">
+    <value>There is a task already being executed, are you sure to cancel it?</value>
+  </data>
+  <data name="IconOut_TaskCompleted" xml:space="preserve">
+    <value>Task completed, taking {0: hh} hours {0: mm} minutes {0: ss} seconds.</value>
+  </data>
+  <data name="IconOut_TaskException" xml:space="preserve">
+    <value>Task unexpectedly terminated, because {0}</value>
+  </data>
+  <data name="IconOut_UseBackground" xml:space="preserve">
+    <value>Grade Background</value>
+  </data>
+  <data name="IconOut_UseBackground_Tooltip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ItemList_Auctionable" xml:space="preserve">
+    <value>Auctionable</value>
+  </data>
+  <data name="ItemList_Compare" xml:space="preserve">
+    <value>Compare</value>
+  </data>
+  <data name="ItemList_Empty" xml:space="preserve">
+    <value>No added items.</value>
+  </data>
+  <data name="ItemList_ItemName" xml:space="preserve">
+    <value>Item Name</value>
+  </data>
+  <data name="ItemList_Name" xml:space="preserve">
+    <value>Item List</value>
+  </data>
+  <data name="ItemList_OnlyUpdate" xml:space="preserve">
+    <value>only update</value>
+  </data>
+  <data name="ItemList_OnlyUpdate_Tooltip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ItemList_Path" xml:space="preserve">
+    <value>Select prev item list</value>
+  </data>
+  <data name="ItemList_Path_Invalid" xml:space="preserve">
+    <value>Select a valid item list.</value>
+  </data>
+  <data name="ItemList_Path_Tooltip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ItemList_Run" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="ItemList_TaskCompleted" xml:space="preserve">
+    <value>Pull {0} piece(s) of data, taking {1} seconds.</value>
+  </data>
+  <data name="ItemList_TaskCompleted2" xml:space="preserve">
+    <value>Task completed, taking {1} seconds.</value>
+  </data>
+  <data name="ItemPage_DataClear" xml:space="preserve">
+    <value>Data Clear</value>
+  </data>
+  <data name="ItemPage_DataGUI" xml:space="preserve">
+    <value>Data GUI</value>
+  </data>
+  <data name="ItemPage_SearchItemRule_Placeholder" xml:space="preserve">
+    <value>Input item info  (id / alias / name)</value>
+  </data>
+  <data name="ItemPage_SearchItemRule_Title" xml:space="preserve">
+    <value>Search Item</value>
+  </data>
+  <data name="MergeIcon_BackgroundMode" xml:space="preserve">
+    <value>New Background</value>
+  </data>
+  <data name="MergeIcon_Grade1" xml:space="preserve">
+    <value>Grade1</value>
+  </data>
+  <data name="MergeIcon_Grade2" xml:space="preserve">
+    <value>Grade2</value>
+  </data>
+  <data name="MergeIcon_Grade3" xml:space="preserve">
+    <value>Grade3</value>
+  </data>
+  <data name="MergeIcon_Grade4" xml:space="preserve">
+    <value>Grade4</value>
+  </data>
+  <data name="MergeIcon_Grade5" xml:space="preserve">
+    <value>Grade5</value>
+  </data>
+  <data name="MergeIcon_Grade6" xml:space="preserve">
+    <value>Grade6</value>
+  </data>
+  <data name="MergeIcon_Grade7" xml:space="preserve">
+    <value>Grade7</value>
+  </data>
+  <data name="MergeIcon_Grade8" xml:space="preserve">
+    <value>Grade8</value>
+  </data>
+  <data name="MergeIcon_Grade9" xml:space="preserve">
+    <value>Grade9</value>
+  </data>
+  <data name="MergeIcon_Name" xml:space="preserve">
+    <value>Merge Icon</value>
+  </data>
+  <data name="Message_Tip" xml:space="preserve">
+    <value>Message</value>
+  </data>
+  <data name="Name_About" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="Page_AbilityPage" xml:space="preserve">
+    <value>Role Ability</value>
+  </data>
+  <data name="Page_GameResourcePage" xml:space="preserve">
+    <value>Engine</value>
+  </data>
+  <data name="Page_ItemPage" xml:space="preserve">
+    <value>Item</value>
+  </data>
+  <data name="Page_QuestJournalPanel" xml:space="preserve">
+    <value>Quest</value>
+  </data>
+  <data name="PreviewBasic" xml:space="preserve">
+    <value>View Raw</value>
+  </data>
+  <data name="PreviewModel" xml:space="preserve">
+    <value>View Model</value>
+  </data>
+  <data name="PreviewShowObject" xml:space="preserve">
+    <value>View Show Object</value>
+  </data>
   <data name="PreviewTooltip" xml:space="preserve">
     <value>View Detail</value>
   </data>
   <data name="PreviewTransform" xml:space="preserve">
     <value>View Item Growth</value>
+  </data>
+  <data name="ProductName" xml:space="preserve">
+    <value>Blade &amp; Soul Preview Tool</value>
+    <comment>Title</comment>
+  </data>
+  <data name="PropertyEditor_Name" xml:space="preserve">
+    <value>Property Editor</value>
+  </data>
+  <data name="PropertyEditor_ViewSource_Tooltip" xml:space="preserve">
+    <value>Copy raw data to clipboard, or open text editor when invalid</value>
+  </data>
+  <data name="Repository" xml:space="preserve">
+    <value>Repository</value>
+  </data>
+  <data name="Settings_CopyMode" xml:space="preserve">
+    <value>Text Copy Mode</value>
+  </data>
+  <data name="Settings_CopyMode_None" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="Settings_CopyMode_Regular" xml:space="preserve">
+    <value>Regular</value>
+  </data>
+  <data name="Settings_CopyMode_Source" xml:space="preserve">
+    <value>Source</value>
+  </data>
+  <data name="Settings_CopyMode_Trimmed" xml:space="preserve">
+    <value>Trimmed</value>
+  </data>
+  <data name="Settings_DebugMode" xml:space="preserve">
+    <value>Use Debug Mode</value>
+  </data>
+  <data name="Settings_GameDirectory" xml:space="preserve">
+    <value>Game Directory</value>
+  </data>
+  <data name="Settings_GameDirectory_Invalid" xml:space="preserve">
+    <value>Must to set game directory.</value>
+  </data>
+  <data name="Settings_Job" xml:space="preserve">
+    <value>Job</value>
+  </data>
+  <data name="Settings_Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="Settings_Name" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Settings_NightMode" xml:space="preserve">
+    <value>Night Mode</value>
+  </data>
+  <data name="Settings_NightMode_Ask" xml:space="preserve">
+    <value>Currently set to automatic switching, do you confirm the change?</value>
+  </data>
+  <data name="Settings_NightMode_Auto" xml:space="preserve">
+    <value>Auto</value>
+  </data>
+  <data name="Settings_NightMode_Day" xml:space="preserve">
+    <value>Day</value>
+  </data>
+  <data name="Settings_NightMode_Night" xml:space="preserve">
+    <value>Night</value>
+  </data>
+  <data name="Settings_OutputDirectory" xml:space="preserve">
+    <value>Output Directory</value>
+  </data>
+  <data name="Settings_OutputDirectory2" xml:space="preserve">
+    <value>Output Directory (Resource)</value>
+  </data>
+  <data name="Settings_OutputDirectory_Invalid" xml:space="preserve">
+    <value>Must to set output directory.</value>
+  </data>
+  <data name="Settings_Tab_Data" xml:space="preserve">
+    <value>Data</value>
+  </data>
+  <data name="Settings_Tab_General" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="Settings_TestMode" xml:space="preserve">
+    <value>Data Test Mode</value>
+  </data>
+  <data name="Settings_UpdateMode" xml:space="preserve">
+    <value>Update Mode</value>
+  </data>
+  <data name="Settings_UpdateMode_Beta" xml:space="preserve">
+    <value>Beta</value>
+  </data>
+  <data name="Settings_UpdateMode_Stabble" xml:space="preserve">
+    <value>Stabble</value>
+  </data>
+  <data name="Settings_UsePerformanceMonitor" xml:space="preserve">
+    <value>Use Performance Monitor</value>
+  </data>
+  <data name="Settings_UseUserDefinition" xml:space="preserve">
+    <value>Enable custome definitions</value>
+  </data>
+  <data name="Settings_UseUserDefinition_Ask" xml:space="preserve">
+    <value>Are you sure to enable custom definition? This may cause reading exceptions.</value>
+  </data>
+  <data name="Settings_UseUserDefinition_Tooltip" xml:space="preserve">
+    <value>If you do not know the usage, do not check it!</value>
+  </data>
+  <data name="ShowObjectPlayer_Name" xml:space="preserve">
+    <value>Show Object Player</value>
+  </data>
+  <data name="TableView_Name" xml:space="preserve">
+    <value>Table View</value>
+  </data>
+  <data name="TextEditor_Name" xml:space="preserve">
+    <value>Text Editor</value>
+  </data>
+  <data name="TextView_LoadData" xml:space="preserve">
+    <value>Load data when preview</value>
+  </data>
+  <data name="TextView_LoadData_Tooltip" xml:space="preserve">
+    <value>Loading non text data will take up a longer time.</value>
+  </data>
+  <data name="TextView_LoadLastOnStartup" xml:space="preserve">
+    <value>Load last on startup</value>
+  </data>
+  <data name="TextView_Name" xml:space="preserve">
+    <value>Text Viewer</value>
+  </data>
+  <data name="TextView_NotExist_x16" xml:space="preserve">
+    <value>There is no .x16 files in selected directory.</value>
+  </data>
+  <data name="TextView_ReadOnly" xml:space="preserve">
+    <value>ReadOnly</value>
+  </data>
+  <data name="TextView_ReadStatus" xml:space="preserve">
+    <value>When viewing single file, you can edit the file
+Please note that do not modify the order of nodes</value>
+  </data>
+  <data name="TextView_ReadWrite" xml:space="preserve">
+    <value>ReadWrite</value>
+  </data>
+  <data name="TextView_ReplaceCompleted" xml:space="preserve">
+    <value>Replace completed!</value>
+  </data>
+  <data name="TextView_SaveCompleted" xml:space="preserve">
+    <value>Save completed!</value>
+  </data>
+  <data name="TextView_TaskStart" xml:space="preserve">
+    <value>Please wait task finish...</value>
+  </data>
+  <data name="Text_Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="Text_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Text_ColumnNumber" xml:space="preserve">
+    <value>Column</value>
+  </data>
+  <data name="Text_Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Text_Export" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="Text_File" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="Text_Import" xml:space="preserve">
+    <value>Import</value>
+  </data>
+  <data name="Text_Left" xml:space="preserve">
+    <value>Left</value>
+  </data>
+  <data name="Text_LineNumber" xml:space="preserve">
+    <value>Line</value>
+  </data>
+  <data name="Text_None" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="Text_Ok" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="Text_Options" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="Text_Output" xml:space="preserve">
+    <value>Output</value>
+  </data>
+  <data name="Text_Preview" xml:space="preserve">
+    <value>Preview</value>
+  </data>
+  <data name="Text_PublishOn" xml:space="preserve">
+    <value>Publish at</value>
+  </data>
+  <data name="Text_Refresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="Text_Remove" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="Text_Replace" xml:space="preserve">
+    <value>Replace</value>
+  </data>
+  <data name="Text_ReplaceInFiles" xml:space="preserve">
+    <value>Replace in Files</value>
+  </data>
+  <data name="Text_Reset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="Text_Right" xml:space="preserve">
+    <value>Right</value>
+  </data>
+  <data name="Text_Run" xml:space="preserve">
+    <value>Run</value>
+  </data>
+  <data name="Text_Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Text_SaveAs" xml:space="preserve">
+    <value>Save As...</value>
+  </data>
+  <data name="Text_Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="Text_Update" xml:space="preserve">
+    <value>Update</value>
   </data>
 </root>

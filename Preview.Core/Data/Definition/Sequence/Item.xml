@@ -175,7 +175,7 @@
 
 	<record name="weapon-gem-type">
 		<case name="none" default="y" />
-		<case name="ruby" desc="红玉" /> 
+		<case name="ruby" desc="红玉" />
 		<case name="topaz" desc="黄玉" />
 		<case name="sapphire" desc="青玉" />
 		<case name="jade" desc="翡翠" />
@@ -221,7 +221,7 @@
 		<case name="corundum-red" />
 	</record>
 
-	
+
 	<record name="game-category-3">
 		<case name="none" />
 		<case name="sword" />
@@ -313,6 +313,7 @@
 		<case name="aquamarine-diamond" />
 		<case name="amber-diamond" />
 		<case name="obsidian-garnet" />
+		<case name="aquamarine-amber" />
 		<case name="corundum-white" />
 		<case name="corundum-black" />
 		<case name="corundum-pink" />
@@ -327,6 +328,7 @@
 		<case name="skill-stone" />
 		<case name="skill-stone-1" />
 		<case name="skill-stone-2" />
+		<case name="weapon-soul-gem" />
 		<case name="accessory-stone" />
 		<case name="regenerate-potion" />
 		<case name="heal-potion" />
@@ -417,6 +419,8 @@
 		<case name="badge-appearance" />
 		<case name="fusion-material" />
 		<case name="card" />
-		<case name="relic-1" />
+		<case name="relic" />
+		<case name="voucher" />
+		<case name="star-stone" />
 	</record>
 </table>

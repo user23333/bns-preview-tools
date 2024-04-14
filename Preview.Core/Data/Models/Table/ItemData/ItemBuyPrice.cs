@@ -64,7 +64,7 @@ public class ItemBuyPrice : ModelElement
 		get
 		{
 			if (RequiredItembrand.Instance is null) return null;
-			return FileCache.Data.Provider.GetTable<ItemBrandTooltip>()[RequiredItembrand.Instance.Id + ((long)RequiredItembrandConditionType >> 32)];
+			return FileCache.Data.Provider.GetTable<ItemBrandTooltip>()[RequiredItembrand.Instance.Id + ((long)RequiredItembrandConditionType << 32)];
 		}
 	}
 

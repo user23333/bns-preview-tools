@@ -24,7 +24,7 @@ internal sealed class ZoneOut : OutSet
             int column = 1;
             sheet.Cells[Row, column++].SetValue(record.PrimaryKey);
             sheet.Cells[Row, column++].SetValue(record.Attributes["alias"]);
-			sheet.Cells[Row, column++].SetValue(record.Area.Instance?.Text);
+			sheet.Cells[Row, column++].SetValue(record.Area.Instance?.Name);
 			sheet.Cells[Row, column++].SetValue(record.Attributes["zone-type2"]);
 			sheet.Cells[Row, column++].SetValue(record.Attributes["attraction"]);
 		}

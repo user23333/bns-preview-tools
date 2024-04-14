@@ -35,7 +35,7 @@ public partial class ItemTooltipPanel
 		ItemIcon.InvalidateVisual();
 
 		ItemDescription7.String.LabelText = record.Attributes["description7"].GetText() +
-			string.Join("<br/>", record.ItemCombat.SelectNotNull(x => x.Instance));
+			string.Join("<br/>", record.ItemCombat.SelectNotNull(x => x.Instance?.Description));
 
 		SealEnable.SetVisibility(record.SealRenewalAuctionable);
 		if (record.SealRenewalAuctionable)

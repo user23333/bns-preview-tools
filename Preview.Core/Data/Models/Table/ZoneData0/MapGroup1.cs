@@ -10,6 +10,6 @@ public sealed class MapGroup1 : ModelElement , IHaveName
 	#endregion
 
 	#region Methods
-	public string Text => Name2.GetText();
+	public string Name => Name2.GetText();
 	#endregion
 }

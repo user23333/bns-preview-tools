@@ -562,15 +562,9 @@ public class BnsCustomGraphMapWidget : BnsCustomBaseWidget
 #endregion
 
 #region Helper
-public class ItemGraphRouteHelper
+public class ItemGraphRouteHelper(BnsCustomGraphMapWidget.Edge[] route)
 {
-	public BnsCustomGraphMapWidget.Edge[] Edges;
-
-	public ItemGraphRouteHelper(BnsCustomGraphMapWidget.Edge[] route)
-	{
-		Edges = route;
-	}
-
+	public BnsCustomGraphMapWidget.Edge[] Edges = route;
 
 	public void SwitchHighlight(bool status)
 	{
@@ -580,9 +574,7 @@ public class ItemGraphRouteHelper
 		});
 	}
 
-
-	public override string ToString() => Edges.Aggregate("", (a, n) => n.Data.StartItem.Instance.Text + " -> ") +
-		Edges.LastOrDefault()?.Data.EndItem.Instance.Text;
+	public override string ToString() => Edges.Aggregate("", (a, n) => n.Data.StartItem.Instance.Name + " -> ") +	Edges.LastOrDefault()?.Data.EndItem.Instance.Name;
 
 	public IReadOnlyDictionary<Item, int> Ingredients
 	{

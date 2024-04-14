@@ -22,9 +22,9 @@ public partial class LegacyAuctionPanel : INotifyPropertyChanged
 		DataContext = this;
 
 		#region Category
-		TreeView.Items.Add(new TreeViewImageItem() { Header = "UI.Market.Category.All".GetText(), Tag = "all" });
-		TreeView.Items.Add(new TreeViewImageItem() { Header = "UI.Market.Category.WorldBoss".GetText(), Tag = "WorldBoss", FontSize = 15 });
-		TreeView.Items.Add(new TreeViewImageItem() { Header = "UI.Market.Category.Favorites".GetText(), Tag = "favorites" });
+		TreeView.Items.Add(new TreeViewItem() { Tag = "all", Header = new BnsCustomLabelWidget() { Text = "UI.Market.Category.All".GetText() } });
+		TreeView.Items.Add(new TreeViewItem() { Tag = "WorldBoss", Header = new BnsCustomLabelWidget() { Text = "UI.Market.Category.WorldBoss".GetText(), FontSize = 15 } });
+		TreeView.Items.Add(new TreeViewItem() { Tag = "favorites", Header = new BnsCustomLabelWidget() { Text = "UI.Market.Category.Favorites".GetText() } });
 
 		foreach (var category2 in SequenceExtensions.MarketCategory2Group())
 		{

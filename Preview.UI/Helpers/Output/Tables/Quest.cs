@@ -27,7 +27,7 @@ internal sealed class QuestOut : OutSet
             int column = 1;
             sheet.Cells[Row, column++].SetValue(Quest.PrimaryKey);
             sheet.Cells[Row, column++].SetValue(Quest.Attributes["alias"]);
-            sheet.Cells[Row, column++].SetValue(Quest.Text);
+            sheet.Cells[Row, column++].SetValue(Quest.Name);
             sheet.Cells[Row, column++].SetValue(Quest.Title);
             sheet.Cells[Row, column++].SetValue(Quest.Attributes["category"]);
             sheet.Cells[Row, column++].SetValue(Quest.Attributes["content-type"]);

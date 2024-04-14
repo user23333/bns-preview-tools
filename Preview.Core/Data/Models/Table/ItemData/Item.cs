@@ -210,7 +210,7 @@ public abstract class Item : ModelElement , IHaveName
 
 
 	#region Methods
-	public string Text => Attributes["name2"].GetText() ?? base.ToString();
+	public string Name => Attributes["name2"].GetText() ?? base.ToString();
 
 	public ImageProperty BackIcon => IconTexture.GetBackground(ItemGrade);
 
@@ -271,7 +271,7 @@ public abstract class Item : ModelElement , IHaveName
 			{
 				if (ability.Value == 0) continue;
 
-				var text = ability.Key.GetName(ability.Value);
+				var text = ability.Key.GetText(ability.Value);
 				if (ability.Key == MainAbility1 || ability.Key == MainAbility2) Substitute1.AppendLine(text);
 				else Substitute2.AppendLine(text);
 			}

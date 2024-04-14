@@ -2,7 +2,7 @@
 using Xylia.Preview.Data.Models.Sequence;
 
 namespace Xylia.Preview.Data.Models;
-public sealed class Achievement : ModelElement ,IHaveName
+public sealed class Achievement : ModelElement, IHaveName
 {
 	#region Attributes
 	public short Id { get; set; }
@@ -11,6 +11,6 @@ public sealed class Achievement : ModelElement ,IHaveName
 	#endregion
 
 	#region Methods
-	public string Text => this.Attributes["name2"]?.GetText();
+	public string Name => this.Attributes["name2"]?.GetText();
 	#endregion
 }

@@ -71,7 +71,7 @@
 						<BnsCustomLabelWidget String="{Binding Title ,FallbackValue=Quest Information Title}" FontSize="17" Foreground= "Gray" />
 						<HorizontalBox>
 							<BnsCustomImageWidget BaseImageProperty="{Binding FrontIcon}" Width="20" Height="20" Margin="0 0 3 0"/>
-							<BnsCustomLabelWidget String="{Binding Text}" FontSize="15" />
+							<BnsCustomLabelWidget String="{Binding Name}" FontSize="15" />
 						</HorizontalBox>
 
 						<BnsCustomLabelWidget x:Name="QuestJournal_Content" MetaData="textref=UI.QuestJournal.Info.Content">
@@ -135,7 +135,7 @@
 				<s:TreeView x:Name="TreeView2" s:Grid.Column="0" ContextMenu="{s:StaticResource ExtractMenu}" SelectedItemChanged="CompletedTab_SelectedItemChanged">
 					<s:TreeView.Resources>
 						<s:DataTemplate DataType="{x:Type data:Quest}">
-							<BnsCustomLabelWidget String="{Binding Text}" />
+							<BnsCustomLabelWidget String="{Binding Name}" />
 						</s:DataTemplate>
 					</s:TreeView.Resources>
 				</s:TreeView>

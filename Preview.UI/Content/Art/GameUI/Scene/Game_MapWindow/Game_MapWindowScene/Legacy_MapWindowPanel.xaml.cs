@@ -52,7 +52,7 @@ public partial class Legacy_MapWindowPanel
 
 		var rule = SearcherRule.Text;
 		return string.IsNullOrEmpty(rule) ||
-			(mapinfo.Text != null && mapinfo.Text.Contains(rule, StringComparison.OrdinalIgnoreCase));
+			(mapinfo.Name != null && mapinfo.Name.Contains(rule, StringComparison.OrdinalIgnoreCase));
 	}
 
 	//  Map
@@ -106,7 +106,7 @@ public partial class Legacy_MapWindowPanel
 				var obj = new Ref<ModelElement>(mapunit.Attributes.Get<string>("attraction")).Instance;
 				if (obj is IAttraction attraction)
 				{
-					tooltip = attraction.Text + "\n" + attraction.Describe;
+					tooltip = attraction.Name + "\n" + attraction.Description;
 				}
 				else if (obj != null)
 				{
@@ -118,7 +118,7 @@ public partial class Legacy_MapWindowPanel
 				var npc = mapunit.Attributes.Get<Record>("npc")?.As<Npc>();
 				if (npc != null)
 				{
-					tooltip = npc.Text;
+					tooltip = npc.Name;
 
 					for (int i = 0; i < npc.ForwardingTypes.Length; i++)
 					{
@@ -130,7 +130,7 @@ public partial class Legacy_MapWindowPanel
 			else if (mapunit is MapUnit.Boss)
 			{
 				var npc = mapunit.Attributes.Get<Record>("npc")?.As<Npc>();
-				if (npc != null) tooltip = npc.Text;
+				if (npc != null) tooltip = npc.Name;
 			}
 			else if (mapunit is MapUnit.Link)
 			{
@@ -171,7 +171,7 @@ public partial class Legacy_MapWindowPanel
 	{
 		public override object? GroupNameFromItem(object item, int level, CultureInfo culture)
 		{
-			if (item is MapInfo MapInfo) return MapInfo.MapGroup1.Instance?.Text;
+			if (item is MapInfo MapInfo) return MapInfo.MapGroup1.Instance?.Name;
 			
 			return base.GroupNameFromItem(item, level, culture);
 		}

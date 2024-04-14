@@ -58,7 +58,7 @@ public sealed class MapInfo : ModelElement, IHaveName
 	#endregion
 
 	#region Methods
-	public string Text => Name2.GetText();
+	public string Name => Name2.GetText();
 
 	public static MapUnit.MapDepthSeq GetMapDepth(MapInfo MapInfo)
 	{

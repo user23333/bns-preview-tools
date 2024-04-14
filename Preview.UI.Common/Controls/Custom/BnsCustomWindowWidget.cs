@@ -108,8 +108,12 @@ public class BnsCustomWindowWidget : BnsCustomBaseWidget
 	/// <summary>
 	/// Opens a <see langword="PresentationFramework."/><see cref="Window"/> to display the widget
 	/// </summary>
-	public void Show()
+	public void Show(bool ShowBorder = true)
 	{
+#if DEBUG
+		ShowBorder = true;
+#endif
+
 		Host = new Window
 		{
 			Content = this,
@@ -118,11 +122,8 @@ public class BnsCustomWindowWidget : BnsCustomBaseWidget
 			ResizeMode = ResizeMode.NoResize,
 			SizeToContent = SizeToContent.WidthAndHeight,
 			Title = this.Name,
-			WindowStyle = WindowStyle.None,
+			WindowStyle = ShowBorder ? WindowStyle.SingleBorderWindow : WindowStyle.None,
 		};
-#if DEBUG
-		Host.WindowStyle = WindowStyle.SingleBorderWindow;
-#endif
 		Host.Closing += (s, e) => OnClosing(e);
 		Host.Show();
 	}

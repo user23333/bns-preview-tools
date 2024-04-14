@@ -4,7 +4,7 @@ namespace Xylia.Preview.Data.Common.Abstractions;
 /// <summary>
 /// Specify the conversion operation to <see cref="Integer"/>
 /// </summary>
-internal interface IInteger : IConvertible
+public interface IInteger : IConvertible
 {
 	bool IConvertible.ToBoolean(IFormatProvider provider) => throw new NotSupportedException();
 

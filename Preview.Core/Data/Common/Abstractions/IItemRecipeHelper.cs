@@ -50,7 +50,7 @@ public class ItemRecipeHelper
 		return string.Format("{0} {1} {2}",
 			Money.Money,
 			MainItem?.ItemName + MainItemCount,
-			string.Join(" ", SubItemList.Select(x => x.Item1.ItemName + x.Item2)));
+			string.Join(",", SubItemList.Select(x => x.Item1.ItemName + x.Item2)));
 	}
 	#endregion
 }

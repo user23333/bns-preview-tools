@@ -20,7 +20,7 @@ public sealed class Npc : ModelElement, IHaveName
 	#endregion
 
 	#region Properties
-	public string Text => this.Attributes["name2"].GetText();
+	public string Name => this.Attributes["name2"].GetText();
 
 	public string Map
 	{
@@ -29,7 +29,7 @@ public sealed class Npc : ModelElement, IHaveName
 			var alias = this.ToString();
 
 			var MapUnit = FileCache.Data.Provider.GetTable<MapUnit>().Where(x => x.ToString() != null && x.ToString().Contains(alias, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
-			return MapUnit is null ? null : FileCache.Data.Provider.GetTable<MapInfo>().FirstOrDefault(x => x.Id == MapUnit.Mapid)?.Text;
+			return MapUnit is null ? null : FileCache.Data.Provider.GetTable<MapInfo>().FirstOrDefault(x => x.Id == MapUnit.Mapid)?.Name;
 		}
 	}
 	#endregion

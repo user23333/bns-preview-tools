@@ -1,4 +1,5 @@
-﻿using Xylia.Preview.Data.Models.Sequence;
+﻿using Xylia.Preview.Common.Extension;
+using Xylia.Preview.Data.Models.Sequence;
 
 namespace Xylia.Preview.Data.Models;
 public sealed class ItemCombat : ModelElement
@@ -16,10 +17,15 @@ public sealed class ItemCombat : ModelElement
 	#endregion
 
 	#region Methods
-	public override string ToString()
+	public string Description
 	{
-		List<Ref<ItemSkill>> ItemSkills = [.. ItemSkill, .. ItemSkillSecond, .. ItemSkillThird];
-		return SkillModifyInfoGroup.Instance?.ToString() + string.Join("<br/>", ItemSkills.Select(@ref => @ref.Instance).Where(record => record?.Description2 != null));
+		get
+		{
+			List<Ref<ItemSkill>> ItemSkills = [.. ItemSkill, .. ItemSkillSecond, .. ItemSkillThird];
+
+			return string.Format("<font name=\"00008130.UI.Label_Green03_12\">{0}</font>",
+				SkillModifyInfoGroup.Instance?.Description + string.Join("<br/>", ItemSkills.SelectNotNull(x => x.Instance?.Description)));
+		}
 	}
 	#endregion
 }

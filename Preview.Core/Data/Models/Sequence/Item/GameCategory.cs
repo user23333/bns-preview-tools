@@ -187,13 +187,13 @@ public enum GameCategory3Seq
 	[Text("Name.item.game-category-3.soul")]
 	Soul,
 
-	[Text("Name.item.game-category-3.soul2")]
+	[Text("Name.item.game-category-3.soul-2")]
 	Soul2,
 
-	[Text("Name.item.game-category-3.rune1")]
+	[Text("Name.item.game-category-3.rune-1")]
 	Rune1,
 
-	[Text("Name.item.game-category-3.rune2")]
+	[Text("Name.item.game-category-3.rune-2")]
 	Rune2,
 
 	[Text("Name.item.game-category-3.pet")]
@@ -383,6 +383,9 @@ public enum GameCategory3Seq
 	[Text("Name.item.game-category-3.obsidian-garnet")]
 	ObsidianGarnet,
 
+	[Text("Name.item.game-category-3.aquamarine-amber")]
+	AquamarineAmber,
+
 	[Text("Name.item.game-category-3.corundum-white")]
 	CorundumWhite,
 
@@ -425,8 +428,11 @@ public enum GameCategory3Seq
 	[Text("Name.item.game-category-3.skill-stone2")]
 	SkillStone2,
 
-	[Text("Name.item.game-category-3.skill-stone3")]
-	SkillStone3,
+	[Text("Name.item.game-category-3.weapon-soul-gem")]
+	WeaponSoulGem,
+
+	[Text("Name.item.game-category-3.accessory-stone")]
+	AccessoryStone,
 
 	[Text("Name.item.game-category-3.regenerate-potion")]
 	RegeneratePotion,
@@ -694,6 +700,15 @@ public enum GameCategory3Seq
 
 	[Text("Name.item.game-category-3.card")]
 	Card,
+
+	[Text("Name.item.game-category-3.relic")]
+	Relic,
+
+	[Text("Name.item.game-category-3.voucher")]
+	Voucher,
+
+	[Text("Name.item.game-category-3.star-stone")]
+	StarStone,
 
 	COUNT
 }

@@ -3,23 +3,25 @@
 namespace Xylia.Preview.Data.Models;
 public sealed class PartyBattleFieldZone : ModelElement, IAttraction
 {
-	public Ref<Text> ZoneName2;
-
-	public Ref<Text> ZoneDesc;
-
-	public string Text => this.ZoneName2.GetText();
-
-	public string Describe => this.ZoneDesc.GetText();
-
-
+	#region Attributes
 	public enum PartyBattleFieldZoneType
 	{
 		None,
+		OccupationWar,
+		CaptureTheFlag,
+		LeadTheBall,
 
-			OccupationWar,
-
-			CaptureTheFlag,
-
-			LeadTheBall,
+		COUNT
 	}
+
+	public Ref<Text> ZoneName2;
+
+	public Ref<Text> ZoneDesc;
+	#endregion
+
+	#region Methods
+	public string Name => this.ZoneName2.GetText();
+
+	public string Description => this.ZoneDesc.GetText();
+	#endregion
 }

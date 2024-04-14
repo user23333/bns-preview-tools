@@ -1,10 +1,10 @@
 ﻿namespace Xylia.Preview.Data.Common.Abstractions;
 public interface IHaveName
 {
-	string Text { get; }
+	string Name { get; }
 }
 
 public interface IAttraction : IHaveName
 {
-	string Describe { get; }
+	string Description { get; }
 }

@@ -41,7 +41,7 @@ internal sealed class ItemCloset : OutSet
 
             sheet.Cells[Row, column++].SetValue(item.PrimaryKey);
             sheet.Cells[Row, column++].SetValue(item.ToString());
-            sheet.Cells[Row, column++].SetValue(item.Text);
+            sheet.Cells[Row, column++].SetValue(item.Name);
             sheet.Cells[Row, column++].SetValue(item.EquipType.GetText());
             sheet.Cells[Row, column++].SetValue(item.EquipSex.GetText());
             sheet.Cells[Row, column++].SetValue(item.EquipRace);

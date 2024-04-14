@@ -7,6 +7,10 @@ namespace Xylia.Preview.Data.Models;
 public sealed class ItemImproveOption : ModelElement
 {
 	#region Attributes
+	public int Id { get; set; }
+
+	public sbyte Level { get; set; }
+
 	public MainAbility Ability { get; set; }
 
 	public int AbilityValue { get; set; }
@@ -27,11 +31,10 @@ public sealed class ItemImproveOption : ModelElement
 	{
 		var builder = new StringBuilder();
 
-		if (Ability != MainAbility.None) builder.Append("UI.Tooltip.ItemImprove.Ability.Enable".GetText([Ability.GetName(AbilityValue)]));
+		if (Ability != MainAbility.None) builder.Append("UI.Tooltip.ItemImprove.Ability.Enable".GetText([Ability.GetText(AbilityValue)]));
 		if (EffectDescription.HasValue) builder.Append(EffectDescription.GetText());
-		if (SkillModifyInfoGroup.Any(x => x.HasValue)) builder.Append(
-			string.Format("<font name=\"00008130.UI.Label_Green03_12\">{0}</font>",
-			string.Join("<br/>", SkillModifyInfoGroup.Skip(5).SelectNotNull(record => record.Instance))));
+		if (SkillModifyInfoGroup.Any(x => x.HasValue)) builder.Append(string.Join("<br/>", 
+			SkillModifyInfoGroup.Skip(5).SelectNotNull(record => record.Instance)));
 
 		builder.Append(Additional.GetText());
 		return builder.ToString();

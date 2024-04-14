@@ -18,7 +18,7 @@ public partial class ChallengeTodayPanel
 
 		record.ChallengeQuestBasic.SelectNotNull(item => item.Instance).ForEach(item =>
 		{
-			Console.WriteLine(item.Text);
+			Console.WriteLine(item.Name);
 		});
 	}
 	#endregion

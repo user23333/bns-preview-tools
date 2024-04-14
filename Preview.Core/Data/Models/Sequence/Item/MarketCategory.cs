@@ -482,6 +482,24 @@ public enum MarketCategory3Seq
 	[Text("Name.item.market-category-3.instrument")]
 	Instrument,
 
+	[Text("")]
+	N130,
+
+	[Text("")]
+	N131,
+
+	[Text("")]
+	N132,
+
+	[Text("Name.item.market-category-3.star-stone")]
+	StarStone,
+
+	[Text("Name.item.market-category-3.weapon-soul-gem")]
+	WeaponSoulGem,
+
+	[Text("")]
+	N135,
+
 	COUNT
 }
 

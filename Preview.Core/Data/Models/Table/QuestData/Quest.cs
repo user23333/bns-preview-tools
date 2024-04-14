@@ -39,7 +39,7 @@ public class Quest : ModelElement, IHaveName
 	#endregion
 
 	#region Properties
-	public string Text => this.Attributes["name2"]?.GetText();
+	public string Name => this.Attributes["name2"]?.GetText();
 
 	public string Title => this.Attributes["group2"]?.GetText();
 

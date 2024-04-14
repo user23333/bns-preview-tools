@@ -1,30 +1,20 @@
-﻿using Xylia.Preview.Data.Models.Sequence;
+﻿using Xylia.Preview.Data.Common.DataStruct;
+using Xylia.Preview.Data.Models.Sequence;
 
 namespace Xylia.Preview.Data.Models.Creature;
 public static class AbilityEx
 {
-	public static string GetName(this MainAbility ability, long Value = 0)
+	public static string GetText(this MainAbility ability, long value = 0) => GetAbilityText(ability, value);
+
+	public static string GetText(this AttachAbility ability, long value = 0) => GetAbilityText(ability, value);
+
+	private static string GetAbilityText(Enum ability, long value)
 	{
-		if (ability == MainAbility.None) return null;
+		if (ability == default) return null;
 
-		return ability.GetText().Combine(Value);
+		var name = SequenceExtensions.GetText(ability);
+		return value == 0 ? name : string.Format("{0} {1}", name, 
+			ability.ToString().EndsWith("percent", StringComparison.OrdinalIgnoreCase) ?
+			new Integer(value).FloatDot0 + "%" : value.ToString());
 	}
-
-	public static string GetName(this AttachAbility ability, long Value = 0)
-	{
-		if (ability == AttachAbility.None) return null;
-
-		return ability.GetText().Combine(Value);
-	}
-
-
-	private static string Combine(this string text, long Value)
-	{
-		if (Value == 0) return text;
-		return text + " " + Value.GetValue(text);
-	}
-
-	private static string GetValue(this long Value, string AbiltyName) => AbiltyName != null && AbiltyName.EndsWith("percent", StringComparison.OrdinalIgnoreCase) ?
-		((float)Value / 10).ToString("0.0") + "%" :
-		Value.ToString();
 }

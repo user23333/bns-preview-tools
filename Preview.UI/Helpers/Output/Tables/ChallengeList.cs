@@ -37,7 +37,7 @@ internal sealed class ChallengeListOut : OutSet
 				var attraction = record.ChallengeQuestAttraction[i].Instance;
 				var expansion = record.ChallengeQuestExpansion[i].Instance;
 
-				sheet.Cells[Row++, column].SetValue(GradeText(grade) + quest.Text);
+				sheet.Cells[Row++, column].SetValue(GradeText(grade) + quest.Name);
 			}
 
 			// ChallengeNpcKill
@@ -51,7 +51,7 @@ internal sealed class ChallengeListOut : OutSet
 				var attraction = record.ChallengeNpcAttraction[i].Instance;
 				var quest = record.ChallengeNpcQuest[i];
 
-				sheet.Cells[Row++, column].SetValue(GradeText(grade) + $"{difficulty} {npc.Text}");
+				sheet.Cells[Row++, column].SetValue(GradeText(grade) + $"{difficulty} {npc.Name}");
 			}
 
 			// Reward

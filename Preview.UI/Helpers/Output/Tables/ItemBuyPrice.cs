@@ -54,7 +54,7 @@ internal sealed class ItemBuyPriceOut : OutSet
                 var count = record.RequiredItemCount[i];
 
                 if (item is null) sheet.Cells[Row, column++].SetValue("");
-                else sheet.Cells[Row, column++].SetValue(item.Text + " " + count);
+                else sheet.Cells[Row, column++].SetValue(item.Name + " " + count);
             }
             #endregion
 
@@ -68,7 +68,7 @@ internal sealed class ItemBuyPriceOut : OutSet
 
             #region achievemen
             string AchievementName = record.RequiredAchievementId == 0 ? null :
-                FileCache.Data.Provider.GetTable<Achievement>().FirstOrDefault(o => o.Id == record.RequiredAchievementId && o.Step == record.RequiredAchievementStepMin)?.Text;
+                FileCache.Data.Provider.GetTable<Achievement>().FirstOrDefault(o => o.Id == record.RequiredAchievementId && o.Step == record.RequiredAchievementStepMin)?.Name;
             sheet.Cells[Row, column++].SetValue(AchievementName);
             #endregion
 

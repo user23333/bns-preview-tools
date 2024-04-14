@@ -24,7 +24,7 @@ public class ChallengeListReward : ModelElement
 			var item = RewardItem[i].Instance;
 			if (item is null) continue;
 
-			builder.Append($"\n{item.Text} x{RewardItemCount[i]}");
+			builder.Append($"\n{item.Name} x{RewardItemCount[i]}");
 		}
 
 		if (RewardMoney > 0) builder.Append("Money: " + RewardMoney);

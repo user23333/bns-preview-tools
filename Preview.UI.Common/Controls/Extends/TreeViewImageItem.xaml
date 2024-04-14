@@ -46,9 +46,7 @@
 							<DockPanel LastChildFill="True" Margin="{Binding Converter={c:TreeViewItemMarginConverter}, RelativeSource={RelativeSource TemplatedParent}}">
 								<ToggleButton x:Name="Expander" ClickMode="Press" IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}" Style="{StaticResource ExpandCollapseToggleStyle}" />
 								<Image Source="{TemplateBinding Image}" Width="18" Height="18" Margin="0 0 4 0" />
-
-								<c:BnsCustomLabelWidget Text="{TemplateBinding Header}" FontSize="{TemplateBinding FontSize}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Center" />
-								<!-- <ContentPresenter VerticalAlignment="Center" x:Name="PART_Header" ContentSource="Header" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/> -->
+								<ContentPresenter VerticalAlignment="Center" x:Name="PART_Header" ContentSource="Header" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
 							</DockPanel>
 						</Border>
 						<ItemsPresenter x:Name="ItemsHost" Grid.Row="1"/>

@@ -2,6 +2,7 @@
 using Xylia.Preview.Common.Attributes;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.Abstractions;
+using Xylia.Preview.Data.Helpers;
 
 namespace Xylia.Preview.Data.Models;
 public sealed class ItemImproveOptionList : ModelElement, IItemRecipeHelper
@@ -52,21 +53,20 @@ public sealed class ItemImproveOptionList : ModelElement, IItemRecipeHelper
 
 
 	#region Methods
-	public IEnumerable Options
+	public IEnumerable GetOptions(sbyte level)
 	{
-		get
+		var options = new List<Tuple<ItemImproveOption, string>>();
+
+		for (int i = 0; i < Option.Length; i++)
 		{
-			var options = new List<Tuple<ItemImproveOption, string>>();
+			var option = Option[i].Instance;
+			if (option is null) continue;
 
-			for (int i = 0; i < Option.Length; i++)
-			{
-				var option = Option[i].Instance;
-				if (option != null) options.Add(new(option, 
-					((double)OptionProbWeight[i] / OptionProbMax).ToString("P2")));
-			}
-
-			return options;
+			option = FileCache.Data.Provider.GetTable<ItemImproveOption>()[option.Id + ((long)level << 32)];
+			options.Add(new(option, ((double)OptionProbWeight[i] / OptionProbMax).ToString("P2")));
 		}
+
+		return options;
 	}
 
 	public IEnumerable<ItemRecipeHelper> CreateRecipe()

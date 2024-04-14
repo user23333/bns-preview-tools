@@ -1,8 +1,11 @@
-﻿using System.Security.Cryptography;
+﻿using System.Diagnostics;
+using System.Security.Cryptography;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Xylia.Preview.Data.Client;
 using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Data.Models;
+using Xylia.Preview.Data.Models.Config;
+using Xylia.Preview.Data.Models.Sequence;
 
 namespace Xylia.Preview.Tests.DatTests;
 
@@ -63,9 +66,6 @@ public partial class Tables
 		//}
 
 
-		var x = 0d;
-		var y = 0;
-
-		Console.WriteLine((x / y).ToString("P2"));
+		Console.WriteLine(Database.Provider.GetTable<SkillModifyInfoGroup>()["SkillModifyInfoGroup_BulMyolE_FM_Lv16_Jobstyle7"].Description);
 	}
 }

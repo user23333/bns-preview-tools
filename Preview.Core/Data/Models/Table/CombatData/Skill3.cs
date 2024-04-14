@@ -12,7 +12,6 @@ public abstract class Skill3 : ModelElement, IHaveName
 	public sbyte VariationId { get; set; }
 	public short[] RevisedEventProbabilityInExec { get; set; }
 
-
 	public Ref<SkillSystematization>[] Systematization { get; set; }
 	public short DamageRatePvp { get; set; }
 	public short DamageRateStandardStats { get; set; }
@@ -89,7 +88,7 @@ public abstract class Skill3 : ModelElement, IHaveName
 
 
 	#region Properties
-	public string Text => Name2.GetText();
+	public string Name => Name2.GetText();
 
 	public ImageProperty Icon => FileCache.Data.Provider.GetTable<IconTexture>()[IconTexture]?.GetIcon(IconIndex);
 

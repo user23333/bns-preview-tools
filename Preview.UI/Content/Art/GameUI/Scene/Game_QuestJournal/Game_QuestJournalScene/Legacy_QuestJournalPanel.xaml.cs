@@ -54,7 +54,7 @@ public partial class Legacy_QuestJournalPanel
 		// filter 
 		if (int.TryParse(rule, out int id)) return quest.PrimaryKey.Id == id;
 
-		if (quest.Text != null && quest.Text.Contains(rule, StringComparison.OrdinalIgnoreCase)) return true;
+		if (quest.Name != null && quest.Name.Contains(rule, StringComparison.OrdinalIgnoreCase)) return true;
 		if (quest.Title != null && quest.Title.Contains(rule, StringComparison.OrdinalIgnoreCase)) return true;
 
 		return false;

@@ -152,8 +152,8 @@
 						<Button Grid.Column="2" Content="..." HorizontalAlignment="Right" Click="OnBrowseDirectories3" />
 					</ItemsControl>
 
-					<!-- Preview Options -->
-					<hc:Divider Grid.ColumnSpan="10" Margin="0 5" d:Content="Preview Options" Content="Preview Options" />
+					<!-- Options -->
+					<hc:Divider Grid.ColumnSpan="10" Margin="0 5" d:Content="Options" Content="Preview Options" />
 					<ItemsControl>
 						<TextBlock d:Text="Language" Text="{DynamicResource Settings_Language}" />
 						<ComboBox Grid.Column="1" ItemsSource="{Binding Languages,Mode=OneTime}" SelectedItem="{Binding Language}">

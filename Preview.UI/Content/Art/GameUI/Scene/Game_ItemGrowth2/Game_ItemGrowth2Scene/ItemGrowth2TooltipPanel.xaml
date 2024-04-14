@@ -342,18 +342,19 @@
 		</BnsCustomWindowWidget>
 
 		<BnsCustomWindowWidget Name="ItemGrowth2Panel_DrawImproveOption2" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="10 0 10 300">
-			<s:ListBox Name="ItemGrowth2Panel_DrawImproveOption2_Before" LayoutData.Offsets="0 20 0 0" Width="210" Height="200" SelectionChanged="DrawImproveOption_Before_SelectionChanged" DisplayMemberPath="ImproveOptionAcquireLevel" />
-			<s:ListBox Name="ItemGrowth2Panel_DrawImproveOption2_After" LayoutData.Offsets="220 20 0 0" Width="210" Height="200" >
+			<s:ComboBox Name="ItemGrowth2Panel_DrawImproveOption2_Level"  LayoutData.Offsets="0 5 0 0" Width="210" SelectionChanged="DrawImproveOption_Level_SelectionChanged" />
+			<s:ListBox Name="ItemGrowth2Panel_DrawImproveOption2_Before" LayoutData.Offsets="0 40 0 0" Width="210" Height="200" DisplayMemberPath="ImproveOptionAcquireLevel" SelectionChanged="DrawImproveOption_Before_SelectionChanged" />
+			<s:ListBox Name="ItemGrowth2Panel_DrawImproveOption2_After" LayoutData.Offsets="220 40 0 0" Width="210" Height="200" >
 				<s:ListBox.ItemTemplate>
 					<s:DataTemplate>
-						<BnsCustomImageWidget Height="20">
+						<BnsCustomImageWidget MinHeight="20">
 							<BnsCustomLabelWidget String="{Binding Path=Item1}" LayoutData.Anchors="0 0 1 1" />
-							<s:TextBlock Text="{Binding Path=Item2}" LayoutData.Anchors="1 0 1 0" />
+							<BnsCustomLabelWidget String="{Binding Path=Item2}" LayoutData.Anchors="1 0 1 0" />
 						</BnsCustomImageWidget>
 					</s:DataTemplate>
 				</s:ListBox.ItemTemplate>
 			</s:ListBox>
-			<BnsCustomLabelWidget Name="ItemGrowth2Panel_DrawImproveOption2_Desc" LayoutData.Offsets="0 230 0 0" String="적용된 효과를 선택해 주세요" />
+			<BnsCustomLabelWidget Name="ItemGrowth2Panel_DrawImproveOption2_Desc" LayoutData.Offsets="0 250 0 0" String="적용된 효과를 선택해 주세요" />
 		</BnsCustomWindowWidget>
 	</BnsCustomImageWidget>
 

@@ -22,7 +22,7 @@ internal sealed class QuestEpic : OutSet
 
             sheet.Cells[Row, column++].SetValue(data.PrimaryKey);
             sheet.Cells[Row, column++].SetValue(data);
-            sheet.Cells[Row, column++].SetValue(data.Text);
+            sheet.Cells[Row, column++].SetValue(data.Name);
             sheet.Cells[Row, column++].SetValue(data.Title);
         });
     }
