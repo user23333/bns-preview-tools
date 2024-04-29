@@ -1,7 +1,5 @@
-﻿using Xylia.Preview.Data.Common.Abstractions;
-
-namespace Xylia.Preview.Data.Models;
-public sealed class Cave2 : ModelElement, IAttraction
+﻿namespace Xylia.Preview.Data.Models;
+public sealed class Cave2 : ModelElement, IAttration
 {
 	#region Attributes
 	public sbyte UiTextGrade;

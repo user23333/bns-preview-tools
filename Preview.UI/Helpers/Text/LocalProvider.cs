@@ -1,14 +1,28 @@
 ﻿using System.IO;
+using System.Windows;
 using System.Xml;
 using Xylia.Preview.Data.Engine.BinData.Helpers;
 using Xylia.Preview.Data.Engine.BinData.Models;
 using Xylia.Preview.Data.Engine.BinData.Serialization;
 using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Data.Engine.Definitions;
+using MessageBox = HandyControl.Controls.MessageBox;
 
 namespace Xylia.Preview.UI.Helpers;
 public class LocalProvider(string Source) : DefaultProvider
 {
+	#region Properties
+	/// <summary>
+	/// Check source is dat file
+	/// </summary>
+	public bool CanSave { get; protected set; }
+
+	public bool HaveBackup { get; protected set; }
+
+	public Table TextTable => this.Tables["text"];
+	#endregion
+
+	#region Override Methods
 	public override string Name => Path.GetFileName(Source);
 
 	public override Stream[] GetFiles(string pattern) => [File.OpenRead(pattern)];
@@ -16,7 +30,7 @@ public class LocalProvider(string Source) : DefaultProvider
 	public override void LoadData(DatafileDefinition definitions)
 	{
 		this.Tables = [];
-		this.CanSave = false;
+		this.CanSave = this.HaveBackup = false;
 
 		// invalid path
 		if (string.IsNullOrWhiteSpace(Source)) return;
@@ -34,7 +48,7 @@ public class LocalProvider(string Source) : DefaultProvider
 
 				LocalData = new FileInfo(Source);
 				Is64Bit = LocalData.Bit64;
-				ReadFrom(LocalData.SearchFiles(Is64Bit ? "localfile64.bin" : "localfile.bin").FirstOrDefault()?.Data, Is64Bit);
+				ReadFrom(LocalData.SearchFiles(PATH.Localfile(Is64Bit)).FirstOrDefault()?.Data, Is64Bit);
 
 				// detect text table type
 				if (definitions.HasHeader) Detect = new DatafileDirect(definitions.Header);
@@ -44,36 +58,29 @@ public class LocalProvider(string Source) : DefaultProvider
 			break;
 		}
 	}
+	#endregion
 
-
-	/// <summary>
-	/// Check source is dat file
-	/// </summary>
-	public bool CanSave { get; protected set; }
-
-	public Table TextTable => this.Tables["text"];
-
+	#region Public Methods
 	/// <summary>
 	/// Replace existed text
 	/// </summary>
 	/// <param name="files">x16 file path</param>
 	public void ReplaceText(FileInfo[] files)
 	{
-		var table = TextTable;
-		ArgumentNullException.ThrowIfNull(table);
+		var table = TextTable ?? throw new ArgumentException("bad table");
 
 		foreach (var file in files)
 		{
 			XmlDocument xml = new() { PreserveWhitespace = true };
 			xml.Load(file.FullName);
 
-			foreach (XmlElement element in xml.DocumentElement.SelectNodes($"./" + table.Definition.ElRecord.Name))
+			foreach (XmlElement element in xml.DocumentElement!.SelectNodes($"./" + table.Definition.ElRecord.Name)!)
 			{
 				var alias = element.Attributes["alias"]?.Value;
 				var text = element.InnerXml;
 
 				var record = table[alias];
-				if (record != null) record.StringLookup.Strings = [alias, text];
+				if (record != null) record.Attributes["text"] = text;
 			}
 		}
 	}
@@ -91,20 +98,23 @@ public class LocalProvider(string Source) : DefaultProvider
 		ArgumentNullException.ThrowIfNull(table);
 
 		using var stream = new MemoryStream(data);
-		var actions = table.LoadXml(stream);
-		actions.ForEach(a => a.Invoke());
+		table.LoadXml(stream).ForEach(a => a.Invoke());
 
 		WriteData(Source, new PublishSettings() { Is64bit = Is64Bit, Mode = Mode.Package });
 	}
 
 	public override void WriteData(string folder, PublishSettings settings)
 	{
+		var useBackup = !HaveBackup || MessageBox.Show(StringHelper.Get("TextView_BackUp_Ask"), StringHelper.Get("Message_Tip"), MessageBoxButton.YesNo) == MessageBoxResult.OK;
 		var replaces = new Dictionary<string, byte[]>
 		{
-			{ PATH.Localfile(Is64Bit), WriteTo([.. this.Tables], settings.Is64bit) }
+			{ PATH.Localfile(Is64Bit), WriteTo([.. Tables], settings.Is64bit) }
 		};
 
 		var param = new PackageParam(folder, settings.Is64bit);
-		ThirdSupport.Pack(param, replaces);
+		ThirdSupport.Pack(param, replaces, useBackup);
+
+		HaveBackup = true;
 	}
+	#endregion
 }

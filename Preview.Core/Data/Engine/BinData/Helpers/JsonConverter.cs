@@ -1,5 +1,4 @@
-﻿using System.Text;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Engine.BinData.Models;
 using Xylia.Preview.Data.Engine.Definitions;
@@ -78,7 +77,7 @@ public class StringLookupConverter : JsonConverter<StringLookup>
 	public override void WriteJson(JsonWriter writer, StringLookup value, JsonSerializer serializer)
 	{
 		long length = 0;
-		var strings = Encoding.Unicode.GetString(value.Data).Split('\0', StringSplitOptions.RemoveEmptyEntries);
+		var strings = value.Strings;
 
 		writer.WritePropertyName("String");
 		writer.WriteStartArray();
@@ -118,8 +117,6 @@ public class AttributeValueConverter : JsonConverter<AttributeValue>
 {
 	public override void WriteJson(JsonWriter writer, AttributeValue value, JsonSerializer serializer)
 	{
-		serializer.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-
 		switch (value.Type)
 		{
 			case AttributeType.TNone:
@@ -129,80 +126,26 @@ public class AttributeValueConverter : JsonConverter<AttributeValue>
 				else writer.WriteValue(value?.ToString());
 				break;
 			}
+			case AttributeType.TBool: writer.WriteValue(value.AsBoolean); break;
+			case AttributeType.TRef:
+			case AttributeType.TTRef:
+				writer.WriteValue(value.ToString()); break;
 
-			case AttributeType.TInt8: writer.WriteValue(value?.AsInt8); break;
-			case AttributeType.TInt16: writer.WriteValue(value?.AsInt16); break;
-			case AttributeType.TInt32: writer.WriteValue(value?.AsInt32); break;
-			case AttributeType.TInt64: writer.WriteValue(value?.AsInt64); break;
-			case AttributeType.TFloat32: writer.WriteValue(value?.AsFloat); break;
-			case AttributeType.TBool: writer.WriteValue(value?.AsBoolean); break;
-			//case AttributeType.TString:
-			//	break;
-			//case AttributeType.TSeq:
-			//	break;
-			//case AttributeType.TSeq16:
-			//	break;
-			//case AttributeType.TRef:
-			//	break;
-			//case AttributeType.TTRef:
-			//	break;
-			//case AttributeType.TSub:
-			//	break;
-			//case AttributeType.TSu:
-			//	break;
-			//case AttributeType.TVector16:
-			//	break;
-			//case AttributeType.TVector32:
-			//	break;
-			//case AttributeType.TIColor:
-			//	break;
-			//case AttributeType.TFColor:
-			//	break;
-			//case AttributeType.TBox:
-			//	break;
-			//case AttributeType.TAngle:
-			//	break;
-			//case AttributeType.TMsec:
-			//	break;
-			//case AttributeType.TDistance:
-			//	break;
-			//case AttributeType.TVelocity:
-			//	break;
-			//case AttributeType.TProp_seq:
-			//	break;
-			//case AttributeType.TProp_field:
-			//	break;
-			//case AttributeType.TScript_obj:
-			//	break;
-			//case AttributeType.TNative:
-			//	break;
-			//case AttributeType.TVersion:
-			//	break;
-			//case AttributeType.TIcon:
-			// break;
-			//case AttributeType.TTime32:
-			//	break;
-			//case AttributeType.TTime64:
-			//	break;
-			//case AttributeType.TXUnknown1:
-			//	break;
-			//case AttributeType.TXUnknown2:
-			//	break;
-
-			default:
-				writer.WriteValue(value?.ToString());
-				break;
+			default: serializer.Serialize(writer, value.RawValue); break;
 		}
 	}
 
-	private static void WriteObject(JsonWriter writer, AttributeDocument obj, JsonSerializer serializer)
+	private static void WriteObject(JsonWriter writer, AttributeDocument doc, JsonSerializer serializer)
 	{
 		writer.WriteStartObject();
 
-		foreach (var el in obj)
+		foreach (var key in doc)
 		{
-			writer.WritePropertyName(el.Key);
-			serializer.Serialize(writer, el.Value);
+			writer.WritePropertyName(key.Key);
+
+			// why invalid value not handled by serializer ??
+			if (key.Value.RawValue is null) writer.WriteValue((string)null);
+			else serializer.Serialize(writer, key.Value);
 		}
 
 		writer.WriteEndObject();

@@ -29,7 +29,6 @@ public struct FLayoutData : IUStruct
 	[UPROPERTY]
 	public FVector2D Alignments;
 
-
 	#region Struct
 	[StructFallback]
 	[TypeConverter(typeof(AnchorsConverter))]

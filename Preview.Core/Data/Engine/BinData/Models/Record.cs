@@ -84,6 +84,8 @@ public sealed unsafe class Record : IElement, IDisposable
 	public ElementBaseDefinition Definition => Owner.Definition.ElRecord.SubtableByType(SubclassType, this);
 
 	public bool HasChildren => Children.Count > 0;
+
+	internal ModelElement Model { get; set; }
 	#endregion
 
 
@@ -98,7 +100,7 @@ public sealed unsafe class Record : IElement, IDisposable
 			if (attribute.Key.Name == AttributeCollection.s_autoid) continue;
 
 			// set value, it seem that WriteRaw must be last  
-			var value = AttributeDefinition.ToString(attribute.Key, attribute.Value);
+			var value = AttributeConverter.ToString(attribute.Key, attribute.Value);
 			if (value is null) continue;
 
 			if (attribute.Key.Type == AttributeType.TNative) writer.WriteRaw(value);
@@ -119,13 +121,17 @@ public sealed unsafe class Record : IElement, IDisposable
 	#region Interface
 	public override string ToString() => this.Attributes.Get<string>("alias") ?? this.PrimaryKey.ToString();
 
-	public T As<T>(Type type = null) where T : ModelElement
-	{
-		// NOTE: create new object
-		var subs = ModelElement.TypeHelper.Get(type ?? typeof(T), this.Owner.Name);
-		var subtype = this.Attributes[AttributeCollection.s_type]?.ToString();
+	public T As<T>(Type type = null) where T : ModelElement => As<T>(ModelElement.TypeHelper.Get(type ?? typeof(T), this.Owner.Name));
 
-		return ModelElement.As(this, subs.CreateInstance<T>(subtype));
+	internal T As<T>(ModelElement.TypeHelper subs) where T : ModelElement
+	{
+		if (Model is not T model)
+		{
+			var subtype = this.Attributes[AttributeCollection.s_type]?.ToString();
+			Model = model = ModelElement.As(this, subs.CreateInstance<T>(subtype));
+		}
+
+		return model;
 	}
 
 	public void Dispose()

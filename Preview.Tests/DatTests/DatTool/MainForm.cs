@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
@@ -128,6 +129,20 @@ public partial class MainForm : Form
 	{
 		var dialog = new FolderBrowserDialog();
 		if (dialog.ShowDialog() == DialogResult.OK) link.Text = dialog.SelectedPath;
+	}
+	#endregion
+
+	#region ToolStrip
+	private void ClearLog(object sender, EventArgs e)
+	{
+		this.richOut.Clear();
+	}
+
+	private void ToolStripMenuItem_NumSelect_Click(object sender, EventArgs e)
+	{
+		var frm = new NumSelect();
+		frm.Confirming += ClearLog;
+		frm.Show();
 	}
 	#endregion
 
@@ -354,21 +369,6 @@ public partial class MainForm : Form
 	}
 	#endregion
 
-
-	#region ToolStrip
-	private void ClearLog(object sender, EventArgs e)
-	{
-		this.richOut.Clear();
-	}
-
-	private void ToolStripMenuItem_NumSelect_Click(object sender, EventArgs e)
-	{
-		var frm = new NumSelect();
-		frm.Confirming += ClearLog;
-		frm.Show();
-	}
-	#endregion
-
 	#region Page
 	private void Btn_HexToDecimal_Click(object sender, EventArgs e)
 	{
@@ -380,19 +380,13 @@ public partial class MainForm : Form
 			if (radioButton2.Checked)
 			{
 				Convert_Decimal.Text = long.Parse(text, System.Globalization.NumberStyles.HexNumber).ToString();
-				return;
 			}
-
-
-			var bytes = text.ToBytes();
-			CommonConvert CC = new(bytes);
-
-			if (CC.Length == 2) Convert_Decimal.Text = CC.Short1.ToString();
-			else if (CC.Length >= 8) Convert_Decimal.Text = CC.Long.ToString();
-			else Convert_Decimal.Text = CC.Int32.ToString();
-
-			label2.Text = "Short型：" + CC.Short1 + " | " + CC.Short2 + "\nFloat型：" + CC.Float;
-			Convert_Warning.Text = null;
+			else
+			{
+				CommonConvert CC = new(text.ToBytes());
+				Convert_Decimal.Text = CC.MainValue?.ToString();
+				Convert_Warning.Text = $"Short {CC.Short1},{CC.Short2}\nFloat {CC.Float}";
+			}
 		}
 		catch (Exception ee)
 		{
@@ -409,11 +403,9 @@ public partial class MainForm : Form
 		{
 			if (long.TryParse(Convert_Decimal.Text, out long result))
 			{
-				CommonConvert CC = new(result);
-				if (result < int.MaxValue) CC = new((int)result);
-
-				Convert_Hex.Text = result.ToString("X");
-				Convert_Warning.Text = "Short型：" + CC.Short1 + " | " + CC.Short2 + "\nFloat型：" + CC.Float;
+				var CC = new CommonConvert(result);
+				Convert_Hex.Text = CC.ToString();
+				Convert_Warning.Text = $"Short {CC.Short1},{CC.Short2}\nFloat {CC.Float}";
 			}
 		}
 		catch (Exception ee)
@@ -422,6 +414,8 @@ public partial class MainForm : Form
 			Console.WriteLine(ee.Message);
 		}
 	}
+
+
 
 	private void button12_Click(object sender, EventArgs e) => richTextBox1.Text = CreateClass.Instance(richTextBox1.Text);
 

@@ -1,10 +1,10 @@
-﻿using System.Collections;
+﻿using K4os.Hash.xxHash;
+using Newtonsoft.Json;
+using Serilog;
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Data;
 using System.Xml;
-using K4os.Hash.xxHash;
-using Newtonsoft.Json;
-using Serilog;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Common.DataStruct;
@@ -52,7 +52,6 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 	public string SearchPattern { get; set; }
 	#endregion
 
-
 	#region Data
 	internal TableArchive Archive { get; set; }
 
@@ -87,7 +86,7 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 
 	private readonly Dictionary<Ref, Record> ByRef = [];
 
-	private AliasTable AliasTable;
+	internal AliasTable AliasTable;
 	#endregion
 
 
@@ -109,7 +108,9 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 		Archive = null;
 
 		foreach (var record in _records)
-			ByRef[record.PrimaryKey] = record;
+		{
+            ByRef[record.PrimaryKey] = record;
+        }
 	}
 
 	/// <summary>
@@ -206,8 +207,6 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 	}
 	#endregion
 
-
-
 	#region Get Methods
 	public Record this[Ref Ref]
 	{
@@ -272,6 +271,7 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 		using var ms = new MemoryStream();
 		using var writer = XmlWriter.Create(ms, new XmlWriterSettings() { Indent = true, IndentChars = "\t", Encoding = settings.Encoding });
 
+		// document
 		writer.WriteStartDocument();
 		writer.WriteStartElement(Definition.ElRoot.Name);
 		writer.WriteAttributeString("release-module", TableModule.LocalizationData.ToString());
@@ -280,9 +280,9 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 		writer.WriteAttributeString("version", MajorVersion + "." + MinorVersion);
 		writer.WriteComment($" {Name}.xml ");
 
+		// records
 		if (records.Length == 0) records = [.. Records];
-		foreach (var record in records)
-			record.WriteXml(writer, Definition.ElRecord);
+		records.ForEach(record => record.WriteXml(writer, Definition.ElRecord));
 
 		writer.WriteEndElement();
 		writer.WriteEndDocument();

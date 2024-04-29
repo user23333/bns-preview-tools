@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Diagnostics;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Engine.BinData.Definitions;
@@ -91,7 +90,7 @@ public sealed class DatafileDetect : ITableParseType
 	private void Read(IEnumerable<Table> tables, List<AliasTableUnit> AliasTable)
 	{
 #if DEVELOP
-		AliasTable.ForEach(t => Debug.WriteLine(t.Name));
+		AliasTable.ForEach(t => System.Diagnostics.Debug.WriteLine(t.Name));
 #endif
 		tables.ForEach(table => by_id[table.Type] = "");
 		Parallel.ForEach(tables, table =>
@@ -103,39 +102,36 @@ public sealed class DatafileDetect : ITableParseType
 			var record2 = table.Records[^1];
 			var str1 = GetLookup(record1);
 			var str2 = table.IsCompressed ? GetLookup(record2) : str1;
+			var count = table.Records.Count;
 
-			#region common
-			// local provider not has 
+			#region handle
+			// common
 			if (AliasTable != null)
 			{
 				var lsts = new List<string>();
 				foreach (var lst in AliasTable)
 				{
 					// compare alias
+					if (count < lst.Records.Count) continue;
 					if (!str1.Contains(lst[record1.PrimaryKey])) continue;
 					if (!str2.Contains(lst[record2.PrimaryKey])) continue;
 
-					// do not directly return
-					// due to exist issue when tables with identical aliases 
+					// do not directly return because may exist identical aliases 
 					lsts.Add(lst.Name);
 				}
 
 				lsts.ForEach(x => Add(x, table.Type));
 				return;
 			}
-			#endregion
-
-			#region else
-			if (table.IsCompressed)
+			
+			// try get text for local provider
+			else if (table.Size > 5000000)
 			{
-				if (table.Size > 5000000)
+				var FieldSize = record1.DataSize;
+				if (FieldSize == 28 || FieldSize == 36)
 				{
-					var FieldSize = record1.DataSize;
-					if (FieldSize == 28 || FieldSize == 36)
-					{
-						Add("text", table.Type);
-						return;
-					}
+					Add("text", table.Type);
+					return;
 				}
 			}
 			#endregion

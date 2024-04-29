@@ -2,7 +2,6 @@
 using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.Data.Client;
-
 internal class ExpressionContext
 {
     public ExpressionContext()

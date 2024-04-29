@@ -16,91 +16,116 @@
 		</ExpansionComponent>
 	</BnsCustomWindowWidget.ExpansionComponentList>
 
-	<Overlay Name="LegacyItemTooltipWidget" LayoutData.Anchors="0 0 1 1">
-		<BnsCustomLabelWidget Name="ItemName" String="{Binding ItemName}" d:String="Item Name Item Name" FontSize="18" />
-		<BnsCustomLabelWidget Name="Category" String="{Binding GameCategory3, Converter={TextResource}}" d:String="카테고리카테" LayoutData.Anchors="1 0 1 0"/>
-		<BnsCustomImageWidget Name="ItemIcon" LayoutData.Offsets="3 30 80 80" Expansion="BackgroundImage,IconImage,UnusableImage,Grade_Image,CanSaleItem">
-			<BnsCustomImageWidget.BaseImageProperty>
-				<ImageProperty ImageUV="868 275" ImageUVSize="44 44" />
-			</BnsCustomImageWidget.BaseImageProperty>
-			<BnsCustomImageWidget.ExpansionComponentList>
-				<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="BackgroundImage" MetaData="">
-					<ExpansionComponent.ImageProperty>
-						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="0 66" ImageUVSize="48 48" EnableDrawImage="true" TintColor="FFFFFFFF" GrayWeightValue="0.15" Opacity="0.5" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="IconImage" MetaData="" bPostExpansitonRender="true">
-					<ExpansionComponent.ImageProperty>
-						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Icon/Acc_Bangle_Legendry_2-1Phase.Acc_Bangle_Legendry_2-1Phase" ImageUVSize="64 64" EnableMultiImage="true" TintColor="FFFFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="UnusableImage" MetaData="" bPostExpansitonRender="true">
-					<ExpansionComponent.ImageProperty>
-						<ImageProperty EnableDrawImage="true" TintColor="FFFFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="Grade_Image" MetaData="" bPostExpansitonRender="true">
-					<ExpansionComponent.ImageProperty>
-						<ImageProperty TintColor="FFFFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="CanSaleItem" MetaData="" bPostExpansitonRender="true">
-					<ExpansionComponent.ImageProperty>
-						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Icon/SlotItem_marketBusiness.SlotItem_marketBusiness" ImageUVSize="64 64" EnableDrawImage="true" TintColor="FFFFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
-			</BnsCustomImageWidget.ExpansionComponentList>
-		</BnsCustomImageWidget>
+	<Overlay Width="400" HorizontalAlignment="Left">
+		<BnsCustomWindowWidget>
+			<BnsCustomLabelWidget Name="ItemName" String="{Binding ItemName}" d:String="Item Name Item Name" FontSize="18" />
+			<BnsCustomLabelWidget Name="Category" String="{Binding GameCategory3, Converter={TextResource}}" d:String="카테고리카테" LayoutData.Anchors="1 0 1 0" />
+			<BnsCustomImageWidget Name="ItemIcon" LayoutData.Offsets="0 0 80 80">
+				<BnsCustomImageWidget.VerticalResizeLink>
+					<ResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" Offset1="3" LinkWidgetName1="ItemName" />
+				</BnsCustomImageWidget.VerticalResizeLink>
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty ImageUV="868 275" ImageUVSize="44 44" />
+				</BnsCustomImageWidget.BaseImageProperty>
+				<BnsCustomImageWidget.ExpansionComponentList>
+					<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="BackgroundImage" MetaData="">
+						<ExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="0 66" ImageUVSize="48 48" EnableDrawImage="true" TintColor="FFFFFFFF" GrayWeightValue="0.15" Opacity="0.5" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+						</ExpansionComponent.ImageProperty>
+					</ExpansionComponent>
+					<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="IconImage" MetaData="" bPostExpansitonRender="true">
+						<ExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Icon/Acc_Bangle_Legendry_2-1Phase.Acc_Bangle_Legendry_2-1Phase" ImageUVSize="64 64" EnableMultiImage="true" TintColor="FFFFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+						</ExpansionComponent.ImageProperty>
+					</ExpansionComponent>
+					<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="UnusableImage" MetaData="" bPostExpansitonRender="true">
+						<ExpansionComponent.ImageProperty>
+							<ImageProperty EnableDrawImage="true" TintColor="FFFFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+						</ExpansionComponent.ImageProperty>
+					</ExpansionComponent>
+					<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="Grade_Image" MetaData="" bPostExpansitonRender="true">
+						<ExpansionComponent.ImageProperty>
+							<ImageProperty TintColor="FFFFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+						</ExpansionComponent.ImageProperty>
+					</ExpansionComponent>
+					<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="CanSaleItem" MetaData="" bPostExpansitonRender="true">
+						<ExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Icon/SlotItem_marketBusiness.SlotItem_marketBusiness" ImageUVSize="64 64" EnableDrawImage="true" TintColor="FFFFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
+						</ExpansionComponent.ImageProperty>
+					</ExpansionComponent>
+				</BnsCustomImageWidget.ExpansionComponentList>
+			</BnsCustomImageWidget>
+			<BnsCustomLabelWidget Name="CollectionSubstituteText" d:String="만으로도 완료 할 수 있습니다." String="{Binding CollectionSubstitute.Item1}" FontSize="15">
+				<BnsCustomLabelWidget.HorizontalResizeLink>
+					<ResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" Offset1="7" LinkWidgetName1="ItemIcon" />
+				</BnsCustomLabelWidget.HorizontalResizeLink>
+				<BnsCustomLabelWidget.VerticalResizeLink>
+					<ResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" Offset1="3" LinkWidgetName1="ItemName" />
+				</BnsCustomLabelWidget.VerticalResizeLink>
+			</BnsCustomLabelWidget>
+			<BnsCustomLabelWidget Name="CollectionSubstitute2Text" d:String="만으로도 완료 할 수 있습니다." String="{Binding CollectionSubstitute.Item2}">
+				<BnsCustomLabelWidget.HorizontalResizeLink>
+					<ResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" Offset1="7" LinkWidgetName1="ItemIcon" />
+				</BnsCustomLabelWidget.HorizontalResizeLink>
+				<BnsCustomLabelWidget.VerticalResizeLink>
+					<ResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" Offset1="0" LinkWidgetName1="CollectionSubstituteText" />
+				</BnsCustomLabelWidget.VerticalResizeLink>
+			</BnsCustomLabelWidget>
+		</BnsCustomWindowWidget>
 
-		<VerticalBox LayoutData.Offsets="95 30 280 0">
-			<BnsCustomLabelWidget Name="CollectionSubstituteText" d:String="만으로도 완료 할 수 있습니다." String="{Binding CollectionSubstitute.Item1}" FontSize="15" />
-			<BnsCustomLabelWidget Name="CollectionSubstitute2Text" d:String="만으로도 완료 할 수 있습니다." String="{Binding CollectionSubstitute.Item2}" />
-		</VerticalBox>
-
-		<VerticalBox LayoutData.Offsets="3 130 370 0">
-			<BnsCustomLabelWidget Name="ItemDescription7" d:String="Item Description7" />
-			<BnsCustomWindowWidget Name="Combat_Holder">
-				<BnsCustomWindowWidget.BaseImageProperty>
-					<ImageProperty />
-				</BnsCustomWindowWidget.BaseImageProperty>
+		<BnsCustomLabelWidget Name="ItemDescription7" d:String="Item Description7" />
+		<BnsCustomWindowWidget Name="Combat_Holder_Parent">
+			<BnsCustomWindowWidget.BaseImageProperty>
+				<ImageProperty />
+			</BnsCustomWindowWidget.BaseImageProperty>
+			<VerticalBox Name="Combat_Holder" LayoutData.Anchors="0 0 1 0">
 				<BnsCustomLabelWidget Name="Combat_Holder_Title">
 					<BnsCustomLabelWidget.String>
 						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Label_LightYellow_12.Label_LightYellow_12" LabelText="Combat Holder Title" SpaceBetweenLines="3" />
 					</BnsCustomLabelWidget.String>
 				</BnsCustomLabelWidget>
-				<HorizontalBox Name="HorizontalBox_0" LayoutData.Anchors="0 0 1 0" />
-			</BnsCustomWindowWidget>
+			</VerticalBox>
+		</BnsCustomWindowWidget>
 
-			<BnsCustomLabelWidget Name="DecomposeDescription_Title">
-				<BnsCustomLabelWidget.String>
-					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Label_LightYellow_12.Label_LightYellow_12" LabelText="Decompose Result Description Title" SpaceBetweenLines="3" />
-				</BnsCustomLabelWidget.String>
-			</BnsCustomLabelWidget>
-			<VerticalBox Name="DecomposeDescription" Margin="0 0 0 5"/>
+		<BnsCustomLabelWidget Name="DecomposeDescription_Title">
+			<BnsCustomLabelWidget.String>
+				<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Label_LightYellow_12.Label_LightYellow_12" LabelText="Decompose Result Description Title" SpaceBetweenLines="3" />
+			</BnsCustomLabelWidget.String>
+		</BnsCustomLabelWidget>
+		<VerticalBox Name="DecomposeDescription" Margin="0 0 0 5"/>
+		<BnsCustomLabelWidget Name="ItemDescription_4_Title" Text="{TextResource Attributes[description4-title]}">
+			<BnsCustomLabelWidget.String>
+				<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Label_LightYellow_12.Label_LightYellow_12" LabelText="Item Description 4 Title" SpaceBetweenLines="3" />
+			</BnsCustomLabelWidget.String>
+		</BnsCustomLabelWidget>
+		<BnsCustomLabelWidget Name="ItemDescription_4" String="{TextResource Attributes[description4]}" d:String="Item Description4" />
+		<BnsCustomLabelWidget Name="ItemDescription_5_Title" Text="{TextResource Attributes[description5-title]}">
+			<BnsCustomLabelWidget.String>
+				<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Label_LightYellow_12.Label_LightYellow_12" LabelText="Item Description 5 Title" SpaceBetweenLines="3" />
+			</BnsCustomLabelWidget.String>
+		</BnsCustomLabelWidget>
+		<BnsCustomLabelWidget Name="ItemDescription_5" String="{TextResource Attributes[description5]}" d:String="Item Description5" />
+		<BnsCustomLabelWidget Name="ItemDescription_6_Title" Text="{TextResource Attributes[description6-title]}">
+			<BnsCustomLabelWidget.String>
+				<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Label_LightYellow_12.Label_LightYellow_12" LabelText="Item Description 6 Title" SpaceBetweenLines="3" />
+			</BnsCustomLabelWidget.String>
+		</BnsCustomLabelWidget>
+		<BnsCustomLabelWidget Name="ItemDescription_6" String="{TextResource Attributes[description6]}" d:String="Item Description6" />
+		<BnsCustomLabelWidget Name="ItemDescription" String="{TextResource Attributes[description2]}" d:String="Item Description2" />
 
-			<BnsCustomLabelWidget Name="ItemDescription_4_Title" Text="{TextResource Attributes[description4-title]}">
-				<BnsCustomLabelWidget.String>
-					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Label_LightYellow_12.Label_LightYellow_12" LabelText="Item Description 4 Title" SpaceBetweenLines="3" />
-				</BnsCustomLabelWidget.String>
-			</BnsCustomLabelWidget>
-			<BnsCustomLabelWidget Name="ItemDescription_4" String="{TextResource Attributes[description4]}" d:String="Item Description4" />
-			<BnsCustomLabelWidget Name="ItemDescription_5_Title" Text="{TextResource Attributes[description5-title]}">
-				<BnsCustomLabelWidget.String>
-					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Label_LightYellow_12.Label_LightYellow_12" LabelText="Item Description 5 Title" SpaceBetweenLines="3" />
-				</BnsCustomLabelWidget.String>
-			</BnsCustomLabelWidget>
-			<BnsCustomLabelWidget Name="ItemDescription_5" String="{TextResource Attributes[description5]}" d:String="Item Description5" />
-			<BnsCustomLabelWidget Name="ItemDescription_6_Title" Text="{TextResource Attributes[description6-title]}">
-				<BnsCustomLabelWidget.String>
-					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Label_LightYellow_12.Label_LightYellow_12" LabelText="Item Description 6 Title" SpaceBetweenLines="3" />
-				</BnsCustomLabelWidget.String>
-			</BnsCustomLabelWidget>
-			<BnsCustomLabelWidget Name="ItemDescription_6" String="{TextResource Attributes[description6]}" d:String="Item Description6" />
-			<BnsCustomLabelWidget Name="ItemDescription" String="{TextResource Attributes[description2]}" d:String="Item Description2" />
-
-			<!-- processcomparisonholder -->
-
-			<BnsCustomLabelWidget Name="SealEnable" />
-		</VerticalBox>
+		<!-- ProcessComparisonHolder -->
+		<BnsCustomLabelWidget Name="Required" Margin="0 7" />
+		<BnsCustomLabelWidget Name="SealEnable" />
+		<BnsCustomLabelWidget Name="ExpirationTime" Visibility="Collapsed">
+			<BnsCustomLabelWidget.HorizontalResizeLink>
+				<ResizeLink Type="BNS_CUSTOM_BORDER_LINK_RIGHT_AND_LEFT" Offset1="15" />
+			</BnsCustomLabelWidget.HorizontalResizeLink>
+			<BnsCustomLabelWidget.VerticalResizeLink>
+				<ResizeLink Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" Offset1="10" LinkWidgetName1="ItemTooltipPanel_GrowthMileage" />
+			</BnsCustomLabelWidget.VerticalResizeLink>
+			<BnsCustomLabelWidget.String>
+				<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_Out_12.Normal_Out_12" LabelText="기간제 만료 시간" SpaceBetweenLines="3" VerticalAlignment="VAlign_Center" LastRenderWidth="82.50001" LastRenderHeight="18" />
+			</BnsCustomLabelWidget.String>
+		</BnsCustomLabelWidget>
 	</Overlay>
 </BnsCustomWindowWidget>

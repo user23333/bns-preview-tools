@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.IO;
-using System.Windows;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using HandyControl.Controls;
@@ -8,7 +7,6 @@ using HandyControl.Data;
 using HandyControl.Tools.Extension;
 using Ookii.Dialogs.Wpf;
 using Xylia.Preview.UI.GameUI.Scene.Game_Auction;
-using Xylia.Preview.UI.Helpers.Output;
 using Xylia.Preview.UI.Helpers.Output.Tables;
 using Xylia.Preview.UI.Views;
 using Xylia.Preview.UI.Views.Selector;
@@ -55,10 +53,9 @@ internal partial class ItemPageViewModel : ObservableObject
 		{
 			var startTime = DateTime.Now;
 
-			// init
 			Out.LoadCache(ItemListPath);
-			Out.GetData();
-			if (Out.Count == 0)
+			var count = Out.LoadData();
+			if (count == 0)
 			{
 				Growl.Error(StringHelper.Get("ItemList_Empty"));
 				return;
@@ -70,7 +67,7 @@ internal partial class ItemPageViewModel : ObservableObject
 			// send finish tootip
 			Growl.Success(new GrowlInfo()
 			{
-				Message = StringHelper.Get("ItemList_TaskCompleted", Out.Count, span),
+				Message = StringHelper.Get("ItemList_TaskCompleted", count, span),
 				StaysOpen = true,
 			});
 		});

@@ -1,18 +1,16 @@
 ﻿using System.IO;
-
 using CommunityToolkit.Mvvm.ComponentModel;
-
 using CSCore;
 
 namespace Xylia.Preview.UI.Audio;
-
 public partial class AudioFile : ObservableObject
 {
+	#region Fields
 	[ObservableProperty]
-	string path;
+	string? path;
 
 	[ObservableProperty]
-	string name;
+	string? name;
 
 	[ObservableProperty]
 	private long length;
@@ -23,11 +21,11 @@ public partial class AudioFile : ObservableObject
 	[ObservableProperty]
 	private int bytesPerSecond;
 
-
 	public byte[] Data { get; set; }
 	public string Extension { get; }
+	#endregion
 
-
+	#region Constructors
 	public AudioFile(byte[] data, string extension)
 	{
 		Extension = extension;
@@ -42,13 +40,6 @@ public partial class AudioFile : ObservableObject
 		Length = fileInfo.Length;
 		Extension = fileInfo.Extension[1..];
 		Data = File.ReadAllBytes(fileInfo.FullName);
-
-
-		//// Check that the file exists
-		//if (!File.Exists(file.Path))
-		//{
-		//	throw new FileNotFoundException(string.Format("File '{0}' was not found", file.Path));
-		//}
 	}
 
 	public AudioFile(AudioFile audioFile, IAudioSource wave)
@@ -61,4 +52,5 @@ public partial class AudioFile : ObservableObject
 		Extension = audioFile.Extension;
 		Data = audioFile.Data;
 	}
+	#endregion
 }

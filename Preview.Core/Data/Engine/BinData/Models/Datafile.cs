@@ -57,7 +57,6 @@ public abstract class Datafile
 			CreatedAt = DateTime.Now,
 			DatafileVersion = DatafileVersion,
 			ClientVersion = ClientVersion,
-
 			MaxBufferSize = 0x0,   //MaxBufferSize  好像等于 AliasMapSize  但是设置任何值游戏都没影响 
 			TotalTableSize = 0x1,  //TotalTableSize 好像等于               必须 >0 但是无所谓值
 		};
@@ -73,7 +72,7 @@ public abstract class Datafile
 				throw new NullReferenceException("AliasTable was null on main datafile");
 
 			var oldPosition = writer.Position;
-			AliasTableWriter.WriteTo(writer, alias, is64bit);
+			AliasTableWriter.WriteTo(writer, alias);
 
 			var nameTableSize = writer.Position - oldPosition;
 			this.AliasMapSize = nameTableSize;
@@ -83,7 +82,7 @@ public abstract class Datafile
 
 
 		var tableWriter = new TableWriter();
-		foreach (var table in tables)
+        foreach (var table in tables)
 		{
 			tableWriter.WriteTo(writer, table, is64bit);
 		}

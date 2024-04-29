@@ -4,10 +4,12 @@ using Xylia.Preview.Data.Engine.BinData.Models;
 namespace Xylia.Preview.Data.Engine.Definitions;
 public class TableDefinition : TableHeader
 {
-	/// <summary>
-	/// element definitions
-	/// </summary>
-	public List<ElementDefinition> Els { get; internal set; } = [];
+    public TableModule Module { get; set; }
+
+    /// <summary>
+    /// element definitions
+    /// </summary>
+    public List<ElementDefinition> Els { get; internal set; } = [];
 
 	/// <summary>
 	/// root element
@@ -28,10 +30,6 @@ public class TableDefinition : TableHeader
 	/// Is default definition 
 	/// </summary>
 	internal bool IsDefault { get; private set; }
-
-	public TableModule Module { get; set; }
-
-
 
 
 	#region Static Methods

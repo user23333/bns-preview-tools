@@ -44,15 +44,15 @@ public class Exporter(string Folder)
 
 	public void Run(UObject obj, bool ContainType = true)
 	{
-		var name = FixPath(Folder, obj.GetPathName());
-		if (ContainType) name += $".{obj.ExportType}";
+		var path = FixPath(Folder, obj.GetPathName());
+		if (ContainType) path += $".{obj.ExportType}";
 
 		switch (obj)
 		{
 			case USoundWave:
 			{
 				obj.Decode(true, out var audioFormat, out var data);
-				File.WriteAllBytes($"{name}", data);
+				File.WriteAllBytes($"{path}", data);
 			}
 			break;
 
@@ -66,17 +66,17 @@ public class Exporter(string Folder)
 			break;
 
 			case UImageSet ImageSet:
-				ImageSet.GetImage()?.Save($"{name}.png");
+				ImageSet.GetImage()?.Save($"{path}.png");
 				break;
 			case UTexture texture:
-				texture.Decode()?.Save($"{name}.png");
+				texture.Decode()?.Save($"{path}.png");
 				break;
 
 			default:
 			{
 				// keep class name in the case
-				if (!ContainType) name += $".{obj.ExportType}";
-				File.WriteAllText($"{name}", JsonConvert.SerializeObject(obj, Formatting.Indented));
+				if (!ContainType) path += $".{obj.ExportType}";
+				File.WriteAllText($"{path}", JsonConvert.SerializeObject(obj, Formatting.Indented));
 				break;
 			}
 		}

@@ -6,7 +6,7 @@ public class TextDiffPiece
 	public ChangeType Type { get;  }
 	public string alias { get; }
 	public string text { get; }
-	public string oldtext { get; set; }
+	public string? oldtext { get; set; }
 
 	public TextDiffPiece(Text model, ChangeType type)
 	{

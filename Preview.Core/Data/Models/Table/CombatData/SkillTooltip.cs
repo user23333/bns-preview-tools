@@ -66,7 +66,6 @@ public class SkillTooltip : ModelElement
 	public Ref<Text> ItemReplaceText { get; set; }
 	#endregion
 
-
 	#region Methods
 	public override string ToString()
 	{

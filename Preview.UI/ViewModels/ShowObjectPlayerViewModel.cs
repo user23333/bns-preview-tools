@@ -1,15 +1,13 @@
 ﻿using System.ComponentModel;
 using System.Windows.Data;
-
 using CommunityToolkit.Mvvm.ComponentModel;
-
 using CUE4Parse.BNS.Assets.Exports;
 
 namespace Xylia.Preview.UI.ViewModels;
 internal class ShowObjectPlayerViewModel : ObservableObject
 {
 	#region Properties 
-	UShowObject _showObject;
+	UShowObject? _showObject;
 
 	public UShowObject ShowObject
 	{
@@ -28,6 +26,6 @@ internal class ShowObjectPlayerViewModel : ObservableObject
 		}
 	}
 
-	public ICollectionView Source { get; private set; }
+	public ICollectionView? Source { get; private set; }
 	#endregion
 }

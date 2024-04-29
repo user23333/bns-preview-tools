@@ -1,4 +1,5 @@
-﻿using System.Xml.Linq;
+﻿using System.IO;
+using System.Xml.Linq;
 using CUE4Parse.BNS;
 using CUE4Parse.BNS.Assets.Exports;
 using CUE4Parse.BNS.Conversion;
@@ -21,14 +22,14 @@ public class SceneTest
 		var Output = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "scene");
 
 		// using GameFileProvider Provider = new(IniHelper.Instance.GameFolder);
-		using GameFileProvider Provider = new("G:\\Paks");
-		var AssetPath = //"bnsr/content/art/ui/v3/common/contentswidget/item/legacyitemtooltipwidget.uasset";
-		"BNSR/Content/Art/UI/GameUI/Scene/Game_ItemGrowth2/Game_ItemGrowth2Scene/ItemGrowth2Panel.uasset";
+		using GameFileProvider Provider = new("D:\\WeGameApps\\剑灵\\剑灵\\BNSR\\Content\\Paks");
+		var AssetPath = "BNSR/Content/Art/UI/V2/Common/ContentsWidget/Item/LegacyItemTooltipWidget.uasset";
+		//"BNSR/Content/Art/UI/GameUI/Scene/Game_Tooltip/Game_TooltipScene/Skill3ToolTipPanel_1.uasset";
 		var Blueprint = Provider.LoadAllObjects(AssetPath).OfType<UWidgetBlueprintGeneratedClass>().First();
 
 		var dump = new WidgetDump() { Output = Path.Combine(Output, Path.GetFileNameWithoutExtension(AssetPath)) };
 		dump.LoadBlueprint(Blueprint);
-
+		
 
 		#region Output
 		var FirstNode = (XElement)dump.Root.FirstNode;
@@ -105,7 +106,6 @@ public class WidgetDump
 	public XElement Root = new("temp");
 
 
-
 	public void LoadBlueprint(UWidgetBlueprintGeneratedClass blueprint, int level = 0, XElement parent = null)
 	{
 		var bAllowTemplate = blueprint.GetOrDefault<bool>("bAllowTemplate");
@@ -152,6 +152,8 @@ public class WidgetDump
 		{
 			el.AddAttribute("MetaData", widget.MetaData);
 
+			if (widget.HorizontalResizeLink != null) el.AddElement($"{el.Name}.HorizontalResizeLink").AddElement("ResizeLink").Write(widget.HorizontalResizeLink);
+			if (widget.VerticalResizeLink != null) el.AddElement($"{el.Name}.VerticalResizeLink").AddElement("ResizeLink").Write(widget.VerticalResizeLink);
 			if (widget.StringProperty != null) el.AddElement($"{el.Name}.String").AddElement("StringProperty").Write(widget.StringProperty);
 			if (widget.BaseImageProperty != null) el.AddElement($"{el.Name}.BaseImageProperty").AddElement("ImageProperty").Write(widget.BaseImageProperty);
 

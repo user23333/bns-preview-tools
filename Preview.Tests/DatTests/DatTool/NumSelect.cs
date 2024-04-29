@@ -13,8 +13,8 @@ public partial class NumSelect : Form
 
 	private void NumSelect_Load(object sender, EventArgs e)
 	{
-		foreach (var @type in Enum.GetValues(typeof(AttributeType)))
-			comboBox1.Items.Add(@type.ToString());
+		foreach (var type in Enum.GetValues<AttributeType>())
+			comboBox1.Items.Add(type.ToString());
 
 		comboBox1.Text = AttributeType.TInt32.ToString();
 	}

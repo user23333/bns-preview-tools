@@ -5,14 +5,6 @@ using Xylia.Preview.Data.Models;
 namespace Xylia.Preview.Data.Common;
 public static class Extensions
 {
-	[MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-	public static unsafe string GetNStringUTF16(this byte[] array, int offset)
-	{
-		fixed (byte* memory = array)
-			return new string((char*)(memory + offset));
-	}
-
-
 	// Getters
 	[MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
 	public static unsafe T Get<T>(this Record record, int offset) where T : unmanaged
@@ -39,6 +31,13 @@ public static class Extensions
 		{
 			return *(T*)(ptr + offset);
 		}
+	}
+
+	[MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
+	public static unsafe string GetNStringUTF16(this byte[] array, int offset)
+	{
+		fixed (byte* memory = array)
+			return new string((char*)(memory + offset));
 	}
 
 

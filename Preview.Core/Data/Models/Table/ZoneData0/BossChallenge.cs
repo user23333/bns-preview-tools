@@ -1,7 +1,7 @@
 ﻿using Xylia.Preview.Data.Common.Abstractions;
 
 namespace Xylia.Preview.Data.Models;
-public sealed class BossChallenge : ModelElement, IAttraction
+public sealed class BossChallenge : ModelElement, IAttration
 {
 	#region Attributes
 	public sbyte UiTextGrade { get; set; }

@@ -34,7 +34,7 @@ public sealed class ItemImproveOption : ModelElement
 		if (Ability != MainAbility.None) builder.Append("UI.Tooltip.ItemImprove.Ability.Enable".GetText([Ability.GetText(AbilityValue)]));
 		if (EffectDescription.HasValue) builder.Append(EffectDescription.GetText());
 		if (SkillModifyInfoGroup.Any(x => x.HasValue)) builder.Append(string.Join("<br/>", 
-			SkillModifyInfoGroup.Skip(5).SelectNotNull(record => record.Instance)));
+			SkillModifyInfoGroup.Skip(5).SelectNotNull(record => record.Instance?.Description)));
 
 		builder.Append(Additional.GetText());
 		return builder.ToString();

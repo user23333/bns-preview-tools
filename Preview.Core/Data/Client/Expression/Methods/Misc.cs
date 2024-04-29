@@ -1,4 +1,6 @@
-﻿using Xylia.Preview.Data.Models;
+﻿using Newtonsoft.Json;
+using Xylia.Preview.Data.Common.Exceptions;
+using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.Data.Client;
 
@@ -10,22 +12,17 @@ internal partial class BsonExpressionMethods
     /// </summary>
     public static AttributeValue JSON(AttributeValue json)
     {
-        //if (json.IsString)
-        //{
-        //    AttributeValue value = null;
-        //    var isJson = false;
+        if (json.IsString)
+        {
+            try
+            {
+				return JsonConvert.SerializeObject(json.AsString);
+            }
+            catch 
+            {
 
-        //    try
-        //    {
-        //        value = JsonSerializer.Deserialize(json.AsString);
-        //        isJson = true;
-        //    }
-        //    catch (LiteException ex) when (ex.ErrorCode == BnsDatabaseException.UNEXPECTED_TOKEN)
-        //    {
-        //    }
-
-        //    if (isJson) return value;
-        //}
+            }
+        }
 
         return null;
     }

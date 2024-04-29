@@ -6,25 +6,8 @@ namespace Xylia.Preview.Data.Client;
 /// <summary>
 /// parse and execute sql commands
 /// </summary>
-internal partial class SqlParser
+internal partial class SqlParser(BnsDatabase _engine, Tokenizer _tokenizer, AttributeDocument _parameters)
 {
-	private readonly BnsDatabase _engine;
-	private readonly Tokenizer _tokenizer;
-	private readonly AttributeDocument _parameters;
-
-	public SqlParser(BnsDatabase engine, Tokenizer tokenizer, AttributeDocument parameters)
-	{
-		_engine = engine;
-		_tokenizer = tokenizer;
-		_parameters = parameters;
-
-
-		//var _tree = _parser.Parse(command);
-
-		//var error = _tree.ParserMessages.Where(m => m.Level == Irony.ErrorLevel.Error).Select(m => new Exception(m.Message));
-		//if (error.Any()) throw new AggregateException(error);
-	}
-
 	public IDataReader Execute()
 	{
 		var ahead = _tokenizer.LookAhead().Expect(TokenType.Word);

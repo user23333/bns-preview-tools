@@ -1,7 +1,7 @@
-﻿using System.Windows;
-using System.Windows.Media;
-using CUE4Parse.BNS.Assets.Exports;
+﻿using CUE4Parse.BNS.Assets.Exports;
 using HtmlAgilityPack;
+using System.Windows;
+using System.Windows.Media;
 using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.UI.Documents.Primitives;
 
@@ -49,7 +49,7 @@ public class Font : BaseElement
 		if (fontset is null) return;
 
 		var FontColor = fontset.FontColors?.Load<UFontColor>();
-		if (FontColor != null)
+		if (FontColor != null && !SkipColor())
 		{
 			var f = FontColor.FontColor.ToFColor(true);
 			Foreground = new SolidColorBrush(Color.FromArgb(f.A, f.R, f.G, f.B));
@@ -71,6 +71,15 @@ public class Font : BaseElement
 		{
 			FontSize = FontFace.Height;
 		}
+	}
+
+	/// <summary>
+	/// Indicates whether to follow the application theme color
+	/// </summary>
+	/// <returns></returns>
+	private bool SkipColor()
+	{
+		return Name is "00008130.Program.Fontset_ItemGrade_1" or "00008130.Program.Fontset_ItemGrade_2";
 	}
 	#endregion
 }

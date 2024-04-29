@@ -62,7 +62,7 @@ internal class AliasTableArchive : AliasTable
 
 		for (var i = 0; i < entryCount; i++)
 		{
-			table.Entries.Add(reader.Is64Bit ? ReadEntry64(reader) : ReadEntry(reader));
+			table.Entries.Add(ReadEntry(reader));
 		}
 
 		var stringTableSize = reader.Read<int>(); // Total size of string table
@@ -104,17 +104,7 @@ internal class AliasTableArchive : AliasTable
 	{
 		return new AliasTableArchiveEntry
 		{
-			StringOffset = reader.Read<int>(),
-			Begin = reader.Read<uint>(),
-			End = reader.Read<uint>()
-		};
-	}
-
-	private static AliasTableArchiveEntry ReadEntry64(DataArchive reader)
-	{
-		return new AliasTableArchiveEntry
-		{
-			StringOffset = reader.Read<long>(),
+			StringOffset = reader.ReadLongInt(),
 			Begin = reader.Read<uint>(),
 			End = reader.Read<uint>()
 		};

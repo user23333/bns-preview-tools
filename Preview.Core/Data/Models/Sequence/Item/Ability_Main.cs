@@ -176,11 +176,19 @@ public enum MainAbility : byte
     [Text("Name.Item.abnormal-attack-base-percent")]
     AbnormalAttackBasePercent,
 
-    [Text("Name.Item.abnormal-defend-base-percent")]
-    AbnormalDefendBasePercent,
+    [Text("Name.Item.attack-critical-damage-value-equip")]
+	AttackCriticalDamageValueEquip,
 
-    [Text("Name.Item.attack-pierce-base-percent")]
-    AttackPierceBasePercent,
+	[Text("Name.Item.attack-pierce-base-percent")]
+	AttackPierceBasePercent,
+
+
+
+	[Text("Name.Item.defend-critical-damage-value")]
+	DefendCriticalDamageValue = 102,
+
+	[Text("Name.Item.defend-critical-damage-value-equip")]
+	DefendCriticalDamageValueEquip,
 
 	COUNT
 }

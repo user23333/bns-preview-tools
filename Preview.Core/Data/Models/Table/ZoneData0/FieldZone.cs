@@ -1,7 +1,5 @@
-﻿using Xylia.Preview.Data.Common.Abstractions;
-
-namespace Xylia.Preview.Data.Models;
-public abstract class FieldZone : ModelElement, IAttraction
+﻿namespace Xylia.Preview.Data.Models;
+public abstract class FieldZone : ModelElement, IAttration
 {
 	#region Attributes
 	public sealed class Normal : FieldZone

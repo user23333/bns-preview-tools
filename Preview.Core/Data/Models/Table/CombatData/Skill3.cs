@@ -31,9 +31,8 @@ public abstract class Skill3 : ModelElement, IHaveName
 
 	public string IconTexture { get; set; }
 	public short IconIndex { get; set; }
-	#endregion
 
-	#region Sub
+
 	public sealed class ActiveSkill : Skill3
 	{
 		public FlowTypeSeq FlowType { get; set; }
@@ -87,7 +86,7 @@ public abstract class Skill3 : ModelElement, IHaveName
 	#endregion
 
 
-	#region Properties
+	#region Methods
 	public string Name => Name2.GetText();
 
 	public ImageProperty Icon => FileCache.Data.Provider.GetTable<IconTexture>()[IconTexture]?.GetIcon(IconIndex);
@@ -103,6 +102,8 @@ public abstract class Skill3 : ModelElement, IHaveName
 			{
 				// NOTE: the method has been modified
 				var CastCondition = activeSkill.GatherRange.Instance;
+				if (CastCondition is null) return null;
+
 				var RangeMin = CastCondition.RangeCastMin;
 				var RangeMax = CastCondition.RangeCastMax;
 

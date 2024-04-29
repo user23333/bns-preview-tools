@@ -17,7 +17,7 @@ public partial class Legacy_QuestJournalPanel
 
 		// Progress
 		source = CollectionViewSource.GetDefaultView(FileCache.Data.Provider.GetTable<Quest>().OrderBy(x => x.PrimaryKey));
-		source.Filter = QuestFilter;
+		source.Filter = OnFilter;
 		QuestJournal_ProgressQuestList.ItemsSource = source;
 
 		// Completed
@@ -41,18 +41,17 @@ public partial class Legacy_QuestJournalPanel
 		source?.Refresh();
 	}
 
-	private bool QuestFilter(object obj)
+	private bool OnFilter(object obj)
 	{
 		if (obj is not Quest quest) return false;
 
-		// rule valid
+		// valid
 		var rule = SearcherRule.Text;
-
 		var IsEmpty = string.IsNullOrEmpty(rule);
 		if (IsEmpty) return true;
 
 		// filter 
-		if (int.TryParse(rule, out int id)) return quest.PrimaryKey.Id == id;
+		if (int.TryParse(rule, out int id)) return quest.PrimaryKey == id;
 
 		if (quest.Name != null && quest.Name.Contains(rule, StringComparison.OrdinalIgnoreCase)) return true;
 		if (quest.Title != null && quest.Title.Contains(rule, StringComparison.OrdinalIgnoreCase)) return true;

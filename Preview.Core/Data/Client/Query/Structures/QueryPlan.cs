@@ -6,17 +6,12 @@ namespace Xylia.Preview.Data.Client;
 /// This class are result from optimization from QueryBuild in QueryAnalyzer. Indicate how engine must run query - there is no more decisions to engine made, must only execute as query was defined
 /// Contains used index and estimate cost to run
 /// </summary>
-internal class QueryPlan
+internal class QueryPlan(string collection)
 {
-	public QueryPlan(string collection)
-	{
-		this.Collection = collection;
-	}
-
 	/// <summary>
 	/// Get collection name (required)
 	/// </summary>
-	public string Collection { get; set; } = null;
+	public string Collection { get; set; } = collection;
 
 	/// <summary>
 	/// Index used on query (required)

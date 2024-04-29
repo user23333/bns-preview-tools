@@ -20,6 +20,7 @@ public static partial class SequenceExtensions
 	{
 		T _default = default;
 
+		// check default
 		if (value.Equals(_default)) return true;
 		return seqs.Any(x => x.Equals(value)) || seqs.All(x => x.Equals(_default));
 	}
@@ -28,12 +29,12 @@ public static partial class SequenceExtensions
 	public static string GetText<T>(this T value) where T : Enum
 	{
 		// get text according attribute
-		var TextAlias = value.GetAttribute<TextAttribute>()?.Alias;
-		if (TextAlias != null) return TextAlias.GetText();
+		var text = value.GetAttribute<TextAttribute>()?.Alias.GetText();
+		if (text != null) return text;
 
 		// get description
-		var Description = value.GetAttribute<DescriptionAttribute>()?.Description;
-		if (Description != null) return Description;
+		var description = value.GetAttribute<DescriptionAttribute>()?.Description;
+		if (description != null) return description;
 
 		// don't return default
 		return value is 0 ? null : value.ToString();
@@ -62,7 +63,6 @@ public static partial class SequenceExtensions
 		return null;
 	}
 }
-
 
 public enum SequenceType
 {

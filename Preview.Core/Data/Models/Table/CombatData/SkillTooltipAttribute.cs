@@ -127,7 +127,7 @@ public class SkillTooltipAttribute : ModelElement
 			#endregion
 		}
 
-		return IconTexture.Parse(Icon)?.ToString() + " " + Text.GetText(arguments);
+		return IconTexture.Parse(Icon)?.Tag + Text.GetText(arguments);
 	}
 	#endregion
 

@@ -16,7 +16,7 @@ public sealed class ItemIcon(string GameFolder, string OutputFolder) : IconOutBa
 
     public bool isWhiteList = false;
 
-    public string ChvPath = null;
+    public string? ChvPath = null;
     #endregion
 
 
@@ -69,7 +69,6 @@ public sealed class ItemIcon(string GameFolder, string OutputFolder) : IconOutBa
                 //ProfileCopyright.Value = Encoding.UTF8.GetBytes("blade & soul");
                 //bitmap.SetPropertyItem(ProfileCopyright);
                 #endregion
-
 
                 Save(bitmap, OutName);
             }

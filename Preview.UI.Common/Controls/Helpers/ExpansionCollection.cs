@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Globalization;
 using System.Threading.Tasks;
 using System.Windows;
 using CUE4Parse.BNS.Assets.Exports;
-using SharpGLTF.Schema2;
 using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models;
 
@@ -66,44 +64,6 @@ public class ExpansionCollection : Collection<ExpansionComponent>
 	private readonly Dictionary<string, ExpansionComponent> dic = [];
 	#endregion
 }
-
-[TypeConverter(typeof(ExpansionManagerConvert))]
-public class ExpansionManager : ObservableCollection<string>
-{
-	#region TypeConverter
-	internal class ExpansionManagerConvert : TypeConverter
-	{
-		public override bool CanConvertFrom(ITypeDescriptorContext? context, Type sourceType)
-		{
-			if (sourceType == typeof(string)) return true;
-
-			return base.CanConvertFrom(context, sourceType);
-		}
-
-		public override object? ConvertFrom(ITypeDescriptorContext? context, CultureInfo? culture, object value)
-		{
-			if (value is string s)
-			{
-				var array = s.Split(' ', ',');
-				var data = new ExpansionManager();
-
-				for (int i = 0; i < array.Length; i++)
-				{
-					var item = array[i];
-					if (string.IsNullOrEmpty(item)) continue;
-
-					data.Add(item);
-				}
-
-				return data;
-			}
-
-			return base.ConvertFrom(context, culture, value);
-		}
-	}
-	#endregion
-}
-
 
 internal interface IMetaData
 {

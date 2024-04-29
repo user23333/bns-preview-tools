@@ -8,6 +8,7 @@ using CUE4Parse.UE4.Objects.UObject;
 namespace CUE4Parse.BNS.Assets.Exports;
 public class UAnimSet : USerializeObject
 {
+	#region Property
 	public bool bAnimRotationOnly;
 	public bool bServiced;
 	public Dictionary<string, FSoftObjectPath> AnimSequenceMap;  //Dictionary<FName, FSoftObjectPath>
@@ -21,10 +22,8 @@ public class UAnimSet : USerializeObject
 	public FName[] UseMovementBoneNames;
 	public FName[] UseTranslationBoneNames;
 
-
 	public ResolvedObject[] RefAnimSets;
-
-
+	#endregion
 
 	public override void Deserialize(FAssetArchive Ar, long validPos)
 	{

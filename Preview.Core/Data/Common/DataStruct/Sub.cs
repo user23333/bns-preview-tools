@@ -1,10 +1,7 @@
-﻿using Xylia.Preview.Data.Engine.BinData.Helpers;
-
-namespace Xylia.Preview.Data.Common.DataStruct;
+﻿namespace Xylia.Preview.Data.Common.DataStruct;
 public readonly struct Sub
 {
 	public readonly short Subclass;
-
 
 	public static bool operator ==(Sub a, Sub b) => a.Subclass == b.Subclass;
 

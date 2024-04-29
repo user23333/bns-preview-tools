@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -16,6 +17,15 @@ public static class ControlHelpers
 			if (reference is null) return default;
 			if (reference is T) return reference as T;
 		}
+	}
+
+	public static Rect GetFinalRect(this UIElement element)
+	{
+		// UIElement.PreviousArrangeRect property is internal
+		ArgumentNullException.ThrowIfNull(element);
+
+		var PreviousArrangeRect = typeof(UIElement).GetProperty("PreviousArrangeRect", BindingFlags.NonPublic | BindingFlags.Instance);
+		return (Rect)PreviousArrangeRect!.GetValue(element)!;
 	}
 
 	public static void SetVisibility(this FrameworkElement element, bool visible)

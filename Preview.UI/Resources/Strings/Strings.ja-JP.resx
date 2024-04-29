@@ -266,22 +266,19 @@ NEO Classicクライアントのサポートを追加
     <value>{0} 秒後に自動選択</value>
   </data>
   <data name="DatSelector_Name" xml:space="preserve">
-    <value>データセレクター</value>
+    <value>Database Studio</value>
   </data>
   <data name="DatSelector_Source1" xml:space="preserve">
     <value>データファイル</value>
   </data>
   <data name="DatSelector_Source2" xml:space="preserve">
-    <value>Hanhuaファイル</value>
+    <value>漢化ファイル</value>
   </data>
   <data name="DatSelector_Tooltip" xml:space="preserve">
     <value>選択したパスの下に複数の関連ファイルがあるため、積極的に選択する必要があります。</value>
   </data>
   <data name="DatabaseStudio_Connect" xml:space="preserve">
     <value>リンク</value>
-  </data>
-  <data name="DatabaseStudio_ConnectMessage1" xml:space="preserve">
-    <value>使用されていません</value>
   </data>
   <data name="DatabaseStudio_ConnectMessage2" xml:space="preserve">
     <value>現在グローバルデータソースです。接続を解除してもよろしいですか？ </value>

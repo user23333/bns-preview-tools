@@ -3,15 +3,9 @@
 /// <summary>
 /// Represent an OrderBy definition
 /// </summary>
-internal class OrderBy
+internal class OrderBy(BsonExpression expression, int order)
 {
-    public BsonExpression Expression { get; }
+	public BsonExpression Expression { get; } = expression;
 
-    public int Order { get; set; }
-
-    public OrderBy(BsonExpression expression, int order)
-    {
-        this.Expression = expression;
-        this.Order = order;
-    }
+	public int Order { get; set; } = order;
 }

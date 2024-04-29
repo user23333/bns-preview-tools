@@ -15,6 +15,7 @@ namespace CUE4Parse.BNS.Assets.Exports;
 [StructFallback]
 public class ImageProperty : IUStruct
 {
+	#region Properties
 	[TypeConverter(typeof(FPackageIndexTypeConverter))] public FPackageIndex BaseImageTexture { get; set; }
 	[TypeConverter(typeof(FPackageIndexTypeConverter))] public FPackageIndex ImageSet { get; set; }
 	public FStructFallback ImageBrush { get; set; }
@@ -39,7 +40,7 @@ public class ImageProperty : IUStruct
 	public float GrayWeightValue { get; set; }
 	[TypeConverter(typeof(Vector2DConverter))] public FVector2D StaticPadding { get; set; }
 	[TypeConverter(typeof(Vector2DConverter))] public FVector2D Offset { get; set; }
-	public float Opacity { get; set; }
+	public float Opacity { get; set; } = 1;
 	public float ImageScale { get; set; }
 	public HAlignment HorizontalAlignment { get; set; }
 	public VAlignment VerticalAlignment { get; set; }
@@ -47,9 +48,11 @@ public class ImageProperty : IUStruct
 	public string SperateImageType { get; set; }   //BNS_SperateImageType_3Frame
 
 	public FVector2D[] CoordinatesArray;  // ignore output
-
+	#endregion
 
 	#region Methods
+	public string Tag => $"<image path='{BaseImageTexture.GetPathName()}' u='{ImageUV.X}' v='{ImageUV.Y}' ul='{ImageUVSize.X}' vl='{ImageUVSize.Y}' enablescale='true' scalerate='1.5'/>";
+
 	public ImageProperty Clone()
 	{
 		return (ImageProperty)this.MemberwiseClone();
@@ -78,11 +81,7 @@ public class ImageProperty : IUStruct
 			#endregion
 
 			#region Draw
-			float opacity = 1 - Opacity;
 			var tint = EnableDrawColor ? TintColor.SpecifiedColor.ToSKColor() : (SKColor?)null;
-
-
-			// EnableResourceGray
 
 			for (int i = 0; i < bitmap.Width; i++)
 			{
@@ -94,7 +93,7 @@ public class ImageProperty : IUStruct
 					if (tint != null && p.Alpha > 64) p = tint.Value;
 
 					// set alpha channel
-					p = p.WithAlpha((byte)(p.Alpha * opacity));
+					p = p.WithAlpha((byte)(p.Alpha * Opacity));
 
 					bitmap.SetPixel(i, j, p);
 				}

@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Markup;
 using System.Windows.Media;
 using CUE4Parse.BNS.Assets.Exports;
 using Xylia.Preview.UI.Controls.Helpers;
+using Xylia.Preview.UI.Controls.Primitives;
 using Xylia.Preview.UI.Converters;
 
 namespace Xylia.Preview.UI.Controls;
 internal interface IUserWidget
 {
 	/// <summary>
-	/// collection of child element
+	/// Collection of child element
 	/// All widget have child elements
 	/// </summary>
 	UIElementCollection Children { get; }
@@ -26,7 +26,7 @@ public abstract class UserWidget : Control, IUserWidget
 	#region Constructorss
 	public UserWidget()
 	{
-		Children = new(this, this);
+		Children = new UIElementCollection(this, this);
 	}
 	#endregion
 
@@ -48,8 +48,15 @@ public abstract class UserWidget : Control, IUserWidget
 	/// Finds an child element that has the provided identifier name.
 	/// </summary>
 	/// <param name="name">The name of the requested element.</param>
+	/// <param name="fullName"></param>
 	/// <returns> The requested element. This can be null if no matching element was found.</returns>
-	public T? GetChild<T>(string name) where T : FrameworkElement => FindName(Name + "_" + name) as T;
+	public T? GetChild<T>(string? name, bool fullName = false) where T : Visual
+	{
+		if (name is null) return null;
+		if (!fullName) name = Name + "_" + name;
+
+		return FindName(name) as T;
+	}
 	#endregion
 
 	#region Layout
@@ -60,32 +67,12 @@ public abstract class UserWidget : Control, IUserWidget
 	}
 
 	internal Vector ScrollOffset { get; set; }
-
-	public float Top
-	{
-		get => Offsets.Top;
-		set => Offsets = Offsets with { Top = value };
-	}
-
-	public float Left
-	{
-		get => Offsets.Left;
-		set => Offsets = Offsets with { Left = value };
-	}
-
-	public float Bottom
-	{
-		get => Offsets.Top + (float)RenderSize.Height;
-	}
-
-	public float Right
-	{
-		get => Offsets.Left + (float)RenderSize.Width;
-	}
 	#endregion
 
 
 	#region Protected Methods
+	public override string ToString() => string.Format("{0} ({1})", Name, GetType());
+
 	/// <summary>
 	/// Update the current visual state of the control using transitions
 	/// </summary>
@@ -122,11 +109,10 @@ public abstract class UserWidget : Control, IUserWidget
 
 	internal static void OnVisualStatePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 	{
-		// Due to inherited properties, its safer not to cast to control because this might get fired for
-		// non-controls.
-		if (d is UserWidget control)
+		// Due to inherited properties, its safer not to cast to control because this might get fired for non-controls.
+		if (d is UserWidget widget)
 		{
-			control.UpdateVisualState();
+			widget.UpdateVisualState();
 		}
 	}
 
@@ -176,30 +162,25 @@ public abstract class UserWidget : Control, IUserWidget
 
 
 			// Measure widget if invalid value
-			// NOTE: WPF only use result that less than or equal to input value in MeasureCore
-			if (h == 0) h = double.PositiveInfinity;
-			if (w == 0) w = double.PositiveInfinity;
-
-			if (child is FrameworkElement fe)
+			if (child is BnsCustomBaseWidget widget)
 			{
-				h += fe.Margin.Top + fe.Margin.Bottom;
-				w += fe.Margin.Left + fe.Margin.Right;
+				if (widget.AutoResizeHorizontal) w = 0;
+				if (widget.AutoResizeVertical) h = 0;
 			}
+
+			if (w == 0) w = double.PositiveInfinity;
+			if (h == 0) h = double.PositiveInfinity;
 
 			child.Measure(new Size(w, h));
 		}
 
-		// auto size
-		var children = Children.OfType<UIElement>();
-		if (double.IsInfinity(constraint.Width)) constraint.Width = children.Select(x => LayoutData.GetOffsets(x).Left + x.DesiredSize.Width).DefaultIfEmpty().Max();
-		if (double.IsInfinity(constraint.Height)) constraint.Height = children.Select(x => LayoutData.GetOffsets(x).Top + x.DesiredSize.Height).DefaultIfEmpty().Max();
-
+		if (double.IsInfinity(constraint.Width)) constraint.Width = 0;
+		if (double.IsInfinity(constraint.Height)) constraint.Height = 0;
 		return constraint;
 	}
 
 	/// <summary>
-	/// Widget computes a position for each of its children taking into account their margin and attached Widget properties: Top, Offset.  
-	/// Widget will also arrange each of its children.
+	/// Widget arrange each of its children.
 	/// </summary>
 	/// <param name="constraint">Size that Widget will assume to position children.</param>
 	protected override Size ArrangeOverride(Size constraint)
@@ -214,6 +195,12 @@ public abstract class UserWidget : Control, IUserWidget
 		return constraint;
 	}
 
+	/// <summary>
+	/// Widget arrange each of its children
+	/// </summary>
+	/// <param name="child">child widget</param>
+	/// <param name="constraint">Size that Widget will assume to position children.</param>
+	/// <returns></returns>
 	protected virtual Rect ArrangeChild(UIElement child, Size constraint)
 	{
 		var anchor = LayoutData.GetAnchors(child);

@@ -60,7 +60,6 @@ internal class DataArchive : Stream
 	public override void Write(byte[] buffer, int offset, int count) { throw new InvalidOperationException(); }
 
 
-
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public virtual T Read<T>()
 	{
@@ -85,7 +84,9 @@ internal class DataArchive : Stream
 	public string ReadString()
 	{
 		var count = Read<int>();
-		return Encoding.UTF8.GetString(ReadBytes(count));
+		if (count == 0) return null;
+		else if (count > 0) return Encoding.UTF8.GetString(ReadBytes(count));
+		else return Encoding.ASCII.GetString(ReadBytes(-count * 2));
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -95,8 +96,7 @@ internal class DataArchive : Stream
 		else return Read<int>();
 	}
 
-
-
+					  
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public virtual unsafe void Serialize(byte* ptr, int length)
 	{

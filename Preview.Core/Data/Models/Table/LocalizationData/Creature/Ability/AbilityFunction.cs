@@ -5,47 +5,36 @@ public class AbilityFunction
     public CreatureField Type;
 
     /// <summary>
-    /// The rate of change
-    /// 变化率（要求百分比形式, 此数值必定为整数）
+    /// Change rate of percent
     /// </summary>
     public int K;
 
     /// <summary>
-    /// Constant Item (or initial value)
-    /// 常数项 (起始值, 要求百分比形式)
+    /// Constant percent value
     /// </summary>
     public int C;
 
-    /// <summary>
-    /// 等级修正参数
-    /// </summary>
+    // level factor param
     public double μ;
     public double Φ;
-
-    /// <summary>
-    /// 当未计算出μ、Φ数值时, 可以使用特定等级数值进行临时替代
-    /// </summary>
     public List<LevelFactor> LevelFactors = [];
     #endregion
 
     #region Methods
     public override string ToString() => this.Type.ToString();
 
-	public double GetPercent(double value, byte level)
+    public double GetPercent(double value, sbyte level)
     {
         double factor = 0;
 
         try
         {
-            if (μ == 0) throw new ArgumentNullException(nameof(μ));
-            else if (Φ == 0) throw new ArgumentNullException(nameof(Φ));
-
             factor = GetFactor(level);
         }
         catch
         {
             var o = LevelFactors.Find(f => f.Level == level);
-            if (o is null) throw;
+            if (o is null) return double.NaN;
 
             factor = o.Value;
         }
@@ -53,14 +42,18 @@ public class AbilityFunction
         return GetPercent(value, factor);
     }
 
-    public double GetPercent(double value, double factor)
+    internal double GetPercent(double value, double factor)
     {
-        double ConvertPercent = (double)value * (0.01 * K) / (value + factor);
-        return ConvertPercent + 0.01 * C;
+        double percent = (double)value * (0.01 * K) / (value + factor);
+        return percent + 0.01 * C;
     }
+    #endregion
 
-
-    public double GetFactor(byte level)
+    #region Factor
+    /// <summary>
+    ///  Get factor by level
+    /// </summary>
+    public double GetFactor(sbyte level)
     {
         if (μ == 0) throw new ArgumentException(nameof(μ));
         else if (Φ == 0) throw new ArgumentException(nameof(Φ));
@@ -69,7 +62,7 @@ public class AbilityFunction
     }
 
     /// <summary>
-    /// 已知变化率、常数项、Property数值与Property比率时, 获取特定的等级修正系数
+    /// Get factor by value
     /// </summary>
     /// <param name="value"></param>
     /// <param name="percent"></param>
@@ -82,39 +75,29 @@ public class AbilityFunction
     }
 
     /// <summary>
-    /// 计算修正参数
+    /// Get params by two level factor
     /// </summary>
-    /// <param name="factor1"></param>
-    /// <param name="factor2"></param>
     public void GetFactorParam(LevelFactor factor1, LevelFactor factor2)
     {
         Φ = factor1.CalΦ(factor2);
         μ = factor1.Calμ(Φ);
     }
-	#endregion
 
-	#region Factor
-	public class LevelFactor
+    public class LevelFactor(sbyte level, double value)
     {
-        public sbyte Level;
+        public sbyte Level = level;
 
-        public double Value;
-
-        public LevelFactor(sbyte level, double value)
-        {
-            Level = level;
-            Value = value;
-        }
+        public double Value = value;
 
         public double CalΦ(LevelFactor factor2) => Math.Log(Value / factor2.Value) / (Level - factor2.Level);
 
         public double Calμ(double Φ) => Value / Math.Exp(Φ * Level);
     }
-	#endregion
+    #endregion
 
 
-	#region Instance
-	public static AbilityFunction AttackHit => new()
+    #region Instance
+    public static AbilityFunction AttackHit => new()
     {
         Type = CreatureField.AttackHitBasePercent,
         C = 85,
@@ -124,7 +107,6 @@ public class AbilityFunction
 
     public static AbilityFunction AttackPierce => new()
     {
-        //防御穿刺
         Type = CreatureField.AttackPierceBasePercent,
         K = 95,
         μ = 87.7627795879303,
@@ -133,10 +115,9 @@ public class AbilityFunction
 
     public static AbilityFunction AttackParryPierce => new()
     {
-        //格挡穿刺
         Type = CreatureField.AttackParryPiercePercent,
-        K = 95,
-        LevelFactors = [new(60, 20963.86)]
+        K = 97,
+        LevelFactors = [new(45, 6392.52), new(60, 20963.86)]
     };
 
     public static AbilityFunction AttackCritical => new()
@@ -157,8 +138,8 @@ public class AbilityFunction
     public static AbilityFunction DefendCritical => new()
     {
         Type = CreatureField.DefendCriticalBasePercent,
-        K = 25,
-        LevelFactors = [new(60, -19.47)]
+        K = 97,
+        LevelFactors = [new(45, 1891.2283)]
     };
 
     public static AbilityFunction DefendCriticalDamage => new()

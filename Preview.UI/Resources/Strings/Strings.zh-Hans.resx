@@ -142,10 +142,10 @@
     <value>命中率</value>
   </data>
   <data name="AbilityName.AttackParryPiercePercent" xml:space="preserve">
-    <value>AttackParryPiercePercent</value>
+    <value>格挡穿刺率</value>
   </data>
   <data name="AbilityName.AttackPierceBasePercent" xml:space="preserve">
-    <value>穿刺率</value>
+    <value>防御穿刺率</value>
   </data>
   <data name="AbilityName.CounterEnhance" xml:space="preserve">
     <value>CounterEnhance</value>
@@ -218,7 +218,21 @@
     <value>Github</value>
   </data>
   <data name="Application_UpdateLog" xml:space="preserve">
-    <value>[3.1.0]
+    <value>[3.1.1]
+物品
++ 优化商店预览的界面
++ 修复固有职业物品的技能也会按设置中的职业显示的问题
+
+文本
++ 修复不支持游戏新版本的问题
++ 优化部分提示信息
+
+地图
++ 新增可筛选显示小图标
++ 新增坐标输入和查看 (右键点击任意位置)
++ 优化搜索功能支持地图名称、地图id
+
+[3.1.0]
 增加主题系统
 增加支持NEO Classic客户端
 增加技能、奖励预览功能
@@ -253,8 +267,20 @@
   <data name="Assets_Name" xml:space="preserve">
     <value>资产</value>
   </data>
+  <data name="AudioPlayer_BytesPerSecond" xml:space="preserve">
+    <value>每秒字节数</value>
+  </data>
+  <data name="AudioPlayer_Devices" xml:space="preserve">
+    <value>播放设备</value>
+  </data>
+  <data name="AudioPlayer_Encoding" xml:space="preserve">
+    <value>编码</value>
+  </data>
   <data name="AudioPlayer_Name" xml:space="preserve">
     <value>音频播放器</value>
+  </data>
+  <data name="AudioPlayer_Name1" xml:space="preserve">
+    <value>AudioPlayer</value>
   </data>
   <data name="Command_QueryAsset" xml:space="preserve">
     <value>查询游戏资产</value>
@@ -281,7 +307,7 @@
     <value>连接</value>
   </data>
   <data name="DatabaseStudio_ConnectMessage1" xml:space="preserve">
-    <value>Not Used</value>
+    <value>是否确认断开链接？</value>
   </data>
   <data name="DatabaseStudio_ConnectMessage2" xml:space="preserve">
     <value>当前是全局数据源，是否确认断开链接？</value>
@@ -508,9 +534,6 @@
   <data name="Page_ItemPage" xml:space="preserve">
     <value>物品</value>
   </data>
-  <data name="Page_QuestJournalPanel" xml:space="preserve">
-    <value>任务</value>
-  </data>
   <data name="PreviewBasic" xml:space="preserve">
     <value>查看源</value>
   </data>
@@ -634,6 +657,9 @@
   <data name="TextEditor_Name" xml:space="preserve">
     <value>文本编辑器</value>
   </data>
+  <data name="TextView_BackUp_Ask" xml:space="preserve">
+    <value>是否确认覆盖备份?</value>
+  </data>
   <data name="TextView_LoadData" xml:space="preserve">
     <value>预览时加载数据</value>
   </data>
@@ -642,6 +668,9 @@
   </data>
   <data name="TextView_LoadLastOnStartup" xml:space="preserve">
     <value>启动时载入上次数据</value>
+  </data>
+  <data name="TextView_LoadLast_Ask" xml:space="preserve">
+    <value>是否载入上次数据?</value>
   </data>
   <data name="TextView_Name" xml:space="preserve">
     <value>文本查看</value>
@@ -685,6 +714,12 @@
   </data>
   <data name="Text_File" xml:space="preserve">
     <value>文件</value>
+  </data>
+  <data name="Text_FileSize" xml:space="preserve">
+    <value>文件大小</value>
+  </data>
+  <data name="Text_FileSize Length" xml:space="preserve">
+    <value />
   </data>
   <data name="Text_Import" xml:space="preserve">
     <value>输入</value>
@@ -745,5 +780,26 @@
   </data>
   <data name="Text_Update" xml:space="preserve">
     <value>更新</value>
+  </data>
+  <data name="DatabaseStudio_AttributeName" xml:space="preserve">
+    <value>字段名</value>
+  </data>
+  <data name="DatabaseStudio_AttributeType" xml:space="preserve">
+    <value>类型</value>
+  </data>
+  <data name="DatabaseStudio_Hidden" xml:space="preserve">
+    <value>隐藏</value>
+  </data>
+  <data name="DatabaseStudio_IsDeprecated" xml:space="preserve">
+    <value>弃用</value>
+  </data>
+  <data name="DatabaseStudio_IsKey" xml:space="preserve">
+    <value>主键</value>
+  </data>
+  <data name="DatabaseStudio_IsRequired" xml:space="preserve">
+    <value>必需</value>
+  </data>
+  <data name="DatabaseStudio_Offset" xml:space="preserve">
+    <value>二进制偏移</value>
   </data>
 </root>

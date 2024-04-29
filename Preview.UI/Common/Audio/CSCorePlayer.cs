@@ -30,10 +30,8 @@ public class CSCorePlayer : IDisposable
 	private SingleBlockNotificationStream notificationSource;
 	private float volume = 1.0F;
 	private ISoundOut soundOut;
-	Stream audioStream;
-
+	private Stream audioStream;
 	private MMDevice selectedMMDevice;
-	IList<MMDevice> mmDevices = new List<MMDevice>();
 
 	// Equalizer
 	private Equalizer equalizer;
@@ -42,9 +40,6 @@ public class CSCorePlayer : IDisposable
 	// Flags
 	private bool isPlaying;
 	private bool hasMediaFoundationSupport = false;
-
-	// To detect redundant calls
-	private bool disposedValue = false;
 
 	private TimeSpan currentTimeBeforePause;
 	private TimeSpan totalTimeBeforePause;
@@ -238,12 +233,7 @@ public class CSCorePlayer : IDisposable
 	{
 		if (this.selectedMMDevice == null || !this.selectedMMDevice.DeviceID.Equals(audioDevice.DeviceId))
 		{
-			if (this.mmDevices == null || this.mmDevices.Count == 0)
-			{
-				this.GetAllMMDevices();
-			}
-
-			this.selectedMMDevice = this.mmDevices.Where(x => x.DeviceID.Equals(audioDevice.DeviceId)).FirstOrDefault();
+			this.selectedMMDevice = audioDevice.Device;
 		}
 	}
 
@@ -481,10 +471,73 @@ public class CSCorePlayer : IDisposable
 		}
 	}
 
+	public void SoundOutStoppedHandler(object sender, PlaybackStoppedEventArgs e)
+	{
+		if (this.isStoppedBecausePaused)
+		{
+			return;
+		}
+
+		try
+		{
+			if (e.Exception != null)
+			{
+				if (PlaybackInterrupted != null)
+				{
+					this.PlaybackInterrupted(this, new PlaybackInterruptedEventArgs { Message = e.Exception.Message });
+				}
+			}
+			else
+			{
+				if (PlaybackFinished != null)
+				{
+					this.PlaybackFinished(this, new EventArgs());
+				}
+			}
+		}
+		catch (Exception)
+		{
+			// Do nothing. It might be that we get in this handler when the application is closed.
+		}
+	}
+
+	private List<MMDevice> GetAllMMDevices()
+	{
+		var devices = new List<MMDevice>();
+
+		using var mmdeviceEnumerator = new MMDeviceEnumerator();
+		using var mmdeviceCollection = mmdeviceEnumerator.EnumAudioEndpoints(DataFlow.Render, DeviceState.Active);
+		foreach (var device in mmdeviceCollection)
+		{
+			devices.Add(device);
+		}
+
+		return devices;
+	}
+
+	public IList<AudioDevice> GetAllAudioDevices()
+	{
+		var audioDevices = new List<AudioDevice>();
+		var devices = this.GetAllMMDevices();
+
+		foreach (MMDevice mmDevice in devices)
+		{
+			audioDevices.Add(new AudioDevice(mmDevice, mmDevice.FriendlyName, mmDevice.DeviceID));
+		}
+
+		return audioDevices;
+	}
+
 	public ISpectrumPlayer GetWrapperSpectrumPlayer(SpectrumChannel channel)
 	{
 		return new WrapperSpectrumPlayer(instance, channel, inputStreamList);
 	}
+
+	public void Dispose()
+	{
+		this.CloseSoundOut();
+	}
+
 
 	public class WrapperSpectrumPlayer : ISpectrumPlayer
 	{
@@ -585,80 +638,5 @@ public class CSCorePlayer : IDisposable
 				return 0;
 			}
 		}
-	}
-
-	public void SoundOutStoppedHandler(object sender, PlaybackStoppedEventArgs e)
-	{
-		if (this.isStoppedBecausePaused)
-		{
-			return;
-		}
-
-		try
-		{
-			if (e.Exception != null)
-			{
-				if (PlaybackInterrupted != null)
-				{
-					this.PlaybackInterrupted(this, new PlaybackInterruptedEventArgs { Message = e.Exception.Message });
-				}
-			}
-			else
-			{
-				if (PlaybackFinished != null)
-				{
-					this.PlaybackFinished(this, new EventArgs());
-				}
-			}
-		}
-		catch (Exception)
-		{
-			// Do nothing. It might be that we get in this handler when the application is closed.
-		}
-	}
-
-	protected virtual void Dispose(bool disposing)
-	{
-		if (!disposedValue)
-		{
-			if (disposing)
-			{
-				this.CloseSoundOut();
-			}
-
-			disposedValue = true;
-		}
-	}
-
-	// This code added to correctly implement the disposable pattern.
-	public void Dispose()
-	{
-		Dispose(true);
-	}
-
-	private void GetAllMMDevices()
-	{
-		this.mmDevices = new List<MMDevice>();
-
-		using var mmdeviceEnumerator = new MMDeviceEnumerator();
-		using var mmdeviceCollection = mmdeviceEnumerator.EnumAudioEndpoints(DataFlow.Render, DeviceState.Active);
-		foreach (var device in mmdeviceCollection)
-		{
-			this.mmDevices.Add(device);
-		}
-	}
-
-	public IList<AudioDevice> GetAllAudioDevices()
-	{
-		IList<AudioDevice> audioDevices = new List<AudioDevice>();
-
-		this.GetAllMMDevices();
-
-		foreach (MMDevice mmDevice in this.mmDevices)
-		{
-			audioDevices.Add(new AudioDevice(mmDevice.FriendlyName, mmDevice.DeviceID));
-		}
-
-		return audioDevices;
 	}
 }

@@ -368,7 +368,7 @@ public enum MarketCategory3Seq
 	[Text("Name.item.market-category-3.ruby-diamond")]
 	RubyDiamond,
 
-	[Text("Name.item.market-category-3.Vehicle")]
+	[Text("Name.item.market-category-3.vehicle")]
 	Vehicle,
 
 	[Text("Name.item.market-category-3.card")]
@@ -506,10 +506,10 @@ public enum MarketCategory3Seq
 
 public static partial class SequenceExtensions
 {
-	public static Dictionary<MarketCategory2Seq, List<MarketCategory3Seq>> MarketCategory2Group()
+	public static Dictionary<MarketCategory2Seq, List<MarketCategory3Seq>> MarketCategory2Group(bool Neo)
 	{
 		var data = new Dictionary<MarketCategory2Seq, List<MarketCategory3Seq>>();
-		Array.ForEach(Enum.GetValues<MarketCategory2Seq>(), seq => data[seq] = new());
+		Array.ForEach(Enum.GetValues<MarketCategory2Seq>(), seq => data[seq] = []);
 
 		#region Weapon
 		data[MarketCategory2Seq.Weapon].Add(MarketCategory3Seq.Sword);
@@ -575,26 +575,36 @@ public static partial class SequenceExtensions
 		#endregion
 
 		#region	WeaponGem
-		data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.Ruby);
-		data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.Topaz);
-		data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.Sapphire);
-		data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.Jade);
-		data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.Amethyst);
-		data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.Emerald);
-		data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.Diamond);
-		data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.Obsidian);
-		data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.Amber);
-		data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.Garnet);
-		data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.Aquamarine);
-		data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.RubyDiamond);
-		data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.TopazDiamond);
-		data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.SapphireDiamond);
-		data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.JadeDiamond);
-		data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.AmethystDiamond);
-		data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.EmeraldDiamond);
-		data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.AquamarineDiamond);
-		data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.AmberDiamond);
-		data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.ObsidianGarnet);
+		if (Neo)
+		{
+			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.StarStone);
+			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.WeaponSoulGem);
+			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.WeaponGemEtc);
+		}
+		else
+		{
+			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.Ruby);
+			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.Topaz);
+			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.Sapphire);
+			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.Jade);
+			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.Amethyst);
+			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.Emerald);
+			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.Diamond);
+			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.Obsidian);
+			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.Amber);
+			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.Garnet);
+			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.Aquamarine);
+			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.RubyDiamond);
+			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.TopazDiamond);
+			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.SapphireDiamond);
+			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.JadeDiamond);
+			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.AmethystDiamond);
+			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.EmeraldDiamond);
+			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.AquamarineDiamond);
+			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.AmberDiamond);
+			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.ObsidianGarnet);
+			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.WeaponGemEtc);
+		}
 		#endregion
 
 		#region	Medicine
@@ -614,9 +624,16 @@ public static partial class SequenceExtensions
 		#endregion
 
 		#region	BuildUpStone
-		data[MarketCategory2Seq.BuildUpStone].Add(MarketCategory3Seq.SkillStone1);
-		data[MarketCategory2Seq.BuildUpStone].Add(MarketCategory3Seq.SkillStone2);
-		data[MarketCategory2Seq.BuildUpStone].Add(MarketCategory3Seq.AccessoryStone);
+		if (Neo)
+		{
+			data.Remove(MarketCategory2Seq.BuildUpStone);
+		}
+		else
+		{
+			data[MarketCategory2Seq.BuildUpStone].Add(MarketCategory3Seq.SkillStone1);
+			data[MarketCategory2Seq.BuildUpStone].Add(MarketCategory3Seq.SkillStone2);
+			data[MarketCategory2Seq.BuildUpStone].Add(MarketCategory3Seq.AccessoryStone);
+		}
 		#endregion
 
 		#region	Talisman	   			

@@ -3,16 +3,12 @@ using System.Runtime.InteropServices;
 
 namespace Xylia.Preview.Data.Common.DataStruct;
 [StructLayout(LayoutKind.Sequential)]
-public struct Ref : IComparable<Ref>
+public struct Ref(int id, int variant = 0) : IComparable<Ref>
 {
-	public readonly int Id;
-	public readonly int Variant;
-	public Ref(int id, int variant = 0)
-	{
-		Id = id;
-		Variant = variant;
-	}
+	public readonly int Id = id;
+	public readonly int Variant = variant;
 
+	#region Methods
 	public override bool Equals(object obj)
 	{
 		return obj is Ref other && Equals(other);
@@ -25,15 +21,15 @@ public struct Ref : IComparable<Ref>
 
 	public readonly int CompareTo(Ref other)
 	{
-		return this.Variant == other.Variant ?
-			this.Id - other.Id :
-			this.Variant - other.Variant;
+		return this.Id == other.Id ?
+			this.Variant - other.Variant :
+			this.Id - other.Id;
 	}
 
 	public override readonly string ToString() => Variant == 0 ? $"{Id}" : $"{Id}.{Variant}";
 
 	public override readonly int GetHashCode() => HashCode.Combine(Id, Variant);
-
+	#endregion
 
 	#region Static Methods
 	public static Ref Prase(string input) => TryPrase(input, out var key) ? key : throw new ArgumentException("Invalid Ref string input");

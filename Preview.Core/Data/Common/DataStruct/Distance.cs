@@ -34,8 +34,10 @@ public readonly struct Distance : IInteger
 	#endregion
 
 	#region IConvertible
-	public TypeCode GetTypeCode() => TypeCode.Int16;
+	TypeCode IConvertible.GetTypeCode() => TypeCode.Int16;
 
-	public double ToDouble(IFormatProvider provider) => source * 0.01 * 2;
+	short IConvertible.ToInt16(IFormatProvider provider) => Value;
+
+	double IConvertible.ToDouble(IFormatProvider provider) => source * 0.01 * 2;
 	#endregion
 }

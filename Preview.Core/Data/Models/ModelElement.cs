@@ -96,6 +96,7 @@ public abstract class ModelElement : IElement
 		}
 		#endregion
 
+		element.LoadHiddenField();
 		return element;
 	}
 
@@ -130,7 +131,8 @@ public abstract class ModelElement : IElement
 
 		// attribute
 		var attribute = record.Definition.GetAttribute(name);
-		if (attribute is null || attribute.Repeat == 1)
+		if (attribute is null) return null;
+		else if (attribute.Repeat == 1)
 		{
 			return AttributeConverter.Convert(record.Attributes[name], type);
 		}
@@ -202,7 +204,7 @@ public abstract class ModelElement : IElement
 
 			if (!string.IsNullOrWhiteSpace(type) && !_subs.TryGetValue(type, out _type))
 			{
-				message.Warning($"cast object subclass failed: {BaseType} -> {type}");
+				message.Debug($"cast object subclass failed: {BaseType} -> {type}");
 			}
 
 			return (T)Activator.CreateInstance(_type ?? BaseType);
@@ -253,7 +255,6 @@ public struct Ref<TElement> where TElement : ModelElement
 	public static implicit operator TElement(Ref<TElement> value) => value.Instance;
 
 	public static implicit operator Ref<TElement>(TElement value) => new(value);
-
 	public static implicit operator Ref<TElement>(Record value) => new(value);
 
 	public static bool operator ==(Ref<TElement> left, Ref<TElement> right) => left.Equals(right);

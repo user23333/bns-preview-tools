@@ -8,11 +8,10 @@ public partial class RewardTooltipPanel
 	#region Constructors
 	public RewardTooltipPanel()
 	{
-		InitializeComponent();
-
 #if DEVELOP
 		DataContext = Helpers.TestProvider.Provider.GetTable<Reward>()["General_Grocery_Event_Box_14"];
 #endif
+		InitializeComponent();
 	}
 	#endregion
 

@@ -24,7 +24,10 @@ internal sealed class QuestEpic : OutSet
             sheet.Cells[Row, column++].SetValue(data);
             sheet.Cells[Row, column++].SetValue(data.Name);
             sheet.Cells[Row, column++].SetValue(data.Title);
-        });
+            
+            //var rewards = data.MissionStep.SelectMany(step => step.Mission.SelectMany(mission => mission.Reward)).Where(reward => reward.HasValue);
+			//sheet.Cells[Row, column++].SetValue(rewards.Sum(reward => reward.Instance.BasicExp));
+		});
     }
 
 
@@ -43,7 +46,7 @@ internal sealed class QuestEpic : OutSet
         foreach (var NextQuest in Completion.NextQuest)
         {
             var jobs = NextQuest.Job;
-            if (jobs is null || jobs[0] == JobSeq.JobNone || jobs.FirstOrDefault(job => job == TargetJob) != JobSeq.JobNone)
+            if (jobs is null || jobs.CheckSeq(TargetJob))  
                 GetEpic(NextQuest.Quest.Instance, act, TargetJob);
         }
     }

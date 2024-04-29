@@ -53,5 +53,10 @@ public class ExpansionComponent : IUStruct
 		}
 		else throw new NotSupportedException();
 	}
+
+	public void SetShow(bool value)
+	{
+		this.bShow = value;
+	}
 	#endregion
 }

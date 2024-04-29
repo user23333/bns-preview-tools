@@ -12,13 +12,14 @@ using Xylia.Preview.Data.Helpers;
 namespace Xylia.Preview.Data.Engine.BinData.Serialization;
 public class ProviderSerialize(IDataProvider Provider)
 {
-	private const string hash = "hashes.txt";
+	#region Fields
+	public string HashName = "hashes.txt";
 
 	/// <summary>
 	/// action after the data save finished
 	/// </summary>
 	private event Action DataSaved;
-
+	#endregion
 
 	#region Methods
 	public async Task ExportAsync(string folder, Action<int, int> progress, params Table[] tables) => await Task.Run(() =>
@@ -37,7 +38,7 @@ public class ProviderSerialize(IDataProvider Provider)
 
 				progress(++current, tables.Length);
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				++current;
 				Log.Error($"output failed, table: `{table.Name}` error: {ex.Message}");
@@ -47,7 +48,7 @@ public class ProviderSerialize(IDataProvider Provider)
 		// save hashes
 		if (hashes.Count > 1)
 		{
-			File.WriteAllLines(Path.Combine(folder, hash), hashes.OrderBy(x => x.Path).Select(x => $"{x.Path}={x.Hash}"));
+			File.WriteAllLines(Path.Combine(folder, HashName), hashes.OrderBy(x => x.Path).Select(x => $"{x.Path}={x.Hash}"));
 		}
 	});
 
@@ -58,7 +59,7 @@ public class ProviderSerialize(IDataProvider Provider)
 		var hashes = new Dictionary<string, ulong>();
 		var modifiedHashes = new ConcurrentBag<HashInfo>();
 
-		var hashpath = Path.Combine(folder, hash);
+		var hashpath = Path.Combine(folder, HashName);
 		if (File.Exists(hashpath))
 		{
 			hashes = File.ReadAllLines(hashpath)

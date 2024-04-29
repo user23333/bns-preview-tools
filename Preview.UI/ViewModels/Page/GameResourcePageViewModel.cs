@@ -19,7 +19,6 @@ using Ookii.Dialogs.Wpf;
 using Serilog;
 using SkiaSharp;
 using SkiaSharp.Views.WPF;
-using Xylia.Preview.Common;
 using Xylia.Preview.UI.Common;
 using Xylia.Preview.UI.Helpers.Output.Textures;
 using Xylia.Preview.UI.Views;
@@ -124,11 +123,10 @@ internal partial class GameResourcePageViewModel : ObservableObject
 	}
 
 
-
-	public async Task UeExporter(string filter, bool ContainType) => await Task.Run(() =>
+	public static async Task UeExporter(string filter, bool ContainType) => await Task.Run(() =>
 	{
 		using var provider = new GameFileProvider(UserSettings.Default.GameFolder);
-		filter = provider.FixPath(filter, false) ?? filter;
+		filter = provider.FixPath(filter) ?? filter;
 
 		Parallel.ForEach(provider.Files.Values, gamefile =>
 		{
@@ -147,7 +145,7 @@ internal partial class GameResourcePageViewModel : ObservableObject
 		});
 	});
 
-	public async Task UeRepack(string folder, List<PackageParam> packages) => await Task.Run(() =>
+	public static async Task UeRepack(string folder, List<PackageParam> packages) => await Task.Run(() =>
 	{
 		foreach (var package in packages)
 		{
@@ -400,9 +398,9 @@ public class PackageParam
 
 	public class FileParam
 	{
-		public string Path { get; set; }
+		public string? Path { get; set; }
 
-		public string Vfs { get; set; }
+		public string? Vfs { get; set; }
 
 		public CompressionMethod Compression { get; set; }
 

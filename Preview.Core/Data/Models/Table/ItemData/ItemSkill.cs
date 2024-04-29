@@ -1,7 +1,7 @@
 ﻿using Xylia.Preview.Data.Common.Abstractions;
 
 namespace Xylia.Preview.Data.Models;
-public sealed class ItemSkill : ModelElement, IAttraction
+public sealed class ItemSkill : ModelElement, IHaveDesc
 {
 	#region Attributes
 	public int SkillId { get; set; }
@@ -20,8 +20,6 @@ public sealed class ItemSkill : ModelElement, IAttraction
 	#endregion
 
 	#region Methods
-	public string Name => Name2.GetText();
-
-	public string Description => Description2.GetText();
+	public string Description => string.Format("<font name=\"00008130.UI.Label_Green03_12\">{0}</font>", Description2.GetText());
 	#endregion
 }

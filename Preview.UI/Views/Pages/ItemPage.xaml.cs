@@ -1,9 +1,8 @@
 ﻿using System.Windows;
 using Xylia.Preview.Data.Helpers;
-using Xylia.Preview.UI.Helpers.Output;
-using Xylia.Preview.UI.Helpers.Output.Tables;
 using Xylia.Preview.UI.ViewModels;
 using Xylia.Preview.UI.Views.Editor;
+using MessageBox = HandyControl.Controls.MessageBox;
 
 namespace Xylia.Preview.UI.Views.Pages;
 public partial class ItemPage
@@ -14,10 +13,14 @@ public partial class ItemPage
 		DataContext = new ItemPageViewModel();
 		InitializeComponent();
 
-		// debug
+#if DEBUG
+		TestHolder.Visibility = Visibility.Visible;
+		TestHolder.IsSelected = true;
+
 		List<string> source = ["a", "b", "c"];  //FileCache.Data.Provider.GetTable<Quest>().Take(30);
 		Test.ItemsSource = source;
 		Test.TestMethod();
+#endif
 	}
 	#endregion
 
@@ -26,10 +29,13 @@ public partial class ItemPage
 
 	private void ClearCacheData_Click(object sender, RoutedEventArgs e)
 	{
-		FileCache.Clear();
-		ProcessFloatWindow.ClearMemory();
+		if (MessageBox.Show(StringHelper.Get("DatabaseStudio_ConnectMessage1"), StringHelper.Get("Message_Tip"), MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+		{
+			FileCache.Clear();
+			ProcessFloatWindow.ClearMemory();
 
-		// OutSet.Start<WeeklyTimeTableOut>();
+			// OutSet.Start<WeeklyTimeTableOut>();
+		}
 	}
 	#endregion
 }

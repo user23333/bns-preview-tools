@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+﻿using System.ComponentModel;
 using System.Windows;
 using CUE4Parse.BNS.Assets.Exports;
 using Xylia.Preview.Data.Helpers;
@@ -10,6 +10,16 @@ internal class PreviewShowObject : RecordCommand
 {
 	protected override List<string> Type => ["social"];
 
+	protected override bool CanExecute(Record record)
+	{
+		if (record.OwnerName == "social")
+		{
+			if (record.Attributes["show"] != null) return true;
+		}
+
+		return false;
+	}
+
 	protected override void Execute(Record record)
 	{
 		switch (record.OwnerName)
@@ -17,16 +27,9 @@ internal class PreviewShowObject : RecordCommand
 			case "social":
 			{
 				var source = FileCache.Provider.LoadObject<UShowObject>(record.Attributes["show"]?.ToString());
-				if (source is null)
-				{
-					Debug.WriteLine("no data");
-					return;
-				}
+				if (source is null) throw new WarningException("no data"); 
 
-				Application.Current.Dispatcher.Invoke(() =>
-				{
-					new ShowObjectPlayer { Source = source }.Show();
-				});
+				Application.Current.Dispatcher.Invoke(() => new ShowObjectPlayer(source).Show());
 			}
 			break;
 

@@ -76,10 +76,10 @@ public abstract class ItemAutomationPeer : AutomationPeer, IVirtualizedItemProvi
                 object item = RawItem;
                 if (item != DependencyProperty.UnsetValue)
                 {
-                    if (((IGeneratorHost)owner).IsItemItsOwnContainer(item))
-                        wrapper = item as UIElement;
-                    else
-                        wrapper = owner.ItemContainerGenerator.ContainerFromItem(item) as UIElement;
+                    //if (((IGeneratorHost)owner).IsItemItsOwnContainer(item))
+                    //    wrapper = item as UIElement;
+                    //else
+                    //    wrapper = owner.ItemContainerGenerator.ContainerFromItem(item) as UIElement;
                 }
             }
         }
@@ -319,11 +319,11 @@ public abstract class ItemAutomationPeer : AutomationPeer, IVirtualizedItemProvi
         var itemCollection = itemsControl.Items;
         position = itemCollection.IndexOf(item);
 
-        if (itemsControl.IsGrouping)
-        {
-            int sizeOfGroup;
-            position = FindPositionInGroup(itemCollection.Groups, position, out sizeOfGroup);
-        }
+        //if (itemsControl.IsGrouping)
+        //{
+        //    int sizeOfGroup;
+        //    position = FindPositionInGroup(itemCollection.Groups, position, out sizeOfGroup);
+        //}
 
         return position + 1;
     }
@@ -333,15 +333,15 @@ public abstract class ItemAutomationPeer : AutomationPeer, IVirtualizedItemProvi
         int size = AutomationSizeOfSetDefault;
         var itemCollection = itemsControl.Items;
 
-        if (itemsControl.IsGrouping)
-        {
-            int position = itemCollection.IndexOf(item);
-            FindPositionInGroup(itemCollection.Groups, position, out size);
-        }
-        else
-        {
-            size = itemCollection.Count;
-        }
+        //if (itemsControl.IsGrouping)
+        //{
+        //    int position = itemCollection.IndexOf(item);
+        //    FindPositionInGroup(itemCollection.Groups, position, out size);
+        //}
+        //else
+        //{
+        //    size = itemCollection.Count;
+        //}
 
         return size;
     }

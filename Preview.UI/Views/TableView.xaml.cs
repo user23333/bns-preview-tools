@@ -84,6 +84,9 @@ public partial class TableView
 	{
 		_source.Filter = (o) => Filter(o, e.Info);
 		_source.Refresh();
+		_source.MoveCurrentToFirst();
+
+		ColumnList.ScrollIntoView(_source.CurrentItem);
 	}
 	#endregion
 

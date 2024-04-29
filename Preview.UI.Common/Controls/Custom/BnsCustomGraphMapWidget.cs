@@ -130,7 +130,7 @@ public class BnsCustomGraphMapWidget : BnsCustomBaseWidget
 			//widget.ExpansionComponentList["Node_Icon"]?.SetValue(item.Icon);
 			widget.ExpansionComponentList["Node_ItemName"]?.SetValue(item.ItemName);
 
-			if (SeedItems.Length > 1) widget.Expansion.Add("Node_SubGroupImage");
+			if (SeedItems.Length > 1) widget.ExpansionComponentList["Node_SubGroupImage"]?.SetShow(true);
 			#endregion
 
 			this.Children.Add(items[item] = widget);
@@ -169,7 +169,7 @@ public class BnsCustomGraphMapWidget : BnsCustomBaseWidget
 
 		// Template
 		NodeTemplate = GetChild<BnsCustomImageWidget>("NodeTemplate");
-		NodeTemplate.Expansion = ["Node_Icon", "Node_ItemName"];
+		//NodeTemplate.Expansion = ["Node_Icon", "Node_ItemName"];
 		HorizontalRulerItemTemplate = GetChild<BnsCustomImageWidget>("HorizontalRulerItemTemplate");
 		VerticalRulerItemTemplate = GetChild<BnsCustomImageWidget>("VerticalRulerItemTemplate");
 
@@ -193,7 +193,6 @@ public class BnsCustomGraphMapWidget : BnsCustomBaseWidget
 		if (e.Delta < 0) Ratio -= 0.05;
 		else Ratio += 0.05;
 
-		SetRatio(this, default);
 		e.Handled = true;
 	}
 
@@ -326,9 +325,9 @@ public class BnsCustomGraphMapWidget : BnsCustomBaseWidget
 	{
 		if (sender is not BnsCustomGraphMapWidget widget) return;
 
-		widget.Starting?.Expansion.Remove("Node_StartImage");
+		widget.Starting?.ExpansionComponentList["Node_StartImage"]?.SetShow(false);
 		widget.Starting = e.Source as BnsCustomImageWidget;
-		widget.Starting!.Expansion.Add("Node_StartImage");
+		widget.Starting!.ExpansionComponentList["Node_StartImage"]?.SetShow(true);
 
 		//FileCache.Data.Provider.GetTable<GameMessage>()["Msg.ItemGraph.SetStartingPoint"]?.Instant();
 		widget.FindPath();
@@ -338,9 +337,9 @@ public class BnsCustomGraphMapWidget : BnsCustomBaseWidget
 	{
 		if (sender is not BnsCustomGraphMapWidget widget) return;
 
-		widget.Destination?.Expansion.Remove("Node_PurposeImage");
+		widget.Destination?.ExpansionComponentList["Node_PurposeImage"]?.SetShow(false);
 		widget.Destination = e.Source as BnsCustomImageWidget;
-		widget.Destination!.Expansion.Add("Node_PurposeImage");
+		widget.Destination!.ExpansionComponentList["Node_PurposeImage"]?.SetShow(true);
 
 		//FileCache.Data.Provider.GetTable<GameMessage>()["Msg.ItemGraph.SetDestination"]?.Instant();
 		widget.FindPath();
@@ -498,12 +497,11 @@ public class BnsCustomGraphMapWidget : BnsCustomBaseWidget
 	Point _mouseOffset;
 	Point _original;
 
-	private BnsCustomImageWidget NodeTemplate;
-	private BnsCustomImageWidget HorizontalRulerItemTemplate;
-	private BnsCustomImageWidget VerticalRulerItemTemplate;
+	private BnsCustomImageWidget? NodeTemplate;
+	private BnsCustomImageWidget? HorizontalRulerItemTemplate;
+	private BnsCustomImageWidget? VerticalRulerItemTemplate;
 
-	private ContextMenu NodeMenu;
-
+	private ContextMenu? NodeMenu;
 	private BnsCustomImageWidget? Starting;
 	private BnsCustomImageWidget? Destination;
 	#endregion

@@ -268,11 +268,11 @@ public class Reward : ModelElement
 	public class RewardInfo
 	{
 		public Item Item;
-		public (string, string) Group;
 		public short Min = 1;
 		public short Max = 1;
-		public int Probability;
-		public int ProbabilityType;
+		public (string, string) Group;
+		internal int Probability;
+		internal int ProbabilityType;
 
 		public string CountInfo => Min != Max ? string.Format("{0}-{1}", Min, Max) : string.Format("{0}", Min);
 		public string ProbabilityInfo => Probability == 0 ? string.Empty : ((double)Probability / ProbabilityType).ToString("P" + ProbabilityType.GetPercentLength());

@@ -40,7 +40,7 @@ public class AttributeArray : AttributeValue, IList<AttributeValue>
         }
         set
         {
-            this.RawValue[index] = value ?? AttributeValue.Null;
+            this.RawValue[index] = value ?? Null;
         }
     }
 
@@ -48,7 +48,7 @@ public class AttributeArray : AttributeValue, IList<AttributeValue>
 
     public bool IsReadOnly => false;
 
-    public void Add(AttributeValue item) => this.RawValue.Add(item ?? AttributeValue.Null);
+    public void Add(AttributeValue item) => this.RawValue.Add(item ?? Null);
 
     public void AddRange<TCollection>(TCollection collection)
         where TCollection : ICollection<AttributeValue>
@@ -77,21 +77,21 @@ public class AttributeArray : AttributeValue, IList<AttributeValue>
 
         foreach (var item in items)
         {
-            this.Add(item ?? AttributeValue.Null);
+            this.Add(item ?? Null);
         }
     }
 
     public void Clear() => this.RawValue.Clear();
 
-    public bool Contains(AttributeValue item) => this.RawValue.Contains(item ?? AttributeValue.Null);
+    public bool Contains(AttributeValue item) => this.RawValue.Contains(item ?? Null);
 
     public void CopyTo(AttributeValue[] array, int arrayIndex) => this.RawValue.CopyTo(array, arrayIndex);
 
     public IEnumerator<AttributeValue> GetEnumerator() => this.RawValue.GetEnumerator();
 
-    public int IndexOf(AttributeValue item) => this.RawValue.IndexOf(item ?? AttributeValue.Null);
+    public int IndexOf(AttributeValue item) => this.RawValue.IndexOf(item ?? Null);
 
-    public void Insert(int index, AttributeValue item) => this.RawValue.Insert(index, item ?? AttributeValue.Null);
+    public void Insert(int index, AttributeValue item) => this.RawValue.Insert(index, item ?? Null);
 
     public bool Remove(AttributeValue item) => this.RawValue.Remove(item);
 

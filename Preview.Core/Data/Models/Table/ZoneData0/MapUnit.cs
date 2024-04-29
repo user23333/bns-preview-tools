@@ -1,8 +1,10 @@
-﻿using Xylia.Preview.Common.Attributes;
+﻿using CUE4Parse.UE4.Objects.Core.Math;
+using Xylia.Preview.Common.Attributes;
+using Xylia.Preview.Data.Common.Abstractions;
 
 namespace Xylia.Preview.Data.Models;
 [Side(ReleaseSide.Client)]
-public class MapUnit : ModelElement
+public class MapUnit : ModelElement, IHaveName
 {
 	#region Attributes
 	public short Mapid { get; set; }
@@ -17,60 +19,57 @@ public class MapUnit : ModelElement
 
 	public float PositionZ { get; set; }
 
-	public CategorySeq Category { get; set; }
 	public enum CategorySeq
 	{
-		None,
-		Player,
-		Party,
-		Team,
-		Guild,
-		Friend,
+		[Text("Name.mapunit.category.none")] None,
+		[Text("Name.mapunit.category.player")] Player,
+		[Text("Name.mapunit.category.party")] Party,
+		[Text("Name.mapunit.category.team")] Team,
+		[Text("Name.mapunit.category.guild")] Guild,
+		[Text("Name.mapunit.category.friend")] Friend,
 		RevengeEnemy,
-		Faction,
-		DuelEnemy,
-		Quest,
-		Npc,
-		Env,
-		Teleport,
-		Airdash,
+		[Text("Name.mapunit.category.faction")] Faction,
+		[Text("Name.mapunit.category.duel-enemy")] DuelEnemy,
+		[Text("Name.mapunit.category.quest")] Quest,
+		[Text("UI.MapInfoOption.NPC")] Npc,
+		[Text("UI.Expedition.Main.Collection")] Env,
+		[Text("Name.mapunit.category.teleport")] Teleport,
+		[Text("Name.mapunit.category.airdash")] Airdash,
 		Link,
-		Convoy,
+		[Text("Name.mapunit.category.convoy")] Convoy,
 		SpawnedEnv,
 		Static,
-		Auction,
-		Store,
-		Camp,
-		PartyCamp,
-		Roulette,
-		FieldBoss,
-		Gather,
-		Craft,
-		GatherEnv,
-		Heart,
-		EnterArena,
-		WeaponBox,
-		Refiner,
-		Dungeon3,
-		Dungeon4,
-		Dungeon5,
-		RaidDungeon,
-		ClassicField,
-		FactionBattleField,
-		GuildBattleField,
+		[Text("Name.mapunit.category.auction")] Auction,
+		[Text("Name.mapunit.category.store")] Store,
+		[Text("Name.mapunit.category.camp")] Camp,
+		[Text("Name.mapunit.category.party-camp")] PartyCamp,
+		[Text("Name.mapunit.category.roulette")] Roulette,
+		[Text("Name.mapunit.category.field-boss")] FieldBoss,
+		[Text("Name.mapunit.category.gather")] Gather,
+		[Text("Name.mapunit.category.craft")] Craft,
+		[Text("Name.mapunit.category.gather-env")] GatherEnv,
+		[Text("Name.mapunit.category.heart")] Heart,
+		[Text("Name.mapunit.category.enter-arena")] EnterArena,
+		[Text("Name.mapunit.category.weapon-box")] WeaponBox,
+		[Text("Name.mapunit.category.refiner")] Refiner,
+		[Text("Name.mapunit.category.dungeon-3")] Dungeon3,
+		[Text("Name.mapunit.category.dungeon-4")] Dungeon4,
+		[Text("Name.mapunit.category.dungeon-5")] Dungeon5,
+		[Text("Name.mapunit.category.raid-dungeon")] RaidDungeon,
+		[Text("Name.mapunit.category.classic-field")] ClassicField,
+		[Text("Name.mapunit.category.faction-battle-field")] FactionBattleField,
+		[Text("Name.mapunit.category.guild-battle-field")] GuildBattleField,
 		PartyBattleStartpoint,
 		PartyBattleEnemy,
-		FishingField,
-		ExpeditionEnv,
-		WanderingNpc,
+		[Text("Name.mapunit.category.fishing-field")] FishingField,
+		[Text("Name.mapunit.category.expedition-env")] ExpeditionEnv,
+		[Text("Name.mapunit.category.wandering-npc")] WanderingNpc,
 
 		COUNT
 	}
 
+	public CategorySeq Category { get; set; }
 
-	public MapDepthSeq MapDepth { get; set; }
-
-	public MapDepthSeq ArenaDungeonMapDepth { get; set; }
 	public enum MapDepthSeq : byte
 	{
 		N1,
@@ -79,6 +78,10 @@ public class MapUnit : ModelElement
 		N4,
 		N5,
 	}
+
+	public MapDepthSeq MapDepth { get; set; }
+
+	public MapDepthSeq ArenaDungeonMapDepth { get; set; }
 
 	public bool Zoom { get; set; }
 
@@ -184,5 +187,14 @@ public class MapUnit : ModelElement
 	{
 
 	}
+	#endregion
+
+
+	#region Methods
+	public string Name => Name2.GetText() ?? base.ToString();
+
+	public FVector Position => new(PositionX, PositionY, PositionZ);
+
+	public FVector2D Size => new(SizeX, SizeY);
 	#endregion
 }

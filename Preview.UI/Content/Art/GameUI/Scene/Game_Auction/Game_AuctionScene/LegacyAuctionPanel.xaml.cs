@@ -26,7 +26,7 @@ public partial class LegacyAuctionPanel : INotifyPropertyChanged
 		TreeView.Items.Add(new TreeViewItem() { Tag = "WorldBoss", Header = new BnsCustomLabelWidget() { Text = "UI.Market.Category.WorldBoss".GetText(), FontSize = 15 } });
 		TreeView.Items.Add(new TreeViewItem() { Tag = "favorites", Header = new BnsCustomLabelWidget() { Text = "UI.Market.Category.Favorites".GetText() } });
 
-		foreach (var category2 in SequenceExtensions.MarketCategory2Group())
+		foreach (var category2 in SequenceExtensions.MarketCategory2Group(FileCache.Data.Provider.IsNeo))
 		{
 			if (category2.Key == MarketCategory2Seq.None) continue;
 
@@ -44,13 +44,10 @@ public partial class LegacyAuctionPanel : INotifyPropertyChanged
 		}
 		#endregion
 
-		#region Source
-		ViewSource = new CollectionViewSource();
-		ViewSource.Source = FileCache.Data.Provider.GetTable<Item>();
-		ViewSource.View.Filter = Filter;
-
-		ItemList.ItemsSource = ViewSource.View;
-		#endregion
+		// data
+		source = CollectionViewSource.GetDefaultView(FileCache.Data.Provider.GetTable<Item>());
+		source.Filter = OnFilter;
+		ItemList.ItemsSource = source;
 	}
 	#endregion
 
@@ -97,7 +94,7 @@ public partial class LegacyAuctionPanel : INotifyPropertyChanged
 	#endregion
 
 	#region Fields
-	private readonly CollectionViewSource ViewSource;
+	private readonly ICollectionView source;
 
 	private string? _nameFilter;
 	public string? NameFilter
@@ -139,7 +136,7 @@ public partial class LegacyAuctionPanel : INotifyPropertyChanged
 	private MarketCategory2Seq marketCategory2;
 	private MarketCategory3Seq marketCategory3;
 
-	private bool Filter(object obj)
+	private bool OnFilter(object obj)
 	{
 		#region Initialize
 		if (obj is Record record) { }
@@ -195,12 +192,11 @@ public partial class LegacyAuctionPanel : INotifyPropertyChanged
 
 	private void RefreshList()
 	{
-		Application.Current.Dispatcher.BeginInvoke(() =>
+		Dispatcher.BeginInvoke(() =>
 		{
-			ViewSource.View.Refresh();
-			ViewSource.View.MoveCurrentToFirst();
-
-			ItemList.ScrollIntoView(ViewSource.View.CurrentItem);
+			source.Refresh();
+			source.MoveCurrentToFirst();
+			ItemList.ScrollIntoView(source.CurrentItem);
 		});
 	}
 	#endregion

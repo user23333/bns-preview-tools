@@ -89,7 +89,7 @@ public class DataReader : IDataReader
 	{
 		get
 		{
-			return (AttributeValue)_current.AsDocument[field] ?? null; 
+			return _current.AsDocument[field] ?? null; 
 		}
 	}
 

@@ -38,41 +38,22 @@ public class DatafileHeader
 
 		Action<long> overwriteSize;
 
-		if (is64Bit)
-		{
-			writer.Write(TotalTableSize);
-			writer.Write(tableCount);
-			var offset = writer.Position;
-			overwriteSize = x =>
-			{
-				var oldPosition = writer.Position;
-				writer.Seek(offset, SeekOrigin.Begin);
-				writer.Write(x);
-				writer.Seek(oldPosition, SeekOrigin.Begin);
-			};
-			writer.Write((long)0);
-			writer.Write(aliasCount);
-			writer.Write(MaxBufferSize);
-		}
-		else
-		{
-			writer.Write((int)TotalTableSize);
-			writer.Write((int)tableCount);
-			var offset = writer.Position;
-			overwriteSize = x =>
-			{
-				var oldPosition = writer.Position;
-				writer.Seek(offset, SeekOrigin.Begin);
-				writer.Write((int)x);
-				writer.Seek(oldPosition, SeekOrigin.Begin);
-			};
-			writer.Write(0);
-			writer.Write((int)aliasCount);
-			writer.Write((int)MaxBufferSize);
-		}
-
-		writer.Write(CreatedAt.ToUnixTimeSeconds());
+        writer.WriteLongInt(TotalTableSize);
+        writer.WriteLongInt(tableCount);
+        var offset = writer.Position;
+        overwriteSize = x =>
+        {
+            var oldPosition = writer.Position;
+            writer.Seek(offset, SeekOrigin.Begin);
+            writer.WriteLongInt(x);
+            writer.Seek(oldPosition, SeekOrigin.Begin);
+        };
+		writer.WriteLongInt(0);
+        writer.WriteLongInt(aliasCount);
+        writer.WriteLongInt(MaxBufferSize);
+        writer.Write(CreatedAt.ToUnixTimeSeconds());
 		writer.Write(Reserved);
+
 		return overwriteSize;
 	}
 }

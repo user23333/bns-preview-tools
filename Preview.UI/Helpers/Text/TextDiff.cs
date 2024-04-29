@@ -1,7 +1,8 @@
-﻿using Xylia.Preview.Data.Models;
+﻿using Xylia.Preview.Data.Engine.BinData.Models;
+using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.UI.Helpers;
-public class TextDiff
+internal class TextDiff
 {
 	/// <summary>
 	/// Gets the inline textual diffs.
@@ -9,7 +10,7 @@ public class TextDiff
 	/// <param name="oldText"></param>
 	/// <param name="newText"></param>
 	/// <returns></returns>
-	public static List<TextDiffPiece> Diff(GameDataTable<Text> oldText, GameDataTable<Text> newText)
+	public static List<TextDiffPiece> Diff(Table oldText, Table newText)
 	{
 		var model = new List<TextDiffPiece>();
 		if (oldText != null && oldText != null)
@@ -18,8 +19,7 @@ public class TextDiff
 		return model;
 	}
 
-
-	private static void BuildDiffPieces(GameDataTable<Text> oldText, GameDataTable<Text> newText, List<TextDiffPiece> pieces)
+	private static void BuildDiffPieces(Table oldText, Table newText, List<TextDiffPiece> pieces)
 	{
 		ArgumentNullException.ThrowIfNull(oldText, nameof(oldText));
 		ArgumentNullException.ThrowIfNull(newText, nameof(newText));
@@ -46,10 +46,10 @@ public class TextDiff
 		}
 	}
 
-	private static Dictionary<string, Text> BuildPieceHashes(GameDataTable<Text> table)
+	public static Dictionary<string, Text> BuildPieceHashes(Table table)
 	{
-		return table.ToLookup(x => x.alias)
-			.Where(x => x.Key != null)
-			.ToDictionary(x => x.Key, x => x.First());
+		return table.Select(x => new Text(x.Attributes.Get<string>("alias"), x.Attributes.Get<string>("text")))
+			.ToLookup(x => x.alias).Where(x => x.Key != null)
+			.ToDictionary(x => x.Key, x => new Text(x.Key, x.First().text));
 	}
 }

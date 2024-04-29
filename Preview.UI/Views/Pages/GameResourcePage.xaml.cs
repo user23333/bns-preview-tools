@@ -51,14 +51,15 @@ public partial class GameResourcePage
 
 	private async void Extract_Click(object sender, RoutedEventArgs e)
 	{
-		if (string.IsNullOrWhiteSpace(Selector.Text))
-			return;
+		if (string.IsNullOrWhiteSpace(Selector.Text)) 
+			throw new WarningException("invalid path");
 
-		(sender as Control).IsEnabled = false;
-		await _viewModel.UeExporter(Selector.Text, OutputClassName.IsChecked ?? true);
+		DateTime dt = DateTime.Now;
+		Extract.IsEnabled = false;
+		await GameResourcePageViewModel.UeExporter(Selector.Text, OutputClassName.IsChecked ?? true);
 
-		(sender as Control).IsEnabled = true;
-		Growl.Success("task completed");
+		Extract.IsEnabled = true;
+		Growl.Success(StringHelper.Get("ItemList_TaskCompleted2" , 0, (DateTime.Now - dt).TotalSeconds));
 	}
 
 	private async void Repack_Click(object sender, RoutedEventArgs e)
@@ -72,7 +73,7 @@ public partial class GameResourcePage
 
 
 		(sender as Control).IsEnabled = false;
-		await _viewModel.UeRepack(folder, [.. _viewModel.Packages]);
+		await GameResourcePageViewModel.UeRepack(folder, [.. _viewModel.Packages]);
 
 		(sender as Control).IsEnabled = true;
 		Growl.Success("task completed");

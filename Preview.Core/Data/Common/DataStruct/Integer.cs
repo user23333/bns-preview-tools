@@ -1,15 +1,20 @@
 ﻿using System.Text;
 
 namespace Xylia.Preview.Data.Common.DataStruct;
-public readonly struct Integer(double value)
+public readonly struct Integer(double value) : IFormattable
 {
 	#region Override Methods
-	public double Value { get; } = value;
-
-	public override string ToString() => Value.ToString();
+	private double Value { get; } = value;
 
 	public static implicit operator Integer(double value) => new(value);
 	public static implicit operator double(Integer struc) => struc.Value;
+
+	public override string ToString() => Value.ToString();
+
+	public string ToString(string format, IFormatProvider formatProvider)
+	{
+		throw new NotImplementedException();
+	}
 	#endregion
 
 
@@ -33,6 +38,9 @@ public readonly struct Integer(double value)
 	public readonly string Money => ToMoney(false);
 	public readonly string MoneyNonTooltip => ToMoney(false, false);
 	public readonly string MoneyDefault => ToMoney(true);
+
+	public readonly string SecondaryMoneyBlue => value + " <replace p=\"UI.Common.SecondaryMoney.IconOnly\"/>";
+	public readonly string SecondaryMoneyRed => value + " <replace p=\"UI.Common.SecondaryMoney.Red.IconOnly\"/>";
 
 	private readonly string ToMoney(bool IsDefault, bool Tooltip = true)
 	{

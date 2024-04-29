@@ -7,7 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using Xylia.Preview.UI.Controls.Helpers;
 using Xylia.Preview.UI.Controls.Primitives;
-using Xylia.Preview.UI.Converters;
+using Xylia.Preview.UI.Extensions;
 
 namespace Xylia.Preview.UI.Controls;
 public class BnsCustomColumnListWidget : BnsCustomBaseWidget
@@ -163,7 +163,6 @@ public class BnsCustomColumnListWidget : BnsCustomBaseWidget
 					r2.X + r2.Y - r1.X);
 
 				child.Arrange(rect);
-				LayoutData.SetFinalRect(child, rect);
 			}
 		}
 
@@ -180,18 +179,16 @@ public class BnsCustomColumnListWidget : BnsCustomBaseWidget
 			ctx.DrawRectangle(new SolidColorBrush(), new Pen(Foreground, 2),
 				 new Rect(new Point(-ScrollOffset.X, -ScrollOffset.Y), DesiredSize));
 
-			// Draw border using arrange data
+			// draw border using arrange data
 			foreach (UIElement child in Children)
 			{
-				if (child == null) continue;
+				if (child == null || child.Visibility == Visibility.Collapsed) continue;
 
-				var rect = LayoutData.GetFinalRect(child);
-				if (rect != default)
-				{
-					rect.X -= ScrollOffset.X;
-					rect.Y -= ScrollOffset.Y;
-					ctx.DrawRectangle(new SolidColorBrush(), new Pen(Foreground, 1), rect);
-				}
+				var rect = child.GetFinalRect();
+				rect.X -= ScrollOffset.X;
+				rect.Y -= ScrollOffset.Y;	
+				
+				ctx.DrawRectangle(new SolidColorBrush(), new Pen(Foreground, 1), rect);
 			}
 		}
 	}
@@ -217,7 +214,7 @@ public class BnsCustomColumnListWidget : BnsCustomBaseWidget
 			if (prev != null)
 			{
 				var arg = new MergeEventArgs(prev, current);
-				CellMerge.Invoke(this, arg);
+				CellMerge!.Invoke(this, arg);
 
 				if (arg.Handled)
 				{

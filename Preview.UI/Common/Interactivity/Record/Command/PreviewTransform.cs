@@ -9,8 +9,11 @@ public class PreviewTransform : RecordCommand
 
 	protected override bool CanExecute(Record record)
 	{
-		if (record.OwnerName == "item" && record.Attributes.Get<int>("improve-id") != 0)
-			return true;
+		if (record.OwnerName == "item")
+		{
+			if (record.Attributes.Get<int>("improve-id") != 0) return true;
+			if (record.Attributes.Get<int>("random-option-group-id") != 0) return true;
+		}
 
 		return false;
 	}

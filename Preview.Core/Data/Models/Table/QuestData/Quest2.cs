@@ -14,6 +14,8 @@ public class Acquisition : ModelElement
 	public List<Case> Case { get; set; }
 
 	public List<TutorialCase> TutorialCase { get; set; }
+
+	public Ref<QuestReward>[] Reward { get; set; }
 }
 
 public class Mission_Step : ModelElement
@@ -383,22 +385,12 @@ public abstract class TutorialCase : ModelElement
 {
 	#region Base
 	public List<FilterSet> FilterSet { get; set; }
+
 	public List<ReactionSet> ReactionSet { get; set; }
 
 
-	public sbyte Prob { get; set; }
-
-	public short RangeMax { get; set; }
-
-	public short RangeMin { get; set; }
-
-	//public ProgressMission ProgressMission { get; set; }
-
 	[Side(ReleaseSide.Server)]
 	public Ref<Zone> Zone { get; set; }
-
-	//[Side(ReleaseSide.Server)]
-	//public Ref<QuestDecision> QuestDecision { get; set; }
 
 	public virtual List<Record> Attractions { get; }
 	#endregion
@@ -411,6 +403,15 @@ public abstract class TutorialCase : ModelElement
 	}
 
 	public sealed class EquipItem : TutorialCase
+	{
+		[Side(ReleaseSide.Client)]
+		public GameCategory2Seq ItemCategory { get; set; }
+
+		[Side(ReleaseSide.Client)]
+		public Ref<Item> Item { get; set; }
+	}
+
+	public sealed class UnequipItem : TutorialCase
 	{
 		[Side(ReleaseSide.Client)]
 		public GameCategory2Seq ItemCategory { get; set; }
@@ -679,6 +680,26 @@ public abstract class TutorialCase : ModelElement
 		[Side(ReleaseSide.Client)]
 		public Ref<Teleport> TeleportID { get; set; }
 	}
+
+    public sealed class WeaponStarstone : TutorialCase
+    {
+        
+    }
+
+    public sealed class WeaponStarwords : TutorialCase
+    {
+
+    }
+
+    public sealed class WeaponSoulgem : TutorialCase
+    {
+
+    }
+
+    public sealed class ActivateWorldAccountCardCollection : TutorialCase
+    {
+
+    }
 	#endregion
 }
 
@@ -688,13 +709,17 @@ public class Mission : ModelElement
 
 	public List<TutorialCase> TutorialCase { get; set; }
 
+	#region Properties
 	public sbyte Id => Attributes.Get<sbyte>("id");
 
 	public string Text => Attributes["name2"]?.GetText();
 
+	public Ref<QuestReward>[] Reward { get; set; }
+
 	public short CurrentRegisterValue => 0;
 
 	public string TagName => null;
+	#endregion
 }
 
 public class Mission_Step_Success : ModelElement

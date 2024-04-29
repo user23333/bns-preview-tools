@@ -1,8 +1,8 @@
-﻿using System.Diagnostics;
+﻿using Serilog;
+using Serilog.Events;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
-using Serilog;
-using Serilog.Events;
 using Xylia.Preview.UI.ViewModels;
 
 namespace Xylia.Preview.UI.Services;
@@ -11,9 +11,6 @@ internal class LogService : TextWriter, IService
 	#region IService
 	public bool Register()
 	{
-		// redirect console
-		if (true) Console.SetOut(this);
-
 		// If output directory exists, register the service
 		if (Directory.Exists(UserSettings.Default.OutputFolder))
 		{

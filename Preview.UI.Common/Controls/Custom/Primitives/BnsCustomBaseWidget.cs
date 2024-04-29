@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using CUE4Parse.BNS.Assets.Exports;
@@ -19,6 +18,8 @@ public abstract class BnsCustomBaseWidget : UserWidget, IMetaData
 	#region Constructors
 	internal BnsCustomBaseWidget()
 	{
+		Children = new UIElementCollectionEx(this);
+
 		// Create TextContainer associated with it
 		_container = new TextContainer(this);
 		_container.ChangedHandler += (s, e) => OnContainerChanged(e);
@@ -33,6 +34,10 @@ public abstract class BnsCustomBaseWidget : UserWidget, IMetaData
 	public static readonly DependencyProperty BaseImagePropertyProperty = Owner.Register<ImageProperty>(nameof(BaseImageProperty), null);
 	public static readonly DependencyProperty StringProperty = Owner.Register<StringProperty>(nameof(String), null, callback: OnStringChanged);
 	public static readonly DependencyProperty MetaDataProperty = Owner.Register(nameof(MetaData), string.Empty, callback: IMetaData.UpdateData);
+	public static readonly DependencyProperty ExpansionComponentListProperty = Owner.Register<ExpansionCollection>(nameof(ExpansionComponentList));
+
+	public static readonly DependencyProperty HorizontalResizeLinkProperty = Owner.Register<ResizeLink>(nameof(HorizontalResizeLink), default, FrameworkPropertyMetadataOptions.AffectsParentArrange);
+	public static readonly DependencyProperty VerticalResizeLinkProperty = Owner.Register<ResizeLink>(nameof(VerticalResizeLink), default, FrameworkPropertyMetadataOptions.AffectsParentArrange);
 
 	public ImageProperty BaseImageProperty
 	{
@@ -51,11 +56,6 @@ public abstract class BnsCustomBaseWidget : UserWidget, IMetaData
 		get { return (string)GetValue(MetaDataProperty); }
 		set { SetValue(MetaDataProperty, value); }
 	}
-	#endregion
-
-	#region ExpansionComponent
-	public static readonly DependencyProperty ExpansionComponentListProperty = Owner.Register<ExpansionCollection>(nameof(ExpansionComponentList));
-	public static readonly DependencyProperty ExpansionProperty = Owner.Register<ExpansionManager>(nameof(Expansion), default, callback: OnExpansionChanged);
 
 	public ExpansionCollection ExpansionComponentList
 	{
@@ -63,20 +63,25 @@ public abstract class BnsCustomBaseWidget : UserWidget, IMetaData
 		set { SetValue(ExpansionComponentListProperty, value); }
 	}
 
-	public ExpansionManager Expansion
+	public ResizeLink HorizontalResizeLink
 	{
-		get { return (ExpansionManager)GetValue(ExpansionProperty); }
-		set { SetValue(ExpansionProperty, value); }
+		get { return (ResizeLink)GetValue(HorizontalResizeLinkProperty); }
+		set { SetValue(HorizontalResizeLinkProperty, value); }
 	}
 
-	private static void OnExpansionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+	public ResizeLink VerticalResizeLink
 	{
-		var widget = (BnsCustomBaseWidget)d;
-
-		if (e.NewValue is ExpansionManager newIdCollection)
-			newIdCollection.CollectionChanged += (_, _) => widget.InvalidateVisual();
-
+		get { return (ResizeLink)GetValue(VerticalResizeLinkProperty); }
+		set { SetValue(VerticalResizeLinkProperty, value); }
 	}
+
+	public bool AutoResizeHorizontal { get; set; }
+	public float MaxAutoResizeHorizontal { get; set; }
+	public float MinAutoResizeHorizontal { get; set; }
+
+	public bool AutoResizeVertical { get; set; }
+	public float MaxAutoResizeVertical { get; set; }
+	public float MinAutoResizeVertical { get; set; }
 	#endregion
 
 	#region StringProperty
@@ -122,16 +127,22 @@ public abstract class BnsCustomBaseWidget : UserWidget, IMetaData
 	#region Protected Methods
 	protected override Rect ArrangeChild(UIElement child, Size constraint)
 	{
-		var rect = base.ArrangeChild(child, constraint);
+		var rcChild = base.ArrangeChild(child, constraint);
+
+		if (child is BnsCustomBaseWidget widget)
+		{
+			OnResizeLink(widget.HorizontalResizeLink, constraint, ref rcChild, true);
+			OnResizeLink(widget.VerticalResizeLink, constraint, ref rcChild, false);
+		}
 
 		// support for scroll
 		if (child is not BnsCustomScrollBarWidget)
 		{
-			rect.X -= ScrollOffset.X;
-			rect.Y -= ScrollOffset.Y;
+			rcChild.X -= ScrollOffset.X;
+			rcChild.Y -= ScrollOffset.Y;
 		}
 
-		return rect;
+		return rcChild;
 	}
 
 	protected override void OnRender(DrawingContext dc)
@@ -147,12 +158,8 @@ public abstract class BnsCustomBaseWidget : UserWidget, IMetaData
 		#region ExpansionComponent
 		if (!ExpansionComponentList.IsEmpty())
 		{
-			// get active expansion
-			var expansions = ExpansionComponentList.Where(e => Expansion is null ||
-				Expansion.Contains(e.ExpansionName.PlainText, StringComparer.OrdinalIgnoreCase));
-
 			// render
-			foreach (var e in expansions)
+			foreach (var e in ExpansionComponentList)
 			{
 				if (!e.bShow) continue;
 
@@ -203,6 +210,58 @@ public abstract class BnsCustomBaseWidget : UserWidget, IMetaData
 		}
 
 		return size;
+	}
+
+	private void OnResizeLink(ResizeLink resizeLink, Size constraint, ref Rect rc, bool horizontal)
+	{
+		if (resizeLink is null || !resizeLink.bEnable) return;
+
+		#region Rect 
+		Rect rect = new Rect(constraint);
+		float offset = resizeLink.Offset1;
+
+		var l = this.GetChild<UserWidget>(resizeLink.LinkWidgetName1, true);
+		if (l != null)
+		{
+			rect = l.GetFinalRect();
+			offset = l.Visibility == Visibility.Visible ? resizeLink.Offset1 : 0f;
+		}
+
+		var size = horizontal ? rc.Width : rc.Height;
+		var left = horizontal ? rect.Left : rect.Top;
+		var right = horizontal ? rect.Right : rect.Bottom;
+		#endregion
+
+		#region Final
+		double final;
+		switch (resizeLink.Type)
+		{
+			case EBnsCustomResizeLinkType.BNS_CUSTOM_BORDER_LINK_LEFT:
+				final = left + offset;
+				break;
+
+			case EBnsCustomResizeLinkType.BNS_CUSTOM_BORDER_LINK_CENTER:
+				final = (right - left - offset - size) / 2;
+				break;
+
+			case EBnsCustomResizeLinkType.BNS_CUSTOM_BORDER_LINK_RIGHT:
+				final = right - offset - size;
+				break;
+
+			case EBnsCustomResizeLinkType.BNS_CUSTOM_WIDGET_LINK_LEFT:
+				final = left - offset - size;
+				break;
+
+			case EBnsCustomResizeLinkType.BNS_CUSTOM_WIDGET_LINK_RIGHT:
+				final = right + offset;
+				break;
+
+			default: return;
+		}
+
+		if (horizontal) rc.X = final;
+		else rc.Y = final;
+		#endregion
 	}
 	#endregion
 }

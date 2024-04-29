@@ -49,22 +49,23 @@ internal class TableArchive
 
 		while (_recordCompressedReader.Read(reader, ref rowMemory))
 		{
+			var buffer = new byte[rowMemory.DataSize];
+			var stringBuffer = new byte[rowMemory.StringBufferSize];
+			Marshal.Copy((nint)rowMemory.DataBegin, buffer, 0, rowMemory.DataSize);
+			Marshal.Copy((nint)rowMemory.StringBufferBegin, stringBuffer, 0, rowMemory.StringBufferSize);
+
 			var row = new Record
 			{
 				Owner = table,
-				Data = new byte[rowMemory.DataSize],
-				StringLookup = new StringLookup { IsPerTable = false, Data = new byte[rowMemory.StringBufferSize] },
+				Data = buffer,
+				StringLookup = new StringLookup { IsPerTable = false, Data = stringBuffer },
 			};
-
-			Marshal.Copy((nint)rowMemory.DataBegin, row.Data, 0, rowMemory.DataSize);
-			Marshal.Copy((nint)rowMemory.StringBufferBegin, row.StringLookup.Data, 0, rowMemory.StringBufferSize);
 
 			records.Add(row);
 		}
 
 		// sort
-		table.Records = [.. records.OrderBy(x => x.PrimaryKey.Id)
-			.ThenBy(x => x.PrimaryKey.Variant)];
+		table.Records = [.. records.OrderBy(x => x.PrimaryKey)];
 	}
 
 	private unsafe void ReadUncompressed(DataArchive reader, Table table)
@@ -99,8 +100,10 @@ internal class TableArchive
 
 		if (rowMemory.StringBufferBegin != null)
 		{
-			stringLookup.Data = new byte[rowMemory.StringBufferSize];
-			Marshal.Copy((nint)rowMemory.StringBufferBegin, stringLookup.Data, 0, rowMemory.StringBufferSize);
+			var stringBuffer = new byte[rowMemory.StringBufferSize];
+			Marshal.Copy((nint)rowMemory.StringBufferBegin, stringBuffer, 0, rowMemory.StringBufferSize);
+
+			stringLookup.Data = stringBuffer;
 		}
 
 		_recordUncompressedReader.GetPadding(out var padding);

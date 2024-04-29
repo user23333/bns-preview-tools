@@ -72,7 +72,9 @@ public class UBnsCustomImageWidget : UBnsCustomBaseWidget
 
 public class UBnsCustomLabelWidget : UBnsCustomBaseWidget
 {
-	
+	[UPROPERTY] public bool AutoResizeVertical;
+	[UPROPERTY] public float MaxAutoResizeVertical;
+	[UPROPERTY] public float MinAutoResizeVertical;
 }
 
 public class UBnsCustomLabelButtonWidget : UBnsCustomBaseWidget

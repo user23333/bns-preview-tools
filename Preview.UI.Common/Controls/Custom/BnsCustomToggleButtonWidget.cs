@@ -8,13 +8,6 @@ using Xylia.Preview.UI.Controls.Helpers;
 namespace Xylia.Preview.UI.Controls;
 public class BnsCustomToggleButtonWidget : BnsCustomLabelButtonWidget
 {
-	#region Constructors
-	public BnsCustomToggleButtonWidget()
-	{
-		SetCurrentValue(ExpansionProperty, new ExpansionManager());
-	}
-	#endregion
-
 	#region Properties
 	public ImageProperty? PressedImageProperty { get; set; }
 
@@ -127,7 +120,7 @@ public class BnsCustomToggleButtonWidget : BnsCustomLabelButtonWidget
 		// If RadioButton is checked we should uncheck the others in the same group
 		UpdateRadioButtonGroup();
 
-		Expansion.Add("checked");
+		ExpansionComponentList["checked"]?.SetShow(false);
 		RaiseEvent(e);
 	}
 
@@ -137,7 +130,7 @@ public class BnsCustomToggleButtonWidget : BnsCustomLabelButtonWidget
 	/// <param name="e">Event arguments for the routed event that is raised by the default implementation of this method.</param>
 	private void OnUnchecked(RoutedEventArgs e)
 	{
-		Expansion.Remove("checked");
+		ExpansionComponentList["checked"]?.SetShow(true);
 		RaiseEvent(e);
 	}
 	#endregion
@@ -183,7 +176,7 @@ public class BnsCustomToggleButtonWidget : BnsCustomLabelButtonWidget
 	private void UpdateRadioButtonGroup()
 	{
 		// Logical parent should be the group
-		DependencyObject parent = this.Parent;
+		var parent = this.Parent;
 		if (parent is BnsCustomRadioButtonWidget)
 		{
 			// Traverse logical children

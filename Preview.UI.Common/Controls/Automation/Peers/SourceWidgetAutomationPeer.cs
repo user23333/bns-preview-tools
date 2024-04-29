@@ -5,7 +5,6 @@ using System.Windows.Automation;
 using System.Windows.Automation.Peers;
 using System.Windows.Automation.Provider;
 using Xylia.Preview.UI.Controls.Primitives;
-using ItemContainerGenerator = Xylia.Preview.UI.Controls.Primitives.ItemContainerGenerator;
 
 namespace Xylia.Preview.UI.Controls.Automation.Peers;
 public abstract class SourceWidgetAutomationPeer : FrameworkElementAutomationPeer, IItemContainerProvider
@@ -744,26 +743,26 @@ internal class RecyclableWrapper : IDisposable
 {
     public RecyclableWrapper(BnsCustomSourceBaseWidget BnsCustomSourceBaseWidget, object item)
     {
-        _BnsCustomSourceBaseWidget = BnsCustomSourceBaseWidget;
-        _container = ((IGeneratorHost)BnsCustomSourceBaseWidget).GetContainerForItem(item);
+        //_BnsCustomSourceBaseWidget = BnsCustomSourceBaseWidget;
+        //_container = ((IGeneratorHost)BnsCustomSourceBaseWidget).GetContainerForItem(item);
 
-        LinkItem(item);
+        //LinkItem(item);
     }
 
     public void LinkItem(object item)
     {
         _item = item;
 
-        ItemContainerGenerator.LinkContainerToItem(_container, _item);
-        _BnsCustomSourceBaseWidget.ItemContainerGenerator.PrepareItemContainer(_container);
+        //ItemContainerGenerator.LinkContainerToItem(_container, _item);
+        //_BnsCustomSourceBaseWidget.ItemContainerGenerator.PrepareItemContainer(_container);
     }
 
     private void UnlinkItem()
     {
         if (_item != null)
         {
-            ItemContainerGenerator.UnlinkContainerFromItem(_container, _item, _BnsCustomSourceBaseWidget);
-            _item = null;
+            //ItemContainerGenerator.UnlinkContainerFromItem(_container, _item, _BnsCustomSourceBaseWidget);
+            //_item = null;
         }
     }
 

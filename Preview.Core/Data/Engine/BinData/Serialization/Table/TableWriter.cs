@@ -49,7 +49,7 @@ internal class TableWriter
 		var recordCompressedWriter = _recordCompressedWriter;
 		recordCompressedWriter.BeginWrite(writer);
 
-		foreach (var record in table.Records.OrderBy(x => x.PrimaryKey))
+		foreach (var record in table.Records.OrderBy(x => x.PrimaryKey.Variant).ThenBy(x => x.PrimaryKey.Id))
 		{
 			recordCompressedWriter.WriteRecord(writer, record.Data, record.StringLookup.Data);
 		}

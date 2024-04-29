@@ -15,6 +15,8 @@ public class BnsCustomScrollBarWidget : BnsCustomBaseWidget
 	#endregion
 
 	#region Override Methods
+	//internal override Vector ScrollOffset => default;
+
 	protected override void OnInitialized(EventArgs e)
 	{
 		base.OnInitialized(e);

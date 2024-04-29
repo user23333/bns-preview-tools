@@ -167,5 +167,7 @@
 
 	<!-- Trim -->
 	<ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<Compile Remove="Content\Art\GameUI\Scene\Game_Map\**" />
+		<Page Remove="Content\Art\GameUI\Scene\Game_Map\**" />
 	</ItemGroup>
 </Project>

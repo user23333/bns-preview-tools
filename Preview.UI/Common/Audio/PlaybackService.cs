@@ -620,7 +620,6 @@ public class PlaybackService
 	}
 
 
-
 	public IList<AudioDevice> GetAllAudioDevicesAsync()
 	{
 		var audioDevices = new List<AudioDevice>();

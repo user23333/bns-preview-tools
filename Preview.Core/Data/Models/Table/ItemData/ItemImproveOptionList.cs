@@ -50,8 +50,7 @@ public sealed class ItemImproveOptionList : ModelElement, IItemRecipeHelper
 
 	public short[] SuccessionRandomOptionWeightTotal { get; set; }
 	#endregion
-
-
+		 
 	#region Methods
 	public IEnumerable GetOptions(sbyte level)
 	{

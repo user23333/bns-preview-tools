@@ -102,7 +102,6 @@ public class BnsCustomImageWidget : BnsCustomBaseWidget
 		LayoutData.SetAlignments(widget, LayoutData.GetAlignments(this));
 
 		// clone properties from template
-		if (Expansion != null) widget.Expansion = [.. Expansion];
 		widget.ExpansionComponentList = new(ExpansionComponentList);
 
 		return widget;

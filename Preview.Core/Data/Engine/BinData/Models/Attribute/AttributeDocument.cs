@@ -1,6 +1,6 @@
-﻿using System.Collections;
+﻿using Newtonsoft.Json;
+using System.Collections;
 using System.Collections.Concurrent;
-using Newtonsoft.Json;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Engine.Definitions;
 
@@ -10,7 +10,6 @@ public class AttributeDocument : AttributeValue, IDictionary<string, AttributeVa
 	public AttributeDocument() : base(AttributeType.TNone, new Dictionary<string, AttributeValue>(StringComparer.OrdinalIgnoreCase))
 	{
 	}
-
 
 	public AttributeDocument(ConcurrentDictionary<string, AttributeValue> dict) : this()
 	{
@@ -84,6 +83,7 @@ public class AttributeDocument : AttributeValue, IDictionary<string, AttributeVa
 	}
 
 	public override string ToString() => JsonConvert.SerializeObject(this);
+
 
 	#region IDictionary
 	public ICollection<string> Keys => this.RawValue.Keys;

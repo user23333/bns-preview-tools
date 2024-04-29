@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using Xylia.Preview.UI.Controls.Primitives;
+using Xylia.Preview.UI.Extensions;
 
 namespace Xylia.Preview.UI.Controls;
 public class BnsCustomWindowWidget : BnsCustomBaseWidget
@@ -19,11 +19,6 @@ public class BnsCustomWindowWidget : BnsCustomBaseWidget
 
 	#region Properties
 	public event EventHandler? Closed;
-
-	/// <summary>
-	/// Implement automatic layout in vertical tree 
-	/// </summary>
-	public List<UIElement> VerticalTree { get; set; } = [];
 	#endregion
 
 
@@ -43,6 +38,17 @@ public class BnsCustomWindowWidget : BnsCustomBaseWidget
 		if (CloseButton != null) CloseButton.Click += (_, _) => OnCloseClick();
 	}
 
+	protected override Size ArrangeOverride(Size constraint)
+	{
+		base.ArrangeOverride(constraint);
+
+		var rects = Children.OfType<UIElement>().Select(e => e.GetFinalRect()).DefaultIfEmpty();
+		constraint.Width = this.Width = rects.Max(x => x.Right);
+		constraint.Height = this.Height = rects.Max(x => x.Bottom);
+
+		return constraint;
+	}
+
 	protected override void OnRender(DrawingContext dc)
 	{
 		// HACK: There is an issue with the background image of this widget
@@ -51,41 +57,6 @@ public class BnsCustomWindowWidget : BnsCustomBaseWidget
 		var background = Background;
 		if (background != null) dc.DrawRectangle(background, null, new Rect(RenderSize));
 	}
-
-	protected override Size MeasureOverride(Size constraint)
-	{
-		var size = base.MeasureOverride(constraint);
-
-		if (VerticalTree.Count > 0)
-		{
-			size.Height = VerticalTree.Sum(child => child.DesiredSize.Height);
-		}
-
-		return size;
-	}
-
-	protected override Size ArrangeOverride(Size constraint)
-	{
-		Vector offset;
-
-		foreach (UIElement child in VerticalTree)
-		{
-			var rect = ArrangeChild(child, constraint);
-			rect.Y = offset.Y;
-			offset.Y += child.DesiredSize.Height;
-			child.Arrange(rect);
-		}
-
-		foreach (UIElement child in Children)
-		{
-			if (child == null || VerticalTree.Contains(child)) continue;
-
-			child.Arrange(ArrangeChild(child, constraint));
-		}
-
-		return constraint;
-	}
-
 
 	protected virtual void OnLoaded(RoutedEventArgs e)
 	{
@@ -110,10 +81,6 @@ public class BnsCustomWindowWidget : BnsCustomBaseWidget
 	/// </summary>
 	public void Show(bool ShowBorder = true)
 	{
-#if DEBUG
-		ShowBorder = true;
-#endif
-
 		Host = new Window
 		{
 			Content = this,
@@ -131,16 +98,13 @@ public class BnsCustomWindowWidget : BnsCustomBaseWidget
 
 
 	#region Private Helpers
-	private void OnCloseClick()
-	{
-		Host!.Close();
-		Closed?.Invoke(this, new EventArgs());
-	}
-	#endregion
-
-	#region Fields
+	private Window? Host;
 	public readonly static Color BackgroundColor = Color.FromArgb(255, 30, 79, 122);
 
-	private Window? Host;
+	private void OnCloseClick()
+	{
+		Host?.Close();
+		Closed?.Invoke(this, new EventArgs());
+	}
 	#endregion
 }

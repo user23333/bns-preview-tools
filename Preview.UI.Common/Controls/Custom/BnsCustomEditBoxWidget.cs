@@ -14,7 +14,7 @@ public class BnsCustomEditBoxWidget : TextBox, IUserWidget
 	#region Constructors
 	public BnsCustomEditBoxWidget()
 	{
-		Children = new UIElementCollection(this, this);
+		Children = new(this, this);
 		ExpansionComponentList = [];
 
 		// default style
@@ -35,8 +35,9 @@ public class BnsCustomEditBoxWidget : TextBox, IUserWidget
 
 	#region Properties
 	public StringProperty String { get; set; }
-
 	public ExpansionCollection ExpansionComponentList { get; set; }
+	public ResizeLink HorizontalResizeLink { get; set; }
+	public ResizeLink VerticalResizeLink { get; set; }
 	#endregion
 }
 

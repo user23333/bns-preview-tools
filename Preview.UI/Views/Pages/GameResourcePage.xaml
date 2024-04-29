@@ -36,8 +36,8 @@
 					<ComboBoxItem Content="Game/Art/UI/GameUI/Resource/GameUI_ImageSet_R" />
 					<ComboBoxItem Content="Game/Art/UI/V2/Resource" />
 				</hc:ComboBox>
-				<CheckBox Grid.Row="4" Name="OutputClassName" Content="{DynamicResource Asset_OutputClassName}" VerticalAlignment="Bottom" Margin="0 20 0 0"/>
-				<Button Grid.Row="1" Grid.Column="1" Margin="0 20 0 0" Content="{DynamicResource Asset_Extract}" Click="Extract_Click"/>
+				<CheckBox Grid.Row="4" Name="OutputClassName" Content="{DynamicResource Asset_OutputClassName}" VerticalAlignment="Bottom" Margin="0 20 0 0" IsChecked="True" />
+				<Button Grid.Row="1" Name="Extract" Grid.Column="1" Margin="0 20 0 0" Content="{DynamicResource Asset_Extract}" Click="Extract_Click"/>
 
 
 				<Grid Grid.Row="6" Margin="0 50 0 0" AllowDrop="True" DragDrop.DragEnter="AssetRepack_DragEnter" DragDrop.Drop="AssetRepack_DragDrop" Background="Transparent">

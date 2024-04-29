@@ -12,7 +12,7 @@ public class GameDataTable<T> : IEnumerable<T>, IEnumerable, IDisposable where T
 		Helper = ModelElement.TypeHelper.Get(typeof(T));
 		Source = source;
 
-		Trace.WriteLine($"[{DateTime.Now}] load table `{source.Name}` successful ({source.Records.Count})");
+		Trace.WriteLine($"{DateTime.Now} load table `{source.Name}` successful ({source.Records.Count})");
 	}
 	#endregion
 
@@ -48,16 +48,7 @@ public class GameDataTable<T> : IEnumerable<T>, IEnumerable, IDisposable where T
 		get => LoadElement(Source[alias]);
 	}
 
-	protected T LoadElement(Record record)
-	{
-		if (record is null) return null;
-
-		var type = record.SubclassType == -1 ? null : record.Definition.Name;
-		var element = ModelElement.As(record, Helper.CreateInstance<T>(type));
-		element.LoadHiddenField();
-
-		return element;
-	}
+	protected T LoadElement(Record record) => record?.As<T>(Helper);
 	#endregion
 
 

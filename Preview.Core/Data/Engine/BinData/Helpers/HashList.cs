@@ -58,7 +58,7 @@ public sealed class HashList
 
 	public void Save(string path)
 	{
-		using var writer = new DataArchiveWriter();
+		using var writer = new DataArchiveWriter(false);
 
 		writer.Write("TSILX"u8.ToArray());
 		writer.Write(Version);

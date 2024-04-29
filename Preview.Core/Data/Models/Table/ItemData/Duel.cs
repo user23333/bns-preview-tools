@@ -1,7 +1,7 @@
 ﻿using Xylia.Preview.Data.Common.Abstractions;
 
 namespace Xylia.Preview.Data.Models;
-public sealed class Duel : ModelElement, IAttraction
+public sealed class Duel : ModelElement, IAttration
 {
 	public enum DuelType
 	{

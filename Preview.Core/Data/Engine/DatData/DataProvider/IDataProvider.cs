@@ -17,32 +17,36 @@ public interface IDataProvider : IDisposable
 	/// </summary>
 	string Name { get; }
 
-	/// <summary>
-	/// DataSource Timestamp
-	/// </summary>
-	DateTimeOffset CreatedAt { get; }
+    /// <summary>
+    /// DataSource localized information
+    /// </summary>
+    Locale Locale => default;
+
+    /// <summary>
+    /// DataSource Timestamp
+    /// </summary>
+    DateTimeOffset CreatedAt { get; }
 
 	/// <summary>
 	/// DataSource Version
 	/// </summary>
 	BnsVersion ClientVersion { get; }
 
-	/// <summary>
-	/// bns data table
-	/// </summary>
-	TableCollection Tables { get; }
+    /// <summary>
+    /// bns data table
+    /// </summary>
+    TableCollection Tables { get; }
 
-	/// <summary>
-	/// DataSource localized information
-	/// </summary>
-	Locale Locale => default;
-	#endregion
+    //AliasTable AliasTable { get; }
+    #endregion
 
-	#region Methods
-	/// <summary>Get raw file stream</summary>
-	/// <remarks>The result will not be null</remarks>
-	/// <returns></returns>
-	Stream[] GetFiles(string pattern);
+    #region Methods
+    /// <summary>
+    /// Get raw file stream
+    /// </summary>
+    /// <remarks>The result will not be null</remarks>
+    /// <returns></returns>
+    Stream[] GetFiles(string pattern);
 
 	/// <summary>
 	/// Get table
@@ -74,5 +78,11 @@ public interface IDataProvider : IDisposable
 	/// <param name="folder"></param>
 	/// <param name="settings"></param>
 	public void WriteData(string folder, PublishSettings settings) => throw new NotImplementedException();
+
+
+	/// <summary>
+	/// Indicates whether the provider is a special server
+	/// </summary>
+	bool IsNeo => Locale.Publisher is EPublisher.ZNcs or EPublisher.ZTx;
 	#endregion
 }

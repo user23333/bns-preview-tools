@@ -1,11 +1,8 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Input;
-
 using CUE4Parse.BNS.Assets.Exports;
 using CUE4Parse.BNS.Conversion;
-
 using HandyControl.Data;
-
 using Newtonsoft.Json;
 using Xylia.Preview.UI.Audio;
 using Xylia.Preview.UI.ViewModels;
@@ -14,28 +11,22 @@ namespace Xylia.Preview.UI.Views;
 public partial class ShowObjectPlayer
 {
 	#region Constructors
-	ShowObjectPlayerViewModel _viewModel;
-	AudioPlayer audioPlayer;
-
-	public UShowObject Source
-	{
-		get => _viewModel.ShowObject;
-		set => _viewModel.ShowObject = value;
-	}
-
 	public ShowObjectPlayer()
 	{
 		DataContext = _viewModel = new ShowObjectPlayerViewModel();
 		InitializeComponent();
 
+#if DEVELOP
+		string path = @"Tuto_45LV_Def_Voice.q_1669_1_icon_msg_1_voice1";
+		_viewModel.ShowObject = Xylia.Preview.Data.Helpers.FileCache.Provider.LoadObject<UShowObject>(path);
+#endif
+	}
 
-		//string path = @"BNSR/Content/Art/FX/01_Source/05_SF/BM_EquipShow_01/Item_EquipShow_Constellation01";
-		////path = @"BNSR/Content/bns/Package/World/GameDesign/commonpackage/ShowData/indun/soc_etc_all_insdungeun/ME_ChungGakABoss_0005_soc_voice";
-
-		//_viewModel.ShowObject = FileCache.Provider.LoadObject<UShowObject>(path);
+	public ShowObjectPlayer(UShowObject Source) : this()
+	{
+		_viewModel.ShowObject = Source;
 	}
 	#endregion
-
 
 	#region Methods
 	private void OnSearchStarted(object sender, FunctionEventArgs<string> e)
@@ -70,5 +61,10 @@ public partial class ShowObjectPlayer
 			});
 		}
 	}
+	#endregion
+
+	#region Fields
+	ShowObjectPlayerViewModel _viewModel;
+	AudioPlayer? audioPlayer;
 	#endregion
 }

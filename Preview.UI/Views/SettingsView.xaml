@@ -153,7 +153,7 @@
 					</ItemsControl>
 
 					<!-- Options -->
-					<hc:Divider Grid.ColumnSpan="10" Margin="0 5" d:Content="Options" Content="Preview Options" />
+					<hc:Divider Grid.ColumnSpan="10" Margin="0 5" d:Content="Options" Content="Options" />
 					<ItemsControl>
 						<TextBlock d:Text="Language" Text="{DynamicResource Settings_Language}" />
 						<ComboBox Grid.Column="1" ItemsSource="{Binding Languages,Mode=OneTime}" SelectedItem="{Binding Language}">

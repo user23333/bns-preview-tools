@@ -32,9 +32,46 @@ public enum AttachAbility : byte
     [Text("Name.Item.abnormal-attack-power-value")]
     AbnormalAttackPowerValue,
 
+	RaceType1DefendDamageModifyPercent,
 
-    [Text("Name.Item.max-hp")]
-    MaxHp = 29,
+	RaceType2DefendDamageModifyPercent,
+
+	RaceType3DefendDamageModifyPercent,
+
+	RaceType4DefendDamageModifyPercent,
+
+	RaceType5DefendDamageModifyPercent,
+
+	RaceType6DefendDamageModifyPercent,
+
+	RaceType7DefendDamageModifyPercent,
+
+	AttributeType1DefendDamageModifyPercent,
+
+	AttributeType2DefendDamageModifyPercent,
+
+	AttributeType3DefendDamageModifyPercent,
+
+	AttributeType4DefendDamageModifyPercent,
+
+	AttributeType5DefendDamageModifyPercent,
+
+	AttributeType6DefendDamageModifyPercent,
+
+	AttributeType7DefendDamageModifyPercent,
+
+	AttributeType8DefendDamageModifyPercent,
+
+	AttributeType9DefendDamageModifyPercent,
+
+	AttributeType10DefendDamageModifyPercent,
+
+	AttributeType11DefendDamageModifyPercent,
+
+	AttributeType12DefendDamageModifyPercent,
+
+	[Text("Name.Item.max-hp")]
+    MaxHp,
 
     [Text("Name.Item.defend-power-equip-value")]
     DefendPowerCreatureValue,
@@ -63,8 +100,45 @@ public enum AttachAbility : byte
     [Text("Name.Item.abnormal-defend-power-value")]
     AbnormalDefendPowerValue,
 
+	RaceType1AttackDamageModifyPercent,
 
-    [Text("Name.Item.r-attack-stiff-duration-value")]
+	RaceType2AttackDamageModifyPercent,
+
+	RaceType3AttackDamageModifyPercent,
+
+	RaceType4AttackDamageModifyPercent,
+
+	RaceType5AttackDamageModifyPercent,
+
+	RaceType6AttackDamageModifyPercent,
+
+	RaceType7AttackDamageModifyPercent,
+
+	AttributeType1AttackDamageModifyPercent,
+
+	AttributeType2AttackDamageModifyPercent,
+
+	AttributeType3AttackDamageModifyPercent,
+
+	AttributeType4AttackDamageModifyPercent,
+
+	AttributeType5AttackDamageModifyPercent,
+
+	AttributeType6AttackDamageModifyPercent,
+
+	AttributeType7AttackDamageModifyPercent,
+
+	AttributeType8AttackDamageModifyPercent,
+
+	AttributeType9AttackDamageModifyPercent,
+
+	AttributeType10AttackDamageModifyPercent,
+
+	AttributeType11AttackDamageModifyPercent,
+
+	AttributeType12AttackDamageModifyPercent,
+
+	[Text("Name.Item.r-attack-stiff-duration-value")]
     RAttackStiffDurationValue,
 
     [Text("Name.Item.r-defend-stiff-duration-value")]

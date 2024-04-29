@@ -33,8 +33,10 @@ public readonly struct Velocity : IInteger
 	#endregion
 
 	#region IConvertible
-	public TypeCode GetTypeCode() => TypeCode.UInt16;
+	TypeCode IConvertible.GetTypeCode() => TypeCode.UInt16;
 
-	public double ToDouble(IFormatProvider provider) => source * 0.01 * 2;
+	ushort IConvertible.ToUInt16(IFormatProvider provider) => Value;
+
+	double IConvertible.ToDouble(IFormatProvider provider) => source * 0.01 * 2;
 	#endregion
 }

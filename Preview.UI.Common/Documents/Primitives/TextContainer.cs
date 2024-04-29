@@ -111,7 +111,8 @@ internal class TextContainer
 			"ga" => new GA(),
 			"font" => new Font(),
 			"image" => new Image(),
-			"link" => new Link(),
+			"link" => new Link(),    
+			"replace" => new Replace(),
 			"timer" => new Timer(),
 			_ => null
 		};

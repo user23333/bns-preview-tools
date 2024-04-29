@@ -8,9 +8,9 @@ using HtmlAgilityPack;
 using Xylia.Preview.Common.Attributes;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.DataStruct;
+using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Data.Engine.Definitions;
 using Xylia.Preview.Data.Helpers;
-using Xylia.Preview.Data.Models.QuestData;
 using Xylia.Preview.Data.Models.Sequence;
 using static Xylia.Preview.Data.Models.TextArguments;
 
@@ -19,6 +19,19 @@ namespace Xylia.Preview.Data.Models;
 [Side(ReleaseSide.Client)]
 public sealed class Text : ModelElement
 {
+	#region Constructors
+	public Text()
+	{
+
+	}
+
+	public Text(string alias, string text)
+	{
+		this.alias = alias;
+		this.text = text;
+	}
+	#endregion
+
 	#region Attributes
 	public string alias { get; set; }
 
@@ -44,7 +57,7 @@ public sealed class Text : ModelElement
 			var alias = element.Attribute("alias")?.Value;
 			var text = reader.ReadInnerXml();
 
-			return new Text() { alias = alias, text = text };
+			return new Text(alias, text);
 		}
 		catch
 		{
@@ -249,7 +262,7 @@ public sealed class TextArguments : IEnumerable, ICollection, IList
 	#endregion
 
 	#region Interface
-	public IEnumerator GetEnumerator() => _items.GetEnumerator();
+	public IEnumerator GetEnumerator() => _items.Take(_size).GetEnumerator();
 
 	public void CopyTo(Array array, int index)
 	{
@@ -417,14 +430,6 @@ public sealed class TextArguments : IEnumerable, ICollection, IList
 			var target = Target?.ToLower();
 			if (target is null || value is null) return;
 
-			if (value is Enum)
-			{
-				if (target == "job" && value is JobSeq job)
-					value = job.Convert() ?? value;
-
-				return;
-			}
-
 			// convert type
 			var type = value.GetBaseType();
 			if (target == "string")
@@ -497,8 +502,10 @@ public sealed class TextArguments : IEnumerable, ICollection, IList
 			}
 
 			// attribute
-			if (instance is ModelElement element && element.Attributes.TryGetValue(name, out value))
+			if (instance is ModelElement element && element.Attributes.TryGetValue(name, out var pair))
 			{
+				value = pair.Value;
+
 				if (value is Record record && record.Owner.Name == "text")
 					value = record.Attributes["text"];
 
@@ -515,13 +522,13 @@ public sealed class TextArguments : IEnumerable, ICollection, IList
 
 public static class TextExtension
 {
-	public static string GetText(this object obj)
+	public static string GetText(this object obj, IDataProvider provider = null)
 	{
 		if (obj is null) return null;
 		else if (obj is Enum sequence) return SequenceExtensions.GetText(sequence);
 		else if (obj is Ref<Text> reference) return reference.Instance?.text;
 		else if (obj is Record record && record.Owner.Name == "text") return record.Attributes.Get<string>("text");
-		else if (obj is string alias) return FileCache.Data.Provider.GetTable<Text>()[alias]?.text;
+		else if (obj is string alias) return (provider ?? FileCache.Data.Provider).GetTable<Text>()[alias]?.text;
 		else throw new NotSupportedException();
 	}
 

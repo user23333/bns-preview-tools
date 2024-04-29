@@ -25,9 +25,6 @@ public class LayoutData
 	public static readonly DependencyProperty AlignmentsProperty = DependencyProperty.RegisterAttached("Alignments",
 		typeof(FVector2D), typeof(LayoutData), new FrameworkPropertyMetadata((FVector2D)default,
 			FrameworkPropertyMetadataOptions.AffectsParentMeasure | FrameworkPropertyMetadataOptions.AffectsParentArrange | FrameworkPropertyMetadataOptions.AffectsRender));
-
-	internal static readonly DependencyProperty FinalRectProperty = DependencyProperty.RegisterAttached("FinalRect",
-		typeof(Rect), typeof(LayoutData));
 	#endregion
 
 	#region Public Methods
@@ -103,7 +100,8 @@ public class LayoutData
 		element.SetValue(AlignmentsProperty, value);
 	}
 
-	public static Point ComputeOffset(Size clientSize, FVector2D inkSize, HAlignment ha = default, VAlignment va = default, FVector2D Padding = default, FVector2D Offset = default)
+
+	internal static Point ComputeOffset(Size clientSize, FVector2D inkSize, HAlignment ha = default, VAlignment va = default, FVector2D Padding = default, FVector2D Offset = default)
 	{
 		var offset = new Point();
 
@@ -137,21 +135,6 @@ public class LayoutData
 		offset.Y += Padding.Y + Offset.Y;
 
 		return offset;
-	}
-
-
-	internal static Rect GetFinalRect(UIElement element)
-	{
-		ArgumentNullException.ThrowIfNull(element);
-
-		return element.Visibility == Visibility.Visible ?
-			(Rect)element.GetValue(FinalRectProperty) : default;
-	}
-
-	internal static void SetFinalRect(UIElement element, Rect value)
-	{
-		ArgumentNullException.ThrowIfNull(element);
-		element.SetValue(FinalRectProperty, value);
 	}
 	#endregion
 }

@@ -1,5 +1,8 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Globalization;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models;
@@ -8,7 +11,6 @@ using Xylia.Preview.UI.Extensions;
 using Xylia.Preview.UI.GameUI.Scene.Game_Tooltip;
 using Xylia.Preview.UI.Helpers.Output;
 using Xylia.Preview.UI.Helpers.Output.Tables;
-using static Xylia.Preview.Data.Models.UnlocatedStore;
 
 namespace Xylia.Preview.UI.GameUI.Scene.Game_ItemStore;
 public partial class LegacyItemStorePanel
@@ -18,44 +20,13 @@ public partial class LegacyItemStorePanel
 	{
 		InitializeComponent();
 
-		#region type
-		var UnlocatedStore = FileCache.Data.Provider.GetTable<UnlocatedStore>();
-		var UnlocatedStoreUi = FileCache.Data.Provider.GetTable<UnlocatedStoreUi>();
-
-		var group = new Dictionary<UnlocatedStoreTypeSeq, TreeViewItem>();
-		foreach (var record in UnlocatedStoreUi.Append(new UnlocatedStoreUi()
-		{
-			UnlocatedStoreType = UnlocatedStoreTypeSeq.UnlocatedNone,
-			TitleText = new("UI.ItemStore.Title"),
-		}))
-		{
-			if (record.UnlocatedStoreType > UnlocatedStoreTypeSeq.SoulBoostStore1 &&
-				record.UnlocatedStoreType <= UnlocatedStoreTypeSeq.SoulBoostStore6) continue;
-
-			this.TreeView.Items.Add(group[record.UnlocatedStoreType] = new TreeViewImageItem()
-			{
-				Header = record.TitleText.GetText(),
-				//Image = FileCache.Provider.LoadObject(record.TitleIcon)?.GetImage()?.ToImageSource(),
-			});
-		}
-		#endregion
-
-		#region Store
-		foreach (var store2 in FileCache.Data.Provider.GetTable<Store2>())
-		{
-			var type = UnlocatedStore.FirstOrDefault(x => store2.Equals(x.Store2))?.UnlocatedStoreType ?? UnlocatedStoreTypeSeq.UnlocatedNone;
-			if (type > UnlocatedStoreTypeSeq.SoulBoostStore1 && type <= UnlocatedStoreTypeSeq.SoulBoostStore6)
-				type = UnlocatedStoreTypeSeq.SoulBoostStore1;
-
-			group[type].Items.Add(new TreeViewItem()
-			{
-				Tag = store2,
-				Header = $"[{store2.Name2.GetText()}] {store2}"
-			});
-		}
-		#endregion
+		// data
+		source = CollectionViewSource.GetDefaultView(FileCache.Data.Provider.GetTable<Store2>());
+		source.Filter = OnFilter;
+		source.GroupDescriptions.Clear();
+		source.GroupDescriptions.Add(new StoreGroupDescription());
+		TreeView.ItemsSource = source.Groups;
 	}
-
 
 	private void ItemStore_ItemList_Column_1_1_Initialized(object sender, EventArgs e)
 	{
@@ -63,18 +34,19 @@ public partial class LegacyItemStorePanel
 		var data = (Tuple<Item, ItemBuyPrice>)width.DataContext;
 		var itemBuyPrice = data.Item2;
 
-
 		var Name = width.GetChild<BnsCustomLabelWidget>("Name");
 		if (Name != null) Name.String.LabelText = data.Item1.ItemName;
 
 		var IconImage = width.GetChild<BnsCustomImageWidget>("IconImage");
 		if (IconImage != null)
 		{
-			IconImage.ToolTip = new ItemTooltipPanel() { DataContext = data.Item1 };
-			IconImage.ExpansionComponentList["BackGroundFrameImage"]?.SetValue(data.Item1.BackIcon);
-			IconImage.ExpansionComponentList["IconImage"]?.SetValue(data.Item1.FrontIcon);
+			var item = data.Item1;
+			IconImage.ToolTip = new ItemTooltipPanel() { DataContext = item };
+			IconImage.ExpansionComponentList["BackGroundFrameImage"]?.SetValue(item.BackIcon);
+			IconImage.ExpansionComponentList["IconImage"]?.SetValue(item.FrontIcon);
 			IconImage.ExpansionComponentList["Grade_Image"]?.SetValue(null);
 			IconImage.ExpansionComponentList["UnusableImage"]?.SetValue(null);
+			IconImage.ExpansionComponentList["CanSaleItem"]?.SetValue(item.CanSaleItemImage);
 		}
 
 		var PriceHoler = width.GetChild<BnsCustomImageWidget>("PriceHoler");
@@ -127,12 +99,10 @@ public partial class LegacyItemStorePanel
 	}
 	#endregion
 
-
 	#region Methods 
-	private void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+	private void SelectedStoreChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
 	{
-		if (e.OldValue == e.NewValue) return;
-		if (e.NewValue is not Control element || element.Tag is not Store2 record) return;
+		if (e.OldValue == e.NewValue || e.NewValue is not Store2 record) return;
 
 		// update source
 		ItemStore_ItemList.ItemsSource = LinqExtensions.Combine(
@@ -140,8 +110,62 @@ public partial class LegacyItemStorePanel
 			record.BuyPrice.Select(x => x.Instance).ToArray());
 	}
 
+	private void SearchStarted(object sender, TextChangedEventArgs e)
+	{
+		source?.Refresh();
+	}
+
+	private bool OnFilter(object obj)
+	{
+		if (obj is not Store2 store2) return false;
+
+		var rule = SearcherRule.Text;
+		return string.IsNullOrEmpty(rule) ||
+			(store2.Alias != null && store2.Alias.Contains(rule, StringComparison.OrdinalIgnoreCase)) ||
+			(store2.Name != null && store2.Name.Contains(rule, StringComparison.OrdinalIgnoreCase));
+	}
+
+
 	private void ExtractPrice_Click(object sender, RoutedEventArgs e) => OutSet.Start<ItemBuyPriceOut>();
 
 	private void ExtractCloset_Click(object sender, RoutedEventArgs e) => OutSet.Start<ItemCloset>();
+	#endregion
+
+
+	#region Helpers
+	private ICollectionView? source;
+
+	private class StoreGroupDescription : PropertyGroupDescription
+	{
+		private readonly Dictionary<Store2, UnlocatedStore> dict = [];
+
+		public StoreGroupDescription()
+		{
+			var UnlocatedStore = FileCache.Data.Provider.GetTable<UnlocatedStore>();
+			foreach (var record in UnlocatedStore)
+			{
+				var store2 = record.Store2.Instance;
+				if (store2 != null) dict[store2] = record;
+			}
+		}
+
+		public override object? GroupNameFromItem(object item, int level, CultureInfo culture)
+		{
+			if (item is Store2 store2)
+			{
+				if (dict.TryGetValue(store2, out var record))
+				{
+					var UnlocatedStoreUi = FileCache.Data.Provider.GetTable<UnlocatedStoreUi>()[(sbyte)record.UnlocatedStoreType];
+					return UnlocatedStoreUi?.TitleText.GetText();
+				}
+				else
+				{
+					return "UI.ItemStore.Title".GetText();
+				}
+			}
+
+			return base.GroupNameFromItem(item, level, culture);
+		}
+	}
 	#endregion
 }

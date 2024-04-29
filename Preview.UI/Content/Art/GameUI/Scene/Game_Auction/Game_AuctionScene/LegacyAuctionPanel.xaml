@@ -4,10 +4,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:i="clr-namespace:Xylia.Preview.UI.Common.Interactivity"
 		xmlns:t="clr-namespace:Xylia.Preview.UI.GameUI.Scene.Game_Tooltip" 
-        Title="AuctionPanel" Height="750" Width="800">
+        Title="AuctionPanel" Height="700" Width="800">
 	<Grid>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="200" />
+			<ColumnDefinition Width="220" />
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
 

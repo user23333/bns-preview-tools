@@ -23,8 +23,7 @@ public sealed class ItemCombat : ModelElement
 		{
 			List<Ref<ItemSkill>> ItemSkills = [.. ItemSkill, .. ItemSkillSecond, .. ItemSkillThird];
 
-			return string.Format("<font name=\"00008130.UI.Label_Green03_12\">{0}</font>",
-				SkillModifyInfoGroup.Instance?.Description + string.Join("<br/>", ItemSkills.SelectNotNull(x => x.Instance?.Description)));
+			return SkillModifyInfoGroup.Instance?.Description + string.Join("<br/>", ItemSkills.SelectNotNull(x => x.Instance?.Description));
 		}
 	}
 	#endregion

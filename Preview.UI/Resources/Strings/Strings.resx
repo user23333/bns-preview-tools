@@ -253,6 +253,15 @@ Expand the response rectange with item preview.</value>
   <data name="Assets_Name" xml:space="preserve">
     <value>Assets</value>
   </data>
+  <data name="AudioPlayer_BytesPerSecond" xml:space="preserve">
+    <value>BytesPerSecond</value>
+  </data>
+  <data name="AudioPlayer_Devices" xml:space="preserve">
+    <value>Devices</value>
+  </data>
+  <data name="AudioPlayer_Encoding" xml:space="preserve">
+    <value>Encoding</value>
+  </data>
   <data name="AudioPlayer_Name" xml:space="preserve">
     <value>AudioPlayer</value>
   </data>
@@ -281,7 +290,7 @@ Expand the response rectange with item preview.</value>
     <value>Connect</value>
   </data>
   <data name="DatabaseStudio_ConnectMessage1" xml:space="preserve">
-    <value>Not Used</value>
+    <value>Are you still sure to disconnect?</value>
   </data>
   <data name="DatabaseStudio_ConnectMessage2" xml:space="preserve">
     <value>It is global data provider currently. Are you still sure to disconnect?</value>
@@ -564,7 +573,7 @@ Expand the response rectange with item preview.</value>
     <value>Game Directory</value>
   </data>
   <data name="Settings_GameDirectory_Invalid" xml:space="preserve">
-    <value>Must to set game directory.</value>
+    <value>You must set game directory.</value>
   </data>
   <data name="Settings_Job" xml:space="preserve">
     <value>Job</value>
@@ -597,7 +606,7 @@ Expand the response rectange with item preview.</value>
     <value>Output Directory (Resource)</value>
   </data>
   <data name="Settings_OutputDirectory_Invalid" xml:space="preserve">
-    <value>Must to set output directory.</value>
+    <value>You must set output directory.</value>
   </data>
   <data name="Settings_Tab_Data" xml:space="preserve">
     <value>Data</value>
@@ -638,6 +647,9 @@ Expand the response rectange with item preview.</value>
   <data name="TextEditor_Name" xml:space="preserve">
     <value>Text Editor</value>
   </data>
+  <data name="TextView_BackUp_Ask" xml:space="preserve">
+    <value>Are you sure to overwrite backup?!</value>
+  </data>
   <data name="TextView_LoadData" xml:space="preserve">
     <value>Load data when preview</value>
   </data>
@@ -646,6 +658,9 @@ Expand the response rectange with item preview.</value>
   </data>
   <data name="TextView_LoadLastOnStartup" xml:space="preserve">
     <value>Load last on startup</value>
+  </data>
+  <data name="TextView_LoadLast_Ask" xml:space="preserve">
+    <value>Do you want to load last data?</value>
   </data>
   <data name="TextView_Name" xml:space="preserve">
     <value>Text Viewer</value>
@@ -689,6 +704,9 @@ Please note that do not modify the order of nodes</value>
   </data>
   <data name="Text_File" xml:space="preserve">
     <value>File</value>
+  </data>
+  <data name="Text_FileSize" xml:space="preserve">
+    <value>Length</value>
   </data>
   <data name="Text_Import" xml:space="preserve">
     <value>Import</value>
@@ -749,5 +767,26 @@ Please note that do not modify the order of nodes</value>
   </data>
   <data name="Text_Update" xml:space="preserve">
     <value>Update</value>
+  </data>
+  <data name="DatabaseStudio_AttributeName" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="DatabaseStudio_AttributeType" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="DatabaseStudio_Hidden" xml:space="preserve">
+    <value>Hidden</value>
+  </data>
+  <data name="DatabaseStudio_IsDeprecated" xml:space="preserve">
+    <value>Deprecated</value>
+  </data>
+  <data name="DatabaseStudio_IsKey" xml:space="preserve">
+    <value>Key</value>
+  </data>
+  <data name="DatabaseStudio_IsRequired" xml:space="preserve">
+    <value>Required</value>
+  </data>
+  <data name="DatabaseStudio_Offset" xml:space="preserve">
+    <value>Binary Offset</value>
   </data>
 </root>

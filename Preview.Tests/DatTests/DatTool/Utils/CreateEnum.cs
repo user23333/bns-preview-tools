@@ -52,7 +52,7 @@ public static class CreateEnum
                 result.AppendLine($"{name.TitleCase()},");
             }
 
-            result.AppendLine($"\nCOUNT");
+            result.AppendLine($"COUNT");
             result.Append("}\n");
         }
 

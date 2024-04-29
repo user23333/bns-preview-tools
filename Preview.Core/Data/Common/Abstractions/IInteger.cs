@@ -6,6 +6,8 @@ namespace Xylia.Preview.Data.Common.Abstractions;
 /// </summary>
 public interface IInteger : IConvertible
 {
+	object IConvertible.ToType(Type conversionType, IFormatProvider provider) => Convert.ChangeType(this, conversionType, provider);
+	
 	bool IConvertible.ToBoolean(IFormatProvider provider) => throw new NotSupportedException();
 
 	byte IConvertible.ToByte(IFormatProvider provider) => throw new NotSupportedException();
@@ -26,9 +28,7 @@ public interface IInteger : IConvertible
 
 	float IConvertible.ToSingle(IFormatProvider provider) => throw new NotSupportedException();
 
-	string IConvertible.ToString(IFormatProvider provider) => throw new NotSupportedException();
-
-	object IConvertible.ToType(Type conversionType, IFormatProvider provider) => throw new NotSupportedException();
+	string IConvertible.ToString(IFormatProvider provider) => this.ToString();
 
 	ushort IConvertible.ToUInt16(IFormatProvider provider) => throw new NotSupportedException();
 

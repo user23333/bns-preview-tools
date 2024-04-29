@@ -52,15 +52,14 @@
 
 				<Button Content="ItemStore"     Command="{Binding PreviewCommand}" CommandParameter="Game_ItemStore.LegacyItemStorePanel" />
 				<Button Content="Map"           Command="{Binding PreviewCommand}" CommandParameter="Game_MapWindow.Legacy_MapWindowPanel" />
+				<Button Content="Quest"			Command="{Binding PreviewCommand}" CommandParameter="Game_QuestJournal.Legacy_QuestJournalPanel" />
 				<Button Content="CharacterInfo" Command="{Binding PreviewCommand}" CommandParameter="Game_CharacterInfo.CharacterInfoPanel" Visibility="Collapsed" />
 
-				<Button d:Content="Data GUI"	Content="{DynamicResource ItemPage_DataGUI}" Click="DatabaseGui_Click" Foreground="{StaticResource PrimaryBrush}" />
 				<Button d:Content="Data Clear"	Content="{DynamicResource ItemPage_DataClear}" Click="ClearCacheData_Click" Foreground="{StaticResource PrimaryBrush}" />
 			</WrapPanel>
 		</TabItem>
 
-
-		<TabItem Header="Test" Visibility="Collapsed">
+		<TabItem Header="Test" x:Name="TestHolder" Visibility="Collapsed">
 			<TabItem.Resources>
 				<Style TargetType="ToolTip" BasedOn="{StaticResource BnsTooltip}" />
 			</TabItem.Resources>
@@ -68,7 +67,10 @@
 			<c:BnsCustomListBoxWidget x:Name="Test" ToolTip="2566">
 				<c:BnsCustomListBoxWidget.ItemTemplate>
 					<DataTemplate>
-						<c:BnsCustomLabelWidget String="{Binding}" Foreground="Red" />
+						<c:HorizontalBox>
+							<c:BnsCustomLabelWidget String="测试" Foreground="Green" />
+							<c:BnsCustomLabelWidget String="{Binding}" Foreground="Green" />
+						</c:HorizontalBox>
 					</DataTemplate>
 				</c:BnsCustomListBoxWidget.ItemTemplate>
 			</c:BnsCustomListBoxWidget>

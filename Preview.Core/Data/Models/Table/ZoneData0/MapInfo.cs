@@ -1,9 +1,10 @@
-﻿using Xylia.Preview.Common.Attributes;
+﻿using System.ComponentModel;
+using Xylia.Preview.Common.Attributes;
 using Xylia.Preview.Data.Common.Abstractions;
 
 namespace Xylia.Preview.Data.Models;
 [Side(ReleaseSide.Client)]
-public sealed class MapInfo : ModelElement, IHaveName
+public sealed class MapInfo : ModelElement, IHaveName, INotifyPropertyChanged
 {
 	#region Attributes
 	public short Id { get; set; }
@@ -42,7 +43,7 @@ public sealed class MapInfo : ModelElement, IHaveName
 
 	public float PosInParentY { get; set; }
 
-	public string Terrain { get; set; }
+	public Ref<Terrain> Terrain { get; set; }
 
 	public float Zoom { get; set; }
 
@@ -62,10 +63,26 @@ public sealed class MapInfo : ModelElement, IHaveName
 
 	public static MapUnit.MapDepthSeq GetMapDepth(MapInfo MapInfo)
 	{
-		var ParentMapinfo = MapInfo.ParentMapinfo.Instance;
-		if (ParentMapinfo != null) return GetMapDepth(ParentMapinfo) + 1;
+		var ParentMapinfo = MapInfo.ParentMapinfo;
+		if (ParentMapinfo.HasValue) return GetMapDepth(ParentMapinfo) + 1;
 
 		return MapUnit.MapDepthSeq.N1;
+	}
+	#endregion
+
+
+	#region INotifyPropertyChanged
+	public event PropertyChangedEventHandler PropertyChanged;
+
+	bool _isSelected;
+	public bool IsSelected
+	{
+		get => _isSelected;
+		set
+		{
+			_isSelected = value;
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsSelected)));
+		}
 	}
 	#endregion
 }

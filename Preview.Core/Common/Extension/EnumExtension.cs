@@ -1,11 +1,14 @@
 ﻿using System.Diagnostics;
+using CUE4Parse.UE4.Objects.UObject;
 
 namespace Xylia.Preview.Common.Extension;
 public static partial class EnumExtension
 {
-	public static T ToEnum<T>(this object str , T def = default) where T : Enum
+	public static T ToEnum<T>(this object obj, T def = default) where T : Enum
 	{
-		if (str is string s)
+		if (obj is FName n) obj = n.Text;
+
+		if (obj is string s)
 		{
 			if (s.TryParseToEnum(typeof(T), out var value))
 				return (T)value;

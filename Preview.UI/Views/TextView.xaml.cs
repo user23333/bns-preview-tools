@@ -1,26 +1,27 @@
-﻿using System.IO;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Xml;
-using HandyControl.Controls;
+﻿using HandyControl.Controls;
 using HandyControl.Data;
 using HandyControl.Interactivity;
 using ICSharpCode.AvalonEdit.Folding;
 using ICSharpCode.AvalonEdit.Rendering;
 using ICSharpCode.AvalonEdit.Search;
 using Microsoft.Win32;
+using System.IO;
+using System.Text;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Xml;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Client;
 using Xylia.Preview.Data.Engine.BinData.Serialization;
 using Xylia.Preview.Data.Models;
 using Xylia.Preview.UI.Helpers;
 using Xylia.Preview.UI.ViewModels;
+using MessageBox = HandyControl.Controls.MessageBox;
 
 namespace Xylia.Preview.UI.Views;
-public partial class TextView
+public partial class TextView 
 {
 	#region Constructor
 	private readonly FoldingManager manager;
@@ -50,13 +51,25 @@ public partial class TextView
 
 	private async void Window_Loaded(object sender, RoutedEventArgs e)
 	{
-		if (UserSettings.Default.Text_LoadPrevious)
+		if (UserSettings.Default.Text_LoadPrevious && 
+			MessageBox.Show(StringHelper.Get("TextView_LoadLast_Ask"), StringHelper.Get("Message_Tip"), MessageBoxButton.YesNo) == MessageBoxResult.OK)
 		{
 			OldSource = UserSettings.Default.Text_OldPath;
 			NewSource = UserSettings.Default.Text_NewPath;
 			await RenderView();
 		}
 	}
+
+	protected override void OnClosed(EventArgs e)
+	{
+        source?.Dispose();
+		source = null;
+
+		diffResult?.Clear();
+		diffResult = null;
+
+        base.OnClosed(e);
+    }
 
 	private async void OpenLeftFileMenuItem_Click(object sender, RoutedEventArgs e)
 	{
@@ -96,10 +109,10 @@ public partial class TextView
 	#region Methods
 	bool inloading = false;
 
-	private string OldSource;
-	private string NewSource;
-	private LocalProvider source;
-	private List<TextDiffPiece> diffResult;
+	private string? OldSource;
+	private string? NewSource;
+	private LocalProvider? source;
+	private List<TextDiffPiece>? diffResult;
 
 	private static bool OpenTextFile(out string file)
 	{
@@ -123,30 +136,28 @@ public partial class TextView
 		ReadStatus.IsChecked = false;
 
 		#region Source
-		var source1 = await Task.Run(() => new BnsDatabase(new LocalProvider(OldSource)));
-		var source2 = await Task.Run(() => new BnsDatabase(new LocalProvider(NewSource)));
+		var source1 = new LocalProvider(OldSource);
+		var source2 = new LocalProvider(NewSource);
+		await Task.Run(() => new BnsDatabase(source1).Initialize());
+		await Task.Run(() => new BnsDatabase(source2).Initialize());
 
-		var TextTable1 = source1.Provider.GetTable<Text>();
-		var TextTable2 = source2.Provider.GetTable<Text>();
-
-		var IsEmpty1 = TextTable1.IsEmpty();
-		var IsEmpty2 = TextTable2.IsEmpty();
+		var IsEmpty1 = source1.TextTable.IsEmpty();
+		var IsEmpty2 = source2.TextTable.IsEmpty();
 		#endregion
 
 		#region Lines
 		if (IsEmpty1 && IsEmpty2) return;
 		else if (!IsEmpty1 && !IsEmpty2)
 		{
-			this.InlineHeaderText.Text = source1.Provider.Name + " → " + source2.Provider.Name;
+			this.InlineHeaderText.Text = source1.Name + " → " + source2.Name;
 
 			// create diff
-			diffResult = await Task.Run(() => TextDiff.Diff(TextTable1, TextTable2));
+			diffResult = await Task.Run(() => TextDiff.Diff(source1.TextTable, source2.TextTable));
 
 			source?.Dispose();
 			source = null;
 			source1.Dispose();
 			source2.Dispose();
-
 
 			// areas
 			var builder = new StringBuilder();
@@ -183,11 +194,11 @@ public partial class TextView
 		{
 			diffResult = null;
 
-			this.source = (IsEmpty2 ? source1 : source2).Provider as LocalProvider;
-			this.InlineHeaderText.Text = source.Name;
+			this.source = IsEmpty2 ? source1 : source2;
+			InlineHeaderText.Text = source.Name;
 
 			var settings = new TableWriterSettings() { Encoding = Encoding.Unicode };
-			Editor.Text = await Task.Run(() => settings.Encoding.GetString((TextTable1 ?? TextTable2).Source.WriteXml(settings)));
+			Editor.Text = await Task.Run(() => settings.Encoding.GetString(source.TextTable.WriteXml(settings)));
 		}
 		#endregion
 	}
@@ -218,9 +229,6 @@ public partial class TextView
 		}
 		#endregion
 	}
-
-
-
 
 	private void CanExecuteSave(object sender, CanExecuteRoutedEventArgs e)
 	{

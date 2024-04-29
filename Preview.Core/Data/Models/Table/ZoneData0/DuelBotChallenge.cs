@@ -1,7 +1,5 @@
-﻿using Xylia.Preview.Data.Common.Abstractions;
-
-namespace Xylia.Preview.Data.Models;
-public abstract class DuelBotChallenge : ModelElement, IAttraction
+﻿namespace Xylia.Preview.Data.Models;
+public abstract class DuelBotChallenge : ModelElement, IAttration
 {
 	#region Attributes
 	public sealed class TimeAttackMode : ModelElement

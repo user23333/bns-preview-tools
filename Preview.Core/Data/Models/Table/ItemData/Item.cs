@@ -12,9 +12,7 @@ public abstract class Item : ModelElement , IHaveName
 {
 	#region Attributes
 	public Ref<ItemCombat>[] ItemCombat { get; set; }
-
 	public Ref<ItemBrand> Brand { get; set; }
-
 
 	public bool Auctionable => Attributes.Get<BnsBoolean>("auctionable");
 	public bool WorldBossAuctionable => Attributes.Get<BnsBoolean>("world-boss-auctionable");
@@ -52,7 +50,6 @@ public abstract class Item : ModelElement , IHaveName
 
 	public sbyte ItemGrade => Attributes.Get<sbyte>("item-grade");
 
-
 	public LegendGradeBackgroundParticleTypeSeq LegendGradeBackgroundParticleType => Attributes["legend-grade-background-particle-type"].ToEnum<LegendGradeBackgroundParticleTypeSeq>();
 	public enum LegendGradeBackgroundParticleTypeSeq
 	{
@@ -63,8 +60,8 @@ public abstract class Item : ModelElement , IHaveName
 		COUNT
 	}
 
-	public ItemDecomposeInfo DecomposeInfo => new(this);
 
+	public ItemDecomposeInfo DecomposeInfo => new(this);
 
 	public int RandomOptionGroupId => Attributes.Get<int>("random-option-group-id");
 

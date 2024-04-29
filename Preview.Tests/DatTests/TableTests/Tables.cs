@@ -1,11 +1,8 @@
-﻿using System.Diagnostics;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Xylia.Preview.Data.Client;
 using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Data.Models;
-using Xylia.Preview.Data.Models.Config;
-using Xylia.Preview.Data.Models.Sequence;
 
 namespace Xylia.Preview.Tests.DatTests;
 
@@ -54,18 +51,9 @@ public partial class Tables
 		}
 	}
 
-
 	[TestMethod]
 	public void Test()
 	{
-		//foreach (var pair in Database.Provider.GetTable<Npc>()
-		//	.Select(x => (x, x.Attributes.Get<int>("fatigability-consume-amount")))
-		//	.Where(x => x.Item2 != 0))
-		//{
-		//	Console.WriteLine($"{pair.x.Text} {pair.Item2}");
-		//}
 
-
-		Console.WriteLine(Database.Provider.GetTable<SkillModifyInfoGroup>()["SkillModifyInfoGroup_BulMyolE_FM_Lv16_Jobstyle7"].Description);
 	}
 }

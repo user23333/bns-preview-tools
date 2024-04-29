@@ -26,6 +26,10 @@ public partial class ItemTooltipPanel
 	{
 		if (DataContext is not Item record) return;
 
+		TextArguments arguments = [null, record];
+		var jobs = record.EquipJobCheck.Where(x => x != JobSeq.JobNone);
+		if (!jobs.Any() && record.RandomOptionGroupId != 0) jobs = jobs.Append(UserSettings.Default.Job);
+
 		#region Common
 		ItemIcon.ExpansionComponentList["BackgroundImage"]?.SetValue(record.BackIcon);
 		ItemIcon.ExpansionComponentList["IconImage"]?.SetValue(record.FrontIcon);
@@ -34,8 +38,24 @@ public partial class ItemTooltipPanel
 		ItemIcon.ExpansionComponentList["CanSaleItem"]?.SetValue(record.CanSaleItemImage);
 		ItemIcon.InvalidateVisual();
 
-		ItemDescription7.String.LabelText = record.Attributes["description7"].GetText() +
-			string.Join("<br/>", record.ItemCombat.SelectNotNull(x => x.Instance?.Description));
+		// Description7
+		ItemDescription7.String.LabelText = new List<string?>
+		{
+			record.Attributes["description7"].GetText(),
+			string.Join("<br/>", record.ItemCombat.SelectNotNull(x => x.Instance?.Description)),
+			record.Attributes.Get<Record>("skill3")?.Attributes["description-weapon-soul-gem"]?.GetText(),
+		}.Join();
+
+		// Required
+		var required = new List<string?>
+		{
+			"Name.Item.Required.Level".GetText(arguments),
+		};
+		AddRequired(required, "Name.Item.Required.Faction".GetText(arguments));
+		AddRequired(required, "Name.Item.Required.Race".GetText(arguments) + "Name.Item.Required.Sex".GetText(arguments));
+		AddRequired(required, string.Join("", jobs.Select(x => "Name.Item.Required.Job2".GetText([.. arguments, Job.GetJob(x)]))));
+		Required.String.LabelText = required.Join();
+
 
 		SealEnable.SetVisibility(record.SealRenewalAuctionable);
 		if (record.SealRenewalAuctionable)
@@ -54,50 +74,58 @@ public partial class ItemTooltipPanel
 		#endregion
 
 		#region Combat Holder
+		Combat_Holder.Children.Clear();
 		Combat_Holder.Visibility = Visibility.Collapsed;
+
 		if (record.RandomOptionGroupId != 0)
 		{
-			var Job = UserSettings.Default.Job;
-			var ItemRandomOptionGroup = FileCache.Data.Provider.GetTable<ItemRandomOptionGroup>()[record.RandomOptionGroupId + ((long)Job << 32)];
-			if (ItemRandomOptionGroup != null)
+			var Job = jobs.FirstOrDefault();
+			var RandomOptionGroup = FileCache.Data.Provider.GetTable<ItemRandomOptionGroup>()[record.RandomOptionGroupId + ((long)Job << 32)];
+			if (RandomOptionGroup != null)
 			{
-				// title
-				Combat_Holder.Children.Clear();
-				Combat_Holder.Children.Add(Combat_Holder_Title);
-				Combat_Holder_Title.String.LabelText = string.Format("{0} ({1}-{2})", ItemRandomOptionGroup.SkillTrainByItemListTitle,
-					ItemRandomOptionGroup.SkillTrainByItemListSelectMin, ItemRandomOptionGroup.SkillTrainByItemListSelectMax);
-
-				foreach (var SkillTrainByItemList in ItemRandomOptionGroup.SkillTrainByItemList.SelectNotNull(x => x.Instance))
+				if (RandomOptionGroup.AbilityListTotalCount > 0)
 				{
-					var ChangeSets = SkillTrainByItemList.ChangeSet.SelectNotNull(x => x.Instance);
-					if (ChangeSets.Count() > 1) Combat_Holder.Children.Add(new BnsCustomLabelWidget() { Text = "在以下效果中获得其中一种" });
+					// TODO: add random tag
+				}
 
-					foreach (var SkillTrainByItem in ChangeSets)
+				if (RandomOptionGroup.SkillTrainByItemListTotalCount > 0)
+				{
+					// title
+					Combat_Holder.Children.Add(Combat_Holder_Title);
+					Combat_Holder_Title.String.LabelText = string.Format("{0} ({1}-{2})", RandomOptionGroup.SkillTrainByItemListTitle,
+						RandomOptionGroup.SkillTrainByItemListSelectMin, RandomOptionGroup.SkillTrainByItemListSelectMax);
+
+					foreach (var SkillTrainByItemList in RandomOptionGroup.SkillTrainByItemList.SelectNotNull(x => x.Instance))
 					{
-						// element
-						var icon = new BnsCustomImageWidget
+						var ChangeSets = SkillTrainByItemList.ChangeSet.SelectNotNull(x => x.Instance);
+						if (ChangeSets.Count() > 1) Combat_Holder.Children.Add(new BnsCustomLabelWidget() { Text = "在以下效果中获得其中一种" });
+
+						foreach (var SkillTrainByItem in ChangeSets)
 						{
-							BaseImageProperty = IconTexture.Parse(SkillTrainByItem.Icon),
-							Width = 32,
-							Height = 32,
-							Margin = new Thickness(0, 0, 10, 0),
-							VerticalAlignment = VerticalAlignment.Top,
-						};
+							// element
+							var icon = new BnsCustomImageWidget
+							{
+								BaseImageProperty = IconTexture.Parse(SkillTrainByItem.Icon),
+								Width = 32,
+								Height = 32,
+								Margin = new Thickness(0, 0, 10, 0),
+								VerticalAlignment = VerticalAlignment.Top,
+							};
 
-						var description = new BnsCustomLabelWidget();
-						description.String.LabelText = UserSettings.Default.UseDebugMode ? SkillTrainByItem.Description2 : SkillTrainByItem.Description.GetText();
+							var description = new BnsCustomLabelWidget();
+							description.String.LabelText = UserSettings.Default.UseDebugMode ? SkillTrainByItem.Description2 : SkillTrainByItem.Description.GetText();
 
-						// layout
-						var box = new HorizontalBox() { Margin = new Thickness(0, 0, 0, 3) };
-						LayoutData.SetAnchors(box, FLayoutData.Anchor.Full);
-						Combat_Holder.Children.Add(box);
+							// layout
+							var box = new HorizontalBox() { Margin = new Thickness(0, 0, 0, 3) };
+							LayoutData.SetAnchors(box, FLayoutData.Anchor.Full);
+							Combat_Holder.Children.Add(box);
 
-						box.Children.Add(icon);
-						box.Children.Add(description);
+							box.Children.Add(icon);
+							box.Children.Add(description);
+						}
 					}
 				}
 
-				Combat_Holder.VerticalTree = Combat_Holder.Children.OfType<UIElement>().ToList();
 				Combat_Holder.Visibility = Visibility.Visible;
 			}
 		}
@@ -116,10 +144,16 @@ public partial class ItemTooltipPanel
 			var page = pages[0];
 			page.Update(DecomposeDescription.Children);
 		}
-		#endregion	 	
+		#endregion
+	}
+
+	private void AddRequired(List<string?> strings, string? str)
+	{
+		if (string.IsNullOrWhiteSpace(str)) return;
+		if (str == "All") strings.Add("Name.Item.Required.Everyone".GetText([]));
+		else strings.Add("Name.Item.Required.Result".GetText([str]));
 	}
 	#endregion
-
 
 	#region Helpers
 	internal sealed class DecomposePage
@@ -175,38 +209,41 @@ public partial class ItemTooltipPanel
 		{
 			ArgumentNullException.ThrowIfNull(DecomposeReward);
 
-			DecomposeReward.FixedItem.ForEach(x => x.Instance, (item, i) =>
+			var info = DecomposeReward.GetInfos().OrderByDescending(x => x.Item.ItemGrade);
+			info.Where(x => x.Group.Item1 is "fixed").ForEach(item =>
 			{
-				var min = DecomposeReward.FixedItemMin[i];
-				var max = DecomposeReward.FixedItemMax[i];
-
 				collection.Add(new BnsCustomLabelWidget()
 				{
-					Arguments = new TextArguments { [1] = item, [2] = min, [3] = max },
+					Arguments = [null, item.Item, item.Min, item.Max],
 					String = new StringProperty()
 					{
-						LabelText = (min == max ? min == 1 ?
+						LabelText = (item.Min == item.Max ? item.Min == 1 ?
 						"UI.ItemTooltip.RandomboxPreview.Fixed" :
 						"UI.ItemTooltip.RandomboxPreview.Fixed.Min" :
 						"UI.ItemTooltip.RandomboxPreview.Fixed.MinMax").GetText(),
 					}
 				});
 			});
-			DecomposeReward.SelectedItem.ForEach(x => x.Instance, (item, i) =>
+			info.Where(x => x.Group.Item1 is "selected").ForEach(item =>
 			{
-				var count = DecomposeReward.SelectedItemCount[i];
 				collection.Add(new BnsCustomLabelWidget()
 				{
-					Arguments = new TextArguments { [1] = item, [2] = count },
+					Arguments = [null, item.Item, item.Min],
 					String = new StringProperty() { LabelText = "UI.ItemTooltip.RandomboxPreview.Selected".GetText() }
 				});
 			});
-			DecomposeReward.RandomItem.ForEach(x => x.Instance, (item, i) =>
+			info.Where(x => x.Group.Item1 is "random" or "group-1" or "group-2" or "group-3" or "group-4" or "group-5" or "rare").ForEach(item =>
 			{
 				collection.Add(new BnsCustomLabelWidget()
 				{
-					Arguments = new TextArguments { [1] = item },
-					String = new StringProperty() { LabelText = "UI.ItemTooltip.RandomboxPreview.Random".GetText() }
+					Arguments = [null, item.Item, item.Min, item.Max],
+					String = new StringProperty()
+					{
+						LabelText = (item.Min == item.Max ? item.Min == 0 ?
+						"UI.ItemTooltip.RandomboxPreview.Random" :
+						"UI.ItemTooltip.RandomboxPreview.Random.Min" :
+						"UI.ItemTooltip.RandomboxPreview.Random.MinMax").GetText(),
+					}
 				});
 			});
 		}

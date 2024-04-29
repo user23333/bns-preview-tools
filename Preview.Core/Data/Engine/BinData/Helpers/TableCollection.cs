@@ -56,27 +56,27 @@ public class TableCollection : Collection<Table>
 		return this[type]?[Ref];
 	}
 
-	public string GetRef(IconRef Ref)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <remarks>possible return null when xml table and error definition</remarks>
+    public Record GetRef(TRef Ref)
 	{
 		if (Ref == default) return null;
 
-		var table = this["icontexture"];
-		return table?[Ref] + $",{Ref.IconTextureIndex}";
+        return this[(ushort)Ref.Table]?[Ref];
 	}
 
-	public string GetRef(TRef Ref)
-	{
-		if (Ref == default) return null;
+    public string GetRef(IconRef Ref)
+    {
+        if (Ref == default) return null;
 
-		// possible return null if it is a xml table
-		// cause due to definition issue 
-		var table = this[(ushort)Ref.Table];
-		if (table is null) return Ref.ToString();
+        var table = this["icontexture"];
+        return table?[Ref] + $",{Ref.IconTextureIndex}";
+    }
 
-		return $"{table.Name}:{table[Ref]}";
-	}
 
-	public string GetSub(ushort type, Sub sub)
+    public string GetSub(ushort type, Sub sub)
 	{
 		return this[type]?.Definition.ElRecord.SubtableByType(sub.Subclass).Name;
 	}
@@ -134,6 +134,7 @@ public class TableCollection : Collection<Table>
 		_tables.Clear();
 		_tableByType?.Clear();
 		_tableByName?.Clear();
+		this.ForEach(x => x.Dispose());
 
 		base.ClearItems();
 	}

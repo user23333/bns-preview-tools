@@ -5,13 +5,20 @@
 	  xmlns:LiveCharts="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
 	  xmlns:UI="https://github.com/xyliaup/bns-preview-tools"
 	  Foreground="{DynamicResource PrimaryTextBrush}">
-	<Grid>
+    <Page.Resources>
+        <ContextMenu x:Key="Menu">
+            <MenuItem Click="OpenSetting_Click" Header="Settings" />
+        </ContextMenu>
+    </Page.Resources>
+
+    <Grid>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="230"/>
 			<ColumnDefinition Width="*"/>
 		</Grid.ColumnDefinitions>
 
-		<TreeView Grid.Column="0" x:Name="TreeView" BorderThickness="0" Margin="0 10 0 0" ItemsSource="{Binding Source}" SelectedItemChanged="TreeView_SelectedItemChanged" >
+        <TreeView Grid.Column="0" x:Name="TreeView" ItemsSource="{Binding Source}" SelectedItemChanged="TreeView_SelectedItemChanged" 
+                  ContextMenu="{StaticResource Menu}" BorderThickness="0" Margin="0 10 0 0">
 			<TreeView.ItemTemplate>
 				<DataTemplate>
 					<TextBlock Grid.Column="0" Text="{UI:DynamicBinding Prefix=AbilityName.}" FontSize="12" />

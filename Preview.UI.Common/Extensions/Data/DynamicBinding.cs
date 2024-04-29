@@ -6,7 +6,6 @@ using System.Windows.Data;
 using System.Windows.Markup;
 
 namespace Xylia.Preview.UI.Extensions;
-
 public class DynamicBinding : MarkupExtension
 {
     #region Helper properties

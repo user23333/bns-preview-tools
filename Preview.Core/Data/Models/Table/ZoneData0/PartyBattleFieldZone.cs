@@ -1,7 +1,5 @@
-﻿using Xylia.Preview.Data.Common.Abstractions;
-
-namespace Xylia.Preview.Data.Models;
-public sealed class PartyBattleFieldZone : ModelElement, IAttraction
+﻿namespace Xylia.Preview.Data.Models;
+public sealed class PartyBattleFieldZone : ModelElement, IAttration
 {
 	#region Attributes
 	public enum PartyBattleFieldZoneType

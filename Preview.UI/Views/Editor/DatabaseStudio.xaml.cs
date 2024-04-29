@@ -1,13 +1,14 @@
-﻿using System.Data;
-using System.IO;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using HandyControl.Controls;
+﻿using HandyControl.Controls;
 using HandyControl.Data;
 using Microsoft.Win32;
 using OfficeOpenXml;
 using Ookii.Dialogs.Wpf;
+using System.Data;
+using System.IO;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Threading;
 using Xylia.Preview.Data.Client;
 using Xylia.Preview.Data.Engine.BinData.Models;
 using Xylia.Preview.Data.Engine.BinData.Serialization;
@@ -31,7 +32,6 @@ public partial class DatabaseStudio
 		InitializeComponent();
 		RegisterCommands(this.CommandBindings);
 
-		// Remove design time information 
 		PageHolder.SelectedItem = Page_SQL;
 	}
 	#endregion
@@ -43,7 +43,6 @@ public partial class DatabaseStudio
 		commandBindings.Add(new CommandBinding(ApplicationCommands.Print, RunCommand, CanExecuteRun));
 	}
 
-
 	private void CanExecuteRun(object sender, CanExecuteRoutedEventArgs e)
 	{
 		e.CanExecute = database != null && !string.IsNullOrEmpty(ActivateSql);
@@ -54,7 +53,9 @@ public partial class DatabaseStudio
 		try
 		{
 			this.Run.IsEnabled = false;
-			await ExecuteSql(ActivateSql);
+
+			var source = new CancellationTokenSource();
+			await ExecuteSql(ActivateSql, source.Token);
 		}
 		catch (Exception ex)
 		{
@@ -66,7 +67,6 @@ public partial class DatabaseStudio
 		}
 	}
 	#endregion
-
 
 
 	#region Methods (UI)
@@ -94,7 +94,7 @@ public partial class DatabaseStudio
 			if (_viewModel.IsGlobalData)
 			{
 				var result = HandyControl.Controls.MessageBox.Show(
-					StringHelper.Get("DatabaseStudio_ConnectMessage2"),
+					StringHelper.Get("DatabaseStudio_ConnectMessage1"),
 					StringHelper.Get("Message_Tip"), MessageBoxButton.YesNo);
 
 				if (result != MessageBoxResult.Yes) return;
@@ -112,7 +112,31 @@ public partial class DatabaseStudio
 		}
 	}
 
-	private void Refresh_Click(object sender, RoutedEventArgs e)
+    private void TvwDatabase_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+    {
+        if (tvwDatabase.SelectedItem is FrameworkElement item && item.DataContext is Table table)
+        {
+			_viewModel.CurrentTable = table;
+		}
+		else
+		{
+			_viewModel.CurrentTable = null;
+        }
+    }
+
+    private void TvwDatabase_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+    {
+        if (tvwDatabase.SelectedItem is FrameworkElement item)
+        {
+            if (item.DataContext is Table table)
+            {
+                string sql = $"SELECT * FROM \"{table.Name}\"\nLIMIT {_viewModel.LimitNum}";
+                AddTab(sql, table.Name);
+            }
+        }
+    }
+
+    private void Refresh_Click(object sender, RoutedEventArgs e)
 	{
 		LoadTreeView();
 	}
@@ -143,18 +167,6 @@ public partial class DatabaseStudio
 		if (dialog.ShowDialog() == true) File.WriteAllText(dialog.FileName, text);
 	}
 
-	private void TvwDatabase_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-	{
-		if (tvwDatabase.SelectedItem is TreeViewImageItem item)
-		{
-			if (item.DataContext is Table table)
-			{
-				string sql = $"SELECT * FROM \"{table.Name}\"\nLIMIT {_viewModel.LimitNum}";
-				AddTab(sql, table.Name);
-			}
-		}
-	}
-
 	private void OutputExcel_Click(object sender, RoutedEventArgs e)
 	{
 		var save = new VistaSaveFileDialog
@@ -175,7 +187,6 @@ public partial class DatabaseStudio
 		sheet.Cells.Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
 		#endregion
 
-
 		#region Title
 		for (int j = 0; j < QueryGrid.Columns.Count; j++)
 		{
@@ -186,9 +197,9 @@ public partial class DatabaseStudio
 		#region Row
 		for (int i = 0; i < QueryGrid.Items.Count; i++)
 		{
+			var row = i + 2;
 			var item = QueryGrid.Items[i] as DataRowView;
 
-			var row = i + 2;
 			for (int j = 0; j < QueryGrid.Columns.Count; j++)
 			{
 				var col = QueryGrid.Columns[j];
@@ -217,20 +228,18 @@ public partial class DatabaseStudio
 
 	private void ViewTable_Click(object sender, RoutedEventArgs e)
 	{
-		if (tvwDatabase.SelectedItem is FrameworkElement item && item.DataContext is Table table)
-		{
-			var window = new TableView { Table = table };
-			window.Show();
-		}
-	}
+		if (_viewModel.CurrentTable is null) return;
+
+        var window = new TableView { Table = _viewModel.CurrentTable };
+        window.Show();
+    }
 
 	private void ViewDefinition_Click(object sender, RoutedEventArgs e)
 	{
-		if (tvwDatabase.SelectedItem is FrameworkElement item && item.DataContext is Table table)
-		{
-			_viewModel.CurrentDefinition = table.Definition;
-			PageHolder.SelectedItem = Page_Definition;
-		}
+        if (_viewModel.CurrentTable is null) return;
+
+        _viewModel.CurrentDefinition = _viewModel.CurrentTable.Definition;
+        PageHolder.SelectedItem = Page_Definition;
 	}
 
 	private void ReturnBtn_Click(object sender, RoutedEventArgs e)
@@ -241,13 +250,15 @@ public partial class DatabaseStudio
 
 	private async void TableExport_Click(object sender, RoutedEventArgs e)
 	{
-		if (tvwDatabase.SelectedItem is TreeViewItem item && item.DataContext is Table table)
-			await ExportAsync(table);
+        if (_viewModel.CurrentTable is null) return;
+
+        await ExportAsync(_viewModel.CurrentTable);
 	}
 
 	private async void TableExportAll_Click(object sender, RoutedEventArgs e)
 	{
-		await ExportAsync([.. database.Provider.Tables.Where(x => x.SearchPattern is null)]);
+		// skip xml table
+		await ExportAsync([.. database!.Provider.Tables.Where(x => x.SearchPattern is null)]);
 	}
 
 	private async void Import_Click(object sender, RoutedEventArgs e)
@@ -258,7 +269,7 @@ public partial class DatabaseStudio
 
 			DateTime dt = DateTime.Now;
 
-			serialize = new ProviderSerialize(database.Provider);
+			serialize = new ProviderSerialize(database!.Provider);
 			await serialize.ImportAsync(_viewModel.SaveDataPath);
 
 			Growl.Success(new GrowlInfo()
@@ -279,7 +290,7 @@ public partial class DatabaseStudio
 		var dialog = new OpenFolderDialog();
 		if (dialog.ShowDialog() == true)
 		{
-			serialize ??= new ProviderSerialize(database.Provider);
+			serialize ??= new ProviderSerialize(database!.Provider);
 			await serialize.SaveAsync(dialog.FolderName);
 
 			Growl.Success(new GrowlInfo()
@@ -306,7 +317,8 @@ public partial class DatabaseStudio
 		var system = new TreeViewImageItem { Image = ImageHelper.Folder, Header = "System", IsExpanded = false };
 		root.Items.Add(system);
 
-		system.Items.Add(new TreeViewImageItem { Image = ImageHelper.TableSys, Header = "CreatedAt: " + provider.CreatedAt });
+		system.Items.Add(new TreeViewImageItem { Image = ImageHelper.TableSys, Header = "Publisher: " + provider.Locale.Publisher });
+		system.Items.Add(new TreeViewImageItem { Image = ImageHelper.TableSys, Header = "Created: " + provider.CreatedAt });
 		system.Items.Add(new TreeViewImageItem { Image = ImageHelper.TableSys, Header = "Version: " + provider.ClientVersion });
 
 		// table nodes
@@ -334,7 +346,7 @@ public partial class DatabaseStudio
 	/// <param name="text"></param>
 	private void UpdateMessage(string text)
 	{
-		Status.Text = text;
+		MessageHolder.Text = text;
 	}
 
 	/// <summary>
@@ -368,46 +380,47 @@ public partial class DatabaseStudio
 		}
 	}
 
-	private async Task ExecuteSql(string sql)
+	private async Task ExecuteSql(string sql, CancellationToken token)
 	{
 		ArgumentNullException.ThrowIfNull(database);
-		DateTime dt = DateTime.Now;
 
-		await Task.Run(() => _viewModel.ReadResult(database!.Execute(sql)));
+		// message
+		var startTime = DateTime.Now;
+		var callback = new EventHandler((s, e) => UpdateMessage(string.Format("{0} {1:h\\:mm\\:ss\\.fff}", "Execution Time:", DateTime.Now - startTime)));
+		var timer = new DispatcherTimer(new TimeSpan(TimeSpan.TicksPerMillisecond * 50), DispatcherPriority.Normal, callback, Dispatcher);
+		timer.Start();
+
+		await Task.Run(() => _viewModel.ReadResult(database!.Execute(sql)), token);
 
 		// update
 		_viewModel.BindData(this.QueryGrid);
 		_viewModel.BindData(this.QueryText);
 		PageHolder.SelectedItem = Page_SQL;
 
-		// TODO: dynamic tip
-		UpdateMessage(string.Format("Execution Time: {0:g}", DateTime.Now - dt));
+		timer.Stop();
+		callback.Invoke(timer, EventArgs.Empty);
 	}
 
 	private async Task ExportAsync(params Table[] tables)
 	{
-		var progress = new Action<int, int>((current, total) =>
+		var progress = new Action<int, int>((current, total) => Dispatcher.Invoke(() =>
 		{
-			Dispatcher.Invoke(() =>
-			{
-				SaveMessage.Visibility = Visibility.Visible;
-				SaveMessage.Text = current != tables.Length ?
-					StringHelper.Get("DatabaseStudio_TaskMessage1", current, tables.Length, (double)current / tables.Length) :
-					StringHelper.Get("DatabaseStudio_TaskMessage2", tables.Length);
-			});
-		});
+			SaveMessage.Visibility = Visibility.Visible;
+			SaveMessage.Text = current != tables.Length ?
+				StringHelper.Get("DatabaseStudio_TaskMessage1", current, tables.Length, (double)current / tables.Length) :
+				StringHelper.Get("DatabaseStudio_TaskMessage2", tables.Length);
+		}));
 
-		serialize = new ProviderSerialize(database.Provider);
+		serialize = new ProviderSerialize(database!.Provider);
 		await serialize.ExportAsync(_viewModel.SaveDataPath, progress, tables);
 	}
 	#endregion
-
 
 	#region Private Fields
 	internal static string TOKEN = nameof(DatabaseStudio);
 
 	private BnsDatabase? database;
-	private ProviderSerialize? serialize;	 
+	private ProviderSerialize? serialize;
 	private readonly DatabaseStudioViewModel _viewModel;
-	#endregion
+    #endregion
 }

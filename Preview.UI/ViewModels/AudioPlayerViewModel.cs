@@ -18,7 +18,6 @@ internal partial class AudioPlayerViewModel : ObservableObject, IDisposable
 	[ObservableProperty]
 	private bool isLoadingTrack;
 
-
 	public bool ShowLoopNone => this.playbackService.LoopMode == LoopMode.None;
 	public bool ShowLoopOne => this.playbackService.LoopMode == LoopMode.One;
 	public bool ShowLoopAll => this.playbackService.LoopMode == LoopMode.All;
@@ -31,7 +30,6 @@ internal partial class AudioPlayerViewModel : ObservableObject, IDisposable
 
 	public float Volume { get => this.playbackService.Volume; set => this.playbackService.Volume = value; }
 	public bool Mute { get => this.playbackService.Mute || Volume == 0; set => this.playbackService.Mute = value; }
-
 
 
 	public ICollectionView AudioFilesView { get; set; }
@@ -47,12 +45,12 @@ internal partial class AudioPlayerViewModel : ObservableObject, IDisposable
 	public AudioDevice SelectedAudioDevice
 	{
 		get => this.playbackService.audioDevice;
-	    set
+		set
 		{
 			// Due to two-way binding, this can be null when the list is being filled.
 			if (value != null)
 			{
-			 this.playbackService.SwitchAudioDevice(value);
+				this.playbackService.SwitchAudioDevice(value);
 			}
 
 			OnPropertyChanged();
@@ -65,10 +63,8 @@ internal partial class AudioPlayerViewModel : ObservableObject, IDisposable
 	public RelayCommand NextCommand { get; set; }
 	public RelayCommand LoopCommand { get; set; }
 	public RelayCommand ShuffleCommand { get; set; }
-
 	public RelayCommand MuteCommand { get; set; }
 	#endregion
-
 
 	#region Constructorss
 	public AudioPlayerViewModel()
@@ -167,7 +163,7 @@ internal partial class AudioPlayerViewModel : ObservableObject, IDisposable
 
 	public ICommand SaveCommand => new RelayCommand<AudioFile>((x) => Save(x));
 
-	public void Save(AudioFile file, bool auto = false)
+	public void Save(AudioFile? file, bool auto = false)
 	{
 		var fileToSave = file ?? Selected;
 		//if (_audioFiles.Count < 1 || fileToSave?.Data == null) return;
@@ -211,7 +207,6 @@ internal partial class AudioPlayerViewModel : ObservableObject, IDisposable
 		//	FLogger.Append(ELog.Error, () => FLogger.Text($"Could not save '{fileToSave.FileName}'", Constants.WHITE, true));
 		//}
 	}
-
 
 	public void Dispose()
 	{

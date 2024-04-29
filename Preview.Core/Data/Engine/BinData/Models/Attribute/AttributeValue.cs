@@ -1,6 +1,6 @@
-﻿using System.Collections;
+﻿using Newtonsoft.Json;
+using System.Collections;
 using System.Diagnostics;
-using Newtonsoft.Json;
 using Xylia.Preview.Data.Client;
 using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Engine.BinData.Helpers;
@@ -17,17 +17,7 @@ public class AttributeValue : IComparable<AttributeValue>, IEquatable<AttributeV
 	/// <summary>
 	/// Represent a NullValue
 	/// </summary>
-	public static AttributeValue Null = new AttributeValue(AttributeType.TNone, null);
-
-	/// <summary>
-	/// Indicate type of this AttributeValue
-	/// </summary>
-	public AttributeType Type { get; }
-
-	/// <summary>
-	/// Get internal .NET value object
-	/// </summary>
-	public virtual object RawValue { get; private set; }
+	public readonly static AttributeValue Null = new(AttributeType.TNone, null);
 
 	#region Constructor
 	internal AttributeValue(AttributeType type, object value)
@@ -99,7 +89,18 @@ public class AttributeValue : IComparable<AttributeValue>, IEquatable<AttributeV
 	}
 	#endregion
 
-	#region Index "this" property
+	#region Properties
+
+	/// <summary>
+	/// Indicate type of this AttributeValue
+	/// </summary>
+	public AttributeType Type { get; }
+
+	/// <summary>
+	/// Get internal .NET value object
+	/// </summary>
+	public virtual object RawValue { get; private set; }
+
 	/// <summary>
 	/// Get/Set a field for document. Fields are case sensitive - Works only when value are document
 	/// </summary>
@@ -199,10 +200,7 @@ public class AttributeValue : IComparable<AttributeValue>, IEquatable<AttributeV
 	public bool IsSeq16 => this.Type == AttributeType.TSeq16;
 
 	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	public bool IsRef => this.Type == AttributeType.TRef;
-
-	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	public bool IsTRef => this.Type == AttributeType.TTRef;
+	public bool IsRef => this.Type == AttributeType.TRef || this.Type == AttributeType.TTRef;
 
 	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 	public bool IsProp_seq => this.Type == AttributeType.TProp_seq;

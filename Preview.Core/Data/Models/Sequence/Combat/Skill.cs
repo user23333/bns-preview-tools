@@ -31,7 +31,6 @@ public enum SkillResult
 	ParryPerfectParryCounter,
 	ParryPerfectParryDodge,
 	ParryDodge,
-
 	COUNT
 }
 

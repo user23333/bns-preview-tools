@@ -5,6 +5,11 @@ using Xylia.Preview.Data.Engine.DatData.Third;
 namespace Xylia.Preview.Data.Engine.DatData;
 public static class ThirdSupport
 {
+	/// <summary>
+	/// extra package data
+	/// </summary>
+	/// <param name="param"></param>
+	/// <exception cref="ArgumentException"></exception>
 	public static void Extract(PackageParam param)
 	{
 		#region Initialize
@@ -39,9 +44,8 @@ public static class ThirdSupport
 	/// </summary>
 	/// <param name="param"></param>
 	/// <param name="replaces"></param>
-	/// <param name="append"></param>
 	/// <exception cref="ArgumentException"></exception>
-	public static void Pack(PackageParam param, IReadOnlyDictionary<string, byte[]> replaces = null, bool append = false)
+	public static void Pack(PackageParam param, IReadOnlyDictionary<string, byte[]> replaces = null, bool useBackup = true)
 	{
 		#region Initialize
 		if (string.IsNullOrWhiteSpace(param.FolderPath) && string.IsNullOrWhiteSpace(param.PackagePath))
@@ -60,10 +64,11 @@ public static class ThirdSupport
 		#endregion
 
 		#region Replace
-		Extract(param);
-
+		// extract all then replace
 		if (replaces != null)
 		{
+			Extract(param);
+
 			var files = new BNSDat(param).FileTable.Select(file => file.FilePath).ToList();
 			foreach (var replace in replaces)
 			{
@@ -74,14 +79,21 @@ public static class ThirdSupport
 				{
 					Target.AddRange(files.Where(f => new Regex(replace.Key, RegexOptions.IgnoreCase).Match(f).Success));
 				}
-				else if (append) Target.Add(replace.Key);
+				else
+				{
+					Console.WriteLine("append: " + replace.Key);
+					Target.Add(replace.Key);
+				}
 				#endregion
 
 				Target.ForEach(x => File.WriteAllBytes(param.FolderPath + "\\" + x, replace.Value));
 			}
 		}
-		#endregion
 
+		// create backup
+		if (useBackup && File.Exists(param.PackagePath))
+			File.Copy(param.PackagePath, param.PackagePath + ".bak", true);
+		#endregion
 
 		#region Execute
 		var rsa = BnsCompression.GetRSAKeyBlob(param.RSA_KEY);

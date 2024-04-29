@@ -115,7 +115,7 @@ internal partial class UserSettings : Settings
 	#endregion
 
 	#region Preview
-	public ObservableCollection<JobSeq> Jobs => new(SequenceExtensions.EnumeratePcJob());
+	public ObservableCollection<JobSeq> Jobs => new(Xylia.Preview.Data.Models.Job.GetPcJob());
 
 	public JobSeq Job
 	{
@@ -130,7 +130,6 @@ internal partial class UserSettings : Settings
 	public string Text_NewPath { get => GetValue(); set => SetValue(value); }
 	#endregion
 
-
 	#region Model
 	private string _modelDirectory;
 	public string ModelDirectory
@@ -138,7 +137,6 @@ internal partial class UserSettings : Settings
 		get => _modelDirectory;
 		set => SetProperty(ref _modelDirectory, value);
 	}
-
 
 
 	private EMeshFormat _meshExportFormat = EMeshFormat.ActorX;

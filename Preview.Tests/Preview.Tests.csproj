@@ -8,6 +8,7 @@
 		<PlatformTarget>x64</PlatformTarget>
 		<OutputType>Exe</OutputType>
 		<UseWindowsForms>true</UseWindowsForms>
+		<UseWPF>True</UseWPF>
 		<Configurations>Debug;Release;Develop</Configurations>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Develop|AnyCPU'">

@@ -5,10 +5,29 @@ internal class MessageManager : HashSet<string>
 {
 	public void Warning(string message)
 	{
-		if (!this.Contains(message))
+		if (Check(message))
 		{
-			this.Add(message);
 			Log.Warning(message);
+		}
+	}
+
+	public void Debug(string message)
+	{
+		if (Check(message))
+		{
+			Log.Debug(message);
+		}
+	}
+
+
+	private bool Check(string message)
+	{
+		lock (this)
+		{
+			var flag = !this.Contains(message);
+			if (flag) this.Add(message);
+
+			return flag;
 		}
 	}
 }

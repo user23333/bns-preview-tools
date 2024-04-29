@@ -29,14 +29,6 @@ internal class JumpListService : IService
 				{
 					Title = StringHelper.Get("Command_QueryAsset"),
 					ApplicationPath = Environment.ProcessPath,
-					Arguments = "-command=query -type=ue4",
-					IconResourcePath = null,
-				});
-
-				jumpList.JumpItems.Add(new JumpTask
-				{
-					Title = StringHelper.Get("Command_QueryAsset2"),
-					ApplicationPath = Environment.ProcessPath,
 					Arguments = "-command=query -type=ue",
 					IconResourcePath = null,
 				});

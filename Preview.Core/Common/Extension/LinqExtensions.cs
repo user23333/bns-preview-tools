@@ -52,7 +52,7 @@ public static class LinqExtensions
 	#endregion
 
 	#region Array
-  public static void For<T>(ref T[] array, int size, Func<int, T> func)
+	public static void For<T>(ref T[] array, int size, Func<int, T> func)
 	{
 		array = For(size, func);
 	}
@@ -90,6 +90,11 @@ public static class LinqExtensions
 	#endregion
 
 	#region Expand
+	public static string Join(this IEnumerable<string> source, string separator = "<br/>")
+	{
+		return string.Join(separator, source.Where(t => !t.IsNullOrWhiteSpace()));
+	}
+
 	public static void ForEach<TElement>(this Ref<TElement>[] source, Action<TElement> action) where TElement : ModelElement
 	{
 		source.Select(x => x.Instance).Where(x => x != null).ForEach(action);

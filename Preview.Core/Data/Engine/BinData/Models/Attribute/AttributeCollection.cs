@@ -30,17 +30,13 @@ public class AttributeCollection : IReadOnlyDictionary<AttributeDefinition, obje
 	#region Constructors
 	internal void BuildData(ElementBaseDefinition definition, bool OnlyKey = false)
 	{
-		void SetData(AttributeDefinition attribute) =>
-			record.Attributes.Set(attribute, record.Attributes.Get(attribute.Name));
+		// convert to binary
+		void SetData(AttributeDefinition attribute) => record.Attributes.Set(attribute, record.Attributes.Get(attribute));
 
 		// implement IGameDataKeyParser
 		if (OnlyKey)
 		{
-			var keys = definition.ExpandedAttributes.Where(attr => attr.IsKey);
-			// TODO: ignore children element
-			// if (!keys.Any()) throw new Exception("invalid key attribute");
-
-			keys.ForEach(SetData);
+			definition.ExpandedAttributes.Where(attr => attr.IsKey).ForEach(SetData);
 		}
 		else
 		{
@@ -90,10 +86,9 @@ public class AttributeCollection : IReadOnlyDictionary<AttributeDefinition, obje
 
 
 	#region Methods
-	public object this[string name] { get => Get(name); set => Set(name, value); }
+	public object this[string name] { get => Get(name, out _); set => Set(name, value); }
 
-	public object this[AttributeDefinition key] { get => Get(key.Name); set => Set(key, value); }
-
+	public object this[AttributeDefinition key] { get => Get(key.Name, out _); set => Set(key, value); }
 
 	public void CheckAttribute(params string[] attrNames)
 	{
@@ -107,27 +102,34 @@ public class AttributeCollection : IReadOnlyDictionary<AttributeDefinition, obje
 	}
 	#endregion
 
-
 	#region Get
-	public bool TryGetValue(string name, out object result)
+	public bool TryGetValue(string name, out KeyValuePair<AttributeDefinition, object> pair)
 	{
-		result = Get(name);
-		return result != null || record.Definition?[name] != null;
+		var value = Get(name, out var definition);
+		pair = new(definition, value);
+
+		return definition != null || value != null;
 	}
 
-	// TODO: Value convert
-	public T Get<T>(string name) => (T) Get(name);
-
-	public object Get(string name)
+	public object Get(string name, out AttributeDefinition attribute)
 	{
-		var definition = record.Definition;
-		var attribute = definition[name];
+		// get attribute or create if xelement 
+		attribute = record.Definition[name];
+		if (attribute is null && attributes.ContainsKey(name))
+			attribute = new AttributeDefinition() { Name = name, Type = AttributeType.TString };
+
+		return Get(attribute);
+	}
+
+	public object Get(AttributeDefinition attribute)
+	{
+		if (attribute is null) return null;
 
 		// from source
 		if (attributes.Count != 0)
 		{
-			var value = attributes.GetValueOrDefault(name, attribute?.DefaultValue);
-			if (value is string s && attribute != null) value = AttributeConverter.ConvertBack(s, attribute, record.Owner.Owner);
+			var value = attributes.GetValueOrDefault(attribute.Name, attribute.DefaultValue);
+			if (value is string s) value = AttributeConverter.ConvertBack(s, attribute, record.Owner.Owner);
 
 			return value;
 		}
@@ -135,6 +137,8 @@ public class AttributeCollection : IReadOnlyDictionary<AttributeDefinition, obje
 		// from binary 
 		return AttributeConverter.ConvertTo(record, attribute, record.Owner.Owner);
 	}
+
+	public T Get<T>(string name) => (T)Get(name, out _);
 	#endregion
 
 	#region Set
@@ -216,7 +220,7 @@ public class AttributeCollection : IReadOnlyDictionary<AttributeDefinition, obje
 			}
 			case AttributeType.TXUnknown2:
 			{
-				value = record.StringLookup.AppendString((ObjectPath)value, out _);
+				value = record.StringLookup.AppendString(((ObjectPath)value).Path, out _);
 				break;
 			}
 		}

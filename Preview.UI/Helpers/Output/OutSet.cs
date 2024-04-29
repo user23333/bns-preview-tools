@@ -66,7 +66,7 @@ public abstract class OutSet
 		var save = new VistaSaveFileDialog
 		{
 			Filter = "Excel Files|*.xlsx",
-			FileName = $"{instance.Name} ({DateTime.Now:yyyyMM}).xlsx",
+			FileName = $"{instance.Name} ({DateTime.Now:yyyyMMdd}).xlsx",
 		};
 		if (save.ShowDialog() != true) return;
 

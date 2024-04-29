@@ -23,13 +23,14 @@ public partial class AttributeDefinition
 	public ReleaseSide Side { get; set; } = ReleaseSide.Client | ReleaseSide.Server;
 	#endregion
 
-
+	#region Expand
 	public string ReferedTableName { get; set; }
 	public string ReferedElement { get; set; }
 
 	public double Max { get; set; }
 	public double Min { get; set; }
 	public bool CanInput { get; set; } = true;
+	#endregion
 
 
 	#region Load Methods
@@ -71,7 +72,6 @@ public partial class AttributeDefinition
 		double MaxValue = (node.Attributes["max"]?.Value).ToDouble();
 		double MinValue = (node.Attributes["min"]?.Value).ToDouble();
 		string DefaultValue = node.Attributes["default"]?.Value?.Trim();
-
 		if (string.IsNullOrEmpty(DefaultValue)) DefaultValue = null;
 
 		switch (Type)
@@ -109,7 +109,7 @@ public partial class AttributeDefinition
 				break;
 
 			case AttributeType.TFloat32:
-				DefaultValue ??= "0";
+				DefaultValue = DefaultValue.ToFloat32().ToString("0.00");
 				if (MinValue == 0) MinValue = float.MinValue;
 				if (MaxValue == 0) MaxValue = float.MaxValue;
 				break;
@@ -173,7 +173,6 @@ public partial class AttributeDefinition
 		if (node.Attributes["client"]?.Value.ToBool() ?? true) side |= ReleaseSide.Client;
 		if (node.Attributes["server"]?.Value.ToBool() ?? true) side |= ReleaseSide.Server;
 
-
 		return new AttributeDefinition
 		{
 			Name = Name,
@@ -230,19 +229,6 @@ public partial class AttributeDefinition
 
 			_ => 4,
 		};
-	}
-	#endregion
-
-	#region Static Methods
-	public static string ToString(AttributeDefinition attribute, object value)
-	{
-		var text = value?.ToString();
-		if (value is float f) text = f.ToString("0.0");
-		if (value is Time64 { Ticks: 0 }) return null;
-
-		// check default
-		if (text == attribute.DefaultValue) return null;
-		return text;
 	}
 	#endregion
 }

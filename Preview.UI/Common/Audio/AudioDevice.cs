@@ -1,19 +1,18 @@
-﻿namespace Xylia.Preview.UI.Audio;
-public class AudioDevice
-{
-	public string DeviceId { get; }
+﻿using CSCore.CoreAudioAPI;
 
-	public string Name { get; }
+namespace Xylia.Preview.UI.Audio;
+public class AudioDevice(MMDevice device , string name, string deviceId)
+{
+	public MMDevice Device { get; } = device;
+
+	public string DeviceId { get; } = deviceId;
+
+	public string Name { get; } = name;
+
 
 	public override string ToString()
 	{
 		return this.Name;
-	}
-
-	public AudioDevice(string name, string deviceId)
-	{
-		this.Name = name;
-		this.DeviceId = deviceId;
 	}
 
 	public override bool Equals(object obj)

@@ -12,7 +12,7 @@ public class BnsTimeZoneInfo(EPublisher publisher, Msec offset)
 	#region Methods
 	public static BnsTimeZoneInfo FromPublisher(EPublisher? publisher = null)
 	{
-		publisher ??= Locale.Current;
+		publisher ??= Locale.Current.Publisher;
 		var offset = publisher switch
 		{
 			EPublisher.Tencent => new Msec(8, 0, 0),   // China Standard Time

@@ -33,7 +33,6 @@ public class FAssetRegistryState
 		});
 	}
 
-
 	public IEnumerable<Objects.FAssetData> GetAssets(Predicate<Objects.FAssetData> Filter)
 	{
 		return PreallocatedAssetDataBuffers.Where(asset => Filter(asset));

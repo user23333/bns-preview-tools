@@ -2,10 +2,8 @@
 public enum NpcBrain
 {
     Boss,
-
     Citizen,
-
     Monster,
-
     Follower,
+	COUNT
 }

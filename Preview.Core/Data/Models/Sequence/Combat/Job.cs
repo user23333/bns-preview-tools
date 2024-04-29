@@ -1,11 +1,10 @@
 ﻿using System.ComponentModel;
 using Xylia.Preview.Common.Attributes;
-using Xylia.Preview.Data.Helpers;
 
 namespace Xylia.Preview.Data.Models.Sequence;
 public enum JobSeq
 {
-	[Description("job-none")]
+	[Description("")]
 	JobNone,
 
 	[Description("blade-master")]
@@ -87,11 +86,4 @@ public enum JobSeq
 	소환수controller,
 
 	COUNT
-}
-
-public static partial class SequenceExtensions
-{
-	public static Job Convert(this JobSeq seq) => FileCache.Data.Provider.GetTable<Job>().FirstOrDefault(o => o.job == seq);
-
-	public static IEnumerable<JobSeq> EnumeratePcJob() => Enum.GetValues<JobSeq>().Where(x => x > JobSeq.JobNone && x < JobSeq.PcMax);
 }
