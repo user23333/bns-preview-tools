@@ -210,8 +210,8 @@ public class ZoneEnv2 : ModelElement, IHaveName
 				var alias = this.Attributes.Get<string>("alias");
 				if (alias.EndsWith("_collectA", StringComparison.OrdinalIgnoreCase))
 				{
-					MapunitImageDisableImageset		= "/Game/Art/UI/GameUI/Resource/GameUI_Map_Indicator/dungeon_cheonmugungsoul_active";
-					MapunitImageDisableOverImageset = "/Game/Art/UI/GameUI/Resource/GameUI_Map_Indicator/dungeon_cheonmugungsoul_active_over";
+					MapunitImageDisableImageset		= "/Game/Art/UI/GameUI/Resource/GameUI_Map_Indicator/field_wantedflag";
+					MapunitImageDisableOverImageset = "/Game/Art/UI/GameUI/Resource/GameUI_Map_Indicator/field_wantedflag_over";
 				}
 				else if (alias.EndsWith("_collectB", StringComparison.OrdinalIgnoreCase))
 				{
@@ -220,8 +220,8 @@ public class ZoneEnv2 : ModelElement, IHaveName
 				}
 				else if (alias.EndsWith("_collectC", StringComparison.OrdinalIgnoreCase))
 				{
-					MapunitImageDisableImageset		= "/Game/Art/UI/GameUI/Resource/GameUI_Map_Indicator/minimap_party_status_borderline";
-					MapunitImageDisableOverImageset = "/Game/Art/UI/GameUI/Resource/GameUI_Map_Indicator/minimap_party_status_borderline_outglow";
+					MapunitImageDisableImageset		= "/Game/Art/UI/GameUI/Resource/GameUI_Map_Indicator/dungeon_frozenark_pylon";
+					MapunitImageDisableOverImageset = "/Game/Art/UI/GameUI/Resource/GameUI_Map_Indicator/dungeon_frozenark_pylon_over";
 				}
 				else if (alias.EndsWith("_collectD", StringComparison.OrdinalIgnoreCase))
 				{

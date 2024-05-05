@@ -28,7 +28,7 @@ public partial class Tables
 	{
 		int day = 0, UsedExp = 0;
 		var table = Database.Provider.GetTable<Level>();
-		foreach (var record in table)
+		foreach (var record in table.Where(x => x.level >= 36))
 		{
 			// get exp for next level
 			var vitality = record.TencentVitalityMax[0];
@@ -43,10 +43,10 @@ public partial class Tables
 			{
 				day++;
 
-				var Exceed = vitality - UsedExp;
-				UsedExp = exp - Exceed;
+				var exceed = vitality - UsedExp;
+				UsedExp = exp - exceed;
 
-				Console.WriteLine($"{day} | {record.level} | {(float)Exceed / exp:P0}");
+				Console.WriteLine($"{day} | {record.level} | {(float)exceed / exp:P0}");
 			}
 		}
 	}

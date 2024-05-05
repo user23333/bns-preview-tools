@@ -512,13 +512,13 @@ Expand the response rectange with item preview.</value>
     <value>About</value>
   </data>
   <data name="Page_AbilityPage" xml:space="preserve">
-    <value>Role Ability</value>
+    <value>Ability</value>
   </data>
   <data name="Page_GameResourcePage" xml:space="preserve">
-    <value>Engine</value>
+    <value>Asset</value>
   </data>
   <data name="Page_ItemPage" xml:space="preserve">
-    <value>Item</value>
+    <value>General</value>
   </data>
   <data name="Page_QuestJournalPanel" xml:space="preserve">
     <value>Quest</value>

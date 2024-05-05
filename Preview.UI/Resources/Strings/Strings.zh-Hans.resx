@@ -526,13 +526,13 @@
     <value>关于</value>
   </data>
   <data name="Page_AbilityPage" xml:space="preserve">
-    <value>角色能力</value>
+    <value>能力</value>
   </data>
   <data name="Page_GameResourcePage" xml:space="preserve">
-    <value>资源</value>
+    <value>资产</value>
   </data>
   <data name="Page_ItemPage" xml:space="preserve">
-    <value>物品</value>
+    <value>常用</value>
   </data>
   <data name="PreviewBasic" xml:space="preserve">
     <value>查看源</value>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -142,8 +143,10 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
     }
 
     private async Task OnMapChanged(MapInfo value)
-    {
-        this.Zoom = value.Zoom;
+	{
+        ClearUnit();
+
+		this.Zoom = value.Zoom;
         this.MapDepth = MapInfo.GetMapDepth(value);
         this.BaseImageProperty = new ImageProperty()
         {
@@ -151,11 +154,16 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
         };
 
         // unit
-        this.QuestCount = 0;
-        this.Children.Clear();
         await this.LoadMapUnit(value, []);
-        this.MapChanged?.Invoke(this, value);
-    }
+        this.MapChanged?.Invoke(this, value);  
+	}
+
+
+    private void ClearUnit()
+    {
+		this.Children.Clear();
+		this.QuestCount = 0;
+	}
 
     private async Task LoadMapUnit(MapInfo MapInfo, List<MapInfo> MapTree)
     {
@@ -236,7 +244,7 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
         foreach (var mapunit in provider.GetTable<MapUnit>().Where(o => o.Mapid == MapInfo.Id && o.MapDepth <= this.MapDepth))
         {
             // ignore quest area guide
-            if (mapunit is MapUnit.Quest) continue;
+            if (mapunit is MapUnit.Quest or MapUnit.GuildBattleFieldPortal) continue;
 
             #region Initialize
             var tooltip = mapunit.Name;

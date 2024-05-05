@@ -1,10 +1,10 @@
-﻿using K4os.Hash.xxHash;
-using Newtonsoft.Json;
-using Serilog;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Concurrent;
 using System.Data;
 using System.Xml;
+using K4os.Hash.xxHash;
+using Newtonsoft.Json;
+using Serilog;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Common.DataStruct;

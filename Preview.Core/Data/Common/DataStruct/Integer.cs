@@ -32,6 +32,14 @@ public readonly struct Integer(double value) : IFormattable
 	public readonly string Timehm => $"#{Value}Timehm";
 	public readonly string Timeymd => $"#{Value}Timeymd";
 	public readonly string TimeRoundDown => $"#{Value}TimeRoundDown";
+//time-hms
+//time-hour
+//time-sec
+//time-colon
+//time-hms-centisecond
+//time-hms-centisecond-colon
+
+//<timer id="1" type="hms-plusonesec"/>
 	#endregion
 
 	#region Money

@@ -76,7 +76,7 @@ public class StringLookup : IDisposable
 			int newCapacity = Math.Max(length, 256);
 			if (newCapacity < length * 2) newCapacity = length * 2;
 
-			Array.Resize(ref _data, Math.Max(newCapacity, Array.MaxLength));
+			Array.Resize(ref _data, Math.Min(newCapacity, Array.MaxLength));
 		}
 
 		// append buffer

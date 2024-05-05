@@ -124,7 +124,7 @@ public partial class Skill3ToolTipPanel_1
 						GatherType.TargetFront60 => "BNSR/Content/Art/UI/GameUI/Resource/GameUI_ImageSet/SkillGatherType/Target_Front_60",
 						GatherType.TargetFront120 => "BNSR/Content/Art/UI/GameUI/Resource/GameUI_ImageSet/SkillGatherType/Target_Front_120",
 						GatherType.TargetFront270 => "BNSR/Content/Art/UI/GameUI/Resource/GameUI_ImageSet/SkillGatherType/Target_Front_270",
-						_ => throw new NotSupportedException()
+						_ => null
 					};
 
 					Skill3ToolTipPanel_1_ScaleType.String.LabelText = "Name.Skill.ScaleRange".GetText([null, this, GatherRange.GatherRadiusMax[0]]);

@@ -24,10 +24,11 @@ internal sealed class QuestEpic : OutSet
             sheet.Cells[Row, column++].SetValue(data);
             sheet.Cells[Row, column++].SetValue(data.Name);
             sheet.Cells[Row, column++].SetValue(data.Title);
-            
-            //var rewards = data.MissionStep.SelectMany(step => step.Mission.SelectMany(mission => mission.Reward)).Where(reward => reward.HasValue);
-			//sheet.Cells[Row, column++].SetValue(rewards.Sum(reward => reward.Instance.BasicExp));
-		});
+#if DEBUG
+            var rewards = data.MissionStep.SelectMany(step => step.Mission.SelectMany(mission => mission.Reward)).Where(reward => reward.HasValue);
+            sheet.Cells[Row, column++].SetValue(rewards.Sum(reward => reward.Instance.BasicExp));
+#endif
+        });
     }
 
 

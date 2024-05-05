@@ -1,7 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
 namespace Xylia.Preview.Data.Engine.BinData.Serialization;
-
 /// <summary>
 /// Reads uncompressed table record by record
 /// </summary>
