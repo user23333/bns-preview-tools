@@ -21,7 +21,7 @@ public sealed class ItemCombat : ModelElement
 	{
 		get
 		{
-			List<Ref<ItemSkill>> ItemSkills = [.. ItemSkill, .. ItemSkillSecond, .. ItemSkillThird];
+			Ref<ItemSkill>[] ItemSkills = [.. ItemSkill, .. ItemSkillSecond, .. ItemSkillThird];
 
 			return SkillModifyInfoGroup.Instance?.Description + string.Join("<br/>", ItemSkills.SelectNotNull(x => x.Instance?.Description));
 		}

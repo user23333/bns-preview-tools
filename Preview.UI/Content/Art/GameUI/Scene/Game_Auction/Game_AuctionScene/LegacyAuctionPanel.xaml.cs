@@ -1,5 +1,3 @@
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -13,13 +11,15 @@ using Xylia.Preview.Data.Models.Sequence;
 using Xylia.Preview.UI.Controls;
 
 namespace Xylia.Preview.UI.GameUI.Scene.Game_Auction;
-public partial class LegacyAuctionPanel : INotifyPropertyChanged
+public partial class LegacyAuctionPanel
 {
 	#region Constructor
 	public LegacyAuctionPanel()
 	{
+		#region Initialize 
 		InitializeComponent();
-		DataContext = this;
+		DataContext = _viewModel = new AuctionPanelViewModel();
+		#endregion
 
 		#region Category
 		TreeView.Items.Add(new TreeViewItem() { Tag = "all", Header = new BnsCustomLabelWidget() { Text = "UI.Market.Category.All".GetText() } });
@@ -30,7 +30,7 @@ public partial class LegacyAuctionPanel : INotifyPropertyChanged
 		{
 			if (category2.Key == MarketCategory2Seq.None) continue;
 
-			var node = new TreeViewItem() { Tag = category2, Header = category2.Key.GetText() };
+			var node = new TreeViewItem() { Tag = category2.Key, Header = category2.Key.GetText() };
 			TreeView.Items.Add(node);
 
 			foreach (var category3 in category2.Value)
@@ -45,9 +45,41 @@ public partial class LegacyAuctionPanel : INotifyPropertyChanged
 		#endregion
 
 		// data
-		source = CollectionViewSource.GetDefaultView(FileCache.Data.Provider.GetTable<Item>());
-		source.Filter = OnFilter;
-		ItemList.ItemsSource = source;
+		_viewModel.Changed += RefreshList;
+		_viewModel.Source = CollectionViewSource.GetDefaultView(FileCache.Data.Provider.GetTable<Item>());
+		_viewModel.Source.Filter = OnFilter;
+		ItemList.ItemsSource = _viewModel.Source;
+	}
+	#endregion
+
+	#region Override Methods
+	protected override void OnInitialized(EventArgs e)
+	{
+		base.OnInitialized(e);
+
+		TooltipHolder = (ToolTip)TryFindResource("TooltipHolder");
+	}
+
+	protected override void OnPreviewKeyDown(KeyEventArgs e)
+	{
+		base.OnPreviewKeyDown(e);
+
+		if (e.Key == Key.LeftCtrl && TooltipHolder != null)
+		{
+			TooltipHolder.StaysOpen = true;
+			TooltipHolder.IsOpen = true;
+			TooltipHolder.Visibility = Visibility.Visible;
+		}
+	}
+
+	protected override void OnPreviewKeyUp(KeyEventArgs e)
+	{
+		base.OnPreviewKeyUp(e);
+
+		if (e.Key == Key.LeftCtrl && TooltipHolder != null)
+		{
+			TooltipHolder.IsOpen = false;
+		}
 	}
 	#endregion
 
@@ -55,86 +87,23 @@ public partial class LegacyAuctionPanel : INotifyPropertyChanged
 	private void Comapre_Checked(object sender, RoutedEventArgs e)
 	{
 		var dialog = new Microsoft.Win32.OpenFileDialog() { Filter = @"|*.chv|All files|*.*" };
-		Lst = dialog.ShowDialog() == true ? new HashList(dialog.FileName) : null;
+		_viewModel.HashList = dialog.ShowDialog() == true ? new HashList(dialog.FileName) : null;
 	}
 
-	private void Comapre_Unchecked(object sender, RoutedEventArgs e) => Lst = null;
+	private void Comapre_Unchecked(object sender, RoutedEventArgs e) => _viewModel.HashList = null;
 
 	private void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
 	{
 		if (e.OldValue == e.NewValue) return;
 		if (e.NewValue is not FrameworkElement item) return;
 
-		worldBoss = item.Tag is "WorldBoss";
-
-		if (item.Tag is MarketCategory2Seq seq2)
-		{
-			marketCategory2 = seq2;
-		}
-		else if (item.Tag is MarketCategory3Seq seq3)
-		{
-			marketCategory3 = seq3;
-		}
-		else
-		{
-			marketCategory2 = default;
-			marketCategory3 = default;
-		}
-
-		RefreshList();
+		_viewModel.ByTag(item.Tag);
 	}
 
-	protected override void OnPreviewKeyDown(KeyEventArgs e)
+	public void SetFilter(string? name)
 	{
-		if (Keyboard.IsKeyDown(Key.LeftCtrl))
-		{
-
-		}
+		_viewModel.NameFilter = name;
 	}
-	#endregion
-
-	#region Fields
-	private readonly ICollectionView source;
-
-	private string? _nameFilter;
-	public string? NameFilter
-	{
-		get => _nameFilter;
-		set
-		{
-			SetProperty(ref _nameFilter, value);
-			RefreshList();
-		}
-	}
-
-
-	private bool _auctionable;
-	public bool Auctionable
-	{
-		get => _auctionable;
-		set
-		{
-			SetProperty(ref _auctionable, value);
-			RefreshList();
-		}
-	}
-
-
-	private HashList? _lst;
-	public HashList? Lst
-	{
-		get => _lst;
-		set
-		{
-			SetProperty(ref _lst, value);
-			RefreshList();
-		}
-	}
-
-
-	private bool worldBoss;
-	private MarketCategory2Seq marketCategory2;
-	private MarketCategory3Seq marketCategory3;
 
 	private bool OnFilter(object obj)
 	{
@@ -143,77 +112,60 @@ public partial class LegacyAuctionPanel : INotifyPropertyChanged
 		else if (obj is ModelElement model) record = model.Source;
 		else return false;
 
-		if (_lst != null && _lst.CheckFailed(record.PrimaryKey)) return false;
+		if (_viewModel.HashList?.CheckFailed(record.PrimaryKey) ?? false) return false;
 
-		var IsEmpty = string.IsNullOrEmpty(_nameFilter);
+		var rule = _viewModel.NameFilter!;
+		var IsEmpty = string.IsNullOrEmpty(rule);
 		#endregion
 
 		#region Category
-		if (worldBoss)
+		if (_viewModel.WorldBoss)
 		{
 			if (!record.Attributes.Get<BnsBoolean>("world-boss-auctionable")) return false;
 		}
-		else if (marketCategory2 == default && marketCategory3 == default)  // all
+		else if (_viewModel.MarketCategory2 == default && _viewModel.MarketCategory3 == default)  // all
 		{
-			if (_lst is null && IsEmpty) return false;
+			if (_viewModel.HashList is null && IsEmpty) return false;
 		}
 		else
 		{
 			var MarketCategory2 = record.Attributes["market-category-2"].ToEnum<MarketCategory2Seq>();
 			var MarketCategory3 = record.Attributes["market-category-3"].ToEnum<MarketCategory3Seq>();
 
-			if (marketCategory3 != default && marketCategory3 != MarketCategory3) return false;
-			else if (marketCategory2 != default && marketCategory2 != MarketCategory2) return false;
+			if (_viewModel.MarketCategory3 != default && _viewModel.MarketCategory3 != MarketCategory3) return false;
+			else if (_viewModel.MarketCategory2 != default && _viewModel.MarketCategory2 != MarketCategory2) return false;
 		}
 		#endregion
 
 
 		#region Filter
-		if (_auctionable &&
+		if (_viewModel.Auctionable &&
 			!record.Attributes.Get<BnsBoolean>("auctionable") &&
 			!record.Attributes.Get<BnsBoolean>("seal-renewal-auctionable")) return false;
 
 		// rule
 		if (IsEmpty) return true;
-		else
-		{
-			if (int.TryParse(_nameFilter, out int id)) return record.PrimaryKey.Id == id;
+		if (int.TryParse(rule, out int id)) return record.PrimaryKey.Id == id;
+		if (record.Attributes.Get<string>("alias")?.Contains(rule, StringComparison.OrdinalIgnoreCase) ?? false) return true;
+		if (record.Attributes.Get<Record>("name2").GetText()?.Contains(rule, StringComparison.OrdinalIgnoreCase) ?? false) return true;
 
-			var alias = record.Attributes.Get<string>("alias");
-			if (alias != null && alias.Contains(_nameFilter!, StringComparison.OrdinalIgnoreCase)) return true;
-
-			var name = record.Attributes.Get<Record>("name2").GetText();
-			if (name != null && name.Contains(_nameFilter!, StringComparison.OrdinalIgnoreCase)) return true;
-
-			return false;
-		}
+		return false;
 		#endregion
 	}
 
-	private void RefreshList()
+	private void RefreshList(object? sender, EventArgs e)
 	{
 		Dispatcher.BeginInvoke(() =>
 		{
-			source.Refresh();
-			source.MoveCurrentToFirst();
-			ItemList.ScrollIntoView(source.CurrentItem);
+			_viewModel.Source.Refresh();
+			_viewModel.Source.MoveCurrentToFirst();
+			ItemList.ScrollIntoView(_viewModel.Source.CurrentItem);
 		});
 	}
 	#endregion
 
-
-	#region	PropertyChange
-
-	public event PropertyChangedEventHandler? PropertyChanged;
-
-	protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string? propertyName = null)
-	{
-		if (EqualityComparer<T>.Default.Equals(storage, value))
-			return false;
-
-		storage = value;
-		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-		return true;
-	}
+	#region Fields
+	private AuctionPanelViewModel _viewModel;
+	private ToolTip? TooltipHolder;
 	#endregion
 }

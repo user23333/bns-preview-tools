@@ -4,11 +4,14 @@ using CUE4Parse.UE4.Objects.UObject;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Common.DataStruct;
+using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models.Creature;
 using Xylia.Preview.Data.Models.Sequence;
+using static Xylia.Preview.Data.Models.Item;
+using static Xylia.Preview.Data.Models.Item.Grocery;
 
 namespace Xylia.Preview.Data.Models;
-public abstract class Item : ModelElement , IHaveName
+public abstract class Item : ModelElement, IHaveName
 {
 	#region Attributes
 	public Ref<ItemCombat>[] ItemCombat { get; set; }
@@ -63,6 +66,9 @@ public abstract class Item : ModelElement , IHaveName
 
 	public ItemDecomposeInfo DecomposeInfo => new(this);
 
+	public Ref<SetItem> SetItem { get; set; }
+
+
 	public int RandomOptionGroupId => Attributes.Get<int>("random-option-group-id");
 
 	public int ImproveId => Attributes.Get<int>("improve-id");
@@ -70,7 +76,7 @@ public abstract class Item : ModelElement , IHaveName
 
 	public string ItemName => ItemNameOnly;
 	public string ItemNameOnly => $"<font name=\"00008130.Program.Fontset_ItemGrade_{ItemGrade}\">{Attributes["name2"].GetText()}</font>";
-	
+
 	public int ClosetGroupId => Attributes.Get<int>("closet-group-id");
 	#endregion
 
@@ -99,7 +105,6 @@ public abstract class Item : ModelElement , IHaveName
 			Spear,
 			Orb,
 			DualBlade,
-
 			COUNT
 		}
 	}
@@ -143,17 +148,21 @@ public abstract class Item : ModelElement , IHaveName
 
 	public sealed class Gem : Item
 	{
-		public WeaponEnchantGemSlotTypeSeq WeaponEnchantGemSlotType { get; set; }
-		public AccessoryEnchantGemEquipAccessoryTypeSeq AccessoryEnchantGemEquipAccessoryType { get; set; }
+		public short WeaponGemLevel { get; set; }
 
+		public bool CannotTransform { get; set; }
+
+
+		public WeaponEnchantGemSlotTypeSeq WeaponEnchantGemSlotType { get; set; }
 		public enum WeaponEnchantGemSlotTypeSeq
 		{
 			None,
 			First,
 			Second,
-
 			COUNT
 		}
+
+		public AccessoryEnchantGemEquipAccessoryTypeSeq AccessoryEnchantGemEquipAccessoryType { get; set; }
 		public enum AccessoryEnchantGemEquipAccessoryTypeSeq
 		{
 			None,
@@ -163,7 +172,6 @@ public abstract class Item : ModelElement , IHaveName
 			Belt,
 			Bracelet,
 			Gloves,
-
 			COUNT
 		}
 	}
@@ -217,6 +225,8 @@ public abstract class Item : ModelElement , IHaveName
 		Auctionable ? "BNSR/Content/Art/UI/GameUI/Resource/GameUI_Icon/SlotItem_marketBusiness.SlotItem_marketBusiness" :
 		AccountUsed ? "BNSR/Content/Art/UI/GameUI/Resource/GameUI_Icon/SlotItem_privateSale.SlotItem_privateSale" : null);
 
+	public FPackageIndex UnusableImage => DecomposeInfo.GetImage();
+
 	public Tuple<string, string> CollectionSubstitute
 	{
 		get
@@ -233,16 +243,16 @@ public abstract class Item : ModelElement , IHaveName
 			#region Ability
 			var data = new Dictionary<MainAbility, long>();
 
-			var AttackPowerEquipMin = this.Attributes.Get<short>("attack-power-equip-min");
-			var AttackPowerEquipMax = this.Attributes.Get<short>("attack-power-equip-max");
+			var AttackPowerEquipMin = Attributes.Get<short>("attack-power-equip-min");
+			var AttackPowerEquipMax = Attributes.Get<short>("attack-power-equip-max");
 			data[MainAbility.AttackPowerEquipMinAndMax] = (AttackPowerEquipMin + AttackPowerEquipMax) / 2;
 
-			var PveBossLevelNpcAttackPowerEquipMin = this.Attributes.Get<short>("pve-boss-level-npc-attack-power-equip-min");
-			var PveBossLevelNpcAttackPowerEquipMax = this.Attributes.Get<short>("pve-boss-level-npc-attack-power-equip-max");
+			var PveBossLevelNpcAttackPowerEquipMin = Attributes.Get<short>("pve-boss-level-npc-attack-power-equip-min");
+			var PveBossLevelNpcAttackPowerEquipMax = Attributes.Get<short>("pve-boss-level-npc-attack-power-equip-max");
 			data[MainAbility.PveBossLevelNpcAttackPowerEquipMinAndMax] = (PveBossLevelNpcAttackPowerEquipMin + PveBossLevelNpcAttackPowerEquipMax) / 2;
 
-			var PvpAttackPowerEquipMin = this.Attributes.Get<short>("pvp-attack-power-equip-min");
-			var PvpAttackPowerEquipMax = this.Attributes.Get<short>("pvp-attack-power-equip-max");
+			var PvpAttackPowerEquipMin = Attributes.Get<short>("pvp-attack-power-equip-min");
+			var PvpAttackPowerEquipMax = Attributes.Get<short>("pvp-attack-power-equip-max");
 			data[MainAbility.PvpAttackPowerEquipMinAndMax] = (PvpAttackPowerEquipMin + PvpAttackPowerEquipMax) / 2;
 
 			// HACK: Actually, the ability value is single get
@@ -271,6 +281,23 @@ public abstract class Item : ModelElement , IHaveName
 				var text = ability.Key.GetText(ability.Value);
 				if (ability.Key == MainAbility1 || ability.Key == MainAbility2) Substitute1.AppendLine(text);
 				else Substitute2.AppendLine(text);
+			}
+
+
+			if (this is Gem)
+			{
+				var MainAbilityFixed = Attributes.Get<Record>("main-ability-fixed")?.As<ItemRandomAbilitySlot>();
+				var SubAbilityFixed = Attributes.Get<Record>("sub-ability-fixed")?.As<ItemRandomAbilitySlot>();
+				var SubAbilityRandomCount = Attributes.Get<sbyte>("sub-ability-random-count");
+				var SubAbilityRandom = LinqExtensions.For(8, (id) => Attributes.Get<Record>("sub-ability-random-" + id)?.As<ItemRandomAbilitySlot>());
+
+				if (MainAbilityFixed != null) Substitute1.AppendLine(MainAbilityFixed.Description);
+				if (SubAbilityFixed != null) Substitute2.AppendLine(SubAbilityFixed.Description);
+				if (SubAbilityRandomCount > 0)
+				{
+					Substitute2.AppendLine(TextHelper.RandomNum.Replace([SubAbilityRandomCount]));
+					SubAbilityRandom.ForEach(x => Substitute2.AppendLine(x.Description + " <Image imagesetpath=\"00015590.Tag_Random\" enablescale=\"true\" scalerate=\"1.2\"/>"), true);
+				}
 			}
 			#endregion
 
@@ -354,23 +381,20 @@ public class ItemDecomposeInfo
 
 
 	#region Methods
-	//public Bitmap GetExtra()
-	//{
-	//	var result = GetExtra(this.Decompose_By_Item2[0].Item);
-	//	result ??= GetExtra(this.Job_Decompose_By_Item2[0].Item);
-	//	result ??= this.DecomposeMoneyCost == 0 ? null : Resource_BNSR.Weapon_Lock_04;
+	public FPackageIndex GetImage()
+	{
+		var image = GetImage(this.Decompose_By_Item2[0].Item1);
+		image ??= GetImage(this.Job_Decompose_By_Item2[0].Item1);
+		image ??= this.DecomposeMoneyCost == 0 ? null : new MyFPackageIndex("BNSR/Content/Art/UI/GameUI/Resource/GameUI_Icon/Weapon_Lock_04.Weapon_Lock_04");
 
-	//	return result;
-	//}
+		return image;
+	}
 
-	//private static Bitmap GetExtra(Item item2)
-	//{
-	//	if (item2.INVALID())
-	//		return null;
-
-	//	var Item2Info = FileCache.Data.Item[item2];
-	//	if (Item2Info != null && Item2Info is Grocery grocery && grocery.GroceryType == GroceryTypeSeq.Key) return Resource_BNSR.unuseable_KeyLock;
-	//	else return Resource_BNSR.Weapon_Lock_04;
-	//}
+	private static FPackageIndex GetImage(Item item2)
+	{
+		if (item2 is null) return null;
+		else if (item2 is Grocery grocery && grocery.GroceryType == GroceryTypeSeq.Key) return new MyFPackageIndex("BNSR/Content/Art/UI/GameUI/Resource/GameUI_Icon/unuseable_KeyLock.unuseable_KeyLock");
+		else return new MyFPackageIndex("BNSR/Content/Art/UI/GameUI/Resource/GameUI_Icon/Weapon_Lock_04.Weapon_Lock_04");
+	}
 	#endregion
 }

@@ -13,14 +13,31 @@
 			<s:MenuItem Click="Extract_QuestList_Click" Header="{s:DynamicResource Extract_Quest}" />
 			<s:MenuItem Click="Extract_EpicQuestList_Click" Header="{s:DynamicResource Extract_QuestEpic}" />
 		</s:ContextMenu>
+		<s:Style x:Key="FilterOption" TargetType="s:ItemsControl">
+			<s:Setter Property="HorizontalAlignment" Value="Left"/>
+			<s:Setter Property="ItemsPanel">
+				<s:Setter.Value>
+					<s:ItemsPanelTemplate>
+						<s:WrapPanel Orientation="Horizontal" MaxWidth="{Binding Width}" />
+					</s:ItemsPanelTemplate>
+				</s:Setter.Value>
+			</s:Setter>
+			<s:Setter Property="ItemTemplate">
+				<s:Setter.Value>
+					<s:DataTemplate>
+						<s:CheckBox Content="{Binding}" Margin="0 0 5 0" Checked="SearcherOption_Checked" Unchecked="SearcherOption_Unchecked" />
+					</s:DataTemplate>
+				</s:Setter.Value>
+			</s:Setter>
+		</s:Style>
 	</GameWindow.Resources>
 
 	<s:TabControl x:Name="QuestJournal_Tab" >
 		<s:TabItem x:Name="QuestJournal_Tab_RadioButton_1" Header="正在进行">
 			<s:Grid x:Name="QuestJournal_ProgressQuest" Background="{s:DynamicResource RegionBrush}">
 				<s:Grid.ColumnDefinitions>
-					<s:ColumnDefinition Width="270" />
-					<s:ColumnDefinition Width="*" />
+					<s:ColumnDefinition Width="*" MinWidth="270"/>
+					<s:ColumnDefinition Width="2*" />
 				</s:Grid.ColumnDefinitions>
 
 				<s:Border BorderThickness="1" BorderBrush="{s:DynamicResource BorderBrush}">
@@ -30,8 +47,25 @@
 							<s:RowDefinition Height="*" />
 						</s:Grid.RowDefinitions>
 
-						<s:TextBox x:Name="SearcherRule" TextChanged="SearchStarted" />
-						<s:TreeView x:Name="QuestJournal_ProgressQuestList" s:Grid.Row="1" BorderThickness="0" 
+						<!-- Searcher Setting -->
+						<s:TextBox Name="SearcherRule" TextChanged="SearcherRule_TextChanged" PreviewMouseDown="SearcherRule_GotFocus" LostFocus="SearcherRule_LostFocus" />
+						<s:Popup Name="SearcherOption" PlacementTarget="{Binding ElementName=SearcherRule}" MouseEnter="SearcherOption_MouseEnter" MouseLeave="SearcherOption_MouseLeave">
+							<s:Border Background="{s:DynamicResource ThirdlyRegionBrush}" Width="{Binding ActualWidth,ElementName=SearcherRule}" Padding="5 7">
+								<VerticalBox>
+									<s:TextBlock Text="{s:DynamicResource QuestJournal_Category}" FontWeight="Bold" Margin="0 0 0 3"/>
+									<s:ItemsControl Name="Filter_Category" Style="{s:StaticResource FilterOption}" />
+
+									<s:TextBlock Text="{s:DynamicResource QuestJournal_ContentType}" FontWeight="Bold" Margin="0 5 0 3"/>
+									<s:ItemsControl Name="Filter_ContentType" Style="{s:StaticResource FilterOption}" />
+
+									<s:TextBlock Text="{s:DynamicResource QuestJournal_ResetType}" FontWeight="Bold" Margin="0 5 0 3"/>
+									<s:ItemsControl Name="Filter_ResetType" Style="{s:StaticResource FilterOption}" />
+								</VerticalBox>
+							</s:Border>
+						</s:Popup>
+
+						<!-- Quest List -->
+						<s:TreeView Name="QuestJournal_ProgressQuestList" s:Grid.Row="1" BorderThickness="0" 
 									s:ScrollViewer.HorizontalScrollBarVisibility="Disabled"
 									s:VirtualizingStackPanel.IsVirtualizing="True" s:VirtualizingStackPanel.VirtualizationMode="Recycling">
 							<s:TreeView.ItemTemplate>
@@ -132,7 +166,7 @@
 					<s:ColumnDefinition Width="*" />
 				</s:Grid.ColumnDefinitions>
 
-				<s:TreeView x:Name="TreeView2" s:Grid.Column="0" ContextMenu="{s:StaticResource ExtractMenu}" SelectedItemChanged="CompletedTab_SelectedItemChanged">
+				<s:TreeView x:Name="QuestJournal_CompletedQuestList" s:Grid.Column="0" ContextMenu="{s:StaticResource ExtractMenu}" SelectedItemChanged="QuestJournal_CompletedQuestList_SelectedItemChanged">
 					<s:TreeView.Resources>
 						<s:DataTemplate DataType="{x:Type data:Quest}">
 							<BnsCustomLabelWidget String="{Binding Name}" />
@@ -141,7 +175,7 @@
 				</s:TreeView>
 
 				<s:ScrollViewer s:Grid.Column="1" Margin="10">
-					<BnsCustomLabelWidget x:Name="TextBlock2" FontSize="15" />
+					<BnsCustomLabelWidget x:Name="QuestJournal_CompletedQuestDesc" FontSize="15" />
 				</s:ScrollViewer>
 			</s:Grid>
 		</s:TabItem>

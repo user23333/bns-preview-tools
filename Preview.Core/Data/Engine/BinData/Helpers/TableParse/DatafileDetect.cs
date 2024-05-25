@@ -96,7 +96,7 @@ public sealed class DatafileDetect : ITableParseType
 		Parallel.ForEach(tables, table =>
 		{
 			// skip check xml table
-			if (table.SearchPattern != null || table.Records.Count == 0) return;
+			if (!table.IsBinary || table.Records.Count == 0) return;
 
 			var record1 = table.Records[0];
 			var record2 = table.Records[^1];

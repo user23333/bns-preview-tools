@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Xylia.Preview.Data.Common;
 using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Models.Sequence;
 

@@ -218,19 +218,17 @@
     <value>Github</value>
   </data>
   <data name="Application_UpdateLog" xml:space="preserve">
-    <value>[3.1.1]
-物品
-+ 优化商店预览的界面
-+ 修复固有职业物品的技能也会按设置中的职业显示的问题
+    <value>[3.1.2]
+优化物品预览可以查看八卦牌属性及套装效果
+修复物品预览中切换一级分类时，筛选无法应用的问题
+优化任务预览的筛选功能
+优化与更新服务器验证失败时的提醒
 
-文本
-+ 修复不支持游戏新版本的问题
-+ 优化部分提示信息
-
-地图
-+ 新增可筛选显示小图标
-+ 新增坐标输入和查看 (右键点击任意位置)
-+ 优化搜索功能支持地图名称、地图id
+[3.1.1]
+修复固有职业物品的技能也会按设置中的职业显示的问题
+优化商店预览界面
+优化文本编辑器的部分提示信息
+优化地图预览部分功能
 
 [3.1.0]
 增加主题系统
@@ -423,6 +421,12 @@
   <data name="IconOut_NameFormat" xml:space="preserve">
     <value>输出名称格式</value>
   </data>
+  <data name="IconOut_Skills" xml:space="preserve">
+    <value>提取技能图标</value>
+  </data>
+  <data name="IconOut_TaskBegin" xml:space="preserve">
+    <value>任务开始</value>
+  </data>
   <data name="IconOut_TaskCancel" xml:space="preserve">
     <value>已经有一个任务正在执行，是否确认取消？</value>
   </data>
@@ -522,9 +526,6 @@
   <data name="Message_Tip" xml:space="preserve">
     <value>提示消息</value>
   </data>
-  <data name="Name_About" xml:space="preserve">
-    <value>关于</value>
-  </data>
   <data name="Page_AbilityPage" xml:space="preserve">
     <value>能力</value>
   </data>
@@ -601,7 +602,7 @@
     <value>当前设置为自动切换，您确认更改吗？</value>
   </data>
   <data name="Settings_NightMode_Auto" xml:space="preserve">
-    <value>自动</value>
+    <value>自动切换</value>
   </data>
   <data name="Settings_NightMode_Day" xml:space="preserve">
     <value>白天</value>
@@ -801,5 +802,41 @@
   </data>
   <data name="DatabaseStudio_Offset" xml:space="preserve">
     <value>二进制偏移</value>
+  </data>
+  <data name="Message_InvalidPath" xml:space="preserve">
+    <value>请选择一个有效的路径!</value>
+  </data>
+  <data name="Settings_Tab_Models" xml:space="preserve">
+    <value>模型 (实验)</value>
+  </data>
+  <data name="Settings_KeepLogs" xml:space="preserve">
+    <value>日志保留时间</value>
+  </data>
+  <data name="Text_Time_Day" xml:space="preserve">
+    <value>天</value>
+  </data>
+  <data name="Text_Time_Hour" xml:space="preserve">
+    <value>小时</value>
+  </data>
+  <data name="Text_Time_Minute" xml:space="preserve">
+    <value>分钟</value>
+  </data>
+  <data name="Text_Time_None" xml:space="preserve">
+    <value>永久</value>
+  </data>
+  <data name="Text_Time_Second" xml:space="preserve">
+    <value>秒</value>
+  </data>
+  <data name="QuestJournal_Category" xml:space="preserve">
+    <value>目录</value>
+  </data>
+  <data name="QuestJournal_ContentType" xml:space="preserve">
+    <value>内容类型</value>
+  </data>
+  <data name="QuestJournal_ResetType" xml:space="preserve">
+    <value>重置类型</value>
+  </data>
+  <data name="AbilityName.DefendPowerCreatureValue" xml:space="preserve">
+    <value>防御率</value>
   </data>
 </root>

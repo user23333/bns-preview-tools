@@ -1,7 +1,7 @@
-﻿using CUE4Parse.BNS.Assets.Exports;
-using HtmlAgilityPack;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Media;
+using CUE4Parse.BNS.Assets.Exports;
+using HtmlAgilityPack;
 using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.UI.Documents.Primitives;
 
@@ -26,6 +26,17 @@ public class Font : BaseElement
 	/// fontset path
 	/// </summary>
 	public string? Name;
+
+
+	public static readonly DependencyProperty TextDecorationsProperty = DependencyProperty.Register("TextDecorations",
+		typeof(TextDecorationCollection), typeof(Font), new FrameworkPropertyMetadata(new TextDecorationCollection(),
+			FrameworkPropertyMetadataOptions.AffectsRender));
+
+	public TextDecorationCollection TextDecorations
+	{
+		get => (TextDecorationCollection) GetValue(TextDecorationsProperty);
+		set => SetValue(TextDecorationsProperty, value);
+	}
 	#endregion
 
 
@@ -58,12 +69,10 @@ public class Font : BaseElement
 		var FontAttribute = fontset.FontAttribute?.Load<UFontAttribute>();
 		if (FontAttribute != null)
 		{
-			var style = System.Drawing.FontStyle.Regular;
-
-			if (FontAttribute.Italic) style |= System.Drawing.FontStyle.Italic;
-			//if (FontAttribute.Shadow) style |= System.Drawing.FontStyle.Shadow;
-			if (FontAttribute.Strokeout) style |= System.Drawing.FontStyle.Strikeout;
-			if (FontAttribute.Underline) style |= System.Drawing.FontStyle.Underline;
+			if (FontAttribute.Italic) FontStyle = FontStyles.Italic;
+			//if (FontAttribute.Shadow) ;
+			if (FontAttribute.Strokeout) TextDecorations = System.Windows.TextDecorations.Strikethrough;
+			if (FontAttribute.Underline) TextDecorations = System.Windows.TextDecorations.Underline;
 		}
 
 		var FontFace = fontset.FontFace?.Load<UBNSFontFace>();
@@ -79,7 +88,10 @@ public class Font : BaseElement
 	/// <returns></returns>
 	private bool SkipColor()
 	{
-		return Name is "00008130.Program.Fontset_ItemGrade_1" or "00008130.Program.Fontset_ItemGrade_2";
+		return Name
+			is "00008130.Program.Fontset_ItemGrade_1"
+			or "00008130.Program.Fontset_ItemGrade_2"
+			or "00008130.UI.Normal_12";
 	}
 	#endregion
 }

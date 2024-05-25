@@ -69,16 +69,18 @@ public class SkillTooltip : ModelElement
 	#region Methods
 	public override string ToString()
 	{
+		#region Text
 		StringBuilder builder = new();
 
 		builder.Append(DefaultText.GetText());
 		builder.Append(AttributeColorText.GetText());
 		builder.Append(ItemDefaultText.GetText());
 		builder.Append(ItemReplaceText.GetText());
+		#endregion
 
 		#region ECT
-		var EffectAttributeText = EffectAttribute.Instance?.ToString( [Skill.Instance, .. EffectArg] , SkillAttackAttributeCoefficientPercent);
-		var ConditionAttributeText = ConditionAttribute.Instance?.ToString( [Skill.Instance, .. ConditionArg] , SkillAttackAttributeCoefficientPercent);
+		var EffectAttributeText = EffectAttribute.Instance?.ToString([Skill.Instance, .. EffectArg], SkillAttackAttributeCoefficientPercent);
+		var ConditionAttributeText = ConditionAttribute.Instance?.ToString([Skill.Instance, .. ConditionArg], SkillAttackAttributeCoefficientPercent);
 		var TargetAttributeText = TargetAttribute.Instance?.ToString();
 
 		builder.Append(string.Join(string.Empty, EctOrder switch
@@ -94,16 +96,32 @@ public class SkillTooltip : ModelElement
 		#endregion
 
 		#region Stance
-		if (AfterStanceAttribute.Instance != null)
+		if (AfterStanceAttribute.HasValue)
 		{
-			var BeforeStanceAttributeText = BeforeStanceAttribute.Instance?.ToString();
 			var AfterStanceAttributeText = AfterStanceAttribute.Instance?.ToString();
+			var BeforeStanceAttributeText = BeforeStanceAttribute.Instance?.ToString();
 
-			builder.Append(BeforeStanceAttribute.Instance != null ?
+			builder.Append(BeforeStanceAttribute.HasValue ?
 				"SkillTooltipAttr.stance.before-after".GetText([BeforeStanceAttributeText, AfterStanceAttributeText]) :
 				"SkillTooltipAttr.stance.after-only".GetText([AfterStanceAttributeText]));
 		}
 		#endregion
+
+
+#if DEBUG
+		if (false)
+		{
+			return "UI.TooltipArea.SkillTrain.Modify.Fontset".GetText([builder]) + " " + "UI.TooltipArea.SkillTrain.Modify.Icon".GetText();
+		}
+		else if (false)
+		{
+			return "UI.TooltipArea.SkillTrain.Add.Fontset".GetText([builder]) + " " + "UI.TooltipArea.SkillTrain.Add.Icon".GetText();
+		}
+		else if (true)
+		{
+			return "UI.TooltipArea.SkillTrain.Del.Fontset".GetText([builder]);
+		}
+#endif
 
 		return builder.ToString();
 	}

@@ -12,4 +12,7 @@ public class UFontSet : USerializeObject
 
 	[UPROPERTY]
 	public FPackageIndex FontFace;
+
+	[UPROPERTY]
+	public FPackageIndex SpecialServerOverwriteFontset;
 }

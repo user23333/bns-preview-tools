@@ -1,58 +1,74 @@
-﻿using LiveCharts;
+﻿using System.Windows;
+using HandyControl.Data;
+using LiveCharts;
 using LiveCharts.Defaults;
 using LiveCharts.Wpf;
-using System.Windows;
 using Xylia.Preview.Data.Models.Creature;
 using Xylia.Preview.UI.ViewModels;
 
 namespace Xylia.Preview.UI.Views.Pages;
 public partial class AbilityPage
 {
-    #region Constructor
-    public AbilityPage()
-    {
-        InitializeComponent();
-        DataContext = _viewModel = new AbilityPageViewModel();
-    }
-    #endregion
+	#region Constructor
+	public AbilityPage()
+	{
+		InitializeComponent();
+		DataContext = _viewModel = new AbilityPageViewModel();
+	}
+	#endregion
 
-    #region Methods
-    private void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
-    {
-        if (e.NewValue is not AbilityFunction ability) return;
+	#region Methods
+	private void OpenSetting_Click(object sender, RoutedEventArgs e)
+	{
+		new AbilitySetting().Show();
+	}
 
-        _viewModel.Selected = ability;
-        LevelText.IsEnabled = ability.Φ != 0 || ability.LevelFactors.Count > 1; 
-        LevelText.Value = DEFAULT_LEVEL;
+	private void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+	{
+		if (e.NewValue is not AbilityFunction ability) return;
 
-        #region Chart	
-        int CHART_MAX_VALUE = 20000;
-        int CHART_INTERVAL = 500;
+		_viewModel.Selected = ability;
+		LevelText.IsEnabled = ability.Φ != 0 || ability.LevelFactors.Count > 1;
+		LevelText.Value = DEFAULT_LEVEL;
+	}
 
-        var values = new ChartValues<ObservablePoint>();
-        for (int i = 0; i <= CHART_MAX_VALUE; i += CHART_INTERVAL)
-            values.Add(new(i, ability.GetPercent(i, DEFAULT_LEVEL)));
+	private void Level_Changed(object sender, FunctionEventArgs<double> e)
+	{
+		var level = (sbyte)e.Info;
+		var selected = _viewModel.Selected;
+		if (selected is null) return;
 
-        Chart.Series =
-        [
-            new LineSeries
-            {
-                Title = $"{ability.Type} converted percent in Lv{DEFAULT_LEVEL}",
-                Values = values,
-                LineSmoothness = 1,
-            }
-        ];
-        #endregion
-    }
+		#region Chart	
+		// valid 
+		if (double.IsNaN(selected.GetPercent(0, level)))
+		{
+			Chart.Series = [];
+		}
+		else
+		{
+			int CHART_MAX_VALUE = 20000;
+			int CHART_INTERVAL = 500;
 
-    private void OpenSetting_Click(object sender, RoutedEventArgs e)
-    {
-        new AbilitySetting().Show();
-    }
-    #endregion
+			var values = new ChartValues<ObservablePoint>();
+			for (int i = 0; i <= CHART_MAX_VALUE; i += CHART_INTERVAL)
+				values.Add(new(i, selected.GetPercent(i, level)));
 
-    #region Private Fields
-    private AbilityPageViewModel _viewModel;
-    const sbyte DEFAULT_LEVEL = 60;
-    #endregion
+			Chart.Series =
+			[
+				new LineSeries
+				{
+					Title = $"{selected.Type} converted percent in Lv{level}",
+					Values = values,
+					LineSmoothness = 1,
+				}
+			];
+		}
+		#endregion
+	}
+	#endregion
+
+	#region Private Fields
+	private AbilityPageViewModel _viewModel;
+	const sbyte DEFAULT_LEVEL = 60;
+	#endregion
 }

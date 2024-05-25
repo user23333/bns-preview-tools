@@ -13,7 +13,7 @@ public class BnsCustomWindowWidget : BnsCustomBaseWidget
 	#region Constructors
 	public BnsCustomWindowWidget()
 	{
-		this.Loaded += (s, e) => OnLoaded(e);
+		this.DataContextChanged += (s, e) => OnDataChanged(e);
 	}
 	#endregion
 
@@ -58,9 +58,9 @@ public class BnsCustomWindowWidget : BnsCustomBaseWidget
 		if (background != null) dc.DrawRectangle(background, null, new Rect(RenderSize));
 	}
 
-	protected virtual void OnLoaded(RoutedEventArgs e)
+	protected virtual void OnDataChanged(DependencyPropertyChangedEventArgs e)
 	{
-
+		
 	}
 
 	protected virtual void OnClosing(CancelEventArgs e)

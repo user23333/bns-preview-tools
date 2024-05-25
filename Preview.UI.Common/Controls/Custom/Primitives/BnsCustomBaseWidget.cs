@@ -195,6 +195,7 @@ public abstract class BnsCustomBaseWidget : UserWidget, IMetaData
 	{
 		if (p is null) return default;
 
+		// data
 		var document = _container.Document = new Paragraph() { FontSet = p.fontset, HorizontalAlignment = (HorizontalAlignment)p.HorizontalAlignment };
 		IMetaData.UpdateData(document, new(StringProperty, p, MetaData));
 		BaseElement.InheritDependency(this, document);

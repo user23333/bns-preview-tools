@@ -16,9 +16,9 @@ public partial class RewardTooltipPanel
 	#endregion
 
 	#region Methods
-	protected override void OnLoaded(RoutedEventArgs e)
+	protected override void OnDataChanged(DependencyPropertyChangedEventArgs e)
 	{
-		if (DataContext is not Reward record) return;
+		if (e.NewValue is not Reward record) return;
 
 		// TODO: Add column properties
 		ColumnList.Children.Clear();

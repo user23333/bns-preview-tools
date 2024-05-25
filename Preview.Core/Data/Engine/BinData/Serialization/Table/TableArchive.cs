@@ -19,7 +19,7 @@ internal class TableArchive
 
 	public static Table LazyLoad(DataArchive reader)
 	{
-		var table = new Table();
+		var table = new Table() { IsBinary = true };
 		var tableStart = reader.Position;
 		table.ReadHeaderFrom(reader);
 		table.Archive = new TableArchive() { Source = reader.OffsetedSource(tableStart, table.Size + 11), };

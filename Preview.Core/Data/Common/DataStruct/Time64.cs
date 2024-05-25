@@ -1,6 +1,4 @@
-﻿using System.Text;
-using Xylia.Preview.Data.Engine.DatData;
-using Xylia.Preview.Data.Models;
+﻿using Xylia.Preview.Data.Engine.DatData;
 
 namespace Xylia.Preview.Data.Common.DataStruct;
 /// <summary>
@@ -8,7 +6,7 @@ namespace Xylia.Preview.Data.Common.DataStruct;
 /// </summary>
 /// <param name="Ticks"></param>
 /// <param name="Publisher"></param>
-public struct Time64(long ticks) : IFormattable
+public struct Time64(long ticks) : IFormattable, ITime
 {
 	#region Properties
 	private const int HoursPerDay = 24;
@@ -50,12 +48,8 @@ public struct Time64(long ticks) : IFormattable
 	private const ulong TicksPer6Hours = TicksPerHour * 6;
 	private const int March1BasedDayOfNewYear = 306;              // Days between March 1 and January 1
 
-
 	public readonly ulong Ticks => (ulong)ticks;
 
-	// Returns the year part of this DateTime. The returned value is an
-	// integer between 1 and 9999.
-	//
 	public int Year
 	{
 		get
@@ -68,8 +62,6 @@ public struct Time64(long ticks) : IFormattable
 		}
 	}
 
-	// Returns the month part of this DateTime. The returned value is an
-	// integer between 1 and 12.
 	public int Month
 	{
 		get
@@ -83,8 +75,6 @@ public struct Time64(long ticks) : IFormattable
 		}
 	}
 
-	// Returns the day-of-month part of this DateTime. The returned
-	// value is an integer between 1 and 31.
 	public int Day
 	{
 		get
@@ -99,16 +89,10 @@ public struct Time64(long ticks) : IFormattable
 		}
 	}
 
-	// Returns the hour part of this DateTime. The returned value is an
-	// integer between 0 and 23.
 	public sbyte Hour => (sbyte)((uint)(Ticks / TicksPerHour) % 24);
 
-	// Returns the minute part of this DateTime. The returned value is
-	// an integer between 0 and 59.
 	public int Minute => (int)((Ticks / TicksPerMinute) % 60);
 
-	// Returns the second part of this DateTime. The returned value is
-	// an integer between 0 and 59.
 	public int Second => (int)((Ticks / TicksPerSecond) % 60);
 	#endregion
 
@@ -148,100 +132,4 @@ public struct Time64(long ticks) : IFormattable
 		return new Time64((time - new DateTime(1970, 1, 1)).Ticks / 10000000) - BnsTimeZoneInfo.FromPublisher(publisher).Offset;
 	}
 	#endregion
-}
-
-public static class TimeFormat
-{
-	internal static string Format(Time64 value, string format, IFormatProvider formatProvider)
-	{
-		if (string.IsNullOrEmpty(format))
-		{
-			return FormatC(value); // formatProvider ignored, as "c" is invariant
-		}
-
-		if (format.Length == 1)
-		{
-			char c = format[0];
-
-			if (c == 'c' || (c | 0x20) == 't') // special-case to optimize the default TimeSpan format
-			{
-				return FormatC(value); // formatProvider ignored, as "c" is invariant
-			}
-
-			if (c == 'g')
-			{
-				return FormatG(value);
-			}
-
-			throw new FormatException("Format_InvalidString");
-		}
-
-		var vlb = new StringBuilder(256);
-		FormatCustomized(value, format, ref vlb);
-		return vlb.ToString();
-	}
-
-	internal static string FormatC(Time64 value)
-	{
-		return $"{value.Year}/{value.Month}/{value.Day} {value.Hour}:{value.Minute:00}:{value.Second:00}";
-	}
-
-	internal static string FormatG(Time64 value)
-	{
-		return null;
-	}
-
-	private static void FormatCustomized(Time64 value, scoped ReadOnlySpan<char> format, ref StringBuilder result)
-	{
-		for (int i = 0; i < format.Length;)
-		{
-			char ch = format[i];
-			int tokenLen;
-
-			switch (ch)
-			{
-				case 'h':
-					i += tokenLen = ParseRepeatPattern(format, i, ch);
-					FormatDigits(ref result, value.Hour, tokenLen, 2);
-					break;
-				case 'm':
-					i += tokenLen = ParseRepeatPattern(format, i, ch);
-					FormatDigits(ref result, value.Minute, tokenLen, 2);
-					break;
-				case 's':
-					i += tokenLen = ParseRepeatPattern(format, i, ch);
-					FormatDigits(ref result, value.Second, tokenLen, 2);
-					break;
-				case 'd':
-					i += tokenLen = ParseRepeatPattern(format, i, ch);
-					FormatDigits(ref result, value.Day, tokenLen, 8);
-					break;
-				default:
-					i++;
-					result.Append(ch);
-					break;
-			}
-		}
-	}
-
-	internal static void FormatDigits(ref StringBuilder outputBuffer, int value, int length, int maximumLength)
-	{
-		if (length > maximumLength)
-			throw new FormatException("Format_InvalidString");
-
-		outputBuffer.Append(value.ToString(new string('0', length)));
-	}
-
-	internal static int ParseRepeatPattern(ReadOnlySpan<char> format, int pos, char patternChar)
-	{
-		int index = pos + 1;
-		while ((uint)index < (uint)format.Length && format[index] == patternChar)
-		{
-			index++;
-		}
-		return index - pos;
-	}
-
-
-	public static string AMPM(this sbyte value) => (value < 12 ? "Name.Time.Morning" : "Name.Time.Afternoon").GetText();
 }

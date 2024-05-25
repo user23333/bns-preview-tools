@@ -28,7 +28,7 @@ public static class ControlHelpers
 		return (Rect)PreviousArrangeRect!.GetValue(element)!;
 	}
 
-	public static void SetVisibility(this FrameworkElement element, bool visible)
+	public static void SetVisiable(this FrameworkElement element, bool visible)
 	{
 		element.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
 	}

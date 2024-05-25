@@ -1,6 +1,6 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Reflection;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Xylia.Preview.Data.Models.Creature;
 
 namespace Xylia.Preview.UI.ViewModels;
@@ -17,12 +17,15 @@ internal class AbilityPageViewModel : ObservableObject
 
         Source = new(source);
     }
-    #endregion
+	#endregion
 
-    #region Properies
-    public ObservableCollection<AbilityFunction> Source { get; private set; }
+	#region Properies
+	public ObservableCollection<AbilityFunction> Source { get; private set; }
 
-    AbilityFunction? selected;
+	public Func<double, string> PercentFormatter { get; } = (d) => $"{d:P2}";
+
+
+	AbilityFunction? selected;
     public AbilityFunction? Selected
     {
         get => selected;

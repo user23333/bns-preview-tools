@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Windows;
+﻿using System.Windows;
 using CUE4Parse.BNS.Assets.Exports;
 using CUE4Parse.UE4.Objects.UObject;
 using Xylia.Preview.Common.Extension;
@@ -21,53 +20,54 @@ public partial class Skill3ToolTipPanel_1
 		DataContext = Helpers.TestProvider.Provider.GetTable<Skill3>()["SwordMaster_S1_2_Lightning_TwicePierce"];
 #endif
 		InitializeComponent();
-		this.PreviewMouseDown += (s, e) => Load(FileCache.Data.Provider.GetTable<Skill3>()[Clipboard.GetText()]);
+		this.PreviewMouseDown += (s, e) => DataContext = FileCache.Data.Provider.GetTable<Skill3>()[Clipboard.GetText()];
 	}
 	#endregion
 
 	#region Methods
-	protected override void OnLoaded(RoutedEventArgs e)
+	protected override void OnDataChanged(DependencyPropertyChangedEventArgs e)
 	{
-		if (DataContext is not Skill3 record) return;
+		if (e.NewValue is not Skill3 record) return;
 
 		#region Common
 		Skill3ToolTipPanel_1_Name.Arguments = [record, record];
 		Skill3ToolTipPanel_1_Main_Icon.ExpansionComponentList["IconImage"]?.SetValue(record.Icon);
 		Skill3ToolTipPanel_1_Main_Icon.ExpansionComponentList["KEYCOMMAND"]?.SetValue(record.CurrentShortCutKey);
 		Skill3ToolTipPanel_1_Main_Icon.ExpansionComponentList["SkillSkin"]?.SetShow(false);
+		Skill3ToolTipPanel_1_Main_Icon.InvalidateVisual();
 
 		// TODO: add reinforce
 		Skill3ToolTipPanel_1_SkillReinforce.Visibility = Visibility.Collapsed;
 		Skill3ToolTipPanel_1_SkillReinforceDescription.Visibility = Visibility.Collapsed;
 
 		var ItemProbability = record.RevisedEventProbabilityInExec[0];
-		Skill3ToolTipPanel_1_ItemProbability.SetVisibility(ItemProbability != 100);
+		Skill3ToolTipPanel_1_ItemProbability.SetVisiable(ItemProbability != 100);
 		Skill3ToolTipPanel_1_ItemProbability.String.LabelText = "UI.Skill.ItemProbability.PrevTag".GetText() + BR.Tag + "UI.Skill.ItemProbability".GetText([ItemProbability]);
+		#endregion
 
+		#region Tooltip
 		Skill3ToolTipPanel_1_Main_Description.String.LabelText =
 			string.Join(BR.Tag, record.MainTooltip1.SelectNotNull(x => x.Instance)) + BR.Tag +
 			string.Join(BR.Tag, record.MainTooltip2.SelectNotNull(x => x.Instance));
 
 		Skill3ToolTipPanel_1_Sub_Description.String.LabelText = string.Join(BR.Tag, record.SubTooltip.SelectNotNull(x => x.Instance));
-		#endregion
 
-		#region Tooltip
 		var ConditionTooltips = record.ConditionTooltip.SelectNotNull(x => x.Instance);
-		Skill3ToolTipPanel_1_ConditionTitle.SetVisibility(ConditionTooltips.Any());
-		Skill3ToolTipPanel_1_ConditionText.String.LabelText = string.Join("<br/>", ConditionTooltips);
+		Skill3ToolTipPanel_1_ConditionTitle.SetVisiable(ConditionTooltips.Any());
+		Skill3ToolTipPanel_1_ConditionText.String.LabelText = string.Join(BR.Tag, ConditionTooltips);
 
 		var StanceTooltips = record.StanceTooltip.SelectNotNull(x => x.Instance);
-		Skill3ToolTipPanel_1_StanceTitle.SetVisibility(StanceTooltips.Any());
-		Skill3ToolTipPanel_1_StanceText.String.LabelText = string.Join("<br/>", StanceTooltips);
+		Skill3ToolTipPanel_1_StanceTitle.SetVisiable(StanceTooltips.Any());
+		Skill3ToolTipPanel_1_StanceText.String.LabelText = string.Join(BR.Tag, StanceTooltips);
 
 		Skill3ToolTipPanel_1_ItemTitle.Visibility = Skill3ToolTipPanel_1_ItemName.Visibility = Visibility.Collapsed;
 		Skill3ToolTipPanel_1_SkillSkinDescription_Title.Visibility = Skill3ToolTipPanel_1_SkillSkinDescription.Visibility = Visibility.Collapsed;
 		#endregion
 
 		#region InfoHolder
-		Skill3ToolTipPanel_1_DamageInfo_PvEInfo.ExpansionComponentList["Info"]?.SetValue($"<image enablescale='true' imagesetpath='00009076.CharInfo_AttackPower' scalerate='1.2'/> x {record.DamageRateStandardStats * 0.001:0.000}");
+		Skill3ToolTipPanel_1_DamageInfo_PvEInfo.ExpansionComponentList["Info"]?.SetValue("UI.SkillTooltip.DamageInfo.StandardStats".GetText([record, record.DamageRateStandardStats]));
 		Skill3ToolTipPanel_1_DamageInfo_PvEInfo.ExpansionComponentList["Icon"]?.SetValue(GetDamageRateIcon(record.DamageRateStandardStats));
-		Skill3ToolTipPanel_1_DamageInfo_PvPInfo.ExpansionComponentList["Info"]?.SetValue($"<image enablescale='true' imagesetpath='00009076.CharInfo_PcAttackPower' scalerate='1.2'/> x {record.DamageRatePvp * 0.001:0.000}");
+		Skill3ToolTipPanel_1_DamageInfo_PvPInfo.ExpansionComponentList["Info"]?.SetValue("UI.SkillTooltip.DamageInfo.PVP".GetText([record, record.DamageRatePvp]));
 		Skill3ToolTipPanel_1_DamageInfo_PvPInfo.ExpansionComponentList["Icon"]?.SetValue(GetDamageRateIcon(record.DamageRatePvp));
 		Skill3ToolTipPanel_1_DamageInfo_PvEInfo.InvalidateVisual();
 		Skill3ToolTipPanel_1_DamageInfo_PvPInfo.InvalidateVisual();
@@ -160,15 +160,6 @@ public partial class Skill3ToolTipPanel_1
 		#endregion
 	}
 
-
-	private void Load(Skill3? record)
-	{
-		Trace.WriteLine("loading data");
-
-		DataContext = record;
-		OnLoaded(new RoutedEventArgs());
-	}
-
 	private static FPackageIndex GetDamageRateIcon(short value)
 	{
 		return new MyFPackageIndex(
@@ -179,5 +170,10 @@ public partial class Skill3ToolTipPanel_1
 
 			"BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window2/DamageInfo_Down");
 	}
+	#endregion
+
+
+	#region Private Fields
+	private Skill3? OldSkill;
 	#endregion
 }

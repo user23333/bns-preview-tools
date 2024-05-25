@@ -1,5 +1,4 @@
 ﻿using CUE4Parse.Utils;
-using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Engine.BinData.Helpers;
 using Xylia.Preview.Data.Engine.Definitions;
@@ -25,15 +24,7 @@ public class FolderProvider(string path, EPublisher publisher = default) : IData
 		// TODO: ignore server table
 		foreach (var definition in definitions.OrderBy(x => x.Name))
 		{
-			string path = definition.Name switch
-			{
-				"quest" => @"quest\questdata*.xml",
-				"contextscript" => "skill3_contextscriptdata*.xml",
-
-				_ => $"{definition.Name.TitleCase()}Data*.xml",
-			};
-
-			Tables.Add(new() { Owner = this, Name = definition.Name, SearchPattern = path });
+			Tables.Add(new() { Owner = this, Name = definition.Name });
 		}
 	}
 

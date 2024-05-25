@@ -165,7 +165,7 @@ internal partial class GameResourcePageViewModel : ObservableObject
 
 	#region Icon
 	[ObservableProperty]
-	string icon_OutputFolder = UserSettings.Default.OutputFolderResource;
+	string icon_OutputFolder = Path.Combine(UserSettings.Default.OutputFolderResource, "Extract");
 
 	[ObservableProperty]
 	string icon_ItemListPath;
@@ -215,6 +215,7 @@ internal partial class GameResourcePageViewModel : ObservableObject
 		try
 		{
 			DateTime start = DateTime.Now;
+			Growl.Info(StringHelper.Get("IconOut_TaskBegin"));
 
 			Out.LoadData(source.Token);
 			Out.Output(format, source.Token);

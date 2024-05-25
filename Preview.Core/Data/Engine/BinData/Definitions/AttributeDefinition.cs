@@ -5,7 +5,7 @@ using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Common.Exceptions;
 
 namespace Xylia.Preview.Data.Engine.Definitions;
-public partial class AttributeDefinition
+public class AttributeDefinition
 {
 	#region Metadata
 	public string Name { get; set; }

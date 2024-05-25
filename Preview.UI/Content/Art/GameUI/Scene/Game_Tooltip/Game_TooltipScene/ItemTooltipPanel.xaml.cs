@@ -22,10 +22,11 @@ public partial class ItemTooltipPanel
 	#endregion
 
 	#region Methods
-	protected override void OnLoaded(RoutedEventArgs e)
+	protected override void OnDataChanged(DependencyPropertyChangedEventArgs e)
 	{
-		if (DataContext is not Item record) return;
+		if (e.NewValue is not Item record) return;
 
+		// get job
 		TextArguments arguments = [null, record];
 		var jobs = record.EquipJobCheck.Where(x => x != JobSeq.JobNone);
 		if (!jobs.Any() && record.RandomOptionGroupId != 0) jobs = jobs.Append(UserSettings.Default.Job);
@@ -33,10 +34,22 @@ public partial class ItemTooltipPanel
 		#region Common
 		ItemIcon.ExpansionComponentList["BackgroundImage"]?.SetValue(record.BackIcon);
 		ItemIcon.ExpansionComponentList["IconImage"]?.SetValue(record.FrontIcon);
-		ItemIcon.ExpansionComponentList["UnusableImage"]?.SetValue(null);
+		ItemIcon.ExpansionComponentList["UnusableImage"]?.SetValue(record.UnusableImage);
 		ItemIcon.ExpansionComponentList["Grade_Image"]?.SetValue(null);
 		ItemIcon.ExpansionComponentList["CanSaleItem"]?.SetValue(record.CanSaleItemImage);
 		ItemIcon.InvalidateVisual();
+
+
+		// Effect
+		var SetItem = record.SetItem.Instance;
+		if (SetItem is null) SetItemEffect.Visibility = Visibility.Collapsed;
+		else
+		{
+			SetItemEffect.Visibility = Visibility.Visible;
+			SetItemEffect_Name.String.LabelText = SetItem.Name;
+			SetItemEffect_Effect.String.LabelText = SetItem.Description;
+		}
+
 
 		// Description7
 		ItemDescription7.String.LabelText = new List<string?>
@@ -57,7 +70,7 @@ public partial class ItemTooltipPanel
 		Required.String.LabelText = required.Join();
 
 
-		SealEnable.SetVisibility(record.SealRenewalAuctionable);
+		SealEnable.SetVisiable(record.SealRenewalAuctionable);
 		if (record.SealRenewalAuctionable)
 		{
 			var SealConsumeItem1 = record.Attributes.Get<Record>("seal-consume-item-1")?.As<Item>();
@@ -98,7 +111,7 @@ public partial class ItemTooltipPanel
 					foreach (var SkillTrainByItemList in RandomOptionGroup.SkillTrainByItemList.SelectNotNull(x => x.Instance))
 					{
 						var ChangeSets = SkillTrainByItemList.ChangeSet.SelectNotNull(x => x.Instance);
-						if (ChangeSets.Count() > 1) Combat_Holder.Children.Add(new BnsCustomLabelWidget() { Text = "在以下效果中获得其中一种" });
+						if (ChangeSets.Count() > 1) Combat_Holder.Children.Add(new BnsCustomLabelWidget() { Text = TextHelper.RandomNum.Replace([1]) });
 
 						foreach (var SkillTrainByItem in ChangeSets)
 						{
@@ -110,10 +123,13 @@ public partial class ItemTooltipPanel
 								Height = 32,
 								Margin = new Thickness(0, 0, 10, 0),
 								VerticalAlignment = VerticalAlignment.Top,
+								//DataContext = SkillTrainByItem.ChangeSkill[0].Instance,
+								//ToolTip = new Skill3ToolTipPanel_1()
 							};
 
+							// description
 							var description = new BnsCustomLabelWidget();
-							description.String.LabelText = UserSettings.Default.UseDebugMode ? SkillTrainByItem.Description2 : SkillTrainByItem.Description.GetText();
+							description.String.LabelText = SkillTrainByItem.Description2;
 
 							// layout
 							var box = new HorizontalBox() { Margin = new Thickness(0, 0, 0, 3) };

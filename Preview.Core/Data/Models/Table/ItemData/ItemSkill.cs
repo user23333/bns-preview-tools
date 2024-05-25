@@ -20,6 +20,13 @@ public sealed class ItemSkill : ModelElement, IHaveDesc
 	#endregion
 
 	#region Methods
-	public string Description => string.Format("<font name=\"00008130.UI.Label_Green03_12\">{0}</font>", Description2.GetText());
+	public string Description
+	{
+		get
+		{
+			var text = Description2.GetText();
+			return text is null ? null : string.Format("<font name=\"00008130.UI.Label_Green03_12\">{0}</font>", text);
+		}
+	}
 	#endregion
 }

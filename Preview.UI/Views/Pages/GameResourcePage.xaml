@@ -24,7 +24,7 @@
 				<hc:SearchBar Grid.Row="0" hc:InfoElement.Title="{DynamicResource Settings_OutputDirectory}" Style="{StaticResource SearchBarExtend}" 
 					Text="{Binding OutputFolderResource, Source={x:Static VM:UserSettings.Default}, Mode=OneWay}" Command="{Binding OpenSettingsCommand}"/>
 				<hc:ComboBox Grid.Row="1" x:Name="Selector" hc:InfoElement.Title="{DynamicResource Asset_FilterPah}" IsEditable="True" IsTextSearchEnabled="True" >
-					<ComboBoxItem Content="Game/Art/UI/GameUI/Resource/GameUI_Icon" />
+					<ComboBoxItem Content="Game/Art/UI/GameUI/Resource/GameUI_Icon/" />
 					<ComboBoxItem Content="Game/Art/UI/GameUI/Resource/GameUI_Icon2nd" />
 					<ComboBoxItem Content="Game/Art/UI/GameUI/Resource/GameUI_Icon3rd" />
 					<ComboBoxItem Content="Game/Art/UI/GameUI/Resource/GameUI_Icon4th" />
@@ -37,7 +37,7 @@
 					<ComboBoxItem Content="Game/Art/UI/V2/Resource" />
 				</hc:ComboBox>
 				<CheckBox Grid.Row="4" Name="OutputClassName" Content="{DynamicResource Asset_OutputClassName}" VerticalAlignment="Bottom" Margin="0 20 0 0" IsChecked="True" />
-				<Button Grid.Row="1" Name="Extract" Grid.Column="1" Margin="0 20 0 0" Content="{DynamicResource Asset_Extract}" Click="Extract_Click"/>
+				<Button Name="Extract" Grid.Row="1" Grid.Column="1" Margin="0 20 0 0" Content="{DynamicResource Asset_Extract}" Click="Extract_Click"/>
 
 
 				<Grid Grid.Row="6" Margin="0 50 0 0" AllowDrop="True" DragDrop.DragEnter="AssetRepack_DragEnter" DragDrop.Drop="AssetRepack_DragDrop" Background="Transparent">
@@ -77,7 +77,7 @@
 						</ListBox.ItemTemplate>
 					</ListBox>
 				</Grid>
-				<Button Grid.Row="6" Grid.Column="1" Margin="0 20 0 0" Content="{DynamicResource Asset_Repack}" Click="Repack_Click"/>
+				<Button Name="Repack" Grid.Row="6" Grid.Column="1" Margin="0 20 0 0" Content="{DynamicResource Asset_Repack}" Click="Repack_Click"/>
 			</Grid>
 		</TabItem>
 
@@ -120,12 +120,17 @@
 
 					<hc:Divider />
 					<hc:UniformSpacingPanel Spacing="10" Orientation="Vertical">
-						<hc:UniformSpacingPanel>
-							<Button Click="OutputGoodIcon" Content="{DynamicResource IconOut_Goods}" />
-						</hc:UniformSpacingPanel>
 						<hc:UniformSpacingPanel Spacing="10">
 							<Button Click="OutputItemIcon" Content="{DynamicResource IconOut_Items}" />
 							<Button Content="{DynamicResource IconOut_CreateList}" ToolTip="{DynamicResource IconOut_CreateList_Tooltip}" Visibility="Collapsed" />
+						</hc:UniformSpacingPanel>
+
+						<hc:UniformSpacingPanel>
+							<Button Click="OutputGoodIcon" Content="{DynamicResource IconOut_Goods}" />
+						</hc:UniformSpacingPanel>
+
+						<hc:UniformSpacingPanel>
+							<Button Click="OutputSkillIcon" Content="{DynamicResource IconOut_Skills}" />
 						</hc:UniformSpacingPanel>
 					</hc:UniformSpacingPanel>
 				</StackPanel>

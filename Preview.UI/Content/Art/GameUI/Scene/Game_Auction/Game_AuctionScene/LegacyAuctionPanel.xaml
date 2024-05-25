@@ -5,6 +5,12 @@
 		xmlns:i="clr-namespace:Xylia.Preview.UI.Common.Interactivity"
 		xmlns:t="clr-namespace:Xylia.Preview.UI.GameUI.Scene.Game_Tooltip" 
         Title="AuctionPanel" Height="700" Width="800">
+	<Window.Resources>
+		<ToolTip x:Key="TooltipHolder">
+			<t:ItemTooltipPanel />
+		</ToolTip>
+	</Window.Resources>
+	
 	<Grid>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="220" />
@@ -45,20 +51,18 @@
 						<Setter Property="ContextMenu" Value="{StaticResource ItemMenu}"/>
 					</Style>
 				</ListView.ItemContainerStyle>
+				
 				<ListView.View>
 					<GridView>
 						<GridViewColumn Header="{DynamicResource ItemList_ItemName}" Width="220">
 							<GridViewColumn.CellTemplate>
 								<DataTemplate>
-									<Grid Background="Transparent">
+									<Grid Background="Transparent" ToolTip="{StaticResource TooltipHolder}">
 										<Grid.ColumnDefinitions>
 											<ColumnDefinition Width="Auto" />
 											<ColumnDefinition Width="*" />
 										</Grid.ColumnDefinitions>
-										<Grid.ToolTip>
-											<t:ItemTooltipPanel />
-										</Grid.ToolTip>
-										
+				
 										<UI:BnsCustomImageWidget Grid.Column="0" BaseImageProperty="{Binding FrontIcon}" Width="64" Height="64" />
 										<UI:BnsCustomLabelWidget Grid.Column="1" String="{Binding ItemName}" VerticalAlignment="Center" Margin="5 0 0 0" />
 									</Grid>

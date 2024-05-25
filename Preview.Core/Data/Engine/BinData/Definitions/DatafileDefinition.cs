@@ -17,9 +17,25 @@ public class DatafileDefinition : Collection<TableDefinition>
 	private Dictionary<string, TableDefinition> _definitionsByName;
 	private Dictionary<ushort, TableDefinition> _definitionsByType;
 
-	public TableDefinition this[ushort index] =>_definitionsByType.GetValueOrDefault(index, null);
-	public TableDefinition this[string index] => _definitionsByName.GetValueOrDefault(index, null);
+	public TableDefinition this[ushort index]
+	{
+		get
+		{
+			if (_definitionsByType is null) CreateMap();
 
+			return _definitionsByType.GetValueOrDefault(index, null);
+		}
+	}
+
+	public TableDefinition this[string index]
+	{
+		get
+		{
+			if (_definitionsByName is null) CreateMap();
+
+			return _definitionsByName.GetValueOrDefault(index, null);
+		}
+	}
 
 	internal void CreateMap()
 	{

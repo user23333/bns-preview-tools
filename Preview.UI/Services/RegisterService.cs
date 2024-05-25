@@ -7,7 +7,7 @@ namespace Xylia.Preview.UI.Services;
 /// </summary>
 internal class RegisterService : IService
 {
-	bool IService.Register()
+	public bool Register()
 	{
 		// effects 
 		UserSettings.Default.UsePerformanceMonitor = UserSettings.Default.UsePerformanceMonitor;

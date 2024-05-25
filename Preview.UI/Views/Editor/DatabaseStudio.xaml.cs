@@ -258,7 +258,7 @@ public partial class DatabaseStudio
 	private async void TableExportAll_Click(object sender, RoutedEventArgs e)
 	{
 		// skip xml table
-		await ExportAsync([.. database!.Provider.Tables.Where(x => x.SearchPattern is null)]);
+		await ExportAsync([.. database!.Provider.Tables.Where(x => x.IsBinary)]);
 	}
 
 	private async void Import_Click(object sender, RoutedEventArgs e)

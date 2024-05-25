@@ -31,11 +31,10 @@ public class Run : BaseElement
 	}
 	#endregion
 
-
 	#region Properties
-	public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text",
-		typeof(string), typeof(Run), new FrameworkPropertyMetadata(string.Empty,
-			FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender));
+	public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(Run),
+		  new FrameworkPropertyMetadata(string.Empty,
+			   FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender));
 
 	public string Text
 	{
@@ -43,7 +42,16 @@ public class Run : BaseElement
 		set { SetValue(TextProperty, value); }
 	}
 
-	//public TextAlignment TextAlignment => _format.TextAlignment;
+
+	internal static readonly DependencyProperty TextDecorationsProperty = Font.TextDecorationsProperty.AddOwner(typeof(Run),
+		   new FrameworkPropertyMetadata(new TextDecorationCollection(),
+			   FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.Inherits));
+
+	internal TextDecorationCollection TextDecorations
+	{
+		get => (TextDecorationCollection)GetValue(TextDecorationsProperty);
+		set => SetValue(TextDecorationsProperty, value);
+	}
 	#endregion
 
 	#region Methods
@@ -66,6 +74,8 @@ public class Run : BaseElement
 			//}
 		};
 
+		_format.SetTextDecorations(TextDecorations);
+
 		return new Size(_format.WidthIncludingTrailingWhitespace, _format.Height);
 	}
 
@@ -83,6 +93,7 @@ public class Run : BaseElement
 		return GetType() + $" text:{Text}";
 	}
 	#endregion
+
 
 	#region Private Fields
 	private FormattedText? _format;

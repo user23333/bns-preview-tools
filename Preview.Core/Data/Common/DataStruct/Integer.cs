@@ -21,7 +21,8 @@ public readonly struct Integer(double value) : IFormattable
 	#region Float
 	public readonly string FloatDot0 => $"{Value / 10: 0}";
 	public readonly string FloatDot1 => $"{Value / 10: 0.0}";
-	public readonly string FloatDot2 => $"{Value / 10: 0.00}";
+	public readonly string FloatDot2 => $"{Value / 100: 0.00}";
+	public readonly string FloatDot3 => $"{Value / 1000: 0.000}";
 	#endregion
 
 	#region Time

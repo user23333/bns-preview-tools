@@ -487,9 +487,6 @@ NEO 서버의 아이템 보상 스킬 미리 보기 증가 (설정에서 클래�
   <data name="Message_Tip" xml:space="preserve">
     <value>메시지</value>
   </data>
-  <data name="Name_About" xml:space="preserve">
-    <value>소개</value>
-  </data>
   <data name="Page_AbilityPage" xml:space="preserve">
     <value>역할 능력</value>
   </data>

@@ -26,21 +26,6 @@ public static partial class SequenceExtensions
 	}
 
 
-	public static string GetText<T>(this T value) where T : Enum
-	{
-		// get text according attribute
-		var text = value.GetAttribute<TextAttribute>()?.Alias.GetText();
-		if (text != null) return text;
-
-		// get description
-		var description = value.GetAttribute<DescriptionAttribute>()?.Description;
-		if (description != null) return description;
-
-		// don't return default
-		return value is 0 ? null : value.ToString();
-	}
-
-
 	public static object LoadSequence(Type type, string val)
 	{
 		return Enum.Parse(type, val.Replace('-', '_'), true);
@@ -62,12 +47,54 @@ public static partial class SequenceExtensions
 		}
 		return null;
 	}
-}
 
-public enum SequenceType
-{
-	None,
 
-	KeyCap,
-	KeyCommand,
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="seq"></param>
+	/// <param name="mask"></param>
+	/// <param name="offset"></param>
+	/// <param name="status">add or delete</param>
+	public static void SetFlag(this Enum seq, ref long mask, int offset, bool status = true)
+	{
+		// first left shift get flag value, the second left shift is to store in mask
+		var flag = (long)1 << (int)(object)seq;
+
+		if (status) mask |= flag << offset;
+		else mask &= ~flag << offset;
+	}
+
+	/// <summary>
+	///  Determines whether one or more bit fields are set in the current instance.
+	/// </summary>
+	/// <param name="seq"></param>
+	/// <param name="mask">An enumeration value</param>
+	/// <returns></returns>
+	public static bool InFlag(this Enum seq, int mask)
+	{
+		return (mask & (1 << (int)(object)seq)) != 0;
+	}
+
+
+	/// <summary>
+	/// Gets relative description
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <param name="value"></param>
+	/// <returns></returns>
+	public static string GetText<T>(this T value) where T : Enum
+	{
+		// get text according attribute
+		var text = value.GetAttribute<TextAttribute>()?.Alias.GetText();
+		if (text != null) return text;
+
+		// get description
+		var description = value.GetAttribute<DescriptionAttribute>()?.Description;
+		if (description != null) return description;
+
+		// don't return default
+		return value is 0 ? null : value.ToString();
+	}
 }

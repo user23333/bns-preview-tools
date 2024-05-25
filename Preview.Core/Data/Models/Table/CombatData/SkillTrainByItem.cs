@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using Xylia.Preview.Common.Extension;
+using Xylia.Preview.Properties;
 
 namespace Xylia.Preview.Data.Models;
 public sealed class SkillTrainByItem : ModelElement
@@ -20,22 +21,28 @@ public sealed class SkillTrainByItem : ModelElement
 	{
 		get
 		{
-			StringBuilder builder = new();
-
-			for (int x = 0; x < 6; x++)
+			// dislay raw data
+			if (Settings.Default.UseDebugMode)
 			{
-				var OriginSkill = this.OriginSkill[x].Instance;
-				var ChangeSkill = this.ChangeSkill[x].Instance;
-				if (OriginSkill is null) continue;
+				StringBuilder builder = new();
 
-				// newline 
-				if (builder.Length != 0) builder.Append("<br/>");
+				for (int x = 0; x < 6; x++)
+				{
+					var OriginSkill = this.OriginSkill[x].Instance;
+					var ChangeSkill = this.ChangeSkill[x].Instance;
+					if (OriginSkill is null) continue;
 
-				builder.Append($"<font name=\"00008130.UI.Vital_LightBlue\">{OriginSkill?.Name2}</font>武功变更为<font name=\"00008130.UI.Vital_LightBlue\">{ChangeSkill.Name2}</font><br/>");
-				ChangeSkill.Systematization.ForEach(s => builder.Append($"<arg id=\"skill-systematization:{s}\" p=\"id:skill-systematization.name2\"/> "));
+					// newline 
+					if (builder.Length != 0) builder.Append("<br/>");
+
+					builder.Append($"<font name=\"00008130.UI.Vital_LightBlue\">{OriginSkill?.Name2}</font>武功变更为<font name=\"00008130.UI.Vital_LightBlue\">{ChangeSkill.Name2}</font><br/>");
+					ChangeSkill.Systematization.ForEach(s => builder.Append($"<arg id=\"skill-systematization:{s}\" p=\"id:skill-systematization.name2\"/> "));
+				}
+
+				return builder.ToString();
 			}
 
-			return builder.ToString();
+			return Description.GetText();
 		}
 	}
 	#endregion

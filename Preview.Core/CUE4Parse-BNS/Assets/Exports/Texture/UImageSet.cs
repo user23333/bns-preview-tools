@@ -26,6 +26,6 @@ public sealed class UImageSet : USerializeObject
 	#endregion
 
 	#region Methods
-	public SKBitmap GetImage() => Image.Load<UTexture>()?.Decode()?.Clone((int)U, (int)V, (int)UL, (int)VL);
+	public SKBitmap GetImage() => Image?.Load<UTexture>()?.Decode()?.Clone((int)U, (int)V, (int)UL, (int)VL);
 	#endregion
 }

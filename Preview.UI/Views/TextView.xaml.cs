@@ -52,7 +52,7 @@ public partial class TextView
 	private async void Window_Loaded(object sender, RoutedEventArgs e)
 	{
 		if (UserSettings.Default.Text_LoadPrevious && 
-			MessageBox.Show(StringHelper.Get("TextView_LoadLast_Ask"), StringHelper.Get("Message_Tip"), MessageBoxButton.YesNo) == MessageBoxResult.OK)
+			MessageBox.Show(StringHelper.Get("TextView_LoadLast_Ask"), StringHelper.Get("Message_Tip"), MessageBoxButton.YesNo) == MessageBoxResult.Yes)
 		{
 			OldSource = UserSettings.Default.Text_OldPath;
 			NewSource = UserSettings.Default.Text_NewPath;

@@ -29,7 +29,9 @@ public abstract class ElementBaseDefinition
 		_attributesDictionary = Attributes.ToDictionary(x => x.Name);
 		_expandedAttributesDictionary = ExpandedAttributes.ToDictionary(x => x.Name);
 
-		ExpandedAttributes = [.. ExpandedAttributes.OrderBy(o => o.Type == AttributeType.TNative)
+		//sort
+		ExpandedAttributes = [.. ExpandedAttributes.OrderBy(o => !o.IsKey)
+			.ThenBy(o => o.Type == AttributeType.TNative)
 			.ThenBy(o => Regex.Replace(o.Name, @"\d+", match => match.Value.PadLeft(4, '0')))];
 	}
 

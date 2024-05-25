@@ -1,9 +1,6 @@
-﻿using System.IO;
-using System.Windows;
+﻿using System.Windows;
 using Microsoft.Win32;
 using Ookii.Dialogs.Wpf;
-using Xylia.Preview.Common.Extension;
-using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.UI.ViewModels;
 
 namespace Xylia.Preview.UI.Views;
@@ -13,6 +10,9 @@ public partial class SettingsView : Window
 	{
 		DataContext = UserSettings.Default;
 		InitializeComponent();
+#if !DEBUG
+		Models.Visibility = Visibility.Collapsed;
+#endif
 	}
 
 	#region Methods

@@ -14,7 +14,7 @@ public class UFontAttribute : USerializeObject
 	{
 		base.Deserialize(Ar, validPos);
 
-		if(this.TryGetValue(out FStructFallback FontAttributes, "FontAttributes"))
+		if (this.TryGetValue(out FStructFallback FontAttributes, "FontAttributes"))
 		{
 			Italic = FontAttributes.GetOrDefault<bool>("Italic");
 			Shadow = FontAttributes.GetOrDefault<bool>("Shadow");

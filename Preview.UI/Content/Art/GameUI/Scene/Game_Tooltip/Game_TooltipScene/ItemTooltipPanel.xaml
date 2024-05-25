@@ -17,7 +17,7 @@
 	</BnsCustomWindowWidget.ExpansionComponentList>
 
 	<Overlay Width="400" HorizontalAlignment="Left">
-		<BnsCustomWindowWidget>
+		<BnsCustomWindowWidget Margin="0 0 0 10">
 			<BnsCustomLabelWidget Name="ItemName" String="{Binding ItemName}" d:String="Item Name Item Name" FontSize="18" />
 			<BnsCustomLabelWidget Name="Category" String="{Binding GameCategory3, Converter={TextResource}}" d:String="카테고리카테" LayoutData.Anchors="1 0 1 0" />
 			<BnsCustomImageWidget Name="ItemIcon" LayoutData.Offsets="0 0 80 80">
@@ -72,6 +72,21 @@
 				</BnsCustomLabelWidget.VerticalResizeLink>
 			</BnsCustomLabelWidget>
 		</BnsCustomWindowWidget>
+
+		<BnsCustomWindowWidget Name="SetItemEffect">
+			<BnsCustomLabelWidget Name="SetItemEffect_Name" String="SetItemEffect.Name" />
+			<BnsCustomLabelWidget Name="SetItemEffect_Title" String="SetItemEffect.Title" MetaData="textref=UI.ItemTooltip.SetItemEffect.Title">
+				<BnsCustomLabelWidget.VerticalResizeLink>
+					<ResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" Offset1="3" LinkWidgetName1="SetItemEffect_Name" />
+				</BnsCustomLabelWidget.VerticalResizeLink>
+			</BnsCustomLabelWidget>
+			<BnsCustomLabelWidget Name="SetItemEffect_Effect">
+				<BnsCustomLabelWidget.VerticalResizeLink>
+					<ResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" Offset1="3" LinkWidgetName1="SetItemEffect_Title" />
+				</BnsCustomLabelWidget.VerticalResizeLink>
+			</BnsCustomLabelWidget>
+		</BnsCustomWindowWidget>
+
 
 		<BnsCustomLabelWidget Name="ItemDescription7" d:String="Item Description7" />
 		<BnsCustomWindowWidget Name="Combat_Holder_Parent">

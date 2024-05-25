@@ -12,54 +12,31 @@ public class SkillTooltipAttribute : ModelElement
 	public enum ArgTypeSeq
 	{
 		None,
-
 		DamagePercentMinMax,
-
 		DamagePercent,
-
 		Time,
-
 		StackCount,
-
 		Effect,
-
 		HealPercent,
-
 		DrainPercent,
-
 		Skill,
-
 		ConsumePercent,
-
 		ProbabilityPercent,
-
 		StanceType,
-
 		Percent,
-
 		Counter,
-
 		Distance,
-
 		KeyCommand,
-
 		Number,
-
 		TextAlias,
-
 		rHypermove,
-
 		rHealPercent,
-
 		rHealDiff,
-
 		rShieldPercent,
-
 		rShieldDiff,
-
 		rSupportPercent,
-
 		rSupportDiff,
+		COUNT
 	}
 
 	public Ref<Text> Text { get; set; }
@@ -76,9 +53,9 @@ public class SkillTooltipAttribute : ModelElement
 		Damage,
 		HpDrain,
 		HealPercent,
+		COUNT
 	}
 	#endregion
-
 
 	#region Methods
 	public override string ToString() => ToString([], 0);
@@ -130,6 +107,7 @@ public class SkillTooltipAttribute : ModelElement
 		return IconTexture.Parse(Icon)?.Tag + Text.GetText(arguments);
 	}
 	#endregion
+
 
 	#region Helpers
 	internal static string GetDamageInfo(int vmin, int vmax, short AttributeCoefficient = 0)

@@ -50,8 +50,8 @@ public static class TableDefinitionHelper
 		var maxid = (tableNode.Attributes["maxid"]?.Value).ToInt32();
 		var version = TableHeader.ParseVersion(tableNode.GetAttribute("version"));
 		var module = (TableModule)(tableNode.Attributes["module"]?.Value).ToInt32();
+		var pattern = tableNode.Attributes["pattern"]?.Value ??  $"{name.TitleCase()}Data*.xml";
 		#endregion
-
 
 		#region els
 		List<ElementDefinition> els = [];
@@ -211,12 +211,14 @@ public static class TableDefinitionHelper
 		}
 		#endregion
 
+
 		#region table
 		return new TableDefinition
 		{
 			Name = name,
-			Module = module,
 			Type = type,
+			Pattern = pattern,
+			Module = module,
 			MajorVersion = version.Item1,
 			MinorVersion = version.Item2,
 

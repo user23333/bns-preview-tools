@@ -23,37 +23,15 @@ public partial class Tables
 		Console.WriteLine(PublicKey);
 	}
 
+	
 	[TestMethod]
-	public void ClassicLevel()
+	[DataRow("MH_MusinTower_0002")]
+	public void NpcTest(string alias)
 	{
-		int day = 0, UsedExp = 0;
-		var table = Database.Provider.GetTable<Level>();
-		foreach (var record in table.Where(x => x.level >= 36))
-		{
-			// get exp for next level
-			var vitality = record.TencentVitalityMax[0];
-			int exp = (table[record.level + 1]?.Exp ?? 0) - record.Exp;
+		var record = Database.Provider.GetTable<Npc>()[alias];
 
-			// get result
-			if (UsedExp + exp < vitality)
-			{
-				UsedExp += exp;
-			}
-			else
-			{
-				day++;
-
-				var exceed = vitality - UsedExp;
-				UsedExp = exp - exceed;
-
-				Console.WriteLine($"{day} | {record.level} | {(float)exceed / exp:P0}");
-			}
-		}
-	}
-
-	[TestMethod]
-	public void Test()
-	{
-
+		Console.WriteLine(record.Attributes["defend-power-creature-value"]);
+		Console.WriteLine(record.Attributes["defend-parry-value-modify"]);
+		Console.WriteLine(record.Attributes["defend-dodge-value-modify"]);  
 	}
 }

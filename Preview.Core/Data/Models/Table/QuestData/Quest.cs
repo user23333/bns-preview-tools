@@ -27,7 +27,6 @@ public class Quest : ModelElement, IHaveName
         None,
         Field,
         Always,
-        [Name("solo-quartet")]
         SoloQuartet,
         Sextet,
     }
@@ -39,7 +38,7 @@ public class Quest : ModelElement, IHaveName
     public Ref<Cinematic> ReplayEpicZoneLeaveCinematic { get; set; }
 
 
-    public enum Category
+	public enum CategorySeq
     {
         Epic,
         Normal,
@@ -50,11 +49,11 @@ public class Quest : ModelElement, IHaveName
         TendencyTendency,
         Mentoring,
         Hunting,
-        COUNT
-    }
+		COUNT
+	}
 
-    public enum ContentType
-    {
+	public enum ContentTypeSeq
+	{
         None,
         Gather,
         Production,
@@ -66,8 +65,8 @@ public class Quest : ModelElement, IHaveName
         Special,
         SideEpisode,
         Hidden,
-        COUNT
-    }
+		COUNT
+	}
 
     public enum SaveType
     {
@@ -90,12 +89,17 @@ public class Quest : ModelElement, IHaveName
         [Name("except-completion-and-logout-save")]
         ExceptCompletionAndLogoutSave,
     }
-    #endregion
 
-    #region Methods
-    public string Name => this.Attributes["name2"]?.GetText();
+	public CategorySeq Category => Attributes["category"].ToEnum<CategorySeq>();
+	public ContentTypeSeq ContentType => Attributes["content-type"].ToEnum<ContentTypeSeq>();
+	public ResetType ResetType => Attributes["reset-type"].ToEnum<ResetType>();
+	#endregion
 
-	public string Title => this.Attributes["group2"]?.GetText();
+
+	#region Methods
+	public string Name => Attributes["name2"]?.GetText();
+
+	public string Title => Attributes["group2"]?.GetText();
 
 	public ImageProperty FrontIcon => new() { BaseImageTexture = GetImageTexture() };
 
@@ -105,20 +109,18 @@ public class Quest : ModelElement, IHaveName
 	{
 		string name;
 
-		bool repeat = Attributes["reset-type"].ToEnum<ResetType>() != ResetType.None;
-		var category = Attributes["category"].ToEnum<Category>();
-		var contentType = Attributes["content-type"].ToEnum<ContentType>();
-		switch (category)
+		bool repeat = ResetType != ResetType.None;
+		switch (Category)
 		{
-			case Category.Epic: name = "Map_Epic_Start"; break;
-			case Category.Job: name = "Map_Job_Start"; break;
-			case Category.Dungeon: return null;
-			case Category.Attraction: name = "Map_attraction_start"; break;
-			case Category.TendencySimple: name = "Map_System_start"; break;
-			case Category.TendencyTendency: name = "Map_System_start"; break;
-			case Category.Mentoring: name = "mento_mentoring_start"; break;
-			case Category.Hunting: name = repeat ? "Map_Hunting_repeat_start" : "Map_Hunting_start"; break;
-			case Category.Normal:
+			case CategorySeq.Epic: name = "Map_Epic_Start"; break;
+			case CategorySeq.Job: name = "Map_Job_Start"; break;
+			case CategorySeq.Dungeon: return null;
+			case CategorySeq.Attraction: name = "Map_attraction_start"; break;
+			case CategorySeq.TendencySimple: name = "Map_System_start"; break;
+			case CategorySeq.TendencyTendency: name = "Map_System_start"; break;
+			case CategorySeq.Mentoring: name = "mento_mentoring_start"; break;
+			case CategorySeq.Hunting: name = repeat ? "Map_Hunting_repeat_start" : "Map_Hunting_start"; break;
+			case CategorySeq.Normal:
 			{
 				// faction quest
 				if (Attributes["main-faction"] != null)
@@ -127,13 +129,13 @@ public class Quest : ModelElement, IHaveName
 				}
 				else
 				{
-					name = contentType switch
+					name = ContentType switch
 					{
-						ContentType.Festival => repeat ? "Map_Festival_repeat_start" : "Map_Festival_start",
-						ContentType.Duel or ContentType.PartyBattle => repeat ? "Map_Faction_repeat_start" : "Map_Faction_start",
-						ContentType.SideEpisode => "Map_side_episode_start",
-						ContentType.Special => "Map_Job_Start",
-						ContentType.Hidden => "Map_Hidden_Start",
+						ContentTypeSeq.Festival => repeat ? "Map_Festival_repeat_start" : "Map_Festival_start",
+						ContentTypeSeq.Duel or ContentTypeSeq.PartyBattle => repeat ? "Map_Faction_repeat_start" : "Map_Faction_start",
+						ContentTypeSeq.SideEpisode => "Map_side_episode_start",
+						ContentTypeSeq.Special => "Map_Job_Start",
+						ContentTypeSeq.Hidden => "Map_Hidden_Start",
 						_ => repeat ? "Map_Repeat_start" : "Map_Normal_Start",
 					};
 				}
@@ -147,6 +149,21 @@ public class Quest : ModelElement, IHaveName
 		if (over) name += "_over";
 
 		return new MyFPackageIndex($"BNSR/Content/Art/UI/GameUI/Resource/GameUI_Map_Indicator/{name}");
+	}
+
+
+	public Quest GetNextQuest(JobSeq job = JobSeq.검사)
+    {
+		var completion = Completion?.FirstOrDefault();
+		if (completion is null) return null;
+
+		foreach (var NextQuest in completion.NextQuest)
+		{
+			var jobs = NextQuest.Job;
+            if (jobs is null || jobs.CheckSeq(job)) return NextQuest.Quest.Instance;
+		}
+
+        return null;
 	}
 	#endregion
 }

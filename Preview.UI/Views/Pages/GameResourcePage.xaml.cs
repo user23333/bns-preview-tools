@@ -2,10 +2,8 @@
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows;
-using System.Windows.Controls;
 using HandyControl.Controls;
 using SkiaSharp;
-
 using Xylia.Preview.UI.Helpers.Output.Textures;
 using Xylia.Preview.UI.ViewModels;
 
@@ -52,7 +50,7 @@ public partial class GameResourcePage
 	private async void Extract_Click(object sender, RoutedEventArgs e)
 	{
 		if (string.IsNullOrWhiteSpace(Selector.Text)) 
-			throw new WarningException("invalid path");
+			throw new WarningException(StringHelper.Get("Message_InvalidPath"));
 
 		DateTime dt = DateTime.Now;
 		Extract.IsEnabled = false;
@@ -72,20 +70,15 @@ public partial class GameResourcePage
 		folder = Path.Combine(folder, "Mods");
 
 
-		(sender as Control).IsEnabled = false;
+		Repack.IsEnabled = false;
 		await GameResourcePageViewModel.UeRepack(folder, [.. _viewModel.Packages]);
 
-		(sender as Control).IsEnabled = true;
+		Repack.IsEnabled = true;
 		Growl.Success("task completed");
 	}
 	#endregion
 
 	#region Icon
-	private void OutputGoodIcon(object sender, RoutedEventArgs e)
-	{
-		_viewModel.Run(new GoodIcon(UserSettings.Default.GameFolder, _viewModel.Icon_OutputFolder + @"\Goods"), null, 1);
-	}
-
 	private void OutputItemIcon(object sender, RoutedEventArgs e)
 	{
 		// filter
@@ -94,8 +87,41 @@ public partial class GameResourcePage
 		else if (this.FilterMode.IsChecked == true && !File.Exists(ItemListPath)) throw new WarningException(StringHelper.Get("IconOut_Error2"));
 
 		// format
+		var format = CheckFormat();
+
+		_viewModel.Run(new ItemIcon(UserSettings.Default.GameFolder, _viewModel.Icon_OutputFolder + @"\Items")
+		{
+			ChvPath = ItemListPath,
+			UseBackground = this.UseBackground.IsChecked == true,
+			IsWhiteList = this.FilterMode.IsChecked == true,
+
+		}, format, 0);
+	}
+
+	private void OutputGoodIcon(object sender, RoutedEventArgs e)
+	{
+		_viewModel.Run(new GoodIcon(UserSettings.Default.GameFolder, _viewModel.Icon_OutputFolder + @"\Goods"), string.Empty, 1);
+	}
+
+	private void OutputSkillIcon(object sender, RoutedEventArgs e)
+	{
+		var format = CheckFormat();
+
+		_viewModel.Run(new SkillIcon(UserSettings.Default.GameFolder, _viewModel.Icon_OutputFolder + @"\Skills"), format, 2);
+	}
+
+
+	/// <summary>
+	/// check format string
+	/// </summary>
+	/// <returns></returns>
+	private string CheckFormat()
+	{
 		var format = this.NameFormat.Text;
-		if (string.IsNullOrWhiteSpace(format) || !format.Contains('[')) throw new WarningException(StringHelper.Get("IconOut_Error3"));
+		if (string.IsNullOrWhiteSpace(format) || !format.Contains('[')) 
+		{
+			throw new WarningException(StringHelper.Get("IconOut_Error3"));
+		}
 		else
 		{
 			format = format.ToLower();
@@ -103,14 +129,7 @@ public partial class GameResourcePage
 			format = new Regex(@"\s+\]", RegexOptions.Singleline).Replace(format, "]");
 		}
 
-
-		_viewModel.Run(new ItemIcon(UserSettings.Default.GameFolder, _viewModel.Icon_OutputFolder + @"\Items")
-		{
-			ChvPath = ItemListPath,
-			UseBackground = this.UseBackground.IsChecked == true,
-			isWhiteList = this.FilterMode.IsChecked == true,
-
-		}, format, 0);
+		return format!;
 	}
 	#endregion
 

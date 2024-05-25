@@ -75,5 +75,5 @@ attributes of the record
 + Icon
 + Time32
 + Time64
-+ XUnknown1
-+ XUnknown2
++ TimeUniversal (XUnknown1)
++ ObjectPath (XUnknown2)

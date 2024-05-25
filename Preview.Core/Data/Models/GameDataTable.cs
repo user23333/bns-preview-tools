@@ -48,7 +48,7 @@ public class GameDataTable<T> : IEnumerable<T>, IEnumerable, IDisposable where T
 		get => LoadElement(Source[alias]);
 	}
 
-	protected T LoadElement(Record record) => record?.As<T>(Helper);
+	protected virtual T LoadElement(Record record) => record?.As<T>(Helper);
 	#endregion
 
 
@@ -60,7 +60,7 @@ public class GameDataTable<T> : IEnumerable<T>, IEnumerable, IDisposable where T
 	public void Dispose()
 	{
 		Source.Dispose();
-		Elements?.Clear();
+		elements?.Clear();
 
 		GC.SuppressFinalize(this);
 	}

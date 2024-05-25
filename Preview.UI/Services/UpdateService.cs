@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.IO;
+using System.Text;
 using System.Windows;
 using AutoUpdaterDotNET;
 using CUE4Parse.UE4.Pak;
@@ -13,9 +14,12 @@ using MessageBox = HandyControl.Controls.MessageBox;
 namespace Xylia.Preview.UI.Services;
 internal class UpdateService : IService
 {
-	#region Static Methods
 	const string APP_NAME = "bns-preview-tools";
+	const int TIMEOUT = 10000;
 	internal static bool ShowLog { get; private set; } = false;
+
+	#region IService
+	static Timer? CheckThread;
 
 	static UpdateService()
 	{
@@ -23,10 +27,12 @@ internal class UpdateService : IService
 		using RegistryKey hkcu = Registry.CurrentUser;
 		using RegistryKey softWare = hkcu.CreateSubKey($@"Software\Xylia\{APP_NAME}", true);
 
-		ShowLog = softWare.GetValue("Version")?.ToString() != VersionHelper.InternalVersion.ToString();
+		// check version
+		var version = VersionHelper.InternalVersion;
+		ShowLog = softWare.GetValue("Version")?.ToString() != version.ToString();
 
 		softWare.SetValue("ExecutablePath", AppDomain.CurrentDomain.BaseDirectory, RegistryValueKind.String);
-		softWare.SetValue("Version", VersionHelper.InternalVersion, RegistryValueKind.String);
+		softWare.SetValue("Version", version, RegistryValueKind.String);
 		#endregion
 
 #if DEVELOP
@@ -35,28 +41,37 @@ internal class UpdateService : IService
 		Growl.Info(StringHelper.Get("Application_VersionTip1"));
 #endif
 		AutoUpdater.RemindLaterTimeSpan = 0;
+		AutoUpdater.ReportErrors = true;
+		AutoUpdater.DownloadPath = Path.Combine(Environment.CurrentDirectory, "update");
 		AutoUpdater.ParseUpdateInfoEvent += ParseUpdateInfoEvent;
 		AutoUpdater.CheckForUpdateEvent += CheckForUpdateEvent;
 	}
 
+	public bool Register()
+	{
+		AutoUpdater.Start($"https://tools.bnszs.com/api/update?app={APP_NAME}&version={VersionHelper.InternalVersion}&mode={UserSettings.Default.UpdateMode}");
+		CheckThread = new Timer(f => CheckForUpdateEvent(UpdateInfoArgs.Timeout), null, TIMEOUT, Timeout.Infinite);
+		return true;
+	}
+
 	private static void ParseUpdateInfoEvent(ParseUpdateInfoEventArgs args)
 	{
+		CheckThread?.Dispose();
 		args.UpdateInfo = JsonConvert.DeserializeObject<UpdateInfoArgs>(args.RemoteData);
 	}
 
-	private static void CheckForUpdateEvent(UpdateInfoEventArgs args)
+	private static void CheckForUpdateEvent(UpdateInfoEventArgs args2)
 	{
-		if (args is UpdateInfoArgs args2)
-			CheckForUpdateEvent(args2);
-	}
-
-	private static void CheckForUpdateEvent(UpdateInfoArgs args)
-	{
-		if (args.CurrentVersion is null)
+		if (args2 is not UpdateInfoArgs args || args.CurrentVersion is null)
 		{
-			Log.Error(args.Error.Message);
-			Growl.Error(StringHelper.Get("Application_VersionTip3"));
-			MessageBox.Show(StringHelper.Get("Application_VersionTip3"), icon: MessageBoxImage.Error);
+			Log.Error(args2.Error.Message);
+
+			// retry or exit
+			if (MessageBox.Show(StringHelper.Get("Application_VersionTip3"), StringHelper.Get("Message_Tip"), MessageBoxButton.OKCancel, MessageBoxImage.Error) == MessageBoxResult.OK)
+			{
+				new UpdateService().Register();
+				return;
+			}
 
 			Environment.Exit(500);
 		}
@@ -76,7 +91,7 @@ internal class UpdateService : IService
 			Growl.Ask(StringHelper.Get("Application_VersionTip2",
 				StringHelper.Get("ProductName"),
 				StringHelper.Get("Settings_UpdateMode_" + UserSettings.Default.UpdateMode.ToString()),
-				args.CurrentVersion, 
+				args.CurrentVersion,
 				args.InstalledVersion), isConfirmed =>
 				{
 					if (isConfirmed && AutoUpdater.DownloadUpdate(args))
@@ -88,27 +103,23 @@ internal class UpdateService : IService
 	}
 	#endregion
 
-	#region Structs
+	#region Helpers
 	class UpdateInfoArgs : UpdateInfoEventArgs
 	{
 		public int NoticeID { get; set; }
 		public string? Notice { get; set; }
 		public string? Signature { get; set; }
+
+		public static UpdateInfoArgs Timeout => new()
+		{
+			Error = new TimeoutException(),
+		};
 	}
 
 	internal enum UpdateMode
 	{
 		Stabble,
 		Beta,
-	}
-	#endregion
-
-
-	#region IService
-	public bool Register()
-	{
-		AutoUpdater.Start($"https://tools.bnszs.com/api/update?app={APP_NAME}&version={VersionHelper.InternalVersion}&mode={UserSettings.Default.UpdateMode}");
-		return true;
 	}
 	#endregion
 }

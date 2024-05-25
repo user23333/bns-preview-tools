@@ -1,5 +1,5 @@
 ﻿namespace Xylia.Preview.Data.Models.Sequence;
-public enum Flag
+public enum EffectFlag
 {
 	None,
 	Stun,

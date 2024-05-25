@@ -38,11 +38,12 @@ public class DefaultProvider : Datafile, IDataProvider
         ReadFrom(XmlData.SearchFiles(PATH.Datafile(Is64Bit)).FirstOrDefault()?.Data, Is64Bit);
         ReadFrom(LocalData?.SearchFiles(PATH.Localfile(Is64Bit)).FirstOrDefault()?.Data, Is64Bit);
 
-        Tables.Add(new() { Name = "quest", SearchPattern = @"quest\questdata*.xml" });
-        Tables.Add(new() { Name = "contextscript", SearchPattern = @"skill3_contextscriptdata*.xml" });
-        Tables.Add(new() { Name = "skill-training-sequence", SearchPattern = @"skilltrainingsequencedata*.xml" });
-        Tables.Add(new() { Name = "summoned-sequence", SearchPattern = @"summonedsequencedata*.xml" });
-        Tables.Add(new() { Name = "tutorialskillsequence", SearchPattern = @"tutorialskillsequencedata*.xml" });
+        // raw table
+        Tables.Add(new() { Name = "quest" });
+        Tables.Add(new() { Name = "contextscript" });
+        Tables.Add(new() { Name = "skill-training-sequence" });
+        Tables.Add(new() { Name = "summoned-sequence" });
+        Tables.Add(new() { Name = "tutorialskillsequence" });
 
         // surveyquestions
         #endregion
@@ -108,7 +109,7 @@ public class DefaultProvider : Datafile, IDataProvider
 
         // Due to incomplete definition, local may missing table
         // UserCommand remove at UE4
-        var raw = this.Tables.Where(x => x.SearchPattern != null);
+        var raw = this.Tables.Where(x => !x.IsBinary);
         var local = this.Tables.Where(x => x.Name == "petition-faq-list" || x.Name == "survey" || x.Name == "text" || (false && x.Name == "user-command"));
         var xml = this.Tables.Except(local).Except(raw);
 

@@ -1,12 +1,12 @@
-using CUE4Parse.BNS.Assets.Exports;
-using CUE4Parse.UE4.Objects.Core.Math;
-using CUE4Parse.UE4.Objects.UObject;
 using System.ComponentModel;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using CUE4Parse.BNS.Assets.Exports;
+using CUE4Parse.UE4.Objects.Core.Math;
+using CUE4Parse.UE4.Objects.UObject;
 using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models;
@@ -74,7 +74,7 @@ public partial class Legacy_MapWindowPanel
 		MapInfo.IsSelected = true;
 
 		//MapWindow_MapHolder.Width = MapWindow_MapHolder.Height = MapInfo.ImageSize;
-		MapWindow_QuestInfo.SetVisibility(false && MapWindow_Minimap.QuestCount > 0);
+		MapWindow_QuestInfo.SetVisiable(false && MapWindow_Minimap.QuestCount > 0);
 		MapWindow_QuestInfo.String.LabelText = $"当前区域任务总数: {MapWindow_Minimap.QuestCount}";
 	}
 

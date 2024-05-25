@@ -12,7 +12,7 @@ namespace Xylia.Preview.UI.Documents.Primitives;
 /// <summary>
 /// implementation of text documents.
 /// </summary>
-internal class TextContainer
+public class TextContainer
 {
 	#region Constructors
 	static TextContainer()
@@ -129,7 +129,7 @@ internal class TextContainer
 		return element;
 	}
 
-	internal static string? Cut(string text)
+	public static string? Cut(string text)
 	{
 		if (text is null) return null;
 

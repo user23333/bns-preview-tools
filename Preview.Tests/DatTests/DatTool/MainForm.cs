@@ -303,8 +303,7 @@ public partial class MainForm : Form
 				Parallel.ForEach(provider.Tables, table =>
 				{
 					Console.WriteLine($"输出配置文件: {Count++,-3}/{provider.Tables.Count}...{Count * 100 / provider.Tables.Count,3}%  (ListId: {table.Type})");
-					if (table.SearchPattern is not null) return;
-
+					if (!table.IsBinary) return;
 
 					string FilePath = $@"{folder}\{table.Type}";
 					if (provider.Detect.TryGetName(table.Type, out string TypeName) && TypeName != null) FilePath += $" ({TypeName})";

@@ -9,7 +9,7 @@ using Xylia.Preview.Data.Engine.Definitions;
 using MessageBox = HandyControl.Controls.MessageBox;
 
 namespace Xylia.Preview.UI.Helpers;
-public class LocalProvider(string Source) : DefaultProvider
+public class LocalProvider(string? Source) : DefaultProvider
 {
 	#region Properties
 	/// <summary>
@@ -39,8 +39,13 @@ public class LocalProvider(string Source) : DefaultProvider
 		switch (ext)
 		{
 			case ".xml" or ".x16":
-				Tables.Add(new() { Owner = this, Name = "text", SearchPattern = Source });
+			{
+				var definition = definitions["text"];
+				definition.Pattern = Source;
+
+				Tables.Add(new Table() { Owner = this, Name = "text", Definition = definition });
 				break;
+			}
 
 			case ".dat":
 			{
@@ -51,11 +56,10 @@ public class LocalProvider(string Source) : DefaultProvider
 				ReadFrom(LocalData.SearchFiles(PATH.Localfile(Is64Bit)).FirstOrDefault()?.Data, Is64Bit);
 
 				// detect text table type
-				if (definitions.HasHeader) Detect = new DatafileDirect(definitions.Header);
-				else Detect = new DatafileDetect(this, definitions);
+				Detect = definitions.HasHeader ? new DatafileDirect(definitions.Header) : new DatafileDetect(this, definitions);
 				Detect.ParseType(definitions);
+				break;
 			}
-			break;
 		}
 	}
 	#endregion

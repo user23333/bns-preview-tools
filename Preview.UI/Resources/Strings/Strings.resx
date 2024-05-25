@@ -218,7 +218,19 @@
     <value>Github</value>
   </data>
   <data name="Application_UpdateLog" xml:space="preserve">
-    <value>[3.1.0]
+    <value>[3.1.2]
+Optimize item preview support equip-gem abilities and set effects.
+Fix filtering don't work when switching to a first level node in item preview.
+Optimize filtering function for quest preview.
+Optimize message when update failed.
+
+[3.1.1]
+Fix fixed-job gear reward skill also follow settings.
+Optimize store preview interface.
+Optimize partial tips for text editor.
+Optimize map preview function.
+
+[3.1.0]
 Add theme system.
 Add support NEO Classic client.
 Add skill and reward preview.
@@ -406,6 +418,12 @@ Expand the response rectange with item preview.</value>
   <data name="IconOut_NameFormat" xml:space="preserve">
     <value>Output name format</value>
   </data>
+  <data name="IconOut_Skills" xml:space="preserve">
+    <value>Extract Skill Icon</value>
+  </data>
+  <data name="IconOut_TaskBegin" xml:space="preserve">
+    <value>Task begin...</value>
+  </data>
   <data name="IconOut_TaskCancel" xml:space="preserve">
     <value>There is a task already being executed, are you sure to cancel it?</value>
   </data>
@@ -494,10 +512,10 @@ Expand the response rectange with item preview.</value>
     <value>Grade6</value>
   </data>
   <data name="MergeIcon_Grade7" xml:space="preserve">
-    <value>Grade7</value>
+    <value>Legend</value>
   </data>
   <data name="MergeIcon_Grade8" xml:space="preserve">
-    <value>Grade8</value>
+    <value>Ancient</value>
   </data>
   <data name="MergeIcon_Grade9" xml:space="preserve">
     <value>Grade9</value>
@@ -507,9 +525,6 @@ Expand the response rectange with item preview.</value>
   </data>
   <data name="Message_Tip" xml:space="preserve">
     <value>Message</value>
-  </data>
-  <data name="Name_About" xml:space="preserve">
-    <value>About</value>
   </data>
   <data name="Page_AbilityPage" xml:space="preserve">
     <value>Ability</value>
@@ -591,7 +606,7 @@ Expand the response rectange with item preview.</value>
     <value>Currently set to automatic switching, do you confirm the change?</value>
   </data>
   <data name="Settings_NightMode_Auto" xml:space="preserve">
-    <value>Auto</value>
+    <value>Follow Time</value>
   </data>
   <data name="Settings_NightMode_Day" xml:space="preserve">
     <value>Day</value>
@@ -788,5 +803,41 @@ Please note that do not modify the order of nodes</value>
   </data>
   <data name="DatabaseStudio_Offset" xml:space="preserve">
     <value>Binary Offset</value>
+  </data>
+  <data name="Message_InvalidPath" xml:space="preserve">
+    <value>Please select a valid file.</value>
+  </data>
+  <data name="Settings_Tab_Models" xml:space="preserve">
+    <value>Models (Lab)</value>
+  </data>
+  <data name="Settings_KeepLogs" xml:space="preserve">
+    <value>Log keep time</value>
+  </data>
+  <data name="Text_Time_Day" xml:space="preserve">
+    <value> Day(s)</value>
+  </data>
+  <data name="Text_Time_Hour" xml:space="preserve">
+    <value> Hour(s)</value>
+  </data>
+  <data name="Text_Time_Minute" xml:space="preserve">
+    <value> Minute(s)</value>
+  </data>
+  <data name="Text_Time_None" xml:space="preserve">
+    <value>Forever</value>
+  </data>
+  <data name="Text_Time_Second" xml:space="preserve">
+    <value>Second(s)</value>
+  </data>
+  <data name="QuestJournal_Category" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="QuestJournal_ContentType" xml:space="preserve">
+    <value>Content Type</value>
+  </data>
+  <data name="QuestJournal_ResetType" xml:space="preserve">
+    <value>Reset Type</value>
+  </data>
+  <data name="AbilityName.DefendPowerCreatureValue" xml:space="preserve">
+    <value>DefendPowerPercent</value>
   </data>
 </root>

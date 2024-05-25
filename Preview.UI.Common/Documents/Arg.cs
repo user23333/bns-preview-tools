@@ -19,11 +19,11 @@ public class Arg : BaseElement
 	#region Methods
 	protected internal override void Load(HtmlNode node)
 	{
-		this.P = node.GetAttributeValue("p", null);
-		this.Id = node.GetAttributeValue("id", null);
-		this.Seq = node.GetAttributeValue("seq", null);
-		this.Link = node.GetAttributeValue("link", false);
-		this.Argument = new TextArguments.Argument(P, Id, Seq);
+		P = node.GetAttributeValue("p", null);
+		Id = node.GetAttributeValue("id", null);
+		Seq = node.GetAttributeValue("seq", null);
+		Link = node.GetAttributeValue("link", false);
+		Argument = new TextArguments.Argument(P, Id, Seq);
 	}
 
 	protected override Size MeasureCore(Size availableSize)

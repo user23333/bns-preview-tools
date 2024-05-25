@@ -24,7 +24,7 @@ public sealed class RecordTooltip : ContentControl
 
 	public RecordTooltip()
 	{
-		Loaded += OnLoaded;
+		DataContextChanged += OnDataContextChanged;
 	}
 	#endregion
 
@@ -38,10 +38,10 @@ public sealed class RecordTooltip : ContentControl
 		if (parent != null) parent.Background = new SolidColorBrush(BnsCustomWindowWidget.BackgroundColor);
 	}
 
-	private void OnLoaded(object sender, RoutedEventArgs e)
+	private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
 	{
 		FrameworkElement? visualTree;
-		switch (DataContext)
+		switch (e.NewValue)
 		{
 			case ModelElement model when ModelTemplate.TryGetValue(model.GetBaseType(), out var template):
 				visualTree = template.Value;

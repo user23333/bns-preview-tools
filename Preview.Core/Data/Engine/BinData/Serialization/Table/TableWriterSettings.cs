@@ -7,13 +7,6 @@ namespace Xylia.Preview.Data.Engine.BinData.Serialization;
 /// </summary>
 public sealed class TableWriterSettings
 {
-    internal static readonly TableWriterSettings DefaultSettings = new()
-    {
-        ReleaseSide = ReleaseSide.Client,
-        Encoding = Encoding.UTF8,
-    };
-
-
     public ReleaseSide ReleaseSide { get; set; }
 
     public Encoding Encoding { get; set; }

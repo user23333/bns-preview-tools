@@ -10,13 +10,12 @@ using static Xylia.Preview.Data.Models.Item.Grocery;
 namespace Xylia.Preview.UI.Helpers.Output.Textures;
 public sealed class ItemIcon(string GameFolder, string OutputFolder) : IconOutBase(GameFolder, OutputFolder)
 {
-    #region Constructor
+    #region Properties
+    public bool UseBackground { get; set; } = false;
 
-    public bool UseBackground = false;
+    public bool IsWhiteList { get; set; }= false;
 
-    public bool isWhiteList = false;
-
-    public string? ChvPath = null;
+    public string? ChvPath { get; set; } = null;
     #endregion
 
 
@@ -31,14 +30,14 @@ public sealed class ItemIcon(string GameFolder, string OutputFolder) : IconOutBa
             token.ThrowIfCancellationRequested();
 
             #region Data
-            var @ref = record.PrimaryKey;
-            if (lst.CheckFailed(@ref, isWhiteList)) return;
+            var key = record.PrimaryKey;
+            if (lst.CheckFailed(key, IsWhiteList)) return;
 
             var alias = record.Attributes.Get<string>("alias");
-            var ItemGrade = record.Attributes.Get<sbyte>("item-grade");
+            var grade = record.Attributes.Get<sbyte>("item-grade");
             var icon = record.Attributes["icon"]?.ToString();
 
-            var Text = record.Attributes.Get<Record>("name2")?.Attributes["text"]?.ToString();
+            var name2 = record.Attributes.Get<Record>("name2")?.Attributes["text"]?.ToString();
             var GroceryType = record.SubclassType == 2 ? record.Attributes["grocery-type"]?.ToEnum<GroceryTypeSeq>() : null;
 
             record.Dispose();
@@ -53,15 +52,10 @@ public sealed class ItemIcon(string GameFolder, string OutputFolder) : IconOutBa
 
                 if (UseBackground)
                 {
-                    bitmap = IconTexture.GetBackground(ItemGrade, provider)?.Image.Compose(bitmap);
+                    bitmap = IconTexture.GetBackground(grade, provider)?.Image.Compose(bitmap);
 
                     if (GroceryType == GroceryTypeSeq.Sealed) bitmap = bitmap.Compose(Weapon_Lock_04);
                 }
-                #endregion
-
-                #region file name
-                string MainId = @ref.Id.ToString();
-                string OutName = format.Replace("[alias]", alias).Replace("[id]", MainId).Replace("[name]", Text);
                 #endregion
 
                 #region tags
@@ -70,11 +64,12 @@ public sealed class ItemIcon(string GameFolder, string OutputFolder) : IconOutBa
                 //bitmap.SetPropertyItem(ProfileCopyright);
                 #endregion
 
-                Save(bitmap, OutName);
+                var path = format.Replace("[alias]", alias).Replace("[id]", key.Id.ToString()).Replace("[name]", name2);
+                Save(bitmap, path);
             }
             catch (Exception ee)
             {
-                logger.Error($"id: {@ref} [{Text}]  " + ee.Message);
+                logger.Error($"{key} [{name2}]  " + ee.Message);
             }
         });
     }

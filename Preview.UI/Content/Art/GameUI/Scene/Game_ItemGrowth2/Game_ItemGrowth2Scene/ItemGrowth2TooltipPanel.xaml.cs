@@ -24,9 +24,9 @@ public partial class ItemGrowth2TooltipPanel
 	#endregion
 
 	#region Methods
-	protected override void OnLoaded(RoutedEventArgs e)
+	protected override void OnDataChanged(DependencyPropertyChangedEventArgs e)
 	{
-		if (DataContext is not Record record) return;
+		if (e.NewValue is not Record record) return;
 		ItemGrowth2TooltipPanel_Contents.Items.OfType<UIElement>().ForEach(e => e.Visibility = Visibility.Collapsed);
 
 		// query

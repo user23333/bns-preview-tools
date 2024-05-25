@@ -33,7 +33,7 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
     #region Public Properties
     public event EventHandler<MapInfo>? MapChanged;
 
-    private static readonly Type Owner = typeof(BnsCustomMinimapWidget);
+    private static readonly System.Type Owner = typeof(BnsCustomMinimapWidget);
 
     public static readonly DependencyProperty MapInfoProperty = Owner.Register<MapInfo>(nameof(MapInfo), null,
         FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender, OnMapChanged);
@@ -137,7 +137,7 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
         {
             if (element.Tag is MapUnit.CategorySeq category)
             {
-                element.SetVisibility(UnitFilters.Contains(category));
+                element.SetVisiable(UnitFilters.Contains(category));
             }
         }
     }
@@ -345,8 +345,10 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
         size ??= new FVector2D(32, 32);
 
         if (widget.Tag is MapUnit.CategorySeq category)
-            widget.SetVisibility(UnitFilters.Contains(category));
-
+        {
+            widget.SetVisiable(UnitFilters.Contains(category));
+        }
+            
         LayoutData.SetAlignments(widget, new FVector2D(0.5f, 0.5f));
         LayoutData.SetOffsets(widget, new FLayoutData.Offset(offset.X, offset.Y, size.Value.X, size.Value.Y));
         Children.Add(widget);

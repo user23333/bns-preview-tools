@@ -59,7 +59,7 @@ public partial class LegacyItemStorePanel
 			if (ExtraCost != null)
 			{
 				var ItemBrand = ExtraCost.GetChild<BnsCustomImageWidget>("ItemBrand")!;
-				ItemBrand.SetVisibility(itemBuyPrice.ItemBrand != null);
+				ItemBrand.SetVisiable(itemBuyPrice.ItemBrand != null);
 				ItemBrand.ExpansionComponentList["IconImage"]?.SetValue(itemBuyPrice.ItemBrand?.FrontIcon);
 
 				DisposeItem_Initialized(ExtraCost.GetChild<BnsCustomImageWidget>("DisposeItem_1")!, itemBuyPrice.RequiredItem[0], itemBuyPrice.RequiredItemCount[0]);

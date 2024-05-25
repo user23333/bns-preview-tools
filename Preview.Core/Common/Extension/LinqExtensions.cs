@@ -4,10 +4,14 @@ namespace Xylia.Preview.Common.Extension;
 public static class LinqExtensions
 {
 	#region IEnumerable
-	public static void ForEach<T>(this IEnumerable<T> collection, Action<T> action)
+	public static void ForEach<T>(this IEnumerable<T> collection, Action<T> action, bool skipNull = true)
 	{
 		foreach (var item in collection)
+		{
+			if (skipNull && item is null) continue;
+
 			action(item);
+		}
 	}
 
 	public static List<T> Randomize<T>(this IEnumerable<T> source)
@@ -57,11 +61,11 @@ public static class LinqExtensions
 		array = For(size, func);
 	}
 
-	public static T[] For<T>(int Num, Func<int, T> func)
+	public static T[] For<T>(int size, Func<int, T> func)
 	{
-		var array = new T[Num];
-		for (int INDEX = 0; INDEX < Num; INDEX++)
-			array[INDEX] = func(INDEX + 1);
+		var array = new T[size];
+		for (int index = 0; index < size; index++)
+			array[index] = func(index + 1);
 
 		return array;
 	}

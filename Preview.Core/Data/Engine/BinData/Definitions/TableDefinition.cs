@@ -6,6 +6,11 @@ public class TableDefinition : TableHeader
 {
     public TableModule Module { get; set; }
 
+	/// <summary>
+	/// table search patterns 
+	/// </summary>
+    public string Pattern { get; set; }
+
     /// <summary>
     /// element definitions
     /// </summary>
@@ -47,6 +52,7 @@ public class TableDefinition : TableHeader
 			IsDefault = true,
 			Type = type,
 			Name = type.ToString(),
+			Pattern = type + "Data.xml"
 		};
 
 		var elRoot = new ElementDefinition() { Name = "table" };

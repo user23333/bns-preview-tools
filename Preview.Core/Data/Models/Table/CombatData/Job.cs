@@ -15,6 +15,6 @@ public sealed class Job : ModelElement
 	#region Methods
 	public static Job GetJob(JobSeq seq) => FileCache.Data.Provider.GetTable<Job>()[(byte)seq];
 
-	public static IEnumerable<JobSeq> GetPcJob() => Enum.GetValues<JobSeq>().Where(o => o > JobSeq.JobNone && o < JobSeq.PcMax);
+	public static IEnumerable<JobSeq> GetPcJob() => Enum.GetValues<JobSeq>().Where(x => x > JobSeq.JobNone && x < JobSeq.PcMax);
 	#endregion
 }

@@ -91,7 +91,7 @@ internal partial class ItemPageViewModel : ObservableObject
 	private void PreviewItem(string rule)
 	{
 		var panel = new Game_AuctionScene().AuctionPanel_C;
-		panel.NameFilter = rule;
+		panel.SetFilter(rule);
 		panel.Show();
 	}
 	#endregion

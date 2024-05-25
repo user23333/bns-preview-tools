@@ -97,6 +97,8 @@ public class Settings : INotifyPropertyChanged
 
 	public string OutputFolderResource { get => GetValue(); set => SetValue(value); }
 
+	public bool UseDebugMode { get => GetValue().ToBool(); set => SetValue(value); }
+
 	public bool UseUserDefinition { get => GetValue().ToBool(); set => SetValue(value); }
 
 	public bool PreviewLoadData { get => GetValue().ToBool(); set => SetValue(value); }

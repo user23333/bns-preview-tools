@@ -73,12 +73,11 @@ public class ProviderSerialize(IDataProvider Provider)
 		foreach (var table in Provider.Tables)
 		{
 			Stream[] files = null;
-			string pattern = table.SearchPattern ?? $"{table.Name.TitleCase()}Data*.xml";
 
 			try
 			{
 				bool modified = false;
-				files = root.GetFiles(pattern, SearchOption.AllDirectories).Select(file =>
+				files = root.GetFiles(table.Definition.Pattern, SearchOption.AllDirectories).Select(file =>
 				{
 					var stream = file.OpenRead();
 

@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Concurrent;
 using System.Data;
+using System.Text;
 using System.Xml;
 using K4os.Hash.xxHash;
 using Newtonsoft.Json;
 using Serilog;
+using Xylia.Preview.Common.Attributes;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Common.DataStruct;
@@ -23,13 +25,13 @@ namespace Xylia.Preview.Data.Engine.BinData.Models;
 [JsonConverter(typeof(TableConverter))]
 public class Table : TableHeader, IDisposable, IEnumerable<Record>
 {
-	#region Constructor
-	private TableDefinition definition;
-
+	#region Data
 	/// <summary>
 	/// table owner
 	/// </summary>
 	public IDataProvider Owner { get; set; }
+
+	private TableDefinition definition;
 
 	/// <summary>
 	/// data struct definition
@@ -49,10 +51,9 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 		}
 	}
 
-	public string SearchPattern { get; set; }
-	#endregion
 
-	#region Data
+	public bool IsBinary { get; internal set; }
+
 	internal TableArchive Archive { get; set; }
 
 	internal StringLookup GlobalString { get; set; }
@@ -66,7 +67,6 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 	/// TODO: Hack because idk where this padding is coming from
 	/// </summary>
 	internal byte[] Padding { get; set; }
-
 
 	protected List<Record> _records;
 
@@ -97,8 +97,8 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 		{
 			if (_records != null) return;
 
-			if (SearchPattern is null) LoadData();
-			else LoadXml(Owner.GetFiles(SearchPattern));
+			if (IsBinary) LoadData();
+			else LoadXml(Owner.GetFiles(Definition.Pattern));
 		}
 	});
 
@@ -229,6 +229,8 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 		get
 		{
 			if (_records == null) LoadAsync().Wait();
+
+			if (string.IsNullOrEmpty(alias)) return null;
 			if (Ref.TryPrase(alias, out var key)) return this[key];
 
 			lock (this)
@@ -252,12 +254,15 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 	{
 		var hash = new List<HashInfo>();
 
-		var name = $"{Name.TitleCase()}Data.xml";
+		var name = this.Definition.Pattern.Replace("*",null);
 		var path = Path.Combine(folder, name);
 		Directory.CreateDirectory(Path.GetDirectoryName(path));
 
-		settings ??= TableWriterSettings.DefaultSettings;
-		var data = WriteXml(settings);
+		var data = WriteXml(settings ?? new() 
+		{
+			ReleaseSide = ReleaseSide.Client,
+			Encoding = path.EndsWith(".x16", StringComparison.OrdinalIgnoreCase) ? Encoding.Unicode : Encoding.UTF8,
+		});
 		File.WriteAllBytes(path, data);
 
 		hash.Add(new HashInfo(name, XXH64.DigestOf(data)));

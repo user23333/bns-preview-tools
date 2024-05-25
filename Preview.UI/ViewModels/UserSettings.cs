@@ -49,6 +49,19 @@ internal partial class UserSettings : Settings
 	}
 
 	/// <summary>
+	/// Gets or sets Update Mode
+	/// </summary>
+	public UpdateMode UpdateMode
+	{
+		get => (UpdateMode)GetValue().ToInt32();
+		set
+		{
+			SetValue((int)value);
+			new UpdateService().Register();
+		}
+	}
+
+	/// <summary>
 	/// Gets or sets night mode
 	/// </summary>
 	public bool? NightMode
@@ -74,20 +87,6 @@ internal partial class UserSettings : Settings
 		}
 	}
 
-
-	/// <summary>
-	/// Gets or sets Update Mode
-	/// </summary>
-	public UpdateMode UpdateMode
-	{
-		get => (UpdateMode)GetValue().ToInt32();
-		set
-		{
-			SetValue((int)value);
-			new UpdateService().Register();
-		}
-	}
-
 	/// <summary>
 	/// Gets or sets <see cref="BnsCustomLabelWidget"/> Copy Mode
 	/// </summary>
@@ -99,6 +98,15 @@ internal partial class UserSettings : Settings
 			SetValue((int)value);
 			BnsCustomLabelWidget.CopyMode = value;
 		}
+	}
+
+	/// <summary>
+	/// Gets or sets log clear day
+	/// </summary>
+	public int KeepLogTime
+	{
+		get => int.TryParse(GetValue(), out var result) ? result : 15;
+		set => SetValue(value); 
 	}
 
 	public bool UsePerformanceMonitor
@@ -115,15 +123,13 @@ internal partial class UserSettings : Settings
 	#endregion
 
 	#region Preview
-	public ObservableCollection<JobSeq> Jobs => new(Xylia.Preview.Data.Models.Job.GetPcJob());
+	public ObservableCollection<JobSeq> Jobs => new(Data.Models.Job.GetPcJob());
 
 	public JobSeq Job
 	{
 		set => SetValue(value);
 		get => GetValue().ToEnum(JobSeq.검사);
 	}
-
-	public bool UseDebugMode { get => GetValue().ToBool(); set => SetValue(value); }
 
 	public bool Text_LoadPrevious { get => GetValue().ToBool(); set => SetValue(value); }
 	public string Text_OldPath { get => GetValue(); set => SetValue(value); }

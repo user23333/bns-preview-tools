@@ -111,7 +111,7 @@ public sealed class GameFileProvider : DefaultFileProvider, IDisposable
 
     public override async Task<T> LoadObjectAsync<T>(string objectPath)
     {
-        return ((await LoadObjectAsync(objectPath)) as T);
+        return (await LoadObjectAsync(objectPath)) as T;
     }
 
     private void LoadAssetRegistry()

@@ -55,11 +55,15 @@ public sealed class IconTexture : ModelElement
 			if (!short.TryParse(split[^1], out var index))
 				throw new Exception("get icon index failed: " + value);
 
-			db ??= FileCache.Data;
-			return db.Provider.GetTable<IconTexture>()[alias]?.GetIcon(index, pak);
+			return Parse(alias,index,db,pak);
 		}
 
 		return null;
+	}
+
+	public static ImageProperty Parse(string alias,short index, BnsDatabase db = null, IFileProvider pak = null)
+	{
+		return (db ?? FileCache.Data).Provider.GetTable<IconTexture>()[alias]?.GetIcon(index, pak);
 	}
 
 	public static ImageProperty GetBackground(sbyte grade, IFileProvider pak = null)

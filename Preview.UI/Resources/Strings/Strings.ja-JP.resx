@@ -487,9 +487,6 @@ NEO Classicクライアントのサポートを追加
   <data name="Message_Tip" xml:space="preserve">
     <value>メッセージをお待ちしています</value>
   </data>
-  <data name="Name_About" xml:space="preserve">
-    <value>について</value>
-  </data>
   <data name="Page_AbilityPage" xml:space="preserve">
     <value>キャラクターアビリティ</value>
   </data>

@@ -2,6 +2,10 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:converters="clr-namespace:Xylia.Preview.UI.Common.Converters">
 
+	<converters:Bool2EnumConverter x:Key="Bool2EnumConverter" />
+	<converters:Bool2VisibilityReConverter x:Key="Bool2VisibilityReConverter" />
+	<converters:Bool2VisibilityNullConverter x:Key="Bool2VisibilityNullConverter" />
+	
 	<converters:EnumConverter x:Key="EnumConverter" />
 	<converters:RatioConverter x:Key="RatioConverter" />
 

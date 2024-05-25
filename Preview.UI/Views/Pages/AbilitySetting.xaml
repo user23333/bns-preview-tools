@@ -4,16 +4,17 @@
 		xmlns:hc="https://handyorg.github.io/handycontrol"
         Title="AbilitySetting" Width="600" Height="400">
     <TabControl>
+		<!-- Factor -->
         <TabItem Header="Level Factor">
             <hc:UniformSpacingPanel Orientation="Vertical" Spacing="5" Margin="5">
                 <StackPanel Orientation="Horizontal">
                     <TextBox Name="Page1_Value1" Width="100" />
-                    <TextBox Name="Page1_Percent1" Width="50" />
+                    <TextBox Name="Page1_Percent1" Width="70" />
                     <TextBlock Text="%" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <TextBox Name="Page1_Value2" Width="100" />
-                    <TextBox Name="Page1_Percent2" Width="50" />
+					<TextBox Name="Page1_Percent2" Width="70" />
                     <TextBlock Text="%" />
                 </StackPanel>
 
@@ -26,6 +27,7 @@
             </hc:UniformSpacingPanel>
         </TabItem>
 
+		<!-- Params -->
         <TabItem Header="Level Params">
             <hc:UniformSpacingPanel Orientation="Vertical" Spacing="5" Margin="5">
                 <StackPanel Orientation="Horizontal">
