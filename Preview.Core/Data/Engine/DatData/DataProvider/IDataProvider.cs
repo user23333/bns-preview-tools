@@ -1,4 +1,5 @@
-﻿using Xylia.Preview.Data.Common.DataStruct;
+﻿using Xylia.Preview.Data.Common.Abstractions;
+using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Engine.BinData.Helpers;
 using Xylia.Preview.Data.Engine.BinData.Models;
 using Xylia.Preview.Data.Engine.BinData.Serialization;
@@ -9,9 +10,9 @@ namespace Xylia.Preview.Data.Engine.DatData;
 /// <summary>
 /// bns data package provider
 /// </summary>
-public interface IDataProvider : IDisposable
+public interface IDataProvider : IDisposable , ITextProvider
 {
-	#region Properties
+	#region Fields
 	/// <summary>
 	/// DataSource Name
 	/// </summary>
@@ -37,16 +38,25 @@ public interface IDataProvider : IDisposable
     /// </summary>
     TableCollection Tables { get; }
 
-    //AliasTable AliasTable { get; }
-    #endregion
+	//AliasTable AliasTable { get; }
+	#endregion
 
-    #region Methods
-    /// <summary>
-    /// Get raw file stream
-    /// </summary>
-    /// <remarks>The result will not be null</remarks>
-    /// <returns></returns>
-    Stream[] GetFiles(string pattern);
+	#region Properties
+	/// <summary>
+	/// Indicates whether the provider is a special server
+	/// </summary>
+	bool IsNeo => Locale.Publisher is EPublisher.ZNcs or EPublisher.ZTx;
+
+	string ITextProvider.this[string alias] => GetTable("text")[alias]?.Attributes.Get<string>("text");
+	#endregion
+
+	#region Methods
+	/// <summary>
+	/// Get raw file stream
+	/// </summary>
+	/// <remarks>The result will not be null</remarks>
+	/// <returns></returns>
+	Stream[] GetFiles(string pattern);
 
 	/// <summary>
 	/// Get table
@@ -78,11 +88,5 @@ public interface IDataProvider : IDisposable
 	/// <param name="folder"></param>
 	/// <param name="settings"></param>
 	public void WriteData(string folder, PublishSettings settings) => throw new NotImplementedException();
-
-
-	/// <summary>
-	/// Indicates whether the provider is a special server
-	/// </summary>
-	bool IsNeo => Locale.Publisher is EPublisher.ZNcs or EPublisher.ZTx;
 	#endregion
 }

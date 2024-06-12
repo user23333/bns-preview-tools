@@ -3,23 +3,22 @@
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Field | AttributeTargets.Property)]
 public class Side : Attribute
 {
-    public Side() => SideType = ReleaseSide.Client | ReleaseSide.Server;
+	public Side() => SideType = ReleaseSide.Client | ReleaseSide.Server;
 
-    public Side(ReleaseSide sideType) => SideType = sideType;
+	public Side(ReleaseSide sideType) => SideType = sideType;
 
 
 
-    public ReleaseSide SideType;
+	public ReleaseSide SideType;
 }
 
 
 [Flags]
 public enum ReleaseSide
 {
-    None = -1,
-    Client,
-
-    Server,
-    Achievement = Server + 1,
-    Rank = Server + 2,
+	None,
+	Client,
+	Server,
+	Achievement = Server + 1,
+	Rank = Server + 2,
 }

@@ -8,6 +8,21 @@ namespace Xylia.Preview.UI.Extensions;
 public static class ControlHelpers
 {
 	#region Common
+	// UIElement.PreviousArrangeRect property is internal
+	static readonly FieldInfo PreviousArrangeRect = typeof(UIElement).GetField("_finalRect", BindingFlags.NonPublic | BindingFlags.Instance)!;
+
+	public static Rect GetFinalRect(this UIElement element)
+	{
+		ArgumentNullException.ThrowIfNull(element);
+		return (Rect)PreviousArrangeRect!.GetValue(element)!;
+	}
+
+	public static void SetFinalRect(this UIElement element, Rect value)
+	{
+		ArgumentNullException.ThrowIfNull(element);
+		PreviousArrangeRect!.SetValue(element, value);
+	}
+
 	public static T? GetParent<T>(this DependencyObject reference) where T : Visual
 	{
 		while (true)
@@ -17,15 +32,6 @@ public static class ControlHelpers
 			if (reference is null) return default;
 			if (reference is T) return reference as T;
 		}
-	}
-
-	public static Rect GetFinalRect(this UIElement element)
-	{
-		// UIElement.PreviousArrangeRect property is internal
-		ArgumentNullException.ThrowIfNull(element);
-
-		var PreviousArrangeRect = typeof(UIElement).GetProperty("PreviousArrangeRect", BindingFlags.NonPublic | BindingFlags.Instance);
-		return (Rect)PreviousArrangeRect!.GetValue(element)!;
 	}
 
 	public static void SetVisiable(this FrameworkElement element, bool visible)

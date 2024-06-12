@@ -56,11 +56,7 @@ public class TableDefinition : TableHeader
 		};
 
 		var elRoot = new ElementDefinition() { Name = "table" };
-		var elRecord = new ElementDefinition
-		{
-			Name = "record",
-			Size = 8
-		};
+		var elRecord = new ElementDefinition { Name = "record", Size = 8 };
 
 		elRoot.Children.Add(elRecord);
 

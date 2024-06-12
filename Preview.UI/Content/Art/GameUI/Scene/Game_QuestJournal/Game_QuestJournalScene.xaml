@@ -3,5 +3,5 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:l="clr-namespace:Xylia.Preview.UI.GameUI.Scene.Game_QuestJournal">
 
-	<l:QuestJournalPanel x:Name="QuestJournalPanel_C" />
+	<!-- <l:QuestJournalPanel x:Name="QuestJournalPanel_C" /> -->
 </BnsCustomUISceneWidget>

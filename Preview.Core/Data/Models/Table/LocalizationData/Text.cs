@@ -5,7 +5,6 @@ using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using CUE4Parse.BNS.Assets.Exports;
 using HtmlAgilityPack;
-using Xylia.Preview.Common.Attributes;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Engine.DatData;
@@ -15,8 +14,6 @@ using Xylia.Preview.Data.Models.Sequence;
 using static Xylia.Preview.Data.Models.TextArguments;
 
 namespace Xylia.Preview.Data.Models;
-
-[Side(ReleaseSide.Client)]
 public sealed class Text : ModelElement
 {
 	#region Constructors
@@ -526,9 +523,9 @@ public static class TextExtension
 	{
 		if (obj is null) return null;
 		else if (obj is Enum sequence) return SequenceExtensions.GetText(sequence);
+		else if (obj is string alias) return FileCache.TextProvider?[alias] ?? (provider ?? FileCache.Data.Provider)?[alias];
 		else if (obj is Ref<Text> reference) return reference.Instance?.text;
 		else if (obj is Record record && record.Owner.Name == "text") return record.Attributes.Get<string>("text");
-		else if (obj is string alias) return (provider ?? FileCache.Data.Provider).GetTable<Text>()[alias]?.text;
 		else throw new NotSupportedException();
 	}
 

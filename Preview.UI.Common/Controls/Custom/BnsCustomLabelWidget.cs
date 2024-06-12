@@ -42,7 +42,7 @@ public class BnsCustomLabelWidget : BnsCustomBaseWidget, IContentHost
 	}
 
 	public static readonly DependencyProperty ArgumentsProperty = Owner.Register("Arguments", new TextArguments(),
-		 FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.Inherits , OnArgumentsChanged);
+		 FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.Inherits, OnArgumentsChanged);
 
 	public TextArguments Arguments
 	{
@@ -74,13 +74,12 @@ public class BnsCustomLabelWidget : BnsCustomBaseWidget, IContentHost
 
 	protected override Size MeasureOverride(Size constraint)
 	{
-		// Measure content size, then update if value is invalid
-		this.RenderSize = constraint;
-		var size = DrawString(null, String, MetaData);
-		if (double.IsInfinity(constraint.Width)) constraint.Width = size.Width;
-		if (double.IsInfinity(constraint.Height)) constraint.Height = size.Height;
+		var size = RenderSize = base.MeasureOverride(constraint);
+		var contentSize = DrawString(null, String, MetaData);
 
-		return base.MeasureOverride(constraint);
+		return new Size(
+			Math.Max(size.Width, contentSize.Width),
+			Math.Max(size.Height, contentSize.Height));
 	}
 	#endregion
 

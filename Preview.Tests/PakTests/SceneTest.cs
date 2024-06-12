@@ -23,8 +23,8 @@ public class SceneTest
 
 		// using GameFileProvider Provider = new(IniHelper.Instance.GameFolder);
 		using GameFileProvider Provider = new("D:\\WeGameApps\\剑灵\\剑灵\\BNSR\\Content\\Paks");
-		var AssetPath = "BNSR/Content/Art/UI/V2/Common/ContentsWidget/Item/LegacyItemTooltipWidget.uasset";
-		//"BNSR/Content/Art/UI/GameUI/Scene/Game_Tooltip/Game_TooltipScene/Skill3ToolTipPanel_1.uasset";
+		//var AssetPath = "BNSR/Content/Art/UI/V2/Common/ContentsWidget/Item/LegacyItemTooltipWidget.uasset";
+		var AssetPath = "BNSR/Content/Art/UI/GameUI/Scene/Game_QuestJournal/Game_QuestJournalScene/QuestJournalPanel.uasset";
 		var Blueprint = Provider.LoadAllObjects(AssetPath).OfType<UWidgetBlueprintGeneratedClass>().First();
 
 		var dump = new WidgetDump() { Output = Path.Combine(Output, Path.GetFileNameWithoutExtension(AssetPath)) };

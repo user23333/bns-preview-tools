@@ -141,7 +141,9 @@ public class ElementDefinition : ElementBaseDefinition
 						Offset = offset,
 						Type = AttributeType.TInt32,
 						DefaultValue = "0",
-						Repeat = 1
+						Min = int.MinValue,
+						Max = int.MaxValue,
+						Repeat = 1,
 					});
 				}
 

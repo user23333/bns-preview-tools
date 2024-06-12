@@ -153,7 +153,7 @@ public static class TableDefinitionHelper
 				subtable.Name = sub.Attributes["name"].Value;
 				subtable.SubclassType = subIndex++;
 
-				// Add parent expanded attributes
+				// Add parent attributes
 				subtable.Attributes.AddRange(el.Attributes);
 				subtable.ExpandedAttributes.AddRange(el.ExpandedAttributes);
 				subtable.Children.AddRange(el.Children);
@@ -256,6 +256,7 @@ public static class TableDefinitionHelper
 		int Offset_Key = 8;
 		foreach (var attribute in Attributes.OrderBy(x => !x.IsKey))
 		{
+			// skip
 			if (attribute.IsDeprecated || !attribute.Side.HasFlag(ReleaseSide.Client))
 				continue;
 

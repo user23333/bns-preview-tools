@@ -2,6 +2,8 @@
 public class ItemRandomOptionGroup : ModelElement
 {
 	#region Attributes
+	public Ref<EffectList> EffectList { get; set; }
+
 	public Ref<AbilityList>[] AbilityList { get; set; }
 
 	public sbyte AbilityListTotalCount { get; set; }

@@ -1,7 +1,6 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using Xylia.Preview.UI.Controls;
 using Xylia.Preview.UI.Resources.Themes;
 using Xylia.Preview.UI.Services;
 using Xylia.Preview.UI.ViewModels;
@@ -39,7 +38,7 @@ public partial class MainWindow
 	{
 		base.OnInitialized(e);
 
-		this.Loaded += (s, a) => OpenUpdateLog(s, a);
+		this.Loaded += OpenUpdateLog;
 		this.MinWidth = this.Width;
 		this.MinHeight = this.Height;
 
@@ -69,11 +68,6 @@ public partial class MainWindow
 		{
 			window.Closed += (s, e) => page.Content = null;
 			window.Show();
-		}
-		else if (content is BnsCustomWindowWidget window2)
-		{
-			window2.Closed += (s, e) => page.Content = null;
-			window2.Show();
 		}
 		else if (content is FrameworkElement element)
 		{

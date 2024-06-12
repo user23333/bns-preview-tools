@@ -1,10 +1,12 @@
 ﻿using System.Windows;
+using System.Windows.Input;
 using CUE4Parse.BNS.Assets.Exports;
 using CUE4Parse.UE4.Objects.UObject;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models;
 using Xylia.Preview.Data.Models.Sequence;
+using Xylia.Preview.UI.Controls;
 using Xylia.Preview.UI.Documents;
 using Xylia.Preview.UI.Extensions;
 using static Xylia.Preview.Data.Common.DataStruct.MsecFormat;
@@ -16,15 +18,22 @@ public partial class Skill3ToolTipPanel_1
 	#region Constructors
 	public Skill3ToolTipPanel_1()
 	{
-#if DEVELOP
-		DataContext = Helpers.TestProvider.Provider.GetTable<Skill3>()["SwordMaster_S1_2_Lightning_TwicePierce"];
-#endif
 		InitializeComponent();
-		this.PreviewMouseDown += (s, e) => DataContext = FileCache.Data.Provider.GetTable<Skill3>()[Clipboard.GetText()];
+#if DEVELOP
+		BnsCustomLabelWidget.CopyMode = CopyMode.Original;
+		OldSkill = FileCache.Data.Provider.GetTable<Skill3>()["SwordMaster_S1_3_Lightning_TwicePierce"];
+		DataContext = FileCache.Data.Provider.GetTable<Skill3>()["SwordMaster_S1_2_Lightning_TwicePierce"];
+#endif
 	}
 	#endregion
 
 	#region Methods
+	protected override void OnPreviewMouseDown(MouseButtonEventArgs e)
+	{
+		base.OnPreviewMouseDown(e);
+		DataContext = FileCache.Data.Provider.GetTable<Skill3>()[Clipboard.GetText()];
+	}
+
 	protected override void OnDataChanged(DependencyPropertyChangedEventArgs e)
 	{
 		if (e.NewValue is not Skill3 record) return;
@@ -47,18 +56,16 @@ public partial class Skill3ToolTipPanel_1
 
 		#region Tooltip
 		Skill3ToolTipPanel_1_Main_Description.String.LabelText =
-			string.Join(BR.Tag, record.MainTooltip1.SelectNotNull(x => x.Instance)) + BR.Tag +
-			string.Join(BR.Tag, record.MainTooltip2.SelectNotNull(x => x.Instance));
+			SkillTooltip.Compare(record.MainTooltip1, OldSkill?.MainTooltip1) + BR.Tag +
+			SkillTooltip.Compare(record.MainTooltip2, OldSkill?.MainTooltip2);
 
-		Skill3ToolTipPanel_1_Sub_Description.String.LabelText = string.Join(BR.Tag, record.SubTooltip.SelectNotNull(x => x.Instance));
+		Skill3ToolTipPanel_1_Sub_Description.String.LabelText = string.Join(BR.Tag, SkillTooltip.Compare(record.SubTooltip, OldSkill?.SubTooltip));
 
-		var ConditionTooltips = record.ConditionTooltip.SelectNotNull(x => x.Instance);
-		Skill3ToolTipPanel_1_ConditionTitle.SetVisiable(ConditionTooltips.Any());
-		Skill3ToolTipPanel_1_ConditionText.String.LabelText = string.Join(BR.Tag, ConditionTooltips);
-
-		var StanceTooltips = record.StanceTooltip.SelectNotNull(x => x.Instance);
-		Skill3ToolTipPanel_1_StanceTitle.SetVisiable(StanceTooltips.Any());
-		Skill3ToolTipPanel_1_StanceText.String.LabelText = string.Join(BR.Tag, StanceTooltips);
+		Skill3ToolTipPanel_1_ConditionTitle.SetVisiable(record.ConditionTooltip.Any(x => x.HasValue));
+		Skill3ToolTipPanel_1_ConditionText.String.LabelText = string.Join(BR.Tag, SkillTooltip.Compare(record.ConditionTooltip, OldSkill?.ConditionTooltip));
+		
+		Skill3ToolTipPanel_1_StanceTitle.SetVisiable(record.StanceTooltip.Any(x => x.HasValue));
+		Skill3ToolTipPanel_1_StanceText.String.LabelText = string.Join(BR.Tag, SkillTooltip.Compare(record.StanceTooltip, OldSkill?.StanceTooltip));
 
 		Skill3ToolTipPanel_1_ItemTitle.Visibility = Skill3ToolTipPanel_1_ItemName.Visibility = Visibility.Collapsed;
 		Skill3ToolTipPanel_1_SkillSkinDescription_Title.Visibility = Skill3ToolTipPanel_1_SkillSkinDescription.Visibility = Visibility.Collapsed;
@@ -162,12 +169,9 @@ public partial class Skill3ToolTipPanel_1
 
 	private static FPackageIndex GetDamageRateIcon(short value)
 	{
-		return new MyFPackageIndex(
-			value > 1000 ?
-			"BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window2/DamageInfo_Up" :
-			value == 1000 ?
+		return new MyFPackageIndex(value > 1000 ?
+			"BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window2/DamageInfo_Up" : value == 1000 ?
 			"BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window2/DamageInfo_Equal" :
-
 			"BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window2/DamageInfo_Down");
 	}
 	#endregion

@@ -6,6 +6,8 @@
 		xmlns:t="clr-namespace:Xylia.Preview.UI.GameUI.Scene.Game_Tooltip" 
         Title="AuctionPanel" Height="700" Width="800">
 	<Window.Resources>
+		<ContextMenu x:Key="ItemMenu"/>
+
 		<ToolTip x:Key="TooltipHolder">
 			<t:ItemTooltipPanel />
 		</ToolTip>
@@ -36,22 +38,14 @@
 				<ToggleButton Content="{DynamicResource ItemList_Compare}" Checked="Comapre_Checked" Unchecked="Comapre_Unchecked" Margin="0 0 5 0" Style="{DynamicResource ToggleButtonTransparent}" />
 				<CheckBox Content="{DynamicResource ItemList_Auctionable}" IsChecked="{Binding Auctionable}"/>
 			</ToolBar>
-			
+
 			<ListView Grid.Row="1" x:Name="ItemList" HorizontalContentAlignment="Stretch" VirtualizingStackPanel.IsVirtualizing="True">
-				<ListView.Resources>
-					<ContextMenu x:Key="ItemMenu">
-						<MenuItem Header="{DynamicResource PreviewBasic}" Command="{i:PreviewBasic}" CommandParameter="{Binding}"/>
-						<MenuItem Header="{DynamicResource PreviewModel}" Command="{i:PreviewModel}" CommandParameter="{Binding}"/>
-						<MenuItem Header="{DynamicResource PreviewTransform}" Command="{i:PreviewTransform}" CommandParameter="{Binding}"/>
-					</ContextMenu>
-				</ListView.Resources>
 				<ListView.ItemContainerStyle>
 					<Style TargetType="{x:Type ListViewItem}">
 						<Setter Property="Focusable" Value="False"/>
 						<Setter Property="ContextMenu" Value="{StaticResource ItemMenu}"/>
 					</Style>
 				</ListView.ItemContainerStyle>
-				
 				<ListView.View>
 					<GridView>
 						<GridViewColumn Header="{DynamicResource ItemList_ItemName}" Width="220">

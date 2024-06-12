@@ -1,0 +1,60 @@
+﻿<Window x:Class="Xylia.Preview.UI.GameUI.Scene.Game_Tooltip.ItemGrowth2TooltipPanel"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:UI="https://github.com/xyliaup/bns-preview-tools"
+	xmlns:Tooltip="clr-namespace:Xylia.Preview.UI.GameUI.Scene.Game_Tooltip"	
+	Title="ItemGrowth2TooltipPanel" Width="510" Height="600">
+	<Window.Resources>
+		<DataTemplate x:Key="TwoColumn">
+			<UI:BnsCustomImageWidget MinHeight="20">
+				<UI:BnsCustomLabelWidget String="{Binding Path=Item1}" UI:LayoutData.Anchors="0 0 1 1" />
+				<UI:BnsCustomLabelWidget String="{Binding Path=Item2}" UI:LayoutData.Anchors="1 0 1 0" />
+			</UI:BnsCustomImageWidget>
+		</DataTemplate>
+	</Window.Resources>
+
+	<TabControl Name="ItemGrowth2TooltipPanel_Contents">
+		<TabItem Name="ItemGrowth2TooltipPanel_DrawImproveOption" Header="ImproveOption">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="*" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+
+				<ComboBox Name="DrawImproveOption_Level" SelectionChanged="DrawImproveOption_Level_SelectionChanged" Grid.Row="0" Margin="0 8" />
+				<ListBox Name="DrawImproveOption_Before" SelectionChanged="DrawImproveOption_Before_SelectionChanged" DisplayMemberPath="ImproveOptionAcquireLevel" Grid.Row="1" />
+				<ListBox Name="DrawImproveOption_After" ItemTemplate="{StaticResource TwoColumn}" Grid.Row="1" Grid.Column="1" Margin="5 0 0 0"/>
+				<UI:BnsCustomLabelWidget Grid.Row="2" Name="DrawImproveOption_Desc" String="적용된 효과를 선택해 주세요" Margin="0 5" />
+			</Grid>
+		</TabItem>
+
+		<TabItem Name="ItemGrowth2TooltipPanel_RandomOption" Header="RandomOption">
+			<ScrollViewer>
+				<StackPanel>
+					<ItemsControl Name="RandomOption_Groups">
+						<ItemsControl.ItemTemplate>
+							<DataTemplate>
+
+								<StackPanel>
+									<CheckBox Name="GroupName" Content="{Binding }" />
+
+									<StackPanel Initialized="RandomOption_Initialized" DataContext="{Binding Value}" 
+												Visibility="{Binding IsChecked,ElementName=GroupName,Converter={StaticResource Boolean2VisibilityConverter}}">
+										<ListBox x:Name="RandomOption_CommonContent" ItemsSource="{Binding}" ItemTemplate="{StaticResource TwoColumn}" />
+										<Tooltip:RewardTooltipPanel x:Name="RandomOption_RewardContent" DataContext="{Binding}" />
+									</StackPanel>
+								</StackPanel>
+								
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+					</ItemsControl>
+				</StackPanel>
+			</ScrollViewer>
+		</TabItem>
+	</TabControl>
+</Window>

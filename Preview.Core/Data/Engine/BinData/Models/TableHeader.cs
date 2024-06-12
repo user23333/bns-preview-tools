@@ -32,6 +32,9 @@ public abstract class TableHeader
 	public bool IsCompressed { get; set; }
 
 
+	#region Methods
+	internal MessageManager Message = [];
+
 	internal void ReadHeaderFrom(DataArchive reader)
 	{
 		ElementCount = reader.Read<byte>();
@@ -52,6 +55,30 @@ public abstract class TableHeader
 
 
 	/// <summary>
+	/// compare config version with game real version
+	/// </summary>
+	internal void CheckVersion((ushort, ushort) version)
+	{
+		// set version for xml table
+		if (this.MajorVersion == 0 && this.MinorVersion == 0)
+		{
+			MajorVersion = version.Item1;
+			MinorVersion = version.Item2;
+		}
+		// check definition matches the data
+		else if (!MatchVersion(version.Item1 , version.Item2))
+		{
+			Message.Warning($"check table `{this.Name}` version: {version.Item1}.{version.Item2} <> {this.MajorVersion}.{this.MinorVersion}");
+		}
+	}
+
+	/// <summary>
+	/// compare config version with game real version
+	/// </summary>
+	/// <returns></returns>
+	internal bool MatchVersion(ushort major, ushort minor) => this.MajorVersion == major && this.MinorVersion == minor;
+
+	/// <summary>
 	/// parse text version
 	/// </summary>
 	/// <returns></returns>
@@ -63,23 +90,5 @@ public abstract class TableHeader
 
 		return (major, minor);
 	}
-
-	/// <summary>
-	/// compare config version with game real version
-	/// </summary>
-	internal void CheckVersion((ushort, ushort) version)
-	{
-		if (this.MajorVersion == 0 && this.MinorVersion == 0)
-		{
-			MajorVersion = version.Item1;
-			MinorVersion = version.Item2;
-		}
-		else if (this.MajorVersion != version.Item1 || this.MinorVersion != version.Item2)
-		{
-			Message.Warning($"check table `{this.Name}` version: {version.Item1}.{version.Item2} <> {this.MajorVersion}.{this.MinorVersion}");
-		}
-	}
-
-
-	internal MessageManager Message = [];
+	#endregion
 }

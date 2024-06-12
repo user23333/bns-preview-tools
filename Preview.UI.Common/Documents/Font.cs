@@ -34,7 +34,7 @@ public class Font : BaseElement
 
 	public TextDecorationCollection TextDecorations
 	{
-		get => (TextDecorationCollection) GetValue(TextDecorationsProperty);
+		get => (TextDecorationCollection)GetValue(TextDecorationsProperty);
 		set => SetValue(TextDecorationsProperty, value);
 	}
 	#endregion
@@ -59,6 +59,12 @@ public class Font : BaseElement
 	{
 		if (fontset is null) return;
 
+		var FontFace = fontset.FontFace?.Load<UBNSFontFace>();
+		if (FontFace != null)
+		{
+			FontSize = FontFace.Height;
+		}
+
 		var FontColor = fontset.FontColors?.Load<UFontColor>();
 		if (FontColor != null && !SkipColor())
 		{
@@ -70,16 +76,12 @@ public class Font : BaseElement
 		if (FontAttribute != null)
 		{
 			if (FontAttribute.Italic) FontStyle = FontStyles.Italic;
-			//if (FontAttribute.Shadow) ;
 			if (FontAttribute.Strokeout) TextDecorations = System.Windows.TextDecorations.Strikethrough;
 			if (FontAttribute.Underline) TextDecorations = System.Windows.TextDecorations.Underline;
 		}
 
-		var FontFace = fontset.FontFace?.Load<UBNSFontFace>();
-		if (FontFace != null)
-		{
-			FontSize = FontFace.Height;
-		}
+		// why miss attribute Strokeout 
+		if (Name == "00008130.UI.Vital_LightGray_ShaStroke") TextDecorations = System.Windows.TextDecorations.Strikethrough;
 	}
 
 	/// <summary>
@@ -91,7 +93,7 @@ public class Font : BaseElement
 		return Name
 			is "00008130.Program.Fontset_ItemGrade_1"
 			or "00008130.Program.Fontset_ItemGrade_2"
-			or "00008130.UI.Normal_12";
+			or "00008130.UI.Normal_12" or "00008130.UI.Normal_14";
 	}
 	#endregion
 }

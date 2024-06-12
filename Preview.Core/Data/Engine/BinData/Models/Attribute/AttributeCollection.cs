@@ -113,10 +113,26 @@ public class AttributeCollection : IReadOnlyDictionary<AttributeDefinition, obje
 
 	public object Get(string name, out AttributeDefinition attribute)
 	{
-		// get attribute or create if xelement 
+		// get expand attribute
 		attribute = record.Definition[name];
-		if (attribute is null && attributes.ContainsKey(name))
-			attribute = new AttributeDefinition() { Name = name, Type = AttributeType.TString };
+
+		if (attribute is null)
+		{
+			// get base attribute
+			var attributeBase = record.Definition.GetAttribute(name);
+			if (attributeBase != null)
+			{
+				var value = Array.CreateInstance(typeof(object), attributeBase.Repeat);
+				for (int i = 0; i < value.Length; i++) value.SetValue(Get(attributeBase.Expands[i]), i);
+
+				return value;
+			}
+			// create if xelement 
+			else if (attributes.ContainsKey(name))
+			{
+				attribute = new AttributeDefinition() { Name = name, Type = AttributeType.TString };
+			}
+		}
 
 		return Get(attribute);
 	}

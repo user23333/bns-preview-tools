@@ -4,7 +4,6 @@ using CUE4Parse.UE4.Objects.UObject;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Common.DataStruct;
-using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models.Creature;
 using Xylia.Preview.Data.Models.Sequence;
 using static Xylia.Preview.Data.Models.Item;
@@ -17,16 +16,23 @@ public abstract class Item : ModelElement, IHaveName
 	public Ref<ItemCombat>[] ItemCombat { get; set; }
 	public Ref<ItemBrand> Brand { get; set; }
 
+	public GameCategory3Seq GameCategory3 => Attributes["game-category-3"].ToEnum<GameCategory3Seq>();
+
+	public bool CannotDispose => Attributes.Get<BnsBoolean>("cannot-dispose");
+	public bool CannotSell => Attributes.Get<BnsBoolean>("cannot-sell");
+	public bool CannotTrade => Attributes.Get<BnsBoolean>("cannot-trade");
+	public bool CannotDepot => Attributes.Get<BnsBoolean>("cannot-depot");
+	public bool ConsumeDurability => Attributes.Get<BnsBoolean>("consume-durability");
 	public bool Auctionable => Attributes.Get<BnsBoolean>("auctionable");
 	public bool WorldBossAuctionable => Attributes.Get<BnsBoolean>("world-boss-auctionable");
 	public bool SealRenewalAuctionable => Attributes.Get<BnsBoolean>("seal-renewal-auctionable");
-
+	public bool PartyAuctionExclusion => Attributes.Get<BnsBoolean>("party-auction-exclusion");
+	public bool AcquireUsed => Attributes.Get<BnsBoolean>("acquire-used");
+	public bool EquipUsed => Attributes.Get<BnsBoolean>("equip-used");
 	public bool AccountUsed => Attributes.Get<BnsBoolean>("account-used");
 
-	public GameCategory3Seq GameCategory3 => Attributes["game-category-3"].ToEnum<GameCategory3Seq>();
 
 	public JobSeq[] EquipJobCheck { get; set; }
-
 	public SexSeq2 EquipSex => Attributes["equip-sex"].ToEnum<SexSeq2>();
 	public enum SexSeq2
 	{
@@ -75,7 +81,7 @@ public abstract class Item : ModelElement, IHaveName
 	public sbyte ImproveLevel => Attributes.Get<sbyte>("improve-level");
 
 	public string ItemName => ItemNameOnly;
-	public string ItemNameOnly => $"<font name=\"00008130.Program.Fontset_ItemGrade_{ItemGrade}\">{Attributes["name2"].GetText()}</font>";
+	public string ItemNameOnly => $"<font name=\"00008130.Program.Fontset_ItemGrade_{ItemGrade}\">{Attributes["name2"].GetText() ?? ToString()}</font>";
 
 	public int ClosetGroupId => Attributes.Get<int>("closet-group-id");
 	#endregion
@@ -222,8 +228,8 @@ public abstract class Item : ModelElement, IHaveName
 	public ImageProperty FrontIcon => IconTexture.Parse(Attributes.Get<string>("icon"));
 
 	public FPackageIndex CanSaleItemImage => new MyFPackageIndex(
-		Auctionable ? "BNSR/Content/Art/UI/GameUI/Resource/GameUI_Icon/SlotItem_marketBusiness.SlotItem_marketBusiness" :
-		AccountUsed ? "BNSR/Content/Art/UI/GameUI/Resource/GameUI_Icon/SlotItem_privateSale.SlotItem_privateSale" : null);
+		Auctionable ? "BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_Icon3_R/SlotItem_marketBusiness.SlotItem_marketBusiness" :
+		AccountUsed ? "BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_Icon3_R/SlotItem_privateSale.SlotItem_privateSale" : null);
 
 	public FPackageIndex UnusableImage => DecomposeInfo.GetImage();
 
@@ -295,7 +301,7 @@ public abstract class Item : ModelElement, IHaveName
 				if (SubAbilityFixed != null) Substitute2.AppendLine(SubAbilityFixed.Description);
 				if (SubAbilityRandomCount > 0)
 				{
-					Substitute2.AppendLine(TextHelper.RandomNum.Replace([SubAbilityRandomCount]));
+					Substitute2.AppendLine("UI.ItemRandomOption.Undetermined".GetText([SubAbilityRandomCount]));
 					SubAbilityRandom.ForEach(x => Substitute2.AppendLine(x.Description + " <Image imagesetpath=\"00015590.Tag_Random\" enablescale=\"true\" scalerate=\"1.2\"/>"), true);
 				}
 			}

@@ -20,75 +20,75 @@ public class Quest : ModelElement, IHaveName
 	public LazyList<Transit> Transit { get; set; }
 
 
-    [Side(ReleaseSide.Server)]
-    public BroadcastCategorySeq BroadcastCategory { get; set; }
-    public enum BroadcastCategorySeq
-    {
-        None,
-        Field,
-        Always,
-        SoloQuartet,
-        Sextet,
-    }
+	[Side(ReleaseSide.Server)]
+	public BroadcastCategorySeq BroadcastCategory { get; set; }
+	public enum BroadcastCategorySeq
+	{
+		None,
+		Field,
+		Always,
+		SoloQuartet,
+		Sextet,
+	}
 
-    [Side(ReleaseSide.Server), Repeat(3)]
-    public Ref<Achievement>[] ExtraQuestCompleteAchievement { get; set; }
+	[Side(ReleaseSide.Server), Repeat(3)]
+	public Ref<Achievement>[] ExtraQuestCompleteAchievement { get; set; }
 
-    [Side(ReleaseSide.Server)]
-    public Ref<Cinematic> ReplayEpicZoneLeaveCinematic { get; set; }
+	[Side(ReleaseSide.Server)]
+	public Ref<Cinematic> ReplayEpicZoneLeaveCinematic { get; set; }
 
 
 	public enum CategorySeq
-    {
-        Epic,
-        Normal,
-        Job,
-        Dungeon,
-        Attraction,
-        TendencySimple,
-        TendencyTendency,
-        Mentoring,
-        Hunting,
+	{
+		Epic,
+		Normal,
+		Job,
+		Dungeon,
+		Attraction,
+		TendencySimple,
+		TendencyTendency,
+		Mentoring,
+		Hunting,
 		COUNT
 	}
 
 	public enum ContentTypeSeq
 	{
-        None,
-        Gather,
-        Production,
-        PvpReward,
-        Festival,
-        EliteSkill,
-        Duel,
-        PartyBattle,
-        Special,
-        SideEpisode,
-        Hidden,
+		None,
+		Gather,
+		Production,
+		PvpReward,
+		Festival,
+		EliteSkill,
+		Duel,
+		PartyBattle,
+		Special,
+		SideEpisode,
+		Hidden,
 		COUNT
 	}
 
-    public enum SaveType
-    {
-        All,
+	public enum SaveType
+	{
+		All,
 
-        /// <summary>
-        /// 25000~25500
-        /// </summary>
-        Nothing,
+		/// <summary>
+		/// 25000~25500
+		/// </summary>
+		Nothing,
 
-        /// <summary>
-        /// 20000~23000
-        /// </summary>
-        [Name("except-completion")]
-        ExceptCompletion,
+		/// <summary>
+		/// 20000~23000
+		/// </summary>
+		[Name("except-completion")]
+		ExceptCompletion,
 
-        /// <summary>
-        /// 28000~
-        /// </summary>
-        [Name("except-completion-and-logout-save")]
-        ExceptCompletionAndLogoutSave,
-    }
+		/// <summary>
+		/// 28000~
+		/// </summary>
+		[Name("except-completion-and-logout-save")]
+		ExceptCompletionAndLogoutSave,
+	}
 
 	public CategorySeq Category => Attributes["category"].ToEnum<CategorySeq>();
 	public ContentTypeSeq ContentType => Attributes["content-type"].ToEnum<ContentTypeSeq>();
@@ -153,17 +153,19 @@ public class Quest : ModelElement, IHaveName
 
 
 	public Quest GetNextQuest(JobSeq job = JobSeq.검사)
-    {
+	{
 		var completion = Completion?.FirstOrDefault();
 		if (completion is null) return null;
 
 		foreach (var NextQuest in completion.NextQuest)
 		{
 			var jobs = NextQuest.Job;
-            if (jobs is null || jobs.CheckSeq(job)) return NextQuest.Quest.Instance;
+			if (jobs is null || jobs.CheckSeq(job)) return NextQuest.Quest.Instance;
 		}
 
-        return null;
+		return null;
 	}
+
+	public IEnumerable<QuestReward> GetRewards() => MissionStep.SelectMany(step => step.Mission.SelectMany(mission => mission.Reward)).SelectNotNull(reward => reward.Instance);
 	#endregion
 }

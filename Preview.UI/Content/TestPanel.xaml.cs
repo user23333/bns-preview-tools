@@ -1,17 +1,12 @@
 ﻿using CUE4Parse.UE4.Objects.Core.Math;
 using SkiaSharp;
-using Xylia.Preview.Data.Engine.DatData;
-using Xylia.Preview.Data.Helpers;
-using Xylia.Preview.Data.Models;
 using Xylia.Preview.UI.Controls;
-using Xylia.Preview.UI.Helpers;
 
 namespace Xylia.Preview.UI.Content;
 public partial class TestPanel
 {
 	public TestPanel()
 	{
-		FileCache.Data = new(new FolderProvider(@"G:\新建文件夹"));
 		InitializeComponent();
 
 		//MapWindow_Minimap.MapInfo = TestProvider.Provider.GetTable<MapInfo>()[1];

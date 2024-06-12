@@ -3,14 +3,11 @@ using Xylia.Preview.Data.Models;
 using Xylia.Preview.UI.Controls;
 
 namespace Xylia.Preview.UI.GameUI.Scene.Game_Tooltip;
-public partial class RewardTooltipPanel
+public partial class RewardTooltipPanel	: BnsCustomWindowWidget
 {
 	#region Constructors
 	public RewardTooltipPanel()
 	{
-#if DEVELOP
-		DataContext = Helpers.TestProvider.Provider.GetTable<Reward>()["General_Grocery_Event_Box_14"];
-#endif
 		InitializeComponent();
 	}
 	#endregion
@@ -31,7 +28,12 @@ public partial class RewardTooltipPanel
 		foreach (var info in record.GetInfos())
 		{
 			row++;
-			AddChild(new BnsCustomLabelWidget() { Text = info.Item.ItemNameOnly }, row, 0);
+
+			AddChild(new BnsCustomLabelWidget()
+			{
+				Text = info.Item.ItemNameOnly,
+				ToolTip = new ItemTooltipPanel() { DataContext = info.Item }
+			}, row, 0);
 			AddChild(new BnsCustomLabelWidget() { Text = info.Group.Item2, Tag = info.Group.Item1 }, row, 1);
 			AddChild(new BnsCustomLabelWidget() { Text = info.ProbabilityInfo }, row, 2);
 			AddChild(new BnsCustomLabelWidget() { Text = info.CountInfo }, row, 3);

@@ -2,7 +2,7 @@
 using Xylia.Preview.Data.Models.Sequence;
 
 namespace Xylia.Preview.Data.Models;
-public sealed class AbilityList : ModelElement
+public sealed class AbilityList : ModelElement, IEnumerable
 {
 	#region Attributes
 	public MainAbility[] Ability { get; set; }
@@ -23,7 +23,7 @@ public sealed class AbilityList : ModelElement
 	#endregion
 
 	#region Methods
-	public IEnumerable GetAbilities()
+	public IEnumerator GetEnumerator()
 	{
 		var result = new List<Tuple<string, string>>();
 
@@ -34,7 +34,7 @@ public sealed class AbilityList : ModelElement
 				((double)AbilityWeight[i] / AbilityTotalWeight).ToString("P2")));
 		}
 
-		return result;
+		return result.GetEnumerator();
 	}
 	#endregion
 }

@@ -74,16 +74,16 @@ public class BnsCustomImageWidget : BnsCustomBaseWidget
 	#region	Protected Methods
 	protected override Size MeasureOverride(Size constraint)
 	{
-		if (false && (double.IsInfinity(constraint.Width) || double.IsInfinity(constraint.Height)))
-		{
-			// get computed scale factor
-			var naturalSize = BaseImageProperty?.ImageUVSize ?? default;
-			var scaleFactor = ComputeScaleFactor(constraint, naturalSize);
+		//if (double.IsInfinity(constraint.Width) || double.IsInfinity(constraint.Height))
+		//{
+		//	// get computed scale factor
+		//	var naturalSize = BaseImageProperty?.ImageUVSize ?? default;
+		//	var scaleFactor = ComputeScaleFactor(constraint, naturalSize);
 
-			// Returns our minimum size & sets DesiredSize.
-			constraint.Width = naturalSize.X * scaleFactor.Width;
-			constraint.Height = naturalSize.Y * scaleFactor.Height;
-		}
+		//	// Returns our minimum size & sets DesiredSize.
+		//	constraint.Width = naturalSize.X * scaleFactor.Width;
+		//	constraint.Height = naturalSize.Y * scaleFactor.Height;
+		//}
 
 		return base.MeasureOverride(constraint);
 	}

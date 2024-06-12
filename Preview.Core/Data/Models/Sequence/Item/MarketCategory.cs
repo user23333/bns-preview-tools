@@ -658,6 +658,7 @@ public static partial class SequenceExtensions
 		#endregion
 
 		#region	EquipMaterial
+		data[MarketCategory2Seq.EquipMaterial].Add(MarketCategory3Seq.Wealth);
 		data[MarketCategory2Seq.EquipMaterial].Add(MarketCategory3Seq.GrowthMaterial);
 		data[MarketCategory2Seq.EquipMaterial].Add(MarketCategory3Seq.HolyMaterial);
 		#endregion

@@ -1,12 +1,12 @@
-﻿using OfficeOpenXml;
-using Xylia.Preview.Data.Models;
+﻿using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.UI.Helpers.Output.Tables;
 internal sealed class ChallengeListOut : OutSet
 {
-	protected override void CreateData(ExcelWorksheet sheet)
+	protected override void CreateData()
 	{
 		#region Title
+		var sheet = CreateSheet();
 		//sheet.SetColumn(Column++, "任务序号", 10);
 		//sheet.SetColumn(Column++, "任务别名", 15);
 		//sheet.SetColumn(Column++, "任务名称", 30);
@@ -18,13 +18,13 @@ internal sealed class ChallengeListOut : OutSet
 		//sheet.SetColumn(Column++, "tutorial", 10);
 		#endregion
 
-		int column = 0;
+		int column = 0, row = 1;
 		foreach (var record in Source.Provider.GetTable<ChallengeList>().Where(x =>
 			x.ChallengeType >= ChallengeList.ChallengeTypeSeq.Mon &&
 			x.ChallengeType <= ChallengeList.ChallengeTypeSeq.Sat))
 		{
 			column++;
-			sheet.Cells[Row = 1, column].SetValue(record.ChallengeType);
+			sheet.Cells[row = 1, column].SetValue(record.ChallengeType);
 
 
 			// ChallengeQuestBasic
@@ -37,7 +37,7 @@ internal sealed class ChallengeListOut : OutSet
 				var attraction = record.ChallengeQuestAttraction[i].Instance;
 				var expansion = record.ChallengeQuestExpansion[i].Instance;
 
-				sheet.Cells[Row++, column].SetValue(GradeText(grade) + quest.Name);
+				sheet.Cells[row++, column].SetValue(GradeText(grade) + quest.Name);
 			}
 
 			// ChallengeNpcKill
@@ -51,7 +51,7 @@ internal sealed class ChallengeListOut : OutSet
 				var attraction = record.ChallengeNpcAttraction[i].Instance;
 				var quest = record.ChallengeNpcQuest[i];
 
-				sheet.Cells[Row++, column].SetValue(GradeText(grade) + $"{difficulty} {npc.Name}");
+				sheet.Cells[row++, column].SetValue(GradeText(grade) + $"{difficulty} {npc.Name}");
 			}
 
 			// Reward
@@ -61,7 +61,7 @@ internal sealed class ChallengeListOut : OutSet
 				if (reward is null) continue;
 
 				var count = record.ChallengeCountForReward[i];
-				sheet.Cells[Row++, column].SetValue($"完成{count}个可获得 {reward}");
+				sheet.Cells[row++, column].SetValue($"完成{count}个可获得 {reward}");
 			}
 		}
 	}

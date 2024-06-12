@@ -1,7 +1,6 @@
 ﻿using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models.Sequence;
-using Xylia.Preview.Properties;
 
 namespace Xylia.Preview.Data.Models;
 public class SkillTooltipAttribute : ModelElement
@@ -112,33 +111,22 @@ public class SkillTooltipAttribute : ModelElement
 	#region Helpers
 	internal static string GetDamageInfo(int vmin, int vmax, short AttributeCoefficient = 0)
 	{
-		var mode = Settings.Default.Skill_DamageMode;
-		if (mode == DamageMode.Source)
-		{
-			return (vmax == 0 || vmin == vmax ? $"{vmin}xAP" : $"{vmin}~{vmax} xAP") +
-				(AttributeCoefficient > 0 ? "<image enablescale='true' imagesetpath='00009076.CharInfo_tooltip_power' scalerate='1.4'/>" : null);
-		}
-		else
-		{
-			// get attack power
-			var power = Settings.Default.Skill_AttackPower * 0.01;
-			if (AttributeCoefficient > 0) power = power * (AttributeCoefficient * 0.01) * (Settings.Default.Skill_AttackAttributePercent * 0.97);
+		return (vmax == 0 || vmin == vmax ? 
+			$"UI.Tooltip.Skill.damage-percent" : 
+			$"UI.Tooltip.Skill.damage-percent-min-max").GetText([vmin, vmax]) +
+			(AttributeCoefficient > 0 ? "UI.Tooltip.Attack.Icon.Attribute.only-one".GetText() : null);
 
-			// get display damage (without critical)
-			var dmin = (power * vmin * 0.985).ToString("N0");
-			var dmax = (power * vmax * 1.015).ToString("N0");
+		//// get attack power
+		//var power = Settings.Default.Skill_AttackPower * 0.01;
+		//if (AttributeCoefficient > 0) power = power * (AttributeCoefficient * 0.01) * (Settings.Default.Skill_AttackAttributePercent * 0.97);
 
-			return vmax == 0 ?
-				"UI.Tooltip.Sequence.damage-percent".GetText([dmin]) :
-				"UI.Tooltip.Sequence.damage-percent-min-max".GetText([dmin, dmax]);
-		}
-	}
+		//// get display damage (without critical)
+		//var dmin = (power * vmin * 0.985).ToString("N0");
+		//var dmax = (power * vmax * 1.015).ToString("N0");
 
-	public enum DamageMode
-	{
-		Source,
-		Default,
-		Critical,
+		//return vmax == 0 ?
+		//	"UI.Tooltip.Sequence.damage-percent".GetText([dmin]) :
+		//	"UI.Tooltip.Sequence.damage-percent-min-max".GetText([dmin, dmax]);
 	}
 	#endregion
 }

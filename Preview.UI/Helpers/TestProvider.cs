@@ -1,32 +1,15 @@
-﻿#if DEVELOP
-
+﻿using System.IO;
 using Xylia.Preview.Data.Client;
 using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Data.Helpers;
+using Xylia.Preview.UI.ViewModels;
 
 namespace Xylia.Preview.UI.Helpers;
-internal class TestProvider : FolderProvider
+internal class TestProvider
 {
-	public TestProvider() : base(@"D:\资源\客户端相关\Auto\data")
+	public static void Set(string? path = null)
 	{
-
+		path ??= Path.Combine(UserSettings.Default.OutputFolder, "data");
+		FileCache.Data = new BnsDatabase(new FolderProvider(path));
 	}
-
-	public static IDataProvider Provider
-	{
-		get
-		{
-			if(!status)
-			{
-				status = true;
-				FileCache.Data = new BnsDatabase(new TestProvider());
-			}
-
-			return FileCache.Data.Provider;
-		}
-	}
-
-	static bool status = false;
 }
-
-#endif

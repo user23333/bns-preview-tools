@@ -44,6 +44,8 @@ public static class XmlExtension
 
     public static void Write(this XElement element, IUStruct stru)
     {
+        if (stru is null) return;
+
         foreach (var prop in stru.GetType().GetProperties().Where(p => p.CanWrite))
         {
             var name = prop.GetAttribute<NameAttribute>()?.Name ?? prop.Name;

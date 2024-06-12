@@ -209,7 +209,7 @@
 									</BnsCustomImageWidget>
 									<BnsCustomLabelWidget Name="ItemStore_ItemList_Column_1_1_PriceHoler_ExtraCost_HorizontalDummy" LayoutData.Anchors="1 0 1 0" LayoutData.Offsets="7 0 4 20">
 										<BnsCustomLabelWidget.HorizontalResizeLink>
-											<ResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_RIGHT" Offset1="-7" />
+											<ResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_RIGHT" Offset1="1" />
 										</BnsCustomLabelWidget.HorizontalResizeLink>
 										<BnsCustomLabelWidget.VerticalResizeLink>
 											<ResizeLink Offset1="-1" />

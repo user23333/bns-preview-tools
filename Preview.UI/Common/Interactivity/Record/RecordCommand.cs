@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.Reflection;
+using System.Windows.Input;
 using System.Windows.Markup;
 using Xylia.Preview.Data.Models;
 using Xylia.Preview.UI.Views;
@@ -27,12 +28,24 @@ public abstract class RecordCommand : MarkupExtension, ICommand
 
 	public void Execute(object? parameter) => Task.Run(() =>
 	{
-		if (parameter is Record record) Execute(record);
-		if (parameter is ModelElement model) Execute(model.Source);
+		try
+		{
+			if (parameter is Record record) Execute(record);
+			if (parameter is ModelElement model) Execute(model.Source);
+		}
+		catch (Exception ex)
+		{
+			App.SendMessage(ex.Message);
+		}
 	});
+
+	public void NotifyCanExecuteChanged()
+	{
+		this.CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+	}
 	#endregion
 
-	#region Methods
+	#region Instance Methods
 	/// <summary>
 	/// Display text
 	/// </summary>
@@ -54,5 +67,21 @@ public abstract class RecordCommand : MarkupExtension, ICommand
 	/// </summary>
 	/// <param name="record"></param>
 	protected abstract void Execute(Record record);
+	#endregion
+
+	#region Static Methods
+	public static void Find(string name, Action<RecordCommand> action)
+	{
+		var assembly = Assembly.GetExecutingAssembly();
+		var baseType = typeof(RecordCommand);
+
+		foreach (var definedType in assembly.DefinedTypes)
+		{
+			if (definedType.IsAbstract || definedType.IsInterface || !baseType.IsAssignableFrom(definedType)) continue;
+
+			var instance = Activator.CreateInstance(definedType);
+			if (instance is RecordCommand command && command.CanExecute(name)) action?.Invoke(command);
+		}
+	}
 	#endregion
 }

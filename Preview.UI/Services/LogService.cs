@@ -12,13 +12,13 @@ internal class LogService : TextWriter, IService
 	public bool Register()
 	{
 		var folder = UserSettings.Default.OutputFolder;
+		if (!Directory.Exists(folder)) return false;  
 
-		if (!Directory.Exists(folder)) return false;
 		var logs = Path.Combine(folder, "Logs");
 
 		// clear logs
 		var days = UserSettings.Default.KeepLogTime;
-		if (days > 0)
+		if (days > 0 && Directory.Exists(logs))
 		{
 			var today = DateTime.Now;
 

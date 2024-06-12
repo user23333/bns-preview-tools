@@ -77,8 +77,8 @@ public partial class LegacyItemStorePanel
 			else
 			{
 				Limit.Visibility = Visibility.Visible;
-				Limit.String.LabelText = ContentQuota.Text;
-				Limit.ToolTip = ContentQuota.Describe;
+				Limit.String.LabelText = ContentQuota.ItemStoreText;
+				Limit.ToolTip = ContentQuota.ItemStoreDesc;
 			}
 		}
 	}
@@ -94,8 +94,9 @@ public partial class LegacyItemStorePanel
 		widget.Visibility = Visibility.Visible;
 		widget.ToolTip = new ItemTooltipPanel() { DataContext = item };
 		widget.ExpansionComponentList["IconImage"]?.SetValue(item.FrontIcon);
-		widget.ExpansionComponentList["CanSaleItem"]!.bShow = item.Auctionable;
 		widget.ExpansionComponentList["Count"]?.SetValue(count.ToString());
+		widget.ExpansionComponentList["CanSaleItem"]!.bShow = item.Auctionable;
+		//widget.InvalidateVisual();
 	}
 	#endregion
 
@@ -126,9 +127,9 @@ public partial class LegacyItemStorePanel
 	}
 
 
-	private void ExtractPrice_Click(object sender, RoutedEventArgs e) => OutSet.Start<ItemBuyPriceOut>();
+	private async void ExtractPrice_Click(object sender, RoutedEventArgs e) => await OutSet.Start<ItemBuyPriceOut>();
 
-	private void ExtractCloset_Click(object sender, RoutedEventArgs e) => OutSet.Start<ItemCloset>();
+	private async void ExtractCloset_Click(object sender, RoutedEventArgs e) => await OutSet.Start<ItemCloset>();
 	#endregion
 
 

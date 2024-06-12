@@ -5,8 +5,11 @@ using Xylia.Preview.Data.Models.Sequence;
 namespace Xylia.Preview.UI.Helpers.Output.Tables;
 internal class WeeklyTimeTableOut : OutSet
 {
-	protected override void CreateData(ExcelWorksheet sheet)
+	protected override void CreateData()
 	{
+		var sheet = CreateSheet();
+		int column = 1;
+
 		#region Data
 		List<WeeklyTimeTable.WeeklyTimePeriod> periods = [];
 
@@ -44,21 +47,21 @@ internal class WeeklyTimeTableOut : OutSet
 		#region Output
 		for (int h = 0; h <= 23; h++)
 		{
-			sheet.Cells[h + 2, Column].SetValue($"{h} - {h + 1}");
+			sheet.Cells[h + 2, column].SetValue($"{h} - {h + 1}");
 		}
 
 		foreach (var dayOfWeek in Enum.GetValues<DayOfWeekSeq>().Where(x => x < DayOfWeekSeq.COUNT))
 		{
 			int row = 1;
-			sheet.Column(++Column).Width = 50;
-			sheet.Cells[row++, Column].SetValue(dayOfWeek);
+			sheet.Column(++column).Width = 50;
+			sheet.Cells[row++, column].SetValue(dayOfWeek);
 
 			for (int h = 0; h <= 23; h++)
 			{
 				var data = periods.Where(x => x.DayOfWeek == dayOfWeek && x.StartHour == h);
 				if (!data.Any()) continue;
 
-				sheet.Cells[row + h, Column].SetValue(string.Join('\n', data));
+				sheet.Cells[row + h, column].SetValue(string.Join('\n', data));
 			}
 		}
 		#endregion

@@ -18,6 +18,9 @@ public partial class ItemTooltipPanel
 	public ItemTooltipPanel()
 	{
 		InitializeComponent();
+#if DEVELOP
+		DataContext = FileCache.Data.Provider.GetTable<Item>()["General_Accessory_Ring_3034_031"];
+#endif
 	}
 	#endregion
 
@@ -27,18 +30,20 @@ public partial class ItemTooltipPanel
 		if (e.NewValue is not Item record) return;
 
 		// get job
-		TextArguments arguments = [null, record];
 		var jobs = record.EquipJobCheck.Where(x => x != JobSeq.JobNone);
-		if (!jobs.Any() && record.RandomOptionGroupId != 0) jobs = jobs.Append(UserSettings.Default.Job);
+		var jobfilter = !jobs.Any() && record.RandomOptionGroupId != 0;
+		if (jobfilter) jobs = [UserSettings.Default.Job];
 
 		#region Common
+		TextArguments arguments = [null, record];
+
+		ItemName.String.LabelText = record.ItemName;
 		ItemIcon.ExpansionComponentList["BackgroundImage"]?.SetValue(record.BackIcon);
 		ItemIcon.ExpansionComponentList["IconImage"]?.SetValue(record.FrontIcon);
 		ItemIcon.ExpansionComponentList["UnusableImage"]?.SetValue(record.UnusableImage);
 		ItemIcon.ExpansionComponentList["Grade_Image"]?.SetValue(null);
 		ItemIcon.ExpansionComponentList["CanSaleItem"]?.SetValue(record.CanSaleItemImage);
 		ItemIcon.InvalidateVisual();
-
 
 		// Effect
 		var SetItem = record.SetItem.Instance;
@@ -50,7 +55,6 @@ public partial class ItemTooltipPanel
 			SetItemEffect_Effect.String.LabelText = SetItem.Description;
 		}
 
-
 		// Description7
 		ItemDescription7.String.LabelText = new List<string?>
 		{
@@ -59,17 +63,7 @@ public partial class ItemTooltipPanel
 			record.Attributes.Get<Record>("skill3")?.Attributes["description-weapon-soul-gem"]?.GetText(),
 		}.Join();
 
-		// Required
-		var required = new List<string?>
-		{
-			"Name.Item.Required.Level".GetText(arguments),
-		};
-		AddRequired(required, "Name.Item.Required.Faction".GetText(arguments));
-		AddRequired(required, "Name.Item.Required.Race".GetText(arguments) + "Name.Item.Required.Sex".GetText(arguments));
-		AddRequired(required, string.Join("", jobs.Select(x => "Name.Item.Required.Job2".GetText([.. arguments, Job.GetJob(x)]))));
-		Required.String.LabelText = required.Join();
-
-
+		// Seal
 		SealEnable.SetVisiable(record.SealRenewalAuctionable);
 		if (record.SealRenewalAuctionable)
 		{
@@ -84,6 +78,30 @@ public partial class ItemTooltipPanel
 			SealEnable.String.LabelText = (SealEnableCount == 0 ? "UI.Item.Tooltip.SealEnable" : "UI.Item.Tooltip.SealEnable.Count")
 				.GetText([SealConsumeItem1, SealConsumeItemCount1, SealEnableCount]);
 		}
+		#endregion
+
+		#region Required
+		var required = new List<string?>
+		{
+			"Name.Item.Required.Level".GetText(arguments),
+		};
+		AddRequired(required, "Name.Item.Required.Faction".GetText(arguments));
+		AddRequired(required, "Name.Item.Required.Race".GetText(arguments) + "Name.Item.Required.Sex".GetText(arguments));
+		
+		if (jobfilter) required.Add("UI.ItemRandomOption.EquipFilter.Warning".GetText());
+		AddRequired(required, string.Join("", jobs.Select(x => "Name.Item.Required.Job2".GetText([.. arguments, Job.GetJob(x)]))));
+
+		if (record.AccountUsed) required.Add("UI.ItemTooltip.AccountUsed".GetText());
+		required.Add(new List<string?>
+		{
+			record.CannotTrade && !record.Auctionable ? "Name.Item.Cannot.Trade.All.Global".GetText() :
+			record.CannotTrade && record.Auctionable ? "Name.Item.Cannot.Trade.Player.Global".GetText() :
+			record.CannotTrade ? "Name.Item.Cannot.Trade.Auction.Global".GetText() : null,
+			record.CannotSell ? "Name.Item.Cannot.Sell.Global".GetText() : null,
+			record.CannotDispose ? "Name.Item.Cannot.Dispose.Global".GetText() : null,
+		}.Join("Name.Item.Cannot.Comma".GetText()));
+
+		Required.String.LabelText = required.Join();
 		#endregion
 
 		#region Combat Holder
@@ -111,7 +129,7 @@ public partial class ItemTooltipPanel
 					foreach (var SkillTrainByItemList in RandomOptionGroup.SkillTrainByItemList.SelectNotNull(x => x.Instance))
 					{
 						var ChangeSets = SkillTrainByItemList.ChangeSet.SelectNotNull(x => x.Instance);
-						if (ChangeSets.Count() > 1) Combat_Holder.Children.Add(new BnsCustomLabelWidget() { Text = TextHelper.RandomNum.Replace([1]) });
+						if (ChangeSets.Count() > 1) Combat_Holder.Children.Add(new BnsCustomLabelWidget() { Text = "UI.ItemRandomOption.Undetermined".GetText([1]) });
 
 						foreach (var SkillTrainByItem in ChangeSets)
 						{
@@ -163,7 +181,7 @@ public partial class ItemTooltipPanel
 		#endregion
 	}
 
-	private void AddRequired(List<string?> strings, string? str)
+	private static void AddRequired(List<string?> strings, string? str)
 	{
 		if (string.IsNullOrWhiteSpace(str)) return;
 		if (str == "All") strings.Add("Name.Item.Required.Everyone".GetText([]));

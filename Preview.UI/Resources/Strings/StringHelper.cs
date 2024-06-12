@@ -7,21 +7,23 @@ using System.Windows;
 using HandyControl.Tools;
 using Xylia.Preview.Common.Attributes;
 using Xylia.Preview.Common.Extension;
+using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Engine.DatData;
+using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.UI.ViewModels;
 
 namespace Xylia.Preview.UI;
 /// <summary>
 /// Text Controller
 /// </summary>
-public partial class StringHelper : ResourceDictionary
+public partial class StringHelper : ResourceDictionary, ITextProvider
 {
 	#region Constructor
 	public static StringHelper? Current { get; private set; }
 
 	public StringHelper()
 	{
-		Current = this;
+		FileCache.TextProvider = Current = this;
 		Language = UserSettings.Default.Language;
 	}
 	#endregion
@@ -55,6 +57,8 @@ public partial class StringHelper : ResourceDictionary
 			}
 		}
 	}
+
+	string? ITextProvider.this[string key] => this[key] as string;
 	#endregion
 
 
@@ -67,7 +71,7 @@ public partial class StringHelper : ResourceDictionary
 	/// <param name="key">Target text resource key</param>
 	/// <param name="args">An object array that contains zero or more objects to format.</param>
 	/// <returns></returns>
-	public static string Get(string key, params object[] args)
+	public static string Get(string key, params object?[] args)
 	{
 		ArgumentNullException.ThrowIfNull(Current);
 

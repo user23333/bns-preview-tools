@@ -1,5 +1,4 @@
-﻿using OfficeOpenXml;
-using Xylia.Preview.Data.Helpers;
+﻿using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models;
 using Xylia.Preview.Data.Models.Sequence;
 using Xylia.Preview.UI.ViewModels;
@@ -7,29 +6,27 @@ using Xylia.Preview.UI.ViewModels;
 namespace Xylia.Preview.UI.Helpers.Output.Tables;
 public sealed class QuestEpic : OutSet
 {
-	protected override void CreateData(ExcelWorksheet sheet)
+	protected override void CreateData()
 	{
 		#region Title
-		sheet.SetColumn(Column++, "id", 10);
-		sheet.SetColumn(Column++, "alias", 15);
-		sheet.SetColumn(Column++, "name", 30);
-		sheet.SetColumn(Column++, "group", 25);
+		var sheet = CreateSheet();
+		int column = 1, row = 1;
+		sheet.SetColumn(column++, "id", 10);
+		sheet.SetColumn(column++, "alias", 15);
+		sheet.SetColumn(column++, "name", 30);
+		sheet.SetColumn(column++, "group", 25);
 		#endregion
 
 		#region Data
 		GetEpic(data =>
 		{
-			Row++;
-			int column = 1;
+			row++;
+			column = 1;
 
-			sheet.Cells[Row, column++].SetValue(data.PrimaryKey);
-			sheet.Cells[Row, column++].SetValue(data);
-			sheet.Cells[Row, column++].SetValue(data.Name);
-			sheet.Cells[Row, column++].SetValue(data.Title);
-#if DEBUG
-			var rewards = data.MissionStep.SelectMany(step => step.Mission.SelectMany(mission => mission.Reward)).Where(reward => reward.HasValue);
-			sheet.Cells[Row, column++].SetValue(rewards.Sum(reward => reward.Instance.BasicExp));
-#endif
+			sheet.Cells[row, column++].SetValue(data.PrimaryKey);
+			sheet.Cells[row, column++].SetValue(data);
+			sheet.Cells[row, column++].SetValue(data.Name);
+			sheet.Cells[row, column++].SetValue(data.Title);
 		});
 		#endregion
 	}

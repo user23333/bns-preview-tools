@@ -1,11 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using Xylia.Preview.UI.Controls.Primitives;
-using Xylia.Preview.UI.Extensions;
 
 namespace Xylia.Preview.UI.Controls;
 public class BnsCustomWindowWidget : BnsCustomBaseWidget
@@ -25,6 +23,8 @@ public class BnsCustomWindowWidget : BnsCustomBaseWidget
 	#region Override Methods
 	protected override void OnInitialized(EventArgs e)
 	{
+		AutoResizeVertical = true;
+		
 		base.OnInitialized(e);
 
 		// Maybe miss name if this is root element
@@ -38,17 +38,6 @@ public class BnsCustomWindowWidget : BnsCustomBaseWidget
 		if (CloseButton != null) CloseButton.Click += (_, _) => OnCloseClick();
 	}
 
-	protected override Size ArrangeOverride(Size constraint)
-	{
-		base.ArrangeOverride(constraint);
-
-		var rects = Children.OfType<UIElement>().Select(e => e.GetFinalRect()).DefaultIfEmpty();
-		constraint.Width = this.Width = rects.Max(x => x.Right);
-		constraint.Height = this.Height = rects.Max(x => x.Bottom);
-
-		return constraint;
-	}
-
 	protected override void OnRender(DrawingContext dc)
 	{
 		// HACK: There is an issue with the background image of this widget
@@ -60,7 +49,7 @@ public class BnsCustomWindowWidget : BnsCustomBaseWidget
 
 	protected virtual void OnDataChanged(DependencyPropertyChangedEventArgs e)
 	{
-		
+
 	}
 
 	protected virtual void OnClosing(CancelEventArgs e)
@@ -84,8 +73,8 @@ public class BnsCustomWindowWidget : BnsCustomBaseWidget
 		Host = new Window
 		{
 			Content = this,
-			Background = new SolidColorBrush(BackgroundColor),
-			Foreground = new SolidColorBrush(Colors.White),
+			//Background = new SolidColorBrush(BackgroundColor),
+			//Foreground = new SolidColorBrush(Colors.White),
 			ResizeMode = ResizeMode.NoResize,
 			SizeToContent = SizeToContent.WidthAndHeight,
 			Title = this.Name,

@@ -33,9 +33,9 @@ public class BnsDatabase : IEngine, IDisposable
 			{
 				table.Owner = _provider;
 
+				// represents from xml
 				if (table.Type == 0)
 				{
-					// represents from xml
 					ArgumentException.ThrowIfNullOrEmpty(table.Name);
 					table.Definition = definitions[table.Name];
 					table.Type = table.Definition.Type;

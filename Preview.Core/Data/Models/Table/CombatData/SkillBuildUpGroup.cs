@@ -2,7 +2,7 @@
 using Xylia.Preview.Data.Helpers;
 
 namespace Xylia.Preview.Data.Models;
-public sealed class SkillBuildUpGroup : ModelElement
+public sealed class SkillBuildUpGroup : ModelElement, IEnumerable
 {
 	#region Attributes
 	public long[] SkillBuildUpSkill { get; set; }
@@ -17,24 +17,25 @@ public sealed class SkillBuildUpGroup : ModelElement
 	#endregion
 
 	#region Methods
-	public IEnumerable GetSkills()
+	public IEnumerator GetEnumerator()
 	{
 		var result = new List<Tuple<string, string>>();
 		var table = FileCache.Data.Provider.GetTable<Skill3>();
 
 		for (int i = 0; i < SkillBuildUpSkillTotalCount; i++)
 		{
-			// UI.ItemTooltip.SkillBuildUpLevel.Penalty
-			// UI.ItemTooltip.SkillBuildUpLevel.Disable
 			var skill = table[SkillBuildUpSkill[i] + ((long)1 << 32)];
-			var text = "UI.ItemTooltip.SkillBuildUpLevel.Enahnce".GetText()
-				.Replace("<arg p=\"3:integer\"/>", "<arg p=\"3:integer\"/>-<arg p=\"4:integer\"/>")
-				.Replace([null, skill?.Name, SkillBuildUpSkillLevelMin[i], SkillBuildUpSkillLevelMax[i]]);
+			var min = SkillBuildUpSkillLevelMin[i];
+			var max = SkillBuildUpSkillLevelMax[i];
+
+			var text = min != max ?
+				"UI.ItemRandomOption.SkillEnhancement.Probability.Title".GetText([skill?.Name, min, max]) :
+				"UI.ItemRandomOption.SkillEnhancement.Probability.Title.OnlyOne".GetText([skill?.Name, min]);
 
 			result.Add(new(text, null));
 		}
 
-		return result;
+		return result.GetEnumerator();
 	}
 	#endregion
 }

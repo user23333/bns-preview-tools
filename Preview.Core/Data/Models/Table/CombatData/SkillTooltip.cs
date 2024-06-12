@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Xylia.Preview.Common.Extension;
 
 namespace Xylia.Preview.Data.Models;
 public class SkillTooltip : ModelElement
@@ -67,7 +68,27 @@ public class SkillTooltip : ModelElement
 	#endregion
 
 	#region Methods
-	public override string ToString()
+	public static string Compare(Ref<SkillTooltip>[] current, Ref<SkillTooltip>[] other)
+	{
+		// instance
+		var ia = other?.SelectNotNull(x => x.Instance) ?? [];
+		var ib = current?.SelectNotNull(x => x.Instance) ?? [];
+
+		var del = ia.Except(ib);
+		var add = ib.Except(ia);
+		var normal = ib.Intersect(ia);
+
+		return string.Join("<br/>",
+		[
+			.. add.Select(x => x.ToString(2)), 
+			.. del.Select(x => x.ToString(3)),
+			.. normal.Select(x => x.ToString(1))
+		]);
+	}
+
+	public override string ToString() => ToString();
+
+	public string ToString(int mode = 0)
 	{
 		#region Text
 		StringBuilder builder = new();
@@ -91,7 +112,7 @@ public class SkillTooltip : ModelElement
 			EctOrderSeq.TEC => [TargetAttributeText, EffectAttributeText, ConditionAttributeText],
 			EctOrderSeq.ECT => [EffectAttributeText, ConditionAttributeText, TargetAttributeText],
 			EctOrderSeq.ETC => [EffectAttributeText, TargetAttributeText, ConditionAttributeText],
-			_ => new List<string>(),
+			_ => [],
 		}));
 		#endregion
 
@@ -107,23 +128,16 @@ public class SkillTooltip : ModelElement
 		}
 		#endregion
 
-
-#if DEBUG
-		if (false)
+		#region Fontset
+		var text = builder.ToString();
+		return mode switch
 		{
-			return "UI.TooltipArea.SkillTrain.Modify.Fontset".GetText([builder]) + " " + "UI.TooltipArea.SkillTrain.Modify.Icon".GetText();
-		}
-		else if (false)
-		{
-			return "UI.TooltipArea.SkillTrain.Add.Fontset".GetText([builder]) + " " + "UI.TooltipArea.SkillTrain.Add.Icon".GetText();
-		}
-		else if (true)
-		{
-			return "UI.TooltipArea.SkillTrain.Del.Fontset".GetText([builder]);
-		}
-#endif
-
-		return builder.ToString();
+			1 => "UI.TooltipArea.SkillTrain.Modify.Fontset".GetText([text]) + " " + "UI.TooltipArea.SkillTrain.Modify.Icon".GetText(),
+			2 => "UI.TooltipArea.SkillTrain.Add.Fontset".GetText([text]) + " " + "UI.TooltipArea.SkillTrain.Add.Icon".GetText(),
+			3 => "UI.TooltipArea.SkillTrain.Del.Fontset".GetText([text]),
+			_ => text
+		}; 
+		#endregion
 	}
 	#endregion
 }

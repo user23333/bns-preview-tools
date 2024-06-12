@@ -20,23 +20,33 @@ public class AttributeDefinition
 	public bool IsRequired { get; set; }
 	public bool IsHidden { get; set; }
 	public SequenceDefinition Sequence { get; set; }
+	public double Max { get; set; }
+	public double Min { get; set; }
+	//public float FMax { get; set; }
+	//public float FMin { get; set; }
+
 	public ReleaseSide Side { get; set; } = ReleaseSide.Client | ReleaseSide.Server;
 	#endregion
 
 	#region Expand
 	public string ReferedTableName { get; set; }
 	public string ReferedElement { get; set; }
-
-	public double Max { get; set; }
-	public double Min { get; set; }
 	public bool CanInput { get; set; } = true;
+
+	internal List<AttributeDefinition> Expands { get; private set; } = [];
 	#endregion
 
 
 	#region Load Methods
 	public override string ToString() => this.Name;
 
-	public AttributeDefinition Clone() => (AttributeDefinition)MemberwiseClone();
+	public AttributeDefinition Clone()
+	{
+		var newAttrDef = (AttributeDefinition)MemberwiseClone();
+		this.Expands.Add(newAttrDef);
+
+		return newAttrDef;
+	}
 
 	public static AttributeDefinition LoadFrom(XmlElement node, ElementBaseDefinition table, Func<SequenceDefinition> seqfun)
 	{
@@ -194,41 +204,38 @@ public class AttributeDefinition
 		};
 	}
 
-	public static ushort GetSize(AttributeType attributeType, bool is64 = false)
+	public static ushort GetSize(AttributeType attributeType, bool is64 = false) => attributeType switch
 	{
-		return attributeType switch
-		{
-			AttributeType.TInt8 or
-			AttributeType.TBool or
-			AttributeType.TSeq or
-			AttributeType.TProp_seq => 1,
+		AttributeType.TInt8 or
+		AttributeType.TBool or
+		AttributeType.TSeq or
+		AttributeType.TProp_seq => 1,
 
-			AttributeType.TInt16 or
-			AttributeType.TSub or
-			AttributeType.TDistance or
-			AttributeType.TVelocity or
-			AttributeType.TSeq16 or
-			AttributeType.TProp_field => 2,
+		AttributeType.TInt16 or
+		AttributeType.TSub or
+		AttributeType.TDistance or
+		AttributeType.TVelocity or
+		AttributeType.TSeq16 or
+		AttributeType.TProp_field => 2,
 
-			AttributeType.TIColor => 3,
+		AttributeType.TIColor => 3,
 
-			AttributeType.TInt64 or
-			AttributeType.TTime64 or
-			AttributeType.TRef or
-			AttributeType.TXUnknown1 or
-			AttributeType.TXUnknown2 => 8,
+		AttributeType.TInt64 or
+		AttributeType.TTime64 or
+		AttributeType.TRef or
+		AttributeType.TXUnknown1 or
+		AttributeType.TXUnknown2 => 8,
 
-			AttributeType.TTRef or
-			AttributeType.TIcon or
-			AttributeType.TVector32 or
-			AttributeType.TBox => 12,
+		AttributeType.TTRef or
+		AttributeType.TIcon or
+		AttributeType.TVector32 or
+		AttributeType.TBox => 12,
 
-			AttributeType.TScript_obj => 20,
-			AttributeType.TString => is64 ? (ushort)8 : (ushort)4,
-			AttributeType.TNative => is64 ? (ushort)12 : (ushort)8,
+		AttributeType.TScript_obj => 20,
+		AttributeType.TString => is64 ? (ushort)8 : (ushort)4,
+		AttributeType.TNative => is64 ? (ushort)12 : (ushort)8,
 
-			_ => 4,
-		};
-	}
+		_ => 4,
+	};
 	#endregion
 }

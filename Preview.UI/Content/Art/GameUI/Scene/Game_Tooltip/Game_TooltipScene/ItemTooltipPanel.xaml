@@ -17,8 +17,8 @@
 	</BnsCustomWindowWidget.ExpansionComponentList>
 
 	<Overlay Width="400" HorizontalAlignment="Left">
-		<BnsCustomWindowWidget Margin="0 0 0 10">
-			<BnsCustomLabelWidget Name="ItemName" String="{Binding ItemName}" d:String="Item Name Item Name" FontSize="18" />
+		<BnsCustomWindowWidget>
+			<BnsCustomLabelWidget Name="ItemName" String="Item Name Item Name" FontSize="18" />
 			<BnsCustomLabelWidget Name="Category" String="{Binding GameCategory3, Converter={TextResource}}" d:String="카테고리카테" LayoutData.Anchors="1 0 1 0" />
 			<BnsCustomImageWidget Name="ItemIcon" LayoutData.Offsets="0 0 80 80">
 				<BnsCustomImageWidget.VerticalResizeLink>
@@ -86,7 +86,6 @@
 				</BnsCustomLabelWidget.VerticalResizeLink>
 			</BnsCustomLabelWidget>
 		</BnsCustomWindowWidget>
-
 
 		<BnsCustomLabelWidget Name="ItemDescription7" d:String="Item Description7" />
 		<BnsCustomWindowWidget Name="Combat_Holder_Parent">

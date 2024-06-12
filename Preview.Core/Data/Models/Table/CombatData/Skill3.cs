@@ -8,7 +8,6 @@ namespace Xylia.Preview.Data.Models;
 public abstract class Skill3 : ModelElement, IHaveName
 {
 	#region Attributes
-	public sbyte VariationId { get; set; }
 	public short[] RevisedEventProbabilityInExec { get; set; }
 
 	public Ref<SkillSystematization>[] Systematization { get; set; }
@@ -91,7 +90,6 @@ public abstract class Skill3 : ModelElement, IHaveName
 	public ImageProperty Icon => Models.IconTexture.Parse(this.IconTexture, this.IconIndex);
 
 	public KeyCommand CurrentShortCutKey => KeyCommand.Cast(this.ShortCutKey);
-
 
 	public string CastingRange
 	{

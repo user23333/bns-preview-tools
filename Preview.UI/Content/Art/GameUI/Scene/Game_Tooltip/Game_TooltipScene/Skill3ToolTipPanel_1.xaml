@@ -462,7 +462,7 @@
 			<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Label_LightYellow_12.Label_LightYellow_12" LabelText="#상태" SpaceBetweenLines="3" />
 		</BnsCustomLabelWidget.String>
 	</BnsCustomLabelWidget>
-	<BnsCustomLabelWidget Name="Skill3ToolTipPanel_1_ConditionText" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="10 425.01074 0 12.005859">
+	<BnsCustomLabelWidget Name="Skill3ToolTipPanel_1_ConditionText" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="10 425.01074 0 0">
 		<BnsCustomLabelWidget.HorizontalResizeLink>
 			<ResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_RIGHT_AND_LEFT" Offset1="10" LinkWidgetName1="Skill3ToolTipPanel_1_ConditionTitle" />
 		</BnsCustomLabelWidget.HorizontalResizeLink>

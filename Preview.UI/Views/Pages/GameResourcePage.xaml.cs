@@ -6,6 +6,7 @@ using HandyControl.Controls;
 using SkiaSharp;
 using Xylia.Preview.UI.Helpers.Output.Textures;
 using Xylia.Preview.UI.ViewModels;
+using Xylia.Preview.UI.Common.Converters;
 
 namespace Xylia.Preview.UI.Views.Pages;
 public partial class GameResourcePage
@@ -49,32 +50,44 @@ public partial class GameResourcePage
 
 	private async void Extract_Click(object sender, RoutedEventArgs e)
 	{
-		if (string.IsNullOrWhiteSpace(Selector.Text)) 
-			throw new WarningException(StringHelper.Get("Message_InvalidPath"));
+		try
+		{
+			if (string.IsNullOrWhiteSpace(Selector.Text)) 
+				throw new WarningException(StringHelper.Get("Message_InvalidPath"));
 
-		DateTime dt = DateTime.Now;
-		Extract.IsEnabled = false;
-		await GameResourcePageViewModel.UeExporter(Selector.Text, OutputClassName.IsChecked ?? true);
+			DateTime dt = DateTime.Now;
+			Extract.IsEnabled = false;
+			await GameResourcePageViewModel.UeExporter(Selector.Text, OutputClassName.IsChecked ?? true);
 
-		Extract.IsEnabled = true;
-		Growl.Success(StringHelper.Get("ItemList_TaskCompleted2" , 0, (DateTime.Now - dt).TotalSeconds));
+			Growl.Success(StringHelper.Get("Text.TaskCompleted2", TimeConverter.Convert(DateTime.Now - dt, null)));
+		}
+		finally
+		{
+			Extract.IsEnabled = true;
+		}
 	}
 
 	private async void Repack_Click(object sender, RoutedEventArgs e)
 	{
-		ArgumentNullException.ThrowIfNull(_viewModel.Packages);
+		try
+		{
+			ArgumentNullException.ThrowIfNull(_viewModel.Packages);
 
-		var folder = new DirectoryInfo(UserSettings.Default.GameFolder)
-			.GetDirectories("Paks", SearchOption.AllDirectories)
-			.FirstOrDefault()?.FullName ?? throw new DirectoryNotFoundException();
-		folder = Path.Combine(folder, "Mods");
+			var folder = new DirectoryInfo(UserSettings.Default.GameFolder)
+				.GetDirectories("Paks", SearchOption.AllDirectories)
+				.FirstOrDefault()?.FullName ?? throw new DirectoryNotFoundException();
+			folder = Path.Combine(folder, "Mods");
 
 
-		Repack.IsEnabled = false;
-		await GameResourcePageViewModel.UeRepack(folder, [.. _viewModel.Packages]);
+			Repack.IsEnabled = false;
+			await GameResourcePageViewModel.UeRepack(folder, [.. _viewModel.Packages]);
 
-		Repack.IsEnabled = true;
-		Growl.Success("task completed");
+			Growl.Success(StringHelper.Get("Text.TaskCompleted"));
+		}
+		finally
+		{
+			Repack.IsEnabled = true;
+		}
 	}
 	#endregion
 
@@ -118,7 +131,7 @@ public partial class GameResourcePage
 	private string CheckFormat()
 	{
 		var format = this.NameFormat.Text;
-		if (string.IsNullOrWhiteSpace(format) || !format.Contains('[')) 
+		if (string.IsNullOrWhiteSpace(format) || !format.Contains('['))
 		{
 			throw new WarningException(StringHelper.Get("IconOut_Error3"));
 		}

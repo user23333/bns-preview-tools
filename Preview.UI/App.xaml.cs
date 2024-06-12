@@ -7,6 +7,8 @@ using HandyControl.Controls;
 using Serilog;
 using Vanara.PInvoke;
 using Xylia.Preview.UI.Helpers;
+using Xylia.Preview.UI.Helpers.Output;
+using Xylia.Preview.UI.Helpers.Output.Tables;
 using Xylia.Preview.UI.Resources.Themes;
 using Xylia.Preview.UI.Services;
 
@@ -24,11 +26,14 @@ public partial class App : Application
 		InitializeArgs(e.Args);
 
 #if DEVELOP
-		var _ = PreviewModel.SnooperViewer;
+		TestProvider.Set();
+		new Xylia.Preview.UI.GameUI.Scene.Game_Tooltip.Skill3ToolTipPanel_1().Show();
+		return;
 
-		//new Xylia.Preview.UI.GameUI.Scene.Game_Tooltip.Skill3ToolTipPanel_1().Show();
-		new Xylia.Preview.UI.Content.TestPanel().Show();
-        //new ShowObjectPlayer().Show(); 
+		//var _ = PreviewModel.SnooperViewer;
+		UpdateSkin(SkinType.Default, true);
+		new Xylia.Preview.UI.GameUI.Scene.Game_Tooltip.Skill3ToolTipPanel_1().Show();
+		//new Xylia.Preview.UI.Content.TestPanel().Show();
 #else
 		MainWindow = new MainWindow();
 		MainWindow.Show();
@@ -75,7 +80,12 @@ public partial class App : Application
 		string str = StringHelper.Get("Application_CrashMessage", exception!.Message);
 
 		Log.Fatal(exception, "OnCrash");
-		HandyControl.Controls.MessageBox.Show(str, "Crash", MessageBoxButton.OK, MessageBoxImage.Stop);
+		SendMessage(str, "Crash");
+	}
+
+	internal static void SendMessage(string message, string? title = null)
+	{
+		HandyControl.Controls.MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Stop);
 	}
 	#endregion
 
@@ -137,7 +147,16 @@ public partial class App : Application
 			if (!pause) Console.WriteLine($"no result!");
 			Console.ReadKey();
 		}
-		else if (command == "soundwave_output") Commands.Soundwave_output();
+		else if (command == "output")
+		{
+			new UpdateService().Register();
+
+			switch (args["type"])
+			{
+				case "soundwave": Commands.Soundwave_output(); break;
+				case "skill3": OutSet.Start<Skill3Out>().Wait(); break;
+			}
+		}
 		else throw new WarningException("bad params: " + command);
 	}
 	#endregion

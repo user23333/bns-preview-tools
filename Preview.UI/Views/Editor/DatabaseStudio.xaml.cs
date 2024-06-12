@@ -1,14 +1,14 @@
-﻿using HandyControl.Controls;
-using HandyControl.Data;
-using Microsoft.Win32;
-using OfficeOpenXml;
-using Ookii.Dialogs.Wpf;
-using System.Data;
+﻿using System.Data;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
+using HandyControl.Controls;
+using HandyControl.Data;
+using Microsoft.Win32;
+using OfficeOpenXml;
+using Ookii.Dialogs.Wpf;
 using Xylia.Preview.Data.Client;
 using Xylia.Preview.Data.Engine.BinData.Models;
 using Xylia.Preview.Data.Engine.BinData.Serialization;
@@ -112,33 +112,40 @@ public partial class DatabaseStudio
 		}
 	}
 
-    private void TvwDatabase_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
-    {
-        if (tvwDatabase.SelectedItem is FrameworkElement item && item.DataContext is Table table)
-        {
+	private void TvwDatabase_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+	{
+		if (tvwDatabase.SelectedItem is FrameworkElement item && item.DataContext is Table table)
+		{
 			_viewModel.CurrentTable = table;
 		}
 		else
 		{
 			_viewModel.CurrentTable = null;
-        }
-    }
+		}
+	}
 
-    private void TvwDatabase_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-    {
-        if (tvwDatabase.SelectedItem is FrameworkElement item)
-        {
-            if (item.DataContext is Table table)
-            {
-                string sql = $"SELECT * FROM \"{table.Name}\"\nLIMIT {_viewModel.LimitNum}";
-                AddTab(sql, table.Name);
-            }
-        }
-    }
+	private void TvwDatabase_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+	{
+		if (tvwDatabase.SelectedItem is FrameworkElement item)
+		{
+			if (item.DataContext is Table table)
+			{
+				string sql = $"SELECT * FROM \"{table.Name}\"\nLIMIT {_viewModel.LimitNum}";
+				AddTab(sql, table.Name);
+			}
+		}
+	}
 
-    private void Refresh_Click(object sender, RoutedEventArgs e)
+	private void Refresh_Click(object sender, RoutedEventArgs e)
 	{
 		LoadTreeView();
+	}
+
+
+
+	private void NewSql_Click(object sender, RoutedEventArgs e)
+	{
+		AddTab(string.Empty);
 	}
 
 	private void LoadSql_Click(object sender, RoutedEventArgs e)
@@ -230,29 +237,23 @@ public partial class DatabaseStudio
 	{
 		if (_viewModel.CurrentTable is null) return;
 
-        var window = new TableView { Table = _viewModel.CurrentTable };
-        window.Show();
-    }
+		var window = new TableView { Table = _viewModel.CurrentTable };
+		window.Show();
+	}
 
 	private void ViewDefinition_Click(object sender, RoutedEventArgs e)
 	{
-        if (_viewModel.CurrentTable is null) return;
+		if (_viewModel.CurrentTable is null) return;
 
-        _viewModel.CurrentDefinition = _viewModel.CurrentTable.Definition;
-        PageHolder.SelectedItem = Page_Definition;
+		_viewModel.CurrentDefinition = _viewModel.CurrentTable.Definition;
+		PageHolder.SelectedItem = Page_Definition;
 	}
-
-	private void ReturnBtn_Click(object sender, RoutedEventArgs e)
-	{
-		PageHolder.SelectedItem = Page_SQL;
-	}
-
 
 	private async void TableExport_Click(object sender, RoutedEventArgs e)
 	{
-        if (_viewModel.CurrentTable is null) return;
+		if (_viewModel.CurrentTable is null) return;
 
-        await ExportAsync(_viewModel.CurrentTable);
+		await ExportAsync(_viewModel.CurrentTable);
 	}
 
 	private async void TableExportAll_Click(object sender, RoutedEventArgs e)
@@ -299,6 +300,26 @@ public partial class DatabaseStudio
 				Message = "Save finished",
 				StaysOpen = true,
 			});
+		}
+	}
+
+
+	//------------------------------------------------------
+	//
+	//  Page_Definition
+	//
+	//------------------------------------------------------
+	private void ReturnBtn_Click(object sender, RoutedEventArgs e)
+	{
+		PageHolder.SelectedItem = Page_SQL;
+	}
+
+	private void AttributeName_MouseDown(object sender, MouseButtonEventArgs e)
+	{
+		// copy attribute name
+		if (sender is TextBlock textBlock && e.ClickCount == 2)
+		{
+			Clipboard.SetText(textBlock.Text);
 		}
 	}
 	#endregion
@@ -422,5 +443,5 @@ public partial class DatabaseStudio
 	private BnsDatabase? database;
 	private ProviderSerialize? serialize;
 	private readonly DatabaseStudioViewModel _viewModel;
-    #endregion
+	#endregion
 }

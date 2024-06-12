@@ -215,9 +215,7 @@ internal sealed class ItemOut : OutSet, IDisposable
 		{
 			ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 			using var package = new ExcelPackage();
-			var sheet = package.Workbook.Worksheets.Add("item");
-
-			CreateData(sheet);
+			CreateData();
 			package.SaveAs(Path_MainFile);
 		}
 
@@ -230,9 +228,10 @@ internal sealed class ItemOut : OutSet, IDisposable
 		#endregion
 	}
 
-	protected override void CreateData(ExcelWorksheet sheet)
+	protected override void CreateData()
 	{
-		int Row = 1;
+		var sheet = CreateSheet();
+		int row = 1;
 		int index = 1;
 		sheet.SetColumn(index++, "id", 12);
 		sheet.SetColumn(index++, "key", 12);
@@ -244,16 +243,16 @@ internal sealed class ItemOut : OutSet, IDisposable
 
 		foreach (var Item in ItemDatas)
 		{
-			Row++;
+			row++;
 			int column = 1;
 
-			sheet.Cells[Row, column++].SetValue(Item.PrimaryKey);
-			sheet.Cells[Row, column++].SetValue(Item.Key);
-			sheet.Cells[Row, column++].SetValue(Item.Name2);
-			sheet.Cells[Row, column++].SetValue(Item.Alias);
-			sheet.Cells[Row, column++].SetValue(Item.Job.GetText());
-			sheet.Cells[Row, column++].SetValue(Item.Description);
-			sheet.Cells[Row, column++].SetValue(Item.Info);
+			sheet.Cells[row, column++].SetValue(Item.PrimaryKey);
+			sheet.Cells[row, column++].SetValue(Item.Key);
+			sheet.Cells[row, column++].SetValue(Item.Name2);
+			sheet.Cells[row, column++].SetValue(Item.Alias);
+			sheet.Cells[row, column++].SetValue(Item.Job.GetText());
+			sheet.Cells[row, column++].SetValue(Item.Description);
+			sheet.Cells[row, column++].SetValue(Item.Info);
 		}
 	}
 

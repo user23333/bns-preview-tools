@@ -5,49 +5,40 @@ using OfficeOpenXml;
 using Ookii.Dialogs.Wpf;
 using Xylia.Preview.Data.Client;
 using Xylia.Preview.Data.Helpers;
+using Xylia.Preview.UI.Common.Converters;
 
 namespace Xylia.Preview.UI.Helpers.Output;
 public abstract class OutSet
 {
 	#region Fields
-	protected ExcelPackage? package;
+	protected ExcelPackage? Package;
 	protected BnsDatabase Source { get; set; } = FileCache.Data;
 	#endregion
 
 	#region Properies
 	public virtual string Name => GetType().Name.SubstringBefore("Out", StringComparison.OrdinalIgnoreCase);
-
-	public int Column { get; protected set; } = 1;
-
-	public int Row { get; protected set; } = 1;
 	#endregion
 
 
 	#region Methods
-	public Task Output(FileInfo path) => Task.Run(() =>
+	protected ExcelWorksheet CreateSheet(string? name = null)
 	{
-		ArgumentNullException.ThrowIfNull(path);
+		ArgumentNullException.ThrowIfNull(Package);
 
-		ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-		package = new ExcelPackage();
-		var sheet = package.Workbook.Worksheets.Add(Name);
+		var sheet = Package.Workbook.Worksheets.Add(name ?? this.Name);
 		sheet.Cells.Style.Font.Name = "宋体";
 		sheet.Cells.Style.Font.Size = 11F;
 		sheet.Cells.Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
 		sheet.Cells.Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
 
-		CreateData(sheet);
-
-		package.SaveAs(path.FullName);
-
-		GC.Collect();
-	});
+		return sheet;
+	}
 
 	/// <summary>
 	/// Create xlsx file
 	/// </summary>
 	/// <param name="sheet"></param>
-	protected abstract void CreateData(ExcelWorksheet sheet);
+	protected abstract void CreateData();
 
 	/// <summary>
 	/// Create text file
@@ -56,10 +47,24 @@ public abstract class OutSet
 	protected virtual void CreateText() => throw new NotImplementedException();
 
 
+	public Task Output(FileInfo path) => Task.Run(() =>
+	{
+		ArgumentNullException.ThrowIfNull(path);
+
+		ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+		Package = new ExcelPackage();
+
+		//main sheet
+		CreateData();
+		Package.SaveAs(path.FullName);
+
+		GC.Collect();
+	});
+
 	/// <summary>
 	/// entry method for output
 	/// </summary>
-	public static async void Start<T>() where T : OutSet, new()
+	public static async Task Start<T>() where T : OutSet, new()
 	{
 		var instance = new T();
 
@@ -73,7 +78,7 @@ public abstract class OutSet
 		DateTime dt = DateTime.Now;
 		await instance.Output(new FileInfo(save.FileName));
 
-		Growl.Success(StringHelper.Get("ItemList_TaskCompleted2", 0, (DateTime.Now - dt).TotalSeconds));
+		Growl.Success(StringHelper.Get("Text.TaskCompleted2", TimeConverter.Convert(DateTime.Now - dt, null)));
 	}
 	#endregion
 }

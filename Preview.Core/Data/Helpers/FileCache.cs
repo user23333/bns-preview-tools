@@ -1,5 +1,6 @@
 ﻿using CUE4Parse.BNS;
 using Xylia.Preview.Data.Client;
+using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Properties;
 
@@ -20,6 +21,8 @@ public static class FileCache
 	{
 		get { lock (Lock) { return _provider ??= new(Settings.Default.GameFolder); } }
 	}
+
+	public static ITextProvider TextProvider { get; set; }
 
 	public static void Clear()
 	{

@@ -2,18 +2,16 @@
 
 namespace Xylia.Preview.Data.Common.DataStruct;
 /// <summary>
-///  Represents an instant in time
+/// Represents an instant in time and related to time zone offset of publisher (global field).
 /// </summary>
-/// <param name="Ticks"></param>
-/// <param name="Publisher"></param>
 public struct Time64(long ticks) : IFormattable, ITime
 {
 	#region Properties
 	private const int HoursPerDay = 24;
-	private const long TicksPerSecond = 1;
-	private const long TicksPerMinute = TicksPerSecond * 60;
-	private const long TicksPerHour = TicksPerMinute * 60;
-	private const long TicksPerDay = TicksPerHour * HoursPerDay;
+	internal const long TicksPerSecond = 1;
+	internal const long TicksPerMinute = TicksPerSecond * 60;
+	internal const long TicksPerHour = TicksPerMinute * 60;
+	internal const long TicksPerDay = TicksPerHour * HoursPerDay;
 
 	// Number of milliseconds per time unit
 	private const int MillisPerSecond = 1000;
@@ -24,15 +22,15 @@ public struct Time64(long ticks) : IFormattable, ITime
 	// Number of days in a non-leap year
 	private const int DaysPerYear = 365;
 	// Number of days in 4 years
-	private const int DaysPer4Years = DaysPerYear * 4 + 1;       // 1461
-																 // Number of days in 100 years
-	private const int DaysPer100Years = DaysPer4Years * 25 - 1;  // 36524
-																 // Number of days in 400 years
-	private const int DaysPer400Years = DaysPer100Years * 4 + 1; // 146097
-																 // Number of days from 1/1/0001 to 12/31/1969
+	internal const int DaysPer4Years = DaysPerYear * 4 + 1;       // 1461
+																  // Number of days in 100 years
+	internal const int DaysPer100Years = DaysPer4Years * 25 - 1;  // 36524
+																  // Number of days in 400 years
+	internal const int DaysPer400Years = DaysPer100Years * 4 + 1; // 146097
+																  // Number of days from 1/1/0001 to 12/31/1969
 	internal const int DaysTo1970 = DaysPer400Years * 4 + DaysPer100Years * 3 + DaysPer4Years * 17 + DaysPerYear; // 719,162
 																												  // Number of days from 1/1/0001 to 12/31/9999
-	private const int DaysTo10000 = DaysPer400Years * 25 - 366;  // 3652059
+	internal const int DaysTo10000 = DaysPer400Years * 25 - 366;  // 3652059
 
 	internal const long MinTicks = 0;
 	internal const long MaxTicks = DaysTo10000 * TicksPerDay - 1;
@@ -42,15 +40,15 @@ public struct Time64(long ticks) : IFormattable, ITime
 	// Constants used for fast calculation of following subexpressions
 	//      x / DaysPer4Years
 	//      x % DaysPer4Years / 4
-	private const uint EafMultiplier = (int)(((1UL << 32) + DaysPer4Years - 1) / DaysPer4Years);   // 2,939,745
-	private const uint EafDivider = EafMultiplier * 4;                                              // 11,758,980
+	internal const uint EafMultiplier = (int)(((1UL << 32) + DaysPer4Years - 1) / DaysPer4Years);   // 2,939,745
+	internal const uint EafDivider = EafMultiplier * 4;                                              // 11,758,980
 
-	private const ulong TicksPer6Hours = TicksPerHour * 6;
-	private const int March1BasedDayOfNewYear = 306;              // Days between March 1 and January 1
+	internal const ulong TicksPer6Hours = TicksPerHour * 6;
+	internal const int March1BasedDayOfNewYear = 306;              // Days between March 1 and January 1
 
 	public readonly ulong Ticks => (ulong)ticks;
 
-	public int Year
+	public readonly int Year
 	{
 		get
 		{
@@ -62,7 +60,7 @@ public struct Time64(long ticks) : IFormattable, ITime
 		}
 	}
 
-	public int Month
+	public readonly int Month
 	{
 		get
 		{
@@ -75,7 +73,7 @@ public struct Time64(long ticks) : IFormattable, ITime
 		}
 	}
 
-	public int Day
+	public readonly int Day
 	{
 		get
 		{
@@ -85,15 +83,15 @@ public struct Time64(long ticks) : IFormattable, ITime
 			ushort daySinceMarch1 = (ushort)((uint)u2 / EafDivider);
 			int n3 = 2141 * daySinceMarch1 + 197913;
 			// Return 1-based day-of-month
-			return (ushort)n3 / 2141 + 1;
+			return Math.Max(1, (ushort)n3 / 2141);
 		}
 	}
 
-	public sbyte Hour => (sbyte)((uint)(Ticks / TicksPerHour) % 24);
+	public readonly sbyte Hour => (sbyte)((uint)(Ticks / TicksPerHour) % 24);
 
-	public int Minute => (int)((Ticks / TicksPerMinute) % 60);
+	public readonly int Minute => (int)((Ticks / TicksPerMinute) % 60);
 
-	public int Second => (int)((Ticks / TicksPerSecond) % 60);
+	public readonly int Second => (int)((Ticks / TicksPerSecond) % 60);
 	#endregion
 
 

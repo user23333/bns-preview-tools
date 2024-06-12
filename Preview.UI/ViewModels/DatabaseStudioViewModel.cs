@@ -1,7 +1,7 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Newtonsoft.Json;
-using System.Text;
+﻿using System.Text;
 using System.Windows.Controls;
+using CommunityToolkit.Mvvm.ComponentModel;
+using Newtonsoft.Json;
 using Xylia.Preview.Data.Client;
 using Xylia.Preview.Data.Engine.BinData.Models;
 using Xylia.Preview.Data.Engine.Definitions;
@@ -26,10 +26,10 @@ internal partial class DatabaseStudioViewModel : ObservableObject
 
     public bool UseImport => UserService.Instance?.Role >= UserRole.Advanced;
 #pragma warning restore CA1822
-    #endregion
+	#endregion
 
-    #region SQL Result
-    [ObservableProperty]
+	#region SQL Result
+	[ObservableProperty]
     internal bool _isGlobalData = false;
 
     [ObservableProperty]

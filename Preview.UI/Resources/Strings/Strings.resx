@@ -218,11 +218,16 @@
     <value>Github</value>
   </data>
   <data name="Application_UpdateLog" xml:space="preserve">
-    <value>[3.1.2]
+    <value>[3.1.3]
+Fix issues where programs cannot run in some cases.
+Optimize quest preview support rewards.
+Optimize message when model is not exist.
+
+[3.1.2]
 Optimize item preview support equip-gem abilities and set effects.
 Fix filtering don't work when switching to a first level node in item preview.
 Optimize filtering function for quest preview.
-Optimize message when update failed.
+Optimize message when updating server check failed.
 
 [3.1.1]
 Fix fixed-job gear reward skill also follow settings.
@@ -248,7 +253,8 @@ Expand the response rectange with item preview.</value>
     <value>The latest {1} version of {0} is {2}. Do you want to update the application now?</value>
   </data>
   <data name="Application_VersionTip3" xml:space="preserve">
-    <value>There is a problem when check update, please try again later.</value>
+    <value>There is a problem when check update, please try again later.
+{0}</value>
   </data>
   <data name="Asset_Extract" xml:space="preserve">
     <value>Extract</value>
@@ -421,18 +427,6 @@ Expand the response rectange with item preview.</value>
   <data name="IconOut_Skills" xml:space="preserve">
     <value>Extract Skill Icon</value>
   </data>
-  <data name="IconOut_TaskBegin" xml:space="preserve">
-    <value>Task begin...</value>
-  </data>
-  <data name="IconOut_TaskCancel" xml:space="preserve">
-    <value>There is a task already being executed, are you sure to cancel it?</value>
-  </data>
-  <data name="IconOut_TaskCompleted" xml:space="preserve">
-    <value>Task completed, taking {0: hh} hours {0: mm} minutes {0: ss} seconds.</value>
-  </data>
-  <data name="IconOut_TaskException" xml:space="preserve">
-    <value>Task unexpectedly terminated, because {0}</value>
-  </data>
   <data name="IconOut_UseBackground" xml:space="preserve">
     <value>Grade Background</value>
   </data>
@@ -474,9 +468,6 @@ Expand the response rectange with item preview.</value>
   </data>
   <data name="ItemList_TaskCompleted" xml:space="preserve">
     <value>Pull {0} piece(s) of data, taking {1} seconds.</value>
-  </data>
-  <data name="ItemList_TaskCompleted2" xml:space="preserve">
-    <value>Task completed, taking {1} seconds.</value>
   </data>
   <data name="ItemPage_DataClear" xml:space="preserve">
     <value>Data Clear</value>
@@ -839,5 +830,68 @@ Please note that do not modify the order of nodes</value>
   </data>
   <data name="AbilityName.DefendPowerCreatureValue" xml:space="preserve">
     <value>DefendPowerPercent</value>
+  </data>
+  <data name="PreviewModel_Empty" xml:space="preserve">
+    <value>Missing model resource.</value>
+  </data>
+  <data name="PreviewModel_Fail" xml:space="preserve">
+    <value>Model load failed.</value>
+  </data>
+  <data name="PreviewProbability" xml:space="preserve">
+    <value>View Probability Information</value>
+  </data>
+  <data name="Text.TaskCancel_Ask" xml:space="preserve">
+    <value>Are you sure to cancel the task?</value>
+  </data>
+  <data name="Text.TaskCancel_Ask_Exist" xml:space="preserve">
+    <value>Task already being executed, are you sure to cancel it?</value>
+  </data>
+  <data name="Text.TaskCompleted" xml:space="preserve">
+    <value>Task completed.</value>
+  </data>
+  <data name="Text.TaskCompleted2" xml:space="preserve">
+    <value>Task completed, taking {0}.</value>
+  </data>
+  <data name="Text.TaskException" xml:space="preserve">
+    <value>Task unexpectedly terminated, because {0}</value>
+  </data>
+  <data name="Text.TaskBegin" xml:space="preserve">
+    <value>Task begin...</value>
+  </data>
+  <data name="DatabaseStudio_SqlNew" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="UI.ItemRandomOption.Undetermined" xml:space="preserve">
+    <value>&lt;arg p="1:integer"/&gt; of the following</value>
+  </data>
+  <data name="UI.Tooltip.Skill.damage-percent" xml:space="preserve">
+    <value>&lt;arg p="1:integer"/&gt;xAP</value>
+  </data>
+  <data name="UI.Tooltip.Skill.damage-percent1" xml:space="preserve">
+    <value>&lt;arg p="1:integer"/&gt;~&lt;arg p="2:integer"/&gt;xAP</value>
+  </data>
+  <data name="UI.RandomBox.Probability.CommonDroppedPouch" xml:space="preserve">
+    <value>Party dropped pouch</value>
+  </data>
+  <data name="UI.RandomBox.Probability.CommonDroppedPouch.Difficulty1" xml:space="preserve">
+    <value>Party dropped pouch (Easy)</value>
+  </data>
+  <data name="UI.RandomBox.Probability.CommonDroppedPouch.Difficulty2" xml:space="preserve">
+    <value>Party dropped pouch (Normal)</value>
+  </data>
+  <data name="UI.RandomBox.Probability.CommonDroppedPouch.Difficulty3" xml:space="preserve">
+    <value>Party dropped pouch (Hard)</value>
+  </data>
+  <data name="UI.RandomBox.Probability.PersonalDroppedPouch" xml:space="preserve">
+    <value>Personal dropped pouch</value>
+  </data>
+  <data name="UI.RandomBox.Probability.PersonalDroppedPouch.Difficulty1" xml:space="preserve">
+    <value>Personal dropped pouch (Easy)</value>
+  </data>
+  <data name="UI.RandomBox.Probability.PersonalDroppedPouch.Difficulty2" xml:space="preserve">
+    <value>Personal dropped pouch (Normal)</value>
+  </data>
+  <data name="UI.RandomBox.Probability.PersonalDroppedPouch.Difficulty3" xml:space="preserve">
+    <value>Personal dropped pouch (Hard)</value>
   </data>
 </root>

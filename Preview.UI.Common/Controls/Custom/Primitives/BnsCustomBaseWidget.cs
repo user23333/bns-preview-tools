@@ -125,6 +125,14 @@ public abstract class BnsCustomBaseWidget : UserWidget, IMetaData
 
 
 	#region Protected Methods
+	protected override Size MeasureOverride(Size constraint)
+	{
+		if (AutoResizeHorizontal) constraint.Width = double.PositiveInfinity;
+		if (AutoResizeVertical) constraint.Height = double.PositiveInfinity;
+
+		return base.MeasureOverride(constraint);
+	}
+
 	protected override Rect ArrangeChild(UIElement child, Size constraint)
 	{
 		var rcChild = base.ArrangeChild(child, constraint);

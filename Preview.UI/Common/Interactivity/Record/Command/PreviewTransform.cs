@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 using Xylia.Preview.Data.Models;
-using Xylia.Preview.UI.GameUI.Scene.Game_ItemGrowth2;
+using Xylia.Preview.UI.GameUI.Scene.Game_Tooltip;
 
 namespace Xylia.Preview.UI.Common.Interactivity;
 public class PreviewTransform : RecordCommand
@@ -23,7 +23,7 @@ public class PreviewTransform : RecordCommand
 		switch (record.OwnerName)
 		{
 			case "item":
-				Application.Current.Dispatcher.Invoke(() => { new ItemGrowth2TooltipPanel { DataContext = record }.Show(); });
+				Application.Current.Dispatcher.Invoke(() => new ItemGrowth2TooltipPanel { DataContext = record }.Show());
 				break;
 
 			default: throw new NotSupportedException();

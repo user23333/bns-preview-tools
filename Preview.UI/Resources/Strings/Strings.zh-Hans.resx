@@ -218,7 +218,12 @@
     <value>Github</value>
   </data>
   <data name="Application_UpdateLog" xml:space="preserve">
-    <value>[3.1.2]
+    <value>[3.1.3]
+修复特定情况下，程序无法运行的问题
+优化任务预览可以查看奖励
+优化模型不存在时的提醒
+
+[3.1.2]
 优化物品预览可以查看八卦牌属性及套装效果
 修复物品预览中切换一级分类时，筛选无法应用的问题
 优化任务预览的筛选功能
@@ -248,7 +253,8 @@
     <value>{0} 的最新{1}版本是{2}，你想要立刻更新吗?</value>
   </data>
   <data name="Application_VersionTip3" xml:space="preserve">
-    <value>检查更新失败，请稍后再试</value>
+    <value>检查更新失败，点击确认将会重试
+{0}</value>
   </data>
   <data name="Asset_Extract" xml:space="preserve">
     <value>提取</value>
@@ -276,9 +282,6 @@
   </data>
   <data name="AudioPlayer_Name" xml:space="preserve">
     <value>音频播放器</value>
-  </data>
-  <data name="AudioPlayer_Name1" xml:space="preserve">
-    <value>AudioPlayer</value>
   </data>
   <data name="Command_QueryAsset" xml:space="preserve">
     <value>查询游戏资产</value>
@@ -424,18 +427,6 @@
   <data name="IconOut_Skills" xml:space="preserve">
     <value>提取技能图标</value>
   </data>
-  <data name="IconOut_TaskBegin" xml:space="preserve">
-    <value>任务开始</value>
-  </data>
-  <data name="IconOut_TaskCancel" xml:space="preserve">
-    <value>已经有一个任务正在执行，是否确认取消？</value>
-  </data>
-  <data name="IconOut_TaskCompleted" xml:space="preserve">
-    <value>任务已经完成, 总耗{0:hh}小时{0:mm}分{0:ss}秒。</value>
-  </data>
-  <data name="IconOut_TaskException" xml:space="preserve">
-    <value>任务意外终止, 由于 {0}</value>
-  </data>
   <data name="IconOut_UseBackground" xml:space="preserve">
     <value>生成品质背景</value>
   </data>
@@ -474,9 +465,6 @@
   </data>
   <data name="ItemList_TaskCompleted" xml:space="preserve">
     <value>拉取{0}条数据, 总耗{1}秒。</value>
-  </data>
-  <data name="ItemList_TaskCompleted2" xml:space="preserve">
-    <value>任务已经完成, 总耗{1}秒。</value>
   </data>
   <data name="ItemPage_DataClear" xml:space="preserve">
     <value>缓存清理</value>
@@ -719,9 +707,6 @@
   <data name="Text_FileSize" xml:space="preserve">
     <value>文件大小</value>
   </data>
-  <data name="Text_FileSize Length" xml:space="preserve">
-    <value />
-  </data>
   <data name="Text_Import" xml:space="preserve">
     <value>输入</value>
   </data>
@@ -838,5 +823,68 @@
   </data>
   <data name="AbilityName.DefendPowerCreatureValue" xml:space="preserve">
     <value>防御率</value>
+  </data>
+  <data name="PreviewModel_Empty" xml:space="preserve">
+    <value>模型缺失资源</value>
+  </data>
+  <data name="PreviewModel_Fail" xml:space="preserve">
+    <value>模型加载失败</value>
+  </data>
+  <data name="PreviewProbability" xml:space="preserve">
+    <value>查看概率信息</value>
+  </data>
+  <data name="Text.TaskCompleted" xml:space="preserve">
+    <value>任务已经完成</value>
+  </data>
+  <data name="Text.TaskCompleted2" xml:space="preserve">
+    <value>任务已经完成, 总耗时{0}</value>
+  </data>
+  <data name="Text.TaskException" xml:space="preserve">
+    <value>任务意外终止, 由于 {0}</value>
+  </data>
+  <data name="Text.TaskCancel_Ask" xml:space="preserve">
+    <value>是否确认取消任务？</value>
+  </data>
+  <data name="Text.TaskCancel_Ask_Exist" xml:space="preserve">
+    <value>已经有一个任务正在执行，是否确认取消？</value>
+  </data>
+  <data name="Text.TaskBegin" xml:space="preserve">
+    <value>任务已经开始</value>
+  </data>
+  <data name="DatabaseStudio_SqlNew" xml:space="preserve">
+    <value>新建</value>
+  </data>
+  <data name="UI.ItemRandomOption.Undetermined" xml:space="preserve">
+    <value>在以下效果中获得其中&lt;arg p="1:integer"/&gt;种</value>
+  </data>
+  <data name="UI.Tooltip.Skill.damage-percent" xml:space="preserve">
+    <value>攻击力的&lt;arg p="1:integer"/&gt;%</value>
+  </data>
+  <data name="UI.Tooltip.Skill.damage-percent-min-max" xml:space="preserve">
+    <value>攻击力的&lt;arg p="1:integer"/&gt;%~&lt;arg p="2:integer"/&gt;%</value>
+  </data>
+  <data name="UI.RandomBox.Probability.CommonDroppedPouch" xml:space="preserve">
+    <value>队伍战利品箱</value>
+  </data>
+  <data name="UI.RandomBox.Probability.CommonDroppedPouch.Difficulty1" xml:space="preserve">
+    <value>队伍战利品箱 (入门)</value>
+  </data>
+  <data name="UI.RandomBox.Probability.CommonDroppedPouch.Difficulty2" xml:space="preserve">
+    <value>队伍战利品箱 (普通)</value>
+  </data>
+  <data name="UI.RandomBox.Probability.CommonDroppedPouch.Difficulty3" xml:space="preserve">
+    <value>队伍战利品箱 (熟练)</value>
+  </data>
+  <data name="UI.RandomBox.Probability.PersonalDroppedPouch" xml:space="preserve">
+    <value>个人战利品箱</value>
+  </data>
+  <data name="UI.RandomBox.Probability.PersonalDroppedPouch.Difficulty1" xml:space="preserve">
+    <value>个人战利品箱 (入门)</value>
+  </data>
+  <data name="UI.RandomBox.Probability.PersonalDroppedPouch.Difficulty2" xml:space="preserve">
+    <value>个人战利品箱 (普通)</value>
+  </data>
+  <data name="UI.RandomBox.Probability.PersonalDroppedPouch.Difficulty3" xml:space="preserve">
+    <value>个人战利品箱 (熟练)</value>
   </data>
 </root>

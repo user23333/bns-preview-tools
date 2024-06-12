@@ -145,7 +145,7 @@ public abstract class ModelElement : IElement
 			type = type.GetElementType();
 			var value = Array.CreateInstance(type, attribute.Repeat);
 
-			for (int i = 0; i < attribute.Repeat; i++)
+			for (int i = 0; i < value.Length; i++)
 				value.SetValue(AttributeConverter.Convert(record.Attributes[$"{name}-{i + 1}"], type), i);
 
 			return value;

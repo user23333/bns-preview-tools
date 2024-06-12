@@ -240,9 +240,9 @@ public class BnsCustomGraphMapWidget : BnsCustomBaseWidget
 
 		if (column >= 0)
 		{
-			double x = column * size.Width + ((size.Width - child.RenderSize.Width) / 2) - ScrollOffset.X;
-			double y = row * size.Height + ((size.Height - child.RenderSize.Height) / 2) - ScrollOffset.Y;
-			return new Rect(new Point(x, y), child.RenderSize);
+			double x = column * size.Width + ((size.Width - child.DesiredSize.Width) / 2) - ScrollOffset.X;
+			double y = row * size.Height + ((size.Height - child.DesiredSize.Height) / 2) - ScrollOffset.Y;
+			return new Rect(new Point(x, y), child.DesiredSize);
 		}
 		else if (child is Edge)
 		{

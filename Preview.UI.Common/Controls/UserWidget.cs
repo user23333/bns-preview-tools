@@ -9,6 +9,7 @@ using CUE4Parse.BNS.Assets.Exports;
 using Xylia.Preview.UI.Controls.Helpers;
 using Xylia.Preview.UI.Controls.Primitives;
 using Xylia.Preview.UI.Converters;
+using Xylia.Preview.UI.Extensions;
 
 namespace Xylia.Preview.UI.Controls;
 internal interface IUserWidget
@@ -124,6 +125,10 @@ public abstract class UserWidget : Control, IUserWidget
 	/// <returns>Widget' desired size.</returns>
 	protected override Size MeasureOverride(Size constraint)
 	{
+		if (double.IsInfinity(constraint.Width)) constraint.Width = 0;
+		if (double.IsInfinity(constraint.Height)) constraint.Height = 0;
+		Size size = constraint;
+
 		foreach (UIElement child in Children)
 		{
 			if (child == null) continue;
@@ -162,21 +167,20 @@ public abstract class UserWidget : Control, IUserWidget
 
 
 			// Measure widget if invalid value
-			if (child is BnsCustomBaseWidget widget)
-			{
-				if (widget.AutoResizeHorizontal) w = 0;
-				if (widget.AutoResizeVertical) h = 0;
-			}
-
-			if (w == 0) w = double.PositiveInfinity;
-			if (h == 0) h = double.PositiveInfinity;
+			if (w == 0 || (child is BnsCustomBaseWidget widget1 && widget1.AutoResizeHorizontal)) w = double.PositiveInfinity;
+			if (h == 0 || (child is BnsCustomBaseWidget widget2 && widget2.AutoResizeVertical)) h = double.PositiveInfinity;
 
 			child.Measure(new Size(w, h));
+
+			// Measure widget rectangle
+			var rect = ArrangeChild(child, constraint);
+			child.SetFinalRect(rect);
+
+			size.Width = Math.Max(size.Width, rect.Right);
+			size.Height = Math.Max(size.Height, rect.Bottom);
 		}
 
-		if (double.IsInfinity(constraint.Width)) constraint.Width = 0;
-		if (double.IsInfinity(constraint.Height)) constraint.Height = 0;
-		return constraint;
+		return size;
 	}
 
 	/// <summary>
@@ -210,13 +214,6 @@ public abstract class UserWidget : Control, IUserWidget
 		// Compute pos of the child	
 		var x = anchor.Minimum.X * (constraint.Width - child.DesiredSize.Width) - (alignments.X * child.DesiredSize.Width) + offset.Left;
 		var y = anchor.Minimum.Y * (constraint.Height - child.DesiredSize.Height) - (alignments.Y * child.DesiredSize.Height) + offset.Top;
-
-		// extra support
-		if (child is FrameworkElement fe)
-		{
-			x += fe.Margin.Left;
-			y += fe.Margin.Top;
-		}
 
 		return new Rect(new Point(x, y), child.DesiredSize);
 	}

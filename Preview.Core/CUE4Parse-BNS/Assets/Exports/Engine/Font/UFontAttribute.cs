@@ -7,6 +7,7 @@ public class UFontAttribute : USerializeObject
 {
 	public bool Italic;
 	public bool Shadow;
+	public bool Outline;
 	public bool Strokeout;
 	public bool Underline;
 
@@ -14,10 +15,11 @@ public class UFontAttribute : USerializeObject
 	{
 		base.Deserialize(Ar, validPos);
 
-		if (this.TryGetValue(out FStructFallback FontAttributes, "FontAttributes"))
+		if (TryGetValue(out FStructFallback FontAttributes, "FontAttributes"))
 		{
 			Italic = FontAttributes.GetOrDefault<bool>("Italic");
 			Shadow = FontAttributes.GetOrDefault<bool>("Shadow");
+			Outline = FontAttributes.GetOrDefault<bool>("Outline");
 			Strokeout = FontAttributes.GetOrDefault<bool>("Strokeout");
 			Underline = FontAttributes.GetOrDefault<bool>("Underline");
 		}

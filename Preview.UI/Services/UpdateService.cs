@@ -15,7 +15,7 @@ namespace Xylia.Preview.UI.Services;
 internal class UpdateService : IService
 {
 	const string APP_NAME = "bns-preview-tools";
-	const int TIMEOUT = 10000;
+	const int TIMEOUT = 7500;
 	internal static bool ShowLog { get; private set; } = false;
 
 	#region IService
@@ -49,25 +49,30 @@ internal class UpdateService : IService
 
 	public bool Register()
 	{
-		AutoUpdater.Start($"https://tools.bnszs.com/api/update?app={APP_NAME}&version={VersionHelper.InternalVersion}&mode={UserSettings.Default.UpdateMode}");
+		AutoUpdater.Start($"http://tools.bnszs.com/api/update?app={APP_NAME}&version={VersionHelper.InternalVersion}&mode={UserSettings.Default.UpdateMode}");
 		CheckThread = new Timer(f => CheckForUpdateEvent(UpdateInfoArgs.Timeout), null, TIMEOUT, Timeout.Infinite);
 		return true;
 	}
 
 	private static void ParseUpdateInfoEvent(ParseUpdateInfoEventArgs args)
 	{
-		CheckThread?.Dispose();
-		args.UpdateInfo = JsonConvert.DeserializeObject<UpdateInfoArgs>(args.RemoteData);
+		var updateInfo = JsonConvert.DeserializeObject<UpdateInfoArgs>(args.RemoteData);
+		if (updateInfo != null && updateInfo.CurrentVersion is null) throw new Exception(updateInfo.Message);
+
+		args.UpdateInfo = updateInfo;
 	}
 
 	private static void CheckForUpdateEvent(UpdateInfoEventArgs args2)
 	{
+		CheckThread?.Dispose();
+
 		if (args2 is not UpdateInfoArgs args || args.CurrentVersion is null)
 		{
 			Log.Error(args2.Error.Message);
 
 			// retry or exit
-			if (MessageBox.Show(StringHelper.Get("Application_VersionTip3"), StringHelper.Get("Message_Tip"), MessageBoxButton.OKCancel, MessageBoxImage.Error) == MessageBoxResult.OK)
+			if (MessageBox.Show(StringHelper.Get("Application_VersionTip3", args2.Error.Message),
+				StringHelper.Get("Message_Tip"), MessageBoxButton.OKCancel, MessageBoxImage.Error) == MessageBoxResult.OK)
 			{
 				new UpdateService().Register();
 				return;
@@ -106,6 +111,7 @@ internal class UpdateService : IService
 	#region Helpers
 	class UpdateInfoArgs : UpdateInfoEventArgs
 	{
+		public string? Message { get; set; }
 		public int NoticeID { get; set; }
 		public string? Notice { get; set; }
 		public string? Signature { get; set; }

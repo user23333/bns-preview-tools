@@ -124,7 +124,7 @@
 							</ComboBox.ItemsSource>
 							<ComboBox.ItemTemplate>
 								<DataTemplate>
-									<TextBlock Text="{Binding Converter={converters:DurationConverter Type=Daily},Mode=OneWay}" />
+									<TextBlock Text="{Binding Converter={converters:TimeConverter Type=Daily},Mode=OneWay}" />
 								</DataTemplate>
 							</ComboBox.ItemTemplate>
 						</ComboBox>

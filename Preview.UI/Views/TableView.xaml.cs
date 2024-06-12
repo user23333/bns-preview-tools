@@ -1,8 +1,6 @@
 ﻿using System.ComponentModel;
-using System.Reflection;
 using System.Windows.Controls;
 using System.Windows.Data;
-using CommunityToolkit.Mvvm.Input;
 using HandyControl.Data;
 using Xylia.Preview.Data.Engine.BinData.Models;
 using Xylia.Preview.Data.Models;
@@ -40,26 +38,17 @@ public partial class TableView
 	{
 		ItemMenu.Items.Clear();
 
-		var assembly = Assembly.GetExecutingAssembly();
-		var baseType = typeof(RecordCommand);
-		foreach (var definedType in assembly.DefinedTypes)
+		RecordCommand.Find(name, (command) =>
 		{
-			if (definedType.IsAbstract || definedType.IsInterface || !baseType.IsAssignableFrom(definedType)) continue;
-
-			// create
-			var instance = Activator.CreateInstance(definedType);
-			if (instance is RecordCommand command && command.CanExecute(name))
+			var item = new MenuItem()
 			{
-				var cmd = new RelayCommand(() => command.Execute(ColumnList.SelectedItem), () => command.CanExecute(ColumnList.SelectedItem));
-				ColumnList.SelectionChanged += (_, _) => cmd.NotifyCanExecuteChanged();
+				Header = StringHelper.Get(command.Name),
+				Command = command,
+			};
+			item.SetBinding(MenuItem.CommandParameterProperty, new Binding("SelectedItem") { Source = ColumnList });
 
-				ItemMenu.Items.Add(new MenuItem()
-				{
-					Header = StringHelper.Get(command.Name),
-					Command = cmd,
-				});
-			}
-		}
+			ItemMenu.Items.Add(item);
+		});
 	}
 
 	/// <summary>

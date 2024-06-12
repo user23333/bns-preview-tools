@@ -45,7 +45,7 @@ public class ContentQuota : ModelElement
 	#endregion
 
 	#region Methods
-	public string Text
+	public string ItemStoreText
 	{
 		get
 		{
@@ -66,7 +66,7 @@ public class ContentQuota : ModelElement
 		}
 	}
 
-	public string Describe
+	public string ItemStoreDesc
 	{
 		get
 		{
@@ -91,6 +91,29 @@ public class ContentQuota : ModelElement
 				},
 				_ => null
 			}).GetText([ChargeDayOfWeek, ChargeTime, ChargeTime.AMPM()]);
+		}
+	}
+
+	public string DungeonBonusRewardDesc
+	{
+		get
+		{
+			return (ChargeInterval switch
+			{
+				ChargeIntervalSeq.Daily => "UI.DungeonBonusReward.Guide.QuotaDesc.Daily",
+				ChargeIntervalSeq.Weekly => ChargeDayOfWeek switch
+				{
+					DayOfWeekSeq.Sun => "UI.DungeonBonusReward.Guide.QuotaDesc.Sun",
+					DayOfWeekSeq.Mon => "UI.DungeonBonusReward.Guide.QuotaDesc.Mon",
+					DayOfWeekSeq.Tue => "UI.DungeonBonusReward.Guide.QuotaDesc.Tue",
+					DayOfWeekSeq.Wed => "UI.DungeonBonusReward.Guide.QuotaDesc.Wed",
+					DayOfWeekSeq.Thu => "UI.DungeonBonusReward.Guide.QuotaDesc.Thu",
+					DayOfWeekSeq.Fri => "UI.DungeonBonusReward.Guide.QuotaDesc.Fri",
+					DayOfWeekSeq.Sat => "UI.DungeonBonusReward.Guide.QuotaDesc.Sat",
+					_ => null
+				},
+				_ => null
+			}).GetText([ChargeTime.AMPM(), ChargeTime]);
 		}
 	}
 	#endregion

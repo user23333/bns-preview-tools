@@ -1,5 +1,9 @@
-﻿using Xylia.Preview.Common.Attributes;
+﻿namespace Xylia.Preview.Data.Models;
+public sealed class RandomDistribution : ModelElement
+{
+	#region Attributes
+	public string Alias { get; set; }
 
-namespace Xylia.Preview.Data.Models;
-[Side(ReleaseSide.Server)]
-public sealed class RandomDistribution : ModelElement { }
+	public short[] Weight { get; set; }
+	#endregion
+}

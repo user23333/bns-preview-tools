@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using Xylia.Preview.Common.Attributes;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common;
 using Xylia.Preview.Data.Common.DataStruct;
@@ -22,8 +23,11 @@ public class AttributeConverter
 	/// <returns></returns>
 	public static object ConvertTo(Record record, AttributeDefinition attribute, IDataProvider provider, bool _noValidate = true)
 	{
+		// check attribute
+		if (!attribute.Side.HasFlag(ReleaseSide.Client)) return null;
 		if (_noValidate && (attribute is null || attribute.Offset >= record.DataSize)) return null;
 
+		// get value
 		switch (attribute.Type)
 		{
 			case AttributeType.TNone: return null;

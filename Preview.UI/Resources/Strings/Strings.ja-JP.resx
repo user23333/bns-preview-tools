@@ -394,15 +394,6 @@ NEO Classicクライアントのサポートを追加
   <data name="IconOut_NameFormat" xml:space="preserve">
     <value>出力名のフォーマット</value>
   </data>
-  <data name="IconOut_TaskCancel" xml:space="preserve">
-    <value>すでに進行中のタスクがあります。キャンセルしてもよろしいですか？ </value>
-  </data>
-  <data name="IconOut_TaskCompleted" xml:space="preserve">
-    <value>タスクが完了し、{0:hh}時間{0:mm}分{0:ss}かかりました</value>
-  </data>
-  <data name="IconOut_TaskException" xml:space="preserve">
-    <value>{0}のため、ミッションが予期せず終了しました</value>
-  </data>
   <data name="IconOut_UseBackground" xml:space="preserve">
     <value>品質の背景を生成します</value>
   </data>
@@ -436,9 +427,7 @@ NEO Classicクライアントのサポートを追加
   <data name="ItemList_TaskCompleted" xml:space="preserve">
     <value>{0}データの取得には合計{1}秒かかりました。</value>
   </data>
-  <data name="ItemList_TaskCompleted2" xml:space="preserve">
-    <value>タスクが完了しました。合計{1}秒かかります。</value>
-  </data>
+
   <data name="ItemPage_DataClear" xml:space="preserve">
     <value>キャッシュのクリーンアップ</value>
   </data>

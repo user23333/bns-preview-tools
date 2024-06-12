@@ -20,6 +20,7 @@ using Serilog;
 using SkiaSharp;
 using SkiaSharp.Views.WPF;
 using Xylia.Preview.UI.Common;
+using Xylia.Preview.UI.Common.Converters;
 using Xylia.Preview.UI.Helpers.Output.Textures;
 using Xylia.Preview.UI.Views;
 using Xylia.Preview.UI.Views.Selector;
@@ -200,7 +201,7 @@ internal partial class GameResourcePageViewModel : ObservableObject
 		var source = this.Sources[id];
 		if (source != null)
 		{
-			if (MessageBox.Show(StringHelper.Get("IconOut_TaskCancel"), StringHelper.Get("Message_Tip"), MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+			if (MessageBox.Show(StringHelper.Get("Text.TaskCancel_Ask_Exist"), StringHelper.Get("Message_Tip"), MessageBoxButton.YesNo) == MessageBoxResult.Yes)
 			{
 				source?.Cancel();
 				source = null;
@@ -215,7 +216,7 @@ internal partial class GameResourcePageViewModel : ObservableObject
 		try
 		{
 			DateTime start = DateTime.Now;
-			Growl.Info(StringHelper.Get("IconOut_TaskBegin"));
+			Growl.Info(StringHelper.Get("Text.TaskBegin"));
 
 			Out.LoadData(source.Token);
 			Out.Output(format, source.Token);
@@ -223,13 +224,13 @@ internal partial class GameResourcePageViewModel : ObservableObject
 
 			Growl.SuccessGlobal(new GrowlInfo()
 			{
-				Message = StringHelper.Get("IconOut_TaskCompleted", DateTime.Now - start),
+				Message = StringHelper.Get("Text.TaskCompleted2", TimeConverter.Convert(DateTime.Now - start , null)),
 				StaysOpen = true,
 			});
 		}
 		catch (Exception ee)
 		{
-			Growl.Error(StringHelper.Get("IconOut_TaskException", ee.Message));
+			Growl.Error(StringHelper.Get("Text.TaskException", ee.Message));
 			Log.Error(ee, "Exception at IconOut");
 		}
 		finally

@@ -3,7 +3,6 @@ using System.Runtime.CompilerServices;
 using IniParser;
 using IniParser.Model;
 using Xylia.Preview.Common.Extension;
-using static Xylia.Preview.Data.Models.SkillTooltipAttribute;
 
 namespace Xylia.Preview.Properties;
 public class Settings : INotifyPropertyChanged
@@ -102,11 +101,5 @@ public class Settings : INotifyPropertyChanged
 	public bool UseUserDefinition { get => GetValue().ToBool(); set => SetValue(value); }
 
 	public bool PreviewLoadData { get => GetValue().ToBool(); set => SetValue(value); }
-	#endregion
-
-	#region Skill
-	public DamageMode Skill_DamageMode { get => GetValue().ToEnum<DamageMode>(); set => SetValue(value); }
-	public int Skill_AttackPower { get => GetValue().ToInt32(); set => SetValue(value); }
-	public double Skill_AttackAttributePercent { get => GetValue().ToDouble(); set => SetValue(value); }
 	#endregion
 }

@@ -1,11 +1,11 @@
-﻿using System.Diagnostics;
-using System.Windows;
-using CUE4Parse.BNS.Assets.Exports;
+﻿using CUE4Parse.BNS.Assets.Exports;
 using CUE4Parse.UE4.Assets.Exports;
 using FModel.Framework;
 using FModel.Views.Snooper;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
+using System.ComponentModel;
+using System.Windows;
 using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models;
 using Xylia.Preview.UI.FModel.Views;
@@ -17,7 +17,7 @@ namespace Xylia.Preview.UI.Common.Interactivity;
 internal class PreviewModel : RecordCommand
 {
 	#region Methods
-	protected override List<string> Type => 
+	protected override List<string> Type =>
 	[
 		"creatureappearance",
 		"npc",
@@ -26,10 +26,10 @@ internal class PreviewModel : RecordCommand
 		"vehicle-appearance",
 	];
 
-	protected override async void Execute(Record record)
+	protected override void Execute(Record record)
 	{
 		List<ModelData> models = [];
-		await Load(record, models);
+		Load(record, models).Wait();
 
 		// show
 		var view = ModelViewer;
@@ -37,7 +37,7 @@ internal class PreviewModel : RecordCommand
 		{
 			view.Models = [.. models];
 			if (view.TryLoadExport(default)) view.Run();
-			else Debug.WriteLine(record?.GetType());
+			else throw new WarningException(StringHelper.Get("PreviewModel_Empty"));
 		}
 	}
 

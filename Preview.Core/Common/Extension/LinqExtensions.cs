@@ -89,7 +89,7 @@ public static class LinqExtensions
 			array1[x - 1],
 			array2[x - 1]));
 
-		return source.Where(x => x.Item1 != null && x.Item2 != null).ToArray();
+		return source.Where(x => x.Item1 != null/* && x.Item2 != null*/).ToArray();
 	}
 	#endregion
 

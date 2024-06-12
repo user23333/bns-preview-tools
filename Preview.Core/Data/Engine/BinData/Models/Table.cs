@@ -109,8 +109,8 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 
 		foreach (var record in _records)
 		{
-            ByRef[record.PrimaryKey] = record;
-        }
+			ByRef[record.PrimaryKey] = record;
+		}
 	}
 
 	/// <summary>
@@ -254,11 +254,11 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 	{
 		var hash = new List<HashInfo>();
 
-		var name = this.Definition.Pattern.Replace("*",null);
+		var name = this.Definition.Pattern.Replace("*", null);
 		var path = Path.Combine(folder, name);
 		Directory.CreateDirectory(Path.GetDirectoryName(path));
 
-		var data = WriteXml(settings ?? new() 
+		var data = WriteXml(settings ?? new()
 		{
 			ReleaseSide = ReleaseSide.Client,
 			Encoding = path.EndsWith(".x16", StringComparison.OrdinalIgnoreCase) ? Encoding.Unicode : Encoding.UTF8,
@@ -283,16 +283,21 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 		writer.WriteAttributeString("release-side", settings.ReleaseSide.ToString().ToLower());
 		writer.WriteAttributeString("type", Definition.Name);
 		writer.WriteAttributeString("version", MajorVersion + "." + MinorVersion);
+		// write version when mismatch
+		if (!MatchVersion(Definition.MajorVersion, Definition.MinorVersion))
+			writer.WriteAttributeString("def-version", Definition.MajorVersion + "." + Definition.MinorVersion);
+
+		// write file path
 		writer.WriteComment($" {Name}.xml ");
 
 		// records
 		if (records.Length == 0) records = [.. Records];
 		records.ForEach(record => record.WriteXml(writer, Definition.ElRecord));
 
+		// finish
 		writer.WriteEndElement();
 		writer.WriteEndDocument();
 		writer.Flush();
-
 		return ms.ToArray();
 	}
 	#endregion

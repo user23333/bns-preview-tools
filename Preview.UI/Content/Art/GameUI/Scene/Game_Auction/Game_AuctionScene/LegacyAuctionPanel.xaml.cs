@@ -8,6 +8,7 @@ using Xylia.Preview.Data.Engine.BinData.Helpers;
 using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models;
 using Xylia.Preview.Data.Models.Sequence;
+using Xylia.Preview.UI.Common.Interactivity;
 using Xylia.Preview.UI.Controls;
 
 namespace Xylia.Preview.UI.GameUI.Scene.Game_Auction;
@@ -19,14 +20,15 @@ public partial class LegacyAuctionPanel
 		#region Initialize 
 		InitializeComponent();
 		DataContext = _viewModel = new AuctionPanelViewModel();
+		var IsNeo = FileCache.Data.Provider.IsNeo;
 		#endregion
 
 		#region Category
 		TreeView.Items.Add(new TreeViewItem() { Tag = "all", Header = new BnsCustomLabelWidget() { Text = "UI.Market.Category.All".GetText() } });
-		TreeView.Items.Add(new TreeViewItem() { Tag = "WorldBoss", Header = new BnsCustomLabelWidget() { Text = "UI.Market.Category.WorldBoss".GetText(), FontSize = 15 } });
+		if (IsNeo) TreeView.Items.Add(new TreeViewItem() { Tag = "WorldBoss", Header = new BnsCustomLabelWidget() { Text = "UI.Market.Category.WorldBoss".GetText(), FontSize = 15 } });
 		TreeView.Items.Add(new TreeViewItem() { Tag = "favorites", Header = new BnsCustomLabelWidget() { Text = "UI.Market.Category.Favorites".GetText() } });
 
-		foreach (var category2 in SequenceExtensions.MarketCategory2Group(FileCache.Data.Provider.IsNeo))
+		foreach (var category2 in SequenceExtensions.MarketCategory2Group(IsNeo))
 		{
 			if (category2.Key == MarketCategory2Seq.None) continue;
 
@@ -57,7 +59,22 @@ public partial class LegacyAuctionPanel
 	{
 		base.OnInitialized(e);
 
+		ItemMenu = (ContextMenu)TryFindResource("ItemMenu");
 		TooltipHolder = (ToolTip)TryFindResource("TooltipHolder");
+
+		// binding menu
+		RecordCommand.Find("item", (command) =>
+		{
+			var item = new MenuItem()
+			{
+				Header = StringHelper.Get(command.Name),
+				Command = command,
+				CommandParameter = new Binding("DataContext") { Source = ItemMenu }
+			};
+			item.SetBinding(MenuItem.CommandParameterProperty, new Binding("DataContext") { Source = ItemMenu });
+
+			ItemMenu.Items.Add(item);
+		});
 	}
 
 	protected override void OnPreviewKeyDown(KeyEventArgs e)
@@ -166,6 +183,8 @@ public partial class LegacyAuctionPanel
 
 	#region Fields
 	private AuctionPanelViewModel _viewModel;
+
+	private ContextMenu? ItemMenu;
 	private ToolTip? TooltipHolder;
 	#endregion
 }

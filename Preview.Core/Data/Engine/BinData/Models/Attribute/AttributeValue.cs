@@ -7,7 +7,6 @@ using Xylia.Preview.Data.Engine.BinData.Helpers;
 using Xylia.Preview.Data.Engine.Definitions;
 
 namespace Xylia.Preview.Data.Models;
-
 /// <summary>
 /// Represent a Attribute Value
 /// </summary>

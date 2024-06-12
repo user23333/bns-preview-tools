@@ -1,5 +1,4 @@
-﻿using OfficeOpenXml;
-using Xylia.Preview.Data.Models;
+﻿using Xylia.Preview.Data.Models;
 using Xylia.Preview.Data.Models.Sequence;
 using static Xylia.Preview.Data.Models.Item;
 using static Xylia.Preview.Data.Models.Item.Accessory;
@@ -7,51 +6,43 @@ using static Xylia.Preview.Data.Models.Item.Accessory;
 namespace Xylia.Preview.UI.Helpers.Output.Tables;
 internal sealed class ItemCloset : OutSet
 {
-    protected override void CreateData(ExcelWorksheet sheet)
+    protected override void CreateData()
     {
-        #region Title
-        sheet.SetColumn(Column++, "物品编号", 15);
-        sheet.SetColumn(Column++, "物品别名", 40);
-        sheet.SetColumn(Column++, "物品名称", 25);
-        sheet.SetColumn(Column++, "装备类型", 15);
-        sheet.SetColumn(Column++, "性别", 15);
-        sheet.SetColumn(Column++, "种族", 15);
-        sheet.SetColumn(Column++, "衣柜归属", 20);
-        sheet.SetColumn(Column++, "衣柜目录", 20);
+		#region Title
+		var sheet = CreateSheet();
+		int column = 1, row = 1;
+		sheet.SetColumn(column++, "id", 15);
+        sheet.SetColumn(column++, "alias", 40);
+        sheet.SetColumn(column++, "name", 25);
+        sheet.SetColumn(column++, "equip-type", 15);
+        sheet.SetColumn(column++, "sex", 15);
+        sheet.SetColumn(column++, "race", 15);
+        sheet.SetColumn(column++, "closet-group-id", 20);
         #endregion
 
         foreach (var item in Source.Provider.GetTable<Item>())
         {
             #region Check
-            bool Flag = false;
+            bool flag = false;
+            if (item is Costume) flag = true;
+            else if (item is Weapon && item.ClosetGroupId != 0) flag = true;
+            else if (item is Accessory accessory && accessory.AccessoryType is AccessoryTypeSeq.CostumeAttach or AccessoryTypeSeq.Vehicle) flag = true;
 
-            if (item is Costume) Flag = true;
-            else if (item is Weapon && item.ClosetGroupId != 0) Flag = true;
-            else if (item is Accessory accessory &&
-                accessory.AccessoryType is AccessoryTypeSeq.CostumeAttach or AccessoryTypeSeq.Vehicle) Flag = true;
-
-
-            if (!Flag) continue;
+            if (!flag) continue;
             else if (item.Attributes.Get<int>("usable-duration") != 0) continue;
-            #endregion
+			#endregion
 
 
-            Row++;
-            int column = 1;
+			row++;
+            column = 1;
 
-            sheet.Cells[Row, column++].SetValue(item.PrimaryKey);
-            sheet.Cells[Row, column++].SetValue(item.ToString());
-            sheet.Cells[Row, column++].SetValue(item.Name);
-            sheet.Cells[Row, column++].SetValue(item.EquipType.GetText());
-            sheet.Cells[Row, column++].SetValue(item.EquipSex.GetText());
-            sheet.Cells[Row, column++].SetValue(item.EquipRace);
-            sheet.Cells[Row, column++].SetValue(item.ClosetGroupId);
-
-            //if (item.ClosetGroupId != 0)
-            //{
-            //    var ClosetGroup = FileCache.Data.Provider.GetTable<ClosetGroup>()[item.ClosetGroupId];
-            //    if (ClosetGroup != null) sheet.Cells[Row, column++].SetValue($"Name.closet-group.category.{ClosetGroup.Attributes["category"]}".GetText());
-            //}
+            sheet.Cells[row, column++].SetValue(item.PrimaryKey);
+            sheet.Cells[row, column++].SetValue(item.ToString());
+            sheet.Cells[row, column++].SetValue(item.Name);
+            sheet.Cells[row, column++].SetValue(item.EquipType.GetText());
+            sheet.Cells[row, column++].SetValue(item.EquipSex.GetText());
+            sheet.Cells[row, column++].SetValue(item.EquipRace);
+            sheet.Cells[row, column++].SetValue(item.ClosetGroupId);
         }
     }
 }

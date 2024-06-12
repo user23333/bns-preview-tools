@@ -125,6 +125,7 @@
 					</Grid.RowDefinitions>
 					<Grid.Resources>
 						<ContextMenu x:Key="EditorsMenu">
+							<MenuItem d:Header="New" Header="{DynamicResource DatabaseStudio_SqlNew}" Click="NewSql_Click" />
 							<MenuItem d:Header="Load" Header="{DynamicResource DatabaseStudio_SqlLoad}" Click="LoadSql_Click" />
 							<MenuItem d:Header="Save" Header="{DynamicResource DatabaseStudio_SqlSave}" Click="SaveSql_Click" />
 						</ContextMenu>
@@ -198,6 +199,7 @@
 												</Style>
                                             </ListView.ItemContainerStyle>
                                             <ListView.Resources>
+												<!-- set editable -->
                                                 <Style TargetType="{x:Type CheckBox}" BasedOn="{StaticResource CheckBoxBaseStyle}">
                                                     <Setter Property="IsEnabled" Value="{Binding IsChecked,ElementName=Definition_Editable}"/>
                                                 </Style>
@@ -207,7 +209,7 @@
                                                     <GridViewColumn Header="{DynamicResource DatabaseStudio_AttributeName}">
                                                         <GridViewColumn.CellTemplate>
 															<DataTemplate>
-																<TextBlock Text="{Binding Name}" />
+																<TextBlock Text="{Binding Name}" MouseDown="AttributeName_MouseDown" />
 															</DataTemplate>
 														</GridViewColumn.CellTemplate>
 													</GridViewColumn>

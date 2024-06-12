@@ -380,6 +380,7 @@ public abstract class BaseElement : ContentElement
 		current.SetValue(ForegroundProperty, parent.GetValue(ForegroundProperty));
 		current.SetValue(FontFamilyProperty, parent.GetValue(FontFamilyProperty));
 		current.SetValue(ArgumentsProperty, parent.GetValue(ArgumentsProperty));
+		current.SetValue(Font.TextDecorationsProperty, parent.GetValue(Font.TextDecorationsProperty));
 	}
 
 	internal TextContainer? EnsureTextContainer() => null;

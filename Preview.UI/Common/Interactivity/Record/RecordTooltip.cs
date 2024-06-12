@@ -35,7 +35,11 @@ public sealed class RecordTooltip : ContentControl
 
 		// fix display issue when backgorund is white
 		var parent = this.GetParent<Border>();
-		if (parent != null) parent.Background = new SolidColorBrush(BnsCustomWindowWidget.BackgroundColor);
+		if (parent != null)
+		{
+			parent.Background = new SolidColorBrush(BnsCustomWindowWidget.BackgroundColor);
+			this.Foreground = new SolidColorBrush(Colors.White);
+		}
 	}
 
 	private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -59,7 +63,20 @@ public sealed class RecordTooltip : ContentControl
 				break;
 		}
 
-		this.Content = visualTree;
+		Content = visualTree;
+		Name = visualTree?.Name;
+	}
+
+	public void Show()
+	{
+		var host = new Window
+		{
+			Content = this,
+			ResizeMode = ResizeMode.NoResize,
+			SizeToContent = SizeToContent.WidthAndHeight,
+			Title = this.Name,
+		};
+		host.Show();
 	}
 	#endregion
 
