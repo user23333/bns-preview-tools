@@ -1,4 +1,7 @@
-﻿namespace Xylia.Preview.Data.Models;
+﻿using Xylia.Preview.Common.Extension;
+using Xylia.Preview.Data.Models.Sequence;
+
+namespace Xylia.Preview.Data.Models;
 /// <summary>
 /// SmartDropReward 
 /// </summary>
@@ -17,5 +20,28 @@ public class SmartDropReward : ModelElement
 	public short CommonPouchDropRate { get; set; }
 
 	public short PersonalPouchDropRate { get; set; }
+	#endregion
+
+	#region Methods
+	public static implicit operator Item(SmartDropReward reward) => reward.GetItem();
+
+	public Item GetItem(params JobSeq[] job)
+	{
+		if (job.Length == 0) job = [JobSeq.JobNone];
+
+		// No need to deal with drop-rate in our project.
+		var items = Item.SelectNotNull(x => x.Instance).Where(x =>
+		{
+			foreach (var j in job)
+			{
+				if (x.EquipJobCheck.CheckSeq(j)) return true;
+			}
+
+			return false;
+		});
+
+		// Only get one of the items.
+		return items.FirstOrDefault();
+	}
 	#endregion
 }

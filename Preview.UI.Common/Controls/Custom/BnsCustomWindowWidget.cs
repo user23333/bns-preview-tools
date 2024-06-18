@@ -24,7 +24,7 @@ public class BnsCustomWindowWidget : BnsCustomBaseWidget
 	protected override void OnInitialized(EventArgs e)
 	{
 		AutoResizeVertical = true;
-		
+
 		base.OnInitialized(e);
 
 		// Maybe miss name if this is root element

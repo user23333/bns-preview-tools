@@ -115,13 +115,13 @@ public partial class ItemGrowth2TooltipPanel
 		if (RandomOptionGroup.AbilityListTotalCount > 0)
 		{
 			int index = 0;
-			RandomOptionGroup.AbilityList.ForEach(x => data.Add(new(x, "UI.ItemRandomOption.SubAbility.Title".GetText([++index]))));
+			RandomOptionGroup.AbilityList.Select(x => x.Instance).ForEach(x => data.Add(new(x, "UI.ItemRandomOption.SubAbility.Title".GetText([++index]))));
 		}
 
 		if (RandomOptionGroup.SkillBuildUpGroupListTotalCount > 0)
 		{
 			int index = 0;
-			RandomOptionGroup.SkillBuildUpGroupList.ForEach(x => data.Add(new(x, "UI.ItemRandomOption.SkillEnhancement.Title".GetText([++index]))));
+			RandomOptionGroup.SkillBuildUpGroupList.Select(x => x.Instance).ForEach(x => data.Add(new(x, "UI.ItemRandomOption.SkillEnhancement.Title".GetText([++index]))));
 		}
 
 		RandomOption_Groups.ItemsSource = data;

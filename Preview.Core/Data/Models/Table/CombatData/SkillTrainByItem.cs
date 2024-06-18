@@ -35,8 +35,8 @@ public sealed class SkillTrainByItem : ModelElement
 					// newline 
 					if (builder.Length != 0) builder.Append("<br/>");
 
-					builder.Append($"<font name=\"00008130.UI.Vital_LightBlue\">{OriginSkill?.Name2}</font>武功变更为<font name=\"00008130.UI.Vital_LightBlue\">{ChangeSkill.Name2}</font><br/>");
-					ChangeSkill.Systematization.ForEach(s => builder.Append($"<arg id=\"skill-systematization:{s}\" p=\"id:skill-systematization.name2\"/> "));
+					builder.Append("UI.ItemRandomOption.Skill.Describe".GetText([OriginSkill?.Name2, ChangeSkill.Name2]) + "<br/>");
+					ChangeSkill.Systematization.Select(x => x.Instance).ForEach(s => builder.Append($"<arg id=\"skill-systematization:{s}\" p=\"id:skill-systematization.name2\"/> "));
 				}
 
 				return builder.ToString();

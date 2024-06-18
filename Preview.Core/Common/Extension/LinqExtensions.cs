@@ -1,16 +1,19 @@
-﻿using Xylia.Preview.Data.Models;
-
-namespace Xylia.Preview.Common.Extension;
+﻿namespace Xylia.Preview.Common.Extension;
 public static class LinqExtensions
 {
 	#region IEnumerable
-	public static void ForEach<T>(this IEnumerable<T> collection, Action<T> action, bool skipNull = true)
+	public static void ForEach<T>(this IEnumerable<T> collection, Action<T> action, bool skipNull = true) => ForEach(collection, (x, i) => action(x), skipNull);
+
+	public static void ForEach<T>(this IEnumerable<T> collection, Action<T, int> action, bool skipNull = true)
 	{
+		int idx = -1;
+
 		foreach (var item in collection)
 		{
+			idx++;
 			if (skipNull && item is null) continue;
 
-			action(item);
+			action(item, idx);
 		}
 	}
 
@@ -70,17 +73,6 @@ public static class LinqExtensions
 		return array;
 	}
 
-	public static void ForEach<T, TSource>(this TSource[] array, Func<TSource, T> selector, Action<T, int> func)
-	{
-		for (int idx = 0; idx < array.Length; idx++)
-		{
-			var item = selector(array[idx]);
-			if (item is null) continue;
-
-			func(item, idx);
-		}
-	}
-
 	public static Tuple<T1, T2>[] Combine<T1, T2>(T1[] array1, T2[] array2)
 	{
 		if (array1 is null) return null;
@@ -97,11 +89,6 @@ public static class LinqExtensions
 	public static string Join(this IEnumerable<string> source, string separator = "<br/>")
 	{
 		return string.Join(separator, source.Where(t => !t.IsNullOrWhiteSpace()));
-	}
-
-	public static void ForEach<TElement>(this Ref<TElement>[] source, Action<TElement> action) where TElement : ModelElement
-	{
-		source.Select(x => x.Instance).Where(x => x != null).ForEach(action);
 	}
 	#endregion
 }

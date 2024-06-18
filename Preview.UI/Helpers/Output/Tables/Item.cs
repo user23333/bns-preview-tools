@@ -201,7 +201,7 @@ internal sealed class ItemOut : OutSet, IDisposable
 		Path_Failure = Path.Combine(outdir, @"no_text.txt");
 		Path_MainFile = Path.Combine(outdir, @"output." + (UseExcel ? "xlsx" : "txt"));
 
-		#region Cache
+		#region HashList
 		var refs = new List<Ref>();
 		if (CacheList != null) refs.AddRange(CacheList.HashMap);
 		refs.AddRange(ItemDatas.Select(item => item.PrimaryKey));
@@ -210,14 +210,8 @@ internal sealed class ItemOut : OutSet, IDisposable
 		#endregion
 
 		#region Output
-		if (!UseExcel) CreateText();
-		else
-		{
-			ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-			using var package = new ExcelPackage();
-			CreateData();
-			package.SaveAs(Path_MainFile);
-		}
+		if (UseExcel) CreateData();
+		else CreateText();
 
 		var Failures = ItemDatas.Where(o => o.Name2 is null);
 		if (Failures.Any())
@@ -230,6 +224,10 @@ internal sealed class ItemOut : OutSet, IDisposable
 
 	protected override void CreateData()
 	{
+		// init package
+		ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+		this.Package = new ExcelPackage();
+
 		var sheet = CreateSheet();
 		int row = 1;
 		int index = 1;
@@ -254,6 +252,8 @@ internal sealed class ItemOut : OutSet, IDisposable
 			sheet.Cells[row, column++].SetValue(Item.Description);
 			sheet.Cells[row, column++].SetValue(Item.Info);
 		}
+
+		Package!.SaveAs(Path_MainFile);
 	}
 
 	protected override void CreateText()

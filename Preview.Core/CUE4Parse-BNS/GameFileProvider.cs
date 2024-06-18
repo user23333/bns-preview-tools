@@ -44,9 +44,9 @@ public sealed class GameFileProvider : DefaultFileProvider, IDisposable
         // localization asset path
         var local = Locale.Current;
         if (Files.TryGetValue(uassetPath.Replace("bnsr/content/", $"bnsr/content/local/{local.Publisher}/{local.Language}/package/", StringComparison.OrdinalIgnoreCase), out file)) return true;
-        if (Files.TryGetValue(uassetPath, out file)) return true;
+		if (Files.TryGetValue(uassetPath.Replace("bnsr/content/", $"bnsr/content/local/{local.AdditionalPublisher}/{local.Language}/package/", StringComparison.OrdinalIgnoreCase), out file)) return true;
 
-        return base.TryFindGameFile(path, out file);
+		return base.TryFindGameFile(path, out file);
     }
 
     public new string FixPath(string path)

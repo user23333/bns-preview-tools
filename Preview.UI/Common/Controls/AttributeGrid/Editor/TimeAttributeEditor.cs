@@ -19,14 +19,21 @@ internal class TimeAttributeEditor : PropertyEditorBase, IValueConverter
 
 	public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 	{
-		if (value is Time64 Time64) return DateTime.Parse(Time64.ToString());
-
-		throw new NotImplementedException();
+		return value switch
+		{
+			Time64 time => DateTime.Parse(time.ToString()),
+			TimeUniversal time => DateTime.Parse(time.ToString()),
+			_ => throw new NotImplementedException(),
+		};
 	}
 
 	public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
 	{
-		if (value is DateTime time) return (Time64)time;
+		if (value is DateTime time)
+		{
+			if (targetType == typeof(Time64)) return (Time64)time;
+			if (targetType == typeof(TimeUniversal)) return (TimeUniversal)time;
+		}
 
 		throw new NotImplementedException();
 	}

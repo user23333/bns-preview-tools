@@ -6,7 +6,7 @@ public enum ELanguage
 {
 	None,
 
-	[Name("ko-KR")]
+	//[Name("ko-KR")]
 	[Description("한국어 (Korean)")]
 	Korean,
 
@@ -22,7 +22,7 @@ public enum ELanguage
 	[Description("中文繁體 (Traditional Chinese)")]
 	ChineseT,
 
-	[Name("ja-JP")]
+	//[Name("ja-JP")]
 	[Description("日本語 (Japanese)")]
 	Japanese,
 }

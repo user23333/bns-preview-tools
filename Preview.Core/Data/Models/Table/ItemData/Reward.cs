@@ -111,158 +111,295 @@ public class Reward : ModelElement
 	public sbyte SelectedItemAssuredCount { get; set; }
 
 	public Ref<Item>[] RandomItem { get; set; }
+
+	public Ref<SmartDropReward>[] SmartFixedReward { get; set; }
+
+	[Name("smart-group-1-2-probability")]
+	public short SmartGroup12Probability { get; set; }
+
+	[Name("smart-group-1-prob-weight")]
+	public short SmartGroup1ProbWeight { get; set; }
+
+	[Name("smart-group-1-reward")]
+	public Ref<SmartDropReward>[] SmartGroup1Reward { get; set; }
+
+	[Name("smart-group-1-assured-count")]
+	public sbyte SmartGroup1AssuredCount { get; set; }
+
+	[Name("smart-group-1-reward-total-count")]
+	public sbyte SmartGroup1RewardTotalCount { get; set; }
+
+	[Name("smart-group-2-prob-weight")]
+	public short SmartGroup2ProbWeight { get; set; }
+
+	[Name("smart-group-2-reward")]
+	public Ref<SmartDropReward>[] SmartGroup2Reward { get; set; }
+
+	[Name("smart-group-2-assured-count")]
+	public sbyte SmartGroup2AssuredCount { get; set; }
+
+	[Name("smart-group-2-reward-total-count")]
+	public sbyte SmartGroup2RewardTotalCount { get; set; }
+
+	[Name("smart-group-1-2-total-prob-weight")]
+	public int SmartGroup12TotalProbWeight { get; set; }
+
+	[Name("smart-group-3-probability")]
+	public int SmartGroup3Probability { get; set; }
+
+	[Name("smart-group-3-reward")]
+	public Ref<SmartDropReward>[] SmartGroup3Reward { get; set; }
+
+	[Name("smart-group-3-reward-prob-weight")]
+	public short[] SmartGroup3RewardProbWeight { get; set; }
+
+	[Name("smart-group-3-reward-total-prob-weight")]
+	public int SmartGroup3RewardTotalProbWeight { get; set; }
+
+	[Name("smart-group-3-reward-total-count")]
+	public short SmartGroup3RewardTotalCount { get; set; }
+
+	[Name("smart-group-4-probability")]
+	public short SmartGroup4Probability { get; set; }
+
+	[Name("smart-group-4-reward")]
+	public Ref<SmartDropReward>[] SmartGroup4Reward { get; set; }
+
+	[Name("smart-group-4-selected-count")]
+	public sbyte SmartGroup4SelectedCount { get; set; }
+
+	[Name("smart-group-4-reward-total-count")]
+	public sbyte SmartGroup4RewardTotalCount { get; set; }
+
+	[Name("smart-group-5-probability")]
+	public short SmartGroup5Probability { get; set; }
+
+	[Name("smart-group-5-reward")]
+	public Ref<SmartDropReward>[] SmartGroup5Reward { get; set; }
+
+	[Name("smart-group-5-selected-count")]
+	public sbyte SmartGroup5SelectedCount { get; set; }
+
+	[Name("smart-group-5-reward-total-count")]
+	public sbyte SmartGroup5RewardTotalCount { get; set; }
+
+	public Ref<SmartDropReward>[] SmartRareReward { get; set; }
+
+	public int SmartRareRewardProbWeightType { get; set; }
+
+	public int[] SmartRareRewardProbWeight { get; set; }
+
+	public short SmartRareRewardTotalCount { get; set; }
 	#endregion
 
 	#region Methods
 	public List<RewardInfo> GetInfos()
 	{
-		var FormatText = "获得其中{0}种";
-		var datas = new List<RewardInfo>();
+		var data = new List<RewardInfo>();
 
-		for (int i = 0; i < FixedItem.Length; i++)
+		#region Common		
+		FixedItem.Select(x => x.Instance).ForEach((item, idx) =>
 		{
-			var item = FixedItem[i].Instance;
-			if (item is null) continue;
-
-			datas.Add(new RewardInfo()
+			data.Add(new RewardInfo()
 			{
 				Item = item,
-				Group = new("fixed", "固定获得"),
-				Min = FixedItemMin[i],
-				Max = FixedItemMax[i],
+				Category = new("fixed", "UI.RandomBox.Probability.MiddleCategory.FixedReward".GetText()),
+				Min = FixedItemMin[idx],
+				Max = FixedItemMax[idx],
 			});
-		}
+		});
 
 		if (Group12Probability > 0)
 		{
 			var probability = (double)Group12Probability / Group12TotalProbWeight;
 
-			for (int i = 0; i < Group1Item.Length; i++)
+			Group1Item.Select(x => x.Instance).ForEach(item =>
 			{
-				var item = Group1Item[i].Instance;
-				if (item is null) continue;
-
-				datas.Add(new RewardInfo()
+				data.Add(new RewardInfo()
 				{
 					Item = item,
-					Group = new("group-1", string.Format("{1}% " + FormatText, Group1AssuredCount, Group1ProbWeight * probability)),
-					Min = 1,
-					Max = 1,
+					Category = new("group-1", string.Format("{0}% ", Group1ProbWeight * probability) + "UI.RandomBox.Probability.MiddleCategory.GroupReward1".GetText([Group1AssuredCount])),
 				});
-			}
+			});
 
-			for (int i = 0; i < Group2Item.Length; i++)
+			Group2Item.Select(x => x.Instance).ForEach(item =>
 			{
-				var item = Group2Item[i].Instance;
-				if (item is null) continue;
-
-				datas.Add(new RewardInfo()
+				data.Add(new RewardInfo()
 				{
 					Item = item,
-					Group = new("group-2", string.Format("{1}% " + FormatText, Group2AssuredCount, Group2ProbWeight * probability)),
-					Min = 1,
-					Max = 1,
+					Category = new("group-2", string.Format("{0}% ", Group2ProbWeight * probability) + "UI.RandomBox.Probability.MiddleCategory.GroupReward2".GetText([Group2AssuredCount])),
 				});
-			}
+			});
 		}
 
-		if (Group3Probability > 0)
+		if (Group3ItemTotalCount > 0)
 		{
-			for (int i = 0; i < Group3Item.Length; i++)
+			Group3Item.Select(x => x.Instance).ForEach((item, idx) =>
 			{
-				var item = Group3Item[i].Instance;
-				if (item is null) continue;
-
-				datas.Add(new RewardInfo()
+				data.Add(new RewardInfo()
 				{
 					Item = item,
-					Group = new("group-3", string.Format("{1}% " + FormatText, 1, Group3Probability)),
-					Probability = Group3ItemProbWeight[i],
+					Category = new("group-3", string.Format("{0}% ", Group3Probability) + "UI.RandomBox.Probability.MiddleCategory.GroupReward3".GetText([1])),
+					Probability = Group3ItemProbWeight[idx],
 					ProbabilityType = Group3TotalProbWeight,
 				});
-			}
+			});
 		}
 
-		if (Group4Probability > 0)
+		if (Group4ItemTotalCount > 0)
 		{
 			var TotalProbWeight = Group4ItemMax.Sum();
-			for (int i = 0; i < Group4Item.Length; i++)
+			Group4Item.Select(x => x.Instance).ForEach((item, idx) =>
 			{
-				var item = Group4Item[i].Instance;
-				if (item is null) continue;
+				var min = Group4ItemMin[idx];
+				var max = Group4ItemMax[idx];
 
-				var min = Group4ItemMin[i];
-				var max = Group4ItemMax[i];
-
-				datas.Add(new RewardInfo()
+				data.Add(new RewardInfo()
 				{
 					Item = item,
-					Group = new("group-4", string.Format("{1}% " + FormatText, Group4SelectedCount, Group4Probability)),
+					Category = new("group-4", string.Format("{0}% ", Group4Probability) + "UI.RandomBox.Probability.MiddleCategory.GroupReward4".GetText([Group4SelectedCount])),
 					Probability = max,
 					ProbabilityType = TotalProbWeight,
 				});
-			}
+			});
 		}
 
-		if (Group5Probability > 0)
+		if (Group5ItemTotalCount > 0)
 		{
 			var TotalProbWeight = Group5ItemMax.Sum();
-			for (int i = 0; i < Group5Item.Length; i++)
+			Group5Item.Select(x => x.Instance).ForEach((item, idx) =>
 			{
-				var item = Group5Item[i].Instance;
-				if (item is null) continue;
+				var min = Group5ItemMin[idx];
+				var max = Group5ItemMax[idx];
 
-				var min = Group5ItemMin[i];
-				var max = Group5ItemMax[i];
-
-				datas.Add(new RewardInfo()
+				data.Add(new RewardInfo()
 				{
 					Item = item,
-					Group = new("group-5", string.Format("{1}% " + FormatText, Group4SelectedCount, Group4Probability)),
+					Category = new("group-5", string.Format("{0}% ", Group5Probability) + "UI.RandomBox.Probability.MiddleCategory.GroupReward5".GetText([Group5SelectedCount])),
 					Probability = max,
 					ProbabilityType = TotalProbWeight,
 				});
-			}
+			});
 		}
 
-		var RareItemTotalProbWeight = RareItemProbWeight.Sum();
-		if (RareItemTotalProbWeight > 0)
+		if (RareItemTotalCount > 0)
 		{
-			for (int i = 0; i < RareItem.Length; i++)
+			RareItem.Select(x => x.Instance).ForEach((item, idx) =>
 			{
-				var item = RareItem[i].Instance;
-				if (item is null) continue;
-
-				datas.Add(new RewardInfo()
+				data.Add(new RewardInfo()
 				{
 					Item = item,
-					Group = new("rare", string.Format(FormatText, 1)),
-					Min = RareItemMin[i],
-					Max = RareItemMax[i],
-					Probability = RareItemProbWeight[i],
+					Category = new("rare", "UI.RandomBox.Probability.MiddleCategory.RareReward".GetText([1])),
+					Min = RareItemMin[idx],
+					Max = RareItemMax[idx],
+					Probability = RareItemProbWeight[idx],
 					ProbabilityType = RareItemProbWeightType,
 				});
-			}
+			});
 		}
 
 		if (SelectedItemAssuredCount > 0)
 		{
-			for (int i = 0; i < SelectedItem.Length; i++)
+			SelectedItem.Select(x => x.Instance).ForEach((item, idx) =>
 			{
-				var item = SelectedItem[i].Instance;
-				if (item is null) continue;
-
-				datas.Add(new RewardInfo()
+				data.Add(new RewardInfo()
 				{
 					Item = item,
-					Group = new("selected", string.Format("选择" + FormatText, SelectedItemAssuredCount)),
-					Min = SelectedItemCount[i],
-					Max = SelectedItemCount[i],
+					Category = new("selected", "UI.RandomBox.Probability.MiddleCategory.SelectedReward".GetText([SelectedItemAssuredCount])),
+					Min = SelectedItemCount[idx],
+					Max = SelectedItemCount[idx],
 				});
-			}
+			});
+		}
+		#endregion
+
+		#region SmartDrop
+		SmartFixedReward.Select(x => x.Instance).ForEach(reward =>
+		{
+			data.Add(new RewardInfo()
+			{
+				Item = reward,
+				Category = new("smart-fixed-reward", "UI.RandomBox.Probability.MiddleCategory.SmartDropFixedReward".GetText()),
+			});
+		});
+
+		if (SmartGroup12Probability > 0)
+		{
+			var probability = (double)SmartGroup12Probability / SmartGroup12TotalProbWeight;
+
+			SmartGroup1Reward.Select(x => x.Instance).ForEach(reward =>
+			{
+				data.Add(new RewardInfo()
+				{
+					Item = reward,
+					Category = new("smart-group-1-reward", string.Format("{0}% ", SmartGroup1ProbWeight * probability) + "UI.RandomBox.Probability.MiddleCategory.SmartDropGroupReward1".GetText([SmartGroup1AssuredCount])),
+				});
+			});
+
+			SmartGroup2Reward.Select(x => x.Instance).ForEach(reward =>
+			{
+				data.Add(new RewardInfo()
+				{
+					Item = reward,
+					Category = new("smart-group-2-reward", string.Format("{0}% ", SmartGroup2ProbWeight * probability) + "UI.RandomBox.Probability.MiddleCategory.SmartDropGroupReward2".GetText([SmartGroup2AssuredCount])),
+				});
+			});
 		}
 
-		return datas;
+		if (SmartGroup3RewardTotalCount > 0)
+		{
+			SmartGroup3Reward.Select(x => x.Instance).ForEach((reward, idx) =>
+			{
+				data.Add(new RewardInfo()
+				{
+					Item = reward,
+					Category = new("smart-group-3-reward", string.Format("{0}% ", Group3Probability) + "UI.RandomBox.Probability.MiddleCategory.SmartDropGroupReward3".GetText([1])),
+					Probability = SmartGroup3RewardProbWeight[idx],
+					ProbabilityType = SmartGroup3RewardTotalProbWeight,
+				});
+			});
+		}
+
+		if (SmartGroup4RewardTotalCount > 0)
+		{
+			SmartGroup4Reward.Select(x => x.Instance).ForEach((reward, idx) =>
+			{
+				data.Add(new RewardInfo()
+				{
+					Item = reward,
+					Category = new("smart-group-4-reward", string.Format("{0}% ", SmartGroup4Probability) + "UI.RandomBox.Probability.MiddleCategory.SmartDropGroupReward4".GetText([SmartGroup4SelectedCount])),
+				});
+			});
+		}
+
+		if (SmartGroup5RewardTotalCount > 0)
+		{
+			SmartGroup5Reward.Select(x => x.Instance).ForEach((reward, idx) =>
+			{
+				data.Add(new RewardInfo()
+				{
+					Item = reward,
+					Category = new("smart-group-5-reward", string.Format("{0}% ", SmartGroup5Probability) + "UI.RandomBox.Probability.MiddleCategory.SmartDropGroupReward5".GetText([SmartGroup5SelectedCount])),
+				});
+			});
+		}
+
+		if (SmartRareRewardTotalCount > 0)
+		{
+			SmartRareReward.Select(x => x.Instance).ForEach((reward, idx) =>
+			{
+				data.Add(new RewardInfo()
+				{
+					Item = reward,
+					Category = new("smart-rare-reward", "UI.RandomBox.Probability.MiddleCategory.SmartDropRareReward".GetText()),
+					Probability = SmartRareRewardProbWeight[idx],
+					ProbabilityType = SmartRareRewardProbWeightType,
+				});
+			});
+		}
+		#endregion
+
+		return data;
 	}
 
 	public class RewardInfo
@@ -270,11 +407,12 @@ public class Reward : ModelElement
 		public Item Item;
 		public short Min = 1;
 		public short Max = 1;
-		public (string, string) Group;
+		public (string, string) Category;
 		internal int Probability;
 		internal int ProbabilityType;
 
-		public string CountInfo => Min != Max ? string.Format("{0}-{1}", Min, Max) : string.Format("{0}", Min);
+		public string Element => (Min == Max ? "UI.RandomBox.Probability.MiddleCategory.Element.Fixed" : "UI.RandomBox.Probability.MiddleCategory.Element.Range").GetText([Item, Min, Max]);
+
 		public string ProbabilityInfo => Probability == 0 ? string.Empty : ((double)Probability / ProbabilityType).ToString("P" + ProbabilityType.GetPercentLength());
 	}
 	#endregion

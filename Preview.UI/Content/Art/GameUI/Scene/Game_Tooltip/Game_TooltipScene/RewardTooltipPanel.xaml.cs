@@ -3,7 +3,7 @@ using Xylia.Preview.Data.Models;
 using Xylia.Preview.UI.Controls;
 
 namespace Xylia.Preview.UI.GameUI.Scene.Game_Tooltip;
-public partial class RewardTooltipPanel	: BnsCustomWindowWidget
+public partial class RewardTooltipPanel
 {
 	#region Constructors
 	public RewardTooltipPanel()
@@ -22,7 +22,6 @@ public partial class RewardTooltipPanel	: BnsCustomWindowWidget
 		ColumnList.Children.Add(Column1);
 		ColumnList.Children.Add(Column2);
 		ColumnList.Children.Add(Column3);
-		ColumnList.Children.Add(Column4);
 
 		int row = 0;
 		foreach (var info in record.GetInfos())
@@ -31,15 +30,16 @@ public partial class RewardTooltipPanel	: BnsCustomWindowWidget
 
 			AddChild(new BnsCustomLabelWidget()
 			{
-				Text = info.Item.ItemNameOnly,
+				Text = info.Element,
 				ToolTip = new ItemTooltipPanel() { DataContext = info.Item }
 			}, row, 0);
-			AddChild(new BnsCustomLabelWidget() { Text = info.Group.Item2, Tag = info.Group.Item1 }, row, 1);
+			AddChild(new BnsCustomLabelWidget() { Text = info.Category.Item2, Tag = info.Category.Item1 }, row, 1);
 			AddChild(new BnsCustomLabelWidget() { Text = info.ProbabilityInfo }, row, 2);
-			AddChild(new BnsCustomLabelWidget() { Text = info.CountInfo }, row, 3);
 		}
 
+		// layout
 		ColumnList.InvalidateVisual();
+		this.InvalidateMeasure();
 	}
 
 	private void AddChild(FrameworkElement element, int row, int column)

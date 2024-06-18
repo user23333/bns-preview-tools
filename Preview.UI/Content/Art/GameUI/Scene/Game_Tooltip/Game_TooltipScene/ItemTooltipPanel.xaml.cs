@@ -244,7 +244,7 @@ public partial class ItemTooltipPanel
 			ArgumentNullException.ThrowIfNull(DecomposeReward);
 
 			var info = DecomposeReward.GetInfos().OrderByDescending(x => x.Item.ItemGrade);
-			info.Where(x => x.Group.Item1 is "fixed").ForEach(item =>
+			info.Where(x => x.Category.Item1 is "fixed").ForEach(item =>
 			{
 				collection.Add(new BnsCustomLabelWidget()
 				{
@@ -258,7 +258,7 @@ public partial class ItemTooltipPanel
 					}
 				});
 			});
-			info.Where(x => x.Group.Item1 is "selected").ForEach(item =>
+			info.Where(x => x.Category.Item1 is "selected").ForEach(item =>
 			{
 				collection.Add(new BnsCustomLabelWidget()
 				{
@@ -266,7 +266,7 @@ public partial class ItemTooltipPanel
 					String = new StringProperty() { LabelText = "UI.ItemTooltip.RandomboxPreview.Selected".GetText() }
 				});
 			});
-			info.Where(x => x.Group.Item1 is "random" or "group-1" or "group-2" or "group-3" or "group-4" or "group-5" or "rare").ForEach(item =>
+			info.Where(x => x.Category.Item1 is "random" or "group-1" or "group-2" or "group-3" or "group-4" or "group-5" or "rare").ForEach(item =>
 			{
 				collection.Add(new BnsCustomLabelWidget()
 				{
