@@ -353,7 +353,7 @@ public class Reward : ModelElement
 				data.Add(new RewardInfo()
 				{
 					Item = reward,
-					Category = new("smart-group-3-reward", string.Format("{0}% ", Group3Probability) + "UI.RandomBox.Probability.MiddleCategory.SmartDropGroupReward3".GetText([1])),
+					Category = new("smart-group-3-reward", string.Format("{0}% ", SmartGroup3Probability) + "UI.RandomBox.Probability.MiddleCategory.SmartDropGroupReward3".GetText([1])),
 					Probability = SmartGroup3RewardProbWeight[idx],
 					ProbabilityType = SmartGroup3RewardTotalProbWeight,
 				});

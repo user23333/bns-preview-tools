@@ -222,7 +222,7 @@ internal partial class GameResourcePageViewModel : ObservableObject
 			Out.Output(format, source.Token);
 			Out.Dispose();
 
-			Growl.SuccessGlobal(new GrowlInfo()
+			Growl.Success(new GrowlInfo()
 			{
 				Message = StringHelper.Get("Text.TaskCompleted2", TimeConverter.Convert(DateTime.Now - start , null)),
 				StaysOpen = true,

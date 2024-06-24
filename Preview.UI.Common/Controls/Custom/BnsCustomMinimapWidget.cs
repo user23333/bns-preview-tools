@@ -23,404 +23,395 @@ using Xylia.Preview.UI.Extensions;
 namespace Xylia.Preview.UI.Controls;
 public class BnsCustomMinimapWidget : BnsCustomBaseWidget
 {
-    #region Constructors
-    public BnsCustomMinimapWidget()
-    {
-        UnitFilters.OnFilterChanged += FilterUnit;
-    }
-    #endregion
-
-    #region Public Properties
-    public event EventHandler<MapInfo>? MapChanged;
-
-    private static readonly System.Type Owner = typeof(BnsCustomMinimapWidget);
-
-    public static readonly DependencyProperty MapInfoProperty = Owner.Register<MapInfo>(nameof(MapInfo), null,
-        FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender, OnMapChanged);
-
-    public MapInfo MapInfo
-    {
-        get => (MapInfo)this.GetValue(MapInfoProperty);
-        set => this.SetValue(MapInfoProperty, value);
-    }
-
-    public static readonly DependencyProperty ZoomProperty = Owner.Register(nameof(Zoom), 1d, callback: SetZoom);
-
-    public double Zoom
-    {
-        get => (double)this.GetValue(ZoomProperty);
-        set => this.SetValue(ZoomProperty, value);
-    }
-    #endregion
-
-    #region Protected Methods
-    protected override Size MeasureOverride(Size constraint)
-    {
-        base.MeasureOverride(constraint);
-
-        var size = MapInfo?.ImageSize ?? 0;
-        return new Size(size, size);
-    }
-
-    protected override void OnPreviewMouseDown(MouseButtonEventArgs e)
-    {
-        if (e.LeftButton == MouseButtonState.Pressed)
-        {
-            _original = new Point(ScrollOffset.X, ScrollOffset.Y);
-            _mouseOffset = e.GetPosition(this);
-        }
-    }
-
-    //protected override void OnPreviewMouseMove(MouseEventArgs e)
-    //{
-    //	if (e.LeftButton == MouseButtonState.Pressed)
-    //	{
-    //		_isDragging = true;
-    //		Cursor = Cursors.SizeAll;
-
-    //		var offset = _mouseOffset - e.GetPosition(this);
-    //		this.ScrollOffset = new Vector(
-    //			_original.X + offset.X,
-    //			_original.Y + offset.Y);
-    //		this.InvalidateVisual();
-    //	}
-    //}
-
-    //protected override void OnPreviewMouseUp(MouseButtonEventArgs e)
-    //{
-    //	if (_isDragging)
-    //	{
-    //		_isDragging = false;
-    //		e.Handled = true;
-
-    //		Cursor = Cursors.Arrow;
-    //	}
-    //}
-
-    protected override void OnPreviewMouseWheel(MouseWheelEventArgs e)
-    {
-        if (!Keyboard.IsKeyDown(Key.LeftCtrl)) return;
-        if (e.Delta < 0) Zoom -= 0.1;
-        else Zoom += 0.1;
-
-        e.Handled = true;
-    }
-
-    protected override void OnPreviewMouseLeftButtonDown(MouseButtonEventArgs e)
-    {
-        base.OnPreviewMouseLeftButtonDown(e);
-
-        var offset = Mouse.GetPosition(this);
-    }
-    #endregion
-
-    #region Private Methods
-    private static async void OnMapChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        var widget = (BnsCustomMinimapWidget)d;
-        var value = (MapInfo)e.NewValue;
-        await widget.OnMapChanged(value);
-    }
-
-    private static void SetZoom(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        var widget = (BnsCustomMinimapWidget)d;
-        var value = (double)e.NewValue;
-
-        widget.LayoutTransform = new ScaleTransform() { ScaleX = value, ScaleY = value };
-    }
-
-
-    private void FilterUnit(object? sender, EventArgs args)
-    {
-        foreach (FrameworkElement element in this.Children)
-        {
-            if (element.Tag is MapUnit.CategorySeq category)
-            {
-                element.SetVisiable(UnitFilters.Contains(category));
-            }
-        }
-    }
-
-    private async Task OnMapChanged(MapInfo value)
+	#region Constructors
+	public BnsCustomMinimapWidget()
 	{
-        ClearUnit();
+		UnitFilters.OnFilterChanged += FilterUnit;
+	}
+	#endregion
+
+	#region Public Properties
+	public event EventHandler<MapInfo>? MapChanged;
+
+	private static readonly System.Type Owner = typeof(BnsCustomMinimapWidget);
+
+	public static readonly DependencyProperty MapInfoProperty = Owner.Register<MapInfo>(nameof(MapInfo), null,
+		FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender, OnMapChanged);
+
+	public MapInfo MapInfo
+	{
+		get => (MapInfo)this.GetValue(MapInfoProperty);
+		set => this.SetValue(MapInfoProperty, value);
+	}
+
+	public static readonly DependencyProperty ZoomProperty = Owner.Register(nameof(Zoom), 1d, callback: SetZoom);
+
+	public double Zoom
+	{
+		get => (double)this.GetValue(ZoomProperty);
+		set => this.SetValue(ZoomProperty, value);
+	}
+	#endregion
+
+	#region Protected Methods
+	protected override Size MeasureOverride(Size constraint)
+	{
+		base.MeasureOverride(constraint);
+
+		var size = MapInfo?.ImageSize ?? 0;
+		return new Size(size, size);
+	}
+
+	protected override void OnPreviewMouseDown(MouseButtonEventArgs e)
+	{
+		if (e.LeftButton == MouseButtonState.Pressed)
+		{
+			_original = new Point(ScrollOffset.X, ScrollOffset.Y);
+			_mouseOffset = e.GetPosition(this);
+		}
+	}
+
+	//protected override void OnPreviewMouseMove(MouseEventArgs e)
+	//{
+	//	if (e.LeftButton == MouseButtonState.Pressed)
+	//	{
+	//		_isDragging = true;
+	//		Cursor = Cursors.SizeAll;
+
+	//		var offset = _mouseOffset - e.GetPosition(this);
+	//		this.ScrollOffset = new Vector(
+	//			_original.X + offset.X,
+	//			_original.Y + offset.Y);
+	//		this.InvalidateVisual();
+	//	}
+	//}
+
+	//protected override void OnPreviewMouseUp(MouseButtonEventArgs e)
+	//{
+	//	if (_isDragging)
+	//	{
+	//		_isDragging = false;
+	//		e.Handled = true;
+
+	//		Cursor = Cursors.Arrow;
+	//	}
+	//}
+
+	protected override void OnPreviewMouseWheel(MouseWheelEventArgs e)
+	{
+		if (!Keyboard.IsKeyDown(Key.LeftCtrl)) return;
+		if (e.Delta < 0) Zoom -= 0.1;
+		else Zoom += 0.1;
+
+		e.Handled = true;
+	}
+
+	protected override void OnPreviewMouseLeftButtonDown(MouseButtonEventArgs e)
+	{
+		base.OnPreviewMouseLeftButtonDown(e);
+
+		var offset = Mouse.GetPosition(this);
+	}
+	#endregion
+
+	#region Private Methods
+	private static async void OnMapChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+	{
+		var widget = (BnsCustomMinimapWidget)d;
+		var value = (MapInfo)e.NewValue;
+		await widget.OnMapChanged(value);
+	}
+
+	private static void SetZoom(DependencyObject d, DependencyPropertyChangedEventArgs e)
+	{
+		var widget = (BnsCustomMinimapWidget)d;
+		var value = (double)e.NewValue;
+
+		widget.LayoutTransform = new ScaleTransform() { ScaleX = value, ScaleY = value };
+	}
+
+
+	private void FilterUnit(object? sender, EventArgs args)
+	{
+		foreach (FrameworkElement element in this.Children)
+		{
+			if (element.Tag is MapUnit.CategorySeq category)
+			{
+				element.SetVisiable(UnitFilters.Contains(category));
+			}
+		}
+	}
+
+	private async Task OnMapChanged(MapInfo value)
+	{
+		this.Children.Clear();
 
 		this.Zoom = value.Zoom;
-        this.MapDepth = MapInfo.GetMapDepth(value);
-        this.BaseImageProperty = new ImageProperty()
-        {
-            ImageSet = new MyFPackageIndex(value.Imageset)
-        };
+		this.MapDepth = MapInfo.GetMapDepth(value);
+		this.BaseImageProperty = new ImageProperty()
+		{
+			ImageSet = new MyFPackageIndex(value.Imageset)
+		};
 
-        // unit
-        await this.LoadMapUnit(value, []);
-        this.MapChanged?.Invoke(this, value);  
+		// unit
+		await this.LoadMapUnit(value, []);
+		this.MapChanged?.Invoke(this, value);
 	}
 
+	private async Task LoadMapUnit(MapInfo MapInfo, List<MapInfo> MapTree)
+	{
+		MapTree.Add(MapInfo);
+		await GetMapUnit(MapInfo, MapTree);
 
-    private void ClearUnit()
-    {
-		this.Children.Clear();
-		this.QuestCount = 0;
+		// children
+		if (MapInfo.Alias != "World")
+		{
+			FileCache.Data.Provider.GetTable<MapInfo>()
+				.Where(o => o.ParentMapinfo == MapInfo)
+				.ForEach(async o => await LoadMapUnit(o, new(MapTree)));
+		}
 	}
 
-    private async Task LoadMapUnit(MapInfo MapInfo, List<MapInfo> MapTree)
-    {
-        MapTree.Add(MapInfo);
-        await GetMapUnit(MapInfo, MapTree);
+	private async Task GetMapUnit(MapInfo MapInfo, List<MapInfo> MapTree)
+	{
+		// skip force position
+		var provider = FileCache.Data.Provider;
+		if (MapTree.Any(x => x.UsePosInParent)) return;
 
-        // children
-        if (MapInfo.Alias != "World")
-        {
-            FileCache.Data.Provider.GetTable<MapInfo>()
-                .Where(o => o.ParentMapinfo == MapInfo)
-                .ForEach(async o => await LoadMapUnit(o, new(MapTree)));
-        }
-    }
+		// find zone
+		foreach (var zone in provider.GetTable<Zone>().Where(x => x.Map == MapInfo && x.ZoneType2 == Zone.ZoneType2Seq.Persistent))
+		{
+			foreach (var record in provider.GetTable<ZoneTeleportPosition>().Where(x => x.Zone == zone.Id))
+			{
+				var teleport = provider.GetTable<Teleport>().FirstOrDefault(x => x.TeleportPosition == record);
+				if (teleport is null) continue;
 
-    private async Task GetMapUnit(MapInfo MapInfo, List<MapInfo> MapTree)
-    {
-        // skip force position
-        var provider = FileCache.Data.Provider;
-        if (MapTree.Any(x => x.UsePosInParent)) return;
+				var Image = new ImageProperty() { ImageSet = new MyFPackageIndex("/Game/Art/UI/GameUI/Resource/GameUI_Map_Indicator/teleport_point_possible_normal") };
+				var OverImage = new ImageProperty() { ImageSet = new MyFPackageIndex("/Game/Art/UI/GameUI/Resource/GameUI_Map_Indicator/teleport_point_possible_over") };
 
-        // find zone
-        foreach (var zone in provider.GetTable<Zone>().Where(x => x.Map == MapInfo && x.ZoneType2 == Zone.ZoneType2Seq.Persistent))
-        {
-            foreach (var record in provider.GetTable<ZoneTeleportPosition>().Where(x => x.Zone == zone.Id))
-            {
-                var teleport = provider.GetTable<Teleport>().FirstOrDefault(x => x.TeleportPosition == record);
-                if (teleport is null) continue;
+				AddChild(record.Position, null, () =>
+				{
+					var widget = new BnsCustomImageWidget()
+					{
+						Tag = MapUnit.CategorySeq.Teleport,
+						ToolTip = teleport.Name,
+						BaseImageProperty = Image,
+					};
+					widget.MouseEnter += new((_, _) => widget.BaseImageProperty = OverImage);
+					widget.MouseLeave += new((_, _) => widget.BaseImageProperty = Image);
 
-                var Image = new ImageProperty() { ImageSet = new MyFPackageIndex("/Game/Art/UI/GameUI/Resource/GameUI_Map_Indicator/teleport_point_possible_normal") };
-                var OverImage = new ImageProperty() { ImageSet = new MyFPackageIndex("/Game/Art/UI/GameUI/Resource/GameUI_Map_Indicator/teleport_point_possible_over") };
+					return widget;
+				});
+			}
 
-                Dispatcher.Invoke(() =>
-                {
-                    var widget = new BnsCustomImageWidget()
-                    {
-                        Tag = MapUnit.CategorySeq.Teleport,
-                        ToolTip = teleport.Name,
-                        BaseImageProperty = Image,
-                    };
-                    widget.MouseEnter += new((_, _) => widget.BaseImageProperty = OverImage);
-                    widget.MouseLeave += new((_, _) => widget.BaseImageProperty = Image);
+			foreach (var record in provider.GetTable<ZoneEnv2Spawn>().Where(x => x.Zone == zone.Id))
+			{
+				var env2 = record.Env2.Instance;
+				if (env2 is null || !record.Env2place.HasValue) continue;
 
-                    AddChild(widget, record.Position);
-                });
-            }
-
-            foreach (var record in provider.GetTable<ZoneEnv2Spawn>().Where(x => x.Zone == zone.Id))
-            {
-                var env2 = record.Env2.Instance;
-                if (env2 is null || !record.Env2place.HasValue) continue;
-
-                // check imageset
+				// check imageset
 				if (string.IsNullOrEmpty(env2.MapunitImageDisableImageset)) continue;
 
 				var Category = env2.MapUnitCategory;
 				var Image = new ImageProperty() { ImageSet = new MyFPackageIndex(env2.MapunitImageDisableImageset) };
 				var OverImage = new ImageProperty() { ImageSet = new MyFPackageIndex(env2.MapunitImageDisableOverImageset) };
 
-                Dispatcher.Invoke(() =>
-                {
-                    var point = record.Env2place.Instance.Attributes.Get<Vector32>("action-point");
-                    var widget = new BnsCustomImageWidget()
-                    {
-                        BaseImageProperty = Image,
-                        Tag = Category,
-                        ToolTip = record.Env2.Instance.Name,
-                    };
-                    widget.MouseEnter += new((_, _) => widget.BaseImageProperty = OverImage);
-                    widget.MouseLeave += new((_, _) => widget.BaseImageProperty = Image);
+				var point = record.Env2place.Instance.Attributes.Get<Vector32>("action-point");
+				AddChild(point, null, () =>
+				{
+					var widget = new BnsCustomImageWidget()
+					{
+						BaseImageProperty = Image,
+						Tag = Category,
+						ToolTip = record.Env2.Instance.Name,
+					};
+					widget.MouseEnter += new((_, _) => widget.BaseImageProperty = OverImage);
+					widget.MouseLeave += new((_, _) => widget.BaseImageProperty = Image);
 
-                    AddChild(widget, point);
-                });
-            }
-        }
+					return widget;
+				});
+			}
+		}
 
-        // unit
-        foreach (var mapunit in provider.GetTable<MapUnit>().Where(o => o.Mapid == MapInfo.Id && o.MapDepth <= this.MapDepth))
-        {
-            // ignore quest area guide
-            if (mapunit is MapUnit.Quest or MapUnit.GuildBattleFieldPortal) continue;
+		// unit
+		foreach (var mapunit in provider.GetTable<MapUnit>().Where(o => o.Mapid == MapInfo.Id && o.MapDepth <= this.MapDepth))
+		{
+			// ignore quest area guide
+			if (mapunit is MapUnit.Quest or MapUnit.GuildBattleFieldPortal) continue;
 
-            #region Initialize
-            var tooltip = mapunit.Name;
-            var category = mapunit.Category;
-            var Image = new ImageProperty() { ImageSet = new MyFPackageIndex(mapunit.Imageset) };
-            var OverImage = string.IsNullOrEmpty(mapunit.OverImageset) ? Image : new ImageProperty() { ImageSet = new MyFPackageIndex(mapunit.OverImageset) };
+			#region Initialize
+			var tooltip = mapunit.Name;
+			var category = mapunit.Category;
+			var Image = new ImageProperty() { ImageSet = new MyFPackageIndex(mapunit.Imageset) };
+			var OverImage = string.IsNullOrEmpty(mapunit.OverImageset) ? Image : new ImageProperty() { ImageSet = new MyFPackageIndex(mapunit.OverImageset) };
 
-            if (mapunit is MapUnit.Attraction)
-            {
-                var obj = new Ref<ModelElement>(mapunit.Attributes.Get<Record>("attraction")).Instance;
-                if (obj is IAttration attraction)
-                {
-                    tooltip = attraction.Name + "\n" + attraction.Description;
-                }
-                else if (obj != null)
-                {
-                    tooltip = obj.ToString();
-                }
-            }
-            else if (mapunit is MapUnit.Npc)
-            {
-                var npc = mapunit.Attributes.Get<Record>("npc")?.As<Npc>();
-                if (npc != null)
-                {
-                    tooltip = npc.Name;
+			if (mapunit is MapUnit.Attraction)
+			{
+				var obj = new Ref<ModelElement>(mapunit.Attributes.Get<Record>("attraction")).Instance;
+				if (obj is IAttration attraction)
+				{
+					tooltip = attraction.Name + "\n" + attraction.Description;
+				}
+				else if (obj != null)
+				{
+					tooltip = obj.ToString();
+				}
+			}
+			else if (mapunit is MapUnit.Npc)
+			{
+				var npc = mapunit.Attributes.Get<Record>("npc")?.As<Npc>();
+				if (npc != null)
+				{
+					tooltip = npc.Name;
 
-                    for (int i = 0; i < npc.ForwardingTypes.Length; i++)
-                    {
-                        var forwardingType = npc.ForwardingTypes[i];
-                        if (forwardingType == ForwardingType.AcquireQuest)
-                        {
-                            QuestCount++;
+					for (int i = 0; i < npc.ForwardingTypes.Length; i++)
+					{
+						var forwardingType = npc.ForwardingTypes[i];
+						if (forwardingType == ForwardingType.AcquireQuest)
+						{
+							var quest = npc.Quests[i];
+							category = MapUnit.CategorySeq.Quest;
+							tooltip += $"<br/><arg id=\"quest:{quest}\" p=\"id:quest.front-icon.scale.150\"/> <arg id=\"quest:{quest}\" p=\"id:quest.name2\"/>";
 
-                            var quest = npc.Quests[i];
-                            category = MapUnit.CategorySeq.Quest;
-                            tooltip += $"<br/><arg id=\"quest:{quest}\" p=\"id:quest.front-icon.scale.150\"/> <arg id=\"quest:{quest}\" p=\"id:quest.name2\"/>";
+							Image = quest.Instance?.FrontIcon;
+							OverImage = quest.Instance?.FrontIconOver;
+						}
+					}
+				}
+			}
+			else if (mapunit is MapUnit.Boss)
+			{
+				var npc = mapunit.Attributes.Get<Record>("npc")?.As<Npc>();
+				if (npc != null) tooltip = npc.Name;
+			}
+			#endregion
 
-                            Image = quest.Instance?.FrontIcon;
-                            OverImage = quest.Instance?.FrontIconOver;
-                        }
-                    }
-                }
-            }
-            else if (mapunit is MapUnit.Boss)
-            {
-                var npc = mapunit.Attributes.Get<Record>("npc")?.As<Npc>();
-                if (npc != null) tooltip = npc.Name;
-            }
-            #endregion
+			#region Widget
+			AddChild(mapunit.Position, mapunit.Size, () =>
+			{
+				var widget = new BnsCustomImageWidget()
+				{
+					BaseImageProperty = Image,
+					Tag = category,
+					ToolTip = tooltip,
+				};
+				widget.MouseEnter += new((_, _) => widget.BaseImageProperty = OverImage);
+				widget.MouseLeave += new((_, _) => widget.BaseImageProperty = Image);
+				widget.MouseLeftButtonDown += new((_, _) =>
+				{
+					if (mapunit is MapUnit.Link) this.MapInfo = FileCache.Data.Provider.GetTable<MapInfo>()[mapunit.Attributes.Get<short>("link-mapid")];
+					else Debug.WriteLine(mapunit.Attributes);
+				});
 
-            #region Widget
-            Dispatcher.Invoke(() =>
-            {
-                var widget = new BnsCustomImageWidget()
-                {
-                    BaseImageProperty = Image,
-                    Tag = category,
-                    ToolTip = tooltip,
-                };
-                widget.MouseEnter += new((_, _) => widget.BaseImageProperty = OverImage);
-                widget.MouseLeave += new((_, _) => widget.BaseImageProperty = Image);
-                widget.MouseLeftButtonDown += new((_, _) =>
-                {
-                    if (mapunit is MapUnit.Link) this.MapInfo = FileCache.Data.Provider.GetTable<MapInfo>()[mapunit.Attributes.Get<short>("link-mapid")];
-                    else Debug.WriteLine(mapunit.Attributes);
-                });
-
-                AddChild(widget, mapunit.Position, mapunit.Size);
-            });
-            #endregion
-        }
-    }
-    #endregion
+				return widget;
+			});
+			#endregion
+		}
+	}
+	#endregion
 
 
-    #region Helpers
-    /// <summary>
-    /// The axis direction is diffrent with the layout direction
-    /// </summary>
-    private FVector2D Parse(FVector position)
-    {
-        if (MapInfo is null) return FVector2D.ZeroVector;
+	#region Helpers
+	/// <summary>
+	/// The axis direction is diffrent with the layout direction
+	/// </summary>
+	private FVector2D Parse(FVector position)
+	{
+		if (MapInfo is null) return FVector2D.ZeroVector;
 
-        float posX = (position.X - MapInfo.LocalAxisX) / MapInfo.Scale;
-        float posY = (position.Y - MapInfo.LocalAxisY) / MapInfo.Scale;
+		float posX = (position.X - MapInfo.LocalAxisX) / MapInfo.Scale;
+		float posY = (position.Y - MapInfo.LocalAxisY) / MapInfo.Scale;
 
-        return new FVector2D(posY, MapInfo.ImageSize - posX);
-    }
+		return new FVector2D(posY, MapInfo.ImageSize - posX);
+	}
 
-    /// <summary>
-    /// Adds the specified element to the widget
-    /// </summary>
-    /// <param name="position"></param>
-    /// <param name="widget"></param>
-    public void AddChild(UserWidget widget, FVector position, FVector2D? size = null)
-    {
-        var offset = Parse(position);
-        size ??= new FVector2D(32, 32);
+	/// <summary>
+	/// Adds the specified element to the widget
+	/// </summary>
+	/// <param name="position"></param>
+	/// <param name="widget"></param>
+	public void AddChild(FVector position, FVector2D? size, UserWidget widget)
+	{
+		var offset = Parse(position);
+		size ??= new FVector2D(32, 32);
 
-        if (widget.Tag is MapUnit.CategorySeq category)
-        {
-            widget.SetVisiable(UnitFilters.Contains(category));
-        }
-            
-        LayoutData.SetAlignments(widget, new FVector2D(0.5f, 0.5f));
-        LayoutData.SetOffsets(widget, new FLayoutData.Offset(offset.X, offset.Y, size.Value.X, size.Value.Y));
-        Children.Add(widget);
-    }
+		if (widget.Tag is MapUnit.CategorySeq category)
+		{
+			widget.SetVisiable(UnitFilters.Contains(category));
+		}
 
+		LayoutData.SetAlignments(widget, new FVector2D(0.5f, 0.5f));
+		LayoutData.SetOffsets(widget, new FLayoutData.Offset(offset.X, offset.Y, size.Value.X, size.Value.Y));
+		Children.Add(widget);
+	}
 
-    public class MapUnitFilterManager : Dictionary<MapUnit.CategorySeq, MapUnitFilterManager.MapUnitFilter>, IEnumerable
-    {
-        public event EventHandler? OnFilterChanged;
+	public void AddChild(FVector position, FVector2D? size, Func<UserWidget> widget) => AddChild(position, size, Dispatcher.Invoke(widget.Invoke));
 
-        public MapUnitFilterManager()
-        {
-            foreach (var seq in Enum.GetValues<MapUnit.CategorySeq>().Where(x => x > MapUnit.CategorySeq.None && x < MapUnit.CategorySeq.COUNT))
-            {
-                var IsChecked = true;
-                if (seq is MapUnit.CategorySeq.Gather or MapUnit.CategorySeq.GatherEnv or MapUnit.CategorySeq.Npc or MapUnit.CategorySeq.Env) IsChecked = false;
+	public class MapUnitFilterManager : Dictionary<MapUnit.CategorySeq, MapUnitFilterManager.MapUnitFilter>, IEnumerable
+	{
+		public event EventHandler? OnFilterChanged;
 
-                this[seq] = new MapUnitFilter(this, seq) { IsChecked = IsChecked };
-            }
-        }
+		public MapUnitFilterManager()
+		{
+			foreach (var seq in Enum.GetValues<MapUnit.CategorySeq>().Where(x => x > MapUnit.CategorySeq.None && x < MapUnit.CategorySeq.COUNT))
+			{
+				var IsChecked = true;
+				if (seq is MapUnit.CategorySeq.Gather or MapUnit.CategorySeq.GatherEnv or MapUnit.CategorySeq.Npc or MapUnit.CategorySeq.Env) IsChecked = false;
 
-        public class MapUnitFilter(MapUnitFilterManager manager, MapUnit.CategorySeq category)
-        {
-            public string Name => category.GetText();
+				this[seq] = new MapUnitFilter(this, seq) { IsChecked = IsChecked };
+			}
+		}
 
-            private bool _isChecked;
-            public bool IsChecked
-            {
-                get => _isChecked;
-                set
-                {
-                    _isChecked = value;
-                    manager.OnFilterChanged?.Invoke(this, EventArgs.Empty);
-                }
-            }
-        }
+		public class MapUnitFilter(MapUnitFilterManager manager, MapUnit.CategorySeq category)
+		{
+			public string Name => category.GetText();
 
-        public bool Contains(MapUnit.CategorySeq category) => this.TryGetValue(category, out var filter) && filter.IsChecked;
+			private bool _isChecked;
+			public bool IsChecked
+			{
+				get => _isChecked;
+				set
+				{
+					_isChecked = value;
+					manager.OnFilterChanged?.Invoke(this, EventArgs.Empty);
+				}
+			}
+		}
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            var category = new List<MapUnit.CategorySeq>()
-            {
-                MapUnit.CategorySeq.Quest,
-                MapUnit.CategorySeq.Teleport,
-                MapUnit.CategorySeq.Airdash,
-                MapUnit.CategorySeq.Auction,
-                MapUnit.CategorySeq.Store,
-                MapUnit.CategorySeq.Camp,
-                MapUnit.CategorySeq.PartyCamp,
-                MapUnit.CategorySeq.Roulette,
-                MapUnit.CategorySeq.FieldBoss,
-                MapUnit.CategorySeq.GatherEnv,
-                MapUnit.CategorySeq.Craft,
-                MapUnit.CategorySeq.ExpeditionEnv,
-                MapUnit.CategorySeq.WanderingNpc,
-                MapUnit.CategorySeq.Npc,
-                MapUnit.CategorySeq.Env,
-            };
+		public bool Contains(MapUnit.CategorySeq category) => this.TryGetValue(category, out var filter) && filter.IsChecked;
 
-            return category.SelectNotNull(x => this.GetValueOrDefault(x)).GetEnumerator();
-        }
-    }
-    #endregion
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			var category = new List<MapUnit.CategorySeq>()
+			{
+				MapUnit.CategorySeq.Quest,
+				MapUnit.CategorySeq.Teleport,
+				MapUnit.CategorySeq.Airdash,
+				MapUnit.CategorySeq.Auction,
+				MapUnit.CategorySeq.Store,
+				MapUnit.CategorySeq.Camp,
+				MapUnit.CategorySeq.PartyCamp,
+				MapUnit.CategorySeq.Roulette,
+				MapUnit.CategorySeq.FieldBoss,
+				MapUnit.CategorySeq.GatherEnv,
+				MapUnit.CategorySeq.Craft,
+				MapUnit.CategorySeq.ExpeditionEnv,
+				MapUnit.CategorySeq.WanderingNpc,
+				MapUnit.CategorySeq.Npc,
+				MapUnit.CategorySeq.Env,
+			};
 
-    #region Fields
-    MapUnit.MapDepthSeq MapDepth;
-    public int QuestCount = 0;
-    public MapUnitFilterManager UnitFilters = new();
+			return category.SelectNotNull(x => this.GetValueOrDefault(x)).GetEnumerator();
+		}
+	}
+	#endregion
 
-    bool _isDragging;
-    Point _mouseOffset;
-    Point _original;
-    #endregion
+	#region Fields
+	MapUnit.MapDepthSeq MapDepth;
+	public MapUnitFilterManager UnitFilters = new();
+
+	bool _isDragging;
+	Point _mouseOffset;
+	Point _original;
+	#endregion
 }

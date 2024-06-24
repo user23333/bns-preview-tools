@@ -258,7 +258,7 @@
     <value>{0} 的最新{1}版本是{2}，你想要立刻更新吗?</value>
   </data>
   <data name="Application_VersionTip3" xml:space="preserve">
-    <value>检查更新失败，点击确认将会重试
+    <value>检查更新失败，点击确定将重试
 {0}</value>
   </data>
   <data name="Asset_Extract" xml:space="preserve">
@@ -836,7 +836,7 @@
     <value>模型加载失败</value>
   </data>
   <data name="PreviewProbability" xml:space="preserve">
-    <value>查看概率信息（NEO服务器专用）</value>
+    <value>查看概率信息</value>
   </data>
   <data name="Text.TaskCompleted" xml:space="preserve">
     <value>任务已经完成</value>

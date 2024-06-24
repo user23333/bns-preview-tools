@@ -109,7 +109,7 @@ public partial class ItemGrowth2TooltipPanel
 
 		if (RandomOptionGroup.EffectList.HasValue)
 		{
-			data.Add(new(RandomOptionGroup.EffectList.Instance, "UI.ItemRandomOption.EffectOption.Title"));
+			data.Add(new(RandomOptionGroup.EffectList.Instance, "UI.ItemRandomOption.EffectOption.Title".GetText()));
 		}
 
 		if (RandomOptionGroup.AbilityListTotalCount > 0)

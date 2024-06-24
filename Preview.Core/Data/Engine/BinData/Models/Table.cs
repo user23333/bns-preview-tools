@@ -78,7 +78,7 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 		internal set => _records = value;
 		get
 		{
-			LoadAsync().Wait();
+			lock (this) { if (_records == null) LoadAsync().Wait(); }
 			return _records;
 		}
 	}
@@ -91,15 +91,12 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 
 
 	#region Load Methods
-	public virtual Task LoadAsync() => Task.Run(() =>
+	public Task LoadAsync() => Task.Run(() =>
 	{
-		lock (this)
-		{
-			if (_records != null) return;
+		if (_records != null) return;
 
-			if (IsBinary) LoadData();
-			else LoadXml(Owner.GetFiles(Definition.Pattern));
-		}
+		if (IsBinary) LoadData();
+		else LoadXml(Owner.GetFiles(Definition.Pattern));
 	});
 
 	private void LoadData()
@@ -197,7 +194,6 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 		}
 	}
 
-
 	public void CheckSize()
 	{
 		Records.GroupBy(o => o.SubclassType).OrderBy(o => o.Key).ForEach(type =>
@@ -213,7 +209,7 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 		get
 		{
 			if (Ref == default) return null;
-			if (_records == null) LoadAsync().Wait();
+			lock (this) { if (_records == null) LoadAsync().Wait(); }
 
 			if (ByRef.TryGetValue(Ref, out var item)) return item;
 
@@ -228,8 +224,6 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 	{
 		get
 		{
-			if (_records == null) LoadAsync().Wait();
-
 			if (string.IsNullOrEmpty(alias)) return null;
 			if (Ref.TryPrase(alias, out var key)) return this[key];
 
@@ -239,8 +233,8 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 				{
 					AliasTable = new();
 
-					var def = this.Definition.ElRecord["alias"];
-					if (def != null) _records?.ForEach(x => AliasTable.Add(x));
+					var def = Definition.ElRecord["alias"];
+					if (def != null) Records?.ForEach(x => AliasTable.Add(x));
 				}
 			}
 

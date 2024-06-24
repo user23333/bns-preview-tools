@@ -47,25 +47,33 @@ public partial class LegacyItemStorePanel
 			IconImage.ExpansionComponentList["Grade_Image"]?.SetValue(null);
 			IconImage.ExpansionComponentList["UnusableImage"]?.SetValue(null);
 			IconImage.ExpansionComponentList["CanSaleItem"]?.SetValue(item.CanSaleItemImage);
+			IconImage.ExpansionComponentList["DisableBuyImage"]?.SetShow(itemBuyPrice is null);
 		}
 
 		var PriceHoler = width.GetChild<BnsCustomImageWidget>("PriceHoler");
 		if (PriceHoler != null)
 		{
-			PriceHoler.GetChild<BnsCustomLabelWidget>("money")!.String.LabelText = itemBuyPrice.money;
-			PriceHoler.GetChild<BnsCustomLabelWidget>("Coin")!.String.LabelText = itemBuyPrice.Coin;
-
-			var ExtraCost = PriceHoler.GetChild<BnsCustomImageWidget>("ExtraCost");
-			if (ExtraCost != null)
+			if (itemBuyPrice is null)
 			{
-				var ItemBrand = ExtraCost.GetChild<BnsCustomImageWidget>("ItemBrand")!;
-				ItemBrand.SetVisiable(itemBuyPrice.ItemBrand != null);
-				ItemBrand.ExpansionComponentList["IconImage"]?.SetValue(itemBuyPrice.ItemBrand?.FrontIcon);
+				PriceHoler.SetVisiable(false);
+			}
+			else
+			{
+				PriceHoler.GetChild<BnsCustomLabelWidget>("money")!.String.LabelText = itemBuyPrice.money;
+				PriceHoler.GetChild<BnsCustomLabelWidget>("Coin")!.String.LabelText = itemBuyPrice.Coin;
 
-				DisposeItem_Initialized(ExtraCost.GetChild<BnsCustomImageWidget>("DisposeItem_1")!, itemBuyPrice.RequiredItem[0], itemBuyPrice.RequiredItemCount[0]);
-				DisposeItem_Initialized(ExtraCost.GetChild<BnsCustomImageWidget>("DisposeItem_2")!, itemBuyPrice.RequiredItem[1], itemBuyPrice.RequiredItemCount[1]);
-				DisposeItem_Initialized(ExtraCost.GetChild<BnsCustomImageWidget>("DisposeItem_3")!, itemBuyPrice.RequiredItem[2], itemBuyPrice.RequiredItemCount[2]);
-				DisposeItem_Initialized(ExtraCost.GetChild<BnsCustomImageWidget>("DisposeItem_4")!, itemBuyPrice.RequiredItem[3], itemBuyPrice.RequiredItemCount[3]);
+				var ExtraCost = PriceHoler.GetChild<BnsCustomImageWidget>("ExtraCost");
+				if (ExtraCost != null)
+				{
+					var ItemBrand = ExtraCost.GetChild<BnsCustomImageWidget>("ItemBrand")!;
+					ItemBrand.SetVisiable(itemBuyPrice.ItemBrand != null);
+					ItemBrand.ExpansionComponentList["IconImage"]?.SetValue(itemBuyPrice.ItemBrand?.FrontIcon);
+
+					DisposeItem_Initialized(ExtraCost.GetChild<BnsCustomImageWidget>("DisposeItem_1")!, itemBuyPrice.RequiredItem[0], itemBuyPrice.RequiredItemCount[0]);
+					DisposeItem_Initialized(ExtraCost.GetChild<BnsCustomImageWidget>("DisposeItem_2")!, itemBuyPrice.RequiredItem[1], itemBuyPrice.RequiredItemCount[1]);
+					DisposeItem_Initialized(ExtraCost.GetChild<BnsCustomImageWidget>("DisposeItem_3")!, itemBuyPrice.RequiredItem[2], itemBuyPrice.RequiredItemCount[2]);
+					DisposeItem_Initialized(ExtraCost.GetChild<BnsCustomImageWidget>("DisposeItem_4")!, itemBuyPrice.RequiredItem[3], itemBuyPrice.RequiredItemCount[3]);
+				}
 			}
 		}
 
