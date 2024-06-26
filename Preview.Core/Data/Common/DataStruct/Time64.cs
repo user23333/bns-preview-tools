@@ -96,9 +96,9 @@ public struct Time64(long ticks) : IFormattable, ITime
 
 
 	#region Override Methods	
-	public string ToString(string format, IFormatProvider formatProvider) => TimeFormat.Format(this + BnsTimeZoneInfo.FromPublisher()!.Offset, format, formatProvider);
+	public readonly string ToString(string format, IFormatProvider formatProvider) => TimeFormat.Format(this + BnsTimeZoneInfo.FromPublisher()!.Offset, format, formatProvider);
 
-	public override string ToString() => ToString(null, null);
+	public readonly override string ToString() => ToString(null, null);
 
 	public bool Equals(Time64 other) => Ticks == other.Ticks;
 

@@ -148,7 +148,7 @@ public class AttributeConverter
 		// convert
 		var text = value?.ToString();
 		if (value is float f) text = f.ToString("0.00");
-		else if (value is Time64 { Ticks: 0 }) return null;
+		else if (value is Time32 { Ticks: 0 } or Time64 { Ticks: 0 } or TimeUniversal { Ticks: 0 }) return null;
 		else if (value is Record record)
 		{
 			if (attribute.Type == AttributeType.TTRef)

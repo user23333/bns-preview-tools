@@ -3,7 +3,8 @@ using Xylia.Preview.Data.Common.DataStruct;
 
 namespace Xylia.Preview.Data.Engine.BinData.Models;
 public class DatafileHeader
-{    
+{
+	#region Fields
 	public string Magic { get; set; }    
 	public byte DatafileVersion { get; set; }
 	public BnsVersion ClientVersion { get; set; }
@@ -12,10 +13,11 @@ public class DatafileHeader
 	public long AliasMapSize { get; set; }
 	public long AliasCount { get; set; }
 	public long MaxBufferSize { get; set; }
-	public DateTimeOffset CreatedAt { get; set; }
+	public Time64 CreatedAt { get; set; }
 	public byte[] Reserved { get; set; }
+	#endregion
 
-
+	#region Methods
 	internal void ReadHeaderFrom(DataArchive reader)
 	{
 		Magic = Encoding.ASCII.GetString(reader.ReadBytes(8));
@@ -26,7 +28,7 @@ public class DatafileHeader
 		AliasMapSize = reader.ReadLongInt();
 		AliasCount = reader.ReadLongInt();
 		MaxBufferSize = reader.ReadLongInt();
-		CreatedAt = DateTimeOffset.FromUnixTimeSeconds(reader.Read<long>());
+		CreatedAt = reader.Read<Time64>();
 		Reserved = reader.ReadBytes(54);
 	}
 
@@ -51,9 +53,10 @@ public class DatafileHeader
 		writer.WriteLongInt(0);
         writer.WriteLongInt(aliasCount);
         writer.WriteLongInt(MaxBufferSize);
-        writer.Write(CreatedAt.ToUnixTimeSeconds());
+        writer.Write(CreatedAt);
 		writer.Write(Reserved);
 
 		return overwriteSize;
 	}
+	#endregion
 }

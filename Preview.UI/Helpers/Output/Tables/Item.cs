@@ -17,7 +17,7 @@ internal sealed class ItemOut : OutSet, IDisposable
 {
 	#region Fields
 	public bool OnlyUpdate;
-	DateTimeOffset? CreatedAt;
+	Time64 CreatedAt;
 
 	public string? Path_ItemList;
 	public string? Path_Failure;
@@ -188,18 +188,18 @@ internal sealed class ItemOut : OutSet, IDisposable
 	#endregion
 
 	#region Methods
-	public void Start(DateTime startTime, bool UseExcel)
+	public void Start(FileModeDialog.FileMode mode)
 	{
-		var time = CreatedAt ?? startTime;
+		var time = CreatedAt;
 		var outdir = Path.Combine(
 			UserSettings.Default.OutputFolder, "output", "item",
-			time.ToString("yyyyMM"),
-			time.ToString("dd HHmm"));
+			time.ToString("yyyyMM", null),
+			time.ToString("dd hhmm", null));
 
 		Directory.CreateDirectory(outdir);
-		Path_ItemList = Path.Combine(outdir, $@"{time:yyyy-MM-dd HH-mm}.chv");
+		Path_ItemList = Path.Combine(outdir, $@"{time:yyyy-MM-dd hh-mm}.chv");
 		Path_Failure = Path.Combine(outdir, @"no_text.txt");
-		Path_MainFile = Path.Combine(outdir, @"output." + (UseExcel ? "xlsx" : "txt"));
+		Path_MainFile = Path.Combine(outdir, @"output." + mode.ToString().ToLower());
 
 		#region HashList
 		var refs = new List<Ref>();
@@ -210,8 +210,12 @@ internal sealed class ItemOut : OutSet, IDisposable
 		#endregion
 
 		#region Output
-		if (UseExcel) CreateData();
-		else CreateText();
+		switch (mode)
+		{
+			case FileModeDialog.FileMode.Xlsx: CreateData(); break;
+			case FileModeDialog.FileMode.Txt: CreateText(); break;
+			default: throw new NotSupportedException();
+		}
 
 		var Failures = ItemDatas.Where(o => o.Name2 is null);
 		if (Failures.Any())

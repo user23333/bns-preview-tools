@@ -23,10 +23,10 @@ public interface IDataProvider : IDisposable , ITextProvider
     /// </summary>
     Locale Locale => default;
 
-    /// <summary>
-    /// DataSource Timestamp
-    /// </summary>
-    DateTimeOffset CreatedAt { get; }
+	/// <summary>
+	/// DataSource Timestamp
+	/// </summary>
+	Time64 CreatedAt { get; }
 
 	/// <summary>
 	/// DataSource Version

@@ -73,6 +73,14 @@ public static class TimeFormat
 
 			switch (ch)
 			{
+				case 'y':
+					i += tokenLen = ParseRepeatPattern(format, i, ch);
+					FormatDigits(ref result, value.Year, tokenLen, 4);
+					break;
+				case 'M':
+					i += tokenLen = ParseRepeatPattern(format, i, ch);
+					FormatDigits(ref result, value.Month, tokenLen, 2);
+					break;
 				case 'h':
 					i += tokenLen = ParseRepeatPattern(format, i, ch);
 					FormatDigits(ref result, value.Hour, tokenLen, 2);

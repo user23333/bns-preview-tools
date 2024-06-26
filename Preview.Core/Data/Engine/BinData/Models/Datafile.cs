@@ -8,7 +8,7 @@ public abstract class Datafile
 	#region Fields
 	public byte DatafileVersion { get; set; } = 5;
 	public BnsVersion ClientVersion { get; set; }
-	public DateTimeOffset CreatedAt { get; set; }
+	public Time64 CreatedAt { get; set; }
 	public long AliasCount { get; set; }
 	public long AliasMapSize { get; set; }
 	internal AliasTable AliasTable { get; set; }
