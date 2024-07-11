@@ -42,8 +42,7 @@
 	<ItemGroup>
 		<EmbeddedResource Include="Data\Definition\*.xml" />
 		<EmbeddedResource Include="Data\Definition\*\*.xml" />
-		<None Remove="Data\Definition\SmartDropReward.xml" />
-		
+
 		<None Include="..\LICENSE">
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>

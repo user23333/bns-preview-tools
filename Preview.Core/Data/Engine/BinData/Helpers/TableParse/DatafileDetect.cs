@@ -79,7 +79,7 @@ public sealed class DatafileDetect : ITableParseType
 	public DatafileDetect(Datafile data, Collection<TableDefinition> definitions)
 	{
 		Read(data.Tables, AliasTableUnit.Split(data.AliasTable));
-		CreateNameMap(definitions.Where(x => x.Module != TableModule.Server).ToArray());
+		CreateNameMap(definitions.Where(x => x.Module != (long)TableModule.Server && x.Module != (long)TableModule.Engine).ToArray());
 	}
 
 	/// <summary>

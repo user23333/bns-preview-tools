@@ -5,12 +5,14 @@
 	xmlns:Tooltip="clr-namespace:Xylia.Preview.UI.GameUI.Scene.Game_Tooltip"	
 	Title="ItemGrowth2TooltipPanel" Width="510" Height="600">
 	<Window.Resources>
+		
 		<DataTemplate x:Key="TwoColumn">
 			<UI:BnsCustomImageWidget MinHeight="20">
 				<UI:BnsCustomLabelWidget String="{Binding Path=Item1}" UI:LayoutData.Anchors="0 0 1 1" />
 				<UI:BnsCustomLabelWidget String="{Binding Path=Item2}" UI:LayoutData.Anchors="1 0 1 0" />
 			</UI:BnsCustomImageWidget>
 		</DataTemplate>
+		
 	</Window.Resources>
 
 	<TabControl Name="ItemGrowth2TooltipPanel_Contents">
@@ -38,10 +40,10 @@
 				<StackPanel>
 					<ItemsControl Name="RandomOption_Groups">
 						<ItemsControl.ItemTemplate>
-							<DataTemplate>
 
+							<DataTemplate>
 								<StackPanel>
-									<CheckBox Name="GroupName" Content="{Binding }" />
+									<CheckBox Name="GroupName" Content="{Binding }" IsChecked="{Binding Flag, Mode=OneTime}" />
 
 									<StackPanel Initialized="RandomOption_Initialized" DataContext="{Binding Value}" 
 												Visibility="{Binding IsChecked,ElementName=GroupName,Converter={StaticResource Boolean2VisibilityConverter}}">
@@ -49,8 +51,8 @@
 										<Tooltip:RewardTooltipPanel x:Name="RandomOption_RewardContent" DataContext="{Binding}" />
 									</StackPanel>
 								</StackPanel>
-								
 							</DataTemplate>
+							
 						</ItemsControl.ItemTemplate>
 					</ItemsControl>
 				</StackPanel>

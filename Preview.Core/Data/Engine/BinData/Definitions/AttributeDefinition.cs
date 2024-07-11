@@ -10,9 +10,9 @@ public class AttributeDefinition
 	#region Metadata
 	public string Name { get; set; }
 	public AttributeType Type { get; set; }
-	public string DefaultValue { get; set; }
 	public ushort Repeat { get; set; }
 	public ushort ReferedTable { get; set; }
+	public ushort ReferedEl { get; set; }
 	public ushort Offset { get; set; }
 	public ushort Size { get; set; }
 	public bool IsDeprecated { get; set; }
@@ -20,10 +20,12 @@ public class AttributeDefinition
 	public bool IsRequired { get; set; }
 	public bool IsHidden { get; set; }
 	public SequenceDefinition Sequence { get; set; }
-	public double Max { get; set; }
-	public double Min { get; set; }
-	//public float FMax { get; set; }
-	//public float FMin { get; set; }
+
+	public string DefaultValue { get; set; }
+	public long Max { get; set; }
+	public long Min { get; set; }
+	public float FMax { get; set; }
+	public float FMin { get; set; }
 
 	public ReleaseSide Side { get; set; } = ReleaseSide.Client | ReleaseSide.Server;
 	#endregion
@@ -34,13 +36,41 @@ public class AttributeDefinition
 	public bool CanInput { get; set; } = true;
 
 	internal List<AttributeDefinition> Expands { get; private set; } = [];
-	#endregion
+	#endregion	  
 
+	#region Methods
+	public override string ToString() => $"{Name} ({Type}) repeat:{Repeat}";
 
-	#region Load Methods
-	public override string ToString() => this.Name;
+	public void WriteXml(XmlWriter writer)
+	{
+		writer.WriteStartElement("attribute");
+		writer.WriteAttributeString("name", Name);
+		writer.WriteAttributeString("type", Type.ToString()[1..]);
 
-	public AttributeDefinition Clone()
+		if (IsKey) writer.WriteAttributeString("key", IsKey.ToString());
+		if (Repeat > 1) writer.WriteAttributeString("repeat", Repeat.ToString());
+		if (IsRequired) writer.WriteAttributeString("required", IsRequired.ToString());
+		if (DefaultValue != null) writer.WriteAttributeString("default", DefaultValue);
+		if (Min != 0) writer.WriteAttributeString("min", Min.ToString());
+		if (Max != 0) writer.WriteAttributeString("max", Max.ToString());
+		if (FMin != 0) writer.WriteAttributeString("fmin", FMin.ToString());
+		if (FMax != 0) writer.WriteAttributeString("fmax", FMax.ToString());
+		if (ReferedTable != 0) writer.WriteAttributeString("ref", ReferedTableName ?? ReferedTable.ToString());
+		if (ReferedEl != 0) writer.WriteAttributeString("refel", ReferedEl.ToString());
+		if (IsDeprecated) writer.WriteAttributeString("deprecated", IsDeprecated.ToString());
+		if (IsHidden) writer.WriteAttributeString("hidden", IsHidden.ToString());
+
+		Sequence?.ForEach(s =>
+		{
+			writer.WriteStartElement("case");
+			writer.WriteAttributeString("name", s);
+			writer.WriteEndElement();
+		});
+
+		writer.WriteEndElement();
+	}
+
+	internal AttributeDefinition Clone()
 	{
 		var newAttrDef = (AttributeDefinition)MemberwiseClone();
 		this.Expands.Add(newAttrDef);
@@ -79,10 +109,13 @@ public class AttributeDefinition
 		#endregion
 
 		#region Default
-		double MaxValue = (node.Attributes["max"]?.Value).ToDouble();
-		double MinValue = (node.Attributes["min"]?.Value).ToDouble();
 		string DefaultValue = node.Attributes["default"]?.Value?.Trim();
 		if (string.IsNullOrEmpty(DefaultValue)) DefaultValue = null;
+
+		var MinValue = (node.Attributes["min"]?.Value).ToInt64();
+		var MaxValue = (node.Attributes["max"]?.Value).ToInt64();
+		var FMinValue = (node.Attributes["fmin"]?.Value).ToFloat32();
+		var FMaxValue = (node.Attributes["fmax"]?.Value).ToFloat32();
 
 		switch (Type)
 		{
@@ -120,8 +153,8 @@ public class AttributeDefinition
 
 			case AttributeType.TFloat32:
 				DefaultValue = DefaultValue.ToFloat32().ToString("0.00");
-				if (MinValue == 0) MinValue = float.MinValue;
-				if (MaxValue == 0) MaxValue = float.MaxValue;
+				if (FMinValue == 0) FMinValue = float.MinValue;
+				if (FMaxValue == 0) FMaxValue = float.MaxValue;
 				break;
 
 			case AttributeType.TBool:
@@ -191,7 +224,6 @@ public class AttributeDefinition
 			IsKey = Key,
 			IsRequired = Required,
 			IsHidden = Hidden,
-
 			Type = Type,
 			Offset = (ushort)(node.Attributes["offset"]?.Value).ToInt16(),
 			Repeat = ushort.TryParse(node.Attributes["repeat"]?.Value, out var tmp) ? tmp : (ushort)1,
@@ -200,6 +232,8 @@ public class AttributeDefinition
 			DefaultValue = DefaultValue,
 			Max = MaxValue,
 			Min = MinValue,
+			FMax = FMaxValue,
+			FMin = FMinValue,
 			Side = side,
 		};
 	}

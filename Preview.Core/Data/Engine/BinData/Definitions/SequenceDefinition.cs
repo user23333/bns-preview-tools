@@ -12,7 +12,6 @@ public class SequenceDefinition : List<string>
 	public string Default { get; set; }
 
 
-
 	#region Public Methods
 	public SequenceDefinition Clone() => MemberwiseClone() as SequenceDefinition;
 

@@ -35,9 +35,7 @@ internal class UpdateService : IService
 		softWare.SetValue("Version", version, RegistryValueKind.String);
 		#endregion
 
-#if DEVELOP
-		return;
-#elif DEBUG
+#if DEBUG
 		Growl.Info(StringHelper.Get("Application_VersionTip1"));
 #endif
 		AutoUpdater.RemindLaterTimeSpan = 0;
@@ -49,8 +47,10 @@ internal class UpdateService : IService
 
 	public bool Register()
 	{
+#if !DEVELOP
 		AutoUpdater.Start($"http://tools.bnszs.com/api/update?app={APP_NAME}&version={VersionHelper.InternalVersion}&mode={UserSettings.Default.UpdateMode}");
 		CheckThread = new Timer(f => CheckForUpdateEvent(UpdateInfoArgs.Timeout), null, TIMEOUT, Timeout.Infinite);
+#endif
 		return true;
 	}
 

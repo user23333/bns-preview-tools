@@ -16,11 +16,11 @@ public abstract class ElementBaseDefinition
 	public List<AttributeDefinition> Attributes { get; } = [];
 	public List<AttributeDefinition> ExpandedAttributes { get; private set; } = [];
 	public List<ElementDefinition> Children { get; } = [];
-
-	public override string ToString() => this.Name;
 	#endregion
 
 	#region Helper
+	public override string ToString() => this.Name;
+
 	private Dictionary<string, AttributeDefinition> _attributesDictionary = [];
 	private Dictionary<string, AttributeDefinition> _expandedAttributesDictionary = [];
 

@@ -38,11 +38,11 @@ public sealed class HashList
 		using var reader = new DataArchive(File.ReadAllBytes(path));
 		var Magic = reader.ReadBytes(5);
 
-		Version = reader.Read<UInt16>();
-		Type = reader.Read<UInt16>();
-		IsCompressed = reader.Read<Boolean>();
-		IsEncrypted = reader.Read<Boolean>();
-		TimeStamp = reader.Read<Int64>();
+		Version = reader.Read<ushort>();
+		Type = reader.Read<ushort>();
+		IsCompressed = reader.Read<bool>();
+		IsEncrypted = reader.Read<bool>();
+		TimeStamp = reader.Read<long>();
 		Name = reader.ReadString();
 
 		var datas = new Ref[reader.Read<int>()];

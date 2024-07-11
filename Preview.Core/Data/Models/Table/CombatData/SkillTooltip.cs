@@ -68,27 +68,9 @@ public class SkillTooltip : ModelElement
 	#endregion
 
 	#region Methods
-	public static string Compare(Ref<SkillTooltip>[] current, Ref<SkillTooltip>[] other)
-	{
-		// instance
-		var ia = other?.SelectNotNull(x => x.Instance) ?? [];
-		var ib = current?.SelectNotNull(x => x.Instance) ?? [];
-
-		var del = ia.Except(ib);
-		var add = ib.Except(ia);
-		var normal = ib.Intersect(ia);
-
-		return string.Join("<br/>",
-		[
-			.. add.Select(x => x.ToString(2)), 
-			.. del.Select(x => x.ToString(3)),
-			.. normal.Select(x => x.ToString(1))
-		]);
-	}
-
 	public override string ToString() => ToString();
 
-	public string ToString(int mode = 0)
+	private string ToString(int mode = 0)
 	{
 		#region Text
 		StringBuilder builder = new();
@@ -136,8 +118,25 @@ public class SkillTooltip : ModelElement
 			2 => "UI.TooltipArea.SkillTrain.Add.Fontset".GetText([text]) + " " + "UI.TooltipArea.SkillTrain.Add.Icon".GetText(),
 			3 => "UI.TooltipArea.SkillTrain.Del.Fontset".GetText([text]),
 			_ => text
-		}; 
+		};
 		#endregion
+	}
+
+	public static string Compare(Ref<SkillTooltip>[] current, Ref<SkillTooltip>[] other)
+	{
+		var ia = other?.SelectNotNull(x => x.Instance) ?? [];
+		var ib = current?.SelectNotNull(x => x.Instance) ?? [];
+
+		var del = ia.Except(ib);
+		var add = ib.Except(ia);
+		var normal = ib.Intersect(ia);
+
+		return string.Join("<br/>",
+		[
+			.. add.Select(x => x.ToString(2)),
+			.. del.Select(x => x.ToString(3)),
+			.. normal.Select(x => x.ToString(0))
+		]);
 	}
 	#endregion
 }

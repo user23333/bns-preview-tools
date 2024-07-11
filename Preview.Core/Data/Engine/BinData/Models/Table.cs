@@ -10,7 +10,6 @@ using Xylia.Preview.Common.Attributes;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Common.DataStruct;
-using Xylia.Preview.Data.Engine.BinData.Definitions;
 using Xylia.Preview.Data.Engine.BinData.Helpers;
 using Xylia.Preview.Data.Engine.BinData.Serialization;
 using Xylia.Preview.Data.Engine.DatData;
@@ -248,7 +247,7 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 	{
 		var hash = new List<HashInfo>();
 
-		var name = this.Definition.Pattern.Replace("*", null);
+		var name = Definition.Pattern.Replace("*", null);
 		var path = Path.Combine(folder, name);
 		Directory.CreateDirectory(Path.GetDirectoryName(path));
 
@@ -273,7 +272,7 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 		// document
 		writer.WriteStartDocument();
 		writer.WriteStartElement(Definition.ElRoot.Name);
-		writer.WriteAttributeString("release-module", TableModule.LocalizationData.ToString());
+		writer.WriteAttributeString("release-module", "LocalizationData");
 		writer.WriteAttributeString("release-side", settings.ReleaseSide.ToString().ToLower());
 		writer.WriteAttributeString("type", Definition.Name);
 		writer.WriteAttributeString("version", MajorVersion + "." + MinorVersion);

@@ -103,18 +103,18 @@ public class SkillTooltipAttribute : ModelElement
 			#endregion
 		}
 
-		return IconTexture.Parse(Icon)?.Tag + Text.GetText(arguments);
+		return IconTexture.Parse(Icon)?.Tag + Text.GetText(arguments)
+			+ (AttributeCoefficient > 0 ? "UI.Tooltip.Attack.Icon.Attribute.only-one".GetText() : null);
 	}
 	#endregion
 
 
 	#region Helpers
-	internal static string GetDamageInfo(int vmin, int vmax, short AttributeCoefficient = 0)
+	internal static string GetDamageInfo(int min, int max, short AttributeCoefficient = 0)
 	{
-		return (vmax == 0 || vmin == vmax ? 
-			$"UI.Tooltip.Skill.damage-percent" : 
-			$"UI.Tooltip.Skill.damage-percent-min-max").GetText([vmin, vmax]) +
-			(AttributeCoefficient > 0 ? "UI.Tooltip.Attack.Icon.Attribute.only-one".GetText() : null);
+		return (max == 0 || min == max ?
+			$"UI.Tooltip.Skill.damage-percent" :
+			$"UI.Tooltip.Skill.damage-percent-min-max").GetText([min, max]);
 
 		//// get attack power
 		//var power = Settings.Default.Skill_AttackPower * 0.01;

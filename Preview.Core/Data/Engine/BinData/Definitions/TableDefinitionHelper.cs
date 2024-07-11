@@ -49,7 +49,7 @@ public static class TableDefinitionHelper
 		var autokey = (tableNode.Attributes["autokey"]?.Value).ToBool();
 		var maxid = (tableNode.Attributes["maxid"]?.Value).ToInt32();
 		var version = TableHeader.ParseVersion(tableNode.GetAttribute("version"));
-		var module = (TableModule)(tableNode.Attributes["module"]?.Value).ToInt32();
+		var module = (tableNode.Attributes["module"]?.Value).ToInt64();
 		var pattern = tableNode.Attributes["pattern"]?.Value ??  $"{name.TitleCase()}Data*.xml";
 		#endregion
 

@@ -110,7 +110,7 @@ public static class BinaryExtension
 
 			if (i + 1 != Cipher.Length && s == '[')
 			{
-				StringBuilder InsiderBuilder = new StringBuilder();
+				StringBuilder InsiderBuilder = new();
 
 				int NextId = i + 1;
 				char CurChar = Cipher[NextId];
@@ -121,7 +121,7 @@ public static class BinaryExtension
 
 					int NewId = ++NextId;
 
-					if (Cipher.Length < NewId + 1) throw new InvalidDataException("压缩文本中缺失了后标(即 \"]\" 标识)。");
+					if (Cipher.Length < NewId + 1) throw new InvalidDataException("missing suffix-label");
 					CurChar = Cipher[NewId];
 				}
 
@@ -129,10 +129,55 @@ public static class BinaryExtension
 				InsiderBuilder.Clear();
 				i = NextId;
 			}
-			else if (s == ']') throw new InvalidDataException("无效的压缩文本后标");
+			else if (s == ']') throw new InvalidDataException("invalid suffix-label");
 			else builder.Append(s);
 		}
 
 		return builder.ToString().Replace(" ", null);
+	}
+
+
+	public static IEnumerable<long> IndexesOf(this byte[] source, int start, byte[] pattern)
+	{
+		ArgumentNullException.ThrowIfNull(source);
+		ArgumentNullException.ThrowIfNull(pattern);
+
+		long valueLength = source.LongLength;
+		long patternLength = pattern.LongLength;
+
+		if ((valueLength == 0) || (patternLength == 0) || (patternLength > valueLength))
+		{
+			yield break;
+		}
+
+		var badCharacters = new long[256];
+
+		for (var i = 0; i < 256; i++)
+		{
+			badCharacters[i] = patternLength;
+		}
+
+		var lastPatternByte = patternLength - 1;
+
+		for (long i = 0; i < lastPatternByte; i++)
+		{
+			badCharacters[pattern[i]] = lastPatternByte - i;
+		}
+
+		long index = start;
+
+		while (index <= valueLength - patternLength)
+		{
+			for (var i = lastPatternByte; source[index + i] == pattern[i]; i--)
+			{
+				if (i == 0)
+				{
+					yield return index;
+					break;
+				}
+			}
+
+			index += badCharacters[source[index + lastPatternByte]];
+		}
 	}
 }

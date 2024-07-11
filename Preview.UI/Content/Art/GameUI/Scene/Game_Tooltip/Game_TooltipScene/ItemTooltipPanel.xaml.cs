@@ -19,7 +19,7 @@ public partial class ItemTooltipPanel
 	{
 		InitializeComponent();
 #if DEVELOP
-		DataContext = FileCache.Data.Provider.GetTable<Item>()["General_Accessory_Ring_3034_031"];
+		//DataContext = FileCache.Data.Provider.GetTable<Item>()["General_Accessory_Ring_3034_031"];
 #endif
 	}
 	#endregion

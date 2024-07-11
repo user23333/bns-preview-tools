@@ -205,17 +205,17 @@ public enum GameCategory3Seq
 	[Text("Name.item.game-category-3.vehicle")]
 	Vehicle,
 
-	[Text("Name.item.game-category-3.chatting-symbol")]
-	ChattingSymbol,
+	[Text("Name.item.game-category-3.normal-state-appearance")]
+	NormalStateAppearance,
 
 	[Text("Name.item.game-category-3.idle-state-appearance")]
 	IdleStateAppearance,
 
+	[Text("Name.item.game-category-3.chatting-symbol")]
+	ChattingSymbol,
+
 	[Text("Name.item.game-category-3.portrait-appearance")]
 	PortraitAppearance,
-
-	[Text("Name.item.game-category-3.normal-state-appearance")]
-	NormalStateAppearance,
 
 	[Text("Name.item.game-category-3.hypermove-appearance")]
 	HypermoveAppearance,
@@ -226,6 +226,14 @@ public enum GameCategory3Seq
 	[Text("Name.item.game-category-3.speech-bubble-appearance")]
 	SpeechBubbleAppearance,
 
+	[Text("Name.item.game-category-3.talk-social")]
+	TalkSocial,
+
+	[Name("Name.item.game-category-3.armlet-1")]
+	Armlet1,
+
+	[Name("Name.item.game-category-3.armlet-2")]
+	Armlet2,
 
 	[Text("Name.item.game-category-3.costume")]
 	Costume,
@@ -383,9 +391,6 @@ public enum GameCategory3Seq
 	[Text("Name.item.game-category-3.obsidian-garnet")]
 	ObsidianGarnet,
 
-	[Text("Name.item.game-category-3.aquamarine-amber")]
-	AquamarineAmber,
-
 	[Text("Name.item.game-category-3.corundum-white")]
 	CorundumWhite,
 
@@ -428,11 +433,11 @@ public enum GameCategory3Seq
 	[Text("Name.item.game-category-3.skill-stone2")]
 	SkillStone2,
 
-	[Text("Name.item.game-category-3.weapon-soul-gem")]
-	WeaponSoulGem,
-
 	[Text("Name.item.game-category-3.accessory-stone")]
 	AccessoryStone,
+
+	[Text("Name.item.game-category-3.weapon-soul-gem")]
+	WeaponSoulGem,
 
 	[Text("Name.item.game-category-3.regenerate-potion")]
 	RegeneratePotion,
@@ -478,6 +483,9 @@ public enum GameCategory3Seq
 
 	[Text("Name.item.game-category-3.fishing-goods")]
 	FishingGoods,
+
+	[Text("Name.item.game-category-3.voucher")]
+	Voucher,
 
 	[Text("Name.item.game-category-3.reset-talisman")]
 	ResetTalisman,
@@ -701,11 +709,11 @@ public enum GameCategory3Seq
 	[Text("Name.item.game-category-3.card")]
 	Card,
 
-	[Text("Name.item.game-category-3.relic")]
-	Relic,
+	[Text("Name.item.game-category-3.aquamarine-amber")]
+	AquamarineAmber,
 
-	[Text("Name.item.game-category-3.voucher")]
-	Voucher,
+	[Text("Name.item.game-category-3.relic")]
+	Relic1,
 
 	[Text("Name.item.game-category-3.star-stone")]
 	StarStone,

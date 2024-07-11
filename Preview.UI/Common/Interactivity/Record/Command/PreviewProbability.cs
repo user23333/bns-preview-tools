@@ -13,6 +13,20 @@ internal class PreviewProbability : RecordCommand
 		"npc",
 	];
 
+	protected override bool CanExecute(Record record)
+	{
+		switch (record.OwnerName)
+		{
+			case "item":
+			{
+				var pages = ItemTooltipPanel.DecomposePage.LoadFrom(record.As<Item>().DecomposeInfo);
+				return pages.Count > 0;
+			}
+
+			default: return false;
+		}
+	}
+
 	protected override void Execute(Record record)
 	{
 		switch (record.OwnerName)
@@ -37,7 +51,7 @@ internal class PreviewProbability : RecordCommand
 
 				// client is missing fields
 				var RewardTable = record.Owner.Owner.GetTable("reward");
-				var RewardDefault = record.Attributes.Get<Record>("reward-default") ?? RewardTable[FixAlias(PersonalDroppedPouchReward)];
+				var RewardDefault = record.Attributes.Get<Record>("reward-default") ?? RewardTable[FixAlias(PersonalDroppedPouchReward)] ?? RewardTable[record.ToString()];
 				var RewardDifficultyType1 = record.Attributes.Get<Record>("reward-difficulty-type-1") ?? RewardTable[FixAlias(PersonalDroppedPouchRewardDifficultyType1)];
 				var RewardDifficultyType2 = record.Attributes.Get<Record>("reward-difficulty-type-2") ?? RewardTable[FixAlias(PersonalDroppedPouchRewardDifficultyType2)];
 				var RewardDifficultyType3 = record.Attributes.Get<Record>("reward-difficulty-type-3") ?? RewardTable[FixAlias(PersonalDroppedPouchRewardDifficultyType3)];
@@ -45,7 +59,7 @@ internal class PreviewProbability : RecordCommand
 				// display
 				var rewards = new List<NameObject<object>>()
 				{
-					new(RewardDefault?.As<Reward>(), "UI.RandomBox.Probability.CommonDroppedPouch".GetText()),
+					new(RewardDefault?.As<Reward>(), "UI.RandomBox.Probability.CommonDroppedPouch".GetText()) { Flag = true },
 					new(PersonalDroppedPouchReward?.As<Reward>(), "UI.RandomBox.Probability.PersonalDroppedPouch".GetText()),
 					new(RewardDifficultyType1?.As<Reward>(), "UI.RandomBox.Probability.CommonDroppedPouch.Difficulty1".GetText()),
 					new(PersonalDroppedPouchRewardDifficultyType1?.As<Reward>(), "UI.RandomBox.Probability.PersonalDroppedPouch.Difficulty1".GetText()),

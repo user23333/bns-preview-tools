@@ -25,15 +25,13 @@ public partial class App : Application
 
 		InitializeArgs(e.Args);
 
-#if DEVELOP
+#if DEVELOP && true
 		TestProvider.Set();
-		new Xylia.Preview.UI.GameUI.Scene.Game_Tooltip.Skill3ToolTipPanel_1().Show();
-		return;
-
-		//var _ = PreviewModel.SnooperViewer;
 		UpdateSkin(SkinType.Default, true);
-		new Xylia.Preview.UI.GameUI.Scene.Game_Tooltip.Skill3ToolTipPanel_1().Show();
+
 		//new Xylia.Preview.UI.Content.TestPanel().Show();
+		//var _ = PreviewModel.SnooperViewer;
+		new Xylia.Preview.UI.GameUI.Scene.Game_Tooltip.Skill3ToolTipPanel_1().Show();
 #else
 		MainWindow = new MainWindow();
 		MainWindow.Show();

@@ -4,6 +4,7 @@ using Xylia.Preview.Data.Helpers;
 namespace Xylia.Preview.Data.Engine.BinData.Models;
 public abstract class TableHeader
 {
+	#region Fields
 	/// <summary>
 	/// name of table
 	/// </summary>
@@ -27,10 +28,10 @@ public abstract class TableHeader
 	/// </summary>
 	public ushort MinorVersion { get; set; }
 
-	public int Size { get; set; }
+	internal int Size { get; set; }
 
-	public bool IsCompressed { get; set; }
-
+	internal bool IsCompressed { get; set; }
+	#endregion
 
 	#region Methods
 	internal MessageManager Message = [];

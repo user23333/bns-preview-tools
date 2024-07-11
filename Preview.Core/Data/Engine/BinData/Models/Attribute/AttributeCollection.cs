@@ -28,24 +28,6 @@ public class AttributeCollection : IReadOnlyDictionary<AttributeDefinition, obje
 	#endregion
 
 	#region Constructors
-	internal void BuildData(ElementBaseDefinition definition, bool OnlyKey = false)
-	{
-		// convert to binary
-		void SetData(AttributeDefinition attribute) => record.Attributes.Set(attribute, record.Attributes.Get(attribute));
-
-		// implement IGameDataKeyParser
-		if (OnlyKey)
-		{
-			definition.ExpandedAttributes.Where(attr => attr.IsKey).ForEach(SetData);
-		}
-		else
-		{
-			// create data
-			definition.ExpandedAttributes.ForEach(SetData);
-			attributes.Clear();
-		}
-	}
-
 	internal AttributeCollection(Record record)
 	{
 		this.record = record;
@@ -98,6 +80,24 @@ public class AttributeCollection : IReadOnlyDictionary<AttributeDefinition, obje
 			{
 				throw new Exception(string.Format("{0} Attribute is Required Field", text));
 			}
+		}
+	}
+
+	internal void BuildData(ElementBaseDefinition definition, bool OnlyKey = false)
+	{
+		// convert to binary
+		void SetData(AttributeDefinition attribute) => record.Attributes.Set(attribute, record.Attributes.Get(attribute));
+
+		// implement IGameDataKeyParser
+		if (OnlyKey)
+		{
+			definition.ExpandedAttributes.Where(attr => attr.IsKey).ForEach(SetData);
+		}
+		else
+		{
+			// create data
+			definition.ExpandedAttributes.ForEach(SetData);
+			attributes.Clear();
 		}
 	}
 	#endregion

@@ -21,8 +21,8 @@ public partial class Skill3ToolTipPanel_1
 		InitializeComponent();
 #if DEVELOP
 		BnsCustomLabelWidget.CopyMode = CopyMode.Original;
-		OldSkill = FileCache.Data.Provider.GetTable<Skill3>()["SwordMaster_S1_3_Lightning_TwicePierce"];
-		DataContext = FileCache.Data.Provider.GetTable<Skill3>()["SwordMaster_S1_2_Lightning_TwicePierce"];
+		OldSkill = FileCache.Data.Provider.GetTable<Skill3>()["Summoner_S1_1_BackStep"];
+		DataContext = FileCache.Data.Provider.GetTable<Skill3>()["Summoner_S0_1_BackStep"];
 #endif
 	}
 	#endregion
