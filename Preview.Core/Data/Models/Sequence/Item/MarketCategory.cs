@@ -89,6 +89,9 @@ public enum MarketCategory2Seq
 
 	[Text("Name.item.market-category-2.badge")]
 	Badge,
+
+	[Text("Name.item.market-category-2.relic")]
+	Relic,
 }
 
 public enum MarketCategory3Seq
@@ -482,14 +485,14 @@ public enum MarketCategory3Seq
 	[Text("Name.item.market-category-3.instrument")]
 	Instrument,
 
-	[Text("")]
-	N130,
+	[Text("Name.item.market-category-3.aquamarine-amber")]
+	AquamarineAmber,
 
-	[Text("")]
-	N131,
+	[Text("Name.item.market-category-3.talk-social")]
+	TalkSocial,
 
-	[Text("")]
-	N132,
+	[Text("Name.item.market-category-3.relic-1")]
+	Relic1,
 
 	[Text("Name.item.market-category-3.star-stone")]
 	StarStone,
@@ -497,8 +500,14 @@ public enum MarketCategory3Seq
 	[Text("Name.item.market-category-3.weapon-soul-gem")]
 	WeaponSoulGem,
 
-	[Text("")]
-	N135,
+	[Text("Name.item.market-category-3.voucher")]
+	Voucher,
+
+	[Text("Name.item.market-category-3.armlet-1")]
+	Armlet1,
+
+	[Text("Name.item.market-category-3.armlet-2")]
+	Armlet2,
 
 	COUNT
 }
@@ -562,6 +571,8 @@ public static partial class SequenceExtensions
 		data[MarketCategory2Seq.Accessory].Add(MarketCategory3Seq.ChattingSymbol);
 		data[MarketCategory2Seq.Accessory].Add(MarketCategory3Seq.PortraitAppearance);
 		data[MarketCategory2Seq.Accessory].Add(MarketCategory3Seq.HypermoveAppearance);
+		data[MarketCategory2Seq.Accessory].Add(MarketCategory3Seq.Armlet1);
+		data[MarketCategory2Seq.Accessory].Add(MarketCategory3Seq.Armlet2);
 		#endregion
 
 		#region	Dress
@@ -602,6 +613,7 @@ public static partial class SequenceExtensions
 			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.EmeraldDiamond);
 			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.AquamarineDiamond);
 			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.AmberDiamond);
+			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.AquamarineAmber);
 			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.ObsidianGarnet);
 			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.WeaponGemEtc);
 		}
@@ -655,53 +667,39 @@ public static partial class SequenceExtensions
 		data[MarketCategory2Seq.Tool].Add(MarketCategory3Seq.WeaponGemMake);
 		data[MarketCategory2Seq.Tool].Add(MarketCategory3Seq.FishingGoods);
 		data[MarketCategory2Seq.Tool].Add(MarketCategory3Seq.Card);
+		data[MarketCategory2Seq.Tool].Add(MarketCategory3Seq.Voucher);
 		#endregion
 
-		#region	EquipMaterial
+		#region	Material
 		data[MarketCategory2Seq.EquipMaterial].Add(MarketCategory3Seq.Wealth);
 		data[MarketCategory2Seq.EquipMaterial].Add(MarketCategory3Seq.GrowthMaterial);
 		data[MarketCategory2Seq.EquipMaterial].Add(MarketCategory3Seq.HolyMaterial);
-		#endregion
 
-		#region	UnionMaterial
 		data[MarketCategory2Seq.UnionMaterial].Add(MarketCategory3Seq.ProductionMaterial);
 		data[MarketCategory2Seq.UnionMaterial].Add(MarketCategory3Seq.HypermoveMaterial);
-		#endregion
 
-		#region	DressMaterial
 		data[MarketCategory2Seq.DressMaterial].Add(MarketCategory3Seq.ColorMaterial);
 		data[MarketCategory2Seq.DressMaterial].Add(MarketCategory3Seq.Cloth);
-		#endregion
 
-		#region	EtcMaterial
 		data[MarketCategory2Seq.EtcMaterial].Add(MarketCategory3Seq.SpecialMaterial);
 		data[MarketCategory2Seq.EtcMaterial].Add(MarketCategory3Seq.NormalMaterial);
 		#endregion
 
-		#region	Coin
+		#region	Etc
+		//data[MarketCategory2Seq.Coin].Add(MarketCategory3Seq.None);
 
-		#endregion
-
-		#region	Deed
 		data[MarketCategory2Seq.Deed].Add(MarketCategory3Seq.NormalDeed);
 		data[MarketCategory2Seq.Deed].Add(MarketCategory3Seq.SkillTakeDeed);
-		#endregion
 
-		#region	Quest
+		//data[MarketCategory2Seq.Quest].Add(MarketCategory3Seq.None);
 
-		#endregion
-
-		#region	EtcChange
 		data[MarketCategory2Seq.EtcChange].Add(MarketCategory3Seq.SundryItem);
 		data[MarketCategory2Seq.EtcChange].Add(MarketCategory3Seq.ChackItem);
-		#endregion
 
-		#region	EtcBox
 		data[MarketCategory2Seq.EtcBox].Add(MarketCategory3Seq.NormalEtcBox);
-		#endregion
 
-		#region	Badge
-
+		//data[MarketCategory2Seq.Badge].Add(MarketCategory3Seq.Badge1);
+		//data[MarketCategory2Seq.Relic].Add(MarketCategory3Seq.Relic1);
 		#endregion
 
 		return data;

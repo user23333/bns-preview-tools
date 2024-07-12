@@ -1,9 +1,6 @@
 ﻿using System.Security.Cryptography;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Client;
-using Xylia.Preview.Data.Common;
-using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Data.Models;
 
@@ -24,8 +21,6 @@ public partial class Tables
 
 		Console.WriteLine(PrivateKey);
 		Console.WriteLine(PublicKey);
-
-		Console.WriteLine(TimeUniversal.Parse("2024/6/26 8:00:00").Ticks);
 	}
 
 	[TestMethod]

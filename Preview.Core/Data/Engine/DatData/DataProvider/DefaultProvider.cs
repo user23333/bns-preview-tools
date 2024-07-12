@@ -1,7 +1,7 @@
-﻿using CUE4Parse.Utils;
-using Serilog;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Diagnostics;
+using CUE4Parse.Utils;
+using Serilog;
 using Xylia.Preview.Data.Engine.BinData.Helpers;
 using Xylia.Preview.Data.Engine.BinData.Models;
 using Xylia.Preview.Data.Engine.BinData.Serialization;
@@ -38,19 +38,20 @@ public class DefaultProvider : Datafile, IDataProvider
         ReadFrom(XmlData.SearchFiles(PATH.Datafile(Is64Bit)).FirstOrDefault()?.Data, Is64Bit);
         ReadFrom(LocalData?.SearchFiles(PATH.Localfile(Is64Bit)).FirstOrDefault()?.Data, Is64Bit);
 
-        // raw table
-        Tables.Add(new() { Name = "quest" });
+        // xml table
         Tables.Add(new() { Name = "contextscript" });
-        Tables.Add(new() { Name = "skill-training-sequence" });
+		Tables.Add(new() { Name = "quest" });
+		Tables.Add(new() { Name = "questrewardskill3" });
+		Tables.Add(new() { Name = "skill-training-sequence" });
         Tables.Add(new() { Name = "summoned-sequence" });
         Tables.Add(new() { Name = "tutorialskillsequence" });
 
-        // surveyquestions
-        #endregion
+		// surveyquestions
+		#endregion
 
-        #region ParseType
-        // Actually, it is directly defined in the game program, but we cannot get it.
-        if (definitions.HasHeader) Detect = new DatafileDirect(definitions.Header);
+		#region ParseType
+		// Actually, it is directly defined in the game program, but we cannot get it.
+		if (definitions.HasHeader) Detect = new DatafileDirect(definitions.Header);
         else Detect = new DatafileDetect(this, definitions);
 
         Detect?.ParseType(definitions);

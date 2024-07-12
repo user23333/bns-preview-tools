@@ -10,6 +10,7 @@ using Xylia.Preview.UI.Controls;
 using Xylia.Preview.UI.Converters;
 using Xylia.Preview.UI.Extensions;
 using Xylia.Preview.UI.ViewModels;
+using static Xylia.Preview.Data.Models.Item;
 
 namespace Xylia.Preview.UI.GameUI.Scene.Game_Tooltip;
 public partial class ItemTooltipPanel
@@ -87,7 +88,7 @@ public partial class ItemTooltipPanel
 		};
 		AddRequired(required, "Name.Item.Required.Faction".GetText(arguments));
 		AddRequired(required, "Name.Item.Required.Race".GetText(arguments) + "Name.Item.Required.Sex".GetText(arguments));
-		
+
 		if (jobfilter) required.Add("UI.ItemRandomOption.EquipFilter.Warning".GetText());
 		AddRequired(required, string.Join("", jobs.Select(x => "Name.Item.Required.Job2".GetText([.. arguments, Job.GetJob(x)]))));
 
@@ -104,6 +105,21 @@ public partial class ItemTooltipPanel
 		Required.String.LabelText = required.Join();
 		#endregion
 
+		#region Decompose 
+		DecomposeDescription_Title.Visibility = Visibility.Collapsed;
+		DecomposeDescription.Children.Clear();
+
+		var pages = DecomposePage.LoadFrom(record.DecomposeInfo);
+		if (pages.Count > 0)
+		{
+			DecomposeDescription_Title.Visibility = Visibility.Visible;
+			DecomposeDescription_Title.String.LabelText = (record is Item.Grocery ? "UI.ItemTooltip.RandomboxPreview.Title" : "UI.ItemTooltip.Decompose.Title").GetText();
+
+			var page = pages[0];
+			page.Update(DecomposeDescription.Children);
+		}
+		#endregion
+
 		#region Combat Holder
 		Combat_Holder.Children.Clear();
 		Combat_Holder.Visibility = Visibility.Collapsed;
@@ -114,6 +130,8 @@ public partial class ItemTooltipPanel
 			var RandomOptionGroup = FileCache.Data.Provider.GetTable<ItemRandomOptionGroup>()[record.RandomOptionGroupId + ((long)Job << 32)];
 			if (RandomOptionGroup != null)
 			{
+				Combat_Holder.Visibility = Visibility.Visible;
+
 				if (RandomOptionGroup.AbilityListTotalCount > 0)
 				{
 					// TODO: add random tag
@@ -159,24 +177,43 @@ public partial class ItemTooltipPanel
 						}
 					}
 				}
-
-				Combat_Holder.Visibility = Visibility.Visible;
 			}
 		}
-		#endregion
 
-		#region Decompose 
-		DecomposeDescription_Title.Visibility = Visibility.Collapsed;
-		DecomposeDescription.Children.Clear();
-
-		var pages = DecomposePage.LoadFrom(record.DecomposeInfo);
-		if (pages.Count > 0)
+		if (record is Weapon)
 		{
-			DecomposeDescription_Title.Visibility = Visibility.Visible;
-			DecomposeDescription_Title.String.LabelText = (record is Item.Grocery ? "UI.ItemTooltip.RandomboxPreview.Title" : "UI.ItemTooltip.Decompose.Title").GetText();
+			var SkillByEquipment = record.Attributes.Get<Record>("skill-by-equipment")?.As<SkillByEquipment>();
+			if (SkillByEquipment is not null)
+			{
+				Combat_Holder.Visibility = Visibility.Visible;
+				Combat_Holder.Children.Add(Combat_Holder_Title);
+				Combat_Holder_Title.String.LabelText = "UI.ItemTooltip.SkillChanged.Title".GetText();
 
-			var page = pages[0];
-			page.Update(DecomposeDescription.Children);
+				for (int i = 0; i < 4; i++)
+				{
+					var Skill3Id = SkillByEquipment.Skill3Id[i];
+					if (Skill3Id == 0) continue;
+
+					var Skill3 = FileCache.Data.Provider.GetTable<Skill3>()[new Ref(Skill3Id, 1)];
+
+					var icon = new BnsCustomImageWidget
+					{
+						BaseImageProperty = Skill3?.Icon,
+						Width = 32,
+						Height = 32,
+						Margin = new Thickness(0, 0, 10, 0),
+					};
+					var description = new BnsCustomLabelWidget();
+					description.String.LabelText = "UI.ItemGrowth.SkillByEquipment.Skill".GetText([null, Skill3, SkillByEquipment.GetTooltipText(i)]);
+
+					var box = new HorizontalBox() { Margin = new Thickness(7, 0, 0, 3) };
+					LayoutData.SetAnchors(box, FLayoutData.Anchor.Full);
+					Combat_Holder.Children.Add(box);
+
+					box.Children.Add(icon);
+					box.Children.Add(description);
+				}
+			}
 		}
 		#endregion
 	}

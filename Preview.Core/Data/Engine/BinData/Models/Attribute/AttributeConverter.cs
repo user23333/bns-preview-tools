@@ -196,13 +196,13 @@ public class AttributeConverter
 	};
 
 	/// <summary>
-	/// Converts the attribute value to an object.
+	///  Converts the attribute value to an object.
 	/// </summary>
+	/// <param name="name"></param>
 	/// <param name="value"></param>
 	/// <param name="type"></param>
 	/// <returns></returns>
-	/// <exception cref="FormatException"></exception>
-	internal static object Convert(object value, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] Type type)
+	internal static object Convert(string name , object value, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] Type type)
 	{
 		if (value is null || value.GetType() == type) return value;
 		else if (type == typeof(bool))
@@ -218,7 +218,7 @@ public class AttributeConverter
 			if (item == typeof(Ref<>)) return Activator.CreateInstance(type, value);
 		}
 
-		Trace.WriteLine($"convert type failed: {value} -> {type.Name}");
+		Trace.WriteLine($"convert type failed: {name} ({value}) -> {type.Name}");
 		return value;
 	}
 	#endregion

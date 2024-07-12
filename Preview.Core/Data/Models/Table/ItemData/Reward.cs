@@ -5,6 +5,8 @@ namespace Xylia.Preview.Data.Models;
 public class Reward : ModelElement
 {
 	#region Attributes
+	public string Alias { get; set; }
+
 	public Ref<Item>[] FixedItem { get; set; }
 
 	public short[] FixedItemMin { get; set; }
@@ -42,7 +44,7 @@ public class Reward : ModelElement
 	public int Group12TotalProbWeight { get; set; }
 
 	[Name("group-3-probability")]
-	public int Group3Probability { get; set; }
+	public short Group3Probability { get; set; }
 
 	[Name("group-3-item")]
 	public Ref<Item>[] Group3Item { get; set; }
@@ -50,11 +52,11 @@ public class Reward : ModelElement
 	[Name("group-3-item-prob-weight")]
 	public short[] Group3ItemProbWeight { get; set; }
 
-	[Name("group-3-total-prob-weight")]
-	public int Group3TotalProbWeight { get; set; }
+	[Name("group-3-item-total-prob-weight")]
+	public int Group3ItemTotalProbWeight { get; set; }
 
 	[Name("group-3-item-total-count")]
-	public short Group3ItemTotalCount { get; set; }
+	public sbyte Group3ItemTotalCount { get; set; }
 
 	[Name("group-4-probability")]
 	public short Group4Probability { get; set; }
@@ -63,7 +65,7 @@ public class Reward : ModelElement
 	public Ref<Item>[] Group4Item { get; set; }
 
 	[Name("group-4-selected-count")]
-	public short Group4SelectedCount { get; set; }
+	public sbyte Group4SelectedCount { get; set; }
 
 	[Name("group-4-item-min")]
 	public int[] Group4ItemMin { get; set; }
@@ -72,7 +74,7 @@ public class Reward : ModelElement
 	public int[] Group4ItemMax { get; set; }
 
 	[Name("group-4-item-total-count")]
-	public short Group4ItemTotalCount { get; set; }
+	public sbyte Group4ItemTotalCount { get; set; }
 
 	[Name("group-5-probability")]
 	public short Group5Probability { get; set; }
@@ -81,7 +83,7 @@ public class Reward : ModelElement
 	public Ref<Item>[] Group5Item { get; set; }
 
 	[Name("group-5-selected-count")]
-	public short Group5SelectedCount { get; set; }
+	public sbyte Group5SelectedCount { get; set; }
 
 	[Name("group-5-item-min")]
 	public int[] Group5ItemMin { get; set; }
@@ -90,7 +92,7 @@ public class Reward : ModelElement
 	public int[] Group5ItemMax { get; set; }
 
 	[Name("group-5-item-total-count")]
-	public short Group5ItemTotalCount { get; set; }
+	public sbyte Group5ItemTotalCount { get; set; }
 
 	public Ref<Item>[] RareItem { get; set; }
 
@@ -98,7 +100,7 @@ public class Reward : ModelElement
 
 	public int[] RareItemProbWeight { get; set; }
 
-	public short RareItemTotalCount { get; set; }
+	public sbyte RareItemTotalCount { get; set; }
 
 	public short[] RareItemMin { get; set; }
 
@@ -145,7 +147,7 @@ public class Reward : ModelElement
 	public int SmartGroup12TotalProbWeight { get; set; }
 
 	[Name("smart-group-3-probability")]
-	public int SmartGroup3Probability { get; set; }
+	public short SmartGroup3Probability { get; set; }
 
 	[Name("smart-group-3-reward")]
 	public Ref<SmartDropReward>[] SmartGroup3Reward { get; set; }
@@ -157,7 +159,7 @@ public class Reward : ModelElement
 	public int SmartGroup3RewardTotalProbWeight { get; set; }
 
 	[Name("smart-group-3-reward-total-count")]
-	public short SmartGroup3RewardTotalCount { get; set; }
+	public sbyte SmartGroup3RewardTotalCount { get; set; }
 
 	[Name("smart-group-4-probability")]
 	public short SmartGroup4Probability { get; set; }
@@ -189,7 +191,7 @@ public class Reward : ModelElement
 
 	public int[] SmartRareRewardProbWeight { get; set; }
 
-	public short SmartRareRewardTotalCount { get; set; }
+	public sbyte SmartRareRewardTotalCount { get; set; }
 	#endregion
 
 	#region Methods
@@ -241,7 +243,7 @@ public class Reward : ModelElement
 					Item = item,
 					Category = new("group-3", string.Format("{0}% ", Group3Probability) + "UI.RandomBox.Probability.MiddleCategory.GroupReward3".GetText([1])),
 					Probability = Group3ItemProbWeight[idx],
-					ProbabilityType = Group3TotalProbWeight,
+					ProbabilityType = Group3ItemTotalProbWeight,
 				});
 			});
 		}

@@ -92,6 +92,8 @@ public static class MsecFormat
 {
 	public enum MsecFormatType
 	{
+		None,
+
 		[Description("hms")]
 		hms,
 
@@ -152,6 +154,7 @@ public static class MsecFormat
 
 	internal static string Format(Msec value, MsecFormatType format, IFormatProvider formatProvider)
 	{
+		if (format == MsecFormatType.None) return value.ToString();
 		if (format == MsecFormatType.hmsFormatColon) return $"{value.Days}.{value.Hours:00}:{value.Minutes:00}:{value.Seconds:00}";
 
 		// load text resource

@@ -4,7 +4,6 @@ using CUE4Parse.UE4.Objects.UObject;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Common.DataStruct;
-using Xylia.Preview.Data.Models.Creature;
 using Xylia.Preview.Data.Models.Sequence;
 using static Xylia.Preview.Data.Models.Item;
 using static Xylia.Preview.Data.Models.Item.Grocery;
@@ -80,7 +79,7 @@ public abstract class Item : ModelElement, IHaveName
 	public int ImproveId => Attributes.Get<int>("improve-id");
 	public sbyte ImproveLevel => Attributes.Get<sbyte>("improve-level");
 
-	public string ItemName => ItemNameOnly;
+	public string ItemName => $"<link id=\"item:{ToString()}\">{ItemNameOnly}</link>";
 	public string ItemNameOnly => $"<font name=\"00008130.Program.Fontset_ItemGrade_{ItemGrade}\">{Attributes["name2"].GetText() ?? ToString()}</font>";
 
 	public int ClosetGroupId => Attributes.Get<int>("closet-group-id");
@@ -221,7 +220,7 @@ public abstract class Item : ModelElement, IHaveName
 
 
 	#region Methods
-	public string Name => Attributes["name2"].GetText() ?? base.ToString();
+	public string Name => Attributes["name2"].GetText() ?? ToString();
 
 	public ImageProperty BackIcon => IconTexture.GetBackground(ItemGrade);
 

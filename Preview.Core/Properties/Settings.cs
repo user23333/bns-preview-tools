@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using IniParser;
 using IniParser.Model;
 using Xylia.Preview.Common.Extension;
+using Xylia.Preview.Data.Helpers;
 
 namespace Xylia.Preview.Properties;
 public class Settings : INotifyPropertyChanged
@@ -79,6 +80,7 @@ public class Settings : INotifyPropertyChanged
 			if (!Directory.Exists(value)) return;
 
 			SetValue(value);
+			FileCache.Clear();  // close current database
 		}
 	}
 

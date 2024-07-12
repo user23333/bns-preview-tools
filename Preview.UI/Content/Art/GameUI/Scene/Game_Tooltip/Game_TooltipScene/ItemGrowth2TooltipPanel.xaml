@@ -19,7 +19,7 @@
 		<TabItem Name="ItemGrowth2TooltipPanel_DrawImproveOption" Header="ImproveOption">
 			<Grid>
 				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="250" />
 					<ColumnDefinition Width="*" />
 				</Grid.ColumnDefinitions>
 				<Grid.RowDefinitions>

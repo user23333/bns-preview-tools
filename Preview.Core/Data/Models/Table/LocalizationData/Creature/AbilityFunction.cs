@@ -109,21 +109,35 @@ public class AbilityFunction
 	{
 		Type = CreatureField.AttackPierceBasePercent,
 		K = 95,
-		LevelFactors = [new(45, 3120.81744), new(0, 0)]
+		LevelFactors =
+		[
+			new(45, 3120.8726144142975),
+			new(46, 3389.7093900796485)
+		]
 	};
 
 	public static AbilityFunction AttackParryPierce => new()
 	{
 		Type = CreatureField.AttackParryPiercePercent,
 		K = 97,
-		LevelFactors = [new(45, 6394.29057), new(60, 20963.86)]
+		LevelFactors =
+		[
+			new(45, 6394.600774438795),
+			new(46, 6945.536728505597),
+			new(60, 20963.86)
+		]
 	};
 
 	public static AbilityFunction AttackCritical => new()
 	{
 		Type = CreatureField.AttackCriticalBasePercent,
 		K = 97,
-		LevelFactors = [new(45, 2366.852862), new(60, 7937.55)]
+		LevelFactors =
+		[
+			new(45, 2366.906630984764),
+			new(46, 2570.5592931167057),
+			new(60, 7937.55)
+		]
 	};
 
 	public static AbilityFunction AttackCriticalDamage => new()
@@ -131,7 +145,12 @@ public class AbilityFunction
 		Type = CreatureField.AttackCriticalDamagePercent,
 		C = 125,
 		K = 291,
-		LevelFactors = [new(45, 3337.772854), new(60, 7201.28)]
+		LevelFactors =
+		[
+			new(45, 3337.8069282316364),
+			new(46, 3513.3636567558337),
+			new(60, 7204.277159395931)
+		]
 	};
 
 
@@ -140,7 +159,11 @@ public class AbilityFunction
 	{
 		Type = CreatureField.DefendPowerCreatureValue,
 		K = 95,
-		LevelFactors = [new(45, 3121.455509836698)]
+		LevelFactors =
+		[
+			new(45, 3121.455509836698),
+			new(46, 3389.733541564487),
+		]
 	};
 
 	public static AbilityFunction DefendCritical => new()
@@ -160,7 +183,7 @@ public class AbilityFunction
 	public static AbilityFunction DefendBounce => new()
 	{
 		Type = CreatureField.DefendBouncePercent,
-	};   
+	};
 
 	public static AbilityFunction DefendDodge => new()
 	{

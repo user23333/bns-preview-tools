@@ -134,7 +134,7 @@ public abstract class ModelElement : IElement
 		if (attribute is null) return null;
 		else if (attribute.Repeat == 1)
 		{
-			return AttributeConverter.Convert(record.Attributes[name], type);
+			return AttributeConverter.Convert(name, record.Attributes[name], type);
 		}
 		else if (!type.IsArray)
 		{
@@ -146,7 +146,7 @@ public abstract class ModelElement : IElement
 			var value = Array.CreateInstance(type, attribute.Repeat);
 
 			for (int i = 0; i < value.Length; i++)
-				value.SetValue(AttributeConverter.Convert(record.Attributes[$"{name}-{i + 1}"], type), i);
+				value.SetValue(AttributeConverter.Convert(name, record.Attributes[$"{name}-{i + 1}"], type), i);
 
 			return value;
 		}
@@ -228,7 +228,7 @@ public struct Ref<TElement> where TElement : ModelElement
 		source = value.Source;
 	}
 
-	/* Not recommended to use the constructor */
+	[Obsolete("Not recommended to use the constructor")]
 	public Ref(string value)
 	{
 		// Prevent designer request to load data

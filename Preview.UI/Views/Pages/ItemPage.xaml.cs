@@ -1,7 +1,5 @@
 ﻿using System.Windows;
 using Xylia.Preview.Data.Helpers;
-using Xylia.Preview.UI.Helpers.Output;
-using Xylia.Preview.UI.Helpers.Output.Tables;
 using Xylia.Preview.UI.ViewModels;
 using Xylia.Preview.UI.Views.Editor;
 using MessageBox = HandyControl.Controls.MessageBox;

@@ -122,6 +122,8 @@ public partial class LegacyAuctionPanel
 		_viewModel.NameFilter = name;
 	}
 
+
+	// TODO: improvement efficiency
 	private bool OnFilter(object obj)
 	{
 		#region Initialize
@@ -156,6 +158,7 @@ public partial class LegacyAuctionPanel
 
 
 		#region Filter
+		// auctionable
 		if (_viewModel.Auctionable &&
 			!record.Attributes.Get<BnsBoolean>("auctionable") &&
 			!record.Attributes.Get<BnsBoolean>("seal-renewal-auctionable")) return false;

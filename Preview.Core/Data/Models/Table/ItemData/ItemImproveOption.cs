@@ -1,6 +1,5 @@
 ﻿using System.Text;
 using Xylia.Preview.Common.Extension;
-using Xylia.Preview.Data.Models.Creature;
 using Xylia.Preview.Data.Models.Sequence;
 
 namespace Xylia.Preview.Data.Models;
@@ -21,7 +20,7 @@ public sealed class ItemImproveOption : ModelElement
 
 	public Ref<SkillModifyInfoGroup>[] SkillModifyInfoGroup { get; set; }
 
-	public Ref<Text> Additional { get; set; }
+	public Ref<Text> AdditionalDescription { get; set; }
 
 	public string DrawOptionIcon { get; set; }
 	#endregion
@@ -36,7 +35,7 @@ public sealed class ItemImproveOption : ModelElement
 		if (SkillModifyInfoGroup.Any(x => x.HasValue)) builder.Append(string.Join("<br/>", 
 			SkillModifyInfoGroup.Skip(5).SelectNotNull(record => record.Instance?.Description)));
 
-		builder.Append(Additional.GetText());
+		builder.Append(AdditionalDescription.GetText());
 		return builder.ToString();
 	}
 	#endregion

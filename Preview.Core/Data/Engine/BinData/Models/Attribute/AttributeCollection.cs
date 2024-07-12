@@ -154,7 +154,10 @@ public class AttributeCollection : IReadOnlyDictionary<AttributeDefinition, obje
 		return AttributeConverter.ConvertTo(record, attribute, record.Owner.Owner);
 	}
 
-	public T Get<T>(string name) => (T)Get(name, out _);
+	public T Get<T>(string name)
+	{
+		return (T)Get(name, out _);
+	}
 	#endregion
 
 	#region Set

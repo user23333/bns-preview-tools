@@ -88,7 +88,7 @@
 		</BnsCustomWindowWidget>
 
 		<BnsCustomLabelWidget Name="ItemDescription7" d:String="Item Description7" />
-		<BnsCustomWindowWidget Name="Combat_Holder_Parent">
+		<BnsCustomWindowWidget Name="Combat_Holder_Parent" Margin="0 5 0 0">
 			<BnsCustomWindowWidget.BaseImageProperty>
 				<ImageProperty />
 			</BnsCustomWindowWidget.BaseImageProperty>
