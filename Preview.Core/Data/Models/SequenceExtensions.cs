@@ -51,7 +51,7 @@ public static partial class SequenceExtensions
 
 
 	/// <summary>
-	/// 
+	/// Set a flag value in the current instance.
 	/// </summary>
 	/// <param name="seq"></param>
 	/// <param name="mask"></param>

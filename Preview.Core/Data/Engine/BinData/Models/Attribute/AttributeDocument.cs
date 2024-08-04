@@ -1,24 +1,12 @@
-﻿using Newtonsoft.Json;
-using System.Collections;
-using System.Collections.Concurrent;
+﻿using System.Collections;
+using Newtonsoft.Json;
 using Xylia.Preview.Common.Extension;
-using Xylia.Preview.Data.Engine.Definitions;
 
 namespace Xylia.Preview.Data.Models;
 public class AttributeDocument : AttributeValue, IDictionary<string, AttributeValue>
 {
-	public AttributeDocument() : base(AttributeType.TNone, new Dictionary<string, AttributeValue>(StringComparer.OrdinalIgnoreCase))
+	public AttributeDocument() : base(null, new Dictionary<string, AttributeValue>(StringComparer.OrdinalIgnoreCase))
 	{
-	}
-
-	public AttributeDocument(ConcurrentDictionary<string, AttributeValue> dict) : this()
-	{
-		ArgumentNullException.ThrowIfNull(dict);
-
-		foreach (var element in dict)
-		{
-			this.Add(element);
-		}
 	}
 
 	public AttributeDocument(IDictionary<string, AttributeValue> dict) : this()
@@ -37,8 +25,7 @@ public class AttributeDocument : AttributeValue, IDictionary<string, AttributeVa
 
 		foreach (var attribute in collection)
 		{
-			var value = new AttributeValue(attribute.Key.Type, attribute.Value);
-			this.Add(attribute.Key.Name, value);
+			this.Add(attribute.Name, attribute);
 		}
 	}
 

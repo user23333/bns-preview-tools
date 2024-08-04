@@ -101,31 +101,32 @@
 			</VerticalBox>
 		</BnsCustomWindowWidget>
 
+		<!-- Description -->
 		<BnsCustomLabelWidget Name="DecomposeDescription_Title">
 			<BnsCustomLabelWidget.String>
 				<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Label_LightYellow_12.Label_LightYellow_12" LabelText="Decompose Result Description Title" SpaceBetweenLines="3" />
 			</BnsCustomLabelWidget.String>
 		</BnsCustomLabelWidget>
-		<VerticalBox Name="DecomposeDescription" Margin="0 0 0 5"/>
-		<BnsCustomLabelWidget Name="ItemDescription_4_Title" Text="{TextResource Attributes[description4-title]}">
+		<VerticalBox Name="DecomposeDescription" Margin="0 0 0 5" />
+		<BnsCustomLabelWidget Name="ItemDescription_4_Title">
 			<BnsCustomLabelWidget.String>
 				<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Label_LightYellow_12.Label_LightYellow_12" LabelText="Item Description 4 Title" SpaceBetweenLines="3" />
 			</BnsCustomLabelWidget.String>
 		</BnsCustomLabelWidget>
-		<BnsCustomLabelWidget Name="ItemDescription_4" String="{TextResource Attributes[description4]}" d:String="Item Description4" />
-		<BnsCustomLabelWidget Name="ItemDescription_5_Title" Text="{TextResource Attributes[description5-title]}">
+		<BnsCustomLabelWidget Name="ItemDescription_4" String="Item Description4" />
+		<BnsCustomLabelWidget Name="ItemDescription_5_Title">
 			<BnsCustomLabelWidget.String>
 				<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Label_LightYellow_12.Label_LightYellow_12" LabelText="Item Description 5 Title" SpaceBetweenLines="3" />
 			</BnsCustomLabelWidget.String>
 		</BnsCustomLabelWidget>
-		<BnsCustomLabelWidget Name="ItemDescription_5" String="{TextResource Attributes[description5]}" d:String="Item Description5" />
-		<BnsCustomLabelWidget Name="ItemDescription_6_Title" Text="{TextResource Attributes[description6-title]}">
+		<BnsCustomLabelWidget Name="ItemDescription_5" String="Item Description5" />
+		<BnsCustomLabelWidget Name="ItemDescription_6_Title">
 			<BnsCustomLabelWidget.String>
 				<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Label_LightYellow_12.Label_LightYellow_12" LabelText="Item Description 6 Title" SpaceBetweenLines="3" />
 			</BnsCustomLabelWidget.String>
 		</BnsCustomLabelWidget>
-		<BnsCustomLabelWidget Name="ItemDescription_6" String="{TextResource Attributes[description6]}" d:String="Item Description6" />
-		<BnsCustomLabelWidget Name="ItemDescription" String="{TextResource Attributes[description2]}" d:String="Item Description2" />
+		<BnsCustomLabelWidget Name="ItemDescription_6" String="Item Description6" />
+		<BnsCustomLabelWidget Name="ItemDescription" String="Item Description2" />
 
 		<!-- ProcessComparisonHolder -->
 		<BnsCustomLabelWidget Name="Required" Margin="0 7" />

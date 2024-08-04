@@ -46,29 +46,6 @@ public partial class DatSelectDialog : Window, IDatSelect
 	}
 
 
-
-	private void RefreshList()
-	{
-		Load_Cmb(comboBox1, list_xml);
-		Load_Cmb(comboBox2, list_local);
-	}
-
-	private void Load_Cmb(ComboBox Cmb, IEnumerable<FileInfo> FileCollection)
-	{
-		Cmb.Items.Clear();
-
-		foreach (var w in FileCollection.GetFiles(true).Select(f => f.FullName))
-		{
-			var s = w.Replace(@"contents\Local", "...");
-			Cmb.Items.Add(s);
-		}
-
-		if (Cmb.Items.Count > 0) Cmb.Text = Cmb.Items[0].ToString();
-
-		Cmb.IsEnabled = Cmb.Items.Count != 1;
-	}
-
-
 	private void Btn_Confirm_Click(object sender, RoutedEventArgs e)
 	{
 		// stop timer
@@ -85,6 +62,29 @@ public partial class DatSelectDialog : Window, IDatSelect
 	private void Btn_Cancel_Click(object sender, EventArgs e)
 	{
 		this.DialogResult = false;
+	}
+
+
+	private void RefreshList()
+	{
+		Load_Cmb(comboBox1, list_xml);
+		Load_Cmb(comboBox2, list_local);
+	}
+
+	private static void Load_Cmb(ComboBox control, IEnumerable<FileInfo> files)
+	{
+		control.Items.Clear();
+
+		foreach (var f in files)
+		{
+			var s = f.FullName.Replace(@"contents\Local", "...");
+
+			var is64 = Path.GetFileNameWithoutExtension(s).Contains("64");
+			if (is64 && true) control.Items.Add(s);
+		}
+
+		control.Text = control.Items.Count == 0 ? null : control.Items[0].ToString();
+		control.IsEnabled = control.Items.Count != 1;
 	}
 	#endregion
 

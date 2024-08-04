@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
+﻿using System.Data;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using CUE4Parse.BNS.Assets.Exports;
+using CUE4Parse.UE4.Objects.Core.Math;
 using Xylia.Preview.UI.Controls.Helpers;
 using Xylia.Preview.UI.Controls.Primitives;
+using Xylia.Preview.UI.Converters;
 using Xylia.Preview.UI.Extensions;
 
 namespace Xylia.Preview.UI.Controls;
@@ -113,6 +113,7 @@ public class BnsCustomColumnListWidget : BnsCustomBaseWidget
 	#region Override Methods
 	protected override Size MeasureOverride(Size constraint)
 	{
+		// Definition
 		var children = Children.OfType<UIElement>();
 		if (children.Any())
 		{
@@ -126,14 +127,11 @@ public class BnsCustomColumnListWidget : BnsCustomBaseWidget
 			}
 		}
 
-		// measure
+		// Measure
 		if (double.IsInfinity(constraint.Width)) constraint.Width = ColumnDefinitions.Sum(d => d.Width.Value);
 		if (double.IsInfinity(constraint.Height)) constraint.Height = RowDefinitions.Sum(d => d.Height.Value);
-		return base.MeasureOverride(constraint);
-	}
 
-	protected override Size ArrangeOverride(Size constraint)
-	{
+		// Children 
 		var offsetU = GetOffset(ColumnDefinitions.ToArray(), constraint.Width, false);
 		var offsetV = GetOffset(RowDefinitions.ToArray(), constraint.Height, true);
 
@@ -142,31 +140,25 @@ public class BnsCustomColumnListWidget : BnsCustomBaseWidget
 			if (child == null) continue;
 
 			var column = GetColumn(child);
-			var row = GetRow(child);
 			var columnspan = GetColumnSpan(child);
+			var row = GetRow(child);
 			var rowspan = GetRowSpan(child);
 
-			// base layout
-			if (column == -1 && row == -1)
-			{
-				child.Arrange(ArrangeChild(child, constraint));
-			}
-			else
+			if (column != -1 && row != -1)
 			{
 				var c1 = offsetU.ElementAtOrDefault(column);
-				var r1 = offsetV.ElementAtOrDefault(row);
 				var c2 = offsetU.ElementAtOrDefault(column + columnspan - 1);
+				var r1 = offsetV.ElementAtOrDefault(row);
 				var r2 = offsetV.ElementAtOrDefault(row + rowspan - 1);
 
-				var rect = new Rect(c1.X, r1.X,
-					c2.X + c2.Y - c1.X,
-					r2.X + r2.Y - r1.X);
-
-				child.Arrange(rect);
+				LayoutData.SetOffsets(child, new FLayoutData.Offset(
+					c1.X, r1.X, 
+					c2.X + c2.Y - c1.X , 
+					r2.X + r2.Y - r1.X));
 			}
 		}
 
-		return constraint;
+		return base.MeasureOverride(constraint);
 	}
 
 	protected override void OnRender(DrawingContext ctx)
@@ -186,8 +178,8 @@ public class BnsCustomColumnListWidget : BnsCustomBaseWidget
 
 				var rect = child.GetFinalRect();
 				rect.X -= ScrollOffset.X;
-				rect.Y -= ScrollOffset.Y;	
-				
+				rect.Y -= ScrollOffset.Y;
+
 				ctx.DrawRectangle(new SolidColorBrush(), new Pen(Foreground, 1), rect);
 			}
 		}
@@ -195,6 +187,14 @@ public class BnsCustomColumnListWidget : BnsCustomBaseWidget
 	#endregion
 
 	#region Private Methods
+	public void AddChild(FrameworkElement element, int row, int column)
+	{
+		SetRow(element, row);
+		SetColumn(element, column);
+
+		Children.Add(element);
+	}
+
 	private void CheckDefinition(IEnumerable<UIElement> elements)
 	{
 		var rows = elements.Max(GetRow) + 1 - RowDefinitions.Count;
@@ -236,17 +236,17 @@ public class BnsCustomColumnListWidget : BnsCustomBaseWidget
 	/// <param name="finalSize">Final size to lay out to.</param>
 	/// <param name="columns">True if sizing row definitions, false for columns</param>
 	/// <returns></returns>
-	private Vector[] GetOffset(DefinitionBase[] definitions, double finalSize, bool columns)
+	private FVector2D[] GetOffset(DefinitionBase[] definitions, double finalSize, bool columns)
 	{
 		var sizes = SetFinalSizeLegacy(definitions, finalSize, columns);
-		var vects = new Vector[definitions.Length];
+		var vects = new FVector2D[definitions.Length];
 
-		double offset = 0;
+		float offset = 0;
 		for (int i = 0; i < sizes.Length; i++)
 		{
-			var size = sizes[i];
+			var size = (float)sizes[i];
 
-			vects[i] = new Vector(offset, size);
+			vects[i] = new FVector2D(offset, size);
 			offset += size;
 		}
 

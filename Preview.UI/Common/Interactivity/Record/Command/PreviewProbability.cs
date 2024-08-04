@@ -11,6 +11,7 @@ internal class PreviewProbability : RecordCommand
 	[
 		"item",
 		"npc",
+		"zoneenv2",
 	];
 
 	protected override bool CanExecute(Record record)
@@ -23,7 +24,12 @@ internal class PreviewProbability : RecordCommand
 				return pages.Count > 0;
 			}
 
-			default: return false;
+			case "zoneenv2":
+			{
+				return record.Attributes["reward"] is not null;
+			}
+
+			default: return true;
 		}
 	}
 
@@ -72,6 +78,17 @@ internal class PreviewProbability : RecordCommand
 				break;
 			}
 
+			case "zoneenv2":
+			{
+				var Reward = record.Attributes.Get<Record>("reward");
+
+				var rewards = new List<NameObject<object>>()
+				{
+					new(Reward?.As<Reward>(), "UI.RandomBox.Probability.PersonalDroppedPouch".GetText()) { Flag = true },
+				};
+				Application.Current.Dispatcher.Invoke(() => new ItemGrowth2TooltipPanel { DataContext = rewards }.Show());
+				break;
+			}
 
 			default: throw new NotSupportedException();
 		}

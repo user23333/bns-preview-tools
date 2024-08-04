@@ -253,7 +253,7 @@ internal class BsonExpressionOperators
 		{
 			if (value.RawValue is Record record && record.Attributes.TryGetValue(name, out var item))
 			{
-				return new AttributeValue(item.Key.Type, item.Value);
+				return new AttributeValue(item.Key, item.Value);
 			}
 		}
 

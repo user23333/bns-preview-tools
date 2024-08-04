@@ -15,7 +15,7 @@ public abstract class Item : ModelElement, IHaveName
 	public Ref<ItemCombat>[] ItemCombat { get; set; }
 	public Ref<ItemBrand> Brand { get; set; }
 
-	public GameCategory3Seq GameCategory3 => Attributes["game-category-3"].ToEnum<GameCategory3Seq>();
+	public GameCategory3Seq GameCategory3 => Attributes.Get<string>("game-category-3").ToEnum<GameCategory3Seq>();
 
 	public bool CannotDispose => Attributes.Get<BnsBoolean>("cannot-dispose");
 	public bool CannotSell => Attributes.Get<BnsBoolean>("cannot-sell");
@@ -364,7 +364,6 @@ public class ItemDecomposeInfo
 
 	public Tuple<Item, short>[] Decompose_By_Item2;
 	public Tuple<Item, short>[] Job_Decompose_By_Item2;
-
 	#endregion
 
 	#region Constructor

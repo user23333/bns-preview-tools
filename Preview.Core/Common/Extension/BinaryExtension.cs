@@ -4,6 +4,7 @@ using System.Text;
 namespace Xylia.Preview.Common.Extension;
 public static class BinaryExtension
 {
+	#region Common
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static T Read<T>(this BinaryReader reader)
 	{
@@ -135,8 +136,9 @@ public static class BinaryExtension
 
 		return builder.ToString().Replace(" ", null);
 	}
+	#endregion
 
-
+	#region Search
 	public static IEnumerable<long> IndexesOf(this byte[] source, int start, byte[] pattern)
 	{
 		ArgumentNullException.ThrowIfNull(source);
@@ -180,4 +182,5 @@ public static class BinaryExtension
 			index += badCharacters[source[index + lastPatternByte]];
 		}
 	}
+	#endregion
 }

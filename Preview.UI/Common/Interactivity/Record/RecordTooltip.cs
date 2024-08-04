@@ -18,6 +18,7 @@ public sealed class RecordTooltip : ContentControl
 	static RecordTooltip()
 	{
 		RegisterTemplate<ItemTooltipPanel>(typeof(Item));
+		RegisterTemplate<NpcTooltipPanel>(typeof(Npc));
 		RegisterTemplate<RewardTooltipPanel>(typeof(Reward));
 		RegisterTemplate<Skill3ToolTipPanel_1>(typeof(Skill3));
 	}
@@ -47,7 +48,7 @@ public sealed class RecordTooltip : ContentControl
 		FrameworkElement? visualTree;
 		switch (e.NewValue)
 		{
-			case ModelElement model when ModelTemplate.TryGetValue(model.GetBaseType(), out var template):
+			case ModelElement model when ModelTemplate.TryGetValue(model.GetBaseType(typeof(ModelElement)), out var template):
 				visualTree = template.Value;
 				visualTree.DataContext = DataContext;
 				break;

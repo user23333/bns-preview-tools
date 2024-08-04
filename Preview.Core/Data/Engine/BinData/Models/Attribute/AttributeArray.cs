@@ -1,11 +1,10 @@
 ﻿using System.Collections;
 using Newtonsoft.Json;
-using Xylia.Preview.Data.Engine.Definitions;
 
 namespace Xylia.Preview.Data.Models;
 public class AttributeArray : AttributeValue, IList<AttributeValue>
 {
-    public AttributeArray() : base(AttributeType.TNone, new List<AttributeValue>())
+    public AttributeArray() : base(null, new List<AttributeValue>())
     {
     }
 
@@ -53,8 +52,7 @@ public class AttributeArray : AttributeValue, IList<AttributeValue>
     public void AddRange<TCollection>(TCollection collection)
         where TCollection : ICollection<AttributeValue>
     {
-        if (collection == null)
-            throw new ArgumentNullException(nameof(collection));
+		ArgumentNullException.ThrowIfNull(collection);
 
         var list = (List<AttributeValue>)base.RawValue;
 

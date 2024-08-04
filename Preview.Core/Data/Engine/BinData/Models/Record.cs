@@ -81,7 +81,7 @@ public sealed unsafe class Record : IElement, IDisposable
 	#region Properties
 	public string OwnerName => Owner.Name.ToLower();
 
-	public ElementBaseDefinition Definition => Owner.Definition.ElRecord.SubtableByType(SubclassType, this);
+	public IElementDefinition Definition => Owner.Definition.ElRecord.SubtableByType(SubclassType, this);
 
 	public bool HasChildren => Children.Count > 0;
 
@@ -97,14 +97,14 @@ public sealed unsafe class Record : IElement, IDisposable
 		// attribute
 		foreach (var attribute in Attributes)
 		{
-			if (attribute.Key.Name == AttributeCollection.s_autoid) continue;
+			if (attribute.Name == AttributeCollection.s_autoid) continue;
 
 			// set value, it seem that WriteRaw must be last  
-			var value = AttributeConverter.ToString(attribute.Key, attribute.Value);
+			var value = AttributeConverter.ToString(attribute.Definition, attribute.RawValue);
 			if (value is null) continue;
 
-			if (attribute.Key.Type == AttributeType.TNative) writer.WriteRaw(value);
-			else writer.WriteAttributeString(attribute.Key.Name, value);
+			if (attribute.Type == AttributeType.TNative) writer.WriteRaw(value);
+			else writer.WriteAttributeString(attribute.Name, value);
 		}
 
 		// children

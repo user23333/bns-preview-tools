@@ -51,7 +51,7 @@ internal sealed class ChallengeListOut : OutSet
 				var attraction = record.ChallengeNpcAttraction[i].Instance;
 				var quest = record.ChallengeNpcQuest[i];
 
-				sheet.Cells[row++, column].SetValue(GradeText(grade) + $"{difficulty} {npc.Name}");
+				sheet.Cells[row++, column].SetValue(GradeText(grade) + $"{difficulty} {npc.Name2.GetText()}");
 			}
 
 			// Reward

@@ -1,10 +1,12 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.Data.Common.DataStruct;
 
 [StructLayout(LayoutKind.Sequential)]
+[DebuggerDisplay("Ref: {IconTextureRef}, Index.: {IconTextureIndex}")]
 public struct IconRef
 {
 	public readonly Ref IconTextureRef;
@@ -30,13 +32,7 @@ public struct IconRef
 		IconTextureIndex = index;
 	}
 
-
-
-	public override string ToString()
-	{
-		return $"(Ref: {IconTextureRef}, Index.: {IconTextureIndex})";
-	}
-
+	#region Operator
 	public static bool operator ==(IconRef a, IconRef b)
 	{
 		return
@@ -64,4 +60,5 @@ public struct IconRef
 	{
 		return HashCode.Combine(IconTextureRef, IconTextureIndex);
 	}
+	#endregion
 }

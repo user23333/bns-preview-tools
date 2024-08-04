@@ -61,6 +61,8 @@ public static class CreateClass
 			AttributeType.TSub => $"Sub<{attribute.ReferedTableName?.TitleCase()}>",
 			AttributeType.TSeq or AttributeType.TSeq16 or AttributeType.TProp_seq or AttributeType.TProp_field
 				=> attribute.Sequence?.Name?.TitleCase() ?? attribute.Name.TitleCase() + "Seq",
+			AttributeType.TXUnknown1 => "TimeUniversal",
+			AttributeType.TXUnknown2 => "ObjectPath",
 			_ => attribute.Type.ToString().Remove(0, 1),
 		};
 
@@ -78,7 +80,6 @@ public static class CreateClass
 
 		if (sys_attr.Count != 0) result.AppendLine($"{prefix}[{string.Join(", ", sys_attr)}]");
 		#endregion
-
 
 		result.AppendLine($"{prefix}public {TypeInfo} {attribute.Name.TitleCase()} {{ get; set; }}\n");
 	}

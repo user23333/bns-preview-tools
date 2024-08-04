@@ -2,6 +2,7 @@
 public class BnsException : Exception
 {
     #region Constructors
+
     public BnsException()
     {
 
@@ -16,5 +17,6 @@ public class BnsException : Exception
     {
 
     }
+
     #endregion
 }

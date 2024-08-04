@@ -97,6 +97,7 @@ public abstract class ModelElement : IElement
 		#endregion
 
 		element.LoadHiddenField();
+
 		return element;
 	}
 
@@ -232,7 +233,7 @@ public struct Ref<TElement> where TElement : ModelElement
 	public Ref(string value)
 	{
 		// Prevent designer request to load data
-		if (!Settings.Default.PreviewLoadData && !FileCache.Data.IsInitialized) return;
+		if (!Settings.Default.Text_LoadData && !FileCache.Data.IsInitialized) return;
 
 		// get available provider
 		var provider = FileCache.Data.Provider;

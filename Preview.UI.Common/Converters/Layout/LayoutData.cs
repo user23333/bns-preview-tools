@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using CUE4Parse.BNS.Assets.Exports;
 using CUE4Parse.UE4.Objects.Core.Math;
 using static CUE4Parse.BNS.Assets.Exports.FLayoutData;

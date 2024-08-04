@@ -1,12 +1,10 @@
 ﻿using System.Windows;
 using System.Windows.Media;
 using CUE4Parse.BNS.Assets.Exports;
-using HtmlAgilityPack;
 using Xylia.Preview.Data.Helpers;
-using Xylia.Preview.UI.Documents.Primitives;
 
 namespace Xylia.Preview.UI.Documents;
-public class Font : BaseElement
+public class Font : BaseElement<Data.Models.Document.Font>
 {
 	#region Constructors
 	public Font()
@@ -14,10 +12,10 @@ public class Font : BaseElement
 
 	}
 
-	internal Font(string Name, params BaseElement[] elements)
+	internal Font(string name, List<BaseElement> elements)
 	{
-		this.Name = Name;
-		this.Children = [.. elements];
+		this.Name = name;
+		this.Children = elements;
 	}
 	#endregion
 
@@ -26,7 +24,6 @@ public class Font : BaseElement
 	/// fontset path
 	/// </summary>
 	public string? Name;
-
 
 	public static readonly DependencyProperty TextDecorationsProperty = DependencyProperty.Register("TextDecorations",
 		typeof(TextDecorationCollection), typeof(Font), new FrameworkPropertyMetadata(new TextDecorationCollection(),
@@ -41,12 +38,6 @@ public class Font : BaseElement
 
 
 	#region Override Methods
-	protected internal override void Load(HtmlNode node)
-	{
-		Children = TextContainer.Load(node.ChildNodes);
-		Name = node.Attributes["name"]?.Value;
-	}
-
 	protected override Size MeasureCore(Size availableSize)
 	{
 		GetFont(FileCache.Provider.LoadObject<UFontSet>(Name));

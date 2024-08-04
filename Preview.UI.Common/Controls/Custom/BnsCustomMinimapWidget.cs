@@ -262,7 +262,7 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
 				var npc = mapunit.Attributes.Get<Record>("npc")?.As<Npc>();
 				if (npc != null)
 				{
-					tooltip = npc.Name;
+					tooltip = npc.Name2.GetText();
 
 					for (int i = 0; i < npc.ForwardingTypes.Length; i++)
 					{
@@ -282,7 +282,7 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
 			else if (mapunit is MapUnit.Boss)
 			{
 				var npc = mapunit.Attributes.Get<Record>("npc")?.As<Npc>();
-				if (npc != null) tooltip = npc.Name;
+				if (npc != null) tooltip = npc.Name2.GetText();
 			}
 			#endregion
 

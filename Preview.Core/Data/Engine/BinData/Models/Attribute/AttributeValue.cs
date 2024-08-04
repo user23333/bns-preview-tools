@@ -16,12 +16,13 @@ public class AttributeValue : IComparable<AttributeValue>, IEquatable<AttributeV
 	/// <summary>
 	/// Represent a NullValue
 	/// </summary>
-	public readonly static AttributeValue Null = new(AttributeType.TNone, null);
+	public readonly static AttributeValue Null = new AttributeValue(null);
 
 	#region Constructor
-	internal AttributeValue(AttributeType type, object value)
+	internal AttributeValue(AttributeDefinition def, object value)
 	{
-		this.Type = type;
+		this.Definition = def;
+		this.Type = def?.Type ?? AttributeType.TNone;
 		this.RawValue = value;
 	}
 
@@ -89,6 +90,16 @@ public class AttributeValue : IComparable<AttributeValue>, IEquatable<AttributeV
 	#endregion
 
 	#region Properties
+
+	/// <summary>
+	/// Gets definition of the attribute.
+	/// </summary>
+	public AttributeDefinition Definition { get; }
+
+	/// <summary>
+	/// Gets name of the attribute.
+	/// </summary>
+	public string Name => Definition.Name;
 
 	/// <summary>
 	/// Indicate type of this AttributeValue
@@ -166,7 +177,6 @@ public class AttributeValue : IComparable<AttributeValue>, IEquatable<AttributeV
 
 	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 	public bool IsDocument => this is AttributeDocument;
-
 
 	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 	public bool IsInt8 => this.Type == AttributeType.TInt8;
@@ -248,7 +258,7 @@ public class AttributeValue : IComparable<AttributeValue>, IEquatable<AttributeV
 	public static implicit operator DateTime(AttributeValue value) => (DateTime)value.RawValue;
 	public static implicit operator AttributeValue(DateTime value) => new AttributeValue(value);
 
-	// +
+	// Arithmetic
 	public static AttributeValue operator +(AttributeValue left, AttributeValue right)
 	{
 		if (!left.IsNumeric || !right.IsNumeric) return Null;
@@ -266,7 +276,6 @@ public class AttributeValue : IComparable<AttributeValue>, IEquatable<AttributeV
 			new AttributeValue((long)result);
 	}
 
-	// -
 	public static AttributeValue operator -(AttributeValue left, AttributeValue right)
 	{
 		if (!left.IsNumeric || !right.IsNumeric) return Null;
@@ -284,7 +293,6 @@ public class AttributeValue : IComparable<AttributeValue>, IEquatable<AttributeV
 			new AttributeValue((long)result);
 	}
 
-	// *
 	public static AttributeValue operator *(AttributeValue left, AttributeValue right)
 	{
 		if (!left.IsNumeric || !right.IsNumeric) return Null;
@@ -302,7 +310,6 @@ public class AttributeValue : IComparable<AttributeValue>, IEquatable<AttributeV
 			new AttributeValue((long)result);
 	}
 
-	// /
 	public static AttributeValue operator /(AttributeValue left, AttributeValue right)
 	{
 		if (!left.IsNumeric || !right.IsNumeric) return Null;

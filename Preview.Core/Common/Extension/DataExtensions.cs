@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.Data.Common;
-public static class Extensions
+public static class DataExtensions
 {
 	// Getters
 	[MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]

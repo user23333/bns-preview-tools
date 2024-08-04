@@ -46,7 +46,7 @@ public abstract class TableHeader
 		IsCompressed = reader.Read<bool>();
 	}
 
-	internal void WriteHeaderTo(BinaryWriter writer)
+	internal void WriteHeaderTo(DataArchiveWriter writer)
 	{
 		writer.Write(ElementCount);
 		writer.Write(Type);

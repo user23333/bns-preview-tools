@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using CUE4Parse.BNS.Assets.Exports;
 using Xylia.Preview.Data.Models;
 using Xylia.Preview.UI.Controls;
 
@@ -28,28 +29,40 @@ public partial class RewardTooltipPanel
 		{
 			row++;
 
-			AddChild(new BnsCustomLabelWidget()
+			ColumnList.AddChild(new BnsCustomLabelWidget()
 			{
-				Text = info.Element,
-				ToolTip = new ItemTooltipPanel() { DataContext = info.Item }
+				String = new StringProperty()
+				{
+				   LabelText = info.Element,
+				   HorizontalAlignment = HAlignment.HAlign_Center,
+				   VerticalAlignment = VAlignment.VAlign_Center,
+				},
+				ToolTip = new ItemTooltipPanel() { DataContext = info.Item },
 			}, row, 0);
-			AddChild(new BnsCustomLabelWidget() { Text = info.Category.Item2, Tag = info.Category.Item1 }, row, 1);
-			AddChild(new BnsCustomLabelWidget() { Text = info.ProbabilityInfo }, row, 2);
+			ColumnList.AddChild(new BnsCustomLabelWidget()
+			{
+				String = new StringProperty()
+				{
+					LabelText = info.Category.Item2,
+					HorizontalAlignment = HAlignment.HAlign_Center,
+					VerticalAlignment = VAlignment.VAlign_Center,
+				},
+				Tag = info.Category.Item1 
+			}, row, 1);
+			ColumnList.AddChild(new BnsCustomLabelWidget()
+			{
+				String = new StringProperty()
+				{
+					LabelText = info.ProbabilityInfo,
+					HorizontalAlignment = HAlignment.HAlign_Center,
+					VerticalAlignment = VAlignment.VAlign_Center,
+				}
+			}, row, 2);
 		}
 
-		// layout
+		//layout
 		ColumnList.InvalidateVisual();
 		this.InvalidateMeasure();
-	}
-
-	private void AddChild(FrameworkElement element, int row, int column)
-	{
-		element.HorizontalAlignment = HorizontalAlignment.Center;
-		element.VerticalAlignment = VerticalAlignment.Center;
-		BnsCustomColumnListWidget.SetRow(element, row);
-		BnsCustomColumnListWidget.SetColumn(element, column);
-
-		ColumnList.Children.Add(element);
 	}
 
 	private void ColumnList_CellMerge(object sender, MergeEventArgs e)

@@ -45,8 +45,7 @@ public class DefaultProvider : Datafile, IDataProvider
 		Tables.Add(new() { Name = "skill-training-sequence" });
         Tables.Add(new() { Name = "summoned-sequence" });
         Tables.Add(new() { Name = "tutorialskillsequence" });
-
-		// surveyquestions
+		//Tables.Add(new() { Name = "surveyquestions" });
 		#endregion
 
 		#region ParseType

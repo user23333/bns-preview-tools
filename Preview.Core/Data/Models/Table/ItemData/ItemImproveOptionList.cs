@@ -65,7 +65,7 @@ public sealed class ItemImproveOptionList : ModelElement, IItemRecipeHelper
 			if (option is null) continue;
 
 			option = FileCache.Data.Provider.GetTable<ItemImproveOption>()[option.Id + ((long)level << 32)];
-			options.Add(new(option, ((double)OptionWeight[i] / OptionWeightTotal).ToString("P2")));
+			options.Add(new(option, ((double)OptionWeight[i] / OptionWeightTotal).ToString("P3")));
 		}
 
 		return options;

@@ -8,6 +8,7 @@ using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Engine.BinData.Helpers;
 using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Data.Models;
+using Xylia.Preview.Data.Models.Document;
 using Xylia.Preview.Data.Models.Sequence;
 using Xylia.Preview.UI.ViewModels;
 using Xylia.Preview.UI.Views.Selector;
@@ -119,26 +120,20 @@ internal sealed class ItemOut : OutSet, IDisposable
 		{
 			if (string.IsNullOrWhiteSpace(text)) return null;
 
-			StringBuilder builder = new();
+			var builder = new StringBuilder();
 
-			var doc = new HtmlAgilityPack.HtmlDocument();
+			var doc = new HtmlDocument();
 			doc.LoadHtml(text);
 
 			foreach (var node in doc.DocumentNode.ChildNodes)
 			{
-				switch (node.Name)
+				builder.Append(node switch
 				{
-					case "#text": builder.Append(node.InnerText); break;
-					case "image":
-					{
-						var ImagesetPath = node.Attributes["imagesetpath"]?.Value;
+					HtmlTextNode textNode => textNode.InnerText,
+					Image imageNode => $"[{imageNode.Imagesetpath}]",
 
-						builder.Append($"[{ImagesetPath}]");
-						break;
-					}
-
-					default: builder.Append(node.InnerHtml); break;
-				}
+					_ => node.InnerHtml,
+				});
 			}
 
 			return builder.ToString();

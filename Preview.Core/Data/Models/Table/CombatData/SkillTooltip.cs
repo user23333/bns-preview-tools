@@ -122,6 +122,8 @@ public class SkillTooltip : ModelElement
 		#endregion
 	}
 
+
+
 	public static string Compare(Ref<SkillTooltip>[] current, Ref<SkillTooltip>[] other)
 	{
 		var ia = other?.SelectNotNull(x => x.Instance) ?? [];

@@ -88,7 +88,7 @@ public static class LinqExtensions
 	#region Expand
 	public static string Join(this IEnumerable<string> source, string separator = "<br/>")
 	{
-		return string.Join(separator, source.Where(t => !t.IsNullOrWhiteSpace()));
+		return string.Join(separator, source.Where(t => !string.IsNullOrWhiteSpace(t)));
 	}
 	#endregion
 }

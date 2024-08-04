@@ -1,9 +1,7 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Windows;
 using System.Windows.Media;
 using CUE4Parse.BNS.Assets.Exports;
-using CUE4Parse.UE4.Objects.Core.i18N;
 using SkiaSharp.Views.WPF;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.UI.Controls.Helpers;
@@ -75,14 +73,29 @@ public abstract class BnsCustomBaseWidget : UserWidget, IMetaData
 		set { SetValue(VerticalResizeLinkProperty, value); }
 	}
 
+	public HAlignment HorizontalContentAlignment
+	{
+		get => String.HorizontalAlignment;
+		set => String.HorizontalAlignment = value;
+	}
+
+	public VAlignment VerticalContentAlignment
+	{
+		get => String.VerticalAlignment;
+		set => String.VerticalAlignment = value;
+	}
+
+
 	public bool AutoResizeHorizontal { get; set; }
-	public float MaxAutoResizeHorizontal { get; set; }
-	public float MinAutoResizeHorizontal { get; set; }
+	public float MinAutoResizeHorizontal { get; set; } = 0;
+	public float MaxAutoResizeHorizontal { get; set; } = float.PositiveInfinity;
 
 	public bool AutoResizeVertical { get; set; }
-	public float MaxAutoResizeVertical { get; set; }
-	public float MinAutoResizeVertical { get; set; }
+	public float MinAutoResizeVertical { get; set; } = 0;
+	public float MaxAutoResizeVertical { get; set; } = float.PositiveInfinity;
 	#endregion
+
+
 
 	#region StringProperty
 	internal readonly TextContainer _container;
@@ -110,16 +123,15 @@ public abstract class BnsCustomBaseWidget : UserWidget, IMetaData
 	}
 
 	//  IMetaData
-	public void UpdateString(string? text)
+	public void UpdateString(StringProperty text)
 	{
-		this.String ??= new StringProperty();
-		this.String.LabelText = new FText(text);
+		this.String = text;
 		this.OnStringChanged(String);
 	}
 
-	void IMetaData.UpdateTooltip(string? text)
+	void IMetaData.UpdateTooltip(StringProperty text)
 	{
-		this.ToolTip = text;
+		this.ToolTip = text.LabelText?.Text;
 	}
 	#endregion
 
@@ -127,10 +139,14 @@ public abstract class BnsCustomBaseWidget : UserWidget, IMetaData
 	#region Protected Methods
 	protected override Size MeasureOverride(Size constraint)
 	{
-		if (AutoResizeHorizontal) constraint.Width = double.PositiveInfinity;
-		if (AutoResizeVertical) constraint.Height = double.PositiveInfinity;
+		// check auto size
+		if (AutoResizeHorizontal) constraint.Width = MaxAutoResizeHorizontal;
+		if (AutoResizeVertical) constraint.Height = MaxAutoResizeVertical;
 
-		return base.MeasureOverride(constraint);
+		var size = base.MeasureOverride(constraint);
+		return new Size(
+			Math.Max(MinAutoResizeHorizontal, size.Width),
+			Math.Max(MinAutoResizeVertical, size.Height));
 	}
 
 	protected override Rect ArrangeChild(UIElement child, Size constraint)
@@ -199,13 +215,14 @@ public abstract class BnsCustomBaseWidget : UserWidget, IMetaData
 		}
 	}
 
-	protected Size DrawString(DrawingContext? ctx, StringProperty p, string MetaData)
+	protected Size DrawString(DrawingContext? ctx, StringProperty p, string MetaData, TextContainer? container = null)
 	{
 		if (p is null) return default;
 
 		// data
-		var document = _container.Document = new Paragraph() { FontSet = p.fontset, HorizontalAlignment = (HorizontalAlignment)p.HorizontalAlignment };
+		var document = container != null ? _container.Document : new P();
 		IMetaData.UpdateData(document, new(StringProperty, p, MetaData));
+		//document.Element.HorizontalAlignment = p.HorizontalAlignment;
 		BaseElement.InheritDependency(this, document);
 
 		// layout

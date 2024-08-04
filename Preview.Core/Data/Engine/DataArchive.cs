@@ -1,5 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Text;
+using CUE4Parse.Utils;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common;
 
@@ -8,8 +9,8 @@ internal class DataArchive : Stream
 {
 	#region Constructor
 	private readonly byte[] _data;
-	public bool Is64Bit { get; set; }
-	public long StartAddress { get; set; }
+	public bool Is64Bit { get; init; }
+	public long StartAddress { get; init; }
 
 	public DataArchive(byte[] data, bool is64Bit = false, long offset = 0, long size = -1)
 	{

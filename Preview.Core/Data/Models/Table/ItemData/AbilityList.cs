@@ -25,16 +25,15 @@ public sealed class AbilityList : ModelElement, IEnumerable
 	#region Methods
 	public IEnumerator GetEnumerator()
 	{
-		var result = new List<Tuple<string, string>>();
-
 		for (int i = 0; i < AbilityTotalCount; i++)
 		{
-			result.Add(new(
-				string.Format("{0} {1}-{2}", Ability[i].GetText(), AbilityValueMin[i], AbilityValueMax[i]),
-				((double)AbilityWeight[i] / AbilityTotalWeight).ToString("P2")));
+			var s = string.Format("{0} {1}-{2}", Ability[i].GetText(), AbilityValueMin[i], AbilityValueMax[i]);
+			var w = (double)AbilityWeight[i] / AbilityTotalWeight;
+
+			yield return new Tuple<string, double>(s, w);
 		}
 
-		return result.GetEnumerator();
+		yield break;
 	}
 	#endregion
 }

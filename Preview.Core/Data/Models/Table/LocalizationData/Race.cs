@@ -1,4 +1,5 @@
 ﻿using Xylia.Preview.Common.Attributes;
+using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models.Sequence;
 using static Xylia.Preview.Data.Models.Item;
@@ -8,10 +9,26 @@ namespace Xylia.Preview.Data.Models;
 [Side(ReleaseSide.Client)]
 public sealed class Race : ModelElement
 {
-	public RaceSeq race;
+	#region Attributes
+	public RaceSeq race { get; set; }
 
+	public Ref<Text> Name2 { get; set; }
 
-	public static Race Get(RaceSeq? seq) => FileCache.Data.Provider.GetTable<Race>().FirstOrDefault(record => record.race == seq);
+	public ObjectPath LobbyRaceImageset { get; set; }
+
+	public ObjectPath CharacterInfoRaceImageset { get; set; }
+
+	public Ref<Text> Desc { get; set; }
+
+	public sbyte MaleCustomizeZoomcameraAddHeight { get; set; }
+
+	public sbyte FemaleCustomizeZoomcameraAddHeight { get; set; }
+
+	public ObjectPath LobbyRaceBgm { get; set; }
+	#endregion
+
+	#region Methods
+	public static Race Get(RaceSeq? seq) => FileCache.Data.Provider.GetTable<Race>()?.FirstOrDefault(record => record.race == seq);
 
 	public static Race Get(RaceSeq2 seq) => seq switch
 	{
@@ -23,4 +40,5 @@ public sealed class Race : ModelElement
 
 		_ => null,
 	};
+	#endregion
 }

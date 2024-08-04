@@ -14,8 +14,7 @@ public struct Native
 		Offset = offset;
 	}
 
-
-
+	#region Operator
 	public static bool operator ==(Native a, Native b)
 	{
 		return
@@ -33,4 +32,5 @@ public struct Native
 	public override bool Equals(object obj) => obj is Native other && Equals(other);
 
 	public override int GetHashCode() => HashCode.Combine(StringSize, Offset);
+	#endregion
 }

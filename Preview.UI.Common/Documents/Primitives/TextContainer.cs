@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Text.RegularExpressions;
 using System.Windows;
 using CUE4Parse.BNS.Assets.Exports;
-using HtmlAgilityPack;
 using Xylia.Preview.Data.Models;
+using Xylia.Preview.Data.Models.Document;
 
 namespace Xylia.Preview.UI.Documents.Primitives;
 /// <summary>
@@ -15,13 +12,6 @@ namespace Xylia.Preview.UI.Documents.Primitives;
 public class TextContainer
 {
 	#region Constructors
-	static TextContainer()
-	{
-		// some tag is special in real html
-		// those are non-closed, so must to re-set
-		HtmlNode.ElementsFlags.Remove("link");
-	}
-
 	/// <summary>
 	/// Creates a new TextContainer instance.
 	/// </summary>
@@ -86,7 +76,7 @@ public class TextContainer
 	#region Private Fields
 	public EventHandler ChangedHandler;
 
-	internal Paragraph Document = new();
+	internal P Document = new();
 
 	internal StringProperty StringProperty;
 
@@ -97,36 +87,7 @@ public class TextContainer
 	#region Static Methods
 	internal static List<BaseElement> Load(HtmlNodeCollection nodes)
 	{
-		return nodes.Select(TextContainer.Load).ToList();
-	}
-
-	internal static BaseElement Load(HtmlNode node)
-	{
-		BaseElement element = node.Name switch
-		{
-			"#text" => new Run(),
-			"p" => new Paragraph(),
-			"arg" => new Arg(),
-			"br" => new BR(),
-			"ga" => new GA(),
-			"font" => new Font(),
-			"image" => new Image(),
-			"link" => new Link(),    
-			"replace" => new Replace(),
-			"timer" => new Timer(),
-			_ => null
-		};
-
-#if DEBUG
-		if (element is null)
-		{
-			element = new Run();
-			Serilog.Log.Warning("unknown tag: " + node.Name);
-		}
-#endif
-
-		element.Load(node);
-		return element;
+		return nodes.Select(ElementLoad.CreateElement).ToList();
 	}
 
 	public static string? Cut(string text)

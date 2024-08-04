@@ -1,0 +1,16 @@
+﻿<BnsCustomWindowWidget x:Class="Xylia.Preview.UI.GameUI.Scene.Game_Tooltip.NpcTooltipPanel"
+	xmlns="https://github.com/xyliaup/bns-preview-tools"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:s="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+
+	<BnsCustomColumnListWidget Name="ColumnList" ShowLines="True" Width="480">
+		<BnsCustomColumnListWidget.ColumnDefinitions>
+			<s:ColumnDefinition Width="*" />
+			<s:ColumnDefinition Width="2*" />
+		</BnsCustomColumnListWidget.ColumnDefinitions>
+		<BnsCustomColumnListWidget.RowDefinitions>
+			<s:RowDefinition Height="30" />
+		</BnsCustomColumnListWidget.RowDefinitions>
+	</BnsCustomColumnListWidget>
+
+</BnsCustomWindowWidget>

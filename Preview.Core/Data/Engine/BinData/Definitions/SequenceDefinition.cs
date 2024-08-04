@@ -1,38 +1,34 @@
 ﻿using Xylia.Preview.Data.Common.Exceptions;
 
 namespace Xylia.Preview.Data.Engine.Definitions;
-public class SequenceDefinition : List<string>
+public class SequenceDefinition(string name) : List<string>
 {
-    public SequenceDefinition(string name)
-    {
-        Name = name;
-    }
+	public string Name { get; set; } = name;
 
-    public string Name { get; set; }
-	public string Default { get; set; }
-
-
-	#region Public Methods
+	#region Methods
 	public SequenceDefinition Clone() => MemberwiseClone() as SequenceDefinition;
 
 	/// <summary>
 	/// Check count of the sequence
 	/// </summary>
 	/// <param name="type"></param>
-	/// <exception cref="BnsDefinitionException"></exception>
+	/// <exception cref="BnsDataException"></exception>
 	public void Check(AttributeType type)
 	{
-		if (type == AttributeType.TSeq || type == AttributeType.TProp_seq)
+		switch (type)
 		{
-			if (this.Count > sbyte.MaxValue)
-				throw BnsDataException.InvalidSequence($"seq exceeding maximum size, use `Seq16` instead." , Name);
+			case AttributeType.TSeq:
+			case AttributeType.TProp_seq:
+				if (Count > sbyte.MaxValue) throw BnsDataException.InvalidSequence($"seq exceeding maximum size, use `Seq16` instead.", Name);
+				break;
+
+			case AttributeType.TSeq16:
+			case AttributeType.TProp_field:
+				if (Count > short.MaxValue) throw BnsDataException.InvalidSequence($"seq exceeding maximum size, use `Seq32` instead.", Name);
+				break;
+
+			default: throw BnsDataException.InvalidSequence($"invalid attribute type, use `Seq` instead.", Name);
 		}
-		else if (type == AttributeType.TSeq16 || type == AttributeType.TProp_field)
-		{
-			if (this.Count > short.MaxValue)
-				throw BnsDataException.InvalidSequence($"seq exceeding maximum size, use `Seq32` instead." , Name);
-		}
-		else throw BnsDataException.InvalidSequence($"invalid attribute type, use `Seq` instead." , Name);
 	}
 	#endregion
 }

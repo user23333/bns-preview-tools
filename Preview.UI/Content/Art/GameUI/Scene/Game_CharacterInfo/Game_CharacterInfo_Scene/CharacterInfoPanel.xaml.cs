@@ -3,8 +3,8 @@ using System.Diagnostics;
 using System.IO;
 using Microsoft.Web.WebView2.Core;
 using Xylia.Preview.Data.Helpers;
+using Xylia.Preview.Data.Models;
 using Xylia.Preview.Data.Models.Config;
-using Xylia.Preview.Data.Models.Creature;
 
 namespace Xylia.Preview.UI.GameUI.Scene.Game_CharacterInfo;
 public partial class CharacterInfoPanel

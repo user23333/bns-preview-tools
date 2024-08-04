@@ -1,4 +1,4 @@
-﻿namespace Xylia.Preview.Data.Models.Creature;
+﻿namespace Xylia.Preview.Data.Models;
 public class AbilityFunction
 {
 	#region Fields
@@ -15,23 +15,19 @@ public class AbilityFunction
 	public int C;
 
 	// level factor param
-	public double μ;
-	public double Φ;
+	public double μ = double.NaN;
+	public double Φ = double.NaN;
 	public List<LevelFactor> LevelFactors = [];
 	#endregion
 
 	#region Methods
-	public override string ToString() => this.Type.ToString();
+	public override string ToString() => Type.ToString();
 
-	public double GetPercent(double value, sbyte level)
+	public double GetPercent(double value, sbyte level, int? basepercent = null)
 	{
-		double factor = 0;
+		double factor = GetFactor(level);
 
-		try
-		{
-			factor = GetFactor(level);
-		}
-		catch
+		if (double.IsNaN(factor))
 		{
 			var o = LevelFactors.Find(f => f.Level == level);
 			if (o is null) return double.NaN;
@@ -39,13 +35,13 @@ public class AbilityFunction
 			factor = o.Value;
 		}
 
-		return GetPercent(value, factor);
+		return GetPercent(value, factor, basepercent);
 	}
 
-	internal double GetPercent(double value, double factor)
+	internal double GetPercent(double value, double factor, int? basepercent)
 	{
 		double percent = (double)value * (0.01 * K) / (value + factor);
-		return percent + 0.01 * C;
+		return percent + 0.001 * (basepercent ?? C);
 	}
 	#endregion
 
@@ -55,9 +51,6 @@ public class AbilityFunction
 	/// </summary>
 	public double GetFactor(sbyte level)
 	{
-		if (μ == 0) throw new ArgumentException(nameof(μ));
-		else if (Φ == 0) throw new ArgumentException(nameof(Φ));
-
 		return μ * Math.Exp(Φ * level);
 	}
 
@@ -100,7 +93,7 @@ public class AbilityFunction
 	public static AbilityFunction AttackHit => new()
 	{
 		Type = CreatureField.AttackHitBasePercent,
-		C = 85,
+		C = 850,
 		K = 96,
 		LevelFactors = [new(60, 6081.99)]
 	};
@@ -143,7 +136,7 @@ public class AbilityFunction
 	public static AbilityFunction AttackCriticalDamage => new()
 	{
 		Type = CreatureField.AttackCriticalDamagePercent,
-		C = 125,
+		C = 1250,
 		K = 291,
 		LevelFactors =
 		[
@@ -196,16 +189,21 @@ public class AbilityFunction
 	{
 		Type = CreatureField.DefendParryBasePercent,
 		K = 97,
-		LevelFactors = [new(60, 5239.02)]
+		LevelFactors =
+		[
+			new(60, 5239.02)
+		]
 	};
 
 	public static AbilityFunction DefendParryReducePercent => new()
 	{
-		//格挡伤害减免
 		Type = CreatureField.DefendParryReducePercent,
-		C = 30,
+		C = 300,
 		K = 98,
-		LevelFactors = [new(60, 21701.77)]
+		LevelFactors =
+		[
+			new(60, 21701.77)
+		]
 	};
 
 	public static AbilityFunction DefendPerfectParry => new()
@@ -252,7 +250,7 @@ public class AbilityFunction
 	public static AbilityFunction HealPower => new()
 	{
 		Type = CreatureField.HealPowerBasePercent,
-		C = 100,
+		C = 1000,
 		K = 54,
 		LevelFactors = [new(60, 2796.48)]
 	};
@@ -265,7 +263,7 @@ public class AbilityFunction
 	public static AbilityFunction AbnormalAttack => new()
 	{
 		Type = CreatureField.AbnormalAttackBasePercent,
-		C = 100,
+		C = 1000,
 		K = 291,
 		LevelFactors = [new(60, 12744.27)]
 	};
@@ -283,7 +281,7 @@ public class AbilityFunction
 	public static AbilityFunction AttackAttribute => new()
 	{
 		Type = CreatureField.AttackAttributeBasePercent,
-		C = 100,
+		C = 1000,
 		K = 291,
 		LevelFactors = [new(60, 12002.79)]
 	};
@@ -301,6 +299,23 @@ public class AbilityFunction
 	public static AbilityFunction SupportPower => new()
 	{
 		Type = CreatureField.SupportPowerBasePercent,
+	};
+
+
+
+	public static AbilityFunction CastDuration => new()
+	{
+		Type = CreatureField.CastDurationBasePercent,
+	};
+
+	public static AbilityFunction AttackStiffDuration => new()
+	{
+		Type = CreatureField.AttackStiffDurationBasePercent,
+	};
+
+	public static AbilityFunction DefendStiffDuration => new()
+	{
+		Type = CreatureField.DefendStiffDurationBasePercent,
 	};
 	#endregion
 }

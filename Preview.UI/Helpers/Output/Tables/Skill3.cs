@@ -1,6 +1,6 @@
 ﻿using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Models;
-using Xylia.Preview.UI.Documents;
+using Xylia.Preview.Data.Models.Document;
 using Xylia.Preview.UI.Documents.Primitives;
 
 namespace Xylia.Preview.UI.Helpers.Output.Tables;

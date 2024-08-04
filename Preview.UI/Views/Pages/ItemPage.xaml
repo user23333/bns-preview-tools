@@ -6,6 +6,7 @@
 	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
 	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
 	  xmlns:VM="clr-namespace:Xylia.Preview.UI.ViewModels">
+	
 	<TabControl BorderThickness="0">
 		<TabItem Header="{DynamicResource ItemList_Name}" d:Header="ItemList">
 			<Grid>
@@ -60,13 +61,13 @@
 
 		<TabItem Header="Test" x:Name="TestHolder" Visibility="Collapsed">
 			<StackPanel>
-				<!-- <c:BnsCustomLabelWidget>
+				<c:BnsCustomLabelWidget x:Name="TestLabel">
 					<c:BnsCustomLabelWidget.Text>
-						<![CDATA[<font name="00008130.UI.Vital_LightGray_ShaStroke">12345678</font>]]>
+						<![CDATA[12345]]>
 					</c:BnsCustomLabelWidget.Text>
-				</c:BnsCustomLabelWidget> -->
+				</c:BnsCustomLabelWidget>
 
-				<c:BnsCustomListBoxWidget x:Name="Test">
+				<c:BnsCustomListBoxWidget x:Name="TestListHolder">
 					<c:BnsCustomListBoxWidget.ItemTemplate>
 						<DataTemplate>
 							<c:HorizontalBox>
@@ -78,4 +79,5 @@
 			</StackPanel>
 		</TabItem>
 	</TabControl>
+	
 </Page>

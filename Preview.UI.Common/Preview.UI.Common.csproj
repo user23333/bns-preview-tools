@@ -3,15 +3,17 @@
 		<TargetFramework>net8.0-windows</TargetFramework>
 		<RootNamespace>Xylia.Preview.UI</RootNamespace>
 		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
 		<UseWPF>true</UseWPF>
-		<SignAssembly>True</SignAssembly>
 		<DelaySign>True</DelaySign>
+		<SignAssembly>True</SignAssembly>
 	</PropertyGroup>
+	
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<DebugType>none</DebugType>
 	</PropertyGroup>
+	
 	<ItemGroup>
-		<PackageReference Include="HtmlAgilityPack" Version="1.11.61" />
 		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2535.41" />
 		<PackageReference Include="SkiaSharp.Views.WPF" Version="2.88.8" />
 	</ItemGroup>

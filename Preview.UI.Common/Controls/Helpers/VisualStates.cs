@@ -360,10 +360,10 @@ internal static class VisualStates
 
 
 	/// <summary>
-	/// Use VisualStateManager to change the visual state of the control.
+	/// Use VisualStateManager to change the visual state of the widget.
 	/// </summary>
-	/// <param name="control">
-	/// Control whose visual state is being changed.
+	/// <param name="widget">
+	/// Widget whose visual state is being changed.
 	/// </param>
 	/// <param name="useTransitions">
 	/// true to use transitions when updating the visual state, false to
@@ -373,7 +373,7 @@ internal static class VisualStates
 	/// Ordered list of state names and fallback states to transition into.
 	/// Only the first state to be found will be used.
 	/// </param>
-	public static void GoToState(Control control, bool useTransitions, params string[] stateNames)
+	public static void GoToState(UserWidget widget, bool useTransitions, params string[] stateNames)
 	{
 		if (stateNames == null)
 		{
@@ -382,7 +382,7 @@ internal static class VisualStates
 
 		foreach (string name in stateNames)
 		{
-			if (VisualStateManager.GoToState(control, name, useTransitions))
+			if (VisualStateManager.GoToState(widget, name, useTransitions))
 			{
 				break;
 			}

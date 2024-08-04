@@ -12,7 +12,7 @@ namespace Xylia.Preview.Data.Models;
 /// <summary>
 /// Provides converting attribute text to value, as well
 /// </summary>
-public class AttributeConverter
+internal class AttributeConverter
 {
 	/// <summary>
 	/// Gets the specified attribute from record

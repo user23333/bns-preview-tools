@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Threading.Tasks;
 using System.Windows;
 using CUE4Parse.BNS.Assets.Exports;
 using Xylia.Preview.Data.Helpers;
@@ -70,12 +67,12 @@ internal interface IMetaData
 	/// <summary>
 	/// Set widget's text
 	/// </summary>
-	void UpdateString(string? text);
+	void UpdateString(StringProperty text);
 
 	/// <summary>
 	/// Set widget's tooltip
 	/// </summary>
-	void UpdateTooltip(string? text);
+	void UpdateTooltip(StringProperty text);
 
 
 	public static async void UpdateData(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -87,7 +84,7 @@ internal interface IMetaData
 		// Called by expansion
 		if (e.OldValue is StringProperty sp)
 		{
-			widget.UpdateString(sp.LabelText?.Text);
+			widget.UpdateString(sp);
 		}
 
 		// MetaData
@@ -105,9 +102,9 @@ internal interface IMetaData
 
 				switch (ls[0])
 				{
-					case "textref": widget.UpdateString(ls[1].GetText()); return;
-					case "tooltip" or "tootip": widget.UpdateTooltip(ls[1].GetText()); return;
-					case "config": 
+					case "textref": widget.UpdateString(new StringProperty() { LabelText = ls[1].GetText() }); return;
+					case "tooltip" or "tootip": widget.UpdateTooltip(new StringProperty() { LabelText = ls[1].GetText() }); return;
+					case "config":
 					case "width":
 					case "height": return;
 

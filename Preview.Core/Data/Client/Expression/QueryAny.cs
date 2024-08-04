@@ -1,5 +1,5 @@
-﻿using Xylia.Preview.Data.Models;
-using Xylia.Preview.Common.Extension;
+﻿using Xylia.Preview.Common.Extension;
+using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.Data.Client;
 public class QueryAny
@@ -9,7 +9,7 @@ public class QueryAny
     /// </summary>
     public BsonExpression EQ(string arrayField, AttributeValue value)
     {
-        if (arrayField.IsNullOrWhiteSpace()) throw new ArgumentNullException(nameof(arrayField));
+        ArgumentException.ThrowIfNullOrWhiteSpace(arrayField);
 
         return BsonExpression.Create($"{arrayField} ANY = {value}");
     }
@@ -19,7 +19,7 @@ public class QueryAny
     /// </summary>
     public BsonExpression LT(string arrayField, AttributeValue value)
     {
-        if (arrayField.IsNullOrWhiteSpace()) throw new ArgumentNullException(nameof(arrayField));
+        ArgumentException.ThrowIfNullOrWhiteSpace(arrayField);
 
         return BsonExpression.Create($"{arrayField} ANY < {value}");
     }
@@ -29,7 +29,7 @@ public class QueryAny
     /// </summary>
     public BsonExpression LTE(string arrayField, AttributeValue value)
     {
-        if (arrayField.IsNullOrWhiteSpace()) throw new ArgumentNullException(nameof(arrayField));
+        ArgumentException.ThrowIfNullOrWhiteSpace(arrayField);
 
         return BsonExpression.Create($"{arrayField} ANY <= {value}");
     }
@@ -39,7 +39,7 @@ public class QueryAny
     /// </summary>
     public BsonExpression GT(string arrayField, AttributeValue value)
     {
-        if (arrayField.IsNullOrWhiteSpace()) throw new ArgumentNullException(nameof(arrayField));
+        ArgumentException.ThrowIfNullOrWhiteSpace(arrayField);
 
         return BsonExpression.Create($"{arrayField} ANY > {value}");
 
@@ -50,7 +50,7 @@ public class QueryAny
     /// </summary>
     public BsonExpression GTE(string arrayField, AttributeValue value)
     {
-        if (arrayField.IsNullOrWhiteSpace()) throw new ArgumentNullException(nameof(arrayField));
+        ArgumentException.ThrowIfNullOrWhiteSpace(arrayField);
 
         return BsonExpression.Create($"{arrayField} ANY >= {value}");
     }
@@ -60,7 +60,7 @@ public class QueryAny
     /// </summary>
     public BsonExpression Between(string arrayField, AttributeValue start, AttributeValue end)
     {
-        if (arrayField.IsNullOrWhiteSpace()) throw new ArgumentNullException(nameof(arrayField));
+        ArgumentException.ThrowIfNullOrWhiteSpace(arrayField);
 
         return BsonExpression.Create($"{arrayField} ANY BETWEEN {start} AND {end}");
     }
@@ -70,10 +70,10 @@ public class QueryAny
     /// </summary>
     public BsonExpression StartsWith(string arrayField, string value)
     {
-        if (arrayField.IsNullOrWhiteSpace()) throw new ArgumentNullException(nameof(arrayField));
-        if (value.IsNullOrWhiteSpace()) throw new ArgumentNullException(nameof(value));
+        ArgumentException.ThrowIfNullOrWhiteSpace(arrayField);
+		ArgumentException.ThrowIfNullOrWhiteSpace(value);
 
-        return BsonExpression.Create($"{arrayField} ANY LIKE {AttributeValue.Create(value + "%")}");
+		return BsonExpression.Create($"{arrayField} ANY LIKE {AttributeValue.Create(value + "%")}");
     }
 
     /// <summary>
@@ -81,7 +81,7 @@ public class QueryAny
     /// </summary>
     public BsonExpression Not(string arrayField, AttributeValue value)
     {
-        if (arrayField.IsNullOrWhiteSpace()) throw new ArgumentNullException(nameof(arrayField));
+        ArgumentException.ThrowIfNullOrWhiteSpace(arrayField);
 
         return BsonExpression.Create($"{arrayField} ANY != {value}");
     }

@@ -336,14 +336,14 @@ public partial class MainForm : Form
 		{
 			foreach (var attribute in def.ElRecord.ExpandedAttributes.OrderBy(x => x.Offset))
 			{
-				Console.WriteLine($"#notime#{attribute.Offset}  -  {attribute.Name}");
+				Console.WriteLine($"#notime#{attribute.Offset:X}  -  {attribute.Name}");
 			}
 
 			foreach (var sub in def.ElRecord.Subtables)
 			{
 				foreach (var attribute in sub.ExpandedAttributesSubOnly.OrderBy(x => x.Offset))
 				{
-					Console.WriteLine($"#notime#[{sub.Name}] {attribute.Offset}  -  {attribute.Name}");
+					Console.WriteLine($"#notime#[{sub.Name}] {attribute.Offset:X}  -  {attribute.Name}");
 				}
 			}
 		}

@@ -56,7 +56,14 @@ public partial class ItemTooltipPanel
 			SetItemEffect_Effect.String.LabelText = SetItem.Description;
 		}
 
-		// Description7
+		// Description
+		ItemDescription.String.LabelText = record.Attributes["description2"].GetText();
+		ItemDescription_4_Title.String.LabelText = record.Attributes["description4-title"].GetText();
+		ItemDescription_5_Title.String.LabelText = record.Attributes["description5-title"].GetText();
+		ItemDescription_6_Title.String.LabelText = record.Attributes["description6-title"].GetText();
+		ItemDescription_4.String.LabelText = record.Attributes["description4"].GetText();
+		ItemDescription_5.String.LabelText = record.Attributes["description5"].GetText();
+		ItemDescription_6.String.LabelText = record.Attributes["description6"].GetText();
 		ItemDescription7.String.LabelText = new List<string?>
 		{
 			record.Attributes["description7"].GetText(),

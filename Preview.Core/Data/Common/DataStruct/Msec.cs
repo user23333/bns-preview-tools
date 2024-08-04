@@ -29,31 +29,33 @@ public struct Msec : IFormattable, IInteger
 	#region Constructors
 	private readonly int value;
 
-	public Msec(int value) => this.value = Math.Abs(value);
+	public Msec(int value) => this.value = value;
 
-	public Msec(int minutes, int seconds) : this(0, minutes, seconds) { }
-
-	public Msec(int hours, int minutes, int seconds) => this.value = ((hours * 60 + minutes) * 60 + seconds) * 1000;
+	public Msec(int hours, int minutes, int seconds) : this(((hours * 60 + minutes) * 60 + seconds) * 1000) { }
 	#endregion
 
 	#region Properties
-	public readonly int Days => value / TicksPerDay;
+	private readonly int AbsValue => Math.Abs(value);
 
-	public readonly int Hours => value / TicksPerHour % 24;
+	public readonly bool IsPositive => value > 0;
 
-	public readonly int Minutes => value / TicksPerMinute % 60;
+	public readonly int Days => AbsValue / TicksPerDay;
 
-	public readonly int Seconds => value / TicksPerSecond % 60;
+	public readonly int Hours => AbsValue / TicksPerHour % 24;
 
-	public readonly int Milliseconds => (value / TicksPerMillisecond % 1000);
+	public readonly int Minutes => AbsValue / TicksPerMinute % 60;
 
-	public readonly double TotalDays => ((double)value) / TicksPerDay;
+	public readonly int Seconds => AbsValue / TicksPerSecond % 60;
 
-	public readonly double TotalHours => (double)value / TicksPerHour;
+	public readonly int Milliseconds => (AbsValue / TicksPerMillisecond % 1000);
 
-	public readonly double TotalMinutes => (double)value / TicksPerMinute;
+	public readonly double TotalDays => (double)AbsValue / TicksPerDay;
 
-	public readonly double TotalSeconds => (double)value / TicksPerSecond;
+	public readonly double TotalHours => (double)AbsValue / TicksPerHour;
+
+	public readonly double TotalMinutes => (double)AbsValue / TicksPerMinute;
+
+	public readonly double TotalSeconds => (double)AbsValue / TicksPerSecond;
 	#endregion
 
 
@@ -85,6 +87,10 @@ public struct Msec : IFormattable, IInteger
 	public static Msec operator +(Msec a, Msec b) => a.value + b.value;
 
 	public static Msec operator -(Msec a, Msec b) => a.value - b.value;
+
+	public static Msec operator *(Msec a, int b) => a.value * b;
+
+	public static Msec operator /(Msec a, int b) => a.value / b;
 	#endregion
 }
 
@@ -171,6 +177,7 @@ public static class MsecFormat
 		switch (format)
 		{
 			case MsecFormatType.hms:
+				if (!value.IsPositive) sb.Append('-');
 				if (value.Days > 0) sb.Append(value.Days + DayName);
 				if (value.Hours > 0) sb.Append(value.Hours + HourName);
 				if (value.Minutes > 0) sb.Append(value.Minutes + MinuteName);

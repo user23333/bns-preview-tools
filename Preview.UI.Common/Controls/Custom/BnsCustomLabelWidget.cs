@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using CUE4Parse.BNS.Assets.Exports;
+using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Models;
 using Xylia.Preview.UI.Controls.Primitives;
 using Xylia.Preview.UI.Documents;
@@ -16,10 +16,13 @@ namespace Xylia.Preview.UI.Controls;
 /// </summary>
 public class BnsCustomLabelWidget : BnsCustomBaseWidget, IContentHost
 {
-	#region Public Properties
-	public Dictionary<int, Timer> Timers { get; } = [];
-
+	#region Constructors
 	public static CopyMode CopyMode { get; set; }
+
+	public BnsCustomLabelWidget()
+	{
+		SetValue(TimersProperty, new Dictionary<int, Time64>());
+	}
 	#endregion
 
 	#region Dependency Properties
@@ -41,6 +44,7 @@ public class BnsCustomLabelWidget : BnsCustomBaseWidget, IContentHost
 		set { SetValue(TextProperty, value); }
 	}
 
+
 	public static readonly DependencyProperty ArgumentsProperty = Owner.Register("Arguments", new TextArguments(),
 		 FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.Inherits, OnArgumentsChanged);
 
@@ -48,6 +52,15 @@ public class BnsCustomLabelWidget : BnsCustomBaseWidget, IContentHost
 	{
 		get { return (TextArguments)GetValue(ArgumentsProperty); }
 		set { SetValue(ArgumentsProperty, _container.Arguments = value); }
+	}
+
+	public static readonly DependencyProperty TimersProperty = Owner.Register<IDictionary<int, Time64>>("Timers", null,
+		 FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.Inherits);
+
+	public IDictionary<int, Time64> Timers
+	{
+		get { return (IDictionary<int, Time64>)GetValue(TimersProperty); }
+		set { SetValue(TimersProperty, value); }
 	}
 	#endregion
 
@@ -75,7 +88,7 @@ public class BnsCustomLabelWidget : BnsCustomBaseWidget, IContentHost
 	protected override Size MeasureOverride(Size constraint)
 	{
 		var size = RenderSize = base.MeasureOverride(constraint);
-		var contentSize = DrawString(null, String, MetaData);
+		var contentSize = DrawString(null, String, MetaData, _container);
 
 		return new Size(
 			Math.Max(size.Width, contentSize.Width),
@@ -87,13 +100,18 @@ public class BnsCustomLabelWidget : BnsCustomBaseWidget, IContentHost
 	private static void OnArgumentsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 	{
 		var widget = (BnsCustomBaseWidget)d;
-		widget.OnContainerChanged(new EventArgs());
+		widget.OnContainerChanged(EventArgs.Empty);
 	}
 
 	private static void OnTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 	{
 		var widget = (BnsCustomLabelWidget)d;
-		widget.UpdateString((string)e.NewValue);
+		widget.UpdateString(new StringProperty()
+		{
+			LabelText = (string)e.NewValue,
+			//HorizontalAlignment = HAlignment.HAlign_Center,
+			//VerticalAlignment = VAlignment.VAlign_Center,
+		});
 	}
 	#endregion
 

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -966,22 +965,22 @@ public abstract class BnsCustomTextBoxBaseWidget : BnsCustomBaseWidget
 		RaiseEvent(e);
 	}
 
-	/// <summary>
-	/// Template has changed
-	/// </summary>
-	/// <param name="oldTemplate">
-	/// </param>
-	/// <param name="newTemplate">
-	/// </param>
-	protected override void OnTemplateChanged(ControlTemplate oldTemplate, ControlTemplate newTemplate)
-	{
-		base.OnTemplateChanged(oldTemplate, newTemplate);
+	///// <summary>
+	///// Template has changed
+	///// </summary>
+	///// <param name="oldTemplate">
+	///// </param>
+	///// <param name="newTemplate">
+	///// </param>
+	//protected override void OnTemplateChanged(ControlTemplate oldTemplate, ControlTemplate newTemplate)
+	//{
+	//	base.OnTemplateChanged(oldTemplate, newTemplate);
 
-		if (oldTemplate != null && newTemplate != null && oldTemplate.VisualTree != newTemplate.VisualTree)
-		{
-			DetachFromVisualTree();
-		}
-	}
+	//	if (oldTemplate != null && newTemplate != null && oldTemplate.VisualTree != newTemplate.VisualTree)
+	//	{
+	//		DetachFromVisualTree();
+	//	}
+	//}
 
 	/// <summary>
 	/// ScrollViewer marks all mouse wheel events as handled, even if no scrolling occurs.  This means that

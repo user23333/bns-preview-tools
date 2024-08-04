@@ -1,3 +1,4 @@
+using System.Collections;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using IniParser;
@@ -19,8 +20,8 @@ public class Settings : INotifyPropertyChanged
 		Directory.CreateDirectory(ApplicationData);
 
 		ConfigPath = Path.Combine(ApplicationData, "Settings.config");
-		Configuration = File.Exists(ConfigPath) ? 
-			new FileIniDataParser().ReadFile(ConfigPath) : 
+		Configuration = File.Exists(ConfigPath) ?
+			new FileIniDataParser().ReadFile(ConfigPath) :
 			new IniData();
 	}
 	#endregion
@@ -41,8 +42,9 @@ public class Settings : INotifyPropertyChanged
 		return true;
 	}
 
-	protected string GetValue(string section = "Common", [CallerMemberName] string name = null)
+	public T GetValue<T>(string section = "Common", [CallerMemberName] string name = null)
 	{
+		//group
 		if (name.Contains('_'))
 		{
 			var split = name.Split('_', 2);
@@ -50,12 +52,26 @@ public class Settings : INotifyPropertyChanged
 			name = split[1];
 		}
 
-		var value =  Configuration[section][name];
-		return string.IsNullOrEmpty(value) ? null : value;
+		//value
+		var value = Configuration[section][name];
+		if (value is null) return default;
+		else if (typeof(T).IsArray)
+		{
+			var strs = value.Split(',');
+			var type = typeof(T).GetElementType();
+			var data = Array.CreateInstance(type, strs.Length);
+
+			for (int i = 0; i < data.Length; i++)
+				data.SetValue(strs[i].To(type), i);
+
+			return (T)(object)data;
+		}			 
+		else return (T)value.To(typeof(T));
 	}
 
-	protected void SetValue(object value, string section = "Common", [CallerMemberName] string name = null)
+	public void SetValue(object value, string section = "Common", [CallerMemberName] string name = null)
 	{
+		//group
 		if (name.Contains('_'))
 		{
 			var split = name.Split('_', 2);
@@ -63,6 +79,10 @@ public class Settings : INotifyPropertyChanged
 			name = split[1];
 		}
 
+		//value
+		if (value is IList objs) value = string.Join(",", objs.Cast<object>());
+
+		//write
 		Configuration[section][name] = value?.ToString();
 		new FileIniDataParser().WriteFile(ConfigPath, Configuration);
 
@@ -74,7 +94,7 @@ public class Settings : INotifyPropertyChanged
 	#region Common
 	public string GameFolder
 	{
-		get => GetValue();
+		get => GetValue<string>();
 		set
 		{
 			if (!Directory.Exists(value)) return;
@@ -86,7 +106,7 @@ public class Settings : INotifyPropertyChanged
 
 	public string OutputFolder
 	{
-		get => GetValue();
+		get => GetValue<string>();
 		set
 		{
 			if (!Directory.Exists(value)) return;
@@ -96,12 +116,12 @@ public class Settings : INotifyPropertyChanged
 		}
 	}
 
-	public string OutputFolderResource { get => GetValue(); set => SetValue(value); }
+	public string OutputFolderResource { get => GetValue<string>(); set => SetValue(value); }
 
-	public bool UseDebugMode { get => GetValue().ToBool(); set => SetValue(value); }
+	public bool UseDebugMode { get => GetValue<bool>(); set => SetValue(value); }
 
-	public bool UseUserDefinition { get => GetValue().ToBool(); set => SetValue(value); }
+	public bool UseUserDefinition { get => GetValue<bool>(); set => SetValue(value); }
 
-	public bool PreviewLoadData { get => GetValue().ToBool(); set => SetValue(value); }
+	public bool Text_LoadData { get => GetValue<bool>(); set => SetValue(value); }
 	#endregion
 }

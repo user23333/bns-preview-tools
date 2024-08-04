@@ -36,11 +36,6 @@ public static class StringExtension
 
 		return sb.ToString();
 	}
-
-	public static bool IsNullOrWhiteSpace(this string str)
-	{
-		return str == null || str.Trim().Length == 0;
-	}
 	#endregion
 
 	#region Convert

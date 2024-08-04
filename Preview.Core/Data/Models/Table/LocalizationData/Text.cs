@@ -3,15 +3,10 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
-using CUE4Parse.BNS.Assets.Exports;
-using HtmlAgilityPack;
-using Xylia.Preview.Common.Extension;
-using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Engine.DatData;
-using Xylia.Preview.Data.Engine.Definitions;
 using Xylia.Preview.Data.Helpers;
+using Xylia.Preview.Data.Models.Document;
 using Xylia.Preview.Data.Models.Sequence;
-using static Xylia.Preview.Data.Models.TextArguments;
 
 namespace Xylia.Preview.Data.Models;
 public sealed class Text : ModelElement
@@ -63,7 +58,6 @@ public sealed class Text : ModelElement
 	}
 	#endregion
 }
-
 
 /// <summary>
 /// Represents a weakly typed list of objects that can be accessed by index.
@@ -338,184 +332,8 @@ public sealed class TextArguments : IEnumerable, ICollection, IList
 	internal object[] _items = new object[DefaultCapacity];
 	internal int _size;
 	#endregion
-
-
-	#region Helpers
-	public class Argument(string p, string id, string seq)
-	{
-		#region Constructors
-		public Argument(HtmlNode node) : this(
-			node.Attributes["p"]?.Value,
-			node.Attributes["id"]?.Value,
-			node.Attributes["seq"]?.Value)
-		{
-
-		}
-		#endregion
-
-
-		#region Methods
-		public object GetObject(TextArguments arguments)
-		{
-			try
-			{
-				object obj;
-
-				#region source
-				var ps = p?.Split(':');
-				var type = ps?[0];
-				if (type is null) return null;
-				else if (type == "id") obj = new Ref<ModelElement>(id).Instance;
-				else if (type == "seq")
-				{
-					var seqs = seq?.Split(':');
-					obj = seqs[1].CastSeq(seqs[0]);
-				}
-				else
-				{
-					if (!byte.TryParse(type, out var id))
-						throw new InvalidCastException("bad argument id, must be byte value: " + type);
-
-					obj = arguments?[id - 1];
-				}
-
-				if (obj is null) return null;
-				#endregion
-
-				#region child
-				foreach (var pl in ps.Skip(1))
-				{
-					var args = ArgItem.GetArgs(pl);
-					for (int x = 0; x < args.Length; x++)
-					{
-						if (x == 0) args[0].ValidType(ref obj);
-						else
-						{
-							args[x].GetObject(ref obj, out var handle);
-							if (handle) break;
-						}
-					}
-				}
-				#endregion
-
-				return obj;
-			}
-			catch (Exception ex)
-			{
-				Debug.WriteLine($"handle arg failed: {p}\n\t{ex.Message}");
-				return null;
-			}
-		}
-		#endregion
-	}
-
-	class ArgItem(string target)
-	{
-		#region Properties
-		public string Target => target;
-
-		public ArgItem Prev { get; private set; }
-
-		public ArgItem Next { get; private set; }
-		#endregion
-
-		#region Methods	
-		public override string ToString() => Target;
-
-		public void ValidType(ref object value)
-		{
-			var target = Target?.ToLower();
-			if (target is null || value is null) return;
-
-			// convert type
-			var type = value.GetBaseType();
-			if (target == "string")
-			{
-				if (type != typeof(string)) value = value.ToString();
-				return;
-			}
-			else if (target == "integer") value = new Integer(Convert.ToDouble(value));
-			else if (value is Integer integer && TryGetArgument(integer, target, out var temp)) value = temp;
-			else if (value is Item item && target.Equals("item-name")) value = item.ItemName;
-			else if (value is Skill3 && target.Equals("skill")) return;
-			else if (TableNameComparer.Instance.Equals(target, type.Name)) return;
-			else throw new InvalidCastException($"valid failed: {Target} >> {type}");
-		}
-
-		public void GetObject(ref object value, out bool handle)
-		{
-			handle = false;
-
-			if (value is null) return;
-			else if (value is string) return;
-			else if (value is ImageProperty image)
-			{
-				if (Target == "scale")
-				{
-					image.ImageScale = short.Parse(Next.Target) * 0.01F;
-					handle = true;
-				}
-			}
-			else if (value.GetType().IsClass && TryGetArgument(value, Target, out var param)) value = param;
-			else
-			{
-				Debug.WriteLine($"not supported class: {value} ({value.GetType().Name} > {Target})");
-				value = null;
-			}
-		}
-
-
-		public static ArgItem[] GetArgs(string text)
-		{
-			var args = text.Split('.').Select(o => new ArgItem(o)).ToArray();
-			for (int x = 0; x < args.Length; x++)
-			{
-				if (x != 0)
-					args[x].Prev = args[x - 1];
-
-				if (x != args.Length - 1)
-					args[x].Next = args[x + 1];
-			}
-
-			return args;
-		}
-
-		public static bool TryGetArgument<T>(T instance, string name, out object value)
-		{
-			if (name == instance!.GetType().Name)
-			{
-				value = instance;
-				return true;
-			}
-
-			// property
-			var member = instance.GetProperty(name);
-			if (member != null)
-			{
-				value = member.GetValue(instance);
-				if (value is Ref<Text> text) value = text.GetText();
-
-				return true;
-			}
-
-			// attribute
-			if (instance is ModelElement element && element.Attributes.TryGetValue(name, out var pair))
-			{
-				value = pair.Value;
-
-				if (value is Record record && record.Owner.Name == "text")
-					value = record.Attributes["text"];
-
-				return true;
-			}
-
-			value = null;
-			return false;
-		}
-		#endregion
-	}
-	#endregion
 }
+
 
 public static class TextExtension
 {
@@ -531,6 +349,8 @@ public static class TextExtension
 
 	public static string GetText(this object obj, TextArguments arguments) => GetText(obj).Replace(arguments);
 
+	public static string GetTextIf(this object obj, TextArguments arguments, bool condition) => condition ? GetText(obj).Replace(arguments) : null;
+
 	public static string Replace(this string text, TextArguments arguments)
 	{
 		if (text is null) return null;
@@ -542,7 +362,7 @@ public static class TextExtension
 			doc.LoadHtml(html);
 
 			// element
-			var arg = new Argument(doc.DocumentNode.FirstChild);
+			var arg = doc.DocumentNode.FirstChild as Arg;
 			var result = arg.GetObject(arguments);
 			text = text.Replace(html, result?.ToString());
 		}

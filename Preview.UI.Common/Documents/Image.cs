@@ -1,16 +1,10 @@
 ﻿using System.Windows;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using CUE4Parse.BNS.Assets.Exports;
-using CUE4Parse.BNS.Conversion;
-using CUE4Parse.UE4.Assets.Exports.Texture;
-using CUE4Parse_Conversion.Textures;
-using HtmlAgilityPack;
 using SkiaSharp.Views.WPF;
-using Xylia.Preview.Data.Helpers;
 
 namespace Xylia.Preview.UI.Documents;
-public class Image : BaseElement
+public class Image : BaseElement<Data.Models.Document.Image>
 {
 	#region Constructors
 	public Image()
@@ -20,83 +14,39 @@ public class Image : BaseElement
 
 	internal Image(ImageProperty property)
 	{
-		Source = property.Image?.ToWriteableBitmap();
-
-		Enablescale = true;
-		Scalerate = property.ImageScale;
+		Element = new() 
+		{ 
+			Bitmap = property.Image,
+			Enablescale = true , 
+			Scalerate = property.ImageScale
+		};
 	}
 	#endregion
-
-	#region Fields
-	// jpgpath
-	public string? Imagesetpath { get; set; }
-	public string? Path { get; set; }
-
-	public int U { get; set; }
-	public int V { get; set; }
-	public int UL { get; set; }
-	public int VL { get; set; }
-	public int Width { get; set; }
-	public int Height { get; set; }
-
-	public sbyte Red { get; set; }
-	public sbyte Green { get; set; }
-	public sbyte Blue { get; set; }
-
-	/// <summary>
-	/// Relative to line height
-	/// </summary>
-	public bool Enablescale { get; set; }
-	public float Scalerate { get; set; }
-	#endregion
-
 
 	#region UIElement 
-	private BitmapSource? Source;
-
-	protected internal override void Load(HtmlNode node)
-	{
-		Path = node.Attributes["path"]?.Value;
-		Imagesetpath = node.Attributes["imagesetpath"]?.Value;
-		Enablescale = node.GetAttributeValue("enablescale", false);
-		Scalerate = node.GetAttributeValue("scalerate", 1f);
-
-		U = node.GetAttributeValue("u", 0);
-		V = node.GetAttributeValue("v", 0);
-		UL = node.GetAttributeValue("ul", 0);
-		VL = node.GetAttributeValue("vl", 0);
-		Width = node.GetAttributeValue("width", 0);
-		Height = node.GetAttributeValue("height", 0);
-	}
-
 	protected override Size MeasureCore(Size availableSize)
-	{	
-		// load if not exist
-		if (Source is null)
-		{
-			var image = FileCache.Provider.LoadObject<UImageSet>(Imagesetpath)?.GetImage() ??
-				FileCache.Provider.LoadObject<UTexture2D>(Path)?.Decode()?.Clone(U, V, UL, VL);
+	{
+		ArgumentNullException.ThrowIfNull(Element);
 
-			Source = image?.ToWriteableBitmap();
-			if (Source is null) return new Size();
+		var bitmap = Element.Bitmap;
+		if (bitmap is null) return new Size();
+
+		//scale
+		var size = new Size(bitmap.Width , bitmap.Height);
+
+		if (Element.Enablescale)
+		{
+			size.Height = FontSize * Element.Scalerate;
+			size.Width *= size.Height / bitmap.Height;
 		}
 
-		double width = Source.Width;
-		double height = Source.Height;
-
-		if (Enablescale)
-		{
-			height = FontSize * Scalerate;
-			width *= height / Source.Height;
-		}
-
-		return new Size(width, height);
+		return size;
 	}
 
 	protected internal override void OnRender(DrawingContext ctx)
 	{
-		if (Source != null)
-			ctx.DrawImage(Source, FinalRect);
+		var bitmap = Element?.Bitmap?.ToWriteableBitmap();
+		if (bitmap != null) ctx.DrawImage(bitmap, FinalRect);
 	}
 	#endregion
 }

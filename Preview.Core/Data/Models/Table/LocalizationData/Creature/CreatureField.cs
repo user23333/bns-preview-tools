@@ -1,6 +1,6 @@
 ﻿using Xylia.Preview.Common.Attributes;
 
-namespace Xylia.Preview.Data.Models.Creature;
+namespace Xylia.Preview.Data.Models;
 public enum CreatureField
 {
 	Creature_field_none,
@@ -313,6 +313,7 @@ public enum CreatureField
 	BlueVirtualCurrencyQuota,
 	BlueVirtualCurrencyQuotaUpdateTime,
 	BlueVirtualCurrencyAdditionalQuota,
+	ActivatedRelicPage,
 	MaxHp,
 	MaxHpEquip,
 	MaxGuardGauge,

@@ -78,7 +78,7 @@ public class AttributeDefinition
 		return newAttrDef;
 	}
 
-	public static AttributeDefinition LoadFrom(XmlElement node, ElementBaseDefinition table, Func<SequenceDefinition> seqfun)
+	public static AttributeDefinition LoadFrom(XmlElement node, IElementDefinition table, Func<SequenceDefinition> seqfun)
 	{
 		var Name = node.GetAttribute("name").Trim();
 		var Deprecated = node.GetAttribute("deprecated").ToBool();
@@ -181,7 +181,7 @@ public class AttributeDefinition
 			{
 				if (DefaultValue is null && seq != null)
 				{
-					DefaultValue = seq.Default;
+					//DefaultValue = seq.Default;
 
 					// Ignore unnecessary attribute output
 					if (Required || Hidden) DefaultValue ??= seq.FirstOrDefault();

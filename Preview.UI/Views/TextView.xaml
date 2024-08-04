@@ -124,7 +124,7 @@
 			<MenuItem d:Header="Options" Header="{DynamicResource Text_Options}">
 				<!-- load data when preview -->
 				<MenuItem Header="{DynamicResource TextView_LoadData}" ToolTip="{DynamicResource TextView_LoadData_Tooltip}" 
-					IsCheckable="True" IsChecked="{Binding PreviewLoadData, Source={x:Static VM:UserSettings.Default}}"/>
+					IsCheckable="True" IsChecked="{Binding Text_LoadData, Source={x:Static VM:UserSettings.Default}}"/>
 
 				<MenuItem Header="Mode" Visibility="Collapsed">
 					<MenuItem Header="Inline Mode" Click="InlineModeToggle_Click" />

@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Reflection;
 using CommunityToolkit.Mvvm.ComponentModel;
-using Xylia.Preview.Data.Models.Creature;
+using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.UI.ViewModels;
 internal class AbilityPageViewModel : ObservableObject
@@ -55,7 +55,6 @@ internal class AbilityPageViewModel : ObservableObject
 
     public string Text => StringHelper.Get("AbilityPage_Result", Level, Value, GetPercent());
     #endregion
-
 
 
     #region Methods

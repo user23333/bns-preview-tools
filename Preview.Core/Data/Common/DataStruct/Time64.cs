@@ -4,7 +4,7 @@ namespace Xylia.Preview.Data.Common.DataStruct;
 /// <summary>
 /// Represents an instant in time and related to time zone offset of publisher (global field).
 /// </summary>
-public struct Time64(long ticks) : IFormattable, ITime
+public struct Time64(long ticks) : IFormattable, ITime, IComparable<Time64>
 {
 	#region Properties
 	private const int HoursPerDay = 24;
@@ -106,6 +106,12 @@ public struct Time64(long ticks) : IFormattable, ITime
 
 	public override int GetHashCode() => HashCode.Combine(Ticks);
 
+	public int CompareTo(Time64 other)
+	{
+		return this.Ticks.CompareTo(other.Ticks);
+	}
+
+
 	public static bool operator ==(Time64 a, Time64 b) => a.Ticks == b.Ticks;
 
 	public static bool operator !=(Time64 a, Time64 b) => !(a == b);
@@ -127,7 +133,7 @@ public struct Time64(long ticks) : IFormattable, ITime
 
 	public static Time64 Parse(DateTime time, EPublisher? publisher = null)
 	{
-		return new Time64((time - new DateTime(1970, 1, 1)).Ticks / 10000000) - BnsTimeZoneInfo.FromPublisher(publisher).Offset;
+		return new Time64((time - DateTime.UnixEpoch).Ticks / 10000000) - BnsTimeZoneInfo.FromPublisher(publisher).Offset;
 	}
 	#endregion
 }

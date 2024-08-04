@@ -47,7 +47,7 @@ public partial class Query
 	/// </summary>
 	public static BsonExpression EQ(string field, AttributeValue value)
 	{
-		if (field.IsNullOrWhiteSpace()) throw new ArgumentNullException(nameof(field));
+		ArgumentException.ThrowIfNullOrWhiteSpace(field);
 
 		return BsonExpression.Create($"{field} = {value}");
 	}
@@ -57,7 +57,7 @@ public partial class Query
 	/// </summary>
 	public static BsonExpression LT(string field, AttributeValue value)
 	{
-		if (field.IsNullOrWhiteSpace()) throw new ArgumentNullException(nameof(field));
+		ArgumentException.ThrowIfNullOrWhiteSpace(field);
 
 		return BsonExpression.Create($"{field} < {value}");
 	}
@@ -67,7 +67,7 @@ public partial class Query
 	/// </summary>
 	public static BsonExpression LTE(string field, AttributeValue value)
 	{
-		if (field.IsNullOrWhiteSpace()) throw new ArgumentNullException(nameof(field));
+		ArgumentException.ThrowIfNullOrWhiteSpace(field);
 
 		return BsonExpression.Create($"{field} <= {value}");
 	}
@@ -77,7 +77,7 @@ public partial class Query
 	/// </summary>
 	public static BsonExpression GT(string field, AttributeValue value)
 	{
-		if (field.IsNullOrWhiteSpace()) throw new ArgumentNullException(nameof(field));
+		ArgumentException.ThrowIfNullOrWhiteSpace(field);
 
 		return BsonExpression.Create($"{field} > {value}");
 
@@ -88,7 +88,7 @@ public partial class Query
 	/// </summary>
 	public static BsonExpression GTE(string field, AttributeValue value)
 	{
-		if (field.IsNullOrWhiteSpace()) throw new ArgumentNullException(nameof(field));
+		ArgumentException.ThrowIfNullOrWhiteSpace(field);
 
 		return BsonExpression.Create($"{field} >= {value}");
 	}
@@ -98,7 +98,7 @@ public partial class Query
 	/// </summary>
 	public static BsonExpression Between(string field, AttributeValue start, AttributeValue end)
 	{
-		if (field.IsNullOrWhiteSpace()) throw new ArgumentNullException(nameof(field));
+		ArgumentException.ThrowIfNullOrWhiteSpace(field);
 
 		return BsonExpression.Create($"{field} BETWEEN {start} AND {end}");
 	}
@@ -108,8 +108,8 @@ public partial class Query
 	/// </summary>
 	public static BsonExpression StartsWith(string field, string value)
 	{
-		if (field.IsNullOrWhiteSpace()) throw new ArgumentNullException(nameof(field));
-		if (value.IsNullOrWhiteSpace()) throw new ArgumentNullException(nameof(value));
+		ArgumentException.ThrowIfNullOrWhiteSpace(field);
+		ArgumentException.ThrowIfNullOrWhiteSpace(value);
 
 		return BsonExpression.Create($"{field} LIKE {(AttributeValue.Create(value + "%"))}");
 	}
@@ -119,8 +119,8 @@ public partial class Query
 	/// </summary>
 	public static BsonExpression Contains(string field, string value)
 	{
-		if (field.IsNullOrWhiteSpace()) throw new ArgumentNullException(nameof(field));
-		if (value.IsNullOrWhiteSpace()) throw new ArgumentNullException(nameof(value));
+		ArgumentException.ThrowIfNullOrWhiteSpace(field);
+		ArgumentException.ThrowIfNullOrWhiteSpace(value);
 
 		return BsonExpression.Create($"{field} LIKE {(AttributeValue.Create("%" + value + "%"))}");
 	}
@@ -130,7 +130,7 @@ public partial class Query
 	/// </summary>
 	public static BsonExpression Not(string field, AttributeValue value)
 	{
-		if (field.IsNullOrWhiteSpace()) throw new ArgumentNullException(nameof(field));
+		ArgumentException.ThrowIfNullOrWhiteSpace(field);
 
 		return BsonExpression.Create($"{field} != {value}");
 	}
@@ -140,8 +140,8 @@ public partial class Query
 	/// </summary>
 	public static BsonExpression In(string field, AttributeArray value)
 	{
-		if (field.IsNullOrWhiteSpace()) throw new ArgumentNullException(nameof(field));
-		if (value == null) throw new ArgumentNullException(nameof(value));
+		ArgumentException.ThrowIfNullOrWhiteSpace(field);
+		ArgumentNullException.ThrowIfNull(value);
 
 		return BsonExpression.Create($"{field} IN {value}");
 	}
@@ -172,8 +172,8 @@ public partial class Query
 	/// </summary>
 	public static BsonExpression And(BsonExpression left, BsonExpression right)
 	{
-		if (left == null) throw new ArgumentNullException(nameof(left));
-		if (right == null) throw new ArgumentNullException(nameof(right));
+		ArgumentNullException.ThrowIfNull(left);
+		ArgumentNullException.ThrowIfNull(right);
 
 		return $"({left.Source} AND {right.Source})";
 	}
@@ -200,8 +200,8 @@ public partial class Query
 	/// </summary>
 	public static BsonExpression Or(BsonExpression left, BsonExpression right)
 	{
-		if (left == null) throw new ArgumentNullException(nameof(left));
-		if (right == null) throw new ArgumentNullException(nameof(right));
+		ArgumentNullException.ThrowIfNull(left);
+		ArgumentNullException.ThrowIfNull(right);
 
 		return $"({left.Source} OR {right.Source})";
 	}

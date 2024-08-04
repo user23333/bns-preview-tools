@@ -1,9 +1,7 @@
 ﻿using System.IO;
 using System.Net.Http;
-
 using Newtonsoft.Json;
-
-using Xylia.Preview.Data.Models.Creature;
+using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.UI.GameUI.Scene.Game_CharacterInfo.Api;
 public class Info

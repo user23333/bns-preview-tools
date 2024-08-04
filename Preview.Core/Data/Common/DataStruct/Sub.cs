@@ -3,6 +3,8 @@ public readonly struct Sub
 {
 	public readonly short Subclass;
 
+
+	#region Operator
 	public static bool operator ==(Sub a, Sub b) => a.Subclass == b.Subclass;
 
 	public static bool operator !=(Sub a, Sub b) => !(a == b);
@@ -12,4 +14,5 @@ public readonly struct Sub
 	public override bool Equals(object obj) => obj is Sub other && Equals(other);
 
 	public override int GetHashCode() => Subclass.GetHashCode();
+	#endregion
 }

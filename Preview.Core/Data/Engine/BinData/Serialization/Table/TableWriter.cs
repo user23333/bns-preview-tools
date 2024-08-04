@@ -22,26 +22,21 @@ internal class TableWriter
 		// LazyTable
 		if (table.Archive != null)
 		{
-			using var stream = table.Archive.LazyStream();
-			writer.Write(table.ElementCount);
-			writer.Write(table.Type);
-			writer.Write(table.MajorVersion);
-			writer.Write(table.MinorVersion);
+			table.WriteHeaderTo(writer);
 			writer.Write(table.Size);
 			writer.Write(table.IsCompressed);
 
+			using var stream = table.Archive.LazyStream();
 			stream.Seek(12, SeekOrigin.Begin);
 			stream.CopyTo(writer);
-			return;
 		}
+		else
+		{
+			table.WriteHeaderTo(writer);
 
-		writer.Write(table.ElementCount);
-		writer.Write(table.Type);
-		writer.Write(table.MajorVersion);
-		writer.Write(table.MinorVersion);
-
-		if (table.IsCompressed) WriteCompressed(writer, table);
-		else WriteLoose(writer, table, is64Bit);
+			if (table.IsCompressed) WriteCompressed(writer, table);
+			else WriteLoose(writer, table, is64Bit);
+		}
 	}
 
 	private void WriteCompressed(DataArchiveWriter writer, Table table)

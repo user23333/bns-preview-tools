@@ -23,7 +23,7 @@ internal interface ITime
 	public int Second { get; }
 }
 
-public static class TimeFormat
+internal static class TimeFormat
 {
 	internal static string Format(ITime value, string format, IFormatProvider formatProvider)
 	{

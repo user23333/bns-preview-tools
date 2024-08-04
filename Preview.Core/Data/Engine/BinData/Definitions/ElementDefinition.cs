@@ -4,7 +4,7 @@ using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.Data.Engine.Definitions;
-public abstract class ElementBaseDefinition
+public abstract class IElementDefinition
 {
 	#region Properies
 	public string Name { get; set; }
@@ -42,7 +42,7 @@ public abstract class ElementBaseDefinition
 }
 
 
-public class ElementDefinition : ElementBaseDefinition
+public class ElementDefinition : IElementDefinition
 {
 	#region Properies
 	// always -1 on base table definition
@@ -56,7 +56,7 @@ public class ElementDefinition : ElementBaseDefinition
 
 	internal void CreateSubtableMap() => _subtablesDictionary = Subtables.ToDictionary(x => x.Name);
 
-	internal ElementBaseDefinition SubtableByName(string name, MessageManager messages)
+	internal IElementDefinition SubtableByName(string name, MessageManager messages)
 	{
 		// There are some special of Step
 		// HACK: we will directly return to the main table now
@@ -78,11 +78,11 @@ public class ElementDefinition : ElementBaseDefinition
 		}
 	}
 
-	internal ElementBaseDefinition SubtableByType(short type, Record record = null)
+	internal IElementDefinition SubtableByType(short type, Record record = null)
 	{
 		lock (this)
 		{
-			ElementBaseDefinition definition = null;
+			IElementDefinition definition = null;
 
 			if (type == -1)
 			{
@@ -116,7 +116,7 @@ public class ElementDefinition : ElementBaseDefinition
 	}
 
 
-	private static void CheckSize(ElementBaseDefinition definition, Record record)
+	private static void CheckSize(IElementDefinition definition, Record record)
 	{
 		if (record.DataSize != definition.Size)
 		{
@@ -155,7 +155,7 @@ public class ElementDefinition : ElementBaseDefinition
 	#endregion
 }
 
-public class ElementSubDefinition : ElementBaseDefinition
+public class ElementSubDefinition : IElementDefinition
 {
 	public List<AttributeDefinition> ExpandedAttributesSubOnly { get; } = [];
 }

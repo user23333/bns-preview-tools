@@ -17,6 +17,7 @@ public class FileTableEntry
 	public long FileDataSizeUnpacked;
 
 	public byte[] Padding;
+	private byte[] _data;
 	#endregion
 
 	#region Constructor
@@ -54,10 +55,8 @@ public class FileTableEntry
 	}
 	#endregion
 
-	#region DATA
+	#region Methods
 	internal DataArchive DataArchive { get; set; }
-
-	private byte[] _data;
 
 	public byte[] Data
 	{
@@ -86,8 +85,6 @@ public class FileTableEntry
 			return _data;
 		}
 	}
-	#endregion
-
 
 	internal void WriteHeader(DataArchiveWriter writer, bool Is64bit, int level, ref long FileDataOffset)
 	{
@@ -123,4 +120,5 @@ public class FileTableEntry
 
 		FileDataOffset += FileDataSizeStored;
 	}
+	#endregion
 }

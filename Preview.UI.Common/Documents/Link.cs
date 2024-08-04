@@ -1,32 +1,29 @@
 ﻿using System.Diagnostics;
 using System.Windows.Input;
-using HtmlAgilityPack;
-using Xylia.Preview.UI.Documents.Primitives;
+using Xylia.Preview.Data.Models.Document;
 
 namespace Xylia.Preview.UI.Documents;
-public class Link : BaseElement
+public class Link : BaseElement<Data.Models.Document.Link>
 {
 	#region Fields
-	public LinkId? Id;
-	public bool IgnoreInput { get; set; }
-	public bool Editable { get; set; }
+	public bool IgnoreInput;
+	public bool Editable;
+	public LinkId? Id { get; set; }
 	#endregion
 
 	protected internal override void Load(HtmlNode node)
 	{
-		Children = TextContainer.Load(node.ChildNodes);
-		IgnoreInput = node.GetAttributeValue("ignoreinput", false);
-		Editable = node.GetAttributeValue("editable", false);
+		base.Load(node);
 
-		var id = node.GetAttributeValue("id", null);
+		var id = Element.Id;
 		if (string.IsNullOrWhiteSpace(id) || id == "none") return;
-
 
 		// split
 		var tmp = id.Split(':', 2);
 		var type = tmp[0]?.Trim();
 		switch (type)
 		{
+			case "item": Id = new Links.Item(); break;
 			case "item-name": Id = new Links.ItemName(); break;
 			case "tooltip": Id = new Links.Tooltip(); break;
 

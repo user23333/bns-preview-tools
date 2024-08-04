@@ -8,13 +8,13 @@ internal class BXML_CONTENT(byte[] XorKey)
 	#region Fields
 	private XmlDocument Nodes = new();
 
-	int AutoID;
-	byte[] Signature = "LMXBOSLB"u8.ToArray();
-	uint Version;
-	int FileSize;
-	byte[] Padding;
-	bool Unknown;
-	string OriginalPath;
+	private int AutoID;
+	private byte[] Signature = "LMXBOSLB"u8.ToArray();
+	private uint Version;
+	private int FileSize;
+	private byte[] Padding;
+	private bool Unknown;
+	public string OriginalPath;
 	#endregion
 
 	#region XOR	  
