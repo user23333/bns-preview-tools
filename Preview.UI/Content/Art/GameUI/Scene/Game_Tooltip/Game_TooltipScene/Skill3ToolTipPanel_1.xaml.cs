@@ -3,12 +3,12 @@ using System.Windows.Input;
 using CUE4Parse.BNS.Assets.Exports;
 using CUE4Parse.UE4.Objects.UObject;
 using Xylia.Preview.Common.Extension;
+using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models;
 using Xylia.Preview.Data.Models.Document;
 using Xylia.Preview.Data.Models.Sequence;
 using Xylia.Preview.UI.Extensions;
-using static Xylia.Preview.Data.Common.DataStruct.MsecFormat;
 using static Xylia.Preview.Data.Models.Skill3;
 
 namespace Xylia.Preview.UI.GameUI.Scene.Game_Tooltip;
@@ -19,7 +19,6 @@ public partial class Skill3ToolTipPanel_1
 	{
 		InitializeComponent();
 #if DEVELOP
-		BnsCustomLabelWidget.CopyMode = CopyMode.Original;
 		OldSkill = FileCache.Data.Provider.GetTable<Skill3>()["Summoner_S1_1_BackStep"];
 		DataContext = FileCache.Data.Provider.GetTable<Skill3>()["Summoner_S0_1_BackStep"];
 #endif
@@ -79,8 +78,8 @@ public partial class Skill3ToolTipPanel_1
 		Skill3ToolTipPanel_1_DamageInfo_PvPInfo.InvalidateVisual();
 
 		Skill3ToolTipPanel_1_CastingRange.String.LabelText = record.CastingRange;
-		Skill3ToolTipPanel_1_CastingTime.String.LabelText = (record as ActiveSkill)?.CastDuration.ToString(MsecFormatType.hms) ?? "Name.Skill.CastTime.cast-instant".GetText();
-		Skill3ToolTipPanel_1_RecycleTime.String.LabelText = (record as ActiveSkill)?.RecycleGroupDuration.ToString(MsecFormatType.hms) ?? "Name.Skill.RecycleTime.Instant".GetText();
+		Skill3ToolTipPanel_1_CastingTime.String.LabelText = (record as ActiveSkill)?.CastDuration.ToString(MsecFormat.MsecFormatType.hms) ?? "Name.Skill.CastTime.cast-instant".GetText();
+		Skill3ToolTipPanel_1_RecycleTime.String.LabelText = (record as ActiveSkill)?.RecycleGroupDuration.ToString(MsecFormat.MsecFormatType.hms) ?? "Name.Skill.RecycleTime.Instant".GetText();
 
 		if (record is ActiveSkill activeskill)
 		{

@@ -56,6 +56,11 @@ public static class LinqExtensions
 	/// <param name="source">The System.Collections.Generic.IEnumerable`1 to check for emptiness.</param>
 	/// <returns></returns>
 	public static bool IsEmpty<T>(this IEnumerable<T> source) => source == null || !source.Any();
+
+	public static string Join(string separator, params string[] source)
+	{
+		return string.Join(separator, source.Where(t => !string.IsNullOrWhiteSpace(t)));
+	}
 	#endregion
 
 	#region Array
@@ -82,13 +87,6 @@ public static class LinqExtensions
 			array2[x - 1]));
 
 		return source.Where(x => x.Item1 != null/* && x.Item2 != null*/).ToArray();
-	}
-	#endregion
-
-	#region Expand
-	public static string Join(this IEnumerable<string> source, string separator = "<br/>")
-	{
-		return string.Join(separator, source.Where(t => !string.IsNullOrWhiteSpace(t)));
 	}
 	#endregion
 }

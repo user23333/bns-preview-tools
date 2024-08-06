@@ -5,6 +5,7 @@ using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models;
+using Xylia.Preview.Data.Models.Document;
 using Xylia.Preview.Data.Models.Sequence;
 using Xylia.Preview.UI.Controls;
 using Xylia.Preview.UI.Converters;
@@ -20,7 +21,7 @@ public partial class ItemTooltipPanel
 	{
 		InitializeComponent();
 #if DEVELOP
-		//DataContext = FileCache.Data.Provider.GetTable<Item>()["General_Accessory_Ring_3034_031"];
+		DataContext = FileCache.Data.Provider.GetTable<Item>()["General_Grocery_Box_5581"];
 #endif
 	}
 	#endregion
@@ -56,6 +57,18 @@ public partial class ItemTooltipPanel
 			SetItemEffect_Effect.String.LabelText = SetItem.Description;
 		}
 
+		// Decompose
+		var pages = DecomposePage.LoadFrom(record.DecomposeInfo);
+		DecomposeDescription_Title.SetVisiable(pages.Count > 0);
+		DecomposeDescription.Children.Clear();
+		if (pages.Count > 0)
+		{
+			DecomposeDescription_Title.String.LabelText = (record is Item.Grocery ? "UI.ItemTooltip.RandomboxPreview.Title" : "UI.ItemTooltip.Decompose.Title").GetText();
+
+			var page = pages[0];
+			page.Update(DecomposeDescription.Children);
+		}
+
 		// Description
 		ItemDescription.String.LabelText = record.Attributes["description2"].GetText();
 		ItemDescription_4_Title.String.LabelText = record.Attributes["description4-title"].GetText();
@@ -64,12 +77,10 @@ public partial class ItemTooltipPanel
 		ItemDescription_4.String.LabelText = record.Attributes["description4"].GetText();
 		ItemDescription_5.String.LabelText = record.Attributes["description5"].GetText();
 		ItemDescription_6.String.LabelText = record.Attributes["description6"].GetText();
-		ItemDescription7.String.LabelText = new List<string?>
-		{
+		ItemDescription7.String.LabelText = LinqExtensions.Join(BR.Tag,
 			record.Attributes["description7"].GetText(),
-			string.Join("<br/>", record.ItemCombat.SelectNotNull(x => x.Instance?.Description)),
-			record.Attributes.Get<Record>("skill3")?.Attributes["description-weapon-soul-gem"]?.GetText(),
-		}.Join();
+			string.Join(BR.Tag, record.ItemCombat.SelectNotNull(x => x.Instance?.Description)),
+			record.Attributes.Get<Record>("skill3")?.Attributes["description-weapon-soul-gem"]?.GetText());
 
 		// Seal
 		SealEnable.SetVisiable(record.SealRenewalAuctionable);
@@ -100,31 +111,14 @@ public partial class ItemTooltipPanel
 		AddRequired(required, string.Join("", jobs.Select(x => "Name.Item.Required.Job2".GetText([.. arguments, Job.GetJob(x)]))));
 
 		if (record.AccountUsed) required.Add("UI.ItemTooltip.AccountUsed".GetText());
-		required.Add(new List<string?>
-		{
+		required.Add(LinqExtensions.Join("Name.Item.Cannot.Comma".GetText(),
 			record.CannotTrade && !record.Auctionable ? "Name.Item.Cannot.Trade.All.Global".GetText() :
 			record.CannotTrade && record.Auctionable ? "Name.Item.Cannot.Trade.Player.Global".GetText() :
 			record.CannotTrade ? "Name.Item.Cannot.Trade.Auction.Global".GetText() : null,
 			record.CannotSell ? "Name.Item.Cannot.Sell.Global".GetText() : null,
-			record.CannotDispose ? "Name.Item.Cannot.Dispose.Global".GetText() : null,
-		}.Join("Name.Item.Cannot.Comma".GetText()));
+			record.CannotDispose ? "Name.Item.Cannot.Dispose.Global".GetText() : null));
 
-		Required.String.LabelText = required.Join();
-		#endregion
-
-		#region Decompose 
-		DecomposeDescription_Title.Visibility = Visibility.Collapsed;
-		DecomposeDescription.Children.Clear();
-
-		var pages = DecomposePage.LoadFrom(record.DecomposeInfo);
-		if (pages.Count > 0)
-		{
-			DecomposeDescription_Title.Visibility = Visibility.Visible;
-			DecomposeDescription_Title.String.LabelText = (record is Item.Grocery ? "UI.ItemTooltip.RandomboxPreview.Title" : "UI.ItemTooltip.Decompose.Title").GetText();
-
-			var page = pages[0];
-			page.Update(DecomposeDescription.Children);
-		}
+		Required.String.LabelText = LinqExtensions.Join(BR.Tag, [.. required]);
 		#endregion
 
 		#region Combat Holder
@@ -165,7 +159,7 @@ public partial class ItemTooltipPanel
 								Width = 32,
 								Height = 32,
 								Margin = new Thickness(0, 0, 10, 0),
-								VerticalAlignment = VerticalAlignment.Top,
+								VerticalAlignment = System.Windows.VerticalAlignment.Top,
 								//DataContext = SkillTrainByItem.ChangeSkill[0].Instance,
 								//ToolTip = new Skill3ToolTipPanel_1()
 							};

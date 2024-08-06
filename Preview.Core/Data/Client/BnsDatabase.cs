@@ -16,6 +16,7 @@ public class BnsDatabase : IEngine, IDisposable
 	#endregion
 
 	#region Database
+
 	public void Initialize()
 	{
 		lock (this)
@@ -49,7 +50,6 @@ public class BnsDatabase : IEngine, IDisposable
 			IsInitialized = true;
 		}
 	}
-
 
 	public IDataReader Execute(string command, AttributeDocument parameters = null)
 	{
@@ -143,6 +143,11 @@ public class BnsDatabase : IEngine, IDisposable
 
 
 	#region Interface
+	string IEngine.Name => Provider.Name;
+	string IEngine.Desc => Path.Combine(
+		Provider.Locale.Publisher.ToString().ToLower(), 
+		Provider.CreatedAt.ToString("yyMMdd", null));
+
 	public void Dispose()
 	{
 		_provider.Dispose();
@@ -167,5 +172,6 @@ public class BnsDatabase : IEngine, IDisposable
 			return _provider;
 		}
 	}
+
 	#endregion
 }

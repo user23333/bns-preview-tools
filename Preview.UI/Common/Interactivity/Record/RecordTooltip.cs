@@ -18,9 +18,11 @@ public sealed class RecordTooltip : ContentControl
 	static RecordTooltip()
 	{
 		RegisterTemplate<ItemTooltipPanel>(typeof(Item));
-		RegisterTemplate<NpcTooltipPanel>(typeof(Npc));
 		RegisterTemplate<RewardTooltipPanel>(typeof(Reward));
 		RegisterTemplate<Skill3ToolTipPanel_1>(typeof(Skill3));
+#if DEBUG
+		RegisterTemplate<NpcTooltipPanel>(typeof(Npc));
+#endif
 	}
 
 	public RecordTooltip()

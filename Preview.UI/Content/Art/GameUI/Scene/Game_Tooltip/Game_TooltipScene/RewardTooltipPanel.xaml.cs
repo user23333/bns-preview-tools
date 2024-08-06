@@ -14,6 +14,13 @@ public partial class RewardTooltipPanel
 	#endregion
 
 	#region Methods
+	protected override Size MeasureOverride(Size constraint)
+	{
+		var size =  base.MeasureOverride(constraint);
+
+		return size;
+	}
+
 	protected override void OnDataChanged(DependencyPropertyChangedEventArgs e)
 	{
 		if (e.NewValue is not Reward record) return;

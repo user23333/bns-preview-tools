@@ -6,6 +6,7 @@ using System.Windows.Threading;
 using HandyControl.Controls;
 using Serilog;
 using Vanara.PInvoke;
+using Xylia.Preview.UI.Controls;
 using Xylia.Preview.UI.Helpers;
 using Xylia.Preview.UI.Helpers.Output;
 using Xylia.Preview.UI.Helpers.Output.Tables;
@@ -26,12 +27,13 @@ public partial class App : Application
 		InitializeArgs(e.Args);
 
 #if DEVELOP && true
-		TestProvider.Set();
 		UpdateSkin(SkinType.Default, true);
+		TestProvider.Set();
+		BnsCustomLabelWidget.CopyMode = CopyMode.Original;
 
 		//new Xylia.Preview.UI.Content.TestPanel().Show();
 		//var _ = PreviewModel.SnooperViewer;
-		new Xylia.Preview.UI.GameUI.Scene.Game_Tooltip.Skill3ToolTipPanel_1().Show();
+		new GameUI.Scene.Game_Tooltip.ItemTooltipPanel().Show();
 #else
 		MainWindow = new MainWindow();
 		MainWindow.Show();

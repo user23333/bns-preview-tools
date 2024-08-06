@@ -45,7 +45,7 @@ public partial class DatabaseStudio
 
 	private void CanExecuteRun(object sender, CanExecuteRoutedEventArgs e)
 	{
-		e.CanExecute = database != null && !string.IsNullOrEmpty(ActivateSql);
+		e.CanExecute = _viewModel.Database != null && !string.IsNullOrEmpty(ActivateSql);
 	}
 
 	private async void RunCommand(object sender, RoutedEventArgs e)
@@ -72,19 +72,21 @@ public partial class DatabaseStudio
 	#region Methods (UI)
 	private async void Connect_Click(object sender, RoutedEventArgs e)
 	{
-		if (database == null)
+		if (_viewModel.Database == null)
 		{
-			// cancel dialog
 			var dialog = new DatabaseManager() { Owner = this };
 			if (dialog.ShowDialog() != true) return;
 
-			// loading
+			// init param	 
+			ArgumentNullException.ThrowIfNull(dialog.Engine);
+			_viewModel.Database = dialog.Engine;
 			_viewModel.IsGlobalData = dialog.IsGlobalData;
+
+			// loading
 			Connect.IsEnabled = false;
 			tvwDatabase.Items.Add(new TreeViewItem() { Header = "loading..." });
 
-			database = dialog.Engine as BnsDatabase;
-			await Task.Run(() => database!.Initialize());
+			await Task.Run(() => _viewModel.Database!.Initialize());
 
 			LoadTreeView();
 			Connect.IsEnabled = _viewModel.ConnectStatus = true;
@@ -102,8 +104,8 @@ public partial class DatabaseStudio
 			}
 
 			// disconnect
-			database.Dispose();
-			database = null;
+			_viewModel.Database.Dispose();
+			_viewModel.Database = null;
 
 			tvwDatabase.Items.Clear();
 			_viewModel.ConnectStatus = false;
@@ -111,6 +113,18 @@ public partial class DatabaseStudio
 			GC.Collect();
 		}
 	}
+
+	protected override void OnClosed(EventArgs e)
+	{
+		if (!_viewModel.IsGlobalData)
+		{
+			_viewModel.Database?.Dispose();
+			_viewModel.Database = null;
+		}
+
+		GC.Collect();
+	}
+
 
 	private void TvwDatabase_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
 	{
@@ -140,7 +154,6 @@ public partial class DatabaseStudio
 	{
 		LoadTreeView();
 	}
-
 
 
 	private void NewSql_Click(object sender, RoutedEventArgs e)
@@ -258,19 +271,21 @@ public partial class DatabaseStudio
 
 	private async void TableExportAll_Click(object sender, RoutedEventArgs e)
 	{
-		// skip xml table
-		await ExportAsync([.. database!.Provider.Tables /*.Where(x => x.IsBinary)*/ ]);
+		if (_viewModel.Database is not BnsDatabase database) return;
+
+		await ExportAsync([.. database.Provider.Tables]);
 	}
 
 	private async void Import_Click(object sender, RoutedEventArgs e)
 	{
+		if (_viewModel.Database is not BnsDatabase database) return;
+
 		try
 		{
+			DateTime dt = DateTime.Now;
 			Growl.Info("Start import", TOKEN);
 
-			DateTime dt = DateTime.Now;
-
-			serialize = new ProviderSerialize(database!.Provider);
+			serialize = new ProviderSerialize(database.Provider);
 			await serialize.ImportAsync(_viewModel.SaveDataPath);
 
 			Growl.Success(new GrowlInfo()
@@ -288,10 +303,12 @@ public partial class DatabaseStudio
 
 	private async void Save_Click(object sender, RoutedEventArgs e)
 	{
+		if (_viewModel.Database is not BnsDatabase database) return;
+
 		var dialog = new OpenFolderDialog();
 		if (dialog.ShowDialog() == true)
 		{
-			serialize ??= new ProviderSerialize(database!.Provider);
+			serialize ??= new ProviderSerialize(database.Provider);
 			await serialize.SaveAsync(dialog.FolderName);
 
 			Growl.Success(new GrowlInfo()
@@ -328,37 +345,39 @@ public partial class DatabaseStudio
 	private void LoadTreeView()
 	{
 		tvwDatabase.Items.Clear();
-		if (database is null) return;
+		if (_viewModel.Database is null) return;
 
 		// system nodes  		
-		var provider = database.Provider;
-		var root = new TreeViewImageItem { Image = ImageHelper.Database, Header = provider.Name, IsExpanded = true };
-		tvwDatabase.Items.Add(root);
-
+		var root = new TreeViewImageItem { Image = ImageHelper.Database, Header = _viewModel.Database.Name, IsExpanded = true };
 		var system = new TreeViewImageItem { Image = ImageHelper.Folder, Header = "System", IsExpanded = false };
+		tvwDatabase.Items.Add(root);
 		root.Items.Add(system);
 
-		system.Items.Add(new TreeViewImageItem { Image = ImageHelper.TableSys, Header = "Publisher: " + provider.Locale.Publisher });
-		system.Items.Add(new TreeViewImageItem { Image = ImageHelper.TableSys, Header = "Created: " + provider.CreatedAt });
-		system.Items.Add(new TreeViewImageItem { Image = ImageHelper.TableSys, Header = "Version: " + provider.ClientVersion });
-
-		// table nodes
-		foreach (var table in provider.Tables.OrderBy(x => x.Type))
+		if (_viewModel.Database is BnsDatabase bns)
 		{
-			// text
-			var text = table.Type.ToString();
-			if (table.Name != null) text = $"{table.Name.ToLower()} ({table.Type})";
+			system.Items.Add(new TreeViewImageItem { Image = ImageHelper.TableSys, Header = "Publisher: " + bns.Provider.Locale.Publisher });
+			system.Items.Add(new TreeViewImageItem { Image = ImageHelper.TableSys, Header = "Created: " + bns.Provider.CreatedAt });
+			system.Items.Add(new TreeViewImageItem { Image = ImageHelper.TableSys, Header = "Version: " + bns.Provider.ClientVersion });
 
-			// node
-			root.Items.Add(new TreeViewImageItem
+			// table nodes
+			foreach (var table in bns.Provider.Tables.OrderBy(x => x.Type))
 			{
-				DataContext = table,
-				Header = text,
-				Image = ImageHelper.Table,
-				ContextMenu = this.TryFindResource("TableMenu") as ContextMenu,
-				Margin = new Thickness(0, 0, 0, 2),
-			});
+				// text
+				var text = table.Type.ToString();
+				if (table.Name != null) text = $"{table.Name.ToLower()} ({table.Type})";
+
+				// node
+				root.Items.Add(new TreeViewImageItem
+				{
+					DataContext = table,
+					Header = text,
+					Image = ImageHelper.Table,
+					ContextMenu = this.TryFindResource("TableMenu") as ContextMenu,
+					Margin = new Thickness(0, 0, 0, 2),
+				});
+			}
 		}
+		else throw new NotSupportedException();
 	}
 
 	/// <summary>
@@ -403,7 +422,7 @@ public partial class DatabaseStudio
 
 	private async Task ExecuteSql(string sql, CancellationToken token)
 	{
-		ArgumentNullException.ThrowIfNull(database);
+		ArgumentNullException.ThrowIfNull(_viewModel.Database);
 
 		// message
 		var startTime = DateTime.Now;
@@ -411,7 +430,7 @@ public partial class DatabaseStudio
 		var timer = new DispatcherTimer(new TimeSpan(TimeSpan.TicksPerMillisecond * 50), DispatcherPriority.Normal, callback, Dispatcher);
 		timer.Start();
 
-		await Task.Run(() => _viewModel.ReadResult(database!.Execute(sql)), token);
+		await Task.Run(() => _viewModel.ReadResult(_viewModel.Database.Execute(sql)), token);
 
 		// update
 		_viewModel.BindData(this.QueryGrid);
@@ -424,6 +443,8 @@ public partial class DatabaseStudio
 
 	private async Task ExportAsync(params Table[] tables)
 	{
+		if (_viewModel.Database is not BnsDatabase database) return;
+
 		var progress = new Action<int, int>((current, total) => Dispatcher.Invoke(() =>
 		{
 			SaveMessage.Visibility = Visibility.Visible;
@@ -432,7 +453,7 @@ public partial class DatabaseStudio
 				StringHelper.Get("DatabaseStudio_TaskMessage2", tables.Length);
 		}));
 
-		serialize = new ProviderSerialize(database!.Provider);
+		serialize = new ProviderSerialize(database.Provider);
 		await serialize.ExportAsync(_viewModel.SaveDataPath, progress, tables);
 	}
 	#endregion
@@ -440,7 +461,6 @@ public partial class DatabaseStudio
 	#region Private Fields
 	internal static string TOKEN = nameof(DatabaseStudio);
 
-	private BnsDatabase? database;
 	private ProviderSerialize? serialize;
 	private readonly DatabaseStudioViewModel _viewModel;
 	#endregion

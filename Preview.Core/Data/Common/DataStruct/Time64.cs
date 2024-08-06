@@ -96,24 +96,21 @@ public struct Time64(long ticks) : IFormattable, ITime, IComparable<Time64>
 
 
 	#region Override Methods	
-	public readonly string ToString(string format, IFormatProvider formatProvider) => TimeFormat.Format(this + BnsTimeZoneInfo.FromPublisher()!.Offset, format, formatProvider);
-
 	public readonly override string ToString() => ToString(null, null);
 
-	public bool Equals(Time64 other) => Ticks == other.Ticks;
+	public readonly string ToString(string format, IFormatProvider formatProvider) => TimeFormat.Format(this + BnsTimeZoneInfo.FromPublisher()!.Offset, format, formatProvider);
 
-	public override bool Equals(object obj) => obj is Time64 other && Equals(other);
+	public readonly bool Equals(Time64 other) => Ticks == other.Ticks;
 
-	public override int GetHashCode() => HashCode.Combine(Ticks);
+	public readonly override bool Equals(object obj) => obj is Time64 other && Equals(other);
 
-	public int CompareTo(Time64 other)
-	{
-		return this.Ticks.CompareTo(other.Ticks);
-	}
+	public readonly override int GetHashCode() => HashCode.Combine(Ticks);
 
+	public readonly int CompareTo(Time64 other) => this.Ticks.CompareTo(other.Ticks);
+	#endregion
 
+	#region Static Methods
 	public static bool operator ==(Time64 a, Time64 b) => a.Ticks == b.Ticks;
-
 	public static bool operator !=(Time64 a, Time64 b) => !(a == b);
 
 	public static Msec operator -(Time64 a, Time64 b) => (int)((a.Ticks - b.Ticks) * 1000);
@@ -121,10 +118,9 @@ public struct Time64(long ticks) : IFormattable, ITime, IComparable<Time64>
 
 	public static Time64 operator -(Time64 a, Msec b) => (long)(a.Ticks - b.TotalSeconds);
 	public static Time64 operator +(Time64 a, Msec b) => (long)(a.Ticks + b.TotalSeconds);
-	#endregion
 
-	#region Static Methods
-	public static implicit operator Time64(long ticks) => new Time64(ticks);
+
+	public static implicit operator Time64(long ticks) => new(ticks);
 	public static implicit operator long(Time64 time) => (long)time.Ticks;
 
 	public static implicit operator Time64(DateTime dateTime) => Parse(dateTime);
