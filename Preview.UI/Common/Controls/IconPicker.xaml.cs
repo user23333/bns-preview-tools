@@ -10,7 +10,6 @@ using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.UI.Controls;
-
 [TemplatePart(Name = "PART_Popup", Type = typeof(ButtonBase))]
 [TemplatePart(Name = "PART_SearchTextBox", Type = typeof(System.Windows.Controls.TextBox))]
 public partial class IconPicker : AutoCompleteTextBox

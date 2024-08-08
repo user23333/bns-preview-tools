@@ -18,12 +18,18 @@ public partial class NpcTooltipPanel
 	{
 		if (e.NewValue is not Npc record) return;
 
-		var creature = record.AbilityTest();
+		ColumnList.Children.Clear();
 
+		var creature = record.AbilityTest();
 		int row = 1;
 		AddProperty(row++, "name", creature.Name);
 		AddProperty(row++, "level", "UI.CharacterInfo.Level".GetText([creature.Level]) + "UI.CharacterInfo.MasteryLevel".GetTextIf([creature.MasteryLevel], creature.MasteryLevel > 0));
 		AddProperty(row++, "max-hp", creature.MaxHp.ToString());
+
+		AddProperty(row++, "defend", null);
+
+
+		AddProperty(row++, "fatigability", record.FatigabilityConsumeAmount.ToString());
 	}
 
 	private void AddProperty(int row, string name, string value, string? tooltip = null)

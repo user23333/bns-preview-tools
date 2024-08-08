@@ -667,31 +667,72 @@ public sealed class Npc : ModelElement
 			MasteryLevel = MasteryLevel,
 
 			MaxHp = MaxHp,
-
-			AttackCriticalBasePercent = AttackCriticalBasePercent,
-			AttackCriticalValue = AttackCriticalValue + AttackCriticalValueModify,
-			AttackCriticalDamagePercent = AttackCriticalDamagePercent,
-			AttackCriticalDamageValue = AttackCriticalDamageValue + AttackCriticalDamageModify,
-
+			MaxSp = MaxSp,
+			//Speed = Speed,
+			ModifyCastSpeedPercent = ModifyCastSpeedPercent,
+			HpRegen = HpRegen,
+			HpRegenCombat = HpRegenCombat,
 			AttackHitBasePercent = AttackHitBasePercent,
-			AttackHitValue = (short)(AttackHitValue + AttackHitValueModify),
-
-			AttackPierceValue = AttackPierceValue,
+			AttackHitValue = AttackHitValue,
 			AttackPierceBasePercent = AttackPierceBasePercent,      // + AttackPierceModify
 			AttackParryPiercePercent = AttackParryPiercePercent,    // + AttackParryPierceModify
+			AttackPierceValue = AttackPierceValue,
+			AttackCriticalBasePercent = AttackCriticalBasePercent,
+			AttackCriticalDamagePercent = AttackCriticalDamagePercent,
+			AttackCriticalValue = AttackCriticalValue,
+			AttackCriticalDamageValue = AttackCriticalDamageValue,
+			DefendCriticalBasePercent = DefendCriticalBasePercent,
+			DefendCriticalDamagePercent = DefendCriticalDamagePercent,
+			DefendCriticalValue = DefendCriticalValue,
+			DefendCriticalDamageValue = DefendCriticalDamageModify,
+			DefendBouncePercent = DefendBouncePercent,
+			DefendDodgeBasePercent = DefendDodgeBasePercent,
+			DefendDodgeValue = (short)(DefendDodgeValue + DefendDodgeValueModify),
+			DefendParryBasePercent = DefendParryBasePercent,
+			DefendParryValue = (short)(DefendParryValue + DefendParryValueModify),
+			DefendParryReducePercent = DefendParryReducePercent,
+			DefendParryReduceDiff = DefendParryReduceDiff,
+			DefendPerfectParryBasePercent = DefendPerfectParryBasePercent,
+			DefendImmuneBasePercent = DefendImmuneBasePercent,
+			AttackPowerCreatureMin = AttackPowerCreatureMin,
+			AttackPowerCreatureMax = AttackPowerCreatureMax,
+			AttackPowerEquipMin = AttackPowerEquipMin,
+			AttackPowerEquipMax = AttackPowerEquipMax,
+			DefendPowerCreatureValue = DefendPowerCreatureValue,
+			DefendPowerEquipValue = DefendPowerEquipValue,
+			DefendResistPowerCreatureValue = DefendResistPowerCreatureValue,
+			DefendResistPowerEquipValue = DefendResistPowerEquipValue,
+			DefendPhysicalDamageReducePercent = DefendPhysicalDamageReducePercent,
+			DefendForceDamageReducePercent = DefendForceDamageReducePercent,
 			AttackDamageModifyPercent = AttackDamageModifyPercent,
 			AttackDamageModifyDiff = AttackDamageModifyDiff,
+			DefendDamageModifyPercent = DefendDamageModifyPercent,
+			DefendDamageModifyDiff = DefendDamageModifyDiff,
+			DefendMissBasePercent = DefendMissBasePercent,
+			AttackStiffDurationBasePercent = AttackStiffDurationBasePercent,
+			AttackStiffDurationValue = (short)(AttackStiffDurationValue + AttackStiffDurationValueModify),
+			DefendStiffDurationBasePercent = DefendStiffDurationBasePercent,
+			DefendStiffDurationValue = (short)(DefendStiffDurationValue + DefendStiffDurationValueModify),
+			CastDurationBasePercent = CastDurationBasePercent,
+			CastDurationValue = (short)(CastDurationValue + CastDurationValueModify),
 			AttackConcentrateValue = AttackConcentrateValue,
-
-
-			DefendCriticalBasePercent = DefendCriticalBasePercent,
-			DefendCriticalValue = DefendCriticalValue + DefendCriticalValueModify,
-			DefendCriticalDamagePercent = DefendCriticalDamagePercent,
-			DefendCriticalDamageValue = DefendCriticalDamageModify,
-
-
+			DefendPerfectParryReducePercent = DefendPerfectParryReducePercent,
+			DefendCounterReducePercent = DefendCounterReducePercent,
+			JobAbility1 = JobAbility1,
+			JobAbility2 = JobAbility2,
+			HealPowerBasePercent = HealPowerBasePercent,
+			HealPowerValue = HealPowerValue + HealPowerModify,
+			//HealPowerDiff = HealPowerDiff,
 			AoeDefendBasePercent = AoeDefendBasePercent,
-			AoeDefendPowerValue = (short)(AoeDefendPowerValue + AoeDefendPowerModify),
+			AoeDefendPowerValue = AoeDefendPowerValue,
+			AbnormalAttackBasePercent = AbnormalAttackBasePercent,
+			AbnormalAttackPowerValue = AbnormalAttackPowerValue,
+			AbnormalDefendBasePercent = AbnormalDefendBasePercent,
+			AbnormalDefendPowerValue = (short)(AbnormalDefendPowerValue + AbnormalDefendPowerModify),
+			HateBasePercent = HateBasePercent,
+			HatePowerCreatureValue = (short)(HatePowerCreatureValue + HatePowerModify),
+			AttackAttributeValue = AttackAttributeValue + AttackAttributeModify,
+			AttackAttributeBasePercent = AttackAttributeBasePercent,
 		};
 
 
@@ -704,47 +745,11 @@ public sealed class Npc : ModelElement
 
 		creature.TestMethod();
 
-
 		_ = this.AttackPerfectParryDamageModify;
 		_ = this.AttackAoePierceValue;
 
-
-		Console.WriteLine($"attack attribute {this.AttackAttributeValue + this.AttackAttributeModify} → " +
-			$"{AbilityFunction.AttackAttribute.GetPercent(this.AttackAttributeValue + this.AttackAttributeModify, level, this.AttackAttributeBasePercent):P3}");
-
-
 		_ = this.AttackConcentrateValue;
 		_ = this.AttackCounterDamageModify;
-
-
-		Console.WriteLine($"hate {this.HatePowerCreatureValue + this.HatePowerModify} → " +
-			$"{AbilityFunction.Hate.GetPercent(this.HatePowerCreatureValue + this.HatePowerModify, level, this.HateBasePercent):P3}");
-
-		Console.WriteLine($"heal {this.HealPowerValue + this.HealPowerModify} → " +
-			$"{AbilityFunction.HealPower.GetPercent(this.HealPowerValue + this.HealPowerModify, level, this.HealPowerBasePercent):P3}");
-
-
-
-		Console.WriteLine($"abnormal attack {this.AbnormalAttackPowerValue + this.AbnormalAttackPowerModify} → " +
-			$"{AbilityFunction.AbnormalAttack.GetPercent(this.AbnormalAttackPowerValue + this.AbnormalAttackPowerModify, level, this.AbnormalAttackBasePercent):P3}");
-
-		Console.WriteLine($"abnormal defend {this.AbnormalDefendPowerValue + this.AbnormalDefendPowerModify} → " +
-			$"{AbilityFunction.AbnormalDefend.GetPercent(this.AbnormalDefendPowerValue + this.AbnormalDefendPowerModify, level, this.AbnormalDefendBasePercent):P3}");
-
-
-
-		_ = this.HpRegen;
-		_ = this.HpRegenCombat;
-
-
-		Console.WriteLine($"defend {this.DefendPowerCreatureValue + this.DefendPowerEquipValue} → " +
-			$"{AbilityFunction.DefendPower.GetPercent(this.DefendPowerCreatureValue + this.DefendPowerEquipValue, level):P3}");
-
-		Console.WriteLine($"dodge {this.DefendDodgeValue + this.DefendDodgeValueModify} → " +
-			$"{AbilityFunction.DefendDodge.GetPercent(this.DefendDodgeValue + this.DefendDodgeValueModify, level, this.DefendDodgeBasePercent):P3}");
-
-		Console.WriteLine($"parry {this.DefendParryValue + this.DefendParryValueModify} → " +
-			$"{AbilityFunction.DefendParry.GetPercent(this.DefendParryValue + this.DefendParryValueModify, level, this.DefendParryBasePercent):P3}");
 
 		Console.WriteLine($"parry reduce {this.DefendParryReduceModify + this.DefendParryReduceDiff} → " +
 			$"{AbilityFunction.DefendParryReducePercent.GetPercent(this.DefendParryReduceModify + this.DefendParryReduceDiff, level, this.DefendParryReducePercent):P3}");
@@ -754,23 +759,6 @@ public sealed class Npc : ModelElement
 
 		Console.WriteLine($"defend-counter {this.DefendCounterReduceModify} → " +
 			$"{AbilityFunction.DefendCounterReducePercent.GetPercent(this.DefendCounterReduceModify, level, this.DefendCounterReducePercent):P3}");
-
-
-
-		Console.WriteLine($"cast-duration {this.CastDurationValue + this.CastDurationValueModify} → " +
-			$"{AbilityFunction.CastDuration.GetPercent(this.CastDurationValue + this.CastDurationValueModify, level, this.CastDurationBasePercent):P3}");
-
-		Console.WriteLine($"attack-stiff-duration {this.AttackStiffDurationValue + this.AttackStiffDurationValueModify} → " +
-			$"{AbilityFunction.AttackStiffDuration.GetPercent(this.AttackStiffDurationValue + this.AttackStiffDurationValueModify, level, this.AttackStiffDurationBasePercent):P3}");
-
-		Console.WriteLine($"defend-stiff-duration {this.DefendStiffDurationValue + this.DefendStiffDurationValueModify} → " +
-			$"{AbilityFunction.DefendStiffDuration.GetPercent(this.DefendStiffDurationValue + this.DefendStiffDurationValueModify, level, this.DefendStiffDurationBasePercent):P3}");
-
-		_ = this.DefendForceValueModify;
-		_ = this.DefendForceDamageReducePercent;
-		_ = this.DefendPhysicalValueModify;
-		_ = this.DefendPhysicalDamageReducePercent;
-		_ = this.FatigabilityConsumeAmount;
 
 		return creature;
 	}

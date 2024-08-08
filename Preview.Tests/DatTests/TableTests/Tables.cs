@@ -3,14 +3,13 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Xylia.Preview.Data.Client;
 using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Engine.DatData;
-using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.Tests.DatTests;
 
 [TestClass]
 public partial class Tables
 {
-	readonly BnsDatabase Database = new(new FolderProvider(@"D:\Tencent\BnsData\data"));
+	readonly BnsDatabase Database = new(new FolderProvider(@"D:\Tencent\BnsData\data_ztx\20240805"));
 
 	[TestMethod]
 	public void SerializeTest()

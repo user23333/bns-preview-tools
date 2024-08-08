@@ -6,7 +6,6 @@ using System.Windows.Threading;
 using HandyControl.Controls;
 using Serilog;
 using Vanara.PInvoke;
-using Xylia.Preview.UI.Controls;
 using Xylia.Preview.UI.Helpers;
 using Xylia.Preview.UI.Helpers.Output;
 using Xylia.Preview.UI.Helpers.Output.Tables;
@@ -28,8 +27,7 @@ public partial class App : Application
 
 #if DEVELOP && true
 		UpdateSkin(SkinType.Default, true);
-		TestProvider.Set();
-		BnsCustomLabelWidget.CopyMode = CopyMode.Original;
+		TestProvider.Set(@"D:\Tencent\BnsData\data_ztx\20240805");
 
 		//new Xylia.Preview.UI.Content.TestPanel().Show();
 		//var _ = PreviewModel.SnooperViewer;

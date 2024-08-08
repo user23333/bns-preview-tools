@@ -273,7 +273,13 @@ public class Creature
 		]));
 
 		Console.WriteLine("UI.CharacterInfo.Ability.Tooltip.defend-power".GetText([
-
+			null,
+			DefendPowerCreatureValue + DefendPowerEquipValue,
+			DefendPowerCreatureValue,
+			DefendPowerEquipValue,
+			AbilityFunction.DefendPower.GetPercent(DefendPowerCreatureValue + DefendPowerEquipValue, Level),
+			AoeDefendPowerValue	+ AoeDefendPowerValueEquip,
+			AbilityFunction.AoeDefend.GetPercent(AoeDefendPowerValue + AoeDefendPowerValueEquip, Level, AoeDefendBasePercent)
 		]));
 
 		Console.WriteLine("UI.CharacterInfo.Ability.Tooltip.defend-dodge".GetText([

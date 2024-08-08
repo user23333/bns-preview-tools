@@ -9,23 +9,25 @@ public sealed class Tooltip : LinkId
 	#region Methods
 	internal override void Load(string text)
 	{
-		_popup = new ToolTip();
-		_popup.Style = (Style) Application.Current.FindResource("BnsTooltip");
-		_popup.Content = text.GetText();
+		_popup = new ToolTip
+		{
+			Style = (Style)Application.Current.FindResource("BnsTooltip"),
+			Content = text.GetText()
+		};
 	}
 
 	internal override void OnMouseEnter(object sender, MouseEventArgs e)
 	{
-		_popup.IsOpen = true;
+		_popup!.IsOpen = true;
 	}
 
 	internal override void OnMouseLeave(object sender, MouseEventArgs e)
 	{
-		_popup.IsOpen = false;
+		_popup!.IsOpen = false;
 	}
 	#endregion
 
-	#region Private Fields
-	ToolTip _popup;
+	#region Fields
+	ToolTip? _popup;
 	#endregion
 }

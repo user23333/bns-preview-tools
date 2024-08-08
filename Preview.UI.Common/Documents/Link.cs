@@ -5,11 +5,7 @@ using Xylia.Preview.Data.Models.Document;
 namespace Xylia.Preview.UI.Documents;
 public class Link : BaseElement<Data.Models.Document.Link>
 {
-	#region Fields
-	public bool IgnoreInput;
-	public bool Editable;
-	public LinkId? Id { get; set; }
-	#endregion
+	private LinkId? Id; 
 
 	protected internal override void Load(HtmlNode node)
 	{
@@ -43,6 +39,7 @@ public class Link : BaseElement<Data.Models.Document.Link>
 public abstract class LinkId
 {
 	internal abstract void Load(string text);
+
 
 	internal virtual void OnMouseEnter(object sender, MouseEventArgs e)
 	{

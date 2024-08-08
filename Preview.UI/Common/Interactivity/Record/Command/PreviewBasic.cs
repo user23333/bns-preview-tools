@@ -22,11 +22,15 @@ public class PreviewBasic : RecordCommand
 			if (record.HasChildren || mode)
 			{
 				var settings = new TableWriterSettings() { Encoding = Encoding.UTF8 };
-				new TextEditor { Text = settings.Encoding.GetString(record.Owner.WriteXml(settings, record)) }.Show();
+				new TextEditor
+				{
+					Data = record.HasChildren ? null : record.Data,
+					Text = settings.Encoding.GetString(record.Owner.WriteXml(settings, record)),
+				}.Show();
 			}
 			else
 			{
-				new PropertyEditor{ Source = record }.Show();
+				new PropertyEditor() { Source = record }.Show();
 			}
 		});
 	}

@@ -1,5 +1,6 @@
 ﻿using System.Windows;
-using Xylia.Preview.Common.Extension;
+using System.Windows.Input;
+using HandyControl.Interactivity;
 using Xylia.Preview.Data.Models;
 using Xylia.Preview.UI.Common.Interactivity;
 
@@ -9,6 +10,7 @@ public partial class PropertyEditor
 	public PropertyEditor()
 	{
 		InitializeComponent();
+		RegisterCommands(this.CommandBindings);
 	}
 
 	#region Methods
@@ -18,10 +20,14 @@ public partial class PropertyEditor
 		set => attributeGrid.SelectedObject = value;
 	}
 
-	private void ViewSource_Click(object sender, RoutedEventArgs e)
+	private void RegisterCommands(CommandBindingCollection commandBindings)
 	{
-		if (Source.HasChildren) PreviewBasic.Execute(Source, true);
-		else Clipboard.SetText(Source.Data.ToHex());
+		commandBindings.Add(new CommandBinding(ControlCommands.More, ViewSourceCommand));
+	}
+
+	private void ViewSourceCommand(object sender, RoutedEventArgs e)
+	{
+		PreviewBasic.Execute(Source, true);
 	}
 	#endregion
 }

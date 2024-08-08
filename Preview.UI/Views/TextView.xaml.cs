@@ -1,17 +1,17 @@
-﻿using HandyControl.Controls;
-using HandyControl.Data;
-using HandyControl.Interactivity;
-using ICSharpCode.AvalonEdit.Folding;
-using ICSharpCode.AvalonEdit.Rendering;
-using ICSharpCode.AvalonEdit.Search;
-using Microsoft.Win32;
-using System.IO;
+﻿using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Xml;
+using HandyControl.Controls;
+using HandyControl.Data;
+using HandyControl.Interactivity;
+using ICSharpCode.AvalonEdit.Folding;
+using ICSharpCode.AvalonEdit.Rendering;
+using ICSharpCode.AvalonEdit.Search;
+using Microsoft.Win32;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Client;
 using Xylia.Preview.Data.Engine.BinData.Serialization;
@@ -104,7 +104,6 @@ public partial class TextView
 
 	}
 	#endregion
-
 
 	#region Methods
 	bool inloading = false;

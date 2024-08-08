@@ -11,7 +11,6 @@ using Xylia.Preview.Data.Engine.Definitions;
 using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.UI.Controls;
-
 [TemplatePart(Name = "PART_ItemsControl", Type = typeof(PropertyItemsControl))]
 [TemplatePart(Name = "PART_SearchBar", Type = typeof(SearchBar))]
 public class AttributeGrid : Control
@@ -25,7 +24,7 @@ public class AttributeGrid : Control
 	{
 		PropertyResolver = new();
 
-		// register sort mode
+		// Register sort mode
 		CommandBindings.Add(new CommandBinding(ControlCommands.SortByCategory, SortByOffset));
 		CommandBindings.Add(new CommandBinding(ControlCommands.SortByName, SortByName));
 	}

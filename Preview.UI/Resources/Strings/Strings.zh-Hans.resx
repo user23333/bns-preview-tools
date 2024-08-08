@@ -904,4 +904,10 @@
   <data name="Text_Name" xml:space="preserve">
     <value>名称</value>
   </data>
+  <data name="TextEditor_Copy" xml:space="preserve">
+    <value>复制文本</value>
+  </data>
+  <data name="TextEditor_CopyData" xml:space="preserve">
+    <value>复制原始数据</value>
+  </data>
 </root>

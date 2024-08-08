@@ -1,10 +1,8 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace Xylia.Preview.UI.Controls;
-
 /// <summary>
 /// base class of game scene
 /// </summary>

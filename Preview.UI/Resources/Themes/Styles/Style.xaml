@@ -5,6 +5,7 @@
 
 	<ResourceDictionary.MergedDictionaries>
 		<ResourceDictionary Source="Button.xaml"/>
+		<ResourceDictionary Source="Extend.xaml"/>
 	</ResourceDictionary.MergedDictionaries>
 
 	<Style TargetType="avalonedit:TextEditor">

@@ -17,7 +17,7 @@ namespace Xylia.Preview.UI.Controls;
 public class BnsCustomLabelWidget : BnsCustomBaseWidget, IContentHost
 {
 	#region Constructors
-	public static CopyMode CopyMode { get; set; }
+	public static CopyMode CopyMode { get; set; } = CopyMode.Original;
 
 	public BnsCustomLabelWidget()
 	{
