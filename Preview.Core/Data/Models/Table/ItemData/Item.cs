@@ -1,9 +1,10 @@
-﻿using System.Text;
-using CUE4Parse.BNS.Assets.Exports;
+﻿using CUE4Parse.BNS.Assets.Exports;
+using CUE4Parse.UE4.Objects.Core.Math;
 using CUE4Parse.UE4.Objects.UObject;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Common.DataStruct;
+using Xylia.Preview.Data.Models.Document;
 using Xylia.Preview.Data.Models.Sequence;
 using static Xylia.Preview.Data.Models.Item;
 using static Xylia.Preview.Data.Models.Item.Grocery;
@@ -79,8 +80,36 @@ public abstract class Item : ModelElement, IHaveName
 	public int ImproveId => Attributes.Get<int>("improve-id");
 	public sbyte ImproveLevel => Attributes.Get<sbyte>("improve-level");
 
-	public string ItemName => $"<link id=\"item:{ToString()}\">{ItemNameOnly}</link>";
-	public string ItemNameOnly => $"<font name=\"00008130.Program.Fontset_ItemGrade_{ItemGrade}\">{Attributes["name2"].GetText() ?? ToString()}</font>";
+	public string ItemName => $"<link id='item:{ToString()}'>{ItemNameOnly}</link>";
+	public string ItemNameOnly
+	{
+		get
+		{
+			var TagIconGrade = Attributes.Get<Icon>("tag-icon-grade")?.GetImage();
+			if (TagIconGrade != null)
+			{
+				TagIconGrade.TintColor = new TintColor()
+				{
+					SpecifiedColor = ItemGrade switch
+					{
+						1 => new FLinearColor(0.325037f, 0.325037f, 0.325037f, 1f),
+						2 => new FLinearColor(1f, 1f, 1f, 1f),
+						3 => new FLinearColor(0.096266f, 1f, 0.186989f, 1f),
+						4 => new FLinearColor(0f, 0.694081f, 1f, 1f),
+						5 => new FLinearColor(0.68703f, 0.037029f, 1f, 1f),
+						6 => new FLinearColor(0.88318f, 0.442323f, 0.03423f, 1f),
+						7 => new FLinearColor(1f, 0.186989f, 0.000805f, 1f),
+						8 => new FLinearColor(1f, 0.000000f, 0.234895f, 1f),
+						9 => new FLinearColor(1f, 0.846873f, 0.016807f, 1f),
+						_ => default,
+					}
+				};
+			}
+
+			var text = Attributes["name2"].GetText() ?? ToString();
+			return $"<font name='00008130.Program.Fontset_ItemGrade_{ItemGrade}'>{text}</font>" + TagIconGrade?.Tag;
+		}
+	}
 
 	public int ClosetGroupId => Attributes.Get<int>("closet-group-id");
 	#endregion
@@ -224,7 +253,7 @@ public abstract class Item : ModelElement, IHaveName
 
 	public ImageProperty BackIcon => IconTexture.GetBackground(ItemGrade);
 
-	public ImageProperty FrontIcon => IconTexture.Parse(Attributes.Get<string>("icon"));
+	public ImageProperty FrontIcon => Attributes.Get<Icon>("icon")?.GetImage();
 
 	public FPackageIndex CanSaleItemImage => new MyFPackageIndex(
 		Auctionable ? "BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_Icon3_R/SlotItem_marketBusiness.SlotItem_marketBusiness" :
@@ -236,13 +265,13 @@ public abstract class Item : ModelElement, IHaveName
 	{
 		get
 		{
-			StringBuilder Substitute1 = new(), Substitute2 = new();
+			List<string> Substitute1 = [], Substitute2 = [];
 
 			#region Info
 			var MainInfo = Attributes.Get<Record>("main-info").GetText();
 			var SubInfo = Attributes.Get<Record>("sub-info").GetText();
-			if (MainInfo != null) Substitute1.AppendLine(MainInfo);
-			if (SubInfo != null) Substitute2.AppendLine(SubInfo);
+			if (MainInfo != null) Substitute1.Add(MainInfo);
+			if (SubInfo != null) Substitute2.Add(SubInfo);
 			#endregion
 
 			#region Ability
@@ -284,8 +313,8 @@ public abstract class Item : ModelElement, IHaveName
 				if (ability.Value == 0) continue;
 
 				var text = ability.Key.GetText(ability.Value);
-				if (ability.Key == MainAbility1 || ability.Key == MainAbility2) Substitute1.AppendLine(text);
-				else Substitute2.AppendLine(text);
+				if (ability.Key == MainAbility1 || ability.Key == MainAbility2) Substitute1.Add(text);
+				else Substitute2.Add(text);
 			}
 
 
@@ -296,12 +325,12 @@ public abstract class Item : ModelElement, IHaveName
 				var SubAbilityRandomCount = Attributes.Get<sbyte>("sub-ability-random-count");
 				var SubAbilityRandom = LinqExtensions.For(8, (id) => Attributes.Get<Record>("sub-ability-random-" + id)?.As<ItemRandomAbilitySlot>());
 
-				if (MainAbilityFixed != null) Substitute1.AppendLine(MainAbilityFixed.Description);
-				if (SubAbilityFixed != null) Substitute2.AppendLine(SubAbilityFixed.Description);
+				if (MainAbilityFixed != null) Substitute1.Add(MainAbilityFixed.Description);
+				if (SubAbilityFixed != null) Substitute2.Add(SubAbilityFixed.Description);
 				if (SubAbilityRandomCount > 0)
 				{
-					Substitute2.AppendLine("UI.ItemRandomOption.Undetermined".GetText([SubAbilityRandomCount]));
-					SubAbilityRandom.ForEach(x => Substitute2.AppendLine(x.Description + " <Image imagesetpath=\"00015590.Tag_Random\" enablescale=\"true\" scalerate=\"1.2\"/>"), true);
+					Substitute2.Add("UI.ItemRandomOption.Undetermined".GetText([SubAbilityRandomCount]));
+					SubAbilityRandom.ForEach(x => Substitute2.Add(x.Description + " <Image imagesetpath='00015590.Tag_Random' enablescale='true' scalerate='1.2'/>"), true);
 				}
 			}
 			#endregion
@@ -315,14 +344,14 @@ public abstract class Item : ModelElement, IHaveName
 				var Name3 = EffectEquip.Attributes.Get<Record>("name3").GetText();
 				var Description3 = EffectEquip.Attributes.Get<Record>("description3").GetText();
 
-				if (Name3 != null) Substitute1.AppendLine(Name3);
-				if (Description3 != null) Substitute2.AppendLine(Description3);
+				if (Name3 != null) Substitute1.Append(Name3 + BR.Tag);
+				if (Description3 != null) Substitute2.Append(Description3 + BR.Tag);
 			}
 			#endregion
 
 			return new(
-				Substitute1.ToString().TrimEnd('\n'),
-				Substitute2.ToString().TrimEnd('\n'));
+				string.Join(BR.Tag, Substitute1),
+				string.Join(BR.Tag, Substitute2));
 		}
 	}
 

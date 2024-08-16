@@ -40,16 +40,51 @@ public sealed class WeeklyTimeTable : ModelElement
 	#endregion
 
 	#region Helpers
-	public struct WeeklyTimePeriod
+	public List<WeeklyTimePeriod> GetPeriods()
 	{
+		List<WeeklyTimePeriod> periods = [];
+
+		void CreatePeriod(DayOfWeekSeq dayOfWeek, sbyte[] startHours, sbyte[] endHours)
+		{
+			for (int i = 0; i < startHours.Length; i++)
+			{
+				var startHour = startHours[i];
+				if (startHour == -1) continue;
+
+				periods.Add(new WeeklyTimeTable.WeeklyTimePeriod()
+				{
+					Data = this,
+					DayOfWeek = dayOfWeek,
+					StartHour = startHour,
+					EndHour = endHours[i],
+					//hack: error field
+					//StartMinute = this.StartMinute,
+					//EndMinute = this.EndMinute
+				});
+			}
+		}
+
+		CreatePeriod(DayOfWeekSeq.Sun, SunStartHour, SunEndHour);
+		CreatePeriod(DayOfWeekSeq.Mon, MonStartHour, MonEndHour);
+		CreatePeriod(DayOfWeekSeq.Tue, TueStartHour, TueEndHour);
+		CreatePeriod(DayOfWeekSeq.Wed, WedStartHour, WedEndHour);
+		CreatePeriod(DayOfWeekSeq.Thu, ThuStartHour, ThuEndHour);
+		CreatePeriod(DayOfWeekSeq.Fri, FriStartHour, FriEndHour);
+		CreatePeriod(DayOfWeekSeq.Sat, SatStartHour, SatEndHour);
+
+		return periods;
+	}
+
+	public struct WeeklyTimePeriod
+	{		
+		public WeeklyTimeTable Data;
 		public DayOfWeekSeq DayOfWeek;
 		public sbyte StartHour;
 		public sbyte StartMinute;
 		public sbyte EndHour;
-		public sbyte EndMinute;
-		public WeeklyTimeTable Data;
+		public sbyte EndMinute; 
 
-		public override string ToString() => $"[{StartHour}:{StartMinute:00}~{EndHour}:{EndMinute:00}] {Data}";
+		public readonly override string ToString() => $"[{StartHour}:{StartMinute:00}~{EndHour}:{EndMinute:00}] {Data}";
 	}
 	#endregion
 }

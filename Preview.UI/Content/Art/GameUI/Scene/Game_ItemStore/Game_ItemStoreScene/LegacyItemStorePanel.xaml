@@ -4,14 +4,18 @@
 	xmlns:s="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
+	xmlns:t="clr-namespace:Xylia.Preview.UI.GameUI.Scene.Game_Tooltip" 
 	Title="ItemStorePanel" Height="750" Width="750">
 	<GameWindow.Resources>
+		<s:ContextMenu x:Key="ItemMenu" />
+
 		<s:ContextMenu x:Key="ExtractMenu">
 			<s:MenuItem Click="ExtractPrice_Click" Header="{s:DynamicResource Extract_ItemBuyPrice}" />
 		</s:ContextMenu>
 	</GameWindow.Resources>
 
 	<s:DockPanel>
+		<!-- Left -->
 		<s:Grid s:DockPanel.Dock="Left" Width="300">
 			<s:Grid.RowDefinitions>
 				<s:RowDefinition Height="Auto" />
@@ -39,6 +43,7 @@
 			</s:TreeView>
 		</s:Grid>
 
+		<!-- Right -->
 		<s:Grid>
 			<s:ListBox x:Name="ItemStore_ItemList" HorizontalContentAlignment="Stretch" s:VirtualizingPanel.IsVirtualizing="True">
 				<s:ListBox.ItemContainerStyle>

@@ -10,8 +10,8 @@ public sealed class GoodIcon(string GameFolder, string OutputFolder) : IconOutBa
 		{
 			cancellationToken.ThrowIfCancellationRequested();
 
-			var bitmap = IconTexture.Parse(record.Icon, db, provider)?.Image;
-			Save(bitmap, record.PrimaryKey.ToString());
+			var bitmap = record.Icon?.GetImage(provider);
+			Save(bitmap, record.PrimaryKey.ToString()!);
 		});
 	}
 }

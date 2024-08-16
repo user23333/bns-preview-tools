@@ -131,7 +131,7 @@ internal partial class GameResourcePageViewModel : ObservableObject
 
 		Parallel.ForEach(provider.Files.Values, gamefile =>
 		{
-			if (gamefile.Extension != "uasset" || !gamefile.Path.Contains(filter, StringComparison.OrdinalIgnoreCase))
+			if (gamefile.Extension != "uasset" || !gamefile.Path.Contains(filter.SubstringBeforeLast('.'), StringComparison.OrdinalIgnoreCase))
 				return;
 
 			try

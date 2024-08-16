@@ -2,6 +2,7 @@
 using Xylia.Preview.Common.Attributes;
 using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Common.DataStruct;
+using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models.Sequence;
 
 namespace Xylia.Preview.Data.Models;
@@ -87,7 +88,7 @@ public abstract class Skill3 : ModelElement, IHaveName
 	#region Methods
 	public string Name => Name2.GetText();
 
-	public ImageProperty Icon => Models.IconTexture.Parse(this.IconTexture, this.IconIndex);
+	public ImageProperty Icon => FileCache.Data.Provider.GetTable<IconTexture>()[IconTexture]?.GetImage(IconIndex);
 
 	public KeyCommand CurrentShortCutKey => KeyCommand.Cast(this.ShortCutKey);
 

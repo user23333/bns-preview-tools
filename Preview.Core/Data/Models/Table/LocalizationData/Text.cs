@@ -349,7 +349,7 @@ public static class TextExtension
 
 	public static string GetText(this object obj, TextArguments arguments) => GetText(obj).Replace(arguments);
 
-	public static string GetTextIf(this object obj, TextArguments arguments, bool condition) => condition ? GetText(obj).Replace(arguments) : null;
+	public static string GetTextIf(this object obj, bool condition, TextArguments arguments) => condition ? GetText(obj).Replace(arguments) : null;
 
 	public static string Replace(this string text, TextArguments arguments)
 	{

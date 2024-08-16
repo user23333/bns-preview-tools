@@ -1,5 +1,6 @@
 ﻿using CUE4Parse.BNS.Assets.Exports;
 using Xylia.Preview.Common.Attributes;
+using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Models.Sequence;
 using static Xylia.Preview.Data.Models.Item;
 
@@ -27,6 +28,6 @@ public sealed class ItemBrandTooltip : ModelElement
 	#endregion
 
 	#region Properies
-	public ImageProperty FrontIcon => IconTexture.Parse(Attributes.Get<string>("icon"));
+	public ImageProperty FrontIcon => Attributes.Get<Icon>("icon")?.GetImage();
 	#endregion
 }

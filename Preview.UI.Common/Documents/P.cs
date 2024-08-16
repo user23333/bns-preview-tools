@@ -103,6 +103,8 @@ public class P : BaseElement<Data.Models.Document.P>, IMetaData
 	#region IMetaData
 	public void UpdateString(StringProperty property)
 	{
+		Children.Clear();
+
 		var text = property.LabelText?.Text;
 		if (text is null) return;
 
@@ -110,10 +112,10 @@ public class P : BaseElement<Data.Models.Document.P>, IMetaData
 		doc.LoadHtml(text);
 
 		var elements = TextContainer.Load(doc.DocumentNode.ChildNodes);
-		this.Children = property.fontset is null ? elements : [new Font(property.fontset.GetPathName(), elements)];
+		Children = property.fontset is null ? elements : [new Font(property.fontset.GetPathName(), elements)];
 	}
 
-	public void UpdateTooltip(StringProperty title)
+	public void UpdateTooltip(StringProperty property)
 	{
 		//throw new System.NotImplementedException();
 	}

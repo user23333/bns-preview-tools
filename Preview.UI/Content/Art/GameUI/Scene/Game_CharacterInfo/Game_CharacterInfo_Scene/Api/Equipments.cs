@@ -43,7 +43,7 @@ public class Equipments
 	public Equipment alternate_soulshield_8;
 
 
-	public static Equipments Get(Creature creature)
+	public static Equipments? Get(Creature creature)
 	{
 		string Host = @"https://%sgate.bns.qq.com";
 		string Url = @"/ingame/api/character/equipments.json";

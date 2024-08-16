@@ -14,17 +14,14 @@ internal partial class SqlParser(BnsDatabase _engine, Tokenizer _tokenizer, Attr
 
 		Debug.WriteLine($"executing `{ahead.Value.ToUpper()}`", "SQL");
 
-		switch (ahead.Value.ToUpper())
+		return ahead.Value.ToUpper() switch
 		{
-			case "SELECT":
-			case "EXPLAIN":
-				return this.ParseSelect();
-			case "INSERT": return this.ParseInsert();
-			case "DELETE": return this.ParseDelete();
-			case "UPDATE": return this.ParseUpdate();
-			case "COMMIT": return this.ParseCommit();
-
-			default: throw BnsDataException.UnexpectedToken(ahead);
-		}
+			"SELECT" or "EXPLAIN" => this.ParseSelect(),
+			"INSERT" => this.ParseInsert(),
+			"DELETE" => this.ParseDelete(),
+			"UPDATE" => this.ParseUpdate(),
+			"COMMIT" => this.ParseCommit(),
+			_ => throw BnsDataException.UnexpectedToken(ahead),
+		};
 	}
 }

@@ -7,7 +7,7 @@ namespace Xylia.Preview.Data.Engine.BinData.Serialization;
 /// </summary>
 public sealed class TableWriterSettings
 {
-    public ReleaseSide ReleaseSide { get; set; }
+    public ReleaseSide ReleaseSide { get; set; } = ReleaseSide.Client;
 
     public Encoding Encoding { get; set; }
 }

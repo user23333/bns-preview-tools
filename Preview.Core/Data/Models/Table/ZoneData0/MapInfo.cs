@@ -3,7 +3,6 @@ using Xylia.Preview.Common.Attributes;
 using Xylia.Preview.Data.Common.Abstractions;
 
 namespace Xylia.Preview.Data.Models;
-[Side(ReleaseSide.Client)]
 public sealed class MapInfo : ModelElement, IHaveName, INotifyPropertyChanged
 {
 	#region Attributes

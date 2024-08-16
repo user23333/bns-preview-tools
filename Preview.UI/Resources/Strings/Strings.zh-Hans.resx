@@ -218,7 +218,11 @@
     <value>Github</value>
   </data>
   <data name="Application_UpdateLog" xml:space="preserve">
-    <value>[3.1.4]
+    <value>[3.1.5]
+优化数据管理器中导出目录的结构
+修复部分数据类型不正确的问题
+修复数据编辑器连接非全局时，关闭时会发生内存泄漏的问题
+[3.1.4]
 优化概率信息中支持智能掉落组
 修复生成物品列表会抛出错误的问题
 修复部分标签会显示韩文的问题

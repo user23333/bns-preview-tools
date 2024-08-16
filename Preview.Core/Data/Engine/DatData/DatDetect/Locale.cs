@@ -40,7 +40,7 @@ public struct Locale
 			if (version is not null)
 			{
 				var config = new FileIniDataParser().ReadFile(version.FullName);
-				ProductVersion = config["Version"]["ProductVersion"];
+				ProductVersion = BnsVersion.Parse(config["Version"]["ProductVersion"]);
 			}
 
 			var local = Win64?.GetFiles("local.ini").FirstOrDefault();

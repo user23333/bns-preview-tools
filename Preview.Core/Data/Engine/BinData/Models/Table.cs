@@ -154,7 +154,8 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 		_records ??= [];
 
 		var length = _records.Count;
-		var elements = parent.SelectNodes($"./" + Definition.ElRecord.Name).OfType<XmlElement>().ToArray();
+		var elements = parent.ChildNodes.OfType<XmlElement>()
+			.Where(element => element.Name.Equals(Definition.ElRecord.Name, StringComparison.OrdinalIgnoreCase)).ToArray();
 
 		// load data
 		ConcurrentBag<Tuple<int, Record>> records = [];
@@ -254,7 +255,7 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 		var data = WriteXml(settings ?? new()
 		{
 			ReleaseSide = ReleaseSide.Client,
-			Encoding = path.EndsWith(".x16", StringComparison.OrdinalIgnoreCase) ? Encoding.Unicode : Encoding.UTF8,
+			Encoding = name.EndsWith(".x16", StringComparison.OrdinalIgnoreCase) ? Encoding.Unicode : Encoding.UTF8,
 		});
 		File.WriteAllBytes(path, data);
 

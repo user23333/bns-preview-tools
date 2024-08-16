@@ -31,7 +31,7 @@ public partial class App : Application
 
 		//new Xylia.Preview.UI.Content.TestPanel().Show();
 		//var _ = PreviewModel.SnooperViewer;
-		new GameUI.Scene.Game_Tooltip.ItemTooltipPanel().Show();
+		new GameUI.Scene.Game_Tooltip.Skill3ToolTipPanel_1().Show();
 #else
 		MainWindow = new MainWindow();
 		MainWindow.Show();

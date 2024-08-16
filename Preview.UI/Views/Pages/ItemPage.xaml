@@ -61,9 +61,11 @@
 
 		<TabItem Header="Test" x:Name="TestHolder" Visibility="Collapsed">
 			<StackPanel>
+				<Button Content="Def Manager Test" Click="TestButton1_Click" />
+				
 				<c:BnsCustomLabelWidget x:Name="TestLabel">
 					<c:BnsCustomLabelWidget.Text>
-						<![CDATA[12345]]>
+						<![CDATA[123]]>
 					</c:BnsCustomLabelWidget.Text>
 				</c:BnsCustomLabelWidget>
 

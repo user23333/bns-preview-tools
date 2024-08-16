@@ -1,9 +1,10 @@
 ﻿<BnsCustomWindowWidget x:Class="Xylia.Preview.UI.GameUI.Scene.Game_Tooltip.RewardTooltipPanel"
 	xmlns="https://github.com/xyliaup/bns-preview-tools"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:s="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	xmlns:s="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	Background="{s:DynamicResource RegionBrush}" Foreground="{s:DynamicResource PrimaryTextBrush}">
 
-	<BnsCustomColumnListWidget Name="ColumnList" ShowLines="True" CellMerge="ColumnList_CellMerge" LayoutData.Anchors="0 0 1 1" MinWidth="500" Width="500">
+	<BnsCustomColumnListWidget Name="ColumnList" ShowLines="True" CellMerge="ColumnList_CellMerge" LayoutData.Anchors="0 0 1 1" Width="500" Background="{x:Null}">
 		<BnsCustomColumnListWidget.ColumnDefinitions>
 			<s:ColumnDefinition Width="4*" />
 			<s:ColumnDefinition Width="3*" />
@@ -19,7 +20,6 @@
 		<BnsCustomLabelWidget Name="Column3" Text="{s:DynamicResource Text_Info}" HorizontalContentAlignment="HAlign_Center" VerticalContentAlignment="VAlign_Center" BnsCustomColumnListWidget.Row="0" BnsCustomColumnListWidget.Column="2" />
 
 		<!-- Content -->
-		
 	</BnsCustomColumnListWidget>
 
 </BnsCustomWindowWidget>

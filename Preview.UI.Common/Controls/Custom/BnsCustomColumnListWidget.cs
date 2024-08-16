@@ -46,8 +46,7 @@ public class BnsCustomColumnListWidget : BnsCustomBaseWidget
 
 
 	public static readonly DependencyProperty ShowLinesProperty = DependencyProperty.Register("ShowLines",
-		typeof(bool), Owner, new FrameworkPropertyMetadata(BooleanBoxes.FalseBox,
-			FrameworkPropertyMetadataOptions.AffectsRender));
+		typeof(bool), Owner, new FrameworkPropertyMetadata(BooleanBoxes.FalseBox, FrameworkPropertyMetadataOptions.AffectsRender));
 
 	public bool ShowLines
 	{
@@ -152,8 +151,8 @@ public class BnsCustomColumnListWidget : BnsCustomBaseWidget
 				var r2 = offsetV.ElementAtOrDefault(row + rowspan - 1);
 
 				LayoutData.SetOffsets(child, new FLayoutData.Offset(
-					c1.X, r1.X, 
-					c2.X + c2.Y - c1.X , 
+					c1.X, r1.X,
+					c2.X + c2.Y - c1.X,
 					r2.X + r2.Y - r1.X));
 			}
 		}
@@ -165,11 +164,10 @@ public class BnsCustomColumnListWidget : BnsCustomBaseWidget
 	{
 		base.OnRender(ctx);
 
-		if (this.ShowLines)
+		if (ShowLines)
 		{
 			// outer border
-			ctx.DrawRectangle(new SolidColorBrush(), new Pen(Foreground, 2),
-				 new Rect(new Point(-ScrollOffset.X, -ScrollOffset.Y), DesiredSize));
+			ctx.DrawRectangle(null, new Pen(Foreground, 2), new Rect(new Point(-ScrollOffset.X, -ScrollOffset.Y), RenderSize));
 
 			// draw border using arrange data
 			foreach (UIElement child in Children)
@@ -180,7 +178,7 @@ public class BnsCustomColumnListWidget : BnsCustomBaseWidget
 				rect.X -= ScrollOffset.X;
 				rect.Y -= ScrollOffset.Y;
 
-				ctx.DrawRectangle(new SolidColorBrush(), new Pen(Foreground, 1), rect);
+				ctx.DrawRectangle(null, new Pen(Foreground, 1), rect);
 			}
 		}
 	}

@@ -22,10 +22,10 @@ public static class TableDefinitionHelper
 	public static List<TableDefinition> LoadTableDefinition(SequenceDefinitionLoader param, params string[] XmlContents)
 	{
 		var tables = new List<TableDefinition>();
-		foreach (var Content in XmlContents)
+		foreach (var content in XmlContents)
 		{
 			var xmlDoc = new XmlDocument();
-			xmlDoc.LoadXml(Content);
+			xmlDoc.LoadXml(content);
 
 			var table = LoadFrom(param, xmlDoc.DocumentElement);
 			if (table is null) continue;

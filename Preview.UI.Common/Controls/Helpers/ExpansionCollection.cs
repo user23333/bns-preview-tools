@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows;
 using CUE4Parse.BNS.Assets.Exports;
 using Xylia.Preview.Data.Helpers;
@@ -103,12 +104,12 @@ internal interface IMetaData
 				switch (ls[0])
 				{
 					case "textref": widget.UpdateString(new StringProperty() { LabelText = ls[1].GetText() }); return;
-					case "tooltip" or "tootip": widget.UpdateTooltip(new StringProperty() { LabelText = ls[1].GetText() }); return;
+					case "tooltip": widget.UpdateTooltip(new StringProperty() { LabelText = ls[1].GetText() }); return;
 					case "config":
 					case "width":
 					case "height": return;
 
-					default: throw new NotSupportedException();
+					default: Debug.Print("meta is not supported!"); break;
 				}
 			}
 		}

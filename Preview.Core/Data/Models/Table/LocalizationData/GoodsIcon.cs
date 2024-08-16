@@ -1,5 +1,7 @@
-﻿namespace Xylia.Preview.Data.Models;
+﻿using Xylia.Preview.Data.Common.DataStruct;
+
+namespace Xylia.Preview.Data.Models;
 public class GoodsIcon : ModelElement
 {
-	public string Icon { get; set; }
+	public Icon Icon { get; set; }
 }

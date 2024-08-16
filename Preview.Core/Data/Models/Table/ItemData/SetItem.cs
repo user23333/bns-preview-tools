@@ -2,6 +2,7 @@
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Common.DataStruct;
+using Xylia.Preview.Data.Models.Document;
 using Xylia.Preview.Data.Models.Sequence;
 
 namespace Xylia.Preview.Data.Models;
@@ -43,7 +44,7 @@ public sealed class SetItem : ModelElement, IHaveName, IHaveDesc
 					builder.Append($"UI.ItemTooltip.SetItemIndex.{id}.Enable".GetText());
 					builder.Append($"UI.ItemTooltip.SetItemEffect.Effect".GetText([null, Effect1, string.Empty]));
 					builder.Append(SkillModifyInfoGroup[0]?.Description);
-					builder.AppendLine();
+					builder.Append(BR.Tag);
 				}
 			}
 

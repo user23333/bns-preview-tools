@@ -3,6 +3,7 @@ using CUE4Parse.FileProvider;
 using CUE4Parse.UE4.Assets.Exports.Texture;
 using CUE4Parse_Conversion.Textures;
 using Xylia.Preview.Common.Extension;
+using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Engine.BinData.Helpers;
 using Xylia.Preview.Data.Models;
 using static Xylia.Preview.Data.Models.Item.Grocery;
@@ -39,8 +40,7 @@ public sealed class ItemIcon(string GameFolder, string OutputFolder) : IconOutBa
 
 			var alias = record.Attributes.Get<string>("alias");
 			var grade = record.Attributes.Get<sbyte>("item-grade");
-			var icon = record.Attributes["icon"]?.ToString();
-
+			var icon = record.Attributes.Get<Icon>("icon");
 			var name2 = record.Attributes.Get<Record>("name2")?.Attributes["text"]?.ToString();
 			var GroceryType = record.SubclassType == 2 ? record.Attributes["grocery-type"]?.ToEnum<GroceryTypeSeq>() : null;
 
@@ -50,8 +50,7 @@ public sealed class ItemIcon(string GameFolder, string OutputFolder) : IconOutBa
 			try
 			{
 				#region process
-				var bitmap = IconTexture.Parse(icon, db, provider)?.Image ??
-					throw new Exception($"get resouce failed ({icon})");
+				var bitmap = icon.GetImage(provider)?.Image ?? throw new Exception($"get resouce failed ({icon})");
 
 				if (UseBackground)
 				{

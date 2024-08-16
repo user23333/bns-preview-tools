@@ -9,12 +9,9 @@ public readonly struct Integer(double value) : IFormattable
 	public static implicit operator Integer(double value) => new(value);
 	public static implicit operator double(Integer struc) => struc.Value;
 
-	public override string ToString() => Value.ToString();
+	public override string ToString() => ToString(null, null);
 
-	public string ToString(string format, IFormatProvider formatProvider)
-	{
-		throw new NotImplementedException();
-	}
+	public string ToString(string format, IFormatProvider formatProvider) => Value.ToString();
 	#endregion
 
 
@@ -89,7 +86,7 @@ public readonly struct Integer(double value) : IFormattable
 	#endregion
 
 	#region	Secondary
-	public readonly string SecondaryMoneyBlue => value + " <replace p=\"UI.Common.SecondaryMoney.IconOnly\"/>";
-	public readonly string SecondaryMoneyRed => value + " <replace p=\"UI.Common.SecondaryMoney.Red.IconOnly\"/>";
+	public readonly string SecondaryMoneyBlue => Value + " <replace p=\"UI.Common.SecondaryMoney.IconOnly\"/>";
+	public readonly string SecondaryMoneyRed => Value + " <replace p=\"UI.Common.SecondaryMoney.Red.IconOnly\"/>";
 	#endregion
 }

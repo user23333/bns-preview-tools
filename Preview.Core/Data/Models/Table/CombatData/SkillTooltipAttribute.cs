@@ -1,4 +1,5 @@
 ﻿using Xylia.Preview.Common.Extension;
+using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models.Sequence;
 
@@ -40,7 +41,7 @@ public class SkillTooltipAttribute : ModelElement
 
 	public Ref<Text> Text { get; set; }
 
-	public string Icon { get; set; }
+	public Icon Icon { get; set; }
 
 	public ModifyType SkillModifyType { get; set; }
 
@@ -103,7 +104,7 @@ public class SkillTooltipAttribute : ModelElement
 			#endregion
 		}
 
-		return IconTexture.Parse(Icon)?.Tag + Text.GetText(arguments)
+		return Icon?.GetImage()?.Tag + Text.GetText(arguments)
 			+ (AttributeCoefficient > 0 ? "UI.Tooltip.Attack.Icon.Attribute.only-one".GetText() : null);
 	}
 	#endregion

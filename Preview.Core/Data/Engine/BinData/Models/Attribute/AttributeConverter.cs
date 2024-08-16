@@ -57,9 +57,9 @@ internal class AttributeConverter
 				else return idx.ToString();
 			}
 
-			case AttributeType.TRef: return provider.Tables.GetRef(attribute.ReferedTable, record.Get<Ref>(attribute.Offset));
-			case AttributeType.TTRef: return provider.Tables.GetRef(record.Get<TRef>(attribute.Offset));
-			case AttributeType.TSub: return provider.Tables.GetSub(attribute.ReferedTable, record.Get<Sub>(attribute.Offset));
+			case AttributeType.TRef: return record.Get<Ref>(attribute.Offset).GetRecord(provider, attribute.ReferedTable);
+			case AttributeType.TTRef: return record.Get<TRef>(attribute.Offset).GetRecord(provider);
+			case AttributeType.TSub: return record.Get<Sub>(attribute.Offset).GetName(provider, attribute.ReferedTable);
 			case AttributeType.TSu: return record.Get<Su>(attribute.Offset);
 			case AttributeType.TVector16: throw new NotSupportedException();
 			case AttributeType.TVector32: return record.Get<Vector32>(attribute.Offset);
@@ -84,7 +84,7 @@ internal class AttributeConverter
 				return record.StringLookup.GetString(n.Offset);
 			}
 			case AttributeType.TVersion: return record.Get<BnsVersion>(attribute.Offset);
-			case AttributeType.TIcon: return provider.Tables.GetRef(record.Get<IconRef>(attribute.Offset));
+			case AttributeType.TIcon: return record.Get<IconRef>(attribute.Offset).GetIcon(provider);
 			case AttributeType.TTime32: return record.Get<Time32>(attribute.Offset);
 			case AttributeType.TTime64: return record.Get<Time64>(attribute.Offset);
 			case AttributeType.TXUnknown1: return record.Get<TimeUniversal>(attribute.Offset);
@@ -132,7 +132,7 @@ internal class AttributeConverter
 		AttributeType.TScript_obj => new Script_obj(value),
 		AttributeType.TNative => value,
 		AttributeType.TVersion => new Version(value),
-		AttributeType.TIcon => value,
+		AttributeType.TIcon => Icon.Parse(value, provider),
 		AttributeType.TTime32 => Time32.Parse(value, provider.Locale.Publisher),
 		AttributeType.TTime64 => Time64.Parse(value, provider.Locale.Publisher),
 		AttributeType.TXUnknown1 => TimeUniversal.Parse(value),
@@ -202,7 +202,7 @@ internal class AttributeConverter
 	/// <param name="value"></param>
 	/// <param name="type"></param>
 	/// <returns></returns>
-	internal static object Convert(string name , object value, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] Type type)
+	internal static object Convert(string name, object value, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] Type type)
 	{
 		if (value is null || value.GetType() == type) return value;
 		else if (type == typeof(bool))

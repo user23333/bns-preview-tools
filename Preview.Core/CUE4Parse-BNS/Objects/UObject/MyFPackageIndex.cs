@@ -1,6 +1,6 @@
-﻿using CUE4Parse.FileProvider;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Globalization;
+using CUE4Parse.FileProvider;
 using Xylia.Preview.Data.Helpers;
 
 namespace CUE4Parse.UE4.Objects.UObject;

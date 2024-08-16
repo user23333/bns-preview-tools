@@ -41,7 +41,7 @@ public class ImageProperty : IUStruct
 	[TypeConverter(typeof(Vector2DConverter))] public FVector2D StaticPadding { get; set; }
 	[TypeConverter(typeof(Vector2DConverter))] public FVector2D Offset { get; set; }
 	public float Opacity { get; set; } = 1;
-	public float ImageScale { get; set; }
+	public float ImageScale { get; set; } = 1;
 	public HAlignment HorizontalAlignment { get; set; }
 	public VAlignment VerticalAlignment { get; set; }
 	public string SperateType { get; set; }
@@ -50,12 +50,19 @@ public class ImageProperty : IUStruct
 	public FVector2D[] CoordinatesArray;  // ignore output
 	#endregion
 
-	#region Methods
-	public string Tag => $"<image path='{BaseImageTexture.GetPathName()}' u='{ImageUV.X}' v='{ImageUV.Y}' ul='{ImageUVSize.X}' vl='{ImageUVSize.Y}' enablescale='true' scalerate='1.5'/>";
 
-	public ImageProperty Clone()
+	#region Methods
+	public static implicit operator SKBitmap(ImageProperty property) => property.Image;
+
+	public string Tag
 	{
-		return (ImageProperty)this.MemberwiseClone();
+		get
+		{
+			var c = TintColor.SpecifiedColor.ToFColor(true);
+
+			return $"<image path='{BaseImageTexture.GetPathName()}' u='{ImageUV.X}' v='{ImageUV.Y}' ul='{ImageUVSize.X}' vl='{ImageUVSize.Y}' red='{c.R}' green='{c.G}' blue='{c.B}' enablescale='true' scalerate='{ImageScale}'/>";
+		}
+
 	}
 
 	public SKBitmap Image
@@ -66,17 +73,17 @@ public class ImageProperty : IUStruct
 			SKBitmap bitmap = null;
 
 			if (!EnableDrawImage) bitmap = null;
+			else if (EnableImageSet)
+			{
+				var obj = ImageSet.LoadEx();
+				if (obj is UImageSet imageSet) bitmap = imageSet.GetImage();
+			}
 			else if (BaseImageTexture != null)
 			{
 				var obj = BaseImageTexture.LoadEx();
 				if (obj is UTexture texture) bitmap = texture.Decode()?.Clone(ImageUV, ImageUVSize);
 			}
-			else if (ImageSet != null)
-			{
-				var obj = ImageSet.LoadEx();
-				if (obj is UImageSet imageSet) bitmap = imageSet.GetImage();
-			}
-
+	
 			if (bitmap is null) return null;
 			#endregion
 
@@ -102,6 +109,11 @@ public class ImageProperty : IUStruct
 
 			return bitmap;
 		}
+	}
+
+	public ImageProperty Clone()
+	{
+		return (ImageProperty)this.MemberwiseClone();
 	}
 
 	public FVector2D Measure(FVector2D RenderSize, out SKBitmap image)

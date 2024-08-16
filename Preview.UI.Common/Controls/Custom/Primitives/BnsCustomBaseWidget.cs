@@ -100,6 +100,13 @@ public abstract class BnsCustomBaseWidget : UserWidget, IMetaData
 	#region StringProperty
 	internal readonly TextContainer _container;
 
+	internal void OnContainerChanged(EventArgs e)
+	{
+		InvalidateMeasure();
+		InvalidateArrange();
+		InvalidateVisual();
+	}
+
 	private static void OnStringChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 	{
 		var widget = (BnsCustomBaseWidget)d;
@@ -115,14 +122,6 @@ public abstract class BnsCustomBaseWidget : UserWidget, IMetaData
 		OnContainerChanged(EventArgs.Empty);
 	}
 
-	internal void OnContainerChanged(EventArgs e)
-	{
-		InvalidateMeasure();
-		InvalidateArrange();
-		InvalidateVisual();
-	}
-
-	//  IMetaData
 	public void UpdateString(StringProperty text)
 	{
 		this.String = text;
@@ -139,14 +138,10 @@ public abstract class BnsCustomBaseWidget : UserWidget, IMetaData
 	#region Protected Methods
 	protected override Size MeasureOverride(Size constraint)
 	{
-		// check auto size
-		if (AutoResizeHorizontal) constraint.Width = MaxAutoResizeHorizontal;
-		if (AutoResizeVertical) constraint.Height = MaxAutoResizeVertical;
-
 		var size = base.MeasureOverride(constraint);
 		return new Size(
-			Math.Max(MinAutoResizeHorizontal, size.Width),
-			Math.Max(MinAutoResizeVertical, size.Height));
+			Math.Min(MaxAutoResizeHorizontal, Math.Max(MinAutoResizeHorizontal, size.Width)),
+			Math.Min(MaxAutoResizeVertical, Math.Max(MinAutoResizeVertical, size.Height)));
 	}
 
 	protected override Rect ArrangeChild(UIElement child, Size constraint)

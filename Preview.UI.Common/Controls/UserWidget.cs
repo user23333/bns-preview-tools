@@ -80,7 +80,7 @@ public abstract class UserWidget : FrameworkElement, IUserWidget
 	///     The DependencyProperty for the BorderBrush property.
 	/// </summary>
 	public static readonly DependencyProperty BorderBrushProperty = Border.BorderBrushProperty.AddOwner(Owner,
-		new FrameworkPropertyMetadata(Border.BorderBrushProperty.DefaultMetadata.DefaultValue, FrameworkPropertyMetadataOptions.None));
+		new FrameworkPropertyMetadata(Border.BorderBrushProperty.DefaultMetadata.DefaultValue, FrameworkPropertyMetadataOptions.AffectsRender));
 
 	/// <summary>
 	///     An object that describes the border background.
@@ -98,7 +98,7 @@ public abstract class UserWidget : FrameworkElement, IUserWidget
 	///     The DependencyProperty for the BorderThickness property.
 	/// </summary>
 	public static readonly DependencyProperty BorderThicknessProperty = Border.BorderThicknessProperty.AddOwner(Owner,
-		new FrameworkPropertyMetadata(Border.BorderThicknessProperty.DefaultMetadata.DefaultValue, FrameworkPropertyMetadataOptions.None));
+		new FrameworkPropertyMetadata(Border.BorderThicknessProperty.DefaultMetadata.DefaultValue, FrameworkPropertyMetadataOptions.AffectsRender));
 
 	/// <summary>
 	///     An object that describes the border thickness.
@@ -116,7 +116,7 @@ public abstract class UserWidget : FrameworkElement, IUserWidget
 	///     The DependencyProperty for the Background property.
 	/// </summary>
 	public static readonly DependencyProperty BackgroundProperty = Panel.BackgroundProperty.AddOwner(Owner,
-		new FrameworkPropertyMetadata(Panel.BackgroundProperty.DefaultMetadata.DefaultValue, FrameworkPropertyMetadataOptions.None));
+		new FrameworkPropertyMetadata(Panel.BackgroundProperty.DefaultMetadata.DefaultValue, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.Inherits));
 
 	/// <summary>
 	///     An object that describes the background.
@@ -134,7 +134,7 @@ public abstract class UserWidget : FrameworkElement, IUserWidget
 	///     The DependencyProperty for the Foreground property.
 	/// </summary>
 	public static readonly DependencyProperty ForegroundProperty = TextElement.ForegroundProperty.AddOwner(Owner,
-		new FrameworkPropertyMetadata(SystemColors.ControlTextBrush, FrameworkPropertyMetadataOptions.Inherits));
+		new FrameworkPropertyMetadata(SystemColors.ControlTextBrush, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.Inherits));
 
 	/// <summary>
 	///     An brush that describes the foreground color.
@@ -262,8 +262,7 @@ public abstract class UserWidget : FrameworkElement, IUserWidget
 	/// <summary>
 	///     The DependencyProperty for the IsTabStop property.
 	/// </summary>
-	public static readonly DependencyProperty IsTabStopProperty
-			= KeyboardNavigation.IsTabStopProperty.AddOwner(Owner);
+	public static readonly DependencyProperty IsTabStopProperty = KeyboardNavigation.IsTabStopProperty.AddOwner(Owner);
 
 	/// <summary>
 	///     Determine is the Control should be considered during Tab navigation.
@@ -279,7 +278,7 @@ public abstract class UserWidget : FrameworkElement, IUserWidget
 	/// <summary>
 	/// PaddingProperty
 	/// </summary>
-	public static readonly DependencyProperty PaddingProperty = DependencyProperty.Register("Padding", typeof(Thickness), Owner, 
+	public static readonly DependencyProperty PaddingProperty = DependencyProperty.Register("Padding", typeof(Thickness), Owner,
 		new FrameworkPropertyMetadata(new Thickness(), FrameworkPropertyMetadataOptions.AffectsParentMeasure));
 
 	/// <summary>

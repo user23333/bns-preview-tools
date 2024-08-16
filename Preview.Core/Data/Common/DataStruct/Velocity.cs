@@ -2,7 +2,6 @@
 using Xylia.Preview.Data.Common.Abstractions;
 
 namespace Xylia.Preview.Data.Common.DataStruct;
-
 [StructLayout(LayoutKind.Sequential)]
 public readonly struct Velocity : IInteger
 {

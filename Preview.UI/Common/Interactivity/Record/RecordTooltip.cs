@@ -69,18 +69,6 @@ public sealed class RecordTooltip : ContentControl
 		Content = visualTree;
 		Name = visualTree?.Name;
 	}
-
-	public void Show()
-	{
-		var host = new Window
-		{
-			Content = this,
-			ResizeMode = ResizeMode.NoResize,
-			SizeToContent = SizeToContent.WidthAndHeight,
-			Title = this.Name,
-		};
-		host.Show();
-	}
 	#endregion
 
 

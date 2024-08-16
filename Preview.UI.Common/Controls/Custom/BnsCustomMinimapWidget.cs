@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using System.Data;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -150,6 +146,7 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
 		this.MapDepth = MapInfo.GetMapDepth(value);
 		this.BaseImageProperty = new ImageProperty()
 		{
+			EnableImageSet = true,
 			ImageSet = new MyFPackageIndex(value.Imageset)
 		};
 
@@ -186,8 +183,8 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
 				var teleport = provider.GetTable<Teleport>().FirstOrDefault(x => x.TeleportPosition == record);
 				if (teleport is null) continue;
 
-				var Image = new ImageProperty() { ImageSet = new MyFPackageIndex("/Game/Art/UI/GameUI/Resource/GameUI_Map_Indicator/teleport_point_possible_normal") };
-				var OverImage = new ImageProperty() { ImageSet = new MyFPackageIndex("/Game/Art/UI/GameUI/Resource/GameUI_Map_Indicator/teleport_point_possible_over") };
+				var Image = new ImageProperty() { EnableImageSet = true, ImageSet = new MyFPackageIndex("/Game/Art/UI/GameUI/Resource/GameUI_Map_Indicator/teleport_point_possible_normal") };
+				var OverImage = new ImageProperty() { EnableImageSet = true, ImageSet = new MyFPackageIndex("/Game/Art/UI/GameUI/Resource/GameUI_Map_Indicator/teleport_point_possible_over") };
 
 				AddChild(record.Position, null, () =>
 				{
@@ -213,8 +210,8 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
 				if (string.IsNullOrEmpty(env2.MapunitImageDisableImageset)) continue;
 
 				var Category = env2.MapUnitCategory;
-				var Image = new ImageProperty() { ImageSet = new MyFPackageIndex(env2.MapunitImageDisableImageset) };
-				var OverImage = new ImageProperty() { ImageSet = new MyFPackageIndex(env2.MapunitImageDisableOverImageset) };
+				var Image = new ImageProperty() { EnableImageSet = true, ImageSet = new MyFPackageIndex(env2.MapunitImageDisableImageset) };
+				var OverImage = new ImageProperty() { EnableImageSet = true, ImageSet = new MyFPackageIndex(env2.MapunitImageDisableOverImageset) };
 
 				var point = record.Env2place.Instance.Attributes.Get<Vector32>("action-point");
 				AddChild(point, null, () =>
@@ -242,8 +239,8 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
 			#region Initialize
 			var tooltip = mapunit.Name;
 			var category = mapunit.Category;
-			var Image = new ImageProperty() { ImageSet = new MyFPackageIndex(mapunit.Imageset) };
-			var OverImage = string.IsNullOrEmpty(mapunit.OverImageset) ? Image : new ImageProperty() { ImageSet = new MyFPackageIndex(mapunit.OverImageset) };
+			var Image = new ImageProperty() { EnableImageSet = true, ImageSet = new MyFPackageIndex(mapunit.Imageset) };
+			var OverImage = string.IsNullOrEmpty(mapunit.OverImageset) ? Image : new ImageProperty() { EnableImageSet = true, ImageSet = new MyFPackageIndex(mapunit.OverImageset) };
 
 			if (mapunit is MapUnit.Attraction)
 			{

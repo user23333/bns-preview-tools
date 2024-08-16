@@ -6,6 +6,7 @@ using System.Windows.Data;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models;
+using Xylia.Preview.UI.Common.Interactivity;
 using Xylia.Preview.UI.Controls;
 using Xylia.Preview.UI.Extensions;
 using Xylia.Preview.UI.GameUI.Scene.Game_Tooltip;
@@ -28,19 +29,31 @@ public partial class LegacyItemStorePanel
 		TreeView.ItemsSource = source.Groups;
 	}
 
+	protected override void OnInitialized(EventArgs e)
+	{
+		base.OnInitialized(e);
+
+		ItemMenu = (ContextMenu)TryFindResource("ItemMenu");
+		RecordCommand.Find("item", (act) => RecordCommand.Bind(act, ItemMenu));
+	}
+
 	private void ItemStore_ItemList_Column_1_1_Initialized(object sender, EventArgs e)
 	{
-		var width = (BnsCustomImageWidget)sender;
-		var data = (Tuple<Item, ItemBuyPrice>)width.DataContext;
+		// data
+		var widget = (BnsCustomImageWidget)sender;
+		var data = (Tuple<Item, ItemBuyPrice>)widget.DataContext;
+		var item = data.Item1;
 		var itemBuyPrice = data.Item2;
 
-		var Name = width.GetChild<BnsCustomLabelWidget>("Name");
-		if (Name != null) Name.String.LabelText = data.Item1.ItemName;
+		// update
+		var Name = widget.GetChild<BnsCustomLabelWidget>("Name");
+		if (Name != null) Name.String.LabelText = item.ItemName;
 
-		var IconImage = width.GetChild<BnsCustomImageWidget>("IconImage");
+		var IconImage = widget.GetChild<BnsCustomImageWidget>("IconImage");
 		if (IconImage != null)
 		{
-			var item = data.Item1;
+			IconImage.DataContext = item;
+			IconImage.ContextMenu = ItemMenu;
 			IconImage.ToolTip = new ItemTooltipPanel() { DataContext = item };
 			IconImage.ExpansionComponentList["BackGroundFrameImage"]?.SetValue(item.BackIcon);
 			IconImage.ExpansionComponentList["IconImage"]?.SetValue(item.FrontIcon);
@@ -50,7 +63,7 @@ public partial class LegacyItemStorePanel
 			IconImage.ExpansionComponentList["DisableBuyImage"]?.SetShow(itemBuyPrice is null);
 		}
 
-		var PriceHoler = width.GetChild<BnsCustomImageWidget>("PriceHoler");
+		var PriceHoler = widget.GetChild<BnsCustomImageWidget>("PriceHoler");
 		if (PriceHoler != null)
 		{
 			if (itemBuyPrice is null)
@@ -77,7 +90,7 @@ public partial class LegacyItemStorePanel
 			}
 		}
 
-		var Limit = width.GetChild<BnsCustomLabelWidget>("Limit");
+		var Limit = widget.GetChild<BnsCustomLabelWidget>("Limit");
 		if (Limit != null)
 		{
 			var ContentQuota = itemBuyPrice?.CheckContentQuota.Instance;
@@ -143,6 +156,7 @@ public partial class LegacyItemStorePanel
 
 	#region Helpers
 	private ICollectionView? source;
+	private ContextMenu? ItemMenu;
 
 	private class StoreGroupDescription : PropertyGroupDescription
 	{

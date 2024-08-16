@@ -123,6 +123,7 @@ public partial class DatabaseStudio
 		}
 
 		GC.Collect();
+		base.OnClosed(e);
 	}
 
 
@@ -424,21 +425,29 @@ public partial class DatabaseStudio
 	{
 		ArgumentNullException.ThrowIfNull(_viewModel.Database);
 
-		// message
 		var startTime = DateTime.Now;
 		var callback = new EventHandler((s, e) => UpdateMessage(string.Format("{0} {1:h\\:mm\\:ss\\.fff}", "Execution Time:", DateTime.Now - startTime)));
 		var timer = new DispatcherTimer(new TimeSpan(TimeSpan.TicksPerMillisecond * 50), DispatcherPriority.Normal, callback, Dispatcher);
 		timer.Start();
 
-		await Task.Run(() => _viewModel.ReadResult(_viewModel.Database.Execute(sql)), token);
+		try
+		{
+			await Task.Run(() => _viewModel.ReadResult(_viewModel.Database.Execute(sql)), token);
 
-		// update
-		_viewModel.BindData(this.QueryGrid);
-		_viewModel.BindData(this.QueryText);
-		PageHolder.SelectedItem = Page_SQL;
-
-		timer.Stop();
-		callback.Invoke(timer, EventArgs.Empty);
+			// update
+			_viewModel.BindData(this.QueryGrid);
+			_viewModel.BindData(this.QueryText);
+			PageHolder.SelectedItem = Page_SQL;
+		}
+		catch
+		{
+			throw;
+		}
+		finally
+		{
+			timer.Stop();
+			callback.Invoke(timer, EventArgs.Empty);
+		}
 	}
 
 	private async Task ExportAsync(params Table[] tables)

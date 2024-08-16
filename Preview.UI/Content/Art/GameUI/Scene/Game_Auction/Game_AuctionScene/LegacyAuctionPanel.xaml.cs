@@ -20,10 +20,14 @@ public partial class LegacyAuctionPanel
 		#region Initialize 
 		InitializeComponent();
 		DataContext = _viewModel = new AuctionPanelViewModel();
-		var IsNeo = FileCache.Data.Provider.IsNeo;
+		ItemList.ItemsSource = _viewModel.Source = CollectionViewSource.GetDefaultView(FileCache.Data.Provider.GetTable<Item>());
+		_viewModel.Changed += RefreshList;
+		_viewModel.Source.Filter = OnFilter;
 		#endregion
 
 		#region Category
+		var IsNeo = FileCache.Data.Provider.IsNeo;
+
 		TreeView.Items.Add(new TreeViewItem() { Tag = "all", Header = new BnsCustomLabelWidget() { Text = "UI.Market.Category.All".GetText() } });
 		if (IsNeo) TreeView.Items.Add(new TreeViewItem() { Tag = "WorldBoss", Header = new BnsCustomLabelWidget() { Text = "UI.Market.Category.WorldBoss".GetText(), FontSize = 15 } });
 		TreeView.Items.Add(new TreeViewItem() { Tag = "favorites", Header = new BnsCustomLabelWidget() { Text = "UI.Market.Category.Favorites".GetText() } });
@@ -45,12 +49,6 @@ public partial class LegacyAuctionPanel
 			}
 		}
 		#endregion
-
-		// data
-		_viewModel.Changed += RefreshList;
-		_viewModel.Source = CollectionViewSource.GetDefaultView(FileCache.Data.Provider.GetTable<Item>());
-		_viewModel.Source.Filter = OnFilter;
-		ItemList.ItemsSource = _viewModel.Source;
 	}
 	#endregion
 
@@ -59,33 +57,31 @@ public partial class LegacyAuctionPanel
 	{
 		base.OnInitialized(e);
 
-		ItemMenu = (ContextMenu)TryFindResource("ItemMenu");
 		TooltipHolder = (ToolTip)TryFindResource("TooltipHolder");
+		ItemMenu = (ContextMenu)TryFindResource("ItemMenu");
 
-		// binding menu
-		RecordCommand.Find("item", (command) =>
-		{
-			var item = new MenuItem()
-			{
-				Header = StringHelper.Get(command.Name),
-				Command = command,
-				CommandParameter = new Binding("DataContext") { Source = ItemMenu }
-			};
-			item.SetBinding(MenuItem.CommandParameterProperty, new Binding("DataContext") { Source = ItemMenu });
-
-			ItemMenu.Items.Add(item);
-		});
+		RecordCommand.Find("item", (act) => RecordCommand.Bind(act, ItemMenu));
 	}
 
 	protected override void OnPreviewKeyDown(KeyEventArgs e)
 	{
-		base.OnPreviewKeyDown(e);
-
-		if (e.Key == Key.LeftCtrl && TooltipHolder != null)
+		switch (e.Key == Key.System ? e.SystemKey : e.Key)
 		{
-			TooltipHolder.StaysOpen = true;
-			TooltipHolder.IsOpen = true;
-			TooltipHolder.Visibility = Visibility.Visible;
+			case Key.LeftCtrl when TooltipHolder != null:
+			{
+				TooltipHolder.StaysOpen = true;
+				TooltipHolder.IsOpen = true;
+				TooltipHolder.Visibility = Visibility.Visible;
+				break;
+			}
+
+			case Key.LeftAlt when TooltipHolder != null:
+			{
+#if DEBUG
+				(TooltipHolder.Content as BnsCustomWindowWidget)?.Show();
+#endif
+				break;
+			}
 		}
 	}
 
@@ -185,7 +181,7 @@ public partial class LegacyAuctionPanel
 	#endregion
 
 	#region Fields
-	private AuctionPanelViewModel _viewModel;
+	private readonly AuctionPanelViewModel _viewModel;
 
 	private ContextMenu? ItemMenu;
 	private ToolTip? TooltipHolder;

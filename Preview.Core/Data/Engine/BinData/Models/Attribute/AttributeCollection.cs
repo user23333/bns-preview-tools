@@ -224,8 +224,8 @@ public class AttributeCollection : IReadOnlyList<AttributeValue>
 			case AttributeType.TIcon:
 			{
 				var provider = this.record.Owner.Owner;
-				var record = provider.Tables.GetIconRecord((string)value, out var index);
-				value = new IconRef(record, index);
+				var icon = provider.Tables.GetIcon((string)value);
+				value = (IconRef)icon;
 				break;
 			}
 
@@ -293,6 +293,6 @@ public class AttributeCollection : IReadOnlyList<AttributeValue>
 
 	public AttributeValue this[int index] => throw new NotImplementedException();
 
-	public override string ToString() => this.Aggregate("<record ", (sum, now) => sum + $"{now.Name}=\"{now.RawValue}\" ", result => result + "/>");
+	public override string ToString() => this.Aggregate($"<{record.Name} ", (sum, now) => sum + $"{now.Name}=\"{now.RawValue}\" ", result => result + "/>");
 	#endregion
 }

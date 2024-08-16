@@ -49,39 +49,6 @@ public class TableCollection : Collection<Table>
 	}
 
 
-	public Record GetRef(ushort type, Ref Ref)
-	{
-		if (Ref == default) return null;
-
-		return this[type]?[Ref];
-	}
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <remarks>possible return null when xml table and error definition</remarks>
-    public Record GetRef(TRef Ref)
-	{
-		if (Ref == default) return null;
-
-        return this[(ushort)Ref.Table]?[Ref];
-	}
-
-    public string GetRef(IconRef Ref)
-    {
-        if (Ref == default) return null;
-
-        var table = this["icontexture"];
-        return table?[Ref] + $",{Ref.IconTextureIndex}";
-    }
-
-
-    public string GetSub(ushort type, Sub sub)
-	{
-		return this[type]?.Definition.ElRecord.SubtableByType(sub.Subclass).Name;
-	}
-
-
 	public Record GetRecord(string table, string alias) => this[table]?[alias];
 
 	public Record GetRecord(string value)
@@ -98,17 +65,17 @@ public class TableCollection : Collection<Table>
 		return GetRecord(array[0], array[1]);
 	}
 
-	public Record GetIconRecord(string value, out ushort index)
+	public Icon GetIcon(string value)
 	{
-		index = 0;
 		if (value is null) return null;
 
 		var colon = value.LastIndexOf(',');
 		if (colon == -1) return null;
 
 		var array = new[] { value[..colon], value[(colon + 1)..] };
-		index = ushort.Parse(array[1]);
-		return GetRecord("icontexture", array[0]);
+		return new Icon(
+			GetRecord("icontexture", array[0]), 
+			short.Parse(array[1]));
 	}
 	#endregion
 

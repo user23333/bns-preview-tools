@@ -142,7 +142,7 @@ public partial class IconPicker : AutoCompleteTextBox
 		if (record is null) return;
 
 		_image.CellSize = new Size(record.IconWidth, record.IconHeight);
-		_image.Source = record!.GetIcon(0).Image?.ToWriteableBitmap();
+		_image.Source = record!.GetImage(0).Image?.ToWriteableBitmap();
 	}
 
 	private bool Filter(object item)

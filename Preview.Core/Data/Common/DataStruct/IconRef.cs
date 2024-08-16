@@ -1,38 +1,19 @@
 ﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
-
+using CUE4Parse.BNS.Assets.Exports;
+using CUE4Parse.FileProvider;
+using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.Data.Common.DataStruct;
-
 [StructLayout(LayoutKind.Sequential)]
 [DebuggerDisplay("Ref: {IconTextureRef}, Index.: {IconTextureIndex}")]
-public struct IconRef
+public readonly struct IconRef(Ref @ref, short index = 1)
 {
-	public readonly Ref IconTextureRef;
-	public readonly int IconTextureIndex;
+	public readonly Ref IconTextureRef = @ref;
+	public readonly int IconTextureIndex = index;
 
-	public IconRef(int iconTextureRecordId, int iconTextureVariantId = 0, ushort iconTextureVariantIndex = 1)
-	{
-		IconTextureRef = new Ref(iconTextureRecordId, iconTextureVariantId);
-		IconTextureIndex = iconTextureVariantIndex;
-	}
-
-	public IconRef(Ref @ref, int iconTextureVariantIndex = 1)
-	{
-		IconTextureRef = @ref;
-		IconTextureIndex = iconTextureVariantIndex;
-	}
-
-	public IconRef(Record record, ushort index)
-	{
-		if (record is null) return;
-
-		IconTextureRef = record.PrimaryKey;
-		IconTextureIndex = index;
-	}
-
-	#region Operator
+	#region Methods
 	public static bool operator ==(IconRef a, IconRef b)
 	{
 		return
@@ -45,20 +26,58 @@ public struct IconRef
 		return !(a == b);
 	}
 
-	public bool Equals(IconRef other)
+	public readonly bool Equals(IconRef other)
 	{
-		return IconTextureRef == other.IconTextureRef && 
+		return IconTextureRef == other.IconTextureRef &&
 			IconTextureIndex == other.IconTextureIndex;
 	}
 
-	public override bool Equals(object obj)
+	public override readonly bool Equals(object obj)
 	{
 		return obj is IconRef other && Equals(other);
 	}
 
-	public override int GetHashCode()
+	public override readonly int GetHashCode()
 	{
 		return HashCode.Combine(IconTextureRef, IconTextureIndex);
 	}
+
+	public Icon GetIcon(IDataProvider provider)
+	{
+		if (this == default) return null;
+
+		var table = provider.Tables["icontexture"];
+		return new Icon(table?[this], (short)IconTextureIndex);
+	}
 	#endregion
+}
+
+public class Icon(Record record, short index)
+{
+	public static implicit operator IconRef(Icon icon) => icon.GetRef();
+
+	public static Icon Parse(string s, IDataProvider provider)
+	{
+		if (!string.IsNullOrWhiteSpace(s) && s.Contains(','))
+		{
+			var split = s.Split(',', 2);
+			var alias = split[0];
+			if (!short.TryParse(split[^1], out var index))
+				throw new Exception("get icon index failed: " + s);
+
+			return new Icon(provider.Tables["icontexture"]?[alias], index);
+		}
+
+		throw new NotSupportedException();
+	}
+
+
+	public override string ToString() => $"{record},{index}";
+
+	private IconRef GetRef() => new(record.PrimaryKey, index);
+
+	public ImageProperty GetImage(IFileProvider pak = null)
+	{
+		return record.As<IconTexture>().GetImage(index, pak);
+	}
 }

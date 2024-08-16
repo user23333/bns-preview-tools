@@ -61,6 +61,7 @@ public static class CreateClass
 			AttributeType.TSub => $"Sub<{attribute.ReferedTableName?.TitleCase()}>",
 			AttributeType.TSeq or AttributeType.TSeq16 or AttributeType.TProp_seq or AttributeType.TProp_field
 				=> attribute.Sequence?.Name?.TitleCase() ?? attribute.Name.TitleCase() + "Seq",
+			AttributeType.TIcon => "Icon",
 			AttributeType.TXUnknown1 => "TimeUniversal",
 			AttributeType.TXUnknown2 => "ObjectPath",
 			_ => attribute.Type.ToString().Remove(0, 1),

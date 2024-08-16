@@ -69,7 +69,7 @@ public sealed unsafe class Record : IElement, IDisposable
 
 	public byte[] Data { get; internal set; }
 
-	public StringLookup StringLookup { get; set; }
+	public StringLookup StringLookup { get; internal set; }
 
 	public Table Owner { get; internal set; }
 
@@ -82,6 +82,8 @@ public sealed unsafe class Record : IElement, IDisposable
 	public string OwnerName => Owner.Name.ToLower();
 
 	public IElementDefinition Definition => Owner.Definition.ElRecord.SubtableByType(SubclassType, this);
+
+	public string Name => Definition.Name;
 
 	public bool HasChildren => Children.Count > 0;
 

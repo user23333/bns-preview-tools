@@ -21,7 +21,7 @@ public partial class ItemTooltipPanel
 	{
 		InitializeComponent();
 #if DEVELOP
-		DataContext = FileCache.Data.Provider.GetTable<Item>()["General_Grocery_Box_5581"];
+		DataContext = FileCache.Data.Provider.GetTable<Item>()["Cash_Grocery_GuildMaterial_0007"];
 #endif
 	}
 	#endregion
@@ -155,7 +155,7 @@ public partial class ItemTooltipPanel
 							// element
 							var icon = new BnsCustomImageWidget
 							{
-								BaseImageProperty = IconTexture.Parse(SkillTrainByItem.Icon),
+								BaseImageProperty = SkillTrainByItem.Icon?.GetImage(),
 								Width = 32,
 								Height = 32,
 								Margin = new Thickness(0, 0, 10, 0),

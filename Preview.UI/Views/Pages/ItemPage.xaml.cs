@@ -1,6 +1,8 @@
 ﻿using System.Windows;
 using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Helpers;
+using Xylia.Preview.UI.Helpers.Output;
+using Xylia.Preview.UI.Helpers.Output.Tables;
 using Xylia.Preview.UI.ViewModels;
 using Xylia.Preview.UI.Views.Editor;
 using MessageBox = HandyControl.Controls.MessageBox;
@@ -18,7 +20,7 @@ public partial class ItemPage
 		TestHolder.Visibility = Visibility.Visible;
 		TestHolder.IsSelected = true;
 
-		TestListHolder.ItemsSource = new List<string>() 
+		TestListHolder.ItemsSource = new List<string>()
 		{
 			"<br/>123456<br/>1111111<br/><br/>222222"
 		};
@@ -46,9 +48,14 @@ public partial class ItemPage
 		{
 			FileCache.Clear();
 			ProcessFloatWindow.ClearMemory();
-
-			//OutSet.Start<ItemCombinationOut>();
 		}
+	}
+
+	private async void TestButton1_Click(object sender, RoutedEventArgs e)
+	{
+		new DefinitionManager().Show();
+
+		//await OutSet.Start<WeeklyTimeTableOut>();
 	}
 	#endregion
 }

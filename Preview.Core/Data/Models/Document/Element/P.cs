@@ -3,10 +3,8 @@ public class P : HtmlElementNode
 {
 	public HorizontalAlignment HorizontalAlignment { get => GetAttributeValue<HorizontalAlignment>(); set => SetAttributeValue(value); }
 	public VerticalAlignment VerticalAlignment { get => GetAttributeValue<VerticalAlignment>(); set => SetAttributeValue(value); }
-
-	//firstlinehorizontalalignment
+	public HorizontalAlignment FirstLineHorizontalAlignment { get => GetAttributeValue<HorizontalAlignment>(); set => SetAttributeValue(value); }
 	public JustificationType JustificationType { get => GetAttributeValue<JustificationType>(); set => SetAttributeValue(value); }
-
 
 	public float RightMargin { get => GetAttributeValue<float>(); set => SetAttributeValue(value); }
 	public float TopMargin { get => GetAttributeValue<float>(); set => SetAttributeValue(value); }

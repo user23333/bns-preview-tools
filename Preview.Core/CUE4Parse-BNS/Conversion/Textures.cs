@@ -6,8 +6,9 @@ public static class Textures
 {
 	public static SKBitmap Clone(this SKBitmap source, FVector2D UV, FVector2D UVSize) => source.Clone(UV.X, UV.Y, UVSize.X, UVSize.Y);
 
-	public static SKBitmap Clone(this SKBitmap source, float u, float v, float ul, float vl)
+	public static SKBitmap Clone(this SKBitmap source, float u, float v, float ul, float vl, SKColor tint = default)
 	{
+		bool useTint = tint.Red + tint.Green + tint.Blue > 0;
 		if (ul == 0) ul = source.Width - u;
 		if (vl == 0) vl = source.Height - v;
 
@@ -22,6 +23,8 @@ public static class Textures
 
 				// pixel
 				var p = source.GetPixel((int)(u + i), (int)(v + j));
+				if (useTint && p.Alpha > 64) p = tint;
+
 				output.SetPixel(i, j, p);
 			}
 		}

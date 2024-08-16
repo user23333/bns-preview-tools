@@ -17,8 +17,6 @@ namespace Xylia.Preview.UI.Controls;
 public class BnsCustomLabelWidget : BnsCustomBaseWidget, IContentHost
 {
 	#region Constructors
-	public static CopyMode CopyMode { get; set; } = CopyMode.Original;
-
 	public BnsCustomLabelWidget()
 	{
 		SetValue(TimersProperty, new Dictionary<int, Time64>());
@@ -27,6 +25,9 @@ public class BnsCustomLabelWidget : BnsCustomBaseWidget, IContentHost
 
 	#region Dependency Properties
 	private static readonly Type Owner = typeof(BnsCustomLabelWidget);
+
+	public static CopyMode CopyMode { get; set; } = CopyMode.Original;
+
 
 	/// <summary>
 	/// DependencyProperty for <see cref="Text" /> property.
@@ -105,12 +106,10 @@ public class BnsCustomLabelWidget : BnsCustomBaseWidget, IContentHost
 
 	private static void OnTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 	{
-		var widget = (BnsCustomLabelWidget)d;
+		var widget = (BnsCustomBaseWidget)d;
 		widget.UpdateString(new StringProperty()
 		{
 			LabelText = (string)e.NewValue,
-			//HorizontalAlignment = HAlignment.HAlign_Center,
-			//VerticalAlignment = VAlignment.VAlign_Center,
 		});
 	}
 	#endregion
