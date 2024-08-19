@@ -3,6 +3,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using HandyControl.Controls;
 using HandyControl.Data;
@@ -473,4 +474,15 @@ public partial class DatabaseStudio
 	private ProviderSerialize? serialize;
 	private readonly DatabaseStudioViewModel _viewModel;
 	#endregion
+}
+
+internal static class ImageHelper
+{
+	public static BitmapImage Table { get; } = new BitmapImage(new Uri("/Resources/Images/table2.png", UriKind.Relative));
+
+	public static BitmapImage TableSys { get; } = new BitmapImage(new Uri("/Resources/Images/table_set.png", UriKind.Relative));
+
+	public static BitmapImage Database { get; } = new BitmapImage(new Uri("/Resources/Images/database.png", UriKind.Relative));
+
+	public static BitmapImage Folder { get; } = new BitmapImage(new Uri("/Resources/Images/folder.png", UriKind.Relative));
 }

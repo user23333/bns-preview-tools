@@ -38,7 +38,7 @@ public partial class Skill3ToolTipPanel_1
 
 		#region Common
 		Skill3ToolTipPanel_1_Name.Arguments = [record, record];
-		Skill3ToolTipPanel_1_Main_Icon.ExpansionComponentList["IconImage"]?.SetValue(record.Icon);
+		Skill3ToolTipPanel_1_Main_Icon.ExpansionComponentList["IconImage"]?.SetValue(record.FrontIcon);
 		Skill3ToolTipPanel_1_Main_Icon.ExpansionComponentList["KEYCOMMAND"]?.SetValue(record.CurrentShortCutKey);
 		Skill3ToolTipPanel_1_Main_Icon.ExpansionComponentList["SkillSkin"]?.SetShow(false);
 		Skill3ToolTipPanel_1_Main_Icon.InvalidateVisual();

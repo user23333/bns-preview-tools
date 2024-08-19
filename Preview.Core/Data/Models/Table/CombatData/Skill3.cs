@@ -2,7 +2,6 @@
 using Xylia.Preview.Common.Attributes;
 using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Common.DataStruct;
-using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models.Sequence;
 
 namespace Xylia.Preview.Data.Models;
@@ -28,8 +27,9 @@ public abstract class Skill3 : ModelElement, IHaveName
 	public Ref<SkillTooltip>[] StanceTooltip { get; set; }
 	public Ref<SkillTooltip>[] ConditionTooltip { get; set; }
 
-	public string IconTexture { get; set; }
+	public Ref<IconTexture> IconTexture { get; set; }
 	public short IconIndex { get; set; }
+	public Icon Icon { get; set; }
 
 
 	public sealed class ActiveSkill : Skill3
@@ -88,7 +88,7 @@ public abstract class Skill3 : ModelElement, IHaveName
 	#region Methods
 	public string Name => Name2.GetText();
 
-	public ImageProperty Icon => FileCache.Data.Provider.GetTable<IconTexture>()[IconTexture]?.GetImage(IconIndex);
+	public ImageProperty FrontIcon => IconTexture.Instance?.GetImage(IconIndex);
 
 	public KeyCommand CurrentShortCutKey => KeyCommand.Cast(this.ShortCutKey);
 

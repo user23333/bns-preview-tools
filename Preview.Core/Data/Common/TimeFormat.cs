@@ -4,6 +4,8 @@ using Xylia.Preview.Data.Models;
 namespace Xylia.Preview.Data.Common;
 internal interface ITime
 {
+	internal ulong Ticks { get; }
+
 	/// <summary>Returns the year part of this DateTime. The returned value is an integer between 1 and 9999.</summary>
 	public int Year { get; }
 

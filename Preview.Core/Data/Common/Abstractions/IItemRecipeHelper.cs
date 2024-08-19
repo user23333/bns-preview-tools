@@ -34,7 +34,7 @@ public class ItemRecipeHelper
 	#region Properies
 	public static float DiscountRate = 0.2F;
 
-	public Tuple<Item, short>[] SubItemList => LinqExtensions.Combine(SubItem, SubItemCount);
+	public Tuple<Item, short>[] SubItemList => LinqExtensions.Create(SubItem, SubItemCount);
 
 	public string Price => Money.Money;
 

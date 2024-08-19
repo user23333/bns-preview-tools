@@ -44,7 +44,7 @@
 		</Grid>
 
 		<!-- Center -->
-		<UI:BnsCustomWindowWidget Name="MapWindow_MapHolder" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" AutoResizeHorizontal="True">
+		<UI:BnsCustomWindowWidget Grid.Column="1" Name="MapWindow_MapHolder" HorizontalAlignment="Center" VerticalAlignment="Center" AutoResizeHorizontal="True" AutoResizeVertical="True">
 			<UI:BnsCustomMinimapWidget Name="MapWindow_Minimap" MouseRightButtonDown="MapWindow_Minimap_MouseRightButtonDown" />
 			<UI:BnsCustomLabelWidget Name="MapWindow_QuestInfo" FontSize="15" Foreground="{StaticResource ReverseTextBrush}" UI:LayoutData.Anchors="1 0 1 0" UI:LayoutData.Offsets="-3 0 0 0" />
 			<!-- MapWindow_ControlHolder -->

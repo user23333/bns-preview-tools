@@ -10,6 +10,10 @@ public partial class RewardTooltipPanel
 	public RewardTooltipPanel()
 	{
 		InitializeComponent();
+
+		Column1.String.LabelText = StringHelper.Get("Text_Name");
+		Column2.String.LabelText = StringHelper.Get("Text_Group");
+		Column3.String.LabelText = StringHelper.Get("Text_Info");
 	}
 	#endregion
 

@@ -84,7 +84,7 @@ public class SkillTooltipAttribute : ModelElement
 			{
 				ArgTypeSeq.DamagePercentMinMax => GetDamageInfo(value[0], value[1], AttributeCoefficient),
 				ArgTypeSeq.DamagePercent => GetDamageInfo(value[0], 0, AttributeCoefficient),
-				ArgTypeSeq.Time => "UI.Tooltip.Sequence.time".GetText([value[0] * 0.001]),
+				ArgTypeSeq.Time => "UI.Tooltip.Sequence.time".GetText([new Msec(value[0]).TotalSeconds]),
 				ArgTypeSeq.StackCount => "UI.Tooltip.Sequence.stack-count".GetText([value[0]]),
 				ArgTypeSeq.Effect => $"<font name=\"00008130.Program.Fontset_ItemGrade_6\">{provider.GetTable<Effect>()[arg]?.Name}</font>",
 				ArgTypeSeq.HealPercent => "UI.Tooltip.Sequence.heal-percent".GetText([value[0]]),

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.IO;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Markup;
@@ -27,11 +28,11 @@ public partial class App : Application
 
 #if DEVELOP && true
 		UpdateSkin(SkinType.Default, true);
-		TestProvider.Set(@"D:\Tencent\BnsData\data_ztx\20240805");
+		TestProvider.Set(new DirectoryInfo(@"D:\Tencent\BnsData\data_ztx"));
 
 		//new Xylia.Preview.UI.Content.TestPanel().Show();
 		//var _ = PreviewModel.SnooperViewer;
-		new GameUI.Scene.Game_Tooltip.Skill3ToolTipPanel_1().Show();
+		new GameUI.Scene.Game_Tooltip2.GlyphInventoryTooltipPanel().Show();
 #else
 		MainWindow = new MainWindow();
 		MainWindow.Show();

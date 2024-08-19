@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Media.Imaging;
 using HandyControl.Controls;
 using HandyControl.Data;
 using Xylia.Preview.Data.Client;

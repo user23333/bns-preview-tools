@@ -202,14 +202,12 @@ public enum AttachAbility : byte
 
 public static partial class SequenceExtensions
 {
-	public static string GetText(this MainAbility ability, long value = 0) => GetAbilityText(ability, value);
+	public static string GetText(this MainAbility ability, long value = 0) => ability == default ? null : GetAbilityText(ability, value);
 
-	public static string GetText(this AttachAbility ability, long value = 0) => GetAbilityText(ability, value);
+	public static string GetText(this AttachAbility ability, long value = 0) => ability == default ? null : GetAbilityText(ability, value);
 
 	private static string GetAbilityText(Enum ability, long value)
 	{
-		if (ability == default) return null;
-
 		var name = SequenceExtensions.GetText(ability);
 		return value == 0 ? name : string.Format("{0} {1}", name,
 			ability.ToString().EndsWith("percent", StringComparison.OrdinalIgnoreCase) ?

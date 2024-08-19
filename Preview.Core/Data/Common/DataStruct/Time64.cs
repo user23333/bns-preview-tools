@@ -95,7 +95,7 @@ public struct Time64(long ticks) : IFormattable, ITime, IComparable<Time64>
 	#endregion
 
 
-	#region Override Methods	
+	#region Override Methods
 	public readonly override string ToString() => ToString(null, null);
 
 	public readonly string ToString(string format, IFormatProvider formatProvider) => TimeFormat.Format(this + BnsTimeZoneInfo.FromPublisher()!.Offset, format, formatProvider);

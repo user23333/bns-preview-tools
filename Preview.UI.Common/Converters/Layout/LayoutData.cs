@@ -9,9 +9,6 @@ public class LayoutData
 	#region Public Properties
 	/// <summary>
 	/// This is the dependency property registered for the Widget' Offset attached property.
-	/// 
-	/// The Offset property is read by a Widget on its children to determine where to position them.
-	/// The child's offset from this property does not have an effect on the Widget' own size.
 	/// </summary>
 	public static readonly DependencyProperty OffsetsProperty = DependencyProperty.RegisterAttached("Offsets",
 		typeof(Offset), typeof(LayoutData), new FrameworkPropertyMetadata((Offset)default,

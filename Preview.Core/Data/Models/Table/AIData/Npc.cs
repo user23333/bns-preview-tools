@@ -485,7 +485,7 @@ public sealed class Npc : ModelElement
 
 	public bool DefaultVisible { get; set; }
 
-	public MoveType MoveType { get; set; }
+	//public MoveType MoveType { get; set; }
 
 	//public SizeType SizeType { get; set; }
 

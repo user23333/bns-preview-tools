@@ -78,15 +78,20 @@ public static class LinqExtensions
 		return array;
 	}
 
-	public static Tuple<T1, T2>[] Combine<T1, T2>(T1[] array1, T2[] array2)
+	public static Tuple<T1, T2>[] Create<T1, T2>(T1[] array1, T2[] array2)
 	{
-		if (array1 is null) return null;
+		ArgumentNullException.ThrowIfNull(array1);
+		ArgumentNullException.ThrowIfNull(array2);
 
-		var source = For(array1.Length, (x) => new Tuple<T1, T2>(
-			array1[x - 1],
-			array2[x - 1]));
+		var source = new Tuple<T1, T2>[Math.Max(array1.Length, array2.Length)];
+		for (int i = 0; i < source.Length; i++)
+		{
+			source[i] = new Tuple<T1, T2>(
+				array1.ElementAtOrDefault(i),
+				array2.ElementAtOrDefault(i));
+		}
 
-		return source.Where(x => x.Item1 != null/* && x.Item2 != null*/).ToArray();
+		return source;
 	}
 	#endregion
 }

@@ -16,9 +16,10 @@ namespace Xylia.Preview.UI.Controls;
 /// </summary>
 public class BnsCustomLabelWidget : BnsCustomBaseWidget, IContentHost
 {
-	#region Constructors
+	#region Constructors	
 	public BnsCustomLabelWidget()
 	{
+		AutoResizeVertical = true;
 		SetValue(TimersProperty, new Dictionary<int, Time64>());
 	}
 	#endregion

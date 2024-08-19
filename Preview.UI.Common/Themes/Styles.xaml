@@ -3,7 +3,7 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 	
 	<ResourceDictionary.MergedDictionaries>
-		<ResourceDictionary Source="/Preview.UI.Common;component/Themes/Styles/Geometry.xaml"/>
+		<ResourceDictionary Source="/Preview.UI.Common;component/Themes/Basic/Basic.xaml"/>
 		<ResourceDictionary Source="/Preview.UI.Common;component/Themes/Styles/Style.xaml"/>
 	</ResourceDictionary.MergedDictionaries>
 	

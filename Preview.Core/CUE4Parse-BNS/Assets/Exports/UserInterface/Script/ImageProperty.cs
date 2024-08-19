@@ -19,8 +19,8 @@ public class ImageProperty : IUStruct
 	[TypeConverter(typeof(FPackageIndexTypeConverter))] public FPackageIndex BaseImageTexture { get; set; }
 	[TypeConverter(typeof(FPackageIndexTypeConverter))] public FPackageIndex ImageSet { get; set; }
 	public FStructFallback ImageBrush { get; set; }
-	[TypeConverter(typeof(Vector2DConverter))] public FVector2D ImageUV { get; set; }
-	[TypeConverter(typeof(Vector2DConverter))] public FVector2D ImageUVSize { get; set; }
+	public FVector2D ImageUV { get; set; }
+	public FVector2D ImageUVSize { get; set; }
 
 	public bool EnableImageSet { get; set; }
 	public bool EnableBrushOnly { get; set; }
@@ -38,8 +38,8 @@ public class ImageProperty : IUStruct
 	public bool EnableMultiImage { get; set; }
 	public TintColor TintColor { get; set; }
 	public float GrayWeightValue { get; set; }
-	[TypeConverter(typeof(Vector2DConverter))] public FVector2D StaticPadding { get; set; }
-	[TypeConverter(typeof(Vector2DConverter))] public FVector2D Offset { get; set; }
+	public FVector2D StaticPadding { get; set; }
+	public FVector2D Offset { get; set; }
 	public float Opacity { get; set; } = 1;
 	public float ImageScale { get; set; } = 1;
 	public HAlignment HorizontalAlignment { get; set; }
@@ -83,12 +83,12 @@ public class ImageProperty : IUStruct
 				var obj = BaseImageTexture.LoadEx();
 				if (obj is UTexture texture) bitmap = texture.Decode()?.Clone(ImageUV, ImageUVSize);
 			}
-	
+
 			if (bitmap is null) return null;
 			#endregion
 
 			#region Draw
-			var tint = EnableDrawColor ? TintColor.SpecifiedColor.ToSKColor() : (SKColor?)null;
+			var tint = TintColor.SpecifiedColor.ToSKColor();
 
 			for (int i = 0; i < bitmap.Width; i++)
 			{
@@ -97,7 +97,7 @@ public class ImageProperty : IUStruct
 					var p = bitmap.GetPixel(i, j);
 
 					// TODO: not working perfectly
-					if (tint != null && p.Alpha > 64) p = tint.Value;
+					if (EnableDrawColor && p.Alpha > 64) p = tint;
 
 					// set alpha channel
 					p = p.WithAlpha((byte)(p.Alpha * Opacity));

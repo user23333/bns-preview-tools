@@ -6,6 +6,7 @@ using Xylia.Preview.Data.Models;
 using Xylia.Preview.UI.Controls;
 using Xylia.Preview.UI.Extensions;
 using Xylia.Preview.UI.GameUI.Scene.Game_Tooltip;
+using Xylia.Preview.UI.GameUI.Scene.Game_Tooltip2;
 using Xylia.Preview.UI.Views;
 
 namespace Xylia.Preview.UI.Common.Interactivity;
@@ -17,12 +18,14 @@ public sealed class RecordTooltip : ContentControl
 	#region Constructors
 	static RecordTooltip()
 	{
+		RegisterTemplate<EffectTooltipPanel>(typeof(Effect));
+		RegisterTemplate<GlyphInventoryTooltipPanel>(typeof(Glyph));
 		RegisterTemplate<ItemTooltipPanel>(typeof(Item));
-		RegisterTemplate<RewardTooltipPanel>(typeof(Reward));
-		RegisterTemplate<Skill3ToolTipPanel_1>(typeof(Skill3));
 #if DEBUG
 		RegisterTemplate<NpcTooltipPanel>(typeof(Npc));
 #endif
+		RegisterTemplate<RewardTooltipPanel>(typeof(Reward));
+		RegisterTemplate<Skill3ToolTipPanel_1>(typeof(Skill3));
 	}
 
 	public RecordTooltip()

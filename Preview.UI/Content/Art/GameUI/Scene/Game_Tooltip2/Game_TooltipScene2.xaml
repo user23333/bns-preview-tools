@@ -25,8 +25,8 @@
 	<BnsCustomWindowWidget x:Name="AdditionalRewardTooltipPanel_C" />
 	<BnsCustomWindowWidget x:Name="AdditionalRewardItemToolTipPanel_C" />
 	<BnsCustomWindowWidget x:Name="MuseumCardTooltipPanel_C" />
-	<BnsCustomWindowWidget x:Name="GlyphInventoryTooltipPanel_C" />
-	<BnsCustomWindowWidget x:Name="GlyphSlotOpenTooltipPanel_C" />
+	<l:GlyphInventoryTooltipPanel x:Name="GlyphInventoryTooltipPanel_C" />
+	<l:GlyphSlotOpenTooltipPanel x:Name="GlyphSlotOpenTooltipPanel_C" />
 	<BnsCustomWindowWidget x:Name="SealedDungeonExpToolTipPanel_C" />
 	<BnsCustomWindowWidget x:Name="SoulBoostTooltipPanel_C" />
 	<BnsCustomWindowWidget x:Name="RelicsTooltipPanel_C" />

@@ -1,10 +1,12 @@
-﻿using System.Xml;
+﻿using System.Diagnostics;
+using System.Xml;
 using Xylia.Preview.Common.Attributes;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Common.Exceptions;
 
 namespace Xylia.Preview.Data.Engine.Definitions;
+[DebuggerDisplay("{Name} ({Type}) repeat:{Repeat}")]
 public class AttributeDefinition
 {
 	#region Metadata
@@ -39,8 +41,6 @@ public class AttributeDefinition
 	#endregion	  
 
 	#region Methods
-	public override string ToString() => $"{Name} ({Type}) repeat:{Repeat}";
-
 	public void WriteXml(XmlWriter writer)
 	{
 		writer.WriteStartElement("attribute");
@@ -80,43 +80,38 @@ public class AttributeDefinition
 
 	public static AttributeDefinition LoadFrom(XmlElement node, IElementDefinition table, Func<SequenceDefinition> seqfun)
 	{
-		var Name = node.GetAttribute("name").Trim();
-		var Deprecated = node.GetAttribute("deprecated").ToBool();
-		var Key = node.GetAttribute("key").ToBool();
-		var Required = node.GetAttribute("required").ToBool();
-		var Hidden = node.GetAttribute("hidden").ToBool();
+		var Name = node.GetAttribute<string>("name").Trim();
+		var Type = Enum.TryParse("T" + node.GetAttribute("type"), true, out AttributeType type) ? type : 
+			throw BnsDataException.InvalidDefinition($"Failed to determine attribute type: {table.Name}: {Name}");
+		var Repeat = ushort.TryParse(node.Attributes["repeat"]?.Value, out var tmp) ? tmp : (ushort)1;
+		var RefTable = node.GetAttribute<string>("ref");
+		var RefEl = node.GetAttribute<byte>("refel");
+		var Offset = node.GetAttribute<ushort>("offset");
+		var Deprecated = node.GetAttribute<bool>("deprecated");
+		var Key = node.GetAttribute<bool>("key");
+		var Required = node.GetAttribute<bool>("required");
+		var Hidden = node.GetAttribute<bool>("hidden");
+		var DefaultValue = node.GetAttribute<string>("default");
+		var MinValue = node.GetAttribute<long>("min");
+		var MaxValue = node.GetAttribute<long>("max");
+		var FMinValue = node.GetAttribute<float>("fmin");
+		var FMaxValue = node.GetAttribute<float>("fmax");
 
-		ArgumentException.ThrowIfNullOrEmpty(Name);
+		#region Check
 		if (Deprecated) return null;
+		ArgumentException.ThrowIfNullOrEmpty(Name);
 
-		#region Type & Ref
-		var TypeName = node.Attributes["type"]?.Value;
-		var Type = Enum.TryParse("T" + TypeName?.Trim(), true, out AttributeType ParseVType) ? ParseVType : default;
+		//side
+		var side = ReleaseSide.None;
+		if (node.GetAttribute("client", true)) side |= ReleaseSide.Client;
+		if (node.GetAttribute("server", true)) side |= ReleaseSide.Server;
 
-		var RefTable = node.Attributes["ref"]?.Value;
-		if (Type == AttributeType.TNone)
-		{
-			if (TypeName.Equals("struct", StringComparison.OrdinalIgnoreCase)) return null;
-			else if (TypeName.Equals("dictionary", StringComparison.OrdinalIgnoreCase)) return null;
-
-			throw BnsDataException.InvalidDefinition($"Failed to determine attribute type: {table.Name}: {Name} ({TypeName})");
-		}
-		#endregion
-
-		#region Seq
+		//seq
 		var seq = seqfun();
 		seq?.Check(Type);
-		#endregion
 
-		#region Default
-		string DefaultValue = node.Attributes["default"]?.Value?.Trim();
+		//default
 		if (string.IsNullOrEmpty(DefaultValue)) DefaultValue = null;
-
-		var MinValue = (node.Attributes["min"]?.Value).ToInt64();
-		var MaxValue = (node.Attributes["max"]?.Value).ToInt64();
-		var FMinValue = (node.Attributes["fmin"]?.Value).ToFloat32();
-		var FMaxValue = (node.Attributes["fmax"]?.Value).ToFloat32();
-
 		switch (Type)
 		{
 			case AttributeType.TInt8:
@@ -211,23 +206,18 @@ public class AttributeDefinition
 		}
 		#endregion
 
-
-		var side = ReleaseSide.None;
-		if (node.Attributes["client"]?.Value.ToBool() ?? true) side |= ReleaseSide.Client;
-		if (node.Attributes["server"]?.Value.ToBool() ?? true) side |= ReleaseSide.Server;
-
 		return new AttributeDefinition
 		{
 			Name = Name,
-
 			IsDeprecated = Deprecated,
 			IsKey = Key,
 			IsRequired = Required,
 			IsHidden = Hidden,
 			Type = Type,
-			Offset = (ushort)(node.Attributes["offset"]?.Value).ToInt16(),
-			Repeat = ushort.TryParse(node.Attributes["repeat"]?.Value, out var tmp) ? tmp : (ushort)1,
+			Offset = Offset,
+			Repeat = Repeat,
 			ReferedTableName = RefTable,
+			ReferedEl = RefEl,
 			Sequence = seq,
 			DefaultValue = DefaultValue,
 			Max = MaxValue,

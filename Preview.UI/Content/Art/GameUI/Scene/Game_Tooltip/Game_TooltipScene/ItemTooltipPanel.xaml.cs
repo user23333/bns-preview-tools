@@ -199,7 +199,7 @@ public partial class ItemTooltipPanel
 
 					var icon = new BnsCustomImageWidget
 					{
-						BaseImageProperty = Skill3?.Icon,
+						BaseImageProperty = Skill3?.FrontIcon,
 						Width = 32,
 						Height = 32,
 						Margin = new Thickness(0, 0, 10, 0),

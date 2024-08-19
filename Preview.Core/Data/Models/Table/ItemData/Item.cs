@@ -69,7 +69,6 @@ public abstract class Item : ModelElement, IHaveName
 		COUNT
 	}
 
-
 	public ItemDecomposeInfo DecomposeInfo => new(this);
 
 	public Ref<SetItem> SetItem { get; set; }
@@ -297,11 +296,6 @@ public abstract class Item : ModelElement, IHaveName
 				var name = seq.ToString().TitleLowerCase();
 				var value = Convert.ToInt32(this.Attributes[name]);
 				if (value != 0) data[seq] = value;
-				else if (seq != MainAbility.AttackAttributeValue)
-				{
-					var value2 = Convert.ToInt32(this.Attributes[name + "-equip"]);
-					if (value2 != 0) data[seq] = value2;
-				}
 			}
 
 			// HACK: Actually, the MainAbility is not this sequence

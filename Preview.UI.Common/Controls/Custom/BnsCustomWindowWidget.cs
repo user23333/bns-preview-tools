@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Windows;
-using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
@@ -11,29 +10,31 @@ namespace Xylia.Preview.UI.Controls;
 public class BnsCustomWindowWidget : BnsCustomBaseWidget
 {
 	#region Constructors
+	static BnsCustomWindowWidget()
+	{
+		DefaultStyleKeyProperty.OverrideMetadata(Owner, new FrameworkPropertyMetadata(Owner));
+		DataContextProperty.OverrideMetadata(Owner, new FrameworkPropertyMetadata(OnDataChanged));
+	}
+
 	public BnsCustomWindowWidget()
 	{
-		//HeightProperty.OverrideMetadata(typeof(BnsCustomWindowWidget), new FrameworkPropertyMetadata(new PropertyChangedCallback(_OnHeightChanged)));
-		//MinHeightProperty.OverrideMetadata(typeof(BnsCustomWindowWidget), new FrameworkPropertyMetadata(new PropertyChangedCallback(_OnMinHeightChanged)));
-		//MaxHeightProperty.OverrideMetadata(typeof(BnsCustomWindowWidget), new FrameworkPropertyMetadata(new PropertyChangedCallback(_OnMaxHeightChanged)));
-		//WidthProperty.OverrideMetadata(typeof(BnsCustomWindowWidget), new FrameworkPropertyMetadata(new PropertyChangedCallback(_OnWidthChanged)));
-		//MinWidthProperty.OverrideMetadata(typeof(BnsCustomWindowWidget), new FrameworkPropertyMetadata(new PropertyChangedCallback(_OnMinWidthChanged)));
-		//MaxWidthProperty.OverrideMetadata(typeof(BnsCustomWindowWidget), new FrameworkPropertyMetadata(new PropertyChangedCallback(_OnMaxWidthChanged)));
-
-		DataContextChanged += (s, e) => OnDataChanged(e);
-
+		AutoResizeVertical = true;
 		SetValue(TitleProperty, GetType().Name);
 	}
 	#endregion
 
-	#region Properties
+	#region Events
 	public event EventHandler? Closed;
+	#endregion
+
+	#region Properties
+	private static readonly Type Owner = typeof(BnsCustomWindowWidget);
 
 	/// <summary>
 	///     The DependencyProperty for TitleProperty.
 	/// </summary>
 	public static readonly DependencyProperty TitleProperty = DependencyProperty.Register("Title",
-		typeof(string), typeof(BnsCustomWindowWidget), new FrameworkPropertyMetadata(string.Empty));
+		typeof(string), Owner, new FrameworkPropertyMetadata(string.Empty));
 
 	/// <summary>
 	///     The data that will be displayed as the title of the window.
@@ -46,14 +47,19 @@ public class BnsCustomWindowWidget : BnsCustomBaseWidget
 		get => (string)GetValue(TitleProperty);
 		set => SetValue(TitleProperty, value);
 	}
+
+
+	private static void OnDataChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+	{
+		var widget = (BnsCustomWindowWidget)d;
+		widget.OnDataChanged(e);
+	}
 	#endregion
 
 
 	#region Override Methods
 	protected override void OnInitialized(EventArgs e)
 	{
-		AutoResizeVertical = true;
-
 		base.OnInitialized(e);
 
 		// Maybe miss name if this is root element
@@ -120,7 +126,7 @@ public class BnsCustomWindowWidget : BnsCustomBaseWidget
 	private class HostWindow : Window
 	{
 		protected override Size MeasureOverride(Size availableSize)
-		{      
+		{
 			//boarder size
 			User32.GetWindowRect(new WindowInteropHelper(this).Handle, out var windowRect);
 			User32.GetClientRect(new WindowInteropHelper(this).Handle, out var clientRect);
@@ -129,7 +135,7 @@ public class BnsCustomWindowWidget : BnsCustomBaseWidget
 			{
 				child.Measure(availableSize);
 				return new Size(
-					child.DesiredSize.Width + windowRect.Width - clientRect.Width, 	  
+					child.DesiredSize.Width + windowRect.Width - clientRect.Width,
 					child.DesiredSize.Height + windowRect.Height - clientRect.Height);
 			}
 

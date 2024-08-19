@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using CUE4Parse.UE4;
+﻿using CUE4Parse.UE4;
 using CUE4Parse.UE4.Assets.Objects;
 using CUE4Parse.UE4.Assets.Utils;
 using CUE4Parse.UE4.Objects.Core.i18N;
@@ -13,8 +12,8 @@ public class ExpansionComponent : IUStruct
 	public bool bPostExpansitonRender { get; set; }
 	public bool bShow { get; set; }
 	public bool bVisibleFlag { get; set; }
-	[TypeConverter(typeof(FNameConverter))] public FName ExpansionType { get; set; }
-	[TypeConverter(typeof(FNameConverter))] public FName ExpansionName { get; set; }
+	public FName ExpansionType { get; set; }
+	public FName ExpansionName { get; set; }
 	public string MetaData { get; set; }
 	public string WidgetState { get; set; }    //BNSCustomWidgetState_None
 	public string WidgetSubState { get; set; } //Expansion_WidgetSubState_Normal

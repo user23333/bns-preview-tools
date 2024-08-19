@@ -31,8 +31,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="CUE4Parse" Version="9.1.1" />
-		<PackageReference Include="CUE4Parse-Conversion" Version="9.1.1" />
+		<PackageReference Include="CUE4Parse" Version="9.1.2" />
+		<PackageReference Include="CUE4Parse-Conversion" Version="9.1.2" />
 		<PackageReference Include="ini-parser-netstandard" Version="2.5.2" />
 		<PackageReference Include="SharpZipLib" Version="1.4.2" />
 		<PackageReference Include="Vanara.PInvoke.User32" Version="4.0.3" />

@@ -116,7 +116,7 @@ public abstract class UserWidget : FrameworkElement, IUserWidget
 	///     The DependencyProperty for the Background property.
 	/// </summary>
 	public static readonly DependencyProperty BackgroundProperty = Panel.BackgroundProperty.AddOwner(Owner,
-		new FrameworkPropertyMetadata(Panel.BackgroundProperty.DefaultMetadata.DefaultValue, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.Inherits));
+		new FrameworkPropertyMetadata(Panel.BackgroundProperty.DefaultMetadata.DefaultValue, FrameworkPropertyMetadataOptions.AffectsRender));
 
 	/// <summary>
 	///     An object that describes the background.

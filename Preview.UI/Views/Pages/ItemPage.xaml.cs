@@ -34,7 +34,7 @@ public partial class ItemPage
 		timer.IsEnabled = true;
 		timer.Start();
 
-		//Debug.WriteLine("stringstringstring   <arg p=\"2:string\"/>".Replace([null, "test"]));
+		//Debug.WriteLine("stringstringstring   <arg p=\"2:string\"/>".Replace([null, "test"]));  
 #endif
 	}
 	#endregion

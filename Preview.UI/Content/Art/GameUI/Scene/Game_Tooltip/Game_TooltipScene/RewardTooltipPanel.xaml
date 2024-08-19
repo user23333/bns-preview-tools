@@ -1,10 +1,9 @@
 ﻿<BnsCustomWindowWidget x:Class="Xylia.Preview.UI.GameUI.Scene.Game_Tooltip.RewardTooltipPanel"
 	xmlns="https://github.com/xyliaup/bns-preview-tools"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:s="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-	Background="{s:DynamicResource RegionBrush}" Foreground="{s:DynamicResource PrimaryTextBrush}">
-
-	<BnsCustomColumnListWidget Name="ColumnList" ShowLines="True" CellMerge="ColumnList_CellMerge" LayoutData.Anchors="0 0 1 1" Width="500" Background="{x:Null}">
+	xmlns:s="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	
+	<BnsCustomColumnListWidget Name="ColumnList" ShowLines="True" CellMerge="ColumnList_CellMerge" LayoutData.Anchors="0 0 1 1" Width="500">
 		<BnsCustomColumnListWidget.ColumnDefinitions>
 			<s:ColumnDefinition Width="4*" />
 			<s:ColumnDefinition Width="3*" />
@@ -15,9 +14,21 @@
 		</BnsCustomColumnListWidget.RowDefinitions>
 
 		<!-- Column Header -->
-		<BnsCustomLabelWidget Name="Column1" Text="{s:DynamicResource Text_Name}" HorizontalContentAlignment="HAlign_Center" VerticalContentAlignment="VAlign_Center" BnsCustomColumnListWidget.Row="0" BnsCustomColumnListWidget.Column="0" />
-		<BnsCustomLabelWidget Name="Column2" Text="{s:DynamicResource Text_Group}" HorizontalContentAlignment="HAlign_Center" VerticalContentAlignment="VAlign_Center" BnsCustomColumnListWidget.Row="0" BnsCustomColumnListWidget.Column="1" />
-		<BnsCustomLabelWidget Name="Column3" Text="{s:DynamicResource Text_Info}" HorizontalContentAlignment="HAlign_Center" VerticalContentAlignment="VAlign_Center" BnsCustomColumnListWidget.Row="0" BnsCustomColumnListWidget.Column="2" />
+		<BnsCustomLabelWidget Name="Column1" BnsCustomColumnListWidget.Row="0" BnsCustomColumnListWidget.Column="0">
+			<BnsCustomLabelWidget.String>
+				<StringProperty LabelText="Name" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+			</BnsCustomLabelWidget.String>
+		</BnsCustomLabelWidget>
+		<BnsCustomLabelWidget Name="Column2" BnsCustomColumnListWidget.Row="0" BnsCustomColumnListWidget.Column="1">
+			<BnsCustomLabelWidget.String>
+				<StringProperty LabelText="Group" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+			</BnsCustomLabelWidget.String>
+		</BnsCustomLabelWidget>
+		<BnsCustomLabelWidget Name="Column3" BnsCustomColumnListWidget.Row="0" BnsCustomColumnListWidget.Column="2">
+			<BnsCustomLabelWidget.String>
+				<StringProperty LabelText="Info" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+			</BnsCustomLabelWidget.String>
+		</BnsCustomLabelWidget>
 
 		<!-- Content -->
 	</BnsCustomColumnListWidget>

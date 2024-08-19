@@ -73,19 +73,6 @@ public abstract class BnsCustomBaseWidget : UserWidget, IMetaData
 		set { SetValue(VerticalResizeLinkProperty, value); }
 	}
 
-	public HAlignment HorizontalContentAlignment
-	{
-		get => String.HorizontalAlignment;
-		set => String.HorizontalAlignment = value;
-	}
-
-	public VAlignment VerticalContentAlignment
-	{
-		get => String.VerticalAlignment;
-		set => String.VerticalAlignment = value;
-	}
-
-
 	public bool AutoResizeHorizontal { get; set; }
 	public float MinAutoResizeHorizontal { get; set; } = 0;
 	public float MaxAutoResizeHorizontal { get; set; } = float.PositiveInfinity;
@@ -94,8 +81,6 @@ public abstract class BnsCustomBaseWidget : UserWidget, IMetaData
 	public float MinAutoResizeVertical { get; set; } = 0;
 	public float MaxAutoResizeVertical { get; set; } = float.PositiveInfinity;
 	#endregion
-
-
 
 	#region StringProperty
 	internal readonly TextContainer _container;
@@ -134,10 +119,12 @@ public abstract class BnsCustomBaseWidget : UserWidget, IMetaData
 	}
 	#endregion
 
-
 	#region Protected Methods
 	protected override Size MeasureOverride(Size constraint)
 	{
+		if (AutoResizeHorizontal) constraint.Width = double.PositiveInfinity;
+		if (AutoResizeVertical) constraint.Height = double.PositiveInfinity;
+
 		var size = base.MeasureOverride(constraint);
 		return new Size(
 			Math.Min(MaxAutoResizeHorizontal, Math.Max(MinAutoResizeHorizontal, size.Width)),
