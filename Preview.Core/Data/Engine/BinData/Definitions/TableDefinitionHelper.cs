@@ -14,12 +14,12 @@ public static class TableDefinitionHelper
 	/// <summary>
 	/// load <see cref="TableDefinition"/> from files
 	/// </summary>
-	public static List<TableDefinition> LoadTableDefinition(SequenceDefinitionLoader param, params FileInfo[] files)
+	public static List<TableDefinition> LoadTableDefinition(SequenceDefinitionLoader loader, params FileInfo[] files)
 	{
-		return LoadTableDefinition(param, files.Select(f => File.ReadAllText(f.FullName)).ToArray());
+		return LoadTableDefinition(loader, files.Select(f => File.ReadAllText(f.FullName)).ToArray());
 	}
 
-	public static List<TableDefinition> LoadTableDefinition(SequenceDefinitionLoader param, params string[] XmlContents)
+	public static List<TableDefinition> LoadTableDefinition(SequenceDefinitionLoader loader, params string[] XmlContents)
 	{
 		var tables = new List<TableDefinition>();
 		foreach (var content in XmlContents)
@@ -27,7 +27,7 @@ public static class TableDefinitionHelper
 			var xmlDoc = new XmlDocument();
 			xmlDoc.LoadXml(content);
 
-			var table = LoadFrom(param, xmlDoc.DocumentElement);
+			var table = LoadFrom(loader, xmlDoc.DocumentElement);
 			if (table is null) continue;
 
 			tables.Add(table);
@@ -36,8 +36,7 @@ public static class TableDefinitionHelper
 		return tables;
 	}
 
-
-	public static TableDefinition LoadFrom(SequenceDefinitionLoader param, XmlElement tableNode)
+	public static TableDefinition LoadFrom(SequenceDefinitionLoader loader, XmlElement tableNode)
 	{
 		#region config 
 		var type = (ushort)(tableNode.Attributes["type"]?.Value).ToInt16();
@@ -49,7 +48,7 @@ public static class TableDefinitionHelper
 		var maxid = (tableNode.Attributes["maxid"]?.Value).ToInt32();
 		var version = TableHeader.ParseVersion(tableNode.GetAttribute("version"));
 		var module = (tableNode.Attributes["module"]?.Value).ToInt64();
-		var pattern = tableNode.Attributes["pattern"]?.Value ??  $"{name.TitleCase()}Data*.xml";
+		var pattern = tableNode.Attributes["pattern"]?.Value ?? $"{name.TitleCase()}Data*.xml";
 		#endregion
 
 		#region els
@@ -80,7 +79,7 @@ public static class TableDefinitionHelper
 
 			#region body
 			// load attributes
-			foreach (var attrDef in LoadAttribute(source.ChildNodes.OfType<XmlElement>().Where(e => e.Name == "attribute"), param, el))
+			foreach (var attrDef in LoadAttribute(source.ChildNodes.OfType<XmlElement>().Where(e => e.Name == "attribute"), loader))
 			{
 				el.Attributes.Add(attrDef);
 
@@ -157,7 +156,7 @@ public static class TableDefinitionHelper
 				subtable.ExpandedAttributes.AddRange(el.ExpandedAttributes);
 				subtable.Children.AddRange(el.Children);
 
-				foreach (var attrDef in LoadAttribute(sub.ChildNodes.OfType<XmlElement>(), param, el))
+				foreach (var attrDef in LoadAttribute(sub.ChildNodes.OfType<XmlElement>(), loader))
 				{
 					// HACK: Handle case when there's name conflict in subtable
 					if (el.Attributes.Any(x => x.Name == attrDef.Name))
@@ -227,33 +226,30 @@ public static class TableDefinitionHelper
 		#endregion
 	}
 
-	private static List<AttributeDefinition> LoadAttribute(IEnumerable<XmlElement> els, SequenceDefinitionLoader param, ElementDefinition def)
+
+	private static List<AttributeDefinition> LoadAttribute(IEnumerable<XmlElement> xelments, SequenceDefinitionLoader loader)
 	{
-		var Attributes = new List<AttributeDefinition>();
-		foreach (XmlElement node in els)
+		var attributes = new List<AttributeDefinition>();
+		foreach (XmlElement xe in xelments)
 		{
 			try
 			{
-				string name = node.Attributes["name"]?.Value;
-
-				var record = AttributeDefinition.LoadFrom(node, def, () => param.Load(node, name));
-				if (record is null) continue;
-
-				Attributes.Add(record);
+				var attribute = AttributeDefinition.LoadFrom(xe, loader);
+				if (attribute != null) attributes.Add(attribute);
 			}
 			catch (Exception ex)
 			{
-				throw BnsDataException.InvalidDefinition($"attribute load failed: {node.OuterXml}\n{ex.Message}");
+				throw BnsDataException.InvalidDefinition($"attribute load failed: {xe.OuterXml}", ex);
 			}
 		}
 
-		return Attributes;
+		return attributes;
 	}
 
-	private static ushort GetOffsetAndSize(IEnumerable<AttributeDefinition> Attributes, bool is64, int Offset = 16)
+	private static ushort GetOffsetAndSize(IEnumerable<AttributeDefinition> attributes, bool is64, int Offset = 16)
 	{
 		int Offset_Key = 8;
-		foreach (var attribute in Attributes.OrderBy(x => !x.IsKey))
+		foreach (var attribute in attributes.OrderBy(x => !x.IsKey))
 		{
 			// skip
 			if (attribute.IsDeprecated || !attribute.Side.HasFlag(ReleaseSide.Client))

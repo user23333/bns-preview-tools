@@ -55,7 +55,7 @@
 					</ExpansionComponent>
 				</BnsCustomImageWidget.ExpansionComponentList>
 			</BnsCustomImageWidget>
-			<BnsCustomLabelWidget Name="CollectionSubstituteText" d:String="만으로도 완료 할 수 있습니다." String="{Binding CollectionSubstitute.Item1}" FontSize="15">
+			<BnsCustomLabelWidget Name="CollectionSubstituteText" String="만으로도 완료 할 수 있습니다." FontSize="15">
 				<BnsCustomLabelWidget.HorizontalResizeLink>
 					<ResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" Offset1="7" LinkWidgetName1="ItemIcon" />
 				</BnsCustomLabelWidget.HorizontalResizeLink>
@@ -63,7 +63,7 @@
 					<ResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" Offset1="3" LinkWidgetName1="ItemName" />
 				</BnsCustomLabelWidget.VerticalResizeLink>
 			</BnsCustomLabelWidget>
-			<BnsCustomLabelWidget Name="CollectionSubstitute2Text" d:String="만으로도 완료 할 수 있습니다." String="{Binding CollectionSubstitute.Item2}">
+			<BnsCustomLabelWidget Name="CollectionSubstitute2Text" String="만으로도 완료 할 수 있습니다.">
 				<BnsCustomLabelWidget.HorizontalResizeLink>
 					<ResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" Offset1="7" LinkWidgetName1="ItemIcon" />
 				</BnsCustomLabelWidget.HorizontalResizeLink>

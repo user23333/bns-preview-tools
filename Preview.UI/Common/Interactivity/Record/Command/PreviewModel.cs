@@ -1,11 +1,11 @@
-﻿using CUE4Parse.BNS.Assets.Exports;
+﻿using System.ComponentModel;
+using System.Windows;
+using CUE4Parse.BNS.Assets.Exports;
 using CUE4Parse.UE4.Assets.Exports;
 using FModel.Framework;
 using FModel.Views.Snooper;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
-using System.ComponentModel;
-using System.Windows;
 using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models;
 using Xylia.Preview.UI.FModel.Views;
@@ -122,7 +122,7 @@ internal class PreviewModel : RecordCommand
 						return;
 					}
 
-					else if (record.Definition.Name == "weapon")
+					else if (record.Name == "weapon")
 					{
 						var pet = record.Attributes.Get<Record>("pet");
 						await Load(pet, models);
@@ -133,7 +133,7 @@ internal class PreviewModel : RecordCommand
 							//var EquipShow = FileCache.Pakitem.LoadObject<UShowObject>(equipshow);
 						}
 					}
-					else if (record.Definition.Name == "accessory")
+					else if (record.Name == "accessory")
 					{
 						var VehicleDetail = record.Attributes.Get<Record>("vehicle-detail");
 						var VehicleAppearance = VehicleDetail?.Attributes.Get<Record>("appearance");

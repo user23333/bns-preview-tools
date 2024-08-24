@@ -26,13 +26,13 @@ public partial class App : Application
 
 		InitializeArgs(e.Args);
 
-#if DEVELOP && true
+#if DEVELOP
 		UpdateSkin(SkinType.Default, true);
 		TestProvider.Set(new DirectoryInfo(@"D:\Tencent\BnsData\data_ztx"));
 
 		//new Xylia.Preview.UI.Content.TestPanel().Show();
 		//var _ = PreviewModel.SnooperViewer;
-		new GameUI.Scene.Game_Tooltip2.GlyphInventoryTooltipPanel().Show();
+		new GameUI.Scene.Game_Tooltip.ItemTooltipPanel().Show();
 #else
 		MainWindow = new MainWindow();
 		MainWindow.Show();

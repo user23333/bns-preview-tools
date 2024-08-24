@@ -2,7 +2,6 @@
 using Xylia.Preview.Common.Attributes;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.Abstractions;
-using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models.Sequence;
 
 namespace Xylia.Preview.Data.Models;
@@ -64,7 +63,7 @@ public sealed class ItemImproveOptionList : ModelElement, IItemRecipeHelper
 			var option = Option[i].Instance;
 			if (option is null) continue;
 
-			option = FileCache.Data.Provider.GetTable<ItemImproveOption>()[option.Id + ((long)level << 32)];
+			option = this.Provider.GetTable<ItemImproveOption>()[option.Id + ((long)level << 32)];
 			options.Add(new(option, ((double)OptionWeight[i] / OptionWeightTotal).ToString("P3")));
 		}
 

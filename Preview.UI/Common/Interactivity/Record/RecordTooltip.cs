@@ -20,10 +20,11 @@ public sealed class RecordTooltip : ContentControl
 	{
 		RegisterTemplate<EffectTooltipPanel>(typeof(Effect));
 		RegisterTemplate<GlyphInventoryTooltipPanel>(typeof(Glyph));
+		RegisterTemplate<RewardTooltipPanel>(typeof(GlyphReward));
 		RegisterTemplate<ItemTooltipPanel>(typeof(Item));
-#if DEBUG
+		RegisterTemplate<RewardTooltipPanel>(typeof(ItemCombination));
+		RegisterTemplate<RewardTooltipPanel>(typeof(WorldAccountCombination));
 		RegisterTemplate<NpcTooltipPanel>(typeof(Npc));
-#endif
 		RegisterTemplate<RewardTooltipPanel>(typeof(Reward));
 		RegisterTemplate<Skill3ToolTipPanel_1>(typeof(Skill3));
 	}

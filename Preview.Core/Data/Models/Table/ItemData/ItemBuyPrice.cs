@@ -1,6 +1,5 @@
 ﻿using System.Text;
 using Xylia.Preview.Data.Common.DataStruct;
-using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models.Sequence;
 
 namespace Xylia.Preview.Data.Models;
@@ -64,7 +63,7 @@ public class ItemBuyPrice : ModelElement
 		get
 		{
 			if (RequiredItembrand.Instance is null) return null;
-			return FileCache.Data.Provider.GetTable<ItemBrandTooltip>()[RequiredItembrand.Instance.Id + ((long)RequiredItembrandConditionType << 32)];
+			return Provider.GetTable<ItemBrandTooltip>()[RequiredItembrand.Instance.Id + ((long)RequiredItembrandConditionType << 32)];
 		}
 	}
 

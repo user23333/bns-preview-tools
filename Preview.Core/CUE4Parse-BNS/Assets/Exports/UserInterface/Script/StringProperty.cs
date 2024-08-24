@@ -14,7 +14,7 @@ public class StringProperty : IUStruct, INotifyPropertyChanged
 {
 	private FPackageIndex _fontset;
 
-	[TypeConverter(typeof(FPackageIndexTypeConverter))] 
+	[TypeConverter(typeof(FPackageIndexTypeConverter))]
 	public FPackageIndex fontset
 	{
 		get => _fontset;
@@ -51,6 +51,22 @@ public class StringProperty : IUStruct, INotifyPropertyChanged
 	public float LastRenderHeight { get; set; }
 
 
+	#region Constructors
+	public StringProperty()
+	{
+
+	}
+
+	public StringProperty(string text, 
+		HAlignment horizontalAlignment = HAlignment.HAlign_Center, 
+		VAlignment verticalAlignment = VAlignment.VAlign_Center)
+	{
+		LabelText = text;
+		HorizontalAlignment = horizontalAlignment;
+		VerticalAlignment = verticalAlignment;
+	}
+	#endregion
+
 	#region Methods
 	public event PropertyChangedEventHandler PropertyChanged;
 
@@ -77,9 +93,9 @@ internal class StringPropertyConverter : TypeConverter
 
 	public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
 	{
-		return new StringProperty() 
+		return new StringProperty()
 		{
-			LabelText = new FText(value?.ToString()) 
+			LabelText = new FText(value?.ToString())
 		};
 	}
 }

@@ -1,4 +1,5 @@
-﻿using Xylia.Preview.Data.Common.DataStruct;
+﻿using Xylia.Preview.Common.Extension;
+using Xylia.Preview.Data.Common.DataStruct;
 
 namespace Xylia.Preview.Data.Models;
 public sealed class GlyphReward : ModelElement
@@ -15,6 +16,7 @@ public sealed class GlyphReward : ModelElement
 	public Ref<Text> ShuffleRewardTooltip { get; set; }
 
 	public UpgradeRewardPreviewSeq UpgradeRewardPreview { get; set; }
+
 	public enum UpgradeRewardPreviewSeq
 	{
 		FixedScore,
@@ -25,6 +27,7 @@ public sealed class GlyphReward : ModelElement
 	public bool UpgradeRewardWarningMessage { get; set; }
 
 	public RewardTypeSeq RewardType { get; set; }
+
 	public enum RewardTypeSeq
 	{
 		Acquire,
@@ -76,5 +79,89 @@ public sealed class GlyphReward : ModelElement
 	public short[] GroupProbWeight { get; set; }
 
 	public short GroupProbWeightTotal { get; set; }
+	#endregion
+
+	#region Methods
+	public List<GlyphRewardInfo> GetInfo()
+	{
+		var data = new List<GlyphRewardInfo>();
+
+		#region Additional
+		if (AdditionalGlyphPickProbability > 0)
+		{
+			var group = string.Format("{0}% ", AdditionalGlyphPickProbability) + "UI.GlyphProbability.Title.AcquireAddGlyph".GetText();
+
+			AdditionalGlyph.Select(x => x.Instance).ForEach((glyph, idx) =>
+			{
+				data.Add(new GlyphRewardInfo()
+				{
+					Data = glyph,
+					Group = group,
+					Probability = (double)AdditionalGlyphProbWeight[idx] / AdditionalGlyphProbWeightTotal
+				});
+			});
+		}
+		#endregion
+
+		#region General
+		if (ResultGlyphProbWeightTotal > 0)
+		{
+			ResultGlyph.Select(x => x.Instance).ForEach((glyph, i) =>
+			{
+				data.Add(new GlyphRewardInfo()
+				{
+					Data = glyph,
+					Probability = (double)ResultGlyphProbWeight[i] / ResultGlyphProbWeightTotal
+				});
+			});
+		}
+		else
+		{
+			var glyphs = Provider.GetTable<Glyph>();
+
+			for (int i = 0; i < GradeProbWeight.Length; i++)
+			{
+				var w = GradeProbWeight[i];
+				if (w == 0) continue;
+
+				var _ = glyphs.Where(glyph => glyph.Grade == i + 1);
+			}
+
+			for (int i = 0; i < TierProbWeight.Length; i++)
+			{
+				var w = TierProbWeight[i];
+				if (w == 0) continue;
+
+				var _ = glyphs.Where(glyph => glyph.RewardTier == i + 1);
+			}
+		}
+
+		//if (GroupProbWeightTotal > 0)
+		//{
+		//	for (int i = 0; i < GroupProbWeight.Length; i++)
+		//	{
+		//		//var CostGroupId = this.CostGroupId[i];
+		//		var GroupProbWeight = this.GroupProbWeight[i];
+		//		if (GroupProbWeight == 0) break;
+
+		//		var glyphs = Provider.GetTable<Glyph>().Where(record => record.GroupId == ResultGroupId[i]);
+		//		var prob = (double)GroupProbWeight / GroupProbWeightTotal / glyphs.Count();
+
+		//		data.AddRange(glyphs.Select(glyph => new GlyphRewardInfo() { Data = glyph, Probability = prob }));
+		//	}
+		//}
+		#endregion
+
+		return data;
+	}
+
+	public class GlyphRewardInfo : IReward
+	{
+		public Glyph Data;
+		public string Group;
+		internal double Probability;
+
+		public string ProbabilityInfo => Probability.ToString("P4");
+	}
 	#endregion
 }

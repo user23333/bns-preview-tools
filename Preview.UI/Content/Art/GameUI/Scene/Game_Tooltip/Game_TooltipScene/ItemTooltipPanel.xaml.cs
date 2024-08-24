@@ -31,10 +31,12 @@ public partial class ItemTooltipPanel
 	{
 		if (e.NewValue is not Item record) return;
 
+		#region Data
 		// get job
 		var jobs = record.EquipJobCheck.Where(x => x != JobSeq.JobNone);
 		var jobfilter = !jobs.Any() && record.RandomOptionGroupId != 0;
 		if (jobfilter) jobs = [UserSettings.Default.Job];
+		#endregion
 
 		#region Common
 		TextArguments arguments = [null, record];
@@ -46,6 +48,88 @@ public partial class ItemTooltipPanel
 		ItemIcon.ExpansionComponentList["Grade_Image"]?.SetValue(null);
 		ItemIcon.ExpansionComponentList["CanSaleItem"]?.SetValue(record.CanSaleItemImage);
 		ItemIcon.InvalidateVisual();
+
+		#region Substitute
+		List<string> Substitute1 = [], Substitute2 = [];
+		Substitute1.Add(record.Attributes.Get<Record>("main-info").GetText());
+		Substitute2.Add(record.Attributes.Get<Record>("sub-info").GetText());
+
+		#region Ability
+		var data = new Dictionary<MainAbility, long>();
+
+		var AttackPowerEquipMin = record.Attributes.Get<short>("attack-power-equip-min");
+		var AttackPowerEquipMax = record.Attributes.Get<short>("attack-power-equip-max");
+		data[MainAbility.AttackPowerEquipMinAndMax] = (AttackPowerEquipMin + AttackPowerEquipMax) / 2;
+
+		var PveBossLevelNpcAttackPowerEquipMin = record.Attributes.Get<short>("pve-boss-level-npc-attack-power-equip-min");
+		var PveBossLevelNpcAttackPowerEquipMax = record.Attributes.Get<short>("pve-boss-level-npc-attack-power-equip-max");
+		data[MainAbility.PveBossLevelNpcAttackPowerEquipMinAndMax] = (PveBossLevelNpcAttackPowerEquipMin + PveBossLevelNpcAttackPowerEquipMax) / 2;
+
+		var PvpAttackPowerEquipMin = record.Attributes.Get<short>("pvp-attack-power-equip-min");
+		var PvpAttackPowerEquipMax = record.Attributes.Get<short>("pvp-attack-power-equip-max");
+		data[MainAbility.PvpAttackPowerEquipMinAndMax] = (PvpAttackPowerEquipMin + PvpAttackPowerEquipMax) / 2;
+
+		// HACK: Actually, the ability value is directly get
+		foreach (var seq in Enum.GetValues<MainAbility>())
+		{
+			if (seq == MainAbility.None) continue;
+
+			var name = seq.ToString().TitleLowerCase();
+			var value = Convert.ToInt32(record.Attributes[name]);
+			if (value != 0) data[seq] = value;
+			else if (seq != MainAbility.AttackAttributeValue && seq != MainAbility.AttackCriticalDamageValue)
+			{
+				var value2 = Convert.ToInt32(record.Attributes[name + "-equip"]);
+				if (value2 != 0) data[seq] = value2;
+			}
+		}
+
+		// HACK: Actually, the MainAbility is not this sequence
+		var MainAbility1 = record.Attributes["main-ability-1"].ToEnum<MainAbility>();
+		var MainAbility2 = record.Attributes["main-ability-2"].ToEnum<MainAbility>();
+
+		foreach (var ability in data)
+		{
+			if (ability.Value == 0) continue;
+
+			var text = ability.Key.GetText(ability.Value);
+			if (ability.Key == MainAbility1 || ability.Key == MainAbility2) Substitute1.Add(text);
+			else Substitute2.Add(text);
+		}
+
+
+		if (record is Gem)
+		{
+			var MainAbilityFixed = record.Attributes.Get<Record>("main-ability-fixed")?.As<ItemRandomAbilitySlot>();
+			var SubAbilityFixed = record.Attributes.Get<Record>("sub-ability-fixed")?.As<ItemRandomAbilitySlot>();
+			var SubAbilityRandomCount = record.Attributes.Get<sbyte>("sub-ability-random-count");
+			var SubAbilityRandom = LinqExtensions.For(8, (id) => record.Attributes.Get<Record>("sub-ability-random-" + id)?.As<ItemRandomAbilitySlot>());
+
+			if (MainAbilityFixed != null) Substitute1.Add(MainAbilityFixed.Description);
+			if (SubAbilityFixed != null) Substitute2.Add(SubAbilityFixed.Description);
+			if (SubAbilityRandomCount > 0)
+			{
+				Substitute2.Add("UI.ItemRandomOption.Undetermined".GetText([SubAbilityRandomCount]));
+				SubAbilityRandom.ForEach(x => Substitute2.Add(x.Description + " <Image imagesetpath='00015590.Tag_Random' enablescale='true' scalerate='1.2'/>"), true);
+			}
+		}
+		#endregion
+
+		#region Effect
+		for (int i = 1; i <= 4; i++)
+		{
+			var EffectEquip = record.Attributes.Get<Record>("effect-equip-" + i);
+			if (EffectEquip is null) continue;
+
+			Substitute1.Add(EffectEquip.Attributes.Get<Record>("name3").GetText());
+			Substitute2.Add(EffectEquip.Attributes.Get<Record>("description3").GetText());
+		}
+		#endregion
+
+		CollectionSubstituteText.String.LabelText = LinqExtensions.Join(BR.Tag, Substitute1);
+		CollectionSubstitute2Text.String.LabelText = LinqExtensions.Join(BR.Tag, Substitute2);
+		#endregion
+
 
 		// Effect
 		var SetItem = record.SetItem.Instance;
@@ -118,7 +202,7 @@ public partial class ItemTooltipPanel
 			record.CannotSell ? "Name.Item.Cannot.Sell.Global".GetText() : null,
 			record.CannotDispose ? "Name.Item.Cannot.Dispose.Global".GetText() : null));
 
-		Required.String.LabelText = LinqExtensions.Join(BR.Tag, [.. required]);
+		Required.String.LabelText = LinqExtensions.Join(BR.Tag, required);
 		#endregion
 
 		#region Combat Holder
@@ -127,55 +211,51 @@ public partial class ItemTooltipPanel
 
 		if (record.RandomOptionGroupId != 0)
 		{
-			var Job = jobs.FirstOrDefault();
-			var RandomOptionGroup = FileCache.Data.Provider.GetTable<ItemRandomOptionGroup>()[record.RandomOptionGroupId + ((long)Job << 32)];
-			if (RandomOptionGroup != null)
+			Combat_Holder.Visibility = Visibility.Visible;
+			var RandomOptionGroup = FileCache.Data.Provider.GetTable<ItemRandomOptionGroup>()[record.RandomOptionGroupId + ((long)jobs.FirstOrDefault() << 32)];
+
+			if (RandomOptionGroup.AbilityListTotalCount > 0)
 			{
-				Combat_Holder.Visibility = Visibility.Visible;
+				// TODO: add random tag
+			}
 
-				if (RandomOptionGroup.AbilityListTotalCount > 0)
+			if (RandomOptionGroup.SkillTrainByItemListTotalCount > 0)
+			{
+				// title
+				Combat_Holder.Children.Add(Combat_Holder_Title);
+				Combat_Holder_Title.String.LabelText = string.Format("{0} ({1}-{2})", RandomOptionGroup.SkillTrainByItemListTitle,
+					RandomOptionGroup.SkillTrainByItemListSelectMin, RandomOptionGroup.SkillTrainByItemListSelectMax);
+
+				foreach (var SkillTrainByItemList in RandomOptionGroup.SkillTrainByItemList.SelectNotNull(x => x.Instance))
 				{
-					// TODO: add random tag
-				}
+					var ChangeSets = SkillTrainByItemList.ChangeSet.SelectNotNull(x => x.Instance);
+					if (ChangeSets.Count() > 1) Combat_Holder.Children.Add(new BnsCustomLabelWidget() { Text = "UI.ItemRandomOption.Undetermined".GetText([1]) });
 
-				if (RandomOptionGroup.SkillTrainByItemListTotalCount > 0)
-				{
-					// title
-					Combat_Holder.Children.Add(Combat_Holder_Title);
-					Combat_Holder_Title.String.LabelText = string.Format("{0} ({1}-{2})", RandomOptionGroup.SkillTrainByItemListTitle,
-						RandomOptionGroup.SkillTrainByItemListSelectMin, RandomOptionGroup.SkillTrainByItemListSelectMax);
-
-					foreach (var SkillTrainByItemList in RandomOptionGroup.SkillTrainByItemList.SelectNotNull(x => x.Instance))
+					foreach (var SkillTrainByItem in ChangeSets)
 					{
-						var ChangeSets = SkillTrainByItemList.ChangeSet.SelectNotNull(x => x.Instance);
-						if (ChangeSets.Count() > 1) Combat_Holder.Children.Add(new BnsCustomLabelWidget() { Text = "UI.ItemRandomOption.Undetermined".GetText([1]) });
-
-						foreach (var SkillTrainByItem in ChangeSets)
+						// element
+						var icon = new BnsCustomImageWidget
 						{
-							// element
-							var icon = new BnsCustomImageWidget
-							{
-								BaseImageProperty = SkillTrainByItem.Icon?.GetImage(),
-								Width = 32,
-								Height = 32,
-								Margin = new Thickness(0, 0, 10, 0),
-								VerticalAlignment = System.Windows.VerticalAlignment.Top,
-								//DataContext = SkillTrainByItem.ChangeSkill[0].Instance,
-								//ToolTip = new Skill3ToolTipPanel_1()
-							};
+							BaseImageProperty = SkillTrainByItem.Icon?.GetImage(),
+							Width = 32,
+							Height = 32,
+							Margin = new Thickness(0, 0, 10, 0),
+							VerticalAlignment = System.Windows.VerticalAlignment.Top,
+							//DataContext = SkillTrainByItem.ChangeSkill[0].Instance,
+							//ToolTip = new Skill3ToolTipPanel_1()
+						};
 
-							// description
-							var description = new BnsCustomLabelWidget();
-							description.String.LabelText = SkillTrainByItem.Description2;
+						// description
+						var description = new BnsCustomLabelWidget();
+						description.String.LabelText = SkillTrainByItem.Description2;
 
-							// layout
-							var box = new HorizontalBox() { Margin = new Thickness(0, 0, 0, 3) };
-							LayoutData.SetAnchors(box, FLayoutData.Anchor.Full);
-							Combat_Holder.Children.Add(box);
+						// layout
+						var box = new HorizontalBox() { Margin = new Thickness(0, 0, 0, 3) };
+						LayoutData.SetAnchors(box, FLayoutData.Anchor.Full);
+						Combat_Holder.Children.Add(box);
 
-							box.Children.Add(icon);
-							box.Children.Add(description);
-						}
+						box.Children.Add(icon);
+						box.Children.Add(description);
 					}
 				}
 			}
@@ -281,12 +361,12 @@ public partial class ItemTooltipPanel
 		{
 			ArgumentNullException.ThrowIfNull(DecomposeReward);
 
-			var info = DecomposeReward.GetInfos().OrderByDescending(x => x.Item.ItemGrade);
-			info.Where(x => x.Category.Item1 is "fixed").ForEach(item =>
+			var info = DecomposeReward.GetInfo().OrderByDescending(x => x.Data.ItemGrade);
+			info.Where(x => x.Group.Item1 is "fixed").ForEach(item =>
 			{
 				collection.Add(new BnsCustomLabelWidget()
 				{
-					Arguments = [null, item.Item, item.Min, item.Max],
+					Arguments = [null, item.Data, item.Min, item.Max],
 					String = new StringProperty()
 					{
 						LabelText = (item.Min == item.Max ? item.Min == 1 ?
@@ -296,19 +376,19 @@ public partial class ItemTooltipPanel
 					}
 				});
 			});
-			info.Where(x => x.Category.Item1 is "selected").ForEach(item =>
+			info.Where(x => x.Group.Item1 is "selected").ForEach(item =>
 			{
 				collection.Add(new BnsCustomLabelWidget()
 				{
-					Arguments = [null, item.Item, item.Min],
+					Arguments = [null, item.Data, item.Min],
 					String = new StringProperty() { LabelText = "UI.ItemTooltip.RandomboxPreview.Selected".GetText() }
 				});
 			});
-			info.Where(x => x.Category.Item1 is "random" or "group-1" or "group-2" or "group-3" or "group-4" or "group-5" or "rare").ForEach(item =>
+			info.Where(x => x.Group.Item1 is "random" or "group-1" or "group-2" or "group-3" or "group-4" or "group-5" or "rare").ForEach(item =>
 			{
 				collection.Add(new BnsCustomLabelWidget()
 				{
-					Arguments = [null, item.Item, item.Min, item.Max],
+					Arguments = [null, item.Data, item.Min, item.Max],
 					String = new StringProperty()
 					{
 						LabelText = (item.Min == item.Max ? item.Min == 0 ?

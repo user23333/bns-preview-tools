@@ -145,6 +145,10 @@ public class BnsCustomColumnListWidget : BnsCustomBaseWidget
 
 			if (column != -1 && row != -1)
 			{
+				// HACK: not allow widget use auto size
+				if (child is BnsCustomBaseWidget widget) widget.AutoResizeHorizontal = widget.AutoResizeVertical = false;
+
+				// set absolute rect
 				var c1 = offsetU.ElementAtOrDefault(column);
 				var c2 = offsetU.ElementAtOrDefault(column + columnspan - 1);
 				var r1 = offsetV.ElementAtOrDefault(row);
@@ -182,17 +186,18 @@ public class BnsCustomColumnListWidget : BnsCustomBaseWidget
 			}
 		}
 	}
-	#endregion
 
-	#region Private Methods
 	public void AddChild(FrameworkElement element, int row, int column)
 	{
 		SetRow(element, row);
 		SetColumn(element, column);
-
 		Children.Add(element);
-	}
 
+		InvalidateVisual();
+	}
+	#endregion
+
+	#region Private Methods
 	private void CheckDefinition(IEnumerable<UIElement> elements)
 	{
 		var rows = elements.Max(GetRow) + 1 - RowDefinitions.Count;
@@ -225,7 +230,6 @@ public class BnsCustomColumnListWidget : BnsCustomBaseWidget
 			prev = current;
 		}
 	}
-
 
 	/// <summary>
 	/// Calculates and sets offset for all definitions in the given array.

@@ -19,11 +19,12 @@ public class SequenceDefinitionLoader
 
 			foreach (XmlElement record in xmlDoc.SelectNodes("table/sequence"))
 			{
-				string name = record.Attributes["name"]?.Value?.Trim();
+				string name = record.Attributes["name"]?.Value;
+				ArgumentException.ThrowIfNullOrWhiteSpace(name);
 				if (loader._duplicateSequences.ContainsKey(name))
 					throw BnsDataException.InvalidSequence($"has existed", name);
 
-				var seq = loader.Load(record, name);
+				var seq = loader.Load(record);
 				if (seq != null) loader._duplicateSequences[name] = [seq];
 			}
 		}
@@ -31,34 +32,29 @@ public class SequenceDefinitionLoader
 		return loader;
 	}
 
-	internal SequenceDefinition Load(XmlElement element, string name)
+	internal SequenceDefinition Load(XmlElement element)
 	{
-		name = element.GetAttribute("seq").Trim() ?? name;
-		SequenceDefinition sequence = new(name);
+		var seqName = element.Attributes["seq"]?.Value;
+		var sequence = new SequenceDefinition(seqName ?? element.Attributes["name"]?.Value);
 
 		var nodes = element.ChildNodes.OfType<XmlElement>();
 		if (nodes.Any())
 		{
-			foreach (var node in nodes)
-			{
-				sequence.Add(node.GetAttribute("name").Trim());
-			}
+			sequence.AddRange(nodes.Select(x => x.GetAttribute("name")));
+			return sequence;
 		}
 		else
 		{
-			if (string.IsNullOrWhiteSpace(name)) return null;
+			if (string.IsNullOrWhiteSpace(seqName)) return null;
 
-			if (!_duplicateSequences.TryGetValue(name, out var TSeq))
+			if (!_duplicateSequences.TryGetValue(seqName, out var seq))
 			{
-				Trace.WriteLine($"seq `{name}` not defined");
+				Trace.WriteLine($"seq `{seqName}` not defined");
 				return null;
 			}
 
-			sequence = TSeq.First().Clone();
-			sequence.Name = name;
+			return seq.First();
 		}
-
-		return sequence;
 	}
 
 

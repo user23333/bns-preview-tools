@@ -21,7 +21,7 @@ public sealed class SkillBuildUpGroup : ModelElement, IEnumerable<string>
 
 	public IEnumerator<string> GetEnumerator()
 	{
-		var table = FileCache.Data.Provider.GetTable<Skill3>();
+		var table = Provider.GetTable<Skill3>();
 
 		for (int i = 0; i < SkillBuildUpSkillTotalCount; i++)
 		{

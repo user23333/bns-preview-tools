@@ -57,7 +57,9 @@ public static class LinqExtensions
 	/// <returns></returns>
 	public static bool IsEmpty<T>(this IEnumerable<T> source) => source == null || !source.Any();
 
-	public static string Join(string separator, params string[] source)
+	public static string Join(string separator, params string[] source) => Join(separator, (IEnumerable<string>)source);
+
+	public static string Join(string separator, IEnumerable<string> source)
 	{
 		return string.Join(separator, source.Where(t => !string.IsNullOrWhiteSpace(t)));
 	}

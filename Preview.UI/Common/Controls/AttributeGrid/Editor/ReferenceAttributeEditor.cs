@@ -2,23 +2,16 @@
 using System.Windows;
 using System.Windows.Data;
 using HandyControl.Controls;
-using Xylia.Preview.Data.Engine.BinData.Helpers;
 using Xylia.Preview.Data.Engine.BinData.Models;
-using Xylia.Preview.Data.Helpers;
+using Xylia.Preview.Data.Engine.DatData;
 
 namespace Xylia.Preview.UI.Controls;
-internal class ReferenceAttributeEditor : PropertyEditorBase, IValueConverter
+internal class ReferenceAttributeEditor(string? reference, IDataProvider provider) : PropertyEditorBase, IValueConverter
 {
-	#region Constructorss
-	protected TableCollection Tables { get; }
+	#region Constructors
+	protected IDataProvider Provider { get; } = provider;
 
-	protected Table? ReferedTable { get; }
-
-	public ReferenceAttributeEditor(string reference)
-	{
-		Tables = FileCache.Data.Provider.Tables;
-		ReferedTable = Tables[reference];
-	}
+	protected Table? ReferedTable { get; } = provider.Tables[reference];
 	#endregion
 
 	#region Methods
@@ -74,7 +67,7 @@ internal class ReferenceAttributeEditor : PropertyEditorBase, IValueConverter
 	{
 		if (value is string text)
 		{
-			if (text.Contains(':')) return Tables.GetRecord(text);
+			if (text.Contains(':')) return Provider.Tables.GetRecord(text);
 			else return ReferedTable?[text];
 		}
 

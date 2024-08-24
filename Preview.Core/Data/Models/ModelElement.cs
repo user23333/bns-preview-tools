@@ -6,6 +6,7 @@ using Xylia.Preview.Common.Attributes;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Common.DataStruct;
+using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Data.Engine.Definitions;
 using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Properties;
@@ -16,11 +17,13 @@ public abstract class ModelElement : IElement
 	#region IElement
 	public Record Source { get; private set; }
 
-	public ElementType ElementType => Source.ElementType;
+	public ElementType ElementType => ElementType.Element;
 
 	public Ref PrimaryKey => Source.PrimaryKey;
 
 	public AttributeCollection Attributes => Source.Attributes;
+
+	protected IDataProvider Provider => Source.Owner.Owner;
 	#endregion
 
 

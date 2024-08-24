@@ -17,7 +17,6 @@ public abstract class Datafile
 	public bool Is64Bit { get; protected set; }
 	#endregion
 
-
 	#region	Serialize
 	protected void ReadFrom(byte[] bytes, bool is64bit)
 	{
@@ -63,7 +62,7 @@ public abstract class Datafile
 
 		var overwriteNameTableSize = datafileHeader.WriteHeaderTo(writer, tables.Length, AliasCount, is64bit);
 
-		if (this.AliasTable == null)
+		if (AliasTable == null) 
 			overwriteNameTableSize(AliasMapSize);
 
 		if (tables.Length > 10)

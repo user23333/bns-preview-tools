@@ -296,7 +296,7 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
 				widget.MouseLeave += new((_, _) => widget.BaseImageProperty = Image);
 				widget.MouseLeftButtonDown += new((_, _) =>
 				{
-					if (mapunit is MapUnit.Link) this.MapInfo = FileCache.Data.Provider.GetTable<MapInfo>()[mapunit.Attributes.Get<short>("link-mapid")];
+					if (mapunit is MapUnit.Link) this.MapInfo = provider.GetTable<MapInfo>()[mapunit.Attributes.Get<short>("link-mapid")];
 					else Debug.WriteLine(mapunit.Attributes);
 				});
 

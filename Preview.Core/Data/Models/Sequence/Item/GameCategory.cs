@@ -706,7 +706,6 @@ public enum GameCategory3Seq
 	[Text("Name.item.game-category-3.fusion-material")]
 	FusionMaterial,
 
-	[Text("Name.item.game-category-3.card")]
 	Card,
 
 	[Text("Name.item.game-category-3.aquamarine-amber")]

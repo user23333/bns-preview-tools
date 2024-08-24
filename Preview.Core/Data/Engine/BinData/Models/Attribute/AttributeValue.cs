@@ -16,13 +16,13 @@ public class AttributeValue : IComparable<AttributeValue>, IEquatable<AttributeV
 	/// <summary>
 	/// Represent a NullValue
 	/// </summary>
-	public readonly static AttributeValue Null = new AttributeValue(null);
+	public readonly static AttributeValue Null = new(null);
 
 	#region Constructor
-	internal AttributeValue(AttributeDefinition def, object value)
+	internal AttributeValue(AttributeDefinition definition, object value)
 	{
-		this.Definition = def;
-		this.Type = def?.Type ?? AttributeType.TNone;
+		this.Definition = definition;
+		this.Type = definition?.Type ?? AttributeType.TNone;
 		this.RawValue = value;
 	}
 
@@ -83,7 +83,7 @@ public class AttributeValue : IComparable<AttributeValue>, IEquatable<AttributeV
 		}
 	}
 
-	public static AttributeValue Create(object rawValue)
+	internal static AttributeValue Create(object rawValue)
 	{
 		return new AttributeValue(rawValue);
 	}

@@ -7,7 +7,6 @@ using HandyControl.Controls;
 using HandyControl.Data;
 using HandyControl.Interactivity;
 using HandyControl.Tools.Extension;
-using Xylia.Preview.Data.Engine.Definitions;
 using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.UI.Controls;
@@ -95,7 +94,7 @@ public class AttributeGrid : Control
 		if (obj == null || _itemsControl == null) return;
 		if (obj is not Record record) return;
 
-		_dataView = CollectionViewSource.GetDefaultView(record.Definition.ExpandedAttributes
+		_dataView = CollectionViewSource.GetDefaultView(record.Attributes
 			.Where(PropertyResolver.ResolveIsBrowsable)
 			.Select(CreatePropertyItem)
 			.Do(item => item.InitElement()));
@@ -117,7 +116,7 @@ public class AttributeGrid : Control
 		}
 	}
 
-	private void SortByName(object sender, ExecutedRoutedEventArgs e)
+	private void SortByName(object senderz, ExecutedRoutedEventArgs e)
 	{
 		if (_dataView == null) return;
 
@@ -147,22 +146,24 @@ public class AttributeGrid : Control
 		{
 			foreach (PropertyItem item in _dataView)
 			{
-				item.Show(item.PropertyName.ToLower().Contains(_searchKey) || item.DisplayName.ToLower().Contains(_searchKey));
+				item.Show(
+					item.PropertyName.Contains(_searchKey, StringComparison.CurrentCultureIgnoreCase) ||
+					item.DisplayName.Contains(_searchKey, StringComparison.CurrentCultureIgnoreCase));
 			}
 		}
 	}
 
-	protected virtual PropertyItem CreatePropertyItem(AttributeDefinition attribute) => new()
+	protected virtual PropertyItem CreatePropertyItem(AttributeValue attribute) => new()
 	{
-		Category = PropertyResolver.ResolveCategory(attribute),
+		Category = PropertyResolver.ResolveCategory(attribute.Definition),
+		DisplayName = PropertyResolver.ResolveDisplayName(attribute.Definition),
+		Description = PropertyResolver.ResolveDescription(attribute.Definition),
+		DefaultValue = PropertyResolver.ResolveDefaultValue(attribute.Definition),
+		IsReadOnly = PropertyResolver.ResolveIsReadOnly(attribute.Definition),
+		Editor = PropertyResolver.ResolveEditor(attribute.Definition, SelectedObject.Owner.Owner),
 		PropertyName = $"[{attribute.Name}]",
+		Tag = attribute.Definition.Offset,
 		Value = SelectedObject.Attributes,
-		DisplayName = PropertyResolver.ResolveDisplayName(attribute),
-		Description = PropertyResolver.ResolveDescription(attribute),
-		DefaultValue = PropertyResolver.ResolveDefaultValue(attribute),
-		Editor = PropertyResolver.ResolveEditor(attribute),
-		IsReadOnly = PropertyResolver.ResolveIsReadOnly(attribute),
-		Tag = attribute.Offset,
 	};
 
 	protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)

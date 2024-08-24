@@ -359,7 +359,7 @@ public partial class DatabaseStudio
 		{
 			system.Items.Add(new TreeViewImageItem { Image = ImageHelper.TableSys, Header = "Publisher: " + bns.Provider.Locale.Publisher });
 			system.Items.Add(new TreeViewImageItem { Image = ImageHelper.TableSys, Header = "Created: " + bns.Provider.CreatedAt });
-			system.Items.Add(new TreeViewImageItem { Image = ImageHelper.TableSys, Header = "Version: " + bns.Provider.ClientVersion });
+			system.Items.Add(new TreeViewImageItem { Image = ImageHelper.TableSys, Header = "Version: " + bns.Provider.Locale.ProductVersion });  //ClientVersion
 
 			// table nodes
 			foreach (var table in bns.Provider.Tables.OrderBy(x => x.Type))

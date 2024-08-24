@@ -78,11 +78,11 @@ public class AttributeDefinition
 		return newAttrDef;
 	}
 
-	public static AttributeDefinition LoadFrom(XmlElement node, IElementDefinition table, Func<SequenceDefinition> seqfun)
+	internal static AttributeDefinition LoadFrom(XmlElement node, SequenceDefinitionLoader loader)
 	{
 		var Name = node.GetAttribute<string>("name").Trim();
 		var Type = Enum.TryParse("T" + node.GetAttribute("type"), true, out AttributeType type) ? type : 
-			throw BnsDataException.InvalidDefinition($"Failed to determine attribute type: {table.Name}: {Name}");
+			throw BnsDataException.InvalidDefinition($"Failed to determine attribute type: {Name}");
 		var Repeat = ushort.TryParse(node.Attributes["repeat"]?.Value, out var tmp) ? tmp : (ushort)1;
 		var RefTable = node.GetAttribute<string>("ref");
 		var RefEl = node.GetAttribute<byte>("refel");
@@ -107,7 +107,7 @@ public class AttributeDefinition
 		if (node.GetAttribute("server", true)) side |= ReleaseSide.Server;
 
 		//seq
-		var seq = seqfun();
+		var seq = loader.Load(node);
 		seq?.Check(Type);
 
 		//default

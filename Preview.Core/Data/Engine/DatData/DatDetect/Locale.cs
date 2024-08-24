@@ -5,16 +5,14 @@ using Xylia.Preview.Data.Common.DataStruct;
 namespace Xylia.Preview.Data.Engine.DatData;
 public struct Locale
 {
-	#region Fields
-	public BnsVersion ProductVersion { get; set; }
+	#region Fields	   
+	internal static Locale Current { get; private set; }
 
-	public EPublisher Publisher { get; set; }
-
-	public ELanguage Language { get; set; }
-
-	public EPublisher AdditionalPublisher { get; set; }
-
-	public int Universe { get; set; }
+	public BnsVersion ProductVersion;
+	public EPublisher Publisher;
+	public ELanguage Language;
+	public EPublisher AdditionalPublisher;
+	public int Universe;
 	#endregion
 
 	#region Methods
@@ -72,10 +70,4 @@ public struct Locale
 		#endregion
 	}
 	#endregion
-
-
-	/// <summary>
-	/// Unable to exclude members in Time64, therefore as a global attribute
-	/// </summary>
-	internal static Locale Current { get; private set; }
 }

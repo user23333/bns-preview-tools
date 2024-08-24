@@ -1,6 +1,5 @@
 ﻿using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.DataStruct;
-using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models.Sequence;
 
 namespace Xylia.Preview.Data.Models;
@@ -62,8 +61,6 @@ public class SkillTooltipAttribute : ModelElement
 
 	public string ToString(TextArguments arguments, short AttributeCoefficient)
 	{
-		var provider = FileCache.Data.Provider;
-
 		for (int x = 1; x < arguments.Count; x++)
 		{
 			var type = ArgType[x - 1];
@@ -86,17 +83,17 @@ public class SkillTooltipAttribute : ModelElement
 				ArgTypeSeq.DamagePercent => GetDamageInfo(value[0], 0, AttributeCoefficient),
 				ArgTypeSeq.Time => "UI.Tooltip.Sequence.time".GetText([new Msec(value[0]).TotalSeconds]),
 				ArgTypeSeq.StackCount => "UI.Tooltip.Sequence.stack-count".GetText([value[0]]),
-				ArgTypeSeq.Effect => $"<font name=\"00008130.Program.Fontset_ItemGrade_6\">{provider.GetTable<Effect>()[arg]?.Name}</font>",
+				ArgTypeSeq.Effect => $"<font name=\"00008130.Program.Fontset_ItemGrade_6\">{Provider.GetTable<Effect>()[arg]?.Name}</font>",
 				ArgTypeSeq.HealPercent => "UI.Tooltip.Sequence.heal-percent".GetText([value[0]]),
 				ArgTypeSeq.DrainPercent => "UI.Tooltip.Sequence.drain-percent".GetText([value[0]]),
-				ArgTypeSeq.Skill => $"<font name=\"00008130.Program.Fontset_ItemGrade_4\">{provider.GetTable<Skill3>()[arg]?.Name}</font>",
+				ArgTypeSeq.Skill => $"<font name=\"00008130.Program.Fontset_ItemGrade_4\">{Provider.GetTable<Skill3>()[arg]?.Name}</font>",
 				ArgTypeSeq.ConsumePercent => "UI.Tooltip.Sequence.consume-percent".GetText([value[0]]),
 				ArgTypeSeq.ProbabilityPercent => "UI.Tooltip.Sequence.probability-percent".GetText([value[0]]),
 				ArgTypeSeq.StanceType => "UI.Tooltip.Sequence.stance-type".GetText([arg.ToEnum<StanceSeq>().GetText()]),
 				ArgTypeSeq.Percent => "UI.Tooltip.Sequence.percent".GetText([value[0]]),
 				ArgTypeSeq.Counter => "UI.Tooltip.Sequence.counter".GetText([value[0]]),
 				ArgTypeSeq.Distance => "UI.Tooltip.Sequence.distance".GetText([value[0] * 0.01]),
-				ArgTypeSeq.KeyCommand => "UI.Tooltip.Sequence.key-command".GetText([provider.GetTable<Skill3>()[arg]?.CurrentShortCutKey]),
+				ArgTypeSeq.KeyCommand => "UI.Tooltip.Sequence.key-command".GetText([Provider.GetTable<Skill3>()[arg]?.CurrentShortCutKey]),
 				ArgTypeSeq.Number => "UI.Tooltip.Sequence.number".GetText([value[0]]),
 				ArgTypeSeq.TextAlias => arg.GetText(),
 				_ => null,

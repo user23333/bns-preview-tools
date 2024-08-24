@@ -4,30 +4,27 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 using HandyControl.Controls;
-using HandyControl.Tools.Helper;
 using SkiaSharp.Views.WPF;
 using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.UI.Controls;
-[TemplatePart(Name = "PART_Popup", Type = typeof(ButtonBase))]
-[TemplatePart(Name = "PART_SearchTextBox", Type = typeof(System.Windows.Controls.TextBox))]
+[TemplatePart(Name = ElementPopup, Type = typeof(ButtonBase))]
+[TemplatePart(Name = ElementPopup, Type = typeof(Popup))]
 public partial class IconPicker : AutoCompleteTextBox
 {
 	#region Fields
 	private const string ElementButton = "PART_Button";
 	private const string ElementPopup = "PART_Popup";
 
-	private ButtonBase _dropDownButton;
-	private Popup _popup;
-	private CropImage _image;
+	private ButtonBase? _dropDownButton;
+	private CropImage? _image;
+	private Popup? _popup;
 	#endregion
 
 	#region Constructors
 	public IconPicker()
 	{
-		// this.FilterItem = Filter;
-
 		_image = new CropImage();
 		_image.PreviewMouseRightButtonDown += DropDownButton_Click;
 		BindingOperations.SetBinding(this, IconPicker.SelectedIndexProperty, new Binding(nameof(_image.SelectedIndex)) { Source = _image });
@@ -35,9 +32,8 @@ public partial class IconPicker : AutoCompleteTextBox
 	#endregion
 
 	#region Public Properties
-	public static new readonly DependencyProperty SelectedIndexProperty =
-		DependencyProperty.RegisterAttached("SelectedIndex", typeof(int), typeof(IconPicker),
-			  new PropertyMetadata(OnSelectedChanged));
+	public static new readonly DependencyProperty SelectedIndexProperty = DependencyProperty.RegisterAttached("SelectedIndex",
+		typeof(int), typeof(IconPicker), new PropertyMetadata(OnSelectedChanged));
 
 	private static void OnSelectedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 	{
@@ -132,8 +128,6 @@ public partial class IconPicker : AutoCompleteTextBox
 		}
 	}
 
-
-
 	private void SetData()
 	{
 		string Text = this.Text?.Split(',').First();
@@ -143,14 +137,6 @@ public partial class IconPicker : AutoCompleteTextBox
 
 		_image.CellSize = new Size(record.IconWidth, record.IconHeight);
 		_image.Source = record!.GetImage(0).Image?.ToWriteableBitmap();
-	}
-
-	private bool Filter(object item)
-	{
-		string Text = this.Text.Split(',').First();
-
-		string text = BindingHelper.GetString(item, base.DisplayMemberPath);
-		return text.Contains(Text, StringComparison.OrdinalIgnoreCase);
 	}
 	#endregion
 }

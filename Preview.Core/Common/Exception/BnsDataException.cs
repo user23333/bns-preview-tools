@@ -22,9 +22,9 @@ internal class BnsDataException : BnsException
 		return new BnsDataException($"invalid game (code: {game})");
 	}
 
-	internal static BnsDataException InvalidDefinition(string message)
+	internal static BnsDataException InvalidDefinition(string message, Exception exception = null)
 	{
-		return new BnsDataException(message);
+		return new BnsDataException(message, exception);
 	}
 
 	internal static BnsDataException InvalidSequence(string message, string name)
@@ -58,6 +58,6 @@ internal class BnsDataException : BnsException
 		var position = token?.Position - (token?.Value?.Length ?? 0) ?? 0;
 
 		return new BnsDataException(message);
-	}		
+	}
 	#endregion
 }

@@ -65,7 +65,7 @@ public class Reward : ModelElement
 	public Ref<Item>[] Group4Item { get; set; }
 
 	[Name("group-4-selected-count")]
-	public sbyte Group4SelectedCount { get; set; }	 //?
+	public sbyte Group4SelectedCount { get; set; }   //?
 
 	[Name("group-4-item-min")]
 	public int[] Group4ItemMin { get; set; }
@@ -195,7 +195,7 @@ public class Reward : ModelElement
 	#endregion
 
 	#region Methods
-	public List<RewardInfo> GetInfos()
+	public List<RewardInfo> GetInfo()
 	{
 		var data = new List<RewardInfo>();
 
@@ -204,8 +204,8 @@ public class Reward : ModelElement
 		{
 			data.Add(new RewardInfo()
 			{
-				Item = item,
-				Category = new("fixed", "UI.RandomBox.Probability.MiddleCategory.FixedReward".GetText()),
+				Data = item,
+				Group = new("fixed", "UI.RandomBox.Probability.MiddleCategory.FixedReward".GetText()),
 				Min = FixedItemMin[idx],
 				Max = FixedItemMax[idx],
 			});
@@ -219,8 +219,8 @@ public class Reward : ModelElement
 			{
 				data.Add(new RewardInfo()
 				{
-					Item = item,
-					Category = new("group-1", string.Format("{0}% ", Group1ProbWeight * probability) + "UI.RandomBox.Probability.MiddleCategory.GroupReward1".GetText([Group1AssuredCount])),
+					Data = item,
+					Group = new("group-1", string.Format("{0}% ", Group1ProbWeight * probability) + "UI.RandomBox.Probability.MiddleCategory.GroupReward1".GetText([Group1AssuredCount])),
 				});
 			});
 
@@ -228,8 +228,8 @@ public class Reward : ModelElement
 			{
 				data.Add(new RewardInfo()
 				{
-					Item = item,
-					Category = new("group-2", string.Format("{0}% ", Group2ProbWeight * probability) + "UI.RandomBox.Probability.MiddleCategory.GroupReward2".GetText([Group2AssuredCount])),
+					Data = item,
+					Group = new("group-2", string.Format("{0}% ", Group2ProbWeight * probability) + "UI.RandomBox.Probability.MiddleCategory.GroupReward2".GetText([Group2AssuredCount])),
 				});
 			});
 		}
@@ -240,8 +240,8 @@ public class Reward : ModelElement
 			{
 				data.Add(new RewardInfo()
 				{
-					Item = item,
-					Category = new("group-3", string.Format("{0}% ", Group3Probability) + "UI.RandomBox.Probability.MiddleCategory.GroupReward3".GetText([1])),
+					Data = item,
+					Group = new("group-3", string.Format("{0}% ", Group3Probability) + "UI.RandomBox.Probability.MiddleCategory.GroupReward3".GetText([1])),
 					Probability = Group3ItemProbWeight[idx],
 					ProbabilityType = Group3ItemTotalProbWeight,
 				});
@@ -258,8 +258,8 @@ public class Reward : ModelElement
 
 				data.Add(new RewardInfo()
 				{
-					Item = item,
-					Category = new("group-4", string.Format("{0}% ", Group4Probability) + "UI.RandomBox.Probability.MiddleCategory.GroupReward4".GetText([1])),
+					Data = item,
+					Group = new("group-4", string.Format("{0}% ", Group4Probability) + "UI.RandomBox.Probability.MiddleCategory.GroupReward4".GetText([1])),
 					Probability = max,
 					ProbabilityType = TotalProbWeight,
 				});
@@ -276,8 +276,8 @@ public class Reward : ModelElement
 
 				data.Add(new RewardInfo()
 				{
-					Item = item,
-					Category = new("group-5", string.Format("{0}% ", Group5Probability) + "UI.RandomBox.Probability.MiddleCategory.GroupReward5".GetText([1])),
+					Data = item,
+					Group = new("group-5", string.Format("{0}% ", Group5Probability) + "UI.RandomBox.Probability.MiddleCategory.GroupReward5".GetText([1])),
 					Probability = max,
 					ProbabilityType = TotalProbWeight,
 				});
@@ -290,8 +290,8 @@ public class Reward : ModelElement
 			{
 				data.Add(new RewardInfo()
 				{
-					Item = item,
-					Category = new("rare", "UI.RandomBox.Probability.MiddleCategory.RareReward".GetText([1])),
+					Data = item,
+					Group = new("rare", "UI.RandomBox.Probability.MiddleCategory.RareReward".GetText([1])),
 					Min = RareItemMin[idx],
 					Max = RareItemMax[idx],
 					Probability = RareItemProbWeight[idx],
@@ -306,8 +306,8 @@ public class Reward : ModelElement
 			{
 				data.Add(new RewardInfo()
 				{
-					Item = item,
-					Category = new("selected", "UI.RandomBox.Probability.MiddleCategory.SelectedReward".GetText([SelectedItemAssuredCount])),
+					Data = item,
+					Group = new("selected", "UI.RandomBox.Probability.MiddleCategory.SelectedReward".GetText([SelectedItemAssuredCount])),
 					Min = SelectedItemCount[idx],
 					Max = SelectedItemCount[idx],
 				});
@@ -320,8 +320,8 @@ public class Reward : ModelElement
 		{
 			data.Add(new RewardInfo()
 			{
-				Item = reward,
-				Category = new("smart-fixed-reward", "UI.RandomBox.Probability.MiddleCategory.SmartDropFixedReward".GetText()),
+				Data = reward,
+				Group = new("smart-fixed-reward", "UI.RandomBox.Probability.MiddleCategory.SmartDropFixedReward".GetText()),
 			});
 		});
 
@@ -333,8 +333,8 @@ public class Reward : ModelElement
 			{
 				data.Add(new RewardInfo()
 				{
-					Item = reward,
-					Category = new("smart-group-1-reward", string.Format("{0}% ", SmartGroup1ProbWeight * probability) + "UI.RandomBox.Probability.MiddleCategory.SmartDropGroupReward1".GetText([SmartGroup1AssuredCount])),
+					Data = reward,
+					Group = new("smart-group-1-reward", string.Format("{0}% ", SmartGroup1ProbWeight * probability) + "UI.RandomBox.Probability.MiddleCategory.SmartDropGroupReward1".GetText([SmartGroup1AssuredCount])),
 				});
 			});
 
@@ -342,8 +342,8 @@ public class Reward : ModelElement
 			{
 				data.Add(new RewardInfo()
 				{
-					Item = reward,
-					Category = new("smart-group-2-reward", string.Format("{0}% ", SmartGroup2ProbWeight * probability) + "UI.RandomBox.Probability.MiddleCategory.SmartDropGroupReward2".GetText([SmartGroup2AssuredCount])),
+					Data = reward,
+					Group = new("smart-group-2-reward", string.Format("{0}% ", SmartGroup2ProbWeight * probability) + "UI.RandomBox.Probability.MiddleCategory.SmartDropGroupReward2".GetText([SmartGroup2AssuredCount])),
 				});
 			});
 		}
@@ -354,8 +354,8 @@ public class Reward : ModelElement
 			{
 				data.Add(new RewardInfo()
 				{
-					Item = reward,
-					Category = new("smart-group-3-reward", string.Format("{0}% ", SmartGroup3Probability) + "UI.RandomBox.Probability.MiddleCategory.SmartDropGroupReward3".GetText([1])),
+					Data = reward,
+					Group = new("smart-group-3-reward", string.Format("{0}% ", SmartGroup3Probability) + "UI.RandomBox.Probability.MiddleCategory.SmartDropGroupReward3".GetText([1])),
 					Probability = SmartGroup3RewardProbWeight[idx],
 					ProbabilityType = SmartGroup3RewardTotalProbWeight,
 				});
@@ -368,8 +368,8 @@ public class Reward : ModelElement
 			{
 				data.Add(new RewardInfo()
 				{
-					Item = reward,
-					Category = new("smart-group-4-reward", string.Format("{0}% ", SmartGroup4Probability) + "UI.RandomBox.Probability.MiddleCategory.SmartDropGroupReward4".GetText([1])),
+					Data = reward,
+					Group = new("smart-group-4-reward", string.Format("{0}% ", SmartGroup4Probability) + "UI.RandomBox.Probability.MiddleCategory.SmartDropGroupReward4".GetText([1])),
 				});
 			});
 		}
@@ -380,8 +380,8 @@ public class Reward : ModelElement
 			{
 				data.Add(new RewardInfo()
 				{
-					Item = reward,
-					Category = new("smart-group-5-reward", string.Format("{0}% ", SmartGroup5Probability) + "UI.RandomBox.Probability.MiddleCategory.SmartDropGroupReward5".GetText([1])),
+					Data = reward,
+					Group = new("smart-group-5-reward", string.Format("{0}% ", SmartGroup5Probability) + "UI.RandomBox.Probability.MiddleCategory.SmartDropGroupReward5".GetText([1])),
 				});
 			});
 		}
@@ -392,8 +392,8 @@ public class Reward : ModelElement
 			{
 				data.Add(new RewardInfo()
 				{
-					Item = reward,
-					Category = new("smart-rare-reward", "UI.RandomBox.Probability.MiddleCategory.SmartDropRareReward".GetText([1])),
+					Data = reward,
+					Group = new("smart-rare-reward", "UI.RandomBox.Probability.MiddleCategory.SmartDropRareReward".GetText([1])),
 					Probability = SmartRareRewardProbWeight[idx],
 					ProbabilityType = SmartRareRewardProbWeightType,
 				});
@@ -404,18 +404,23 @@ public class Reward : ModelElement
 		return data;
 	}
 
-	public class RewardInfo
+	public class RewardInfo : IReward
 	{
-		public Item Item;
+		public Item Data;
 		public short Min = 1;
 		public short Max = 1;
-		public (string, string) Category;
+		public (string, string) Group;
 		internal int Probability;
 		internal int ProbabilityType;
 
-		public string Element => (Min == Max ? "UI.RandomBox.Probability.MiddleCategory.Element.Fixed" : "UI.RandomBox.Probability.MiddleCategory.Element.Range").GetText([Item, Min, Max]);
+		public string Element => (Min == Max ? "UI.RandomBox.Probability.MiddleCategory.Element.Fixed" : "UI.RandomBox.Probability.MiddleCategory.Element.Range").GetText([Data, Min, Max]);
 
 		public string ProbabilityInfo => Probability == 0 ? string.Empty : ((double)Probability / ProbabilityType).ToString("P" + ProbabilityType.GetPercentLength());
 	}
 	#endregion
+}
+
+public interface IReward
+{
+
 }

@@ -79,9 +79,9 @@ public sealed unsafe class Record : IElement, IDisposable
 	#endregion
 
 	#region Properties
-	public string OwnerName => Owner.Name.ToLower();
+	internal IElementDefinition Definition => Owner.Definition.ElRecord.SubtableByType(SubclassType, this);
 
-	public IElementDefinition Definition => Owner.Definition.ElRecord.SubtableByType(SubclassType, this);
+	public string OwnerName => Owner.Name.ToLower();
 
 	public string Name => Definition.Name;
 

@@ -1,6 +1,5 @@
 ﻿using Xylia.Preview.Common.Attributes;
 using Xylia.Preview.Data.Common.DataStruct;
-using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models.Sequence;
 
 namespace Xylia.Preview.Data.Models;
@@ -602,8 +601,8 @@ public sealed class Npc : ModelElement
 		{
 			var alias = this.ToString();
 
-			var MapUnit = FileCache.Data.Provider.GetTable<MapUnit>().Where(x => x.ToString() != null && x.ToString().Contains(alias, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
-			return MapUnit is null ? null : FileCache.Data.Provider.GetTable<MapInfo>().FirstOrDefault(x => x.Id == MapUnit.Mapid)?.Name;
+			var MapUnit = Provider.GetTable<MapUnit>().Where(x => x.ToString() != null && x.ToString().Contains(alias, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+			return MapUnit is null ? null : Provider.GetTable<MapInfo>().FirstOrDefault(x => x.Id == MapUnit.Mapid)?.Name;
 		}
 	}
 	#endregion

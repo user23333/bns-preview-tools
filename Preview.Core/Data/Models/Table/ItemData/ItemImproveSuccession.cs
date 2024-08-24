@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.Abstractions;
+using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Data.Helpers;
 
 namespace Xylia.Preview.Data.Models;
@@ -20,15 +21,15 @@ public sealed class ItemImproveSuccession : ModelElement
 
 
 	#region Methods
-	internal static ItemImproveSuccession FindBySeed(Item SeedItem)
+	internal static ItemImproveSuccession FindBySeed(IDataProvider provider, Item SeedItem)
 	{
-		return FileCache.Data.Provider.GetTable<ItemImproveSuccession>().FirstOrDefault(record =>
+		return provider.GetTable<ItemImproveSuccession>().FirstOrDefault(record =>
 			SeedItem.ImproveId == record.SeedImproveId && SeedItem.ImproveLevel == record.SeedImproveLevel);
 	}
 
-	internal static ItemImproveSuccession FindByFeed(Item FeedItem, Item SeedItem = null)
+	internal static ItemImproveSuccession FindByFeed(IDataProvider provider, Item FeedItem, Item SeedItem = null)
 	{
-		return FileCache.Data.Provider.GetTable<ItemImproveSuccession>().FirstOrDefault(record =>
+		return provider.GetTable<ItemImproveSuccession>().FirstOrDefault(record =>
 			FeedItem.ImproveId == record.FeedMainImproveId && FeedItem.ImproveLevel == record.FeedMainImproveLevel &&
 		   (SeedItem is null || SeedItem.ImproveId == record.ResultImproveId));
 	}
@@ -38,8 +39,8 @@ public sealed class ItemImproveSuccession : ModelElement
 		// This method is missing the seed, the result is inaccurate
 		if (SeedItem is null)
 		{
-			ResultItem = FileCache.Data.Provider.GetTable<Item>().FirstOrDefault(item => item.ImproveId == ResultImproveId && item.ImproveLevel == ResultImproveLevel);
-			SeedItem = FileCache.Data.Provider.GetTable<Item>().FirstOrDefault(item => item.ImproveId == SeedImproveId && item.ImproveLevel == SeedImproveLevel);
+			ResultItem = Provider.GetTable<Item>().FirstOrDefault(item => item.ImproveId == ResultImproveId && item.ImproveLevel == ResultImproveLevel);
+			SeedItem = Provider.GetTable<Item>().FirstOrDefault(item => item.ImproveId == SeedImproveId && item.ImproveLevel == SeedImproveLevel);
 		}
 		else
 		{

@@ -2,10 +2,12 @@
 public sealed class ItemGroup : ModelElement
 {
 	#region Attributes
+	public int Id { get; set; }
+
 	public string Alias { get; set; }
 
-	public Ref<Item>[] Item { get; set; }
+	public Ref<Item>[] MemberItem { get; set; }
 
-	public sbyte ItemTotalCount { get; set; }
+	public sbyte MemberItemCount { get; set; }
 	#endregion
 }

@@ -1,5 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Diagnostics;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Xylia.Preview.Data.Models;
+using Xylia.Preview.Data.Models.Document;
 using Xylia.Preview.Data.Models.Sequence;
 
 namespace Xylia.Preview.Tests.DatTests;
