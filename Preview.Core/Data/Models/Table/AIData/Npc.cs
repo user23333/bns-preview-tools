@@ -673,8 +673,8 @@ public sealed class Npc : ModelElement
 			HpRegenCombat = HpRegenCombat,
 			AttackHitBasePercent = AttackHitBasePercent,
 			AttackHitValue = AttackHitValue,
-			AttackPierceBasePercent = AttackPierceBasePercent,      // + AttackPierceModify
-			AttackParryPiercePercent = AttackParryPiercePercent,    // + AttackParryPierceModify
+			AttackPierceBasePercent = AttackPierceBasePercent,   //AttackPierceModify
+			AttackParryPiercePercent = AttackParryPiercePercent, //AttackParryPierceModify
 			AttackPierceValue = AttackPierceValue,
 			AttackCriticalBasePercent = AttackCriticalBasePercent,
 			AttackCriticalDamagePercent = AttackCriticalDamagePercent,
@@ -686,9 +686,9 @@ public sealed class Npc : ModelElement
 			DefendCriticalDamageValue = DefendCriticalDamageModify,
 			DefendBouncePercent = DefendBouncePercent,
 			DefendDodgeBasePercent = DefendDodgeBasePercent,
-			DefendDodgeValue = (short)(DefendDodgeValue + DefendDodgeValueModify),
+			DefendDodgeValue = DefendDodgeValue, //DefendDodgeValueModify?
 			DefendParryBasePercent = DefendParryBasePercent,
-			DefendParryValue = (short)(DefendParryValue + DefendParryValueModify),
+			DefendParryValue = DefendParryValue, //DefendParryValueModify?
 			DefendParryReducePercent = DefendParryReducePercent,
 			DefendParryReduceDiff = DefendParryReduceDiff,
 			DefendPerfectParryBasePercent = DefendPerfectParryBasePercent,

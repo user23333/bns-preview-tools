@@ -69,15 +69,14 @@ public partial class GameResourcePage
 
 	private async void Repack_Click(object sender, RoutedEventArgs e)
 	{
+		ArgumentNullException.ThrowIfNull(_viewModel.Packages);
+
 		try
 		{
-			ArgumentNullException.ThrowIfNull(_viewModel.Packages);
-
 			var folder = new DirectoryInfo(UserSettings.Default.GameFolder)
 				.GetDirectories("Paks", SearchOption.AllDirectories)
 				.FirstOrDefault()?.FullName ?? throw new DirectoryNotFoundException();
 			folder = Path.Combine(folder, "Mods");
-
 
 			Repack.IsEnabled = false;
 			await GameResourcePageViewModel.UeRepack(folder, [.. _viewModel.Packages]);
@@ -104,7 +103,7 @@ public partial class GameResourcePage
 
 		_viewModel.Run(new ItemIcon(UserSettings.Default.GameFolder, _viewModel.Icon_OutputFolder + @"\Items")
 		{
-			ChvPath = ItemListPath,
+			HashesPath = ItemListPath,
 			UseBackground = this.UseBackground.IsChecked == true,
 			IsWhiteList = this.FilterMode.IsChecked == true,
 

@@ -17,6 +17,8 @@ public sealed class IconTexture : ModelElement
 	#region Methods
 	private (FVector2D, FVector2D) GetRect(short index)
 	{
+		if (index <= 0) return default;
+
 		int amountRow = this.TextureWidth / this.IconWidth;
 		int row = index % amountRow;
 		int col = index / amountRow;

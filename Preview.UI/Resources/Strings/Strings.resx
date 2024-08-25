@@ -361,7 +361,7 @@ Expand the response rectange with item preview.</value>
     <value>Save</value>
   </data>
   <data name="DatabaseStudio_TaskMessage1" xml:space="preserve">
-    <value>Progress: {0}/{1} ({2:P0})</value>
+    <value>Saving: {0}/{1} ({2:P0})</value>
   </data>
   <data name="DatabaseStudio_TaskMessage2" xml:space="preserve">
     <value>Task completed!</value>
@@ -414,13 +414,13 @@ Expand the response rectange with item preview.</value>
   <data name="IconOut_FilterMode_Tooltip" xml:space="preserve">
     <value>create item only in list when checked, otherwise ignore listed item</value>
   </data>
-  <data name="IconOut_Goods" xml:space="preserve">
+  <data name="IconOut_GoodIcon" xml:space="preserve">
     <value>Extract Good Icon</value>
   </data>
   <data name="IconOut_ItemList" xml:space="preserve">
     <value>Select item list</value>
   </data>
-  <data name="IconOut_Items" xml:space="preserve">
+  <data name="IconOut_ItemIcon" xml:space="preserve">
     <value>Extract Item Icon</value>
   </data>
   <data name="IconOut_Name" xml:space="preserve">
@@ -429,7 +429,7 @@ Expand the response rectange with item preview.</value>
   <data name="IconOut_NameFormat" xml:space="preserve">
     <value>Output name format</value>
   </data>
-  <data name="IconOut_Skills" xml:space="preserve">
+  <data name="IconOut_SkillIcon" xml:space="preserve">
     <value>Extract Skill Icon</value>
   </data>
   <data name="IconOut_UseBackground" xml:space="preserve">
@@ -559,7 +559,7 @@ Expand the response rectange with item preview.</value>
   <data name="PropertyEditor_ViewSource_Tooltip" xml:space="preserve">
     <value>Copy raw data to clipboard, or open text editor when invalid</value>
   </data>
-  <data name="Repository" xml:space="preserve">
+  <data name="Text_Repository" xml:space="preserve">
     <value>Repository</value>
   </data>
   <data name="Settings_CopyMode" xml:space="preserve">
@@ -916,5 +916,14 @@ Please note that do not modify the order of nodes</value>
   </data>
   <data name="TextEditor_CopyData" xml:space="preserve">
     <value>Copy Data</value>
+  </data>
+  <data name="DatabaseStudio_ExecutionTime" xml:space="preserve">
+    <value>Execution Time:</value>
+  </data>
+  <data name="Text.TaskProcess" xml:space="preserve">
+    <value>Task executing {0:P2}</value>
+  </data>
+  <data name="Text.TaskProcess2" xml:space="preserve">
+    <value>Task of {1} is executing {0:P2}</value>
   </data>
 </root>

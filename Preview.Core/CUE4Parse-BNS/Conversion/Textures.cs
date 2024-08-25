@@ -9,6 +9,9 @@ public static class Textures
 	public static SKBitmap Clone(this SKBitmap source, float u, float v, float ul, float vl, SKColor tint = default)
 	{
 		bool useTint = tint.Red + tint.Green + tint.Blue > 0;
+
+		ArgumentOutOfRangeException.ThrowIfLessThan(u, 0);
+		ArgumentOutOfRangeException.ThrowIfLessThan(v, 0);
 		if (ul == 0) ul = source.Width - u;
 		if (vl == 0) vl = source.Height - v;
 

@@ -269,30 +269,8 @@
 		</TabControl>
 
 		<!-- Tooltip -->
-        <StackPanel Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="99">
+		<StackPanel Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="99">
 			<TextBlock x:Name="MessageHolder" HorizontalAlignment="Right" Margin="0 0 10 0" d:Text="Message" FontSize="13" Foreground="{DynamicResource PrimaryTextBrush}" />
-		</StackPanel>
-        <StackPanel Grid.ColumnSpan="99" Grid.RowSpan="99" Panel.ZIndex="99" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5" hc:Growl.Token="DatabaseStudio">
-			<Grid Width="320" MinHeight="60" Margin="0 10 0 0" d:Visibility="Visible" Visibility="{Binding Path=Visibility,ElementName=SaveMessage}">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="50" />
-					<ColumnDefinition />
-					<ColumnDefinition Width="Auto" />
-				</Grid.ColumnDefinitions>
-				<Grid.RowDefinitions>
-					<RowDefinition />
-					<RowDefinition Height="Auto" />
-				</Grid.RowDefinitions>
-				<Border Grid.ColumnSpan="3" Grid.RowSpan="2" Effect="{StaticResource EffectShadow2}" Background="{DynamicResource ThirdlyRegionBrush}" CornerRadius="8" />
-				<Path FlowDirection="LeftToRight" Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" Margin="0,15,0,0" Width="30" Height="30" Stretch="Uniform" Data="{DynamicResource SaveGeometry}" Fill="LightSkyBlue"/>
-				<StackPanel VerticalAlignment="Center" Grid.Row="0" Grid.Column="1" Margin="0,10,10,10">
-					<TextBlock x:Name="SaveMessage" Style="{StaticResource TextBlockDefault}" HorizontalAlignment="Left" TextWrapping="Wrap" Visibility="Collapsed" />
-				</StackPanel>
-				<Button Grid.Row="0" Margin="11,0" Command="ApplicationCommands.Close" Grid.Column="2" Background="Transparent" Style="{StaticResource ButtonCustom}" VerticalAlignment="Center" HorizontalAlignment="Center" Width="18" Height="18">
-					<Path FlowDirection="LeftToRight" Data="{StaticResource ErrorGeometry}" Stretch="Uniform" Fill="{DynamicResource SecondaryTextBrush}" />
-				</Button>
-			</Grid>
-
 		</StackPanel>
 	</Grid>
 </Window>

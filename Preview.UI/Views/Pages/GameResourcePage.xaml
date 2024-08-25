@@ -123,16 +123,16 @@
 					<hc:Divider />
 					<hc:UniformSpacingPanel Spacing="10" Orientation="Vertical">
 						<hc:UniformSpacingPanel Spacing="10">
-							<Button Click="OutputItemIcon" Content="{DynamicResource IconOut_Items}" d:Content="Items" />
+							<Button Click="OutputItemIcon" Content="{DynamicResource IconOut_ItemIcon}" d:Content="Items" />
 							<Button Content="{DynamicResource IconOut_CreateList}" ToolTip="{DynamicResource IconOut_CreateList_Tooltip}" Visibility="Collapsed" />
 						</hc:UniformSpacingPanel>
 
 						<hc:UniformSpacingPanel>
-							<Button Click="OutputGoodIcon" Content="{DynamicResource IconOut_Goods}" d:Content="Goods" />
+							<Button Click="OutputGoodIcon" Content="{DynamicResource IconOut_GoodIcon}" d:Content="Goods" />
 						</hc:UniformSpacingPanel>
 
 						<hc:UniformSpacingPanel>
-							<Button Click="OutputSkillIcon" Content="{DynamicResource IconOut_Skills}" d:Content="Skills" />
+							<Button Click="OutputSkillIcon" Content="{DynamicResource IconOut_SkillIcon}" d:Content="Skills" />
 						</hc:UniformSpacingPanel>
 					</hc:UniformSpacingPanel>
 				</StackPanel>

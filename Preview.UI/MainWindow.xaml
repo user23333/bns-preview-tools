@@ -11,7 +11,7 @@
 	<hc:Window.NonClientAreaContent>
 		<Grid>
 			<Menu HorizontalAlignment="Right" VerticalAlignment="Center">
-				<MenuItem Header="{DynamicResource Repository}">
+				<MenuItem Header="{DynamicResource Text_Repository}">
 					<MenuItem Header="{DynamicResource Application_Github}" Command="hc:ControlCommands.OpenLink" CommandParameter="https://github.com/XyliaUp/bns-preview-tools">
 						<MenuItem.Icon>
 							<Path Data="{StaticResource GithubGeometry}" Fill="{DynamicResource PrimaryTextBrush}" />
@@ -147,8 +147,37 @@
 					</Grid>
 				</Border>
 			</hc:Drawer>
+			
 			<ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Hidden">
-				<StackPanel hc:Growl.GrowlParent="True" VerticalAlignment="Top" Margin="0,10,0,10" />
+				<StackPanel hc:Growl.GrowlParent="True" VerticalAlignment="Top" Margin="0,10,0,10">
+
+					<ItemsControl x:Name="GrowlHolder2">
+						<ItemsControl.ItemTemplate>
+							<DataTemplate>
+								<Grid Width="320" MinHeight="60" Margin="0 10 0 0" Visibility="{Binding Visible, Converter={StaticResource Boolean2VisibilityConverter}}">
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="50" />
+										<ColumnDefinition />
+										<ColumnDefinition Width="Auto" />
+									</Grid.ColumnDefinitions>
+									<Grid.RowDefinitions>
+										<RowDefinition />
+										<RowDefinition Height="Auto" />
+									</Grid.RowDefinitions>
+									<Border Grid.ColumnSpan="3" Grid.RowSpan="2" Effect="{StaticResource EffectShadow2}" Background="{DynamicResource ThirdlyRegionBrush}" CornerRadius="8" />
+									<Path FlowDirection="LeftToRight" Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" Margin="0,15,0,0" Width="30" Height="30" Stretch="Uniform" Data="{Binding Icon}" Fill="{Binding Brush}"/>
+									<StackPanel VerticalAlignment="Center" Grid.Row="0" Grid.Column="1" Margin="0,10,10,10">
+										<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Message}" />
+									</StackPanel>
+									<Button Grid.Row="0" Margin="11,0" Command="{Binding CloseCommand}" Grid.Column="2" Style="{StaticResource ButtonCustom}" VerticalAlignment="Center" HorizontalAlignment="Center" Width="18" Height="18">
+										<Path FlowDirection="LeftToRight" Data="{StaticResource ErrorGeometry}" Stretch="Uniform" Fill="{DynamicResource SecondaryTextBrush}" />
+									</Button>
+								</Grid>
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+					</ItemsControl>
+
+				</StackPanel>
 			</ScrollViewer>
 
 			<ToggleButton Style="{StaticResource ToggleButtonIconTransparent}" VerticalAlignment="Top" Margin="-5 0 0 0" hc:IconSwitchElement.Geometry="{StaticResource RightGeometry}" hc:IconSwitchElement.GeometrySelected="{StaticResource LeftGeometry}" 

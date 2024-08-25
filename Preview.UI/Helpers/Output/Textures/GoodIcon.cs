@@ -1,17 +1,20 @@
-﻿using CUE4Parse.FileProvider;
-using Xylia.Preview.Data.Models;
+﻿using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.UI.Helpers.Output.Textures;
 public sealed class GoodIcon(string GameFolder, string OutputFolder) : IconOutBase(GameFolder, OutputFolder)
 {
-	protected override void Output(DefaultFileProvider provider, string? format, IProgress<int> progress, CancellationToken cancellationToken)
+	protected override void Execute(string? format, IProgress<float> progress, CancellationToken token)
 	{
-		Parallel.ForEach(db!.Provider.GetTable<GoodsIcon>(), record =>
+		var source = database!.Provider.GetTable<GoodsIcon>();
+		var counter = new ProgressHelper(progress, source.Count());
+
+		Parallel.ForEach(source, record =>
 		{
-			cancellationToken.ThrowIfCancellationRequested();
+			token.ThrowIfCancellationRequested();
+			counter.Update();
 
 			var bitmap = record.Icon?.GetImage(provider);
-			Save(bitmap, record.PrimaryKey.ToString()!);
+			Save(bitmap, record.PrimaryKey.ToString());
 		});
 	}
 }

@@ -4,7 +4,6 @@ using CUE4Parse.UE4.Objects.UObject;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Common.DataStruct;
-using Xylia.Preview.Data.Models.Document;
 using Xylia.Preview.Data.Models.Sequence;
 using static Xylia.Preview.Data.Models.Item;
 using static Xylia.Preview.Data.Models.Item.Grocery;
@@ -16,7 +15,12 @@ public abstract class Item : ModelElement, IHaveName
 	public Ref<ItemCombat>[] ItemCombat { get; set; }
 	public Ref<ItemBrand> Brand { get; set; }
 
+	public GameCategorySeq GameCategory1 => Attributes.Get<string>("game-category-1").ToEnum<GameCategorySeq>();
+	public GameCategory2Seq GameCategory2 => Attributes.Get<string>("game-category-2").ToEnum<GameCategory2Seq>();
 	public GameCategory3Seq GameCategory3 => Attributes.Get<string>("game-category-3").ToEnum<GameCategory3Seq>();
+	public MarketCategorySeq MarketCategory => Attributes.Get<string>("market-category-1").ToEnum<MarketCategorySeq>();
+	public MarketCategory2Seq MarketCategory2 => Attributes.Get<string>("market-category-2").ToEnum<MarketCategory2Seq>();
+	public MarketCategory3Seq MarketCategory3 => Attributes.Get<string>("market-category-3").ToEnum<MarketCategory3Seq>();
 
 	public bool CannotDispose => Attributes.Get<BnsBoolean>("cannot-dispose");
 	public bool CannotSell => Attributes.Get<BnsBoolean>("cannot-sell");

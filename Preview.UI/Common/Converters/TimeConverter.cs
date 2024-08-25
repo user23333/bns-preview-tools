@@ -29,7 +29,6 @@ public class TimeConverter : MarkupExtension, IValueConverter
 		}
 		else if (value is TimeSpan time)
 		{
-			// create text
 			var builder = new StringBuilder();
 			if (time.Ticks == 0) return StringHelper.Get(key: "Text_Time_None");
 			if (time.Days > 0) builder.Append(time.Days + StringHelper.Get("Text_Time_Day"));

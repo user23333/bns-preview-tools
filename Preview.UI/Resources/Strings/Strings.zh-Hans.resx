@@ -218,10 +218,12 @@
     <value>Github</value>
   </data>
   <data name="Application_UpdateLog" xml:space="preserve">
-    <value>[3.1.5]
+    <value>[3.2.0]
 优化数据管理器中导出目录的结构
+修复连接非全局数据时会发生内存泄漏的问题
 修复部分数据类型不正确的问题
-修复数据编辑器连接非全局时，关闭时会发生内存泄漏的问题
+增加进度显示
+
 [3.1.4]
 优化概率信息中支持智能掉落组
 修复生成物品列表会抛出错误的问题
@@ -365,10 +367,10 @@
     <value>保存</value>
   </data>
   <data name="DatabaseStudio_TaskMessage1" xml:space="preserve">
-    <value>当前保存进度 {0}/{1} ({2:P0})</value>
+    <value>保存中 {0}/{1} ({2:P0})</value>
   </data>
   <data name="DatabaseStudio_TaskMessage2" xml:space="preserve">
-    <value>已完成！</value>
+    <value>已完成</value>
   </data>
   <data name="DatabaseStudio_Text" xml:space="preserve">
     <value>文本</value>
@@ -418,13 +420,13 @@
   <data name="IconOut_FilterMode_Tooltip" xml:space="preserve">
     <value>选中时仅生成物品列表中的对象</value>
   </data>
-  <data name="IconOut_Goods" xml:space="preserve">
+  <data name="IconOut_GoodIcon" xml:space="preserve">
     <value>提取商品图标</value>
   </data>
   <data name="IconOut_ItemList" xml:space="preserve">
     <value>选择物品列表</value>
   </data>
-  <data name="IconOut_Items" xml:space="preserve">
+  <data name="IconOut_ItemIcon" xml:space="preserve">
     <value>提取物品图标</value>
   </data>
   <data name="IconOut_Name" xml:space="preserve">
@@ -433,7 +435,7 @@
   <data name="IconOut_NameFormat" xml:space="preserve">
     <value>输出名称格式</value>
   </data>
-  <data name="IconOut_Skills" xml:space="preserve">
+  <data name="IconOut_SkillIcon" xml:space="preserve">
     <value>提取技能图标</value>
   </data>
   <data name="IconOut_UseBackground" xml:space="preserve">
@@ -556,7 +558,7 @@
   <data name="PropertyEditor_ViewSource_Tooltip" xml:space="preserve">
     <value>复制原始数据到剪切板，不可用时打开文本编辑器</value>
   </data>
-  <data name="Repository" xml:space="preserve">
+  <data name="Text_Repository" xml:space="preserve">
     <value>项目</value>
   </data>
   <data name="Settings_CopyMode" xml:space="preserve">
@@ -858,7 +860,7 @@
     <value>已经有一个任务正在执行，是否确认取消？</value>
   </data>
   <data name="Text.TaskBegin" xml:space="preserve">
-    <value>任务已经开始</value>
+    <value>任务开始</value>
   </data>
   <data name="DatabaseStudio_SqlNew" xml:space="preserve">
     <value>新建</value>
@@ -913,5 +915,14 @@
   </data>
   <data name="TextEditor_CopyData" xml:space="preserve">
     <value>复制原始数据</value>
+  </data>
+  <data name="DatabaseStudio_ExecutionTime" xml:space="preserve">
+    <value>执行时间:</value>
+  </data>
+  <data name="Text.TaskProcess" xml:space="preserve">
+    <value>任务执行中 {0:P2}</value>
+  </data>
+  <data name="Text.TaskProcess2" xml:space="preserve">
+    <value>执行{1}中 {0:P2}</value>
   </data>
 </root>

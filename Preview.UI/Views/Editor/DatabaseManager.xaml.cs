@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using System.Windows.Media.Imaging;
 using HandyControl.Controls;
 using HandyControl.Data;
 using Xylia.Preview.Data.Client;
@@ -10,20 +9,13 @@ using Xylia.Preview.UI.Views.Selector;
 namespace Xylia.Preview.UI.Views.Editor;
 public partial class DatabaseManager
 {
-	#region Data
-	public IEngine? Engine { get; private set; }
-
-	internal bool IsGlobalData = false;
-	#endregion
-
 	#region Constructors
 	public DatabaseManager()
 	{
 		InitializeComponent();
 	}
 	#endregion
-
-
+  
 	#region Methods
 	private void ProviderSearch_SearchStarted(object sender, FunctionEventArgs<string> e)
 	{
@@ -66,5 +58,12 @@ public partial class DatabaseManager
 		DialogResult = true;
 		Close();
 	}
+	#endregion
+
+
+	#region Data
+	public IEngine? Engine { get; private set; }
+
+	internal bool IsGlobalData = false;
 	#endregion
 }

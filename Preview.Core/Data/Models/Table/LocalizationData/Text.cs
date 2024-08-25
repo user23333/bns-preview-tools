@@ -343,7 +343,7 @@ public static class TextExtension
 		else if (obj is Enum sequence) return SequenceExtensions.GetText(sequence);
 		else if (obj is string alias) return FileCache.TextProvider?[alias] ?? (provider ?? FileCache.Data.Provider)?[alias];
 		else if (obj is Ref<Text> reference) return reference.Instance?.text;
-		else if (obj is Record record && record.Owner.Name == "text") return record.Attributes.Get<string>("text");
+		else if (obj is Record record && record.OwnerName == "text") return record.Attributes.Get<string>("text");
 		else throw new NotSupportedException();
 	}
 

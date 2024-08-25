@@ -16,9 +16,8 @@ public partial class NpcTooltipPanel
 	#region Methods
 	protected override void OnDataChanged(DependencyPropertyChangedEventArgs e)
 	{
-		if (e.NewValue is not Npc record) return;
-
 		ColumnList.Children.Clear();
+		if (e.NewValue is not Npc record) return;
 
 		int row = 0;
 		var creature = record.AbilityTest();

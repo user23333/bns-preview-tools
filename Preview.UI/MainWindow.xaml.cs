@@ -38,6 +38,7 @@ public partial class MainWindow
 	{
 		base.OnInitialized(e);
 
+		this.GrowlHolder2.ItemsSource = Growl2.Source;
 		this.Loaded += OpenUpdateLog;
 		this.MinWidth = this.Width;
 		this.MinHeight = this.Height;

@@ -1,30 +1,43 @@
-﻿using CUE4Parse.FileProvider;
+﻿using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.UI.Helpers.Output.Textures;
 public sealed class SkillIcon(string GameFolder, string OutputFolder) : IconOutBase(GameFolder, OutputFolder)
 {
-	protected override void Output(DefaultFileProvider provider, string format, IProgress<int> progress, CancellationToken cancellationToken)
+	protected override void Execute(string format, IProgress<float> progress, CancellationToken token)
 	{
-		Parallel.ForEach(db!.Provider.GetTable<Skill3>(), record =>
+		var source = database!.Provider.GetTable(nameof(Skill3));
+		var counter = new ProgressHelper(progress, source.Count());
+
+		Parallel.ForEach(source, record =>
 		{
-			cancellationToken.ThrowIfCancellationRequested();
+			token.ThrowIfCancellationRequested();
+			counter.Update();
 
 			try
 			{
-				// name
+				// data
 				var key = record.PrimaryKey;
 				var alias = record.Attributes.Get<string>("alias");
-				var name2 = record.Name2.GetText();
-				var path = format.Replace("[alias]", alias).Replace("[id]", key.ToString()).Replace("[name]", name2);
+				var name2 = record.Attributes.Get<Record>("name2").GetText();
+				var iconTexture = record.Attributes.Get<Record>("icon-texture");
+				var iconIndex = record.Attributes.Get<short>("icon-index");
+				var icon = record.Attributes.Get<Icon>("icon") ?? new Icon(iconTexture, iconIndex);
 
 				// image
-				var bitmap = db.Provider.GetTable<IconTexture>()[alias]?.GetImage(record.IconIndex, provider)?.Image;
-				Save(bitmap, path);
+				var bitmap = icon.GetImage(provider)?.Image ?? throw new Exception($"Get resouce failed ({icon})");
+				Save(bitmap, format
+					.Replace("[alias]", alias)
+					.Replace("[id]", key.ToString())
+					.Replace("[name]", name2));
 			}
-			catch (Exception ee)
+			catch (Exception ex)
 			{
-				logger.Error($"{record} " + ee.Message);
+				logger.Error(string.Format("[{0}] {1}", record, ex.Message));
+			}
+			finally
+			{
+				record.Dispose();
 			}
 		});
 	}

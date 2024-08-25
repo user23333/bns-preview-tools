@@ -40,7 +40,6 @@ public partial class DatabaseStudio
 	#region Command
 	private void RegisterCommands(CommandBindingCollection commandBindings)
 	{
-		commandBindings.Add(new CommandBinding(ApplicationCommands.Close, (_, _) => SaveMessage.Visibility = Visibility.Collapsed));
 		commandBindings.Add(new CommandBinding(ApplicationCommands.Print, RunCommand, CanExecuteRun));
 	}
 
@@ -388,7 +387,7 @@ public partial class DatabaseStudio
 	/// <param name="text"></param>
 	private void UpdateMessage(string text)
 	{
-		MessageHolder.Text = text;
+		Dispatcher.Invoke(() => MessageHolder.Text = text);
 	}
 
 	/// <summary>
@@ -427,7 +426,7 @@ public partial class DatabaseStudio
 		ArgumentNullException.ThrowIfNull(_viewModel.Database);
 
 		var startTime = DateTime.Now;
-		var callback = new EventHandler((s, e) => UpdateMessage(string.Format("{0} {1:h\\:mm\\:ss\\.fff}", "Execution Time:", DateTime.Now - startTime)));
+		var callback = new EventHandler((s, e) => UpdateMessage(string.Format("{0} {1:h\\:mm\\:ss\\.fff}", StringHelper.Get("DatabaseStudio_ExecutionTime"), DateTime.Now - startTime)));
 		var timer = new DispatcherTimer(new TimeSpan(TimeSpan.TicksPerMillisecond * 50), DispatcherPriority.Normal, callback, Dispatcher);
 		timer.Start();
 
@@ -455,16 +454,12 @@ public partial class DatabaseStudio
 	{
 		if (_viewModel.Database is not BnsDatabase database) return;
 
-		var progress = new Action<int, int>((current, total) => Dispatcher.Invoke(() =>
-		{
-			SaveMessage.Visibility = Visibility.Visible;
-			SaveMessage.Text = current != tables.Length ?
-				StringHelper.Get("DatabaseStudio_TaskMessage1", current, tables.Length, (double)current / tables.Length) :
-				StringHelper.Get("DatabaseStudio_TaskMessage2", tables.Length);
-		}));
-
 		serialize = new ProviderSerialize(database.Provider);
-		await serialize.ExportAsync(_viewModel.SaveDataPath, progress, tables);
+		await serialize.ExportAsync(_viewModel.SaveDataPath, (current, total) =>
+			UpdateMessage(current != tables.Length ?
+				StringHelper.Get("DatabaseStudio_TaskMessage1", current, tables.Length, (double)current / tables.Length) :
+				StringHelper.Get("DatabaseStudio_TaskMessage2", tables.Length))
+		, tables);
 	}
 	#endregion
 

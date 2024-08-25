@@ -1,5 +1,4 @@
 ﻿using CUE4Parse.BNS.Conversion;
-using CUE4Parse.FileProvider;
 using CUE4Parse.UE4.Assets.Exports.Texture;
 using CUE4Parse_Conversion.Textures;
 using Xylia.Preview.Common.Extension;
@@ -16,41 +15,38 @@ public sealed class ItemIcon(string GameFolder, string OutputFolder) : IconOutBa
 
 	public bool IsWhiteList { get; set; } = false;
 
-	public string? ChvPath { get; set; } = null;
+	public string? HashesPath { get; set; } = null;
 	#endregion
 
-
 	#region Methods
-	protected override void Output(DefaultFileProvider provider, string format, IProgress<int> progress, CancellationToken token)
+	protected override void Execute(string format, IProgress<float> progress, CancellationToken token)
 	{
-		var lst = new HashList(ChvPath);
-		var Weapon_Lock_04 = provider.LoadObject<UTexture>("BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_Icon3_R/Weapon_Lock_04")?.Decode();
+		var lst = new HashList(HashesPath);
+		var Weapon_Lock_04 = provider!.LoadObject<UTexture>("BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_Icon3_R/Weapon_Lock_04")?.Decode();
 
-		var source = db!.Provider.GetTable("Item");
-		//progress.Total = source.Count();
+		var source = database!.Provider.GetTable(nameof(Item));
+		var counter = new ProgressHelper(progress, source.Count());
 
-		Parallel.ForEach(source, (record) =>
+		Parallel.ForEach(source, record =>
 		{
 			token.ThrowIfCancellationRequested();
-			//progress.Update();
-
-			#region Data
-			var key = record.PrimaryKey;
-			if (lst.CheckFailed(key, IsWhiteList)) return;
-
-			var alias = record.Attributes.Get<string>("alias");
-			var grade = record.Attributes.Get<sbyte>("item-grade");
-			var icon = record.Attributes.Get<Icon>("icon");
-			var name2 = record.Attributes.Get<Record>("name2")?.Attributes["text"]?.ToString();
-			var GroceryType = record.SubclassType == 2 ? record.Attributes["grocery-type"]?.ToEnum<GroceryTypeSeq>() : null;
-
-			record.Dispose();
-			#endregion
+			counter.Update();
 
 			try
 			{
-				#region process
-				var bitmap = icon.GetImage(provider)?.Image ?? throw new Exception($"get resouce failed ({icon})");
+				#region Data
+				var key = record.PrimaryKey;
+				if (lst.CheckFailed(key, IsWhiteList)) return;
+
+				var alias = record.Attributes.Get<string>("alias");
+				var grade = record.Attributes.Get<sbyte>("item-grade");
+				var icon = record.Attributes.Get<Icon>("icon");
+				var name2 = record.Attributes.Get<Record>("name2")?.Attributes["text"]?.ToString();
+				var GroceryType = record.SubclassType == 2 ? record.Attributes["grocery-type"]?.ToEnum<GroceryTypeSeq>() : null;
+				#endregion
+
+				#region Compose
+				var bitmap = icon?.GetImage(provider)?.Image ?? throw new Exception($"Get resouce failed ({icon})");
 
 				if (UseBackground)
 				{
@@ -60,18 +56,18 @@ public sealed class ItemIcon(string GameFolder, string OutputFolder) : IconOutBa
 				}
 				#endregion
 
-				#region tags
-				//var ProfileCopyright = bitmap.GetPropertyItem(0xc6fe);
-				//ProfileCopyright.Value = Encoding.UTF8.GetBytes("blade & soul");
-				//bitmap.SetPropertyItem(ProfileCopyright);
-				#endregion
-
-				var path = format.Replace("[alias]", alias).Replace("[id]", key.Id.ToString()).Replace("[name]", name2);
-				Save(bitmap, path);
+				Save(bitmap, format
+					.Replace("[alias]", alias)
+					.Replace("[id]", key.Id.ToString())
+					.Replace("[name]", name2));
 			}
-			catch (Exception ee)
+			catch (Exception ex)
 			{
-				logger.Error($"{key} [{name2}]  " + ee.Message);
+				logger.Error(string.Format("[{0}] {1}", record, ex.Message));
+			}
+			finally
+			{
+				record.Dispose();
 			}
 		});
 	}

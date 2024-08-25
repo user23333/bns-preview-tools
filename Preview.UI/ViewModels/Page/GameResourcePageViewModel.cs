@@ -165,12 +165,8 @@ internal partial class GameResourcePageViewModel : ObservableObject
 
 
 	#region Icon
-	[ObservableProperty]
-	string icon_OutputFolder = Path.Combine(UserSettings.Default.OutputFolderResource, "Extract");
-
-	[ObservableProperty]
-	string icon_ItemListPath;
-
+	[ObservableProperty] string? icon_OutputFolder = Path.Combine(UserSettings.Default.OutputFolderResource, "Extract");
+	[ObservableProperty] string? icon_ItemListPath;
 
 	[RelayCommand]
 	public void OpenSettings()
@@ -193,9 +189,9 @@ internal partial class GameResourcePageViewModel : ObservableObject
 	}
 
 
-	readonly CancellationTokenSource[] Sources = new CancellationTokenSource[20];
+	readonly CancellationTokenSource?[] Sources = new CancellationTokenSource[20];
 
-	public void Run(IconOutBase Out, string format, int id) => Task.Run(() =>
+	public void Run(IconOutBase instance, string format, int id) => Task.Run(() =>
 	{
 		#region Token
 		var source = this.Sources[id];
@@ -213,31 +209,39 @@ internal partial class GameResourcePageViewModel : ObservableObject
 		source = this.Sources[id] = new CancellationTokenSource();
 		#endregion
 
+		#region Action 
+		var process = Growl2.Add(new()
+		{
+			Message = StringHelper.Get("Text.TaskBegin"),
+			Stop = new Action(() =>
+			{
+				source.Dispose();
+				this.Sources[id] = null;
+			}),
+		});
+		#endregion
+
 		try
 		{
 			DateTime start = DateTime.Now;
-			Growl.Info(StringHelper.Get("Text.TaskBegin"));
+			instance.Initialize(source.Token);
+			instance.Execute(format, (arg) =>
+				process.Message = StringHelper.Get("Text.TaskProcess2", arg, StringHelper.Get("IconOut_" + instance.GetType().Name)),
+				source.Token);
+			instance.Dispose();
 
-			Out.LoadData(source.Token);
-			Out.Output(format, source.Token);
-			Out.Dispose();
-
-			Growl.Success(new GrowlInfo()
-			{
-				Message = StringHelper.Get("Text.TaskCompleted2", TimeConverter.Convert(DateTime.Now - start , null)),
-				StaysOpen = true,
-			});
+			process.Type = InfoType.Success;
+			process.Message = StringHelper.Get("Text.TaskCompleted2", TimeConverter.Convert(DateTime.Now - start, null));
 		}
 		catch (Exception ee)
 		{
-			Growl.Error(StringHelper.Get("Text.TaskException", ee.Message));
+			process.Type = InfoType.Error;
+			process.Message = StringHelper.Get("Text.TaskException", ee.Message);
 			Log.Error(ee, "Exception at IconOut");
 		}
 		finally
 		{
-			source.Dispose();
-			this.Sources[id] = null;
-
+			process.Stop?.Invoke();
 			ProcessFloatWindow.ClearMemory();
 		}
 	});
