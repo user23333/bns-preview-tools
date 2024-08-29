@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using System.Windows;
 using System.Xml;
-using Xylia.Preview.Data.Engine.BinData.Helpers;
 using Xylia.Preview.Data.Engine.BinData.Models;
 using Xylia.Preview.Data.Engine.BinData.Serialization;
 using Xylia.Preview.Data.Engine.DatData;
@@ -9,7 +8,7 @@ using Xylia.Preview.Data.Engine.Definitions;
 using MessageBox = HandyControl.Controls.MessageBox;
 
 namespace Xylia.Preview.UI.Helpers;
-public class LocalProvider(string? Source) : DefaultProvider
+public class LocalProvider(string source) : DefaultProvider
 {
 	#region Properties
 	/// <summary>
@@ -23,7 +22,7 @@ public class LocalProvider(string? Source) : DefaultProvider
 	#endregion
 
 	#region Override Methods
-	public override string Name => Path.GetFileName(Source);
+	public override string Name => Path.GetFileName(source);
 
 	public override Stream[] GetFiles(string pattern) => [File.OpenRead(pattern)];
 
@@ -31,17 +30,15 @@ public class LocalProvider(string? Source) : DefaultProvider
 	{
 		this.Tables = [];
 		this.CanSave = this.HaveBackup = false;
+		if (string.IsNullOrWhiteSpace(source)) return;
 
-		// invalid path
-		if (string.IsNullOrWhiteSpace(Source)) return;
-
-		var ext = Path.GetExtension(Source);
+		var ext = Path.GetExtension(source);
 		switch (ext)
 		{
 			case ".xml" or ".x16":
 			{
 				var definition = definitions["text"];
-				definition.Pattern = Source;
+				definition.Pattern = source;
 
 				Tables.Add(new Table() { Owner = this, Name = "text", Definition = definition });
 				break;
@@ -51,13 +48,13 @@ public class LocalProvider(string? Source) : DefaultProvider
 			{
 				this.CanSave = true;
 
-				LocalData = new FileInfo(Source);
+				LocalData = new FileInfo(source);
 				Is64Bit = LocalData.Bit64;
 				ReadFrom(LocalData.SearchFiles(PATH.Localfile(Is64Bit)).FirstOrDefault()?.Data, Is64Bit);
 
 				// detect text table type
-				Detect = definitions.HasHeader ? new DatafileDirect(definitions.Header) : new DatafileDetect(this, definitions);
-				Detect.ParseType(definitions);
+				Parser = definitions.GetParser(this);
+				Parser.Parse(definitions);
 				break;
 			}
 		}
@@ -104,7 +101,7 @@ public class LocalProvider(string? Source) : DefaultProvider
 		using var stream = new MemoryStream(data);
 		table.LoadXml(stream).ForEach(a => a.Invoke());
 
-		WriteData(Source, new PublishSettings() { Is64bit = Is64Bit, Mode = Mode.Package });
+		WriteData(source, new PublishSettings() { Is64bit = Is64Bit, Mode = Mode.Package });
 	}
 
 	public override void WriteData(string folder, PublishSettings settings)

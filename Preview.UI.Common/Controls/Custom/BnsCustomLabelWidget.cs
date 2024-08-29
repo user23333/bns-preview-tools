@@ -2,7 +2,6 @@
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using CUE4Parse.BNS.Assets.Exports;
 using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Models;
 using Xylia.Preview.UI.Controls.Primitives;
@@ -90,7 +89,7 @@ public class BnsCustomLabelWidget : BnsCustomBaseWidget, IContentHost
 	protected override Size MeasureOverride(Size constraint)
 	{
 		var size = RenderSize = base.MeasureOverride(constraint);
-		var contentSize = DrawString(null, String, MetaData, _container);
+		var contentSize = DrawString(null, String, _container);
 
 		return new Size(
 			Math.Max(size.Width, contentSize.Width),
@@ -107,11 +106,10 @@ public class BnsCustomLabelWidget : BnsCustomBaseWidget, IContentHost
 
 	private static void OnTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 	{
-		var widget = (BnsCustomBaseWidget)d;
-		widget.UpdateString(new StringProperty()
-		{
-			LabelText = (string)e.NewValue,
-		});
+		var widget = (BnsCustomLabelWidget)d;
+		var value = (string)e.NewValue;
+
+		widget.UpdateString(value);
 	}
 	#endregion
 

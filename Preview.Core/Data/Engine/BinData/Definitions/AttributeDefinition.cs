@@ -80,152 +80,158 @@ public class AttributeDefinition
 
 	internal static AttributeDefinition LoadFrom(XmlElement node, SequenceDefinitionLoader loader)
 	{
-		var Name = node.GetAttribute<string>("name").Trim();
-		var Type = Enum.TryParse("T" + node.GetAttribute("type"), true, out AttributeType type) ? type : 
-			throw BnsDataException.InvalidDefinition($"Failed to determine attribute type: {Name}");
-		var Repeat = ushort.TryParse(node.Attributes["repeat"]?.Value, out var tmp) ? tmp : (ushort)1;
-		var RefTable = node.GetAttribute<string>("ref");
-		var RefEl = node.GetAttribute<byte>("refel");
-		var Offset = node.GetAttribute<ushort>("offset");
-		var Deprecated = node.GetAttribute<bool>("deprecated");
-		var Key = node.GetAttribute<bool>("key");
-		var Required = node.GetAttribute<bool>("required");
-		var Hidden = node.GetAttribute<bool>("hidden");
-		var DefaultValue = node.GetAttribute<string>("default");
-		var MinValue = node.GetAttribute<long>("min");
-		var MaxValue = node.GetAttribute<long>("max");
-		var FMinValue = node.GetAttribute<float>("fmin");
-		var FMaxValue = node.GetAttribute<float>("fmax");
-
-		#region Check
-		if (Deprecated) return null;
-		ArgumentException.ThrowIfNullOrEmpty(Name);
-
-		//side
-		var side = ReleaseSide.None;
-		if (node.GetAttribute("client", true)) side |= ReleaseSide.Client;
-		if (node.GetAttribute("server", true)) side |= ReleaseSide.Server;
-
-		//seq
-		var seq = loader.Load(node);
-		seq?.Check(Type);
-
-		//default
-		if (string.IsNullOrEmpty(DefaultValue)) DefaultValue = null;
-		switch (Type)
+		try
 		{
-			case AttributeType.TInt8:
-				DefaultValue ??= "0";
-				if (MinValue == 0) MinValue = sbyte.MinValue;
-				if (MaxValue == 0) MaxValue = sbyte.MaxValue;
-				break;
+			var Name = node.GetAttribute<string>("name").Trim();
+			var Type = Enum.TryParse("T" + node.GetAttribute("type"), true, out AttributeType type) ? type :
+				throw BnsDataException.InvalidDefinition($"Failed to determine attribute type: {Name}");
+			var Repeat = ushort.TryParse(node.Attributes["repeat"]?.Value, out var tmp) ? tmp : (ushort)1;
+			var RefTable = node.GetAttribute<string>("ref");
+			var RefEl = node.GetAttribute<byte>("refel");
+			var Offset = node.GetAttribute<ushort>("offset");
+			var Deprecated = node.GetAttribute<bool>("deprecated");
+			var Key = node.GetAttribute<bool>("key");
+			var Required = node.GetAttribute<bool>("required");
+			var Hidden = node.GetAttribute<bool>("hidden");
+			var DefaultValue = node.GetAttribute<string>("default");
+			var MinValue = node.GetAttribute<long>("min");
+			var MaxValue = node.GetAttribute<long>("max");
+			var FMinValue = node.GetAttribute<float>("fmin");
+			var FMaxValue = node.GetAttribute<float>("fmax");
 
-			case AttributeType.TInt16:
-			case AttributeType.TDistance:
-			case AttributeType.TAngle:
-				DefaultValue ??= "0";
-				if (MinValue == 0) MinValue = short.MinValue;
-				if (MaxValue == 0) MaxValue = short.MaxValue;
-				break;
+			#region Check
+			ArgumentException.ThrowIfNullOrEmpty(Name);
 
-			case AttributeType.TVelocity:
-				DefaultValue ??= "0";
-				break;
+			//side
+			var side = ReleaseSide.None;
+			if (node.GetAttribute("client", true)) side |= ReleaseSide.Client;
+			if (node.GetAttribute("server", true)) side |= ReleaseSide.Server;
 
-			case AttributeType.TInt32:
-			case AttributeType.TMsec:
-				DefaultValue ??= "0";
-				if (MinValue == 0) MinValue = int.MinValue;
-				if (MaxValue == 0) MaxValue = int.MaxValue;
-				break;
+			//seq
+			var seq = loader.Load(node);
+			seq?.Check(Type);
 
-
-			case AttributeType.TInt64:
-				DefaultValue ??= "0";
-				if (MinValue == 0) MinValue = long.MinValue;
-				if (MaxValue == 0) MaxValue = long.MaxValue;
-				break;
-
-			case AttributeType.TFloat32:
-				DefaultValue = DefaultValue.ToFloat32().ToString("0.00");
-				if (FMinValue == 0) FMinValue = float.MinValue;
-				if (FMaxValue == 0) FMaxValue = float.MaxValue;
-				break;
-
-			case AttributeType.TBool:
-				DefaultValue ??= "n";
-				break;
-
-
-			case AttributeType.TRef:
-			case AttributeType.TIcon:
-			case AttributeType.TTRef:
-				break;
-
-
-			case AttributeType.TString:
-			case AttributeType.TNative:
-			case AttributeType.TXUnknown2:
-				DefaultValue ??= "";
-				break;
-
-			case AttributeType.TSeq:
-			case AttributeType.TSeq16:
-			case AttributeType.TProp_seq:
-			case AttributeType.TProp_field:
+			//default
+			if (string.IsNullOrEmpty(DefaultValue)) DefaultValue = null;
+			switch (Type)
 			{
-				if (DefaultValue is null && seq != null)
-				{
-					//DefaultValue = seq.Default;
+				case AttributeType.TInt8:
+					DefaultValue ??= "0";
+					if (MinValue == 0) MinValue = sbyte.MinValue;
+					if (MaxValue == 0) MaxValue = sbyte.MaxValue;
+					break;
 
-					// Ignore unnecessary attribute output
-					if (Required || Hidden) DefaultValue ??= seq.FirstOrDefault();
+				case AttributeType.TInt16:
+				case AttributeType.TDistance:
+				case AttributeType.TAngle:
+					DefaultValue ??= "0";
+					if (MinValue == 0) MinValue = short.MinValue;
+					if (MaxValue == 0) MaxValue = short.MaxValue;
+					break;
+
+				case AttributeType.TVelocity:
+					DefaultValue ??= "0";
+					break;
+
+				case AttributeType.TInt32:
+				case AttributeType.TMsec:
+					DefaultValue ??= "0";
+					if (MinValue == 0) MinValue = int.MinValue;
+					if (MaxValue == 0) MaxValue = int.MaxValue;
+					break;
+
+
+				case AttributeType.TInt64:
+					DefaultValue ??= "0";
+					if (MinValue == 0) MinValue = long.MinValue;
+					if (MaxValue == 0) MaxValue = long.MaxValue;
+					break;
+
+				case AttributeType.TFloat32:
+					DefaultValue = DefaultValue.ToFloat32().ToString("0.00");
+					if (FMinValue == 0) FMinValue = float.MinValue;
+					if (FMaxValue == 0) FMaxValue = float.MaxValue;
+					break;
+
+				case AttributeType.TBool:
+					DefaultValue ??= "n";
+					break;
+
+
+				case AttributeType.TRef:
+				case AttributeType.TIcon:
+				case AttributeType.TTRef:
+					break;
+
+
+				case AttributeType.TString:
+				case AttributeType.TNative:
+				case AttributeType.TXUnknown2:
+					DefaultValue ??= "";
+					break;
+
+				case AttributeType.TSeq:
+				case AttributeType.TSeq16:
+				case AttributeType.TProp_seq:
+				case AttributeType.TProp_field:
+				{
+					if (DefaultValue is null && seq != null)
+					{
+						//DefaultValue = seq.Default;
+
+						// Ignore unnecessary attribute output
+						if (Required || Hidden) DefaultValue ??= seq.FirstOrDefault();
+					}
+
+					break;
 				}
 
-				break;
+				case AttributeType.TVector16:
+					DefaultValue ??= "0,0,0";
+					break;
+
+				case AttributeType.TVector32:
+					DefaultValue ??= "0,0,0";
+					break;
+
+				case AttributeType.TIColor:
+					DefaultValue ??= new IColor().ToString();
+					break;
+
+				case AttributeType.TScript_obj:
+					break;
+
+				case AttributeType.TTime64:
+				case AttributeType.TXUnknown1:
+					break;
 			}
+			#endregion
 
-			case AttributeType.TVector16:
-				DefaultValue ??= "0,0,0";
-				break;
-
-			case AttributeType.TVector32:
-				DefaultValue ??= "0,0,0";
-				break;
-
-			case AttributeType.TIColor:
-				DefaultValue ??= new IColor().ToString();
-				break;
-
-			case AttributeType.TScript_obj:
-				break;
-
-			case AttributeType.TTime64:
-			case AttributeType.TXUnknown1:
-				break;
+			return new AttributeDefinition
+			{
+				Name = Name,
+				IsDeprecated = Deprecated,
+				IsKey = Key,
+				IsRequired = Required,
+				IsHidden = Hidden,
+				Type = Type,
+				Offset = Offset,
+				Repeat = Repeat,
+				ReferedTableName = RefTable,
+				ReferedEl = RefEl,
+				Sequence = seq,
+				DefaultValue = DefaultValue,
+				Max = MaxValue,
+				Min = MinValue,
+				FMax = FMaxValue,
+				FMin = FMinValue,
+				Side = side,
+			};
 		}
-		#endregion
-
-		return new AttributeDefinition
+		catch  (Exception ex)
 		{
-			Name = Name,
-			IsDeprecated = Deprecated,
-			IsKey = Key,
-			IsRequired = Required,
-			IsHidden = Hidden,
-			Type = Type,
-			Offset = Offset,
-			Repeat = Repeat,
-			ReferedTableName = RefTable,
-			ReferedEl = RefEl,
-			Sequence = seq,
-			DefaultValue = DefaultValue,
-			Max = MaxValue,
-			Min = MinValue,
-			FMax = FMaxValue,
-			FMin = FMinValue,
-			Side = side,
-		};
+			throw BnsDataException.InvalidDefinition($"attribute load failed: {node.OuterXml}", ex);
+		}
 	}
 
 	public static ushort GetSize(AttributeType attributeType, bool is64 = false) => attributeType switch

@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
 		xmlns:hc="https://handyorg.github.io/handycontrol"
         d:Title="Connection Manager" Title="{DynamicResource DatabaseStudio_ConnectionManager}" Background="{DynamicResource RegionBrush}"
-		Width="450" SizeToContent="Height" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" >
+        Width="450" SizeToContent="Height" ResizeMode="NoResize"  WindowStartupLocation="CenterOwner" ShowInTaskbar="False">
+
 	<Grid Margin="10,15,10,10">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
@@ -14,31 +15,52 @@
 			<RowDefinition Height="Auto"/>
 		</Grid.RowDefinitions>
 
-		<GroupBox Grid.Row="0" d:Header="Provider" Header="{DynamicResource DatabaseStudio_Provider}" Margin="0 0 0 5">
+		<GroupBox Grid.Row="0" d:Header="Provider" Margin="0 0 0 5">
+			<GroupBox.Header>
+				<TextBlock>
+					<Run Text="{DynamicResource DatabaseStudio_Provider}" />
+					<Run Name="Run_Version" Foreground="{DynamicResource PrimaryBrush}" />
+				</TextBlock>
+			</GroupBox.Header>
+			
 			<Grid>
 				<Grid.RowDefinitions>
 					<RowDefinition Height="40" />
 					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 
-				<hc:UniformSpacingPanel Grid.Row="0" Spacing="15">
+				<!-- Provider -->
+				<hc:UniformSpacingPanel Grid.Row="0" Spacing="15" RadioButton.Checked="ProviderMode_Changed">
 					<RadioButton Name="Provider_GlobalMode" d:Content="Global" Content="{DynamicResource DatabaseStudio_Mode_Global}" IsChecked="True" />
 					<RadioButton Name="Provider_GameMode"   d:Content="Game"   Content="{DynamicResource DatabaseStudio_Mode_Game}" />
 					<RadioButton Name="Provider_FolderMode" d:Content="Folder" Content="{DynamicResource DatabaseStudio_Mode_Folder}" />
 				</hc:UniformSpacingPanel>
 				<hc:SearchBar Name="ProviderSearch" Grid.Row="1" Style="{StaticResource SearchBarExtend}" SearchStarted="ProviderSearch_SearchStarted" 
 					Visibility="{Binding IsChecked,ElementName=Provider_GlobalMode,Converter={StaticResource Boolean2VisibilityReConverter}}" />
+
+				<!-- Definition -->
+				<ListBox Name="DefinitionList" Grid.Row="2" >
+					<ListBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding Message}" />
+						</DataTemplate>
+					</ListBox.ItemTemplate>
+				</ListBox>
+
 			</Grid>
 		</GroupBox>
 
-		<GroupBox Grid.Row="1" d:Header="Paramters" Header="{DynamicResource DatabaseStudio_Paramters}" Margin="0 0 0 5" Visibility="Collapsed">
+		<GroupBox Grid.Row="1" d:Header="Paramters" Header="{DynamicResource DatabaseStudio_Paramters}" Margin="0 5 0 5" Visibility="Collapsed">
 			<Grid>
 				<Grid.RowDefinitions>
 					<RowDefinition Height="35" />
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 
-				<hc:UniformSpacingPanel Grid.Row="0" Spacing="15" Orientation="Vertical">
+				<hc:UniformSpacingPanel Grid.Row="0" Spacing="15" Orientation="Horizontal">
+					<CheckBox Content="Option" />
+					<CheckBox Content="Option" />
 					<CheckBox Content="Option" />
 				</hc:UniformSpacingPanel>
 			</Grid>

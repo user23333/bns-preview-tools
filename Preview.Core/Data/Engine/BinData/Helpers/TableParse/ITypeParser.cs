@@ -1,7 +1,7 @@
 ﻿using Xylia.Preview.Data.Engine.Definitions;
 
 namespace Xylia.Preview.Data.Engine.BinData.Helpers;
-public interface ITableParseType
+public interface ITypeParser
 {
     /// <summary>
     /// Get table name from type
@@ -24,7 +24,7 @@ public interface ITableParseType
     /// parse table type from name
     /// </summary>
     /// <param name="definitions"></param>
-    public void ParseType(IEnumerable<TableDefinition> definitions)
+    public void Parse(IEnumerable<TableDefinition> definitions)
     {
         foreach (var def in definitions)
         {

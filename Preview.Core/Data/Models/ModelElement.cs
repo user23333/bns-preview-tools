@@ -6,8 +6,8 @@ using Xylia.Preview.Common.Attributes;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Common.DataStruct;
+using Xylia.Preview.Data.Engine.BinData.Helpers;
 using Xylia.Preview.Data.Engine.DatData;
-using Xylia.Preview.Data.Engine.Definitions;
 using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Properties;
 

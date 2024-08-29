@@ -1,11 +1,10 @@
 ﻿using IniParser;
-using Xylia.Preview.Data.Engine.Definitions;
 
 namespace Xylia.Preview.Data.Engine.BinData.Helpers;
 /// <summary>
 /// parse from known define
 /// </summary>
-public sealed class DatafileDirect : ITableParseType
+public sealed class DatafileDirect : ITypeParser
 {
 	#region Helper
 	readonly Dictionary<string, ushort> by_name = new(new TableNameComparer());
@@ -13,7 +12,6 @@ public sealed class DatafileDirect : ITableParseType
 	public bool TryGetName(ushort key, out string name) => throw new NotSupportedException();
 	public bool TryGetKey(string name, out ushort key) => by_name.TryGetValue(name, out key);
 	#endregion
-
 
 	public DatafileDirect(FileInfo path)
 	{

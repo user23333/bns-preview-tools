@@ -1,7 +1,7 @@
 ﻿using Xylia.Preview.Common;
 
 namespace Xylia.Preview.Data.Common.Exceptions;
-public class BnsXmlReaderException : BnsException
+internal class BnsXmlReaderException : BnsException
 {
     public BnsXmlReaderException(string message, string xml, int line, int pos) : base($"{message} in {xml} at line {line}:{pos}")
     {

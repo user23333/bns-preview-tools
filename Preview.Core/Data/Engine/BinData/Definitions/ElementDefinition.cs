@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Text.RegularExpressions;
+using CUE4Parse.Utils;
+using Xylia.Preview.Common.Attributes;
 using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models;
 
@@ -24,6 +26,9 @@ public abstract class IElementDefinition
 	private Dictionary<string, AttributeDefinition> _attributesDictionary = [];
 	private Dictionary<string, AttributeDefinition> _expandedAttributesDictionary = [];
 
+	public AttributeDefinition this[string name] => _expandedAttributesDictionary.GetValueOrDefault(name, null);
+	public AttributeDefinition GetAttribute(string name) => _attributesDictionary.GetValueOrDefault(name, null);
+
 	internal void CreateAttributeMap()
 	{
 		_attributesDictionary = Attributes.ToDictionary(x => x.Name);
@@ -35,9 +40,47 @@ public abstract class IElementDefinition
 			.ThenBy(o => Regex.Replace(o.Name, @"\d+", match => match.Value.PadLeft(4, '0')))];
 	}
 
-	public AttributeDefinition this[string name] => _expandedAttributesDictionary.GetValueOrDefault(name, null);
+	internal void RefreshSize(IEnumerable<AttributeDefinition> attributes, bool is64, int Offset = 16)
+	{
+		int Offset_Key = 8;
+		foreach (var attribute in attributes.OrderBy(x => !x.IsKey))
+		{
+			// skip
+			if (attribute.IsDeprecated || !attribute.Side.HasFlag(ReleaseSide.Client))
+				continue;
 
-	public AttributeDefinition GetAttribute(string name) => _attributesDictionary.GetValueOrDefault(name, null);
+			#region set offset
+			int offset = 0;
+			if (attribute.Offset != 0) offset = attribute.Offset;
+			else if (attribute.IsKey) offset = Offset_Key;
+			else offset = Offset;
+
+			// auto align
+			var size = AttributeDefinition.GetSize(attribute.Type, is64);
+			if (size == 2) offset = offset.Align(2);
+			else if (size != 1) offset = offset.Align(4);
+
+			attribute.Offset = (ushort)offset;
+			attribute.Size = size;
+
+			// create new alias
+			if (attribute.Name.Equals("unk-")) attribute.Name = "unk" + attribute.Offset;
+			#endregion
+
+			#region next offset
+			offset += attribute.Size;
+
+			if (attribute.IsKey)
+			{
+				Offset_Key = offset;
+				Offset = Math.Max(Offset, offset);
+			}
+			else Offset = Math.Max(Offset, offset);
+			#endregion
+		}
+
+		this.Size = (ushort)Offset.Align(4);
+	}
 	#endregion
 }
 

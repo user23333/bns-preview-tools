@@ -110,8 +110,10 @@ public struct Time64(long ticks) : IFormattable, ITime, IComparable<Time64>
 	#endregion
 
 	#region Static Methods
-	public static bool operator ==(Time64 a, Time64 b) => a.Ticks == b.Ticks;
-	public static bool operator !=(Time64 a, Time64 b) => !(a == b);
+	public static bool operator ==(Time64 a, Time64 b) => a.CompareTo(b) == 0;
+	public static bool operator !=(Time64 a, Time64 b) => a.CompareTo(b) != 0;
+	public static bool operator <(Time64 a, Time64 b) => a.CompareTo(b) < 0;
+	public static bool operator >(Time64 a, Time64 b) => a.CompareTo(b) > 0;
 
 	public static Msec operator -(Time64 a, Time64 b) => (int)((a.Ticks - b.Ticks) * 1000);
 	public static Msec operator +(Time64 a, Time64 b) => (int)((a.Ticks + b.Ticks) * 1000);

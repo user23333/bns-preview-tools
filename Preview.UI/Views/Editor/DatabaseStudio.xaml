@@ -269,6 +269,7 @@
 		</TabControl>
 
 		<!-- Tooltip -->
+		<StackPanel Grid.ColumnSpan="99" Grid.RowSpan="99" Panel.ZIndex="99" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5" hc:Growl.Token="DatabaseStudio" />
 		<StackPanel Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="99">
 			<TextBlock x:Name="MessageHolder" HorizontalAlignment="Right" Margin="0 0 10 0" d:Text="Message" FontSize="13" Foreground="{DynamicResource PrimaryTextBrush}" />
 		</StackPanel>

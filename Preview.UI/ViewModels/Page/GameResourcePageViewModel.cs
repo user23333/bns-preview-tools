@@ -96,7 +96,7 @@ internal partial class GameResourcePageViewModel : ObservableObject
 	[RelayCommand]
 	public async Task AddFileInfo()
 	{
-		var file = await Dialog.Show<FileInfoDialog>().GetResultAsync<PackageParam.FileParam>();
+		var file = await Dialog.Show<VfsFileInfoDialog>().GetResultAsync<PackageParam.FileParam>();
 		if (file is null) return;
 
 		file.Owner = this.SelectedPackage;
@@ -106,7 +106,7 @@ internal partial class GameResourcePageViewModel : ObservableObject
 	[RelayCommand]
 	public async Task UpdateFileInfo()
 	{
-		var dialog = new FileInfoDialog() { Result = SelectedFile };
+		var dialog = new VfsFileInfoDialog() { Result = SelectedFile };
 		if (dialog.Result is null) return;
 
 		await Dialog.Show(dialog).GetResultAsync<PackageParam.FileParam>();
@@ -120,7 +120,7 @@ internal partial class GameResourcePageViewModel : ObservableObject
 	[RelayCommand]
 	public void RemoveFileInfo()
 	{
-		this.SelectedPackage?.Files.Remove(SelectedFile);
+		this.SelectedPackage.Files.Remove(SelectedFile);
 	}
 
 
@@ -237,7 +237,7 @@ internal partial class GameResourcePageViewModel : ObservableObject
 		{
 			process.Type = InfoType.Error;
 			process.Message = StringHelper.Get("Text.TaskException", ee.Message);
-			Log.Error(ee, "Exception at IconOut");
+			Log.Fatal(ee, "Exception at IconOut");
 		}
 		finally
 		{
@@ -400,7 +400,6 @@ public class PackageParam
 	public string MountPoint { get; set; } = @"BNSR\Content";
 
 	public ObservableCollection<FileParam> Files { get; set; } = [];
-
 
 	public class FileParam
 	{

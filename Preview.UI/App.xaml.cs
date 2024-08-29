@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.IO;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Markup;
@@ -7,8 +6,6 @@ using System.Windows.Threading;
 using HandyControl.Controls;
 using Serilog;
 using Vanara.PInvoke;
-using Xylia.Preview.Data.Helpers;
-using Xylia.Preview.Data.Models;
 using Xylia.Preview.UI.Helpers;
 using Xylia.Preview.UI.Helpers.Output;
 using Xylia.Preview.UI.Helpers.Output.Tables;
@@ -20,7 +17,6 @@ public partial class App : Application
 {
 	protected override void OnStartup(StartupEventArgs e)
 	{
-		// Process the command-line arguments
 		AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
 		// Register base services
@@ -30,7 +26,7 @@ public partial class App : Application
 
 #if DEVELOP
 		UpdateSkin(SkinType.Default, true);
-		TestProvider.Set(new DirectoryInfo(@"D:\Tencent\BnsData\data_ztx"));
+		TestProvider.Set(new DirectoryInfo(@"D:\Tencent\BnsData\GameData_ZTx"));
 		FileCache.Data.Provider.GetTable<GlyphReward>()["shuffle_grade_5_group6"].GetInfo();
 
 		//new Xylia.Preview.UI.Content.TestPanel().Show();
@@ -92,6 +88,9 @@ public partial class App : Application
 	#endregion
 
 	#region Command
+	/// <summary>
+	/// Process the command-line arguments
+	/// </summary>
 	private static void InitializeArgs(string[] Args)
 	{
 		var args = Args
@@ -157,6 +156,7 @@ public partial class App : Application
 			{
 				case "soundwave": Commands.Soundwave_output(); break;
 				case "skill3": OutSet.Start<Skill3Out>().Wait(); break;
+				case "weeklytimetable": OutSet.Start<WeeklyTimeTableOut>().Wait(); break;
 			}
 		}
 		else throw new WarningException("bad params: " + command);

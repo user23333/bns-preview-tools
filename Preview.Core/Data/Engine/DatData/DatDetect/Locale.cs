@@ -1,19 +1,27 @@
 ﻿using IniParser;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.DataStruct;
+using Xylia.Preview.Data.Common.Exceptions;
 
 namespace Xylia.Preview.Data.Engine.DatData;
 public struct Locale
 {
 	#region Fields	   
-	internal static Locale Current { get; private set; }
-
 	public BnsVersion ProductVersion;
 	public EPublisher Publisher;
 	public ELanguage Language;
 	public EPublisher AdditionalPublisher;
 	public int Universe;
 	#endregion
+
+	#region Properties
+    internal static Locale Current { get; set; }
+
+    /// <summary>
+    /// Indicates whether the provider is a special server
+    /// </summary>
+    public bool IsNeo => Publisher is EPublisher.ZNcs or EPublisher.ZTx;
+    #endregion
 
 	#region Methods
 	public Locale(EPublisher publisher)
@@ -22,14 +30,11 @@ public struct Locale
 		Current = this;
 	}
 
-	public Locale(DirectoryInfo directory)
+	public Locale(string folder)
 	{
-		Load(directory);
-		Current = this;
-	}
+		if (string.IsNullOrEmpty(folder)) return;
+		var directory = new DirectoryInfo(folder);
 
-	private void Load(DirectoryInfo directory)
-	{
 		#region mode
 		var Win64 = directory.GetDirectories("Win64", SearchOption.AllDirectories).FirstOrDefault();
 		if (Win64 is not null)
@@ -56,13 +61,14 @@ public struct Locale
 		#endregion
 
 		#region mode2
-		var temp = (directory.GetDirectories("Content", SearchOption.AllDirectories).FirstOrDefault() ?? directory)
+		var data = (directory.GetDirectories("Content", SearchOption.AllDirectories).FirstOrDefault() ?? directory)
 			.GetDirectories("local").FirstOrDefault()?
 			.GetDirectories().FirstOrDefault();
-		if (temp is not null)
+		if (data is null) throw BnsDataException.InvalidGame();
+		else
 		{
-			Publisher = temp.Name.ToEnum<EPublisher>();
-			Language = (temp.GetDirectories().Where(o => o.Name != "data").FirstOrDefault()?.Name).ToEnum<ELanguage>();
+			Publisher = data.Name.ToEnum<EPublisher>();
+			Language = (data.GetDirectories().Where(o => o.Name != "data").FirstOrDefault()?.Name).ToEnum<ELanguage>();
 
 			if (Publisher is EPublisher.RTx or EPublisher.ZTx) AdditionalPublisher = EPublisher.Tencent;
 			return;

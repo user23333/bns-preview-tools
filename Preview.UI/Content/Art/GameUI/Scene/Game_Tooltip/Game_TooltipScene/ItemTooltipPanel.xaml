@@ -71,6 +71,17 @@
 					<ResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" Offset1="0" LinkWidgetName1="CollectionSubstituteText" />
 				</BnsCustomLabelWidget.VerticalResizeLink>
 			</BnsCustomLabelWidget>
+			<BnsCustomLabelWidget Name="ProbabilityText">
+				<BnsCustomLabelWidget.HorizontalResizeLink>
+					<ResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" Offset1="7" LinkWidgetName1="ItemIcon" />
+				</BnsCustomLabelWidget.HorizontalResizeLink>
+				<BnsCustomLabelWidget.VerticalResizeLink>
+					<ResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" Offset1="0" LinkWidgetName1="CollectionSubstitute2Text" />
+				</BnsCustomLabelWidget.VerticalResizeLink>
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Label_Green03_12.Label_Green03_12" SpaceBetweenLines="3" />
+				</BnsCustomLabelWidget.String>
+			</BnsCustomLabelWidget>
 		</BnsCustomWindowWidget>
 
 		<BnsCustomWindowWidget Name="SetItemEffect">

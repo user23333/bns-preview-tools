@@ -1,10 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Models;
-using Xylia.Preview.UI.Controls;
-using Xylia.Preview.UI.Extensions;
 using Xylia.Preview.UI.GameUI.Scene.Game_Tooltip;
 using Xylia.Preview.UI.GameUI.Scene.Game_Tooltip2;
 using Xylia.Preview.UI.Views;
@@ -36,19 +33,6 @@ public sealed class RecordTooltip : ContentControl
 	#endregion
 
 	#region Methods
-	protected override void OnVisualParentChanged(DependencyObject oldParent)
-	{
-		base.OnVisualParentChanged(oldParent);
-
-		// fix display issue when backgorund is white
-		var parent = this.GetParent<Border>();
-		if (parent != null)
-		{
-			parent.Background = new SolidColorBrush(BnsCustomWindowWidget.BackgroundColor);
-			this.Foreground = new SolidColorBrush(Colors.White);
-		}
-	}
-
 	private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
 	{
 		FrameworkElement? visualTree;

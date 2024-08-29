@@ -130,11 +130,11 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		RESX_Rules = {"EnabledRules":["StringFormat"]}
-		RESX_ShowErrorsInErrorList = True
-		RESX_TaskErrorCategory = Warning
-		RESX_ResXSortingComparison = Ordinal
-		RESX_SortFileContentOnSave = True
 		SolutionGuid = {E692D4CD-1B89-448D-BED5-A4E1CFDEEB06}
+		RESX_SortFileContentOnSave = False
+		RESX_ResXSortingComparison = OrdinalIgnoreCase
+		RESX_TaskErrorCategory = Warning
+		RESX_ShowErrorsInErrorList = True
+		RESX_Rules = {"EnabledRules":["StringFormat"]}
 	EndGlobalSection
 EndGlobal

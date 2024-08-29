@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using Xylia.Preview.Common.Extension;
+﻿using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Engine.BinData.Definitions;
 using Xylia.Preview.Data.Engine.BinData.Models;
@@ -8,10 +7,10 @@ using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.Data.Engine.BinData.Helpers;
 /// <summary>
-/// parse by auto detect  
+/// Parse by auto detect  
 /// </summary>
 /// <remarks>This will to load NameTable and LazyTable, cause large memory usage.</remarks>
-public sealed class DatafileDetect : ITableParseType
+public sealed class DatafileDetect : ITypeParser
 {
 	#region Helpers
 	readonly Dictionary<int, string> by_id = [];
@@ -74,19 +73,13 @@ public sealed class DatafileDetect : ITableParseType
 	}
 	#endregion
 
-
 	#region Load Methods
-	public DatafileDetect(Datafile data, Collection<TableDefinition> definitions)
+	public DatafileDetect(Datafile data, IEnumerable<TableDefinition> definitions)
 	{
 		Read(data.Tables, AliasTableUnit.Split(data.AliasTable));
 		CreateNameMap(definitions.Where(x => x.Module != (long)TableModule.Server && x.Module != (long)TableModule.Engine).ToArray());
 	}
 
-	/// <summary>
-	/// create map by detect data
-	/// </summary>
-	/// <param name="tables"></param>
-	/// <param name="AliasTable"></param>
 	private void Read(IEnumerable<Table> tables, List<AliasTableUnit> AliasTable)
 	{
 #if DEVELOP

@@ -37,16 +37,9 @@ public interface IDataProvider : IDisposable , ITextProvider
     /// bns data table
     /// </summary>
     TableCollection Tables { get; }
-
-	//AliasTable AliasTable { get; }
 	#endregion
 
 	#region Properties
-	/// <summary>
-	/// Indicates whether the provider is a special server
-	/// </summary>
-	bool IsNeo => Locale.Publisher is EPublisher.ZNcs or EPublisher.ZTx;
-
 	string ITextProvider.this[string alias] => GetTable("text")[alias]?.Attributes.Get<string>("text");
 	#endregion
 

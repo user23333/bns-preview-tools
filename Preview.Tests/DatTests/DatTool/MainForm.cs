@@ -298,17 +298,13 @@ public partial class MainForm : Form
 				if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
 				else foreach (string f in Directory.GetFiles(folder, "*.json")) File.Delete(f);
 
-
 				int Count = 1;
 				Parallel.ForEach(provider.Tables, table =>
 				{
 					Console.WriteLine($"输出配置文件: {Count++,-3}/{provider.Tables.Count}...{Count * 100 / provider.Tables.Count,3}%  (ListId: {table.Type})");
 					if (!table.IsBinary) return;
 
-					string FilePath = $@"{folder}\{table.Type}";
-					if (provider.Detect.TryGetName(table.Type, out string TypeName) && TypeName != null) FilePath += $" ({TypeName})";
-
-					using StreamWriter outfile = new(FilePath + ".json");
+					using StreamWriter outfile = new($@"{folder}\{table.Type} ({table.Name}).json");
 					outfile.WriteLine(JsonConvert.SerializeObject(table, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore }));
 
 					table.Dispose();
@@ -331,20 +327,18 @@ public partial class MainForm : Form
 
 	private void button7_Click(object sender, EventArgs e)
 	{
-		var defs = TableDefinitionHelper.LoadTableDefinition(new(), new FileInfo(textBox1.Text));
-		foreach (var def in defs)
-		{
-			foreach (var attribute in def.ElRecord.ExpandedAttributes.OrderBy(x => x.Offset))
-			{
-				Console.WriteLine($"#notime#{attribute.Offset:X}  -  {attribute.Name}");
-			}
+		var def = TableDefinition.LoadFrom(new(), File.ReadAllText(textBox1.Text));
 
-			foreach (var sub in def.ElRecord.Subtables)
+		foreach (var attribute in def.ElRecord.ExpandedAttributes.OrderBy(x => x.Offset))
+		{
+			Console.WriteLine($"#notime#{attribute.Offset:X}  -  {attribute.Name}");
+		}
+
+		foreach (var sub in def.ElRecord.Subtables)
+		{
+			foreach (var attribute in sub.ExpandedAttributesSubOnly.OrderBy(x => x.Offset))
 			{
-				foreach (var attribute in sub.ExpandedAttributesSubOnly.OrderBy(x => x.Offset))
-				{
-					Console.WriteLine($"#notime#[{sub.Name}] {attribute.Offset:X}  -  {attribute.Name}");
-				}
+				Console.WriteLine($"#notime#[{sub.Name}] {attribute.Offset:X}  -  {attribute.Name}");
 			}
 		}
 	}
@@ -358,7 +352,7 @@ public partial class MainForm : Form
 			try
 			{
 				set ??= new DatabaseTests(DefaultProvider.Load(Txt_Bin_Data.Text), textBox3.Text);
-				set.Output(textBox1.Text.Split('|').Select(o => new FileInfo(o)).Where(o => o.Exists).ToArray());
+				set.Output(textBox1.Text.Split('|'));
 			}
 			catch (Exception ex)
 			{

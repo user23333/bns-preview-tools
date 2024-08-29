@@ -2,7 +2,6 @@
 using CUE4Parse.BNS.Assets.Exports;
 using CUE4Parse.UE4.Objects.UObject;
 using Xylia.Preview.Data.Models.Document;
-using Xylia.Preview.UI.Controls.Helpers;
 using Xylia.Preview.UI.Documents.Primitives;
 using HorizontalAlignment = Xylia.Preview.Data.Models.Document.HorizontalAlignment;
 using VerticalAlignment = Xylia.Preview.Data.Models.Document.VerticalAlignment;
@@ -11,7 +10,7 @@ namespace Xylia.Preview.UI.Documents;
 /// <summary>
 /// Paragraph element 
 /// </summary>
-public class P : BaseElement<Data.Models.Document.P>, IMetaData
+public class P : BaseElement<Data.Models.Document.P>
 {
 	#region Constructors
 	public P()
@@ -97,10 +96,7 @@ public class P : BaseElement<Data.Models.Document.P>, IMetaData
 
 		return offset;
 	}
-	#endregion
 
-
-	#region IMetaData
 	public void UpdateString(StringProperty property)
 	{
 		Children.Clear();
@@ -113,11 +109,6 @@ public class P : BaseElement<Data.Models.Document.P>, IMetaData
 
 		var elements = TextContainer.Load(doc.DocumentNode.ChildNodes);
 		Children = property.fontset is null ? elements : [new Font(property.fontset.GetPathName(), elements)];
-	}
-
-	public void UpdateTooltip(StringProperty property)
-	{
-		//throw new System.NotImplementedException();
 	}
 	#endregion
 }

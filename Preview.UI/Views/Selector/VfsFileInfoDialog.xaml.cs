@@ -10,20 +10,21 @@ using Ookii.Dialogs.Wpf;
 using Xylia.Preview.UI.ViewModels;
 
 namespace Xylia.Preview.UI.Views.Selector;
-
 [ObservableObject]
 [DesignTimeVisible(false)]
-public partial class FileInfoDialog : IDialogResultable<PackageParam.FileParam>	
+public partial class VfsFileInfoDialog : IDialogResultable<PackageParam.FileParam>
 {
-	public FileInfoDialog()
+	#region Constructor
+	public VfsFileInfoDialog()
 	{
 		DataContext = this;
 		InitializeComponent();
 
 		this.CommandBindings.Add(new CommandBinding(ControlCommands.Close, CloseCommand));
 	}
+	#endregion
 
-
+	#region Methods
 	private void OnBrowseFile(object sender, RoutedEventArgs e)
 	{
 		var dialog = new VistaOpenFileDialog();
@@ -47,8 +48,7 @@ public partial class FileInfoDialog : IDialogResultable<PackageParam.FileParam>
 		Result = null;
 		CloseAction?.Invoke();
 	}
-
-
+	#endregion
 
 	#region Interface
 	public ObservableCollection<CompressionMethod> CompressionModes => new(Enum.GetValues<CompressionMethod>());

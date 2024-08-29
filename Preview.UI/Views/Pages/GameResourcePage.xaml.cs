@@ -53,7 +53,7 @@ public partial class GameResourcePage
 		try
 		{
 			if (string.IsNullOrWhiteSpace(Selector.Text)) 
-				throw new WarningException(StringHelper.Get("Message_InvalidPath"));
+				throw new WarningException(StringHelper.Get("Text.InvalidPath"));
 
 			DateTime dt = DateTime.Now;
 			Extract.IsEnabled = false;

@@ -25,9 +25,10 @@ internal partial class Growl2 : ObservableObject
 	public InfoType Type
 	{
 		set
-		{
+        {
 			Application.Current.Dispatcher.Invoke(() =>
 			{
+                Visible = true;
 				Icon = Application.Current.Resources[value + "Geometry"] as Geometry;
 				Brush = Application.Current.Resources[value + "Brush"] as Brush;
 			});

@@ -185,7 +185,8 @@ internal class AttributeConverter
 
 		[typeof(Script_obj)] = AttributeType.TScript_obj,
 		[typeof(BnsVersion)] = AttributeType.TVersion,
-
+		[typeof(Icon)] = AttributeType.TIcon,
+		[typeof(Time32)] = AttributeType.TTime32,
 		[typeof(Time64)] = AttributeType.TTime64,
 		[typeof(TimeUniversal)] = AttributeType.TXUnknown1,
 		[typeof(ObjectPath)] = AttributeType.TXUnknown2,

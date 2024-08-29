@@ -26,7 +26,7 @@ public partial class LegacyAuctionPanel
 		#endregion
 
 		#region Category
-		var IsNeo = FileCache.Data.Provider.IsNeo;
+		var IsNeo = FileCache.Data.Provider.Locale.IsNeo;
 
 		TreeView.Items.Add(new TreeViewItem() { Tag = "all", Header = new BnsCustomLabelWidget() { Text = "UI.Market.Category.All".GetText() } });
 		if (IsNeo) TreeView.Items.Add(new TreeViewItem() { Tag = "WorldBoss", Header = new BnsCustomLabelWidget() { Text = "UI.Market.Category.WorldBoss".GetText(), FontSize = 15 } });

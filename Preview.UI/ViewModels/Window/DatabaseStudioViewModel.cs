@@ -3,7 +3,6 @@ using System.Text;
 using System.Windows.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Newtonsoft.Json;
-using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Client;
 using Xylia.Preview.Data.Engine.BinData.Models;
 using Xylia.Preview.Data.Engine.Definitions;
@@ -16,7 +15,7 @@ internal partial class DatabaseStudioViewModel : ObservableObject
 	#region Engine
 	public IEngine? Database;
 
-	public string? SaveDataPath => Path.Combine(UserSettings.Default.OutputFolder, LinqExtensions.Join("_", "data", Database?.Desc));
+	public string? SaveDataPath => Path.Combine(UserSettings.Default.OutputFolder, "GameData_" + Database?.Desc);
 	#endregion
 
 	#region ToolBar

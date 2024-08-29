@@ -8,28 +8,21 @@ public class SequenceDefinitionLoader
 	private readonly Dictionary<string, List<SequenceDefinition>> _duplicateSequences = [];
 
 	#region Methods
-	internal static SequenceDefinitionLoader LoadFrom(params string[] XmlContents)
+	internal void LoadFrom(string content)
 	{
-		var loader = new SequenceDefinitionLoader();
+		var xmlDoc = new XmlDocument();
+		xmlDoc.LoadXml(content);
 
-		foreach (var content in XmlContents)
+		foreach (XmlElement record in xmlDoc.SelectNodes("table/sequence"))
 		{
-			var xmlDoc = new XmlDocument();
-			xmlDoc.LoadXml(content);
+			string name = record.Attributes["name"]?.Value;
+			ArgumentException.ThrowIfNullOrWhiteSpace(name);
+			if (_duplicateSequences.ContainsKey(name))
+				throw BnsDataException.InvalidSequence($"has existed", name);
 
-			foreach (XmlElement record in xmlDoc.SelectNodes("table/sequence"))
-			{
-				string name = record.Attributes["name"]?.Value;
-				ArgumentException.ThrowIfNullOrWhiteSpace(name);
-				if (loader._duplicateSequences.ContainsKey(name))
-					throw BnsDataException.InvalidSequence($"has existed", name);
-
-				var seq = loader.Load(record);
-				if (seq != null) loader._duplicateSequences[name] = [seq];
-			}
+			var seq = this.Load(record);
+			if (seq != null) _duplicateSequences[name] = [seq];
 		}
-
-		return loader;
 	}
 
 	internal SequenceDefinition Load(XmlElement element)

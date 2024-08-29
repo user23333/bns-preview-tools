@@ -3,7 +3,7 @@ using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.Data.Engine.BinData.Models;
-internal class AliasTable
+public class AliasTable
 {
 	internal virtual Dictionary<string, Ref> Table { get; } = new(StringComparer.OrdinalIgnoreCase);
 

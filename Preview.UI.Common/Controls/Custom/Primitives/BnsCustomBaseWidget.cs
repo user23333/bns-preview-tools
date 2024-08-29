@@ -1,9 +1,12 @@
-﻿using System.Diagnostics;
+﻿using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Media;
 using CUE4Parse.BNS.Assets.Exports;
 using SkiaSharp.Views.WPF;
 using Xylia.Preview.Common.Extension;
+using Xylia.Preview.Data.Helpers;
+using Xylia.Preview.Data.Models;
 using Xylia.Preview.UI.Controls.Helpers;
 using Xylia.Preview.UI.Converters;
 using Xylia.Preview.UI.Documents;
@@ -11,7 +14,7 @@ using Xylia.Preview.UI.Documents.Primitives;
 using Xylia.Preview.UI.Extensions;
 
 namespace Xylia.Preview.UI.Controls.Primitives;
-public abstract class BnsCustomBaseWidget : UserWidget, IMetaData
+public abstract class BnsCustomBaseWidget : UserWidget
 {
 	#region Constructors
 	internal BnsCustomBaseWidget()
@@ -31,7 +34,7 @@ public abstract class BnsCustomBaseWidget : UserWidget, IMetaData
 	private static readonly Type Owner = typeof(BnsCustomBaseWidget);
 	public static readonly DependencyProperty BaseImagePropertyProperty = Owner.Register<ImageProperty>(nameof(BaseImageProperty), null);
 	public static readonly DependencyProperty StringProperty = Owner.Register<StringProperty>(nameof(String), null, callback: OnStringChanged);
-	public static readonly DependencyProperty MetaDataProperty = Owner.Register(nameof(MetaData), string.Empty, callback: IMetaData.UpdateData);
+	public static readonly DependencyProperty MetaDataProperty = Owner.Register(nameof(MetaData), string.Empty, callback: OnMetaChanged);
 	public static readonly DependencyProperty ExpansionComponentListProperty = Owner.Register<ExpansionCollection>(nameof(ExpansionComponentList));
 
 	public static readonly DependencyProperty HorizontalResizeLinkProperty = Owner.Register<ResizeLink>(nameof(HorizontalResizeLink), default, FrameworkPropertyMetadataOptions.AffectsParentArrange);
@@ -92,6 +95,33 @@ public abstract class BnsCustomBaseWidget : UserWidget, IMetaData
 		InvalidateVisual();
 	}
 
+	public static async void OnMetaChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+	{
+		var widget = (BnsCustomBaseWidget)d;
+		if (e.NewValue is not string s || string.IsNullOrEmpty(s)) return;
+
+		// return if in design
+		if (DesignerProperties.GetIsInDesignMode(d)) return;
+		await Task.Run(() => FileCache.Data.Provider.GetTable<Text>());
+
+		foreach (var meta in s.Split(';'))
+		{
+			var ls = meta.Split('=', 2);
+			if (ls.Length < 2) continue;
+
+			switch (ls[0])
+			{
+				case "textref": widget.UpdateString(ls[1].GetText()); return;
+				case "tooltip": widget.UpdateTooltip(ls[1].GetText()); return;
+				case "config":
+				case "width":
+				case "height": return;
+
+				default: Debug.Print("meta is not supported!"); break;
+			}
+		}
+	}
+
 	private static void OnStringChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 	{
 		var widget = (BnsCustomBaseWidget)d;
@@ -107,15 +137,15 @@ public abstract class BnsCustomBaseWidget : UserWidget, IMetaData
 		OnContainerChanged(EventArgs.Empty);
 	}
 
-	public void UpdateString(StringProperty text)
+	protected void UpdateString(string text)
 	{
-		this.String = text;
+		this.String.LabelText = text;
 		this.OnStringChanged(String);
 	}
 
-	void IMetaData.UpdateTooltip(StringProperty text)
+	protected void UpdateTooltip(string text)
 	{
-		this.ToolTip = text.LabelText?.Text;
+		this.ToolTip = text;
 	}
 	#endregion
 
@@ -159,7 +189,7 @@ public abstract class BnsCustomBaseWidget : UserWidget, IMetaData
 
 		// Draw BaseImage & String 
 		DrawImage(dc, BaseImageProperty);
-		DrawString(dc, String, MetaData);
+		DrawString(dc, String);
 
 		#region ExpansionComponent
 		if (!ExpansionComponentList.IsEmpty())
@@ -175,7 +205,7 @@ public abstract class BnsCustomBaseWidget : UserWidget, IMetaData
 				}
 				else if (e.ExpansionType == ExpansionComponent.Type_STRING)
 				{
-					DrawString(dc, e.StringProperty, e.MetaData);
+					DrawString(dc, e.StringProperty/*, e.MetaData*/);
 				}
 				else Debug.Assert(string.IsNullOrEmpty(e.ExpansionType.PlainText));
 			}
@@ -197,13 +227,13 @@ public abstract class BnsCustomBaseWidget : UserWidget, IMetaData
 		}
 	}
 
-	protected Size DrawString(DrawingContext? ctx, StringProperty p, string MetaData, TextContainer? container = null)
+	protected Size DrawString(DrawingContext? ctx, StringProperty p, TextContainer? container = null)
 	{
 		if (p is null) return default;
 
 		// data
 		var document = container != null ? _container.Document : new P();
-		IMetaData.UpdateData(document, new(StringProperty, p, MetaData));
+		document.UpdateString(p);
 		//document.Element.HorizontalAlignment = p.HorizontalAlignment;
 		BaseElement.InheritDependency(this, document);
 

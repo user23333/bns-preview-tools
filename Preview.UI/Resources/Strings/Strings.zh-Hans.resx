@@ -189,6 +189,9 @@
   <data name="AbilityName.DefendPerfectParryReducePercent" xml:space="preserve">
     <value>DefendPerfectParryReducePercent</value>
   </data>
+  <data name="AbilityName.DefendPowerCreatureValue" xml:space="preserve">
+    <value>防御率</value>
+  </data>
   <data name="AbilityName.HateBasePercent" xml:space="preserve">
     <value>仇恨率</value>
   </data>
@@ -267,6 +270,9 @@
     <value>检查更新失败，点击确定将重试
 {0}</value>
   </data>
+  <data name="Assets_Name" xml:space="preserve">
+    <value>资产</value>
+  </data>
   <data name="Asset_Extract" xml:space="preserve">
     <value>提取</value>
   </data>
@@ -278,9 +284,6 @@
   </data>
   <data name="Asset_Repack" xml:space="preserve">
     <value>打包</value>
-  </data>
-  <data name="Assets_Name" xml:space="preserve">
-    <value>资产</value>
   </data>
   <data name="AudioPlayer_BytesPerSecond" xml:space="preserve">
     <value>每秒字节数</value>
@@ -300,23 +303,17 @@
   <data name="Command_QueryAsset2" xml:space="preserve">
     <value>查询游戏资产 (旧路径)</value>
   </data>
-  <data name="DatSelector_CountDown" xml:space="preserve">
-    <value>将在 {0} 秒后自动选择</value>
+  <data name="DatabaseStudio_AttributeName" xml:space="preserve">
+    <value>字段名</value>
   </data>
-  <data name="DatSelector_Name" xml:space="preserve">
-    <value>数据选择器</value>
-  </data>
-  <data name="DatSelector_Source1" xml:space="preserve">
-    <value>数据文件</value>
-  </data>
-  <data name="DatSelector_Source2" xml:space="preserve">
-    <value>汉化文件</value>
-  </data>
-  <data name="DatSelector_Tooltip" xml:space="preserve">
-    <value>由于您选择的路径下存在多个相关文件，需要进行主动选择。</value>
+  <data name="DatabaseStudio_AttributeType" xml:space="preserve">
+    <value>类型</value>
   </data>
   <data name="DatabaseStudio_Connect" xml:space="preserve">
     <value>连接</value>
+  </data>
+  <data name="DatabaseStudio_ConnectionManager" xml:space="preserve">
+    <value>连接管理器</value>
   </data>
   <data name="DatabaseStudio_ConnectMessage1" xml:space="preserve">
     <value>是否确认断开链接？</value>
@@ -324,11 +321,11 @@
   <data name="DatabaseStudio_ConnectMessage2" xml:space="preserve">
     <value>当前是全局数据源，是否确认断开链接？</value>
   </data>
-  <data name="DatabaseStudio_ConnectionManager" xml:space="preserve">
-    <value>连接管理器</value>
-  </data>
   <data name="DatabaseStudio_Disconnect" xml:space="preserve">
     <value>断开</value>
+  </data>
+  <data name="DatabaseStudio_ExecutionTime" xml:space="preserve">
+    <value>执行时间:</value>
   </data>
   <data name="DatabaseStudio_Extract" xml:space="preserve">
     <value>提取</value>
@@ -338,6 +335,18 @@
   </data>
   <data name="DatabaseStudio_Grid" xml:space="preserve">
     <value>表格</value>
+  </data>
+  <data name="DatabaseStudio_Hidden" xml:space="preserve">
+    <value>隐藏</value>
+  </data>
+  <data name="DatabaseStudio_IsDeprecated" xml:space="preserve">
+    <value>弃用</value>
+  </data>
+  <data name="DatabaseStudio_IsKey" xml:space="preserve">
+    <value>主键</value>
+  </data>
+  <data name="DatabaseStudio_IsRequired" xml:space="preserve">
+    <value>必需</value>
   </data>
   <data name="DatabaseStudio_Mode_Folder" xml:space="preserve">
     <value>目录</value>
@@ -351,6 +360,9 @@
   <data name="DatabaseStudio_Name" xml:space="preserve">
     <value>Database Studio</value>
   </data>
+  <data name="DatabaseStudio_Offset" xml:space="preserve">
+    <value>二进制偏移</value>
+  </data>
   <data name="DatabaseStudio_OutputExcel" xml:space="preserve">
     <value>另存为表格</value>
   </data>
@@ -362,6 +374,9 @@
   </data>
   <data name="DatabaseStudio_SqlLoad" xml:space="preserve">
     <value>加载</value>
+  </data>
+  <data name="DatabaseStudio_SqlNew" xml:space="preserve">
+    <value>新建</value>
   </data>
   <data name="DatabaseStudio_SqlSave" xml:space="preserve">
     <value>保存</value>
@@ -383,6 +398,21 @@
   </data>
   <data name="DatabaseStudio_ViewTable" xml:space="preserve">
     <value>查看</value>
+  </data>
+  <data name="DatSelector_CountDown" xml:space="preserve">
+    <value>将在 {0} 秒后自动选择</value>
+  </data>
+  <data name="DatSelector_Name" xml:space="preserve">
+    <value>数据选择器</value>
+  </data>
+  <data name="DatSelector_Source1" xml:space="preserve">
+    <value>数据文件</value>
+  </data>
+  <data name="DatSelector_Source2" xml:space="preserve">
+    <value>汉化文件</value>
+  </data>
+  <data name="DatSelector_Tooltip" xml:space="preserve">
+    <value>由于您选择的路径下存在多个相关文件，需要进行主动选择。</value>
   </data>
   <data name="Extract_ItemBuyPrice" xml:space="preserve">
     <value>输出物品购买价格</value>
@@ -423,11 +453,11 @@
   <data name="IconOut_GoodIcon" xml:space="preserve">
     <value>提取商品图标</value>
   </data>
-  <data name="IconOut_ItemList" xml:space="preserve">
-    <value>选择物品列表</value>
-  </data>
   <data name="IconOut_ItemIcon" xml:space="preserve">
     <value>提取物品图标</value>
+  </data>
+  <data name="IconOut_ItemList" xml:space="preserve">
+    <value>选择物品列表</value>
   </data>
   <data name="IconOut_Name" xml:space="preserve">
     <value>图标</value>
@@ -540,6 +570,15 @@
   <data name="PreviewModel" xml:space="preserve">
     <value>查看模型</value>
   </data>
+  <data name="PreviewModel_Empty" xml:space="preserve">
+    <value>模型缺失资源</value>
+  </data>
+  <data name="PreviewModel_Fail" xml:space="preserve">
+    <value>模型加载失败</value>
+  </data>
+  <data name="PreviewProbability" xml:space="preserve">
+    <value>查看概率信息</value>
+  </data>
   <data name="PreviewShowObject" xml:space="preserve">
     <value>查看显示对象</value>
   </data>
@@ -558,8 +597,14 @@
   <data name="PropertyEditor_ViewSource_Tooltip" xml:space="preserve">
     <value>复制原始数据到剪切板，不可用时打开文本编辑器</value>
   </data>
-  <data name="Text_Repository" xml:space="preserve">
-    <value>项目</value>
+  <data name="QuestJournal_Category" xml:space="preserve">
+    <value>目录</value>
+  </data>
+  <data name="QuestJournal_ContentType" xml:space="preserve">
+    <value>内容类型</value>
+  </data>
+  <data name="QuestJournal_ResetType" xml:space="preserve">
+    <value>重置类型</value>
   </data>
   <data name="Settings_CopyMode" xml:space="preserve">
     <value>文本复制模式</value>
@@ -587,6 +632,9 @@
   </data>
   <data name="Settings_Job" xml:space="preserve">
     <value>职业</value>
+  </data>
+  <data name="Settings_KeepLogs" xml:space="preserve">
+    <value>日志保留时间</value>
   </data>
   <data name="Settings_Language" xml:space="preserve">
     <value>语言</value>
@@ -624,6 +672,9 @@
   <data name="Settings_Tab_General" xml:space="preserve">
     <value>通用</value>
   </data>
+  <data name="Settings_Tab_Models" xml:space="preserve">
+    <value>模型 (实验)</value>
+  </data>
   <data name="Settings_TestMode" xml:space="preserve">
     <value>数据测试模式</value>
   </data>
@@ -654,6 +705,39 @@
   <data name="TableView_Name" xml:space="preserve">
     <value>查看表</value>
   </data>
+  <data name="Text.InvalidPath" xml:space="preserve">
+    <value>请选择一个有效的路径!</value>
+  </data>
+  <data name="Text.TaskBegin" xml:space="preserve">
+    <value>任务开始</value>
+  </data>
+  <data name="Text.TaskCancel_Ask" xml:space="preserve">
+    <value>是否确认取消任务？</value>
+  </data>
+  <data name="Text.TaskCancel_Ask_Exist" xml:space="preserve">
+    <value>已经有一个任务正在执行，是否确认取消？</value>
+  </data>
+  <data name="Text.TaskCompleted" xml:space="preserve">
+    <value>任务已经完成</value>
+  </data>
+  <data name="Text.TaskCompleted2" xml:space="preserve">
+    <value>任务已经完成, 总耗时{0}</value>
+  </data>
+  <data name="Text.TaskException" xml:space="preserve">
+    <value>任务意外终止, 由于 {0}</value>
+  </data>
+  <data name="Text.TaskProcess" xml:space="preserve">
+    <value>任务执行中 {0:P2}</value>
+  </data>
+  <data name="Text.TaskProcess2" xml:space="preserve">
+    <value>执行{1}中 {0:P2}</value>
+  </data>
+  <data name="TextEditor_Copy" xml:space="preserve">
+    <value>复制文本</value>
+  </data>
+  <data name="TextEditor_CopyData" xml:space="preserve">
+    <value>复制原始数据</value>
+  </data>
   <data name="TextEditor_Name" xml:space="preserve">
     <value>文本编辑器</value>
   </data>
@@ -665,12 +749,6 @@
   </data>
   <data name="TextView_LoadData_Tooltip" xml:space="preserve">
     <value>加载非文本数据将会花费较长时间</value>
-  </data>
-  <data name="TextView_LoadLastOnStartup" xml:space="preserve">
-    <value>启动时载入上次数据</value>
-  </data>
-  <data name="TextView_LoadLast_Ask" xml:space="preserve">
-    <value>是否载入上次数据?</value>
   </data>
   <data name="TextView_Name" xml:space="preserve">
     <value>文本查看</value>
@@ -718,14 +796,20 @@
   <data name="Text_FileSize" xml:space="preserve">
     <value>文件大小</value>
   </data>
+  <data name="Text_Group" xml:space="preserve">
+    <value>分组</value>
+  </data>
   <data name="Text_Import" xml:space="preserve">
     <value>输入</value>
   </data>
-  <data name="Text_Left" xml:space="preserve">
-    <value>左</value>
+  <data name="Text_Info" xml:space="preserve">
+    <value>信息</value>
   </data>
   <data name="Text_LineNumber" xml:space="preserve">
     <value>行</value>
+  </data>
+  <data name="Text_Name" xml:space="preserve">
+    <value>名称</value>
   </data>
   <data name="Text_None" xml:space="preserve">
     <value>无</value>
@@ -733,11 +817,23 @@
   <data name="Text_Ok" xml:space="preserve">
     <value>确定</value>
   </data>
+  <data name="Text_OpenFile" xml:space="preserve">
+    <value>打开文件...</value>
+  </data>
+  <data name="Text_OpenFolder" xml:space="preserve">
+    <value>打开文件夹...</value>
+  </data>
+  <data name="Text_Option" xml:space="preserve">
+    <value>选项</value>
+  </data>
   <data name="Text_Options" xml:space="preserve">
     <value>首选项</value>
   </data>
   <data name="Text_Output" xml:space="preserve">
     <value>输出</value>
+  </data>
+  <data name="Text_Path" xml:space="preserve">
+    <value>路径</value>
   </data>
   <data name="Text_Preview" xml:space="preserve">
     <value>预览</value>
@@ -757,11 +853,11 @@
   <data name="Text_ReplaceInFiles" xml:space="preserve">
     <value>在文件中替换</value>
   </data>
+  <data name="Text_Repository" xml:space="preserve">
+    <value>项目</value>
+  </data>
   <data name="Text_Reset" xml:space="preserve">
     <value>重置</value>
-  </data>
-  <data name="Text_Right" xml:space="preserve">
-    <value>右</value>
   </data>
   <data name="Text_Run" xml:space="preserve">
     <value>运行</value>
@@ -774,39 +870,6 @@
   </data>
   <data name="Text_Search" xml:space="preserve">
     <value>查找</value>
-  </data>
-  <data name="Text_Update" xml:space="preserve">
-    <value>更新</value>
-  </data>
-  <data name="DatabaseStudio_AttributeName" xml:space="preserve">
-    <value>字段名</value>
-  </data>
-  <data name="DatabaseStudio_AttributeType" xml:space="preserve">
-    <value>类型</value>
-  </data>
-  <data name="DatabaseStudio_Hidden" xml:space="preserve">
-    <value>隐藏</value>
-  </data>
-  <data name="DatabaseStudio_IsDeprecated" xml:space="preserve">
-    <value>弃用</value>
-  </data>
-  <data name="DatabaseStudio_IsKey" xml:space="preserve">
-    <value>主键</value>
-  </data>
-  <data name="DatabaseStudio_IsRequired" xml:space="preserve">
-    <value>必需</value>
-  </data>
-  <data name="DatabaseStudio_Offset" xml:space="preserve">
-    <value>二进制偏移</value>
-  </data>
-  <data name="Message_InvalidPath" xml:space="preserve">
-    <value>请选择一个有效的路径!</value>
-  </data>
-  <data name="Settings_Tab_Models" xml:space="preserve">
-    <value>模型 (实验)</value>
-  </data>
-  <data name="Settings_KeepLogs" xml:space="preserve">
-    <value>日志保留时间</value>
   </data>
   <data name="Text_Time_Day" xml:space="preserve">
     <value>天</value>
@@ -823,56 +886,14 @@
   <data name="Text_Time_Second" xml:space="preserve">
     <value>秒</value>
   </data>
-  <data name="QuestJournal_Category" xml:space="preserve">
-    <value>目录</value>
+  <data name="Text_Update" xml:space="preserve">
+    <value>更新</value>
   </data>
-  <data name="QuestJournal_ContentType" xml:space="preserve">
-    <value>内容类型</value>
-  </data>
-  <data name="QuestJournal_ResetType" xml:space="preserve">
-    <value>重置类型</value>
-  </data>
-  <data name="AbilityName.DefendPowerCreatureValue" xml:space="preserve">
-    <value>防御率</value>
-  </data>
-  <data name="PreviewModel_Empty" xml:space="preserve">
-    <value>模型缺失资源</value>
-  </data>
-  <data name="PreviewModel_Fail" xml:space="preserve">
-    <value>模型加载失败</value>
-  </data>
-  <data name="PreviewProbability" xml:space="preserve">
-    <value>查看概率信息</value>
-  </data>
-  <data name="Text.TaskCompleted" xml:space="preserve">
-    <value>任务已经完成</value>
-  </data>
-  <data name="Text.TaskCompleted2" xml:space="preserve">
-    <value>任务已经完成, 总耗时{0}</value>
-  </data>
-  <data name="Text.TaskException" xml:space="preserve">
-    <value>任务意外终止, 由于 {0}</value>
-  </data>
-  <data name="Text.TaskCancel_Ask" xml:space="preserve">
-    <value>是否确认取消任务？</value>
-  </data>
-  <data name="Text.TaskCancel_Ask_Exist" xml:space="preserve">
-    <value>已经有一个任务正在执行，是否确认取消？</value>
-  </data>
-  <data name="Text.TaskBegin" xml:space="preserve">
-    <value>任务开始</value>
-  </data>
-  <data name="DatabaseStudio_SqlNew" xml:space="preserve">
-    <value>新建</value>
+  <data name="UI.ItemRandomOption.Skill.Describe" xml:space="preserve">
+    <value>&lt;font name="00008130.UI.Vital_LightBlue"&gt;&lt;arg p="1"/&gt;&lt;/font&gt;武功变更为&lt;font name="00008130.UI.Vital_LightBlue"&gt;&lt;arg p="2"/&gt;&lt;/font&gt;</value>
   </data>
   <data name="UI.ItemRandomOption.Undetermined" xml:space="preserve">
     <value>在以下效果中获得其中&lt;arg p="1:integer"/&gt;种</value>
-  </data>
-  <data name="UI.Tooltip.Skill.damage-percent" xml:space="preserve">
-    <value>攻击力&lt;arg p="1:integer"/&gt;%的</value>
-  </data>
-  <data name="UI.Tooltip.Skill.damage-percent-min-max" xml:space="preserve">
-    <value>攻击力&lt;arg p="1:integer"/&gt;%~&lt;arg p="2:integer"/&gt;%的</value>
   </data>
   <data name="UI.RandomBox.Probability.CommonDroppedPouch" xml:space="preserve">
     <value>队伍战利品箱</value>
@@ -898,31 +919,10 @@
   <data name="UI.RandomBox.Probability.PersonalDroppedPouch.Difficulty3" xml:space="preserve">
     <value>个人战利品箱 (熟练)</value>
   </data>
-  <data name="UI.ItemRandomOption.Skill.Describe" xml:space="preserve">
-    <value>&lt;font name="00008130.UI.Vital_LightBlue"&gt;&lt;arg p="1"/&gt;&lt;/font&gt;武功变更为&lt;font name="00008130.UI.Vital_LightBlue"&gt;&lt;arg p="2"/&gt;&lt;/font&gt;</value>
+  <data name="UI.Tooltip.Skill.damage-percent" xml:space="preserve">
+    <value>攻击力&lt;arg p="1:integer"/&gt;%的</value>
   </data>
-  <data name="Text_Group" xml:space="preserve">
-    <value>分组</value>
-  </data>
-  <data name="Text_Info" xml:space="preserve">
-    <value>信息</value>
-  </data>
-  <data name="Text_Name" xml:space="preserve">
-    <value>名称</value>
-  </data>
-  <data name="TextEditor_Copy" xml:space="preserve">
-    <value>复制文本</value>
-  </data>
-  <data name="TextEditor_CopyData" xml:space="preserve">
-    <value>复制原始数据</value>
-  </data>
-  <data name="DatabaseStudio_ExecutionTime" xml:space="preserve">
-    <value>执行时间:</value>
-  </data>
-  <data name="Text.TaskProcess" xml:space="preserve">
-    <value>任务执行中 {0:P2}</value>
-  </data>
-  <data name="Text.TaskProcess2" xml:space="preserve">
-    <value>执行{1}中 {0:P2}</value>
+  <data name="UI.Tooltip.Skill.damage-percent-min-max" xml:space="preserve">
+    <value>攻击力&lt;arg p="1:integer"/&gt;%~&lt;arg p="2:integer"/&gt;%的</value>
   </data>
 </root>

@@ -130,9 +130,8 @@ internal partial class UserSettings : Settings
 		get => GetValue<string>("Preview").ToEnum(JobSeq.검사);
 	}
 
-	public bool Text_LoadPrevious { get => GetValue<bool>(); set => SetValue(value); }
-	public string Text_OldPath { get => GetValue<string>(); set => SetValue(value); }
-	public string Text_NewPath { get => GetValue<string>(); set => SetValue(value); }
+	public string? Text_OldPath { get => GetValue<string>(); set => SetValue(value); }
+	public string? Text_NewPath { get => GetValue<string>(); set => SetValue(value); }
 	#endregion
 
 	#region Model

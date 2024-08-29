@@ -25,7 +25,11 @@ public class BnsDatabase : IEngine, IDisposable
 
 			IPlatformFilePak.DoSignatureCheck();
 
-			var definitions = TableDefinitionHelper.LoadDefinition();
+			var definitions = new DefaultDatafileDefinition();
+			//var definitions = new CompressDatafileDefinition(
+			//	File.OpenRead(@"C:\Users\Xylia\AppData\Roaming\Xylia\download\bc255fde9756a25361432ebd1d59497c11c1a2b4"),
+			//	CUE4Parse.Compression.CompressionMethod.Gzip);
+
 			_provider.LoadData(definitions);
 			definitions.CreateMap();
 
@@ -139,23 +143,16 @@ public class BnsDatabase : IEngine, IDisposable
 	{
 		throw new NotImplementedException();
 	}
+
 	#endregion
 
 
 	#region Interface
 	string IEngine.Name => Provider.Name;
+
 	string IEngine.Desc => Path.Combine(
-		Provider.Locale.Publisher.ToString().ToLower(), 
+		Provider.Locale.Publisher.ToString(),
 		Provider.CreatedAt.ToString("yyMMdd", null));
-
-	public void Dispose()
-	{
-		_provider.Dispose();
-		_provider = null;
-
-		GC.SuppressFinalize(this);
-		GC.Collect();
-	}
 	#endregion
 
 	#region Data
@@ -173,5 +170,13 @@ public class BnsDatabase : IEngine, IDisposable
 		}
 	}
 
+	public void Dispose()
+	{
+		_provider.Dispose();
+		_provider = null;
+
+		GC.SuppressFinalize(this);
+		GC.Collect();
+	}
 	#endregion
 }

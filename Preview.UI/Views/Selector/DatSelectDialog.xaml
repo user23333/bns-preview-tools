@@ -14,11 +14,11 @@
 		</Grid.RowDefinitions>
 
 		<TextBlock Grid.Row="0" d:Text="Tooltip" Text="{DynamicResource DatSelector_Tooltip}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15" FontWeight="SemiBold" />
-		<hc:ComboBox Grid.Row="1" Name="comboBox1" hc:TitleElement.Title="{DynamicResource DatSelector_Source1}" hc:TitleElement.TitlePlacement="Left" hc:TitleElement.VerticalAlignment="Center" hc:TitleElement.TitleWidth="65" Height="30"/>
-		<hc:ComboBox Grid.Row="2" Name="comboBox2" hc:TitleElement.Title="{DynamicResource DatSelector_Source2}" hc:TitleElement.TitlePlacement="Left" hc:TitleElement.VerticalAlignment="Center" hc:TitleElement.TitleWidth="65" Height="30"/>
+		<hc:ComboBox Grid.Row="1" Name="comboBox1" hc:TitleElement.Title="{DynamicResource DatSelector_Source1}" hc:TitleElement.TitlePlacement="Left" hc:TitleElement.VerticalAlignment="Center" hc:TitleElement.TitleWidth="65" Height="30" />
+		<hc:ComboBox Grid.Row="2" Name="comboBox2" hc:TitleElement.Title="{DynamicResource DatSelector_Source2}" hc:TitleElement.TitlePlacement="Left" hc:TitleElement.VerticalAlignment="Center" hc:TitleElement.TitleWidth="65" Height="30" />
 
 		<!--   Tip Message  -->
-		<TextBlock Grid.Row="4" Name="TimeInfo" Text="将在 99 秒后自动选择" VerticalAlignment="Bottom" />
+		<TextBlock Grid.Row="4" Name="TimeInfo" d:Text="Message" VerticalAlignment="Bottom" />
 
 		<!-- Dialog Buttton -->
 		<StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" >

@@ -1,7 +1,5 @@
-﻿using System.Diagnostics;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Xylia.Preview.Data.Models;
-using Xylia.Preview.Data.Models.Document;
 using Xylia.Preview.Data.Models.Sequence;
 
 namespace Xylia.Preview.Tests.DatTests;
@@ -28,5 +26,21 @@ public partial class Tables
 
 		var item = record.GetItem(JobSeq.소환사);
 		Console.WriteLine(item.ItemName);
+	}
+
+	[TestMethod]
+	[DataRow(10008)]
+	public void RacoonStoreData(int group)
+	{
+		var table = Database.Provider.GetTable<RacoonStoreItem>();
+		var records = table.Where(x => x.SlotGroup == group);
+		var TotalItemProbWeight = records.Sum(x => x.ItemProbWeight);
+
+		foreach(var record in records)
+		{
+			Console.WriteLine(string.Format("{0} {1:P3}",
+				record.Item.Instance.Name,
+				(double)record.ItemProbWeight / TotalItemProbWeight));
+		}
 	}
 }

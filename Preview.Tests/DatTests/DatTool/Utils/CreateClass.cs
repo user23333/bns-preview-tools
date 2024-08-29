@@ -19,7 +19,7 @@ public static class CreateClass
 	public static string Instance(XmlDocument xml)
 	{
 		var result = new StringBuilder();
-		var table = TableDefinitionHelper.LoadFrom(new SequenceDefinitionLoader(), xml.DocumentElement);
+		var table = TableDefinition.LoadFrom(new SequenceDefinitionLoader(), xml.DocumentElement);
 
 		foreach (var attribute in table.ElRecord.Attributes)
 		{

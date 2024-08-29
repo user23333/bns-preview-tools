@@ -125,6 +125,10 @@ public partial class ItemTooltipPanel
 			Substitute2.Add(EffectEquip.Attributes.Get<Record>("description3").GetText());
 		}
 		#endregion
+
+		CollectionSubstituteText.String.LabelText = LinqExtensions.Join(BR.Tag, Substitute1);
+		CollectionSubstitute2Text.String.LabelText = LinqExtensions.Join(BR.Tag, Substitute2);
+		ProbabilityText.String.LabelText = null;
 		#endregion
 
 
@@ -213,7 +217,7 @@ public partial class ItemTooltipPanel
 
 			for (int i = 0; i < RandomOptionGroup.AbilityListTotalCount; i++)
 			{
-				Substitute2.Add("UI.ItemRandomOption.SubAbility.Undetermined".GetText() + "UI.ItemRandomOption.Probability".GetText());
+				ProbabilityText.String.LabelText += "UI.ItemRandomOption.SubAbility.Undetermined".GetText() + BR.Tag;
 			}
 
 			if (RandomOptionGroup.SkillTrainByItemListTotalCount > 0)
@@ -294,9 +298,6 @@ public partial class ItemTooltipPanel
 			}
 		}
 		#endregion
-
-		CollectionSubstituteText.String.LabelText = LinqExtensions.Join(BR.Tag, Substitute1);
-		CollectionSubstitute2Text.String.LabelText = LinqExtensions.Join(BR.Tag, Substitute2);
 	}
 
 	private static void AddRequired(List<string?> strings, string? str)
