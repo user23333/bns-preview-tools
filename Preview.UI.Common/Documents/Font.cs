@@ -78,13 +78,13 @@ public class Font : BaseElement<Data.Models.Document.Font>
 	/// <summary>
 	/// Indicates whether to follow the application theme color
 	/// </summary>
-	/// <returns></returns>
 	private bool SkipColor()
 	{
-		return Name
+		if (Name is null) return false;
+
+		return Name.Contains("Normal_", StringComparison.OrdinalIgnoreCase) || Name
 			is "00008130.Program.Fontset_ItemGrade_1"
-			or "00008130.Program.Fontset_ItemGrade_2"
-			or "00008130.UI.Normal_12" or "00008130.UI.Normal_14";
+			or "00008130.Program.Fontset_ItemGrade_2";
 	}
 	#endregion
 }

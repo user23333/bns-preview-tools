@@ -228,7 +228,6 @@ internal partial class GameResourcePageViewModel : ObservableObject
 			instance.Execute(format, (arg) =>
 				process.Message = StringHelper.Get("Text.TaskProcess2", arg, StringHelper.Get("IconOut_" + instance.GetType().Name)),
 				source.Token);
-			instance.Dispose();
 
 			process.Type = InfoType.Success;
 			process.Message = StringHelper.Get("Text.TaskCompleted2", TimeConverter.Convert(DateTime.Now - start, null));
@@ -241,6 +240,7 @@ internal partial class GameResourcePageViewModel : ObservableObject
 		}
 		finally
 		{
+			instance.Dispose();
 			process.Stop?.Invoke();
 			ProcessFloatWindow.ClearMemory();
 		}

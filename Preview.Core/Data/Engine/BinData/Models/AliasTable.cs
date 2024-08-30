@@ -34,6 +34,11 @@ public class AliasTable
 		return default;
 	}
 
+	public void Clear()
+	{
+		Table.Clear();
+	}
+
 	internal static string MakeKey(string tableDefName, string alias)
 	{
 		return string.Format("{0}:{1}", tableDefName, alias);

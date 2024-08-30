@@ -73,7 +73,7 @@ public sealed class DatafileDetect : ITypeParser
 	}
 	#endregion
 
-	#region Load Methods
+	#region Methods
 	public DatafileDetect(Datafile data, IEnumerable<TableDefinition> definitions)
 	{
 		Read(data.Tables, AliasTableUnit.Split(data.AliasTable));

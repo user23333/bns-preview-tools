@@ -139,6 +139,8 @@ public class DefaultProvider : Datafile, IDataProvider
 		ConfigData?.Dispose();
 		XmlData = LocalData = ConfigData = null;
 
+		AliasTable?.Clear();
+		AliasTable = null;
 		Tables?.Clear();
 		Tables = null;
 
