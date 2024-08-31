@@ -50,7 +50,7 @@
 				</ExpansionComponent>
 			</BnsCustomImageWidget.ExpansionComponentList>
 		</BnsCustomImageWidget>
-		<BnsCustomLabelWidget Name="EffectTooltipPanel_Description" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="82 0 0 24.004417">
+		<BnsCustomLabelWidget Name="EffectTooltipPanel_Description" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="82 0 0 24.004417" AutoResizeVertical="True">
 			<BnsCustomLabelWidget.HorizontalResizeLink>
 				<ResizeLink bEnable="true" Offset1="82" LinkWidgetName1="EffectTooltipPanel_Icon" />
 			</BnsCustomLabelWidget.HorizontalResizeLink>
@@ -59,7 +59,7 @@
 			</BnsCustomLabelWidget.String>
 		</BnsCustomLabelWidget>
 	</BnsCustomWindowWidget>
-	<BnsCustomLabelWidget Name="EffectTooltipPanel_Description2" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="15 119.00444 15 12.001022" Visibility="Collapsed">
+	<BnsCustomLabelWidget Name="EffectTooltipPanel_Description2" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="15 119.00444 15 12.001022" AutoResizeVertical="True" Visibility="Collapsed">
 		<BnsCustomLabelWidget.HorizontalResizeLink>
 			<ResizeLink bEnable="true" Offset1="15" />
 		</BnsCustomLabelWidget.HorizontalResizeLink>

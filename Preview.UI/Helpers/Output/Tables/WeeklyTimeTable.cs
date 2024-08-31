@@ -1,15 +1,16 @@
-﻿using Xylia.Preview.Data.Models;
+﻿using OfficeOpenXml;
+using Xylia.Preview.Data.Models;
 using Xylia.Preview.Data.Models.Sequence;
 
 namespace Xylia.Preview.UI.Helpers.Output.Tables;
 internal class WeeklyTimeTableOut : OutSet
 {
-	protected override void CreateData()
+	protected override void CreateData(ExcelPackage package)
 	{
-		var periods = Source.Provider.GetTable<WeeklyTimeTable>().Where(x => x.Enable).SelectMany(x => x.GetPeriods());
+		var periods = Source!.Provider.GetTable<WeeklyTimeTable>().Where(x => x.Enable).SelectMany(x => x.GetPeriods());
 
 		#region Output
-		var sheet = CreateSheet();
+		var sheet = CreateSheet(package);
 		int column = 1;
 
 		for (int h = 0; h <= 23; h++)

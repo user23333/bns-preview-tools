@@ -214,49 +214,51 @@ public partial class ItemTooltipPanel
 		{
 			Combat_Holder.Visibility = Visibility.Visible;
 			var RandomOptionGroup = FileCache.Data.Provider.GetTable<ItemRandomOptionGroup>()[record.RandomOptionGroupId + ((long)jobs.FirstOrDefault() << 32)];
-
-			for (int i = 0; i < RandomOptionGroup.AbilityListTotalCount; i++)
+			if (RandomOptionGroup != null)
 			{
-				ProbabilityText.String.LabelText += "UI.ItemRandomOption.SubAbility.Undetermined".GetText() + BR.Tag;
-			}
-
-			if (RandomOptionGroup.SkillTrainByItemListTotalCount > 0)
-			{
-				// title
-				Combat_Holder.Children.Add(Combat_Holder_Title);
-				Combat_Holder_Title.String.LabelText = string.Format("{0} ({1}-{2})", RandomOptionGroup.SkillTrainByItemListTitle,
-					RandomOptionGroup.SkillTrainByItemListSelectMin, RandomOptionGroup.SkillTrainByItemListSelectMax);
-
-				foreach (var SkillTrainByItemList in RandomOptionGroup.SkillTrainByItemList.SelectNotNull(x => x.Instance))
+				for (int i = 0; i < RandomOptionGroup.AbilityListTotalCount; i++)
 				{
-					var ChangeSets = SkillTrainByItemList.ChangeSet.SelectNotNull(x => x.Instance);
-					if (ChangeSets.Count() > 1) Combat_Holder.Children.Add(new BnsCustomLabelWidget() { Text = "UI.ItemRandomOption.Undetermined".GetText([1]) });
+					ProbabilityText.String.LabelText += "UI.ItemRandomOption.SubAbility.Undetermined".GetText() + BR.Tag;
+				}
 
-					foreach (var SkillTrainByItem in ChangeSets)
+				if (RandomOptionGroup.SkillTrainByItemListTotalCount > 0)
+				{
+					// title
+					Combat_Holder.Children.Add(Combat_Holder_Title);
+					Combat_Holder_Title.String.LabelText = string.Format("{0} ({1}-{2})", RandomOptionGroup.SkillTrainByItemListTitle,
+						RandomOptionGroup.SkillTrainByItemListSelectMin, RandomOptionGroup.SkillTrainByItemListSelectMax);
+
+					foreach (var SkillTrainByItemList in RandomOptionGroup.SkillTrainByItemList.SelectNotNull(x => x.Instance))
 					{
-						// element
-						var icon = new BnsCustomImageWidget
+						var ChangeSets = SkillTrainByItemList.ChangeSet.SelectNotNull(x => x.Instance);
+						if (ChangeSets.Count() > 1) Combat_Holder.Children.Add(new BnsCustomLabelWidget() { Text = "UI.ItemRandomOption.Undetermined".GetText([1]) });
+
+						foreach (var SkillTrainByItem in ChangeSets)
 						{
-							BaseImageProperty = SkillTrainByItem.Icon?.GetImage(),
-							Width = 32,
-							Height = 32,
-							Margin = new Thickness(0, 0, 10, 0),
-							VerticalAlignment = System.Windows.VerticalAlignment.Top,
-							//DataContext = SkillTrainByItem.ChangeSkill[0].Instance,
-							//ToolTip = new Skill3ToolTipPanel_1()
-						};
+							// element
+							var icon = new BnsCustomImageWidget
+							{
+								BaseImageProperty = SkillTrainByItem.Icon?.GetImage(),
+								Width = 32,
+								Height = 32,
+								Margin = new Thickness(0, 0, 10, 0),
+								VerticalAlignment = System.Windows.VerticalAlignment.Top,
+								//DataContext = SkillTrainByItem.ChangeSkill[0].Instance,
+								//ToolTip = new Skill3ToolTipPanel_1()
+							};
 
-						// description
-						var description = new BnsCustomLabelWidget();
-						description.String.LabelText = SkillTrainByItem.Description2;
+							// description
+							var description = new BnsCustomLabelWidget();
+							description.String.LabelText = SkillTrainByItem.Description2;
 
-						// layout
-						var box = new HorizontalBox() { Margin = new Thickness(0, 0, 0, 3) };
-						LayoutData.SetAnchors(box, FLayoutData.Anchor.Full);
-						Combat_Holder.Children.Add(box);
+							// layout
+							var box = new HorizontalBox() { Margin = new Thickness(0, 0, 0, 3) };
+							LayoutData.SetAnchors(box, FLayoutData.Anchor.Full);
+							Combat_Holder.Children.Add(box);
 
-						box.Children.Add(icon);
-						box.Children.Add(description);
+							box.Children.Add(icon);
+							box.Children.Add(description);
+						}
 					}
 				}
 			}

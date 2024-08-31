@@ -1,15 +1,18 @@
 ﻿using System.IO;
 using System.Net.Http;
 using System.Windows;
+using System.Windows.Input;
+using CUE4Parse.Compression;
 using HandyControl.Controls;
 using HandyControl.Data;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Client;
 using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Engine.DatData;
+using Xylia.Preview.Data.Engine.Definitions;
 using Xylia.Preview.Data.Helpers;
-using Xylia.Preview.Properties;
 using Xylia.Preview.UI.ViewModels;
 using Xylia.Preview.UI.Views.Selector;
 
@@ -17,14 +20,18 @@ namespace Xylia.Preview.UI.Views.Editor;
 public partial class DatabaseManager
 {
 	#region Constructor	
-	public IEngine? Engine { get; private set; }
-
-	internal bool IsGlobalData = false;
-
 	public DatabaseManager()
 	{
 		InitializeComponent();
+		this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Open, ConnectCommand, CanExecuteConnect));
 	}
+	#endregion
+
+	#region Fields
+	public IEngine? Engine { get; private set; }
+
+	internal bool IsGlobalData = false;
+	private bool IsConnecting = false;
 	#endregion
 
 	#region Methods
@@ -35,6 +42,12 @@ public partial class DatabaseManager
 		if (Provider_GlobalMode.IsChecked == true)
 		{
 			await Provider_CheckFolder(UserSettings.Default.GameFolder);
+		}
+		else if (Provider_GameMode.IsChecked == true)
+		{
+			var path = ProviderSearch.Text;
+			if (!string.IsNullOrEmpty(path) && Directory.Exists(path))
+				await Provider_CheckFolder(path);
 		}
 	}
 
@@ -53,9 +66,11 @@ public partial class DatabaseManager
 			var locale = mode ? default : new Locale(path);
 			Run_Version.Text = string.Format(" ({0})", locale.ProductVersion);
 
+			// get and update defs
 			var commits = (await GetCommits(locale.IsNeo ? "NEO" : "LIVE")).OrderByDescending(x => x.Version);
 			DefinitionList.ItemsSource = commits;
 			DefinitionList.SelectedItem = commits.FirstOrDefault(x => locale.ProductVersion.CompareTo(x.Version) >= 0) ?? throw new Exception("No matched definition version");
+			DefinitionList.ScrollIntoView(DefinitionList.SelectedItem);
 		}
 		catch (Exception ex)
 		{
@@ -63,18 +78,22 @@ public partial class DatabaseManager
 		}
 	}
 
-	private async void Connect_Click(object sender, RoutedEventArgs e)
+	private void CanExecuteConnect(object sender, CanExecuteRoutedEventArgs e)
+	{
+		e.CanExecute = !IsConnecting;
+	}
+
+	private async void ConnectCommand(object sender, RoutedEventArgs e)
 	{
 		try
 		{
-			if (DefinitionList.SelectedItem is Commit commit)
-			{
-				await commit.Download();
-			}
+			IsConnecting = true;
+			var definition = DefinitionList.SelectedItem is Commit commit ? await commit.LoadData() : null;
 
 			if (Provider_GlobalMode.IsChecked == true)
 			{
 				IsGlobalData = true;
+				FileCache.Definition = definition;
 				Engine = FileCache.Data;
 			}
 			else
@@ -87,7 +106,7 @@ public partial class DatabaseManager
 				else if (Provider_FolderMode.IsChecked == true) provider = new FolderProvider(path);
 				else throw new NotSupportedException();
 
-				Engine = new BnsDatabase(provider);
+				Engine = new BnsDatabase(provider, definition);
 			}
 
 			DialogResult = true;
@@ -97,9 +116,12 @@ public partial class DatabaseManager
 		{
 			Growl.Error(ex.Message, DatabaseStudio.TOKEN);
 		}
+		finally
+		{
+			IsConnecting = false;
+		}
 	}
 	#endregion
-
 
 	#region Helpers
 	const string owner = "xyliaup";
@@ -164,16 +186,14 @@ public partial class DatabaseManager
 			}
 		}
 
-		public async Task Download()
+		public async Task<DatafileDefinition> LoadData()
 		{
 			ArgumentNullException.ThrowIfNull(SHA);
 
-			string folder = Path.Combine(UserSettings.Default.OutputFolder, "definition");
-			if (Directory.Exists(folder)) Directory.Delete(folder, true);
-
-			// cache
-			var temp = Path.Combine(Settings.ApplicationData, "download", SHA);
-			if (!File.Exists(temp))
+			Stream stream;
+			string path = Path.Combine(UserSettings.Default.OutputFolder, ".download", SHA);
+			if (File.Exists(path)) stream = File.OpenRead(path);
+			else
 			{
 				var client = new HttpClient();
 				client.DefaultRequestHeaders.Add("user-agent", "Mozilla/5.0");
@@ -181,10 +201,11 @@ public partial class DatabaseManager
 				var response = await client.GetAsync($"https://api.github.com/repos/{owner}/{repo}/tarball/{SHA}"); //zipball
 				if (!response.IsSuccessStatusCode) throw new HttpRequestException();
 
-				await using var fs = File.OpenWrite(temp);
-				await (await response.Content.ReadAsStreamAsync()).CopyToAsync(fs);
-				await fs.FlushAsync();
+				stream = await response.Content.ReadAsStreamAsync();
+				await stream.SaveAsync(path); // write local cache
 			}
+
+			return new CompressDatafileDefinition(stream, CompressionMethod.Gzip) { Key = SHA };
 		}
 	}
 	#endregion

@@ -291,6 +291,9 @@ Expand the response rectange with item preview.</value>
   <data name="AudioPlayer_Name" xml:space="preserve">
     <value>AudioPlayer</value>
   </data>
+  <data name="Command_Output" xml:space="preserve">
+    <value>Predefined Data Export</value>
+  </data>
   <data name="Command_QueryAsset" xml:space="preserve">
     <value>Query Asset</value>
   </data>

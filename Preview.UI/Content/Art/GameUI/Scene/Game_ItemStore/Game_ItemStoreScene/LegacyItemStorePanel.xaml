@@ -53,6 +53,7 @@
 				</s:ListBox.ItemContainerStyle>
 				<s:ListBox.ItemTemplate>
 					<s:DataTemplate>
+						
 						<BnsCustomImageWidget Name="ItemStore_ItemList_Column_1_1" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="0 0 0 80" Height="80" Initialized="ItemStore_ItemList_Column_1_1_Initialized">
 							<BnsCustomImageWidget.HorizontalResizeLink>
 								<ResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_RIGHT_AND_LEFT" Offset1="12" />
@@ -461,6 +462,7 @@
 								</BnsCustomLabelWidget.String>
 							</BnsCustomLabelWidget>
 						</BnsCustomImageWidget>
+					
 					</s:DataTemplate>
 				</s:ListBox.ItemTemplate>
 			</s:ListBox>

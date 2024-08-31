@@ -32,6 +32,14 @@ internal class JumpListService : IService
 					Arguments = "-command=query -type=ue",
 					IconResourcePath = null,
 				});
+
+				jumpList.JumpItems.Add(new JumpTask
+				{
+					Title = StringHelper.Get("Command_Output"),
+					ApplicationPath = Environment.ProcessPath,
+					Arguments = "-command=output",
+					IconResourcePath = null,
+				});
 				#endregion
 			}
 		});

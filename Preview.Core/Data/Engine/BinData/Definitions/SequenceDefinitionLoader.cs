@@ -8,12 +8,12 @@ public class SequenceDefinitionLoader
 	private readonly Dictionary<string, List<SequenceDefinition>> _duplicateSequences = [];
 
 	#region Methods
-	internal void LoadFrom(string content)
+	internal void LoadFrom(Stream stream)
 	{
-		var xmlDoc = new XmlDocument();
-		xmlDoc.LoadXml(content);
+		var doc = new XmlDocument();
+		doc.Load(stream);
 
-		foreach (XmlElement record in xmlDoc.SelectNodes("table/sequence"))
+		foreach (XmlElement record in doc.SelectNodes("table/sequence"))
 		{
 			string name = record.Attributes["name"]?.Value;
 			ArgumentException.ThrowIfNullOrWhiteSpace(name);

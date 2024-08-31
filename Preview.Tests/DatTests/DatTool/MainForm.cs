@@ -327,7 +327,7 @@ public partial class MainForm : Form
 
 	private void button7_Click(object sender, EventArgs e)
 	{
-		var def = TableDefinition.LoadFrom(new(), File.ReadAllText(textBox1.Text));
+		var def = TableDefinition.LoadFrom(new(), File.OpenRead(textBox1.Text));
 
 		foreach (var attribute in def.ElRecord.ExpandedAttributes.OrderBy(x => x.Offset))
 		{

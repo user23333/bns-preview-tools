@@ -17,35 +17,135 @@ namespace Xylia.Preview.UI.Helpers.Output.Tables;
 internal sealed class ItemOut : OutSet, IDisposable
 {
 	#region Fields
-	public bool OnlyUpdate;
-	Time64 CreatedAt;
+	public bool OnlyUpdate { get; set; }
 
-	public string? Path_ItemList;
-	public string? Path_Failure;
-	public string? Path_MainFile;
+	protected override BnsDatabase? Source { get; set; }
+
+	private Time64 CreatedAt { get; set; }
 	#endregion
 
+	#region Methods
+	public void Start(FileModeDialog.FileMode mode)
+	{
+		var outdir = Path.Combine(
+			UserSettings.Default.OutputFolder, "output", "item",
+			CreatedAt.ToString("yyyyMM"),
+			CreatedAt.ToString("dd hhmm"));
+
+		Directory.CreateDirectory(outdir);
+		var Path_ItemList = Path.Combine(outdir, $@"{CreatedAt:yyyy-MM-dd hh-mm}.chv");
+		var Path_Failure = Path.Combine(outdir, @"no_text.txt");
+		var Path_MainFile = Path.Combine(outdir, @"output." + mode.ToString().ToLower());
+
+		#region HashList
+		var refs = new List<Ref>();
+		if (HashList != null) refs.AddRange(HashList.HashMap);
+		refs.AddRange(ItemDatas.Select(item => item.PrimaryKey));
+
+		new HashList(refs).Save(Path_ItemList);
+		#endregion
+
+		#region Output
+		switch (mode)
+		{
+			case FileModeDialog.FileMode.Xlsx:
+			{
+				var package = new ExcelPackage();
+				CreateData(package);
+				package.SaveAs(Path_MainFile);
+				break;
+			}
+			case FileModeDialog.FileMode.Txt:
+			{
+				using var writer = new StreamWriter(new FileStream(Path_MainFile, FileMode.Create));
+				CreateText(writer);
+				break;
+			}
+
+			default: throw new NotSupportedException();
+		}
+
+		var Failures = ItemDatas.Where(o => o.Name2 is null);
+		if (Failures.Any())
+		{
+			using StreamWriter Out_Failure = new(Path_Failure);
+			Failures.OrderBy(o => o.PrimaryKey).ForEach(item => Out_Failure.WriteLine($"{item.PrimaryKey,-15} {item.Alias}"));
+		}
+		#endregion
+	}
+
+	protected override void CreateData(ExcelPackage package)
+	{
+		var sheet = CreateSheet(package);
+		int row = 1;
+		int index = 1;
+		sheet.SetColumn(index++, "id", 12);
+		sheet.SetColumn(index++, "key", 12);
+		sheet.SetColumn(index++, "name", 40);
+		sheet.SetColumn(index++, "alias", 40);
+		sheet.SetColumn(index++, "job", 20);
+		sheet.SetColumn(index++, "desc", 80);
+		sheet.SetColumn(index++, "info", 80);
+
+		foreach (var Item in ItemDatas)
+		{
+			row++;
+			int column = 1;
+
+			sheet.Cells[row, column++].SetValue(Item.PrimaryKey);
+			sheet.Cells[row, column++].SetValue(Item.Key);
+			sheet.Cells[row, column++].SetValue(Item.Name2);
+			sheet.Cells[row, column++].SetValue(Item.Alias);
+			sheet.Cells[row, column++].SetValue(Item.Job.GetText());
+			sheet.Cells[row, column++].SetValue(Item.Description);
+			sheet.Cells[row, column++].SetValue(Item.Info);
+		}
+	}
+
+	protected override void CreateText(TextWriter writer)
+	{
+		foreach (var Item in ItemDatas)
+		{
+			writer.Write("{0,-15}", Item.PrimaryKey);
+			writer.Write("{0,-60}", "alias: " + Item.Alias);
+			writer.Write("{0,-0}", "name: " + Item.Name2);
+			writer.WriteLine();
+		}
+	}
+
+	public void Dispose()
+	{
+		Source?.Dispose();
+		ItemDatas.Clear();
+		HashList = null;
+
+		GC.Collect();
+	}
+	#endregion
+
+
 	#region Helpers
-	private HashList? CacheList = null;
+	private HashList? HashList = null;
 	private List<ItemSimple> ItemDatas = [];
 
 	public void LoadCache(string path)
 	{
-		if (!OnlyUpdate) return;
-
-		CacheList = new HashList(path);
+		if (OnlyUpdate)
+		{
+			HashList = new HashList(path);
+		}
 	}
 
 	public int LoadData()
 	{
-		BnsDatabase database = new(DefaultProvider.Load(UserSettings.Default.GameFolder, DatSelectDialog.Instance));
-		CreatedAt = database.Provider.CreatedAt;
+		Source = new(DefaultProvider.Load(UserSettings.Default.GameFolder, DatSelectDialog.Instance));
+		CreatedAt = Source.Provider.CreatedAt;
 
-		var text = TextDiff.BuildPieceHashes(database.Provider.GetTable("text"));
+		var text = TextDiff.BuildPieceHashes(Source.Provider.GetTable("text"));
 		using var items = new BlockingCollection<ItemSimple>();
-		Parallel.ForEach(database.Provider.GetTable("item"), record =>
+		Parallel.ForEach(Source.Provider.GetTable("item"), record =>
 		{
-			if (CacheList != null && CacheList.CheckFailed(record.PrimaryKey)) return;
+			if (HashList != null && HashList.CheckFailed(record.PrimaryKey)) return;
 
 			var data = new ItemSimple(record, text);
 			items.Add(data);
@@ -53,7 +153,7 @@ internal sealed class ItemOut : OutSet, IDisposable
 
 		// final
 		text.Clear();
-		database.Dispose();
+		Source.Dispose();
 		ItemDatas = [.. items.OrderBy(x => x.PrimaryKey)];
 		return items.Count;
 	}
@@ -179,100 +279,6 @@ internal sealed class ItemOut : OutSet, IDisposable
 			return null;
 		}
 		#endregion
-	}
-	#endregion
-
-	#region Methods
-	public void Start(FileModeDialog.FileMode mode)
-	{
-		var time = CreatedAt;
-		var outdir = Path.Combine(
-			UserSettings.Default.OutputFolder, "output", "item",
-			time.ToString("yyyyMM", null),
-			time.ToString("dd hhmm", null));
-
-		Directory.CreateDirectory(outdir);
-		Path_ItemList = Path.Combine(outdir, $@"{time:yyyy-MM-dd hh-mm}.chv");
-		Path_Failure = Path.Combine(outdir, @"no_text.txt");
-		Path_MainFile = Path.Combine(outdir, @"output." + mode.ToString().ToLower());
-
-		#region HashList
-		var refs = new List<Ref>();
-		if (CacheList != null) refs.AddRange(CacheList.HashMap);
-		refs.AddRange(ItemDatas.Select(item => item.PrimaryKey));
-
-		new HashList(refs).Save(Path_ItemList);
-		#endregion
-
-		#region Output
-		switch (mode)
-		{
-			case FileModeDialog.FileMode.Xlsx: CreateData(); break;
-			case FileModeDialog.FileMode.Txt: CreateText(); break;
-			default: throw new NotSupportedException();
-		}
-
-		var Failures = ItemDatas.Where(o => o.Name2 is null);
-		if (Failures.Any())
-		{
-			using StreamWriter Out_Failure = new(Path_Failure);
-			Failures.OrderBy(o => o.PrimaryKey).ForEach(item => Out_Failure.WriteLine($"{item.PrimaryKey,-15} {item.Alias}"));
-		}
-		#endregion
-	}
-
-	protected override void CreateData()
-	{
-		// init package
-		ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-		this.Package = new ExcelPackage();
-
-		var sheet = CreateSheet();
-		int row = 1;
-		int index = 1;
-		sheet.SetColumn(index++, "id", 12);
-		sheet.SetColumn(index++, "key", 12);
-		sheet.SetColumn(index++, "name", 40);
-		sheet.SetColumn(index++, "alias", 40);
-		sheet.SetColumn(index++, "job", 20);
-		sheet.SetColumn(index++, "desc", 80);
-		sheet.SetColumn(index++, "info", 80);
-
-		foreach (var Item in ItemDatas)
-		{
-			row++;
-			int column = 1;
-
-			sheet.Cells[row, column++].SetValue(Item.PrimaryKey);
-			sheet.Cells[row, column++].SetValue(Item.Key);
-			sheet.Cells[row, column++].SetValue(Item.Name2);
-			sheet.Cells[row, column++].SetValue(Item.Alias);
-			sheet.Cells[row, column++].SetValue(Item.Job.GetText());
-			sheet.Cells[row, column++].SetValue(Item.Description);
-			sheet.Cells[row, column++].SetValue(Item.Info);
-		}
-
-		Package!.SaveAs(Path_MainFile);
-	}
-
-	protected override void CreateText()
-	{
-		using var writer = new StreamWriter(new FileStream(Path_MainFile, FileMode.Create));
-		foreach (var Item in ItemDatas)
-		{
-			writer.Write("{0,-15}", Item.PrimaryKey);
-			writer.Write("{0,-60}", "alias: " + Item.Alias);
-			writer.Write("{0,-0}", "name: " + Item.Name2);
-			writer.WriteLine();
-		}
-	}
-
-	public void Dispose()
-	{
-		ItemDatas.Clear();
-		CacheList = null;
-
-		GC.Collect();
 	}
 	#endregion
 }

@@ -1,12 +1,13 @@
-﻿using Xylia.Preview.Data.Models;
+﻿using OfficeOpenXml;
+using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.UI.Helpers.Output.Tables;
 internal sealed class ChallengeListOut : OutSet
 {
-	protected override void CreateData()
+	protected override void CreateData(ExcelPackage package)
 	{
 		#region Title
-		var sheet = CreateSheet();
+		var sheet = CreateSheet(package);
 		//sheet.SetColumn(Column++, "任务序号", 10);
 		//sheet.SetColumn(Column++, "任务别名", 15);
 		//sheet.SetColumn(Column++, "任务名称", 30);
@@ -19,7 +20,7 @@ internal sealed class ChallengeListOut : OutSet
 		#endregion
 
 		int column = 0, row = 1;
-		foreach (var record in Source.Provider.GetTable<ChallengeList>().Where(x =>
+		foreach (var record in Source!.Provider.GetTable<ChallengeList>().Where(x =>
 			x.ChallengeType >= ChallengeList.ChallengeTypeSeq.Mon &&
 			x.ChallengeType <= ChallengeList.ChallengeTypeSeq.Sat))
 		{

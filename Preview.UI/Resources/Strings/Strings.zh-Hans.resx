@@ -297,6 +297,9 @@
   <data name="AudioPlayer_Name" xml:space="preserve">
     <value>音频播放器</value>
   </data>
+  <data name="Command_Output" xml:space="preserve">
+    <value>预定义数据导出</value>
+  </data>
   <data name="Command_QueryAsset" xml:space="preserve">
     <value>查询游戏资产</value>
   </data>

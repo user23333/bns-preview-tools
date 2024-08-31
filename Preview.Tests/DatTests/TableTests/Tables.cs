@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Security.Cryptography;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Client;
 using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Engine.DatData;
@@ -10,8 +11,8 @@ namespace Xylia.Preview.Tests.DatTests;
 [TestClass]
 public partial class Tables
 {
-	readonly BnsDatabase Database = new(new FolderProvider(
-		new DirectoryInfo(@"D:\Tencent\BnsData\data_ztx").GetDirectories()[^1].FullName));
+	private BnsDatabase Database { get; } = new(new FolderProvider(
+		new DirectoryInfo(@"D:\Tencent\BnsData\GameData_ZTx").GetDirectories()[^1].FullName));
 
 	[TestMethod]
 	public void SerializeTest()

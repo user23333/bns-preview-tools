@@ -1,13 +1,9 @@
-﻿using System.IO;
-using System.Windows;
-using System.Xml;
+﻿using System.Xml;
 using Xylia.Preview.Data.Engine.BinData.Models;
 using Xylia.Preview.Data.Engine.BinData.Serialization;
-using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Data.Engine.Definitions;
-using MessageBox = HandyControl.Controls.MessageBox;
 
-namespace Xylia.Preview.UI.Helpers;
+namespace Xylia.Preview.Data.Engine.DatData;
 public class LocalProvider(string source) : DefaultProvider
 {
 	#region Properties
@@ -16,7 +12,10 @@ public class LocalProvider(string source) : DefaultProvider
 	/// </summary>
 	public bool CanSave { get; protected set; }
 
-	public bool HaveBackup { get; protected set; }
+	/// <summary>
+	/// Determeting whether overwrite when already have backup
+	/// </summary>
+	public bool HaveBackup { get; set; }
 
 	public Table TextTable => this.Tables["text"];
 	#endregion
@@ -106,14 +105,13 @@ public class LocalProvider(string source) : DefaultProvider
 
 	public override void WriteData(string folder, PublishSettings settings)
 	{
-		var useBackup = !HaveBackup || MessageBox.Show(StringHelper.Get("TextView_BackUp_Ask"), StringHelper.Get("Message_Tip"), MessageBoxButton.YesNo) == MessageBoxResult.OK;
 		var replaces = new Dictionary<string, byte[]>
 		{
 			{ PATH.Localfile(Is64Bit), WriteTo([.. Tables], settings.Is64bit) }
 		};
 
 		var param = new PackageParam(folder, settings.Is64bit);
-		ThirdSupport.Pack(param, replaces, useBackup);
+		ThirdSupport.Pack(param, replaces, !HaveBackup);
 
 		HaveBackup = true;
 	}

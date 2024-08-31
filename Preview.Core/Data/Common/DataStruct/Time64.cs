@@ -97,15 +97,12 @@ public struct Time64(long ticks) : IFormattable, ITime, IComparable<Time64>
 
 	#region Override Methods
 	public readonly override string ToString() => ToString(null, null);
-
+	public readonly string ToString(string format) => ToString(format, null);
 	public readonly string ToString(string format, IFormatProvider formatProvider) => TimeFormat.Format(this + BnsTimeZoneInfo.FromPublisher()!.Offset, format, formatProvider);
 
 	public readonly bool Equals(Time64 other) => Ticks == other.Ticks;
-
 	public readonly override bool Equals(object obj) => obj is Time64 other && Equals(other);
-
 	public readonly override int GetHashCode() => HashCode.Combine(Ticks);
-
 	public readonly int CompareTo(Time64 other) => this.Ticks.CompareTo(other.Ticks);
 	#endregion
 

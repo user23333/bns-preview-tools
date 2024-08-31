@@ -1,4 +1,5 @@
-﻿using Xylia.Preview.Common.Extension;
+﻿using OfficeOpenXml;
+using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Models;
 using Xylia.Preview.Data.Models.Document;
 using Xylia.Preview.UI.Documents.Primitives;
@@ -6,10 +7,10 @@ using Xylia.Preview.UI.Documents.Primitives;
 namespace Xylia.Preview.UI.Helpers.Output.Tables;
 internal class Skill3Out : OutSet
 {
-	protected override void CreateData()
+	protected override void CreateData(ExcelPackage package)
 	{
 		#region Title
-		var sheet = CreateSheet();
+		var sheet = CreateSheet(package);
 		int column = 1, row = 1;
 
 		sheet.SetColumn(column++, "key", 15);
@@ -20,7 +21,7 @@ internal class Skill3Out : OutSet
 		#endregion
 
 		#region Data
-		foreach (var record in Source.Provider.GetTable<Skill3>())
+		foreach (var record in Source!.Provider.GetTable<Skill3>())
 		{
 			row++;
 			column = 1;

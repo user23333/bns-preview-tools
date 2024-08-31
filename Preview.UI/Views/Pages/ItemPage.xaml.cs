@@ -1,13 +1,10 @@
 ﻿using System.Windows;
-using HandyControl.Controls;
-using HandyControl.Tools.Extension;
 using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.UI.Helpers.Output;
 using Xylia.Preview.UI.Helpers.Output.Tables;
 using Xylia.Preview.UI.ViewModels;
 using Xylia.Preview.UI.Views.Editor;
-using Xylia.Preview.UI.Views.Selector;
 using MessageBox = HandyControl.Controls.MessageBox;
 
 namespace Xylia.Preview.UI.Views.Pages;
@@ -54,9 +51,9 @@ public partial class ItemPage
 		}
 	}
 
-	private async void TestButton1_Click(object sender, RoutedEventArgs e)
+	private void TestButton1_Click(object sender, RoutedEventArgs e)
 	{
-		await OutSet.Start<WeeklyTimeTableOut>();
+		
 	}
 	#endregion
 }

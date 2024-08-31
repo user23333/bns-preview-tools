@@ -82,7 +82,7 @@ public abstract class RecordCommand : MarkupExtension, ICommand
 			if (definedType.IsAbstract || definedType.IsInterface || !baseType.IsAssignableFrom(definedType)) continue;
 
 			var instance = Activator.CreateInstance(definedType);
-			if (instance is RecordCommand command && command.CanExecute(name)) action?.Invoke(command);
+			if (instance is RecordCommand command && command.CanExecute(name)) action.Invoke(command);
 		}
 	}
 

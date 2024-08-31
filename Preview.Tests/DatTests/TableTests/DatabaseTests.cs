@@ -12,7 +12,7 @@ public sealed class DatabaseTests(IDataProvider provider, string outputPath) : B
 	/// <param name="files"></param>
 	public void Output(params string[] files)
 	{
-		var defs = files.Where(File.Exists).Select(f => TableDefinition.LoadFrom(new(), File.ReadAllText(f)));
+		var defs = files.Where(File.Exists).Select(f => TableDefinition.LoadFrom(new(), File.OpenRead(f)));
 		if (Provider is DefaultProvider game) game.Parser.Parse(defs);
 
 		Parallel.ForEach(defs, definition =>

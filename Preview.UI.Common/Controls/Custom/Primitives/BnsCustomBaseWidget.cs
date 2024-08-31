@@ -37,6 +37,8 @@ public abstract class BnsCustomBaseWidget : UserWidget
 	public static readonly DependencyProperty MetaDataProperty = Owner.Register(nameof(MetaData), string.Empty, callback: OnMetaChanged);
 	public static readonly DependencyProperty ExpansionComponentListProperty = Owner.Register<ExpansionCollection>(nameof(ExpansionComponentList));
 
+	public static readonly DependencyProperty AutoResizeHorizontalProperty = Owner.Register<bool>(nameof(AutoResizeHorizontal), default, FrameworkPropertyMetadataOptions.AffectsParentArrange);
+	public static readonly DependencyProperty AutoResizeVerticalProperty = Owner.Register<bool>(nameof(AutoResizeVertical), default, FrameworkPropertyMetadataOptions.AffectsParentArrange);
 	public static readonly DependencyProperty HorizontalResizeLinkProperty = Owner.Register<ResizeLink>(nameof(HorizontalResizeLink), default, FrameworkPropertyMetadataOptions.AffectsParentArrange);
 	public static readonly DependencyProperty VerticalResizeLinkProperty = Owner.Register<ResizeLink>(nameof(VerticalResizeLink), default, FrameworkPropertyMetadataOptions.AffectsParentArrange);
 
@@ -76,11 +78,19 @@ public abstract class BnsCustomBaseWidget : UserWidget
 		set { SetValue(VerticalResizeLinkProperty, value); }
 	}
 
-	public bool AutoResizeHorizontal { get; set; }
+	public bool AutoResizeHorizontal
+	{
+		get => (bool)GetValue(AutoResizeHorizontalProperty);
+		set => SetValue(AutoResizeHorizontalProperty, value);
+	}
 	public float MinAutoResizeHorizontal { get; set; } = 0;
 	public float MaxAutoResizeHorizontal { get; set; } = float.PositiveInfinity;
 
-	public bool AutoResizeVertical { get; set; }
+	public bool AutoResizeVertical
+	{
+		get => (bool)GetValue(AutoResizeVerticalProperty);
+		set => SetValue(AutoResizeVerticalProperty, value);
+	}
 	public float MinAutoResizeVertical { get; set; } = 0;
 	public float MaxAutoResizeVertical { get; set; } = float.PositiveInfinity;
 	#endregion

@@ -145,9 +145,6 @@ public class BnsCustomColumnListWidget : BnsCustomBaseWidget
 
 			if (column != -1 && row != -1)
 			{
-				// HACK: not allow widget use auto size
-				if (child is BnsCustomBaseWidget widget) widget.AutoResizeHorizontal = widget.AutoResizeVertical = false;
-
 				// set absolute rect
 				var c1 = offsetU.ElementAtOrDefault(column);
 				var c2 = offsetU.ElementAtOrDefault(column + columnspan - 1);

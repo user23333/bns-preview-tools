@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
 		xmlns:hc="https://handyorg.github.io/handycontrol"
         d:Title="Connection Manager" Title="{DynamicResource DatabaseStudio_ConnectionManager}" Background="{DynamicResource RegionBrush}"
-        Width="450" SizeToContent="Height" ResizeMode="NoResize"  WindowStartupLocation="CenterOwner" ShowInTaskbar="False">
+        Width="450" SizeToContent="Height" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" ShowInTaskbar="False">
 
 	<Grid Margin="10,15,10,10">
 		<Grid.RowDefinitions>
@@ -40,14 +40,13 @@
 					Visibility="{Binding IsChecked,ElementName=Provider_GlobalMode,Converter={StaticResource Boolean2VisibilityReConverter}}" />
 
 				<!-- Definition -->
-				<ListBox Name="DefinitionList" Grid.Row="2" >
+				<ListBox Name="DefinitionList" Grid.Row="2" MaxHeight="200">
 					<ListBox.ItemTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding Message}" />
 						</DataTemplate>
 					</ListBox.ItemTemplate>
 				</ListBox>
-
 			</Grid>
 		</GroupBox>
 
@@ -66,6 +65,6 @@
 			</Grid>
 		</GroupBox>
 
-		<Button Grid.Row="3" MinWidth="78" Margin="0 5 0 0" HorizontalAlignment="Right" VerticalAlignment="Bottom" d:Content="Ok" Content="{DynamicResource Text_Ok}" Click="Connect_Click" IsDefault="True" />
+		<Button Grid.Row="3" MinWidth="78" Margin="0 5 0 0" HorizontalAlignment="Right" VerticalAlignment="Bottom" d:Content="Ok" Content="{DynamicResource Text_Ok}" Command="ApplicationCommands.Open" IsDefault="True" />
 	</Grid>
 </Window>

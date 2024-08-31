@@ -73,7 +73,7 @@
 				</ExpansionComponent>
 			</BnsCustomImageWidget.ExpansionComponentList>
 		</BnsCustomImageWidget>
-		<BnsCustomLabelWidget Name="GlyphInventoryTooltipPanel_GlyphColor" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="82 0 0 24.004417">
+		<BnsCustomLabelWidget Name="GlyphInventoryTooltipPanel_GlyphColor" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="82 0 0 24.004417" AutoResizeVertical="True">
 			<BnsCustomLabelWidget.HorizontalResizeLink>
 				<ResizeLink bEnable="true" Offset1="82" LinkWidgetName1="GlyphInventoryTooltipPanel_ItemIcon" />
 			</BnsCustomLabelWidget.HorizontalResizeLink>
@@ -84,7 +84,7 @@
 				<StringProperty fontset="bnsr/content/art/ui/gameui_bnsr/resource/gameui_fontset_r/ui/normal_16.normal_16" LabelText="문양 색" SpaceBetweenLines="3" />
 			</BnsCustomLabelWidget.String>
 		</BnsCustomLabelWidget>
-		<BnsCustomLabelWidget Name="GlyphInventoryTooltipPanel_GlyphDescription" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="82 24.004417 0 40.004425">
+		<BnsCustomLabelWidget Name="GlyphInventoryTooltipPanel_GlyphDescription" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="82 24.004417 0 40.004425" AutoResizeVertical="True">
 			<BnsCustomLabelWidget.HorizontalResizeLink>
 				<ResizeLink bEnable="true" Offset1="82" LinkWidgetName1="GlyphInventoryTooltipPanel_ItemIcon" />
 			</BnsCustomLabelWidget.HorizontalResizeLink>
@@ -96,7 +96,7 @@
 			</BnsCustomLabelWidget.String>
 		</BnsCustomLabelWidget>
 	</BnsCustomWindowWidget>
-	<BnsCustomLabelWidget Name="GlyphInventoryTooltipPanel_Description" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="15 119.00444 15 12.001022">
+	<BnsCustomLabelWidget Name="GlyphInventoryTooltipPanel_Description" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="15 119.00444 15 12.001022" AutoResizeVertical="True">
 		<BnsCustomLabelWidget.HorizontalResizeLink>
 			<ResizeLink bEnable="true" Offset1="15" />
 		</BnsCustomLabelWidget.HorizontalResizeLink>
@@ -107,7 +107,7 @@
 			<StringProperty fontset="bnsr/content/art/ui/gameui_bnsr/resource/gameui_fontset_r/ui/normal_out_12.normal_out_12" LabelText="Description" SpaceBetweenLines="3" />
 		</BnsCustomLabelWidget.String>
 	</BnsCustomLabelWidget>
-	<BnsCustomLabelWidget Name="GlyphInventoryTooltipPanel_FlaverText" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="15 141.00546 15 12.000977">
+	<BnsCustomLabelWidget Name="GlyphInventoryTooltipPanel_FlaverText" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="15 141.00546 15 12.000977" AutoResizeVertical="True">
 		<BnsCustomLabelWidget.HorizontalResizeLink>
 			<ResizeLink bEnable="true" Offset1="15" />
 		</BnsCustomLabelWidget.HorizontalResizeLink>
@@ -118,7 +118,7 @@
 			<StringProperty fontset="bnsr/content/art/ui/gameui_bnsr/resource/gameui_fontset_r/ui/normal_out_12.normal_out_12" LabelText="FlaverText" SpaceBetweenLines="3" />
 		</BnsCustomLabelWidget.String>
 	</BnsCustomLabelWidget>
-	<BnsCustomLabelWidget Name="GlyphInventoryTooltipPanel_DisableFilter" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="15 163.00644 15 18.000977">
+	<BnsCustomLabelWidget Name="GlyphInventoryTooltipPanel_DisableFilter" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="15 163.00644 15 18.000977" AutoResizeVertical="True">
 		<BnsCustomLabelWidget.HorizontalResizeLink>
 			<ResizeLink bEnable="true" Offset1="15" />
 		</BnsCustomLabelWidget.HorizontalResizeLink>

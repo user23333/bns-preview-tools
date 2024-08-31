@@ -1,11 +1,10 @@
 ﻿using System.Collections.ObjectModel;
+using System.Formats.Tar;
 using System.Reflection;
-using System.Text;
 using CUE4Parse.Compression;
-using CUE4Parse.Utils;
-using ICSharpCode.SharpZipLib.Tar;
 using Ionic.Zlib;
 using Xylia.Preview.Common.Extension;
+using Xylia.Preview.Data.Engine.BinData.Definitions;
 using Xylia.Preview.Data.Engine.BinData.Helpers;
 using Xylia.Preview.Data.Engine.BinData.Models;
 using Xylia.Preview.Properties;
@@ -13,11 +12,16 @@ using Xylia.Preview.Properties;
 namespace Xylia.Preview.Data.Engine.Definitions;
 public abstract class DatafileDefinition : Collection<TableDefinition>
 {
+	#region Properties
+	public string Key { get; set; }
+
 	/// <summary>
 	/// for parse type
 	/// </summary>
-	public FileInfo Header = null;
+	public FileInfo Header { get; set; }
+	#endregion
 
+	#region Methods
 	private Dictionary<string, TableDefinition> _definitionsByName;
 	private Dictionary<ushort, TableDefinition> _definitionsByType;
 
@@ -45,6 +49,9 @@ public abstract class DatafileDefinition : Collection<TableDefinition>
 	{
 		if (item is null) return;
 
+		// HACK: is not binary table, it affects GetParser
+		if (item.Name is "filter-set" or "party-battle-field-zone-time-effect") return;
+
 		base.Add(item);
 	}
 
@@ -56,12 +63,14 @@ public abstract class DatafileDefinition : Collection<TableDefinition>
 		_definitionsByName = this.ToDistinctDictionary(x => x.Name, new TableNameComparer());
 	}
 
-	public ITypeParser GetParser(Datafile provider)
+	internal ITypeParser GetParser(Datafile provider)
 	{
-		// Actually, it is directly defined in the game program, but we cannot get it.
-		if (Header != null && Header.Exists) return new DatafileDirect(Header);
-		else return new DatafileDetect(provider, this);
+		var defs = this.Where(x => x.Module != (long)TableModule.Server && x.Module != (long)TableModule.Engine);
+		if (defs.Count() == provider.Tables.Max(x => x.Type)) return new DatafileDirect(defs);
+		else if (Header != null && Header.Exists) return new DatafileDirect(Header);
+		else return new DatafileDetect(provider, defs);
 	}
+	#endregion
 }
 
 
@@ -71,15 +80,15 @@ internal class DefaultDatafileDefinition : DatafileDefinition
 	{
 		if (Settings.Default.UseUserDefinition)
 		{
-			var UserDefs = new DirectoryInfo(Path.Combine(Settings.Default.OutputFolder, "definition"));
-			if (!UserDefs.Exists) throw new DirectoryNotFoundException("Missing definition folder");
+			var directory = new DirectoryInfo(Path.Combine(Settings.Default.OutputFolder, "definition"));
+			if (!directory.Exists) throw new DirectoryNotFoundException("Missing definition folder!");
 
-			Header = UserDefs.GetFiles("head").FirstOrDefault();
+			Header = directory.GetFiles("head").FirstOrDefault();
 
 			var loader = new SequenceDefinitionLoader();
-			foreach (var file in UserDefs.GetFiles("*.xml"))
+			foreach (var file in directory.GetFiles("*.xml"))
 			{
-				this.Add(TableDefinition.LoadFrom(loader, File.ReadAllText(file.FullName)));
+				this.Add(TableDefinition.LoadFrom(loader, File.OpenRead(file.FullName)));
 			}
 		}
 		else
@@ -88,13 +97,11 @@ internal class DefaultDatafileDefinition : DatafileDefinition
 			var sequence = new SequenceDefinitionLoader();
 			assembly.GetManifestResourceNames()
 				.Where(name => name.StartsWith("Xylia.Preview.Data.Definition.Sequence"))
-				.Select(name => new StreamReader(assembly.GetManifestResourceStream(name)).ReadToEnd())
-				.ForEach(sequence.LoadFrom);
+				.ForEach(name => sequence.LoadFrom(assembly.GetManifestResourceStream(name)));
 
 			assembly.GetManifestResourceNames()
 				.Where(name => name.StartsWith("Xylia.Preview.Data.Definition.") && !name.Contains(".Sequence"))
-				.Select(name => new StreamReader(assembly.GetManifestResourceStream(name)).ReadToEnd())
-				.Select(res => TableDefinition.LoadFrom(sequence, res))
+				.Select(name => TableDefinition.LoadFrom(sequence, assembly.GetManifestResourceStream(name)))
 				.ForEach(this.Add);
 		}
 	}
@@ -111,26 +118,29 @@ public class CompressDatafileDefinition : DatafileDefinition
 			case CompressionMethod.Gzip:
 			{
 				using var stream = new GZipStream(source, CompressionMode.Decompress);
-				using var tar = new TarInputStream(stream, Encoding.UTF8);
-
-				string root = tar.GetNextEntry().Name;  //root folder entry
+				using var reader = new TarReader(stream);
+				var entries = new List<TarEntry>();
 				while (true)
 				{
-					var entry = tar.GetNextEntry();
-					if (entry is null) break;
-
-					byte[] buffer = new byte[entry.Size];
-					tar.Read(buffer, 0, buffer.Length);
-
-					var name = entry.Name.SubstringAfter(root);
-					if (name.EndsWith('/')) continue;
-					else if (name.StartsWith("Sequence/"))
+					var entry = reader.GetNextEntry(true);
+					if (entry is null)
 					{
-						loader.LoadFrom(Encoding.UTF8.GetString(buffer));
+						new StreamReader(stream).ReadToEnd();
+						break;
 					}
-					else
+
+					entries.Add(entry);
+				}
+
+				// to load sequence first
+				foreach (var entry in entries
+					.OrderBy(x => !x.Name.Contains("/Sequence/"))
+					.ThenBy(x => x.Name))
+				{
+					if (entry.EntryType == TarEntryType.RegularFile && entry.Name.EndsWith(".xml"))
 					{
-						this.Add(TableDefinition.LoadFrom(loader, Encoding.UTF8.GetString(buffer)));
+						if (entry.Name.Contains("/Sequence/")) loader.LoadFrom(entry.DataStream);
+						else this.Add(TableDefinition.LoadFrom(loader, entry.DataStream));
 					}
 				}
 			}
@@ -138,5 +148,14 @@ public class CompressDatafileDefinition : DatafileDefinition
 
 			default: throw new NotSupportedException();
 		}
+	}
+
+	internal static CompressDatafileDefinition Load()
+	{
+		var key = Settings.Default.DefitionKey;
+		if (key is null) return null;
+
+		var path = Path.Combine(Settings.Default.OutputFolder, ".download", key);
+		return new CompressDatafileDefinition(File.OpenRead(path), CompressionMethod.Gzip) { Key = key };
 	}
 }

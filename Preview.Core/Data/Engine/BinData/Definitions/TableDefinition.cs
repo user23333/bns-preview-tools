@@ -114,12 +114,12 @@ public class TableDefinition : TableHeader
 		return definition;
 	}
 
-	public static TableDefinition LoadFrom(SequenceDefinitionLoader loader, string content)
+	public static TableDefinition LoadFrom(SequenceDefinitionLoader loader, Stream stream)
 	{
-		var xmlDoc = new XmlDocument();
-		xmlDoc.LoadXml(content);
+		var doc = new XmlDocument();
+		doc.Load(stream);
 
-		return LoadFrom(loader, xmlDoc.DocumentElement);
+		return LoadFrom(loader, doc.DocumentElement);
 	}
 
 	public static TableDefinition LoadFrom(SequenceDefinitionLoader loader, XmlElement tableNode)
@@ -132,7 +132,7 @@ public class TableDefinition : TableHeader
 
 		var autokey = tableNode.GetAttribute<bool>("autokey");
 		var maxid = tableNode.GetAttribute<int>("maxid");
-		var version = ParseVersion(tableNode.GetAttribute("version")); 
+		var version = ParseVersion(tableNode.GetAttribute("version"));
 		var module = tableNode.GetAttribute<long>("module");
 		var pattern = tableNode.Attributes["pattern"]?.Value ?? $"{name.TitleCase()}Data*.xml";
 		#endregion

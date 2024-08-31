@@ -14,7 +14,7 @@ public class DefaultProvider : Datafile, IDataProvider
 	public BNSDat XmlData { get; protected set; }
 	protected BNSDat LocalData { get; set; }
 	protected BNSDat ConfigData { get; set; }
-	public ITypeParser Parser { get; protected set; }
+	internal ITypeParser Parser { get; set; }
 	#endregion
 
 	#region Methods		
@@ -41,7 +41,7 @@ public class DefaultProvider : Datafile, IDataProvider
 		Tables.Add(new() { Name = "skill-training-sequence" });
 		Tables.Add(new() { Name = "summoned-sequence" });
 		Tables.Add(new() { Name = "tutorialskillsequence" });
-		//Tables.Add(new() { Name = "surveyquestions" });
+		Tables.Add(new() { Name = "surveyquestions" });
 
 		// binary table
 		ReadFrom(XmlData.SearchFiles(PATH.Datafile(Is64Bit)).FirstOrDefault()?.Data, Is64Bit);

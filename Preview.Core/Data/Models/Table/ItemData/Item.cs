@@ -46,7 +46,7 @@ public abstract class Item : ModelElement, IHaveName
 		Female,
 	}
 
-	public Race EquipRace => Race.Get(Attributes["equip-race"].ToEnum<RaceSeq2>());
+	public RaceSeq2 EquipRace => Attributes["equip-race"].ToEnum<RaceSeq2>();
 	public enum RaceSeq2
 	{
 		RaceNone,

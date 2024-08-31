@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.IO;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Markup;
@@ -6,9 +7,9 @@ using System.Windows.Threading;
 using HandyControl.Controls;
 using Serilog;
 using Vanara.PInvoke;
+using Xylia.Preview.Common.Extension;
 using Xylia.Preview.UI.Helpers;
 using Xylia.Preview.UI.Helpers.Output;
-using Xylia.Preview.UI.Helpers.Output.Tables;
 using Xylia.Preview.UI.Resources.Themes;
 using Xylia.Preview.UI.Services;
 
@@ -27,11 +28,11 @@ public partial class App : Application
 #if DEVELOP
 		UpdateSkin(SkinType.Default, true);
 		TestProvider.Set(new DirectoryInfo(@"D:\Tencent\BnsData\GameData_ZTx"));
-		FileCache.Data.Provider.GetTable<GlyphReward>()["shuffle_grade_5_group6"].GetInfo();
+		//FileCache.Data.Provider.GetTable<GlyphReward>()["shuffle_grade_5_group6"].GetInfo();
 
 		//new Xylia.Preview.UI.Content.TestPanel().Show();
 		//var _ = PreviewModel.SnooperViewer;
-		//new GameUI.Scene.Game_Tooltip.ItemTooltipPanel().Show();
+		new GameUI.Scene.Game_Tooltip.Skill3ToolTipPanel_1().Show();
 #else
 		MainWindow = new MainWindow();
 		MainWindow.Show();
@@ -124,10 +125,12 @@ public partial class App : Application
 
 	private static void Command(string? command, Dictionary<string, string> args)
 	{
+		var type = args.GetValueOrDefault("type");
+
 		if (command == "query")
 		{
 			bool pause;
-			switch (args["type"])
+			switch (type)
 			{
 				case "ue":
 				{
@@ -152,11 +155,30 @@ public partial class App : Application
 		{
 			new UpdateService().Register();
 
-			switch (args["type"])
+			switch (type)
 			{
 				case "soundwave": Commands.Soundwave_output(); break;
-				case "skill3": OutSet.Start<Skill3Out>().Wait(); break;
-				case "weeklytimetable": OutSet.Start<WeeklyTimeTableOut>().Wait(); break;
+
+				default:
+				{
+					var sets = OutSet.Find();
+					var intance = sets.FirstOrDefault(x => x.Name.Equals(type, StringComparison.OrdinalIgnoreCase));
+					if (intance is null)
+					{
+						EnterNumber:
+						int idx = 0;
+						Console.WriteLine("Enter specified number to continue...");
+						sets.ForEach(x => Console.WriteLine("   [{0}] {1}", idx++, x.Name));
+
+						// check
+						if (!int.TryParse(Console.ReadLine()!, out var i) || 
+							(intance = sets.ElementAtOrDefault(i)) is null)
+							goto EnterNumber;
+					}
+
+					intance.Execute();
+				}
+				break;
 			}
 		}
 		else throw new WarningException("bad params: " + command);

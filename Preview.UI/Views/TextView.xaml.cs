@@ -6,7 +6,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Xml;
 using HandyControl.Controls;
-using HandyControl.Data;
 using HandyControl.Interactivity;
 using HandyControl.Tools.Extension;
 using ICSharpCode.AvalonEdit.Folding;
@@ -16,10 +15,12 @@ using Microsoft.Win32;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Client;
 using Xylia.Preview.Data.Engine.BinData.Serialization;
+using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Data.Models;
 using Xylia.Preview.UI.Helpers;
 using Xylia.Preview.UI.ViewModels;
 using Xylia.Preview.UI.Views.Selector;
+using MessageBox = HandyControl.Controls.MessageBox;
 
 namespace Xylia.Preview.UI.Views;
 public partial class TextView
@@ -71,23 +72,6 @@ public partial class TextView
 	bool inloading = false;
 	private LocalProvider? source;
 	private List<TextDiffPiece>? diffResult;
-
-	private static bool OpenTextFile(out string file)
-	{
-		var dialog = new OpenFileDialog
-		{
-			Filter = @"game text file|local*.dat|source text file|*.x16|All files|*.*"
-		};
-
-		if (dialog.ShowDialog() == true)
-		{
-			file = dialog.FileName;
-			return true;
-		}
-
-		file = string.Empty;
-		return false;
-	}
 
 	private async Task RenderView(string? oldPath, string? newPath)
 	{
@@ -200,17 +184,6 @@ public partial class TextView
 		commandBindings.Add(new CommandBinding(ControlCommands.Switch, delegate { }, CanExecuteSaveAs));
 	}
 
-	private void CanExecuteSave(object sender, CanExecuteRoutedEventArgs e)
-	{
-		// only single file and left source
-		e.CanExecute = !inloading && source != null && source.CanSave;
-	}
-
-	private void CanExecuteSaveAs(object sender, CanExecuteRoutedEventArgs e)
-	{
-		e.CanExecute = !inloading && source != null;
-	}
-
 	private async void OpenFileCommand(object sender, RoutedEventArgs e)
 	{
 		var dialog = await Dialog.Show(new FileSelectorDialog()
@@ -219,25 +192,12 @@ public partial class TextView
 			Path1 = UserSettings.Default.Text_OldPath,
 			Path2 = UserSettings.Default.Text_NewPath,
 		}).GetResultAsync<FileSelectorDialog>();
-		
+
 		if (dialog.Status == true)
 		{
 			await RenderView(
 				UserSettings.Default.Text_OldPath = dialog.Path1,
 				UserSettings.Default.Text_NewPath = dialog.Path2);
-		}
-	}
-
-	private void SaveAsCommand(object sender, RoutedEventArgs e)
-	{
-		var dialog = new SaveFileDialog
-		{
-			FileName = "TextData",
-			Filter = "xml file|*.x16",
-		};
-		if (dialog.ShowDialog() == true)
-		{
-			File.WriteAllText(dialog.FileName, Editor.Text, Encoding.Unicode);
 		}
 	}
 
@@ -273,28 +233,53 @@ public partial class TextView
 		});
 	}
 
+	private void CanExecuteSaveAs(object sender, CanExecuteRoutedEventArgs e)
+	{
+		e.CanExecute = !inloading && source != null;
+	}
+
+	private void SaveAsCommand(object sender, RoutedEventArgs e)
+	{
+		var dialog = new SaveFileDialog
+		{
+			FileName = "TextData",
+			Filter = "xml file|*.x16",
+		};
+		if (dialog.ShowDialog() == true)
+		{
+			File.WriteAllText(dialog.FileName, Editor.Text, Encoding.Unicode);
+		}
+	}
+
+	private void CanExecuteSave(object sender, CanExecuteRoutedEventArgs e)
+	{
+		// only single file and left source
+		e.CanExecute = !inloading && source != null && source.CanSave;
+	}
+
 	private void SaveCommand(object sender, RoutedEventArgs e)
 	{
+		ArgumentNullException.ThrowIfNull(source);
 		inloading = true;
 
 		Task.Run(() =>
 		{
 			try
 			{
-				Growl.Info(new GrowlInfo()
+				if (source.HaveBackup)
 				{
-					Message = StringHelper.Get("TextView_TaskStart"),
-					Token = TOKEN,
-				});
+					source.HaveBackup = MessageBox.Show(StringHelper.Get("TextView_BackUp_Ask"), StringHelper.Get("Message_Tip"), MessageBoxButton.YesNo) != MessageBoxResult.Yes;
+				}
 
-				var data = Encoding.Unicode.GetBytes(this.Dispatcher.Invoke(() => Editor.Text));
+				Growl.Info(StringHelper.Get("TextView_TaskStart"), TOKEN);
+				var data = Encoding.Unicode.GetBytes(Dispatcher.Invoke(() => Editor.Text));
 				source.Save(data);
 
 				Growl.Success(StringHelper.Get("TextView_SaveCompleted"), TOKEN);
 			}
 			catch (Exception ex)
 			{
-				Growl.Error(ex.Message, nameof(TextView));
+				Growl.Error(ex.Message, TOKEN);
 			}
 			finally
 			{

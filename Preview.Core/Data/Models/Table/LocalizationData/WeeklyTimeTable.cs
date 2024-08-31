@@ -40,6 +40,18 @@ public sealed class WeeklyTimeTable : ModelElement
 	#endregion
 
 	#region Helpers
+	public struct WeeklyTimePeriod
+	{		
+		public WeeklyTimeTable Data;
+		public DayOfWeekSeq DayOfWeek;
+		public sbyte StartHour;
+		public sbyte StartMinute;
+		public sbyte EndHour;
+		public sbyte EndMinute; 
+
+		public readonly override string ToString() => $"[{StartHour}:{StartMinute:00}~{EndHour}:{EndMinute:00}] {Data}";
+	}
+
 	public List<WeeklyTimePeriod> GetPeriods()
 	{
 		List<WeeklyTimePeriod> periods = [];
@@ -73,18 +85,6 @@ public sealed class WeeklyTimeTable : ModelElement
 		CreatePeriod(DayOfWeekSeq.Sat, SatStartHour, SatEndHour);
 
 		return periods;
-	}
-
-	public struct WeeklyTimePeriod
-	{		
-		public WeeklyTimeTable Data;
-		public DayOfWeekSeq DayOfWeek;
-		public sbyte StartHour;
-		public sbyte StartMinute;
-		public sbyte EndHour;
-		public sbyte EndMinute; 
-
-		public readonly override string ToString() => $"[{StartHour}:{StartMinute:00}~{EndHour}:{EndMinute:00}] {Data}";
 	}
 	#endregion
 }

@@ -1,4 +1,7 @@
-﻿using CUE4Parse.UE4.Pak;
+﻿using System.Diagnostics;
+using CUE4Parse.UE4.Pak;
+using Xylia.Preview.Common.Extension;
+using Xylia.Preview.Data.Engine.BinData.Definitions;
 using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Data.Engine.Definitions;
 using Xylia.Preview.Data.Models;
@@ -8,9 +11,11 @@ namespace Xylia.Preview.Data.Client;
 public class BnsDatabase : IEngine, IDisposable
 {
 	#region Constructorss
-	public BnsDatabase(IDataProvider provider = null)
+	public BnsDatabase(IDataProvider provider = null, DatafileDefinition definition = null)
 	{
 		_provider = provider ?? DefaultProvider.Load(Settings.Default.GameFolder);
+		_definition = definition ?? new DefaultDatafileDefinition();
+
 		ArgumentNullException.ThrowIfNull(_provider);
 	}
 	#endregion
@@ -25,13 +30,8 @@ public class BnsDatabase : IEngine, IDisposable
 
 			IPlatformFilePak.DoSignatureCheck();
 
-			var definitions = new DefaultDatafileDefinition();
-			//var definitions = new CompressDatafileDefinition(
-			//	File.OpenRead(@"C:\Users\Xylia\AppData\Roaming\Xylia\download\bc255fde9756a25361432ebd1d59497c11c1a2b4"),
-			//	CUE4Parse.Compression.CompressionMethod.Gzip);
-
-			_provider.LoadData(definitions);
-			definitions.CreateMap();
+			_provider.LoadData(_definition);
+			_definition.CreateMap();
 
 			// Bind definitions to tables
 			foreach (var table in _provider.Tables)
@@ -42,12 +42,12 @@ public class BnsDatabase : IEngine, IDisposable
 				if (table.Type == 0)
 				{
 					ArgumentException.ThrowIfNullOrEmpty(table.Name);
-					table.Definition = definitions[table.Name];
+					table.Definition = _definition[table.Name];
 					table.Type = table.Definition.Type;
 				}
 				else
 				{
-					table.Definition = definitions[table.Type];
+					table.Definition = _definition[table.Type];
 				}
 			}
 
@@ -146,19 +146,11 @@ public class BnsDatabase : IEngine, IDisposable
 
 	#endregion
 
-
-	#region Interface
-	string IEngine.Name => Provider.Name;
-
-	string IEngine.Desc => Path.Combine(
-		Provider.Locale.Publisher.ToString(),
-		Provider.CreatedAt.ToString("yyMMdd", null));
-	#endregion
-
-	#region Data
+	#region Fields
 	public bool IsInitialized { get; private set; }
 
 	private IDataProvider _provider;
+	private DatafileDefinition _definition;
 
 	public IDataProvider Provider
 	{
@@ -169,11 +161,19 @@ public class BnsDatabase : IEngine, IDisposable
 			return _provider;
 		}
 	}
+	#endregion
+
+	#region Interface
+	string IEngine.Name => Provider.Name;
+	string IEngine.Desc => Path.Combine(
+		Provider.Locale.Publisher.ToString(),
+		Provider.CreatedAt.ToString("yyMMdd", null));
 
 	public void Dispose()
 	{
-		_provider.Dispose();
+		_provider?.Dispose();
 		_provider = null;
+		_definition = null;
 
 		GC.SuppressFinalize(this);
 		GC.Collect();

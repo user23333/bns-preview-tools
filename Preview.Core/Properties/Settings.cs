@@ -122,6 +122,12 @@ public class Settings : INotifyPropertyChanged
 
 	public bool UseUserDefinition { get => GetValue<bool>(); set => SetValue(value); }
 
+	public string DefitionKey
+	{
+		get => GetValue<string>();
+		set => SetValue(value);
+	}
+
 	public bool Text_LoadData { get => GetValue<bool>(); set => SetValue(value); }
 	#endregion
 }
