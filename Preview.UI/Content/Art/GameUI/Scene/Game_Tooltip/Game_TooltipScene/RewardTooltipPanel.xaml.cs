@@ -63,7 +63,7 @@ public partial class RewardTooltipPanel
 
 					ColumnList.AddChild(new BnsCustomLabelWidget()
 					{
-						String = new StringProperty(info.Data?.Name.GetText()),
+						String = new StringProperty(info.Data.GlyphName),
 						ToolTip = new RecordTooltip(info.Data),
 					}, row, 0);
 					ColumnList.AddChild(new BnsCustomLabelWidget()

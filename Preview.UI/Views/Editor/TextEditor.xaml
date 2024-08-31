@@ -16,6 +16,10 @@
 				<MenuItem Header="{DynamicResource TextEditor_Copy}" Command="ApplicationCommands.Copy"/>
 				<MenuItem Header="{DynamicResource TextEditor_CopyData}" Command="ApplicationCommands.Properties" />
 			</MenuItem>
+
+			<MenuItem d:Header="Options" Header="{DynamicResource Text_Options}">
+				<MenuItem Header="{DynamicResource Text_WordWrap}" IsCheckable="True" IsChecked="{Binding WordWrap,ElementName=Editor}"/>
+			</MenuItem>
 		</Menu>
 
 		<avalonEdit:TextEditor Name="Editor" Margin="0 0 0 0" Grid.Row="1"

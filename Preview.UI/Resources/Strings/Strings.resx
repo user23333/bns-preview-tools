@@ -221,29 +221,32 @@
     <value>Github</value>
   </data>
   <data name="Application_UpdateLog" xml:space="preserve">
-    <value>[3.1.4]
+    <value>[ver=3.2.0,time=2024/9/1]
+TODO
+
+[ver=3.1.4,time=2024/6/18]
 Probability information support smart drop groups.
 Fix issue where generating item list will throw errors.
 Fix issue of some tags display Korean (CN region). 
 
-[3.1.3]
+[ver=3.1.3,time=2024/6/12]
 Fix issues where programs cannot run in some cases.
 Optimize quest preview support rewards.
 Optimize message when model is not exist.
 
-[3.1.2]
+[ver=3.1.2,time=2024/5/25]
 Optimize item preview support equip-gem abilities and set effects.
 Fix filtering don't work when switching to a first level node in item preview.
 Optimize filtering function for quest preview.
 Optimize message when updating server check failed.
 
-[3.1.1]
+[ver=3.1.1,time=2024/4/29]
 Fix fixed-job gear reward skill also follow settings.
 Optimize store preview interface.
 Optimize partial tips for text editor.
 Optimize map preview function.
 
-[3.1.0]
+[ver=3.1.0,time=2024/4/14]
 Add theme system.
 Add support NEO Classic client.
 Add skill and reward preview.
@@ -892,6 +895,9 @@ Please note that do not modify the order of nodes</value>
   </data>
   <data name="Text_Update" xml:space="preserve">
     <value>Update</value>
+  </data>
+  <data name="Text_WordWrap" xml:space="preserve">
+    <value>Word Warp</value>
   </data>
   <data name="UI.ItemRandomOption.Skill.Describe" xml:space="preserve">
     <value>&lt;font name="00008130.UI.Vital_LightBlue"&gt;&lt;arg p="1"/&gt;&lt;/font&gt; changed to &lt;font name="00008130.UI.Vital_LightBlue"&gt;&lt;arg p="2"/&gt;&lt;/font&gt;</value>

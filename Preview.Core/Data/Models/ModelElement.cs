@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿using System.ComponentModel;
+using System.Diagnostics;
+using System.Globalization;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Xml;
@@ -12,6 +14,7 @@ using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Properties;
 
 namespace Xylia.Preview.Data.Models;
+[TypeConverter(typeof(ElementTypeConverter))]
 public abstract class ModelElement : IElement
 {
 	#region IElement
@@ -74,7 +77,7 @@ public abstract class ModelElement : IElement
 	/// <param name="element"></param>
 	/// <returns></returns>
 	[MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-	internal static T As<T>(Record source, T element) where T : ModelElement
+	internal static ModelElement As(Record source, ModelElement element)
 	{
 		element.Source = source;
 
@@ -128,7 +131,7 @@ public abstract class ModelElement : IElement
 			// create instance
 			var records = Activator.CreateInstance(type);
 			var add = records.GetType().GetMethod("Add", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
-			children.ForEach(child => add.Invoke(records, [child.As<ModelElement>(recordType)]));
+			children.ForEach(child => add.Invoke(records, [child.As(recordType)]));
 
 			return records;
 		}
@@ -156,64 +159,83 @@ public abstract class ModelElement : IElement
 		}
 	}
 	#endregion
+}
 
+internal class ElementTypeConverter : TypeConverter
+{
+	#region Static Methods
+	private static readonly MessageManager message = [];
+	private static readonly Dictionary<Type, ElementTypeConverter> helpers = [];
 
-	#region Helper
-	internal class TypeHelper
+	public static ElementTypeConverter Get(Type type, string name = null)
 	{
-		private static readonly MessageManager message = [];
-		private static readonly Dictionary<Type, TypeHelper> helpers = [];
-
-		public static TypeHelper Get(Type type, string name = null)
+		lock (helpers)
 		{
-			lock (helpers)
+			if (!helpers.TryGetValue(type, out var subs))
 			{
-				if (!helpers.TryGetValue(type, out var subs))
-				{
-					subs = helpers[type] = new TypeHelper();
-					subs.GetSubType(type);
-				}
-
-				// Convert to real type
-				if (type == typeof(ModelElement))
-				{
-					Debug.Assert(name != null);
-					return Get(subs._subs[name]);
-				}
-
-				return subs;
-			}
-		}
-
-
-		#region Sub Class
-		private Type BaseType;
-		private readonly Dictionary<string, Type> _subs = new(TableNameComparer.Instance);
-
-		private void GetSubType(Type baseType)
-		{
-			this.BaseType = baseType;
-			var flag = baseType == typeof(ModelElement);
-
-			foreach (var instance in Assembly.GetExecutingAssembly().GetTypes())
-			{
-				if ((flag || !instance.IsAbstract) && instance.BaseType == baseType)
-					_subs[instance.Name.TitleLowerCase()] = instance;
-			}
-		}
-
-		public T CreateInstance<T>(string type)
-		{
-			Type _type = null;
-
-			if (!string.IsNullOrWhiteSpace(type) && !_subs.TryGetValue(type, out _type))
-			{
-				message.Debug($"cast object subclass failed: {BaseType} -> {type}");
+				subs = helpers[type] = new ElementTypeConverter();
+				subs.GetSubType(type);
 			}
 
-			return (T)Activator.CreateInstance(_type ?? BaseType);
+			// Convert to real type
+			if (type == typeof(ModelElement))
+			{
+				Debug.Assert(name != null);
+				return Get(subs._subs[name]);
+			}
+
+			return subs;
 		}
-		#endregion
+	}
+	#endregion
+
+	#region Methods
+	private Type BaseType;
+	private readonly Dictionary<string, Type> _subs = new(TableNameComparer.Instance);
+
+	private void GetSubType(Type baseType)
+	{
+		this.BaseType = baseType;
+		var flag = baseType == typeof(ModelElement);
+
+		foreach (var instance in Assembly.GetExecutingAssembly().GetTypes())
+		{
+			if ((flag || !instance.IsAbstract) && instance.BaseType == baseType)
+				_subs[instance.Name.TitleLowerCase()] = instance;
+		}
+	}
+
+	public ModelElement CreateInstance(string type)
+	{
+		Type _type = null;
+
+		if (!string.IsNullOrWhiteSpace(type) && !_subs.TryGetValue(type, out _type))
+		{
+			message.Debug($"cast object subclass failed: {BaseType} -> {type}");
+		}
+
+		return (ModelElement)Activator.CreateInstance(_type ?? BaseType);
+	}
+
+	public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
+	{
+		if (sourceType == typeof(Record)) return true;
+
+		return base.CanConvertFrom(context, sourceType);
+	}
+
+	public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
+	{
+		if (value is Record record)
+		{
+			var helpers = Get(typeof(ModelElement), record.Owner.Name);
+
+			return record.Model ??=
+				ModelElement.As(record,
+				helpers.CreateInstance(record.Attributes.Get<string>(AttributeCollection.s_type)));
+		}
+
+		return base.ConvertFrom(context, culture, value);
 	}
 	#endregion
 }
@@ -253,7 +275,7 @@ public struct Ref<TElement> where TElement : ModelElement
 	private readonly Record source;
 
 	private TElement _instance;
-	public TElement Instance => _instance ??= source?.As<TElement>();
+	public TElement Instance => _instance ??= source.As<TElement>();
 
 
 	public static implicit operator TElement(Ref<TElement> value) => value.Instance;

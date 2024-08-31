@@ -221,35 +221,47 @@
     <value>Github</value>
   </data>
   <data name="Application_UpdateLog" xml:space="preserve">
-    <value>[3.2.0]
-优化数据管理器中导出目录的结构
-修复连接非全局数据时会发生内存泄漏的问题
-修复部分数据类型不正确的问题
-增加进度显示
+    <value>[ver=3.2.0,time=2024/9/1]
+数据管理器
++优化导出目录的路径
++优化数据结构从云端获取
++修复部分数据类型不正确的问题
++修复连接非全局数据时会发生内存泄漏的问题
 
-[3.1.4]
+预览
++修复查看概率信息时，部分标签文本被截断的问题
++优化概率信息支持查看印章奖励
++优化属性编辑器可以查看可扩展标记语言文本
++新增组合概率查看
+
+其他
++图标导出增加进度提示
++任务栏跳转列表中增加「预定义数据导出」
++文本查看优化路径选择功能
+
+[ver=3.1.4,time=2024/6/18]
 优化概率信息中支持智能掉落组
 修复生成物品列表会抛出错误的问题
 修复部分标签会显示韩文的问题
 
-[3.1.3]
+[ver=3.1.3,time=2024/6/12]
 修复特定情况下，程序无法运行的问题
 优化任务预览可以查看奖励
 优化模型不存在时的提醒
 
-[3.1.2]
+[ver=3.1.2,time=2024/5/25]
 优化物品预览可以查看八卦牌属性及套装效果
 修复物品预览中切换一级分类时，筛选无法应用的问题
 优化任务预览的筛选功能
 优化与更新服务器验证失败时的提醒
 
-[3.1.1]
+[ver=3.1.1,time=2024/4/29]
 修复固有职业物品的技能也会按设置中的职业显示的问题
 优化商店预览界面
 优化文本编辑器的部分提示信息
 优化地图预览部分功能
 
-[3.1.0]
+[ver=3.1.0,time=2024/4/14]
 增加主题系统
 增加支持NEO Classic客户端
 增加技能、奖励预览功能
@@ -891,6 +903,9 @@
   </data>
   <data name="Text_Update" xml:space="preserve">
     <value>更新</value>
+  </data>
+  <data name="Text_WordWrap" xml:space="preserve">
+    <value>自动换行</value>
   </data>
   <data name="UI.ItemRandomOption.Skill.Describe" xml:space="preserve">
     <value>&lt;font name="00008130.UI.Vital_LightBlue"&gt;&lt;arg p="1"/&gt;&lt;/font&gt;武功变更为&lt;font name="00008130.UI.Vital_LightBlue"&gt;&lt;arg p="2"/&gt;&lt;/font&gt;</value>

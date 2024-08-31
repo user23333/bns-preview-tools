@@ -4,14 +4,9 @@ using System.ComponentModel;
 namespace Xylia.Preview.Common.Extension;
 public static class TypeInfoExtensions
 {
-	internal static bool IsEnumerable(this Type type)
-	{
-		return
-			type != typeof(string) &&
-			typeof(IEnumerable).IsAssignableFrom(type);
-	}
+	public static T As<T>(this object @this) => (T)As(@this, typeof(T));
 
-	internal static object To(this object @this, Type type)
+	internal static object As(this object @this, Type type)
 	{
 		if (@this != null)
 		{
@@ -47,6 +42,13 @@ public static class TypeInfoExtensions
 		}
 
 		return @this;
+	}
+
+	internal static bool IsEnumerable(this Type type)
+	{
+		return
+			type != typeof(string) &&
+			typeof(IEnumerable).IsAssignableFrom(type);
 	}
 
 	public static Type GetBaseType(this object value, Type stopper = null)

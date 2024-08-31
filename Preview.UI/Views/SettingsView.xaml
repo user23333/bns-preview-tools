@@ -151,20 +151,11 @@
 				<hc:UniformSpacingPanel Orientation="Vertical" Spacing="5" Grid.IsSharedSizeScope="True">
 					<!-- Data Options -->
 					<hc:Divider Grid.ColumnSpan="10" Margin="0 5" d:Content="Options" Content="{DynamicResource Text_Option}" />
-					<ItemsControl>
-						<TextBlock d:Text="Use User Definition" Text="{DynamicResource Settings_UseUserDefinition}" ToolTip="{DynamicResource Settings_UseUserDefinition_Tooltip}" />
-						<CheckBox Grid.Column="1" IsChecked="{Binding UseUserDefinition}" ToolTip="{DynamicResource Settings_UseUserDefinition_Tooltip}" />
-					</ItemsControl>
-					<ItemsControl>
-						<TextBlock d:Text="Use Debug Mode" Text="{DynamicResource Settings_DebugMode}" />
-						<CheckBox Grid.Column="1" IsChecked="{Binding UseDebugMode}" />
-					</ItemsControl>
 
 					<ItemsControl>
 						<TextBlock d:Text="Job" Text="{DynamicResource Settings_Job}" />
 						<ComboBox Grid.Column="1" ItemsSource="{Binding Jobs,Mode=OneTime}" SelectedItem="{Binding Job}" ItemTemplate="{StaticResource EnumTemplate}" />
 					</ItemsControl>
-
 					<ItemsControl>
 						<TextBlock d:Text="Text Copy Mode" Text="{DynamicResource Settings_CopyMode}" />
 						<ComboBox Grid.Column="1" SelectedIndex="{Binding CopyMode, Converter={converters:EnumConverter}}">
@@ -174,6 +165,16 @@
 							<ComboBoxItem Content="{DynamicResource Settings_CopyMode_Source}" />
 						</ComboBox>
 					</ItemsControl>
+
+					<ItemsControl Visibility="Collapsed">
+						<TextBlock d:Text="Use User Definition" Text="{DynamicResource Settings_UseUserDefinition}" ToolTip="{DynamicResource Settings_UseUserDefinition_Tooltip}" />
+						<CheckBox Grid.Column="1" IsChecked="{Binding UseUserDefinition}" ToolTip="{DynamicResource Settings_UseUserDefinition_Tooltip}" />
+					</ItemsControl>
+					<ItemsControl>
+						<TextBlock d:Text="Use Debug Mode" Text="{DynamicResource Settings_DebugMode}" />
+						<CheckBox Grid.Column="1" IsChecked="{Binding UseDebugMode}" />
+					</ItemsControl>
+
 				</hc:UniformSpacingPanel>
 			</TabItem>
 

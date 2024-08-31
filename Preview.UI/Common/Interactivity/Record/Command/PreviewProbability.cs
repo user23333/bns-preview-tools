@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using CUE4Parse.Utils;
+using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Models;
 using Xylia.Preview.UI.GameUI.Scene.Game_Tooltip;
 
@@ -21,7 +22,9 @@ internal class PreviewProbability : RecordCommand
 			case "item":
 			{
 				var pages = ItemTooltipPanel.DecomposePage.LoadFrom(record.As<Item>().DecomposeInfo);
-				return pages.Count > 0;
+				var GlyphReward = record.Attributes["glyph-reward"];
+
+				return pages.Count > 0 || GlyphReward != null;
 			}
 
 			case "zoneenv2":
@@ -35,6 +38,8 @@ internal class PreviewProbability : RecordCommand
 
 	protected override void Execute(Record record)
 	{
+		var dispatcher = Application.Current.Dispatcher;
+
 		switch (record.OwnerName)
 		{
 			case "item":
@@ -43,8 +48,12 @@ internal class PreviewProbability : RecordCommand
 				if (pages.Count > 0)
 				{
 					var reward = pages[0].DecomposeReward;
-					Application.Current.Dispatcher.Invoke(() => new RewardTooltipPanel() { DataContext = reward }.Show());
+					dispatcher.Invoke(() => new RewardTooltipPanel() { DataContext = reward }.Show());
 				}
+
+				var GlyphReward = record.Attributes.Get<GlyphReward>("glyph-reward");
+				if (GlyphReward != null) dispatcher.Invoke(() => new RewardTooltipPanel() { DataContext = GlyphReward }.Show());
+
 				break;
 			}
 
@@ -74,7 +83,7 @@ internal class PreviewProbability : RecordCommand
 					new(RewardDifficultyType3?.As<Reward>(), "UI.RandomBox.Probability.CommonDroppedPouch.Difficulty3".GetText()),
 					new(PersonalDroppedPouchRewardDifficultyType3?.As<Reward>(), "UI.RandomBox.Probability.PersonalDroppedPouch.Difficulty3".GetText()),
 				};
-				Application.Current.Dispatcher.Invoke(() => new ItemGrowth2TooltipPanel { DataContext = rewards }.Show());
+				dispatcher.Invoke(() => new ItemGrowth2TooltipPanel { DataContext = rewards }.Show());
 				break;
 			}
 
@@ -86,7 +95,7 @@ internal class PreviewProbability : RecordCommand
 				{
 					new(Reward?.As<Reward>(), "UI.RandomBox.Probability.PersonalDroppedPouch".GetText()) { Flag = true },
 				};
-				Application.Current.Dispatcher.Invoke(() => new ItemGrowth2TooltipPanel { DataContext = rewards }.Show());
+				dispatcher.Invoke(() => new ItemGrowth2TooltipPanel { DataContext = rewards }.Show());
 				break;
 			}
 

@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using CUE4Parse.BNS.Assets.Exports;
+using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Models;
 using Xylia.Preview.UI.Views;
 

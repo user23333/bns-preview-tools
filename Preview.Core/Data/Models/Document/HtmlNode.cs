@@ -1337,7 +1337,7 @@ public partial class HtmlNode
 
 		try
 		{
-			return att.Value.To(type);
+			return att.Value.As(type);
 		}
 		catch
 		{

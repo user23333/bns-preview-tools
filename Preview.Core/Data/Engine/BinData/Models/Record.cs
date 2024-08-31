@@ -121,20 +121,7 @@ public sealed unsafe class Record : IElement, IDisposable
 	#endregion
 
 	#region Interface
-	public override string ToString() => this.Attributes.Get<string>("alias") ?? this.PrimaryKey.ToString();
-
-	public T As<T>(Type type = null) where T : ModelElement => As<T>(ModelElement.TypeHelper.Get(type ?? typeof(T), this.Owner.Name));
-
-	internal T As<T>(ModelElement.TypeHelper subs) where T : ModelElement
-	{
-		if (Model is not T model)
-		{
-			var subtype = this.Attributes[AttributeCollection.s_type]?.ToString();
-			Model = model = ModelElement.As(this, subs.CreateInstance<T>(subtype));
-		}
-
-		return model;
-	}
+	public override string ToString() => Attributes.Get<string>("alias") ?? PrimaryKey.ToString();
 
 	public void Dispose()
 	{

@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using CUE4Parse.BNS.Assets.Exports;
 using CUE4Parse.FileProvider;
+using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Data.Models;
 

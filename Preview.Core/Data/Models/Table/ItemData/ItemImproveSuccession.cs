@@ -2,7 +2,6 @@
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Engine.DatData;
-using Xylia.Preview.Data.Helpers;
 
 namespace Xylia.Preview.Data.Models;
 public sealed class ItemImproveSuccession : ModelElement
@@ -52,16 +51,16 @@ public sealed class ItemImproveSuccession : ModelElement
 		// NOTE:
 		// If pass in is the feed-item , use the seed-item as the MainItem
 		// Otherwise , use the feed-item as the MainItem 
-		var FeedMainIngredient = Attributes.Get<Record>("feed-main-ingredient")?.As<Item>();
+		var FeedMainIngredient = Attributes.Get<Item>("feed-main-ingredient");
 		var FeedMainIngredientCount = Attributes.Get<short>("feed-main-ingredient-count");
-		var FeedSubIngredient = LinqExtensions.For(8, (id) => Attributes.Get<Record>($"feed-sub-ingredient-{id}")?.As<Item>());
+		var FeedSubIngredient = LinqExtensions.For(8, (id) => Attributes.Get<Item>($"feed-sub-ingredient-{id}"));
 		var FeedSubIngredientCount = LinqExtensions.For(8, (id) => Attributes.Get<short>($"feed-sub-ingredient-count-{id}"));
 		var CostMoney = Attributes.Get<int>("cost-money");
 
 
 		var recipe = new ItemRecipeHelper
 		{
-			MainItem = SeedItem,	  
+			MainItem = SeedItem,
 			MainItemCount = 1,
 			SubItem = [FeedMainIngredient, .. FeedSubIngredient],
 			SubItemCount = [FeedMainIngredientCount, .. FeedSubIngredientCount],

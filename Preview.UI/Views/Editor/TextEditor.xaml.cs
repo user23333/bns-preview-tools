@@ -50,7 +50,7 @@ public partial class TextEditor : Window
 
 	private void CopyCommand(object sender, RoutedEventArgs e)
 	{
-		Clipboard.SetText(Text);
+		Clipboard.SetText(Editor.Text);
 	}
 
 	private void CanExecuteCopyData(object sender, CanExecuteRoutedEventArgs e)

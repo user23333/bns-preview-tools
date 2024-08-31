@@ -17,7 +17,7 @@ public partial class GlyphInventoryTooltipPanel
 	{
 		if (e.NewValue is not Glyph record) return;
 
-		GlyphInventoryTooltipPanel_Name.String.LabelText = $"<font name='00008130.Program.Fontset_ItemGrade_{record.Grade}'>{record.Name.GetText()}</font>";
+		GlyphInventoryTooltipPanel_Name.String.LabelText = record.GlyphName;
 		GlyphInventoryTooltipPanel_ItemIcon.ExpansionComponentList["IconImage"]?.SetValue(record.Icon?.GetImage());
 		GlyphInventoryTooltipPanel_ItemIcon.InvalidateVisual();
 		GlyphInventoryTooltipPanel_GlyphColor.String.LabelText = $"UI.GlyphToolTip.MainInfo.{record.GlyphType}.{record.Color}".GetText();

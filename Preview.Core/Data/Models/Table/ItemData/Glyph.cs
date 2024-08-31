@@ -72,6 +72,8 @@ public sealed class Glyph : ModelElement
 	#endregion
 
 	#region Methods
+	public string GlyphName => $"<font name='00008130.Program.Fontset_ItemGrade_{Grade}'>{Name.GetText()}</font>";
+
 	public string GlyphDescription => LinqExtensions.Join(BR.Tag, LinqExtensions.Create(Ability, AbilityValue).Select(x => x.Item1.GetText(x.Item2)).ToArray());
 
 	public string Description => GlyphType == GlyphTypeSeq.Material ? "UI.GlyphToolTip.Desc.Material".GetText() : ConditionEvent.Instance?.GetTooltipText1();

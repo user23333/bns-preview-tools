@@ -313,11 +313,11 @@ public class ItemDecomposeInfo
 		DecomposeMoneyCost = attributes.Get<int>("decompose-money-cost");
 		DecomposeRewardByConsumeIndex = attributes.Get<BnsBoolean>("decompose-reward-by-consume-index");
 
-		LinqExtensions.For(ref DecomposeReward, 7, (id) => attributes.Get<Record>("decompose-reward-" + id)?.As<Reward>());
-		Job.GetPcJob().ForEach(job => DecomposeJobRewards[job] = attributes.Get<Record>("decompose-job-reward-" + job.GetDescription())?.As<Reward>());
+		LinqExtensions.For(ref DecomposeReward, 7, (id) => attributes.Get<Reward>("decompose-reward-" + id));
+		Job.GetPcJob().ForEach(job => DecomposeJobRewards[job] = attributes.Get<Reward>("decompose-job-reward-" + job.GetDescription()));
 
-		LinqExtensions.For(ref Decompose_By_Item2, 7, (id) => new(attributes.Get<Record>("decompose-by-item2-" + id)?.As<Item>(), attributes.Get<short>("decompose-by-item2-stack-count-" + id)));
-		LinqExtensions.For(ref Job_Decompose_By_Item2, 7, (id) => new(attributes.Get<Record>("job-decompose-by-item2-" + id)?.As<Item>(), attributes.Get<short>("job-decompose-by-item2-stack-count-" + id)));
+		LinqExtensions.For(ref Decompose_By_Item2, 7, (id) => new(attributes.Get<Item>("decompose-by-item2-" + id), attributes.Get<short>("decompose-by-item2-stack-count-" + id)));
+		LinqExtensions.For(ref Job_Decompose_By_Item2, 7, (id) => new(attributes.Get<Item>("job-decompose-by-item2-" + id), attributes.Get<short>("job-decompose-by-item2-stack-count-" + id)));
 	}
 	#endregion
 
