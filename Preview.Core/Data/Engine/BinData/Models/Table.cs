@@ -148,8 +148,8 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 	/// load xml element
 	/// </summary>
 	/// <param name="parent"></param>
-	/// <param name="actions">data build action collection</param>
-	internal void LoadElement(XmlElement parent, ICollection<Action> actions)
+	/// <param name="build">data build action collection</param>
+	internal void LoadElement(XmlElement parent, ICollection<Action> build)
 	{
 		_records ??= [];
 
@@ -162,9 +162,8 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 		Parallel.For(0, elements.Length, index =>
 		{
 			var element = elements[index];
-
-			// get definition
-			var definition = Definition.ElRecord.SubtableByName(element.GetAttribute(AttributeCollection.s_type), Message);
+			var definition = Definition.ElRecord.SubtableByName(element.GetAttribute(AttributeCollection.s_type));
+			
 			var record = new Record
 			{
 				Owner = this,
@@ -180,7 +179,6 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 			record.Attributes.BuildData(definition, true);
 
 			records.Add(new Tuple<int, Record>(index, record));
-
 			//Log.Warning($"[game-data-loader], load {Name} error, msg:{0}, fileName:{1}, nodeName:{element.Name}, record:{element.OuterXml}");
 		});
 
@@ -190,7 +188,7 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 			_records.Add(ByRef[record.PrimaryKey] = record);
 
 			// The ref is not determined at this time
-			actions?.Add(new Action(() => record.Attributes.BuildData(record.Definition)));
+			build?.Add(new Action(() => record.Attributes.BuildData(record.Definition)));
 		}
 	}
 

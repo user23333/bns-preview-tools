@@ -608,7 +608,7 @@ public sealed class Npc : ModelElement
 	#endregion
 
 	#region Methods
-	protected internal override void LoadHiddenField()
+	protected override void LoadHiddenField()
 	{
 		string alias = this.Attributes.Get<string>("alias");
 		var comparer = StringComparison.OrdinalIgnoreCase;

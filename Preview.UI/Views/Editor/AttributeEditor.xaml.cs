@@ -5,9 +5,9 @@ using Xylia.Preview.Data.Models;
 using Xylia.Preview.UI.Common.Interactivity;
 
 namespace Xylia.Preview.UI.Views.Editor;
-public partial class PropertyEditor
+public partial class AttributeEditor
 {
-	public PropertyEditor()
+	public AttributeEditor()
 	{
 		InitializeComponent();
 		RegisterCommands(this.CommandBindings);

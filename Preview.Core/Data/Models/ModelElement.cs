@@ -1,20 +1,14 @@
-﻿using System.ComponentModel;
-using System.Diagnostics;
-using System.Globalization;
-using System.Reflection;
-using System.Runtime.CompilerServices;
+﻿using System.Reflection;
 using System.Xml;
 using Xylia.Preview.Common.Attributes;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Common.DataStruct;
-using Xylia.Preview.Data.Engine.BinData.Helpers;
 using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Properties;
 
 namespace Xylia.Preview.Data.Models;
-[TypeConverter(typeof(ElementTypeConverter))]
 public abstract class ModelElement : IElement
 {
 	#region IElement
@@ -29,60 +23,14 @@ public abstract class ModelElement : IElement
 	protected IDataProvider Provider => Source.Owner.Owner;
 	#endregion
 
-
-	#region Override Methods
+	#region Methods
 	public override string ToString() => Source.ToString();
 
-	public override int GetHashCode() => Source?.GetHashCode() ?? base.GetHashCode();
-
-	public bool Equals(ModelElement other)
+	internal void Initialize(Record source)
 	{
-		return other != null && this.Source == other.Source;
-	}
-	#endregion
+		this.Source = source;
 
-	#region Methods
-	protected internal virtual void Load(XmlNode node, string tableDefName/*, AliasTable aliasTable*/)
-	{
-		//GameDataTableUtil.CheckAttribute(node, new string[]
-		//  {
-		//		"id",
-		//		"alias",
-		//		"zone"
-		//  });
-		//int num = Convert.ToInt32(node.Attributes["zone"].Value);
-		//short num2 = Convert.ToInt16(node.Attributes["id"].Value);
-		//string alias = AliasTable.MakeKey(tableDefName, node.Attributes["alias"].Value);
-		//long area = GameDataTableUtil.LoadMultiKeyRef(node.Attributes["area"], "ZoneArea", aliasTable, new ZoneAreaDataRefGenerator());
-		//ZoneRespawnData zoneRespawnData = new ZoneRespawnData(num, num2, alias, area);
-		//if (this._table.ContainsKey(zoneRespawnData.Key))
-		//{
-		//	throw new Exception(string.Format("already contains key {0}.{1}.", num, num2));
-		//}
-		//base.checkAlias(zoneRespawnData.Key, alias, aliasTable);
-		//this._table.Add(zoneRespawnData.Key, zoneRespawnData);
-	}
-
-	protected internal virtual void LoadHiddenField()
-	{
-
-	}
-
-
-	/// <summary>
-	/// Convert original record to model instance
-	/// </summary>
-	/// <typeparam name="T"></typeparam>
-	/// <param name="source"></param>
-	/// <param name="element"></param>
-	/// <returns></returns>
-	[MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-	internal static ModelElement As(Record source, ModelElement element)
-	{
-		element.Source = source;
-
-		#region	instance
-		foreach (var prop in element.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
+		foreach (var prop in this.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
 		{
 			if (!prop.CanWrite) continue;
 
@@ -91,36 +39,21 @@ public abstract class ModelElement : IElement
 			if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(LazyList<>))
 			{
 				var toType = typeof(List<>).MakeGenericType(type.GetGenericArguments()[0]);
-				var value = Activator.CreateInstance(type, new Func<object>(() => Convert(element, name, toType)));
+				var value = Activator.CreateInstance(type, new Func<object>(() => Convert(source, name, toType)));
 
-				prop.SetValue(element, value);
+				prop.SetValue(this, value);
 			}
 			else
 			{
-				prop.SetValue(element, Convert(element, name, type));
+				prop.SetValue(this, Convert(source, name, type));
 			}
 		}
-		#endregion
 
-		element.LoadHiddenField();
-
-		return element;
+		LoadHiddenField();
 	}
 
-	/// <summary>
-	/// Convert Attribute to Field
-	/// </summary>
-	/// <param name="element"></param>
-	/// <param name="name"></param>
-	/// <param name="type"></param>
-	/// <param name="repeat"></param>
-	/// <returns></returns>
-	/// <exception cref="Exception"></exception>
-	[MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-	private static object Convert(ModelElement element, string name, Type type)
+	private static object Convert(Record record, string name, Type type)
 	{
-		var record = element.Source;
-
 		if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(List<>))
 		{
 			// valid
@@ -145,7 +78,7 @@ public abstract class ModelElement : IElement
 		}
 		else if (!type.IsArray)
 		{
-			throw new Exception($"Repeatable object must to use array type: {element.GetType()} -> {name}");
+			throw new Exception($"Repeatable object must to use array type: {record.Name} -> {name}");
 		}
 		else
 		{
@@ -158,86 +91,33 @@ public abstract class ModelElement : IElement
 			return value;
 		}
 	}
-	#endregion
-}
 
-internal class ElementTypeConverter : TypeConverter
-{
-	#region Static Methods
-	private static readonly MessageManager message = [];
-	private static readonly Dictionary<Type, ElementTypeConverter> helpers = [];
-
-	public static ElementTypeConverter Get(Type type, string name = null)
+	protected internal virtual void Load(XmlNode node, string tableDefName/*, AliasTable aliasTable*/)
 	{
-		lock (helpers)
-		{
-			if (!helpers.TryGetValue(type, out var subs))
-			{
-				subs = helpers[type] = new ElementTypeConverter();
-				subs.GetSubType(type);
-			}
-
-			// Convert to real type
-			if (type == typeof(ModelElement))
-			{
-				Debug.Assert(name != null);
-				return Get(subs._subs[name]);
-			}
-
-			return subs;
-		}
-	}
-	#endregion
-
-	#region Methods
-	private Type BaseType;
-	private readonly Dictionary<string, Type> _subs = new(TableNameComparer.Instance);
-
-	private void GetSubType(Type baseType)
-	{
-		this.BaseType = baseType;
-		var flag = baseType == typeof(ModelElement);
-
-		foreach (var instance in Assembly.GetExecutingAssembly().GetTypes())
-		{
-			if ((flag || !instance.IsAbstract) && instance.BaseType == baseType)
-				_subs[instance.Name.TitleLowerCase()] = instance;
-		}
+		//GameDataTableUtil.CheckAttribute(node, new string[]
+		//  {
+		//		"id",
+		//		"alias",
+		//		"zone"
+		//  });
+		//int num = Convert.ToInt32(node.Attributes["zone"].Value);
+		//short num2 = Convert.ToInt16(node.Attributes["id"].Value);
+		//string alias = AliasTable.MakeKey(tableDefName, node.Attributes["alias"].Value);
+		//long area = GameDataTableUtil.LoadMultiKeyRef(node.Attributes["area"], "ZoneArea", aliasTable, new ZoneAreaDataRefGenerator());
+		//ZoneRespawnData zoneRespawnData = new ZoneRespawnData(num, num2, alias, area);
+		//if (this._table.ContainsKey(zoneRespawnData.Key))
+		//{
+		//	throw new Exception(string.Format("already contains key {0}.{1}.", num, num2));
+		//}
+		//base.checkAlias(zoneRespawnData.Key, alias, aliasTable);
+		//this._table.Add(zoneRespawnData.Key, zoneRespawnData);
 	}
 
-	public ModelElement CreateInstance(string type)
+	protected virtual void LoadHiddenField()
 	{
-		Type _type = null;
 
-		if (!string.IsNullOrWhiteSpace(type) && !_subs.TryGetValue(type, out _type))
-		{
-			message.Debug($"cast object subclass failed: {BaseType} -> {type}");
-		}
-
-		return (ModelElement)Activator.CreateInstance(_type ?? BaseType);
 	}
-
-	public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
-	{
-		if (sourceType == typeof(Record)) return true;
-
-		return base.CanConvertFrom(context, sourceType);
-	}
-
-	public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
-	{
-		if (value is Record record)
-		{
-			var helpers = Get(typeof(ModelElement), record.Owner.Name);
-
-			return record.Model ??=
-				ModelElement.As(record,
-				helpers.CreateInstance(record.Attributes.Get<string>(AttributeCollection.s_type)));
-		}
-
-		return base.ConvertFrom(context, culture, value);
-	}
-	#endregion
+	#endregion	
 }
 
 public struct Ref<TElement> where TElement : ModelElement
@@ -275,7 +155,7 @@ public struct Ref<TElement> where TElement : ModelElement
 	private readonly Record source;
 
 	private TElement _instance;
-	public TElement Instance => _instance ??= source.As<TElement>();
+	public TElement Instance => _instance ??= source?.As<TElement>();
 
 
 	public static implicit operator TElement(Ref<TElement> value) => value.Instance;

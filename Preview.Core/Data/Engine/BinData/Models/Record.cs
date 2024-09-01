@@ -1,4 +1,5 @@
-﻿using System.Xml;
+﻿using System.ComponentModel;
+using System.Xml;
 using Newtonsoft.Json;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.Abstractions;
@@ -9,6 +10,7 @@ using Xylia.Preview.Data.Engine.Definitions;
 
 namespace Xylia.Preview.Data.Models;
 [JsonConverter(typeof(RecordConverter))]
+[TypeConverter(typeof(ElementConverter))]
 public sealed unsafe class Record : IElement, IDisposable
 {
 	#region Constructors

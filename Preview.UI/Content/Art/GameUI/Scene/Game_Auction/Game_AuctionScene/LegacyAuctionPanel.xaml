@@ -61,6 +61,7 @@
 						<Setter Property="Focusable" Value="False"/>
 						<Setter Property="ContextMenu" Value="{StaticResource ItemMenu}"/>
 						<Setter Property="ToolTip" Value="{StaticResource TooltipHolder}"/>
+						<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
 					</Style>
 				</ListView.ItemContainerStyle>
 				<ListView.View>
@@ -76,7 +77,7 @@
 							</GridViewColumn.Header>
 							<GridViewColumn.CellTemplate>
 								<DataTemplate>
-									<Grid Background="Transparent" >
+									<Grid>
 										<Grid.ColumnDefinitions>
 											<ColumnDefinition Width="Auto" />
 											<ColumnDefinition Width="*" />
@@ -99,7 +100,7 @@
 							</GridViewColumn.Header>
 							<GridViewColumn.CellTemplate>
 								<DataTemplate>
-									<UI:BnsCustomLabelWidget String="{Binding MarketCategory2, Converter={UI:TextResource}}" />
+									<UI:BnsCustomLabelWidget String="{Binding MarketCategory2, Converter={UI:TextResource}}" TextAlignment="HAlign_Center" />
 								</DataTemplate>
 							</GridViewColumn.CellTemplate>
 						</GridViewColumn>
@@ -114,7 +115,7 @@
 							</GridViewColumn.Header>
 							<GridViewColumn.CellTemplate>
 								<DataTemplate>
-									<UI:BnsCustomLabelWidget String="{Binding ItemGrade}" />
+									<UI:BnsCustomLabelWidget String="{Binding ItemGrade, Converter={UI:TextResource Format=Name.Item.item-grade.{0}}}" TextAlignment="HAlign_Center" />
 								</DataTemplate>
 							</GridViewColumn.CellTemplate>
 						</GridViewColumn>
@@ -129,7 +130,7 @@
 							</GridViewColumn.Header>
 							<GridViewColumn.CellTemplate>
 								<DataTemplate>
-									<UI:BnsCustomLabelWidget String="{Binding Attributes[equip-level]}" />
+									<UI:BnsCustomLabelWidget String="{Binding Attributes[equip-level]}" TextAlignment="HAlign_Center" />
 								</DataTemplate>
 							</GridViewColumn.CellTemplate>
 						</GridViewColumn>

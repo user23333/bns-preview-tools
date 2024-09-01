@@ -117,39 +117,60 @@ public sealed class GlyphReward : ModelElement
 		}
 		else
 		{
-			var glyphs = Provider.GetTable<Glyph>();
-
-			for (int i = 0; i < GradeProbWeight.Length; i++)
+			var glyphs = new List<(Glyph, double)>();
+			foreach (var glyph in Provider.GetTable<Glyph>())
 			{
-				var w = GradeProbWeight[i];
-				if (w == 0) continue;
+				double prob = 1;
 
-				var _ = glyphs.Where(glyph => glyph.Grade == i + 1);
+				// Only return first ability
+				if (RewardType == RewardTypeSeq.Upgrade)
+				{
+					if (glyph.AbilityId != 1) continue;
+				}
+
+				if (GradeProbWeightTotal > 0)
+				{
+					var w = GradeProbWeight[glyph.Grade - 1];
+					if (w == 0) continue;
+
+					prob *= (double)w / GradeProbWeightTotal;
+				}
+
+				if (TierProbWeightTotal > 0)
+				{
+					var w = TierProbWeight[glyph.RewardTier - 1];
+					if (w == 0) continue;
+
+					prob *= (double)w / TierProbWeightTotal;
+				}
+
+				if (GroupProbWeightTotal > 0)
+				{
+					if (glyph.GroupId == 0 || !ResultGroupId.Any(x => x == glyph.GroupId)) continue;
+
+					for (int i = 0; i < 8; i++)
+					{
+						if (ResultGroupId[i] == glyph.GroupId)
+						{
+							prob *= (double)GroupProbWeight[i] / GroupProbWeightTotal;
+						}
+					}
+				}
+
+				glyphs.Add((glyph, prob));
 			}
 
-			for (int i = 0; i < TierProbWeight.Length; i++)
+			foreach (var group in glyphs.GroupBy(x => x.Item2))
 			{
-				var w = TierProbWeight[i];
-				if (w == 0) continue;
+				var probability = group.Key / group.Count();
 
-				var _ = glyphs.Where(glyph => glyph.RewardTier == i + 1);
+				data.AddRange(group.Select(x => new GlyphRewardInfo()
+				{
+					Data = x.Item1,
+					Probability = probability,
+				}));
 			}
 		}
-
-		//if (GroupProbWeightTotal > 0)
-		//{
-		//	for (int i = 0; i < GroupProbWeight.Length; i++)
-		//	{
-		//		//var CostGroupId = this.CostGroupId[i];
-		//		var GroupProbWeight = this.GroupProbWeight[i];
-		//		if (GroupProbWeight == 0) break;
-
-		//		var glyphs = Provider.GetTable<Glyph>().Where(record => record.GroupId == ResultGroupId[i]);
-		//		var prob = (double)GroupProbWeight / GroupProbWeightTotal / glyphs.Count();
-
-		//		data.AddRange(glyphs.Select(glyph => new GlyphRewardInfo() { Data = glyph, Probability = prob }));
-		//	}
-		//}
 		#endregion
 
 		return data;
@@ -161,7 +182,7 @@ public sealed class GlyphReward : ModelElement
 		public string Group;
 		internal double Probability;
 
-		public string ProbabilityInfo => Probability.ToString("P4");
+		public string ProbabilityInfo => Probability.ToString("P2");
 	}
 	#endregion
 }

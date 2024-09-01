@@ -62,7 +62,7 @@ internal class AttributeResolver
 		AttributeType.TNative => new StringPropertyEditor(),
 		//AttributeType.TVersion => new TextPropertyEditor(),
 		AttributeType.TIcon => new IconAttributeEditor(provider),
-		//AttributeType.TTime32 => new TextPropertyEditor(),
+		AttributeType.TTime32 => new TimeAttributeEditor(),
 		AttributeType.TTime64 => new TimeAttributeEditor(),
 		AttributeType.TXUnknown1 => new TimeAttributeEditor(),
 		AttributeType.TXUnknown2 => new StringPropertyEditor(),

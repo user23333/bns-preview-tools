@@ -1,5 +1,5 @@
-﻿using Xylia.Preview.Common.Extension;
-using Xylia.Preview.Data.Helpers;
+﻿using System.Diagnostics;
+using Xylia.Preview.Common.Extension;
 
 namespace Xylia.Preview.Data.Engine.BinData.Models;
 public abstract class TableHeader
@@ -34,8 +34,6 @@ public abstract class TableHeader
 	#endregion
 
 	#region Methods
-	internal MessageManager Message = [];
-
 	internal void ReadHeaderFrom(DataArchive reader)
 	{
 		ElementCount = reader.Read<byte>();
@@ -69,7 +67,7 @@ public abstract class TableHeader
 		// check definition matches the data
 		else if (!MatchVersion(version.Item1 , version.Item2))
 		{
-			Message.Warning($"check table `{this.Name}` version: {version.Item1}.{version.Item2} <> {this.MajorVersion}.{this.MinorVersion}");
+			Debug.WriteLine($"check table `{this.Name}` version: {version.Item1}.{version.Item2} <> {this.MajorVersion}.{this.MinorVersion}", "Warning");
 		}
 	}
 

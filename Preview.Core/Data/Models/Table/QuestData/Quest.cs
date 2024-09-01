@@ -10,7 +10,7 @@ using static Xylia.Preview.Data.Models.Duel;
 using static Xylia.Preview.Data.Models.PartyBattleFieldZone;
 
 namespace Xylia.Preview.Data.Models;
-public class Quest : ModelElement, IHaveName
+public sealed class Quest : ModelElement, IHaveName
 {
 	#region Attributes
 	public LazyList<Acquisition> Acquisition { get; set; }

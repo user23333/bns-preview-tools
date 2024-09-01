@@ -17,7 +17,7 @@ public static class TypeInfoExtensions
 				return @this;
 			}
 
-			TypeConverter converter = TypeDescriptor.GetConverter(@this);
+			var converter = TypeDescriptor.GetConverter(@this);
 			if (converter != null)
 			{
 				if (converter.CanConvertTo(targetType))
@@ -33,11 +33,6 @@ public static class TypeInfoExtensions
 				{
 					return converter.ConvertFrom(@this);
 				}
-			}
-
-			if (@this == DBNull.Value)
-			{
-				return null;
 			}
 		}
 

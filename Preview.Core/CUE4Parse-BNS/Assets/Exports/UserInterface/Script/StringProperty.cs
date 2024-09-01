@@ -95,7 +95,7 @@ internal class StringPropertyConverter : TypeConverter
 	{
 		return new StringProperty()
 		{
-			LabelText = new FText(value?.ToString())
+			LabelText = new FText(value?.ToString()),
 		};
 	}
 }

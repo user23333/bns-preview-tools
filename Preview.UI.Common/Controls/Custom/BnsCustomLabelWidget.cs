@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using CUE4Parse.BNS.Assets.Exports;
 using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Models;
 using Xylia.Preview.UI.Controls.Primitives;
@@ -24,9 +25,7 @@ public class BnsCustomLabelWidget : BnsCustomBaseWidget, IContentHost
 
 	#region Dependency Properties
 	private static readonly Type Owner = typeof(BnsCustomLabelWidget);
-
 	public static CopyMode CopyMode { get; set; } = CopyMode.Original;
-
 
 	/// <summary>
 	/// DependencyProperty for <see cref="Text" /> property.
@@ -44,6 +43,11 @@ public class BnsCustomLabelWidget : BnsCustomBaseWidget, IContentHost
 		set { SetValue(TextProperty, value); }
 	}
 
+	public HAlignment TextAlignment
+	{
+		get => String.HorizontalAlignment;
+		set => String.HorizontalAlignment = value;
+	}
 
 	public static readonly DependencyProperty ArgumentsProperty = Owner.Register("Arguments", new TextArguments(),
 		 FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.Inherits, OnArgumentsChanged);

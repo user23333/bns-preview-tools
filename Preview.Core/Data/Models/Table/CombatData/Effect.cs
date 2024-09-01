@@ -276,7 +276,7 @@ public sealed class Effect : ModelElement, IHaveName
 
 	public ImageProperty FrontIcon => IconTexture.Instance?.GetImage(IconIndex);
 
-	protected internal override void LoadHiddenField()
+	protected override void LoadHiddenField()
 	{
 		if (Attributes["power-percent-max"] is not null)
 			return;

@@ -229,10 +229,11 @@
 +修复连接非全局数据时会发生内存泄漏的问题
 
 预览
++新增组合概率查看
 +修复查看概率信息时，部分标签文本被截断的问题
 +优化概率信息支持查看印章奖励
 +优化属性编辑器可以查看可扩展标记语言文本
-+新增组合概率查看
++优化属性编辑器可以跳转引用类型数据
 
 其他
 +图标导出增加进度提示
@@ -606,11 +607,8 @@
   <data name="ProductName" xml:space="preserve">
     <value>Blade &amp; Soul Preview Tool</value>
   </data>
-  <data name="PropertyEditor_Name" xml:space="preserve">
+  <data name="AttributeEditor_Name" xml:space="preserve">
     <value>属性编辑器</value>
-  </data>
-  <data name="PropertyEditor_ViewSource_Tooltip" xml:space="preserve">
-    <value>复制原始数据到剪切板，不可用时打开文本编辑器</value>
   </data>
   <data name="QuestJournal_Category" xml:space="preserve">
     <value>目录</value>

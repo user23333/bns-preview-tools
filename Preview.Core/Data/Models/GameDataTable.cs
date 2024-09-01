@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.DataStruct;
+using Xylia.Preview.Data.Engine.BinData.Helpers;
 using Xylia.Preview.Data.Engine.BinData.Models;
 
 namespace Xylia.Preview.Data.Models;
@@ -11,7 +12,7 @@ public class GameDataTable<T> : IEnumerable<T>, IEnumerable, IDisposable where T
 	internal GameDataTable(Table source)
 	{
 		Source = source;
-		ElementTypeConverter.Get(typeof(T));
+		ElementConverter.Get(typeof(T));
 
 		Trace.WriteLine($"{DateTime.Now} load table `{source.Name}` successful ({source.Records.Count})");
 	}

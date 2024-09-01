@@ -42,14 +42,13 @@ public class AttributeCollection : IReadOnlyList<AttributeValue>
 		var provider = record.Owner.Owner;
 		foreach (var child in definition.Children)
 		{
-			var table = new Table() { Owner = provider, Definition = new TableDefinition() { ElRecord = child } };
+			var table = new Table() { Owner = provider, Definition = new TableDefinition() { ElRecord = child, Name = child.Name } };
 			table.LoadElement(element, null);
 
 			record.Children[child.Name] = [.. table.Records];
 		}
 		#endregion
 	}
-
 	#endregion
 
 	#region Fields

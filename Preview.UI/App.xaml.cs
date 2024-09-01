@@ -8,6 +8,8 @@ using HandyControl.Controls;
 using Serilog;
 using Vanara.PInvoke;
 using Xylia.Preview.Common.Extension;
+using Xylia.Preview.Data.Helpers;
+using Xylia.Preview.Data.Models;
 using Xylia.Preview.UI.Helpers;
 using Xylia.Preview.UI.Helpers.Output;
 using Xylia.Preview.UI.Resources.Themes;
@@ -28,11 +30,11 @@ public partial class App : Application
 #if DEVELOP
 		UpdateSkin(SkinType.Default, true);
 		TestProvider.Set(new DirectoryInfo(@"D:\Tencent\BnsData\GameData_ZTx"));
-		//FileCache.Data.Provider.GetTable<GlyphReward>()["shuffle_grade_5_group6"].GetInfo();
+		FileCache.Data.Provider.GetTable<GlyphReward>()["shuffle_grade_2_group2"].GetInfo();
 
 		//new Xylia.Preview.UI.Content.TestPanel().Show();
 		//var _ = PreviewModel.SnooperViewer;
-		new GameUI.Scene.Game_Tooltip.Skill3ToolTipPanel_1().Show();
+		//new GameUI.Scene.Game_Tooltip.Skill3ToolTipPanel_1().Show();
 #else
 		MainWindow = new MainWindow();
 		MainWindow.Show();

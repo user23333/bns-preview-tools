@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics;
 using System.Text.RegularExpressions;
 using CUE4Parse.Utils;
+using Serilog;
 using Xylia.Preview.Common.Attributes;
-using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.Data.Engine.Definitions;
@@ -99,7 +99,7 @@ public class ElementDefinition : IElementDefinition
 
 	internal void CreateSubtableMap() => _subtablesDictionary = Subtables.ToDictionary(x => x.Name);
 
-	internal IElementDefinition SubtableByName(string name, MessageManager messages)
+	internal IElementDefinition SubtableByName(string name)
 	{
 		// There are some special of Step
 		// HACK: we will directly return to the main table now
@@ -114,7 +114,7 @@ public class ElementDefinition : IElementDefinition
 		else if (!IsEmpty && _subtablesDictionary.TryGetValue(name, out var definition)) return definition;
 		else
 		{
-			messages.Warning($"Invalid attribute, table:{this.Name}, name:type, value:{name}");
+			Log.Warning($"Invalid attribute, table:{this.Name}, name:type, value:{name}");
 			// throw new ArgumentOutOfRangeException(nameof(name));
 
 			return Subtables.First();
@@ -164,12 +164,10 @@ public class ElementDefinition : IElementDefinition
 		if (record.DataSize != definition.Size)
 		{
 			var block = (record.DataSize - definition.Size) / 4;
-#if DEBUG
-			record.Owner.Message.Warning(
-				$"check field size, table: {record.Owner.Name} " +
+			Debug.WriteLine($"check field size, " +
+				$"table: {record.Owner.Name} " +
 				$"type: {(record.SubclassType == -1 ? "null" : definition.Name)} " +
-				$"size: {definition.Size} <> {record.DataSize} block: {block}");
-#endif
+				$"size: {definition.Size} <> {record.DataSize} block: {block}", "Warning");
 
 			if (block > 0)
 			{

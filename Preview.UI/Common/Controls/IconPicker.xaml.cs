@@ -13,6 +13,15 @@ namespace Xylia.Preview.UI.Controls;
 [TemplatePart(Name = ElementPopup, Type = typeof(Popup))]
 public partial class IconPicker : AutoCompleteTextBox
 {
+	#region Constructors
+	public IconPicker()
+	{
+		_image = new CropImage();
+		_image.PreviewMouseRightButtonDown += DropDownButton_Click;
+		BindingOperations.SetBinding(this, SelectedIndexProperty, new Binding(nameof(_image.SelectedIndex)) { Source = _image });
+	}
+	#endregion
+
 	#region Fields
 	private const string ElementButton = "PART_Button";
 	private const string ElementPopup = "PART_Popup";
@@ -20,15 +29,6 @@ public partial class IconPicker : AutoCompleteTextBox
 	private ButtonBase? _dropDownButton;
 	private CropImage? _image;
 	private Popup? _popup;
-	#endregion
-
-	#region Constructors
-	public IconPicker()
-	{
-		_image = new CropImage();
-		_image.PreviewMouseRightButtonDown += DropDownButton_Click;
-		BindingOperations.SetBinding(this, IconPicker.SelectedIndexProperty, new Binding(nameof(_image.SelectedIndex)) { Source = _image });
-	}
 	#endregion
 
 	#region Public Properties
