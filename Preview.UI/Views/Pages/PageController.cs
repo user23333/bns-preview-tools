@@ -10,8 +10,6 @@ internal class PageController<T>(string? name = null) : IPageController
 {
 	private object? _content;
 
-	//public string Icon;
-
 	public string Name => name ?? ("Page_" + typeof(T).Name);
 
 	public object? Content

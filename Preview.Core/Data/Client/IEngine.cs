@@ -1,8 +1,12 @@
 ﻿using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.Data.Client;
-public interface IEngine
+public interface IEngine : IDisposable
 {
+	string Name { get; }
+
+	string Desc { get; }
+
 	void Initialize();
 
 	/// <summary>

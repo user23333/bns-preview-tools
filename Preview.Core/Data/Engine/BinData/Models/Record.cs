@@ -1,4 +1,5 @@
-﻿using System.Xml;
+﻿using System.ComponentModel;
+using System.Xml;
 using Newtonsoft.Json;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.Abstractions;
@@ -9,6 +10,7 @@ using Xylia.Preview.Data.Engine.Definitions;
 
 namespace Xylia.Preview.Data.Models;
 [JsonConverter(typeof(RecordConverter))]
+[TypeConverter(typeof(ElementConverter))]
 public sealed unsafe class Record : IElement, IDisposable
 {
 	#region Constructors
@@ -69,7 +71,7 @@ public sealed unsafe class Record : IElement, IDisposable
 
 	public byte[] Data { get; internal set; }
 
-	public StringLookup StringLookup { get; set; }
+	public StringLookup StringLookup { get; internal set; }
 
 	public Table Owner { get; internal set; }
 
@@ -79,9 +81,11 @@ public sealed unsafe class Record : IElement, IDisposable
 	#endregion
 
 	#region Properties
+	internal IElementDefinition Definition => Owner.Definition.ElRecord.SubtableByType(SubclassType, this);
+
 	public string OwnerName => Owner.Name.ToLower();
 
-	public ElementBaseDefinition Definition => Owner.Definition.ElRecord.SubtableByType(SubclassType, this);
+	public string Name => Definition.Name;
 
 	public bool HasChildren => Children.Count > 0;
 
@@ -97,14 +101,14 @@ public sealed unsafe class Record : IElement, IDisposable
 		// attribute
 		foreach (var attribute in Attributes)
 		{
-			if (attribute.Key.Name == AttributeCollection.s_autoid) continue;
+			if (attribute.Name == AttributeCollection.s_autoid) continue;
 
 			// set value, it seem that WriteRaw must be last  
-			var value = AttributeConverter.ToString(attribute.Key, attribute.Value);
+			var value = AttributeConverter.ToString(attribute.Definition, attribute.RawValue);
 			if (value is null) continue;
 
-			if (attribute.Key.Type == AttributeType.TNative) writer.WriteRaw(value);
-			else writer.WriteAttributeString(attribute.Key.Name, value);
+			if (attribute.Type == AttributeType.TNative) writer.WriteRaw(value);
+			else writer.WriteAttributeString(attribute.Name, value);
 		}
 
 		// children
@@ -119,20 +123,7 @@ public sealed unsafe class Record : IElement, IDisposable
 	#endregion
 
 	#region Interface
-	public override string ToString() => this.Attributes.Get<string>("alias") ?? this.PrimaryKey.ToString();
-
-	public T As<T>(Type type = null) where T : ModelElement => As<T>(ModelElement.TypeHelper.Get(type ?? typeof(T), this.Owner.Name));
-
-	internal T As<T>(ModelElement.TypeHelper subs) where T : ModelElement
-	{
-		if (Model is not T model)
-		{
-			var subtype = this.Attributes[AttributeCollection.s_type]?.ToString();
-			Model = model = ModelElement.As(this, subs.CreateInstance<T>(subtype));
-		}
-
-		return model;
-	}
+	public override string ToString() => Attributes.Get<string>("alias") ?? PrimaryKey.ToString();
 
 	public void Dispose()
 	{

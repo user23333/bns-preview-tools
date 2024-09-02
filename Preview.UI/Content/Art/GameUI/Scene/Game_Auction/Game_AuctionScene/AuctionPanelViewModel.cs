@@ -2,12 +2,14 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Xylia.Preview.Data.Engine.BinData.Helpers;
 using Xylia.Preview.Data.Models.Sequence;
+using Xylia.Preview.UI.ViewModels;
 
 namespace Xylia.Preview.UI.GameUI.Scene.Game_Auction;
 internal partial class AuctionPanelViewModel : ObservableObject
 {
 	public ICollectionView? Source;
 	public event EventHandler? Changed;
+
 
 	private string? _nameFilter;
 	public string? NameFilter
@@ -45,10 +47,26 @@ internal partial class AuctionPanelViewModel : ObservableObject
 	}
 
 
+	private int[]? _favorites;
+	public int[] Favorites
+	{
+		get => _favorites ??= UserSettings.Default.GetValue<int[]>("AuctionPanel", "Favorites");
+		set
+		{
+			SetProperty(ref _favorites, value);
+			Changed?.Invoke(this, EventArgs.Empty);
+
+			UserSettings.Default.SetValue(_favorites, "AuctionPanel", "Favorites");
+		}
+	}
+
+
 	public bool WorldBoss;
 	public MarketCategory2Seq MarketCategory2;
 	public MarketCategory3Seq MarketCategory3;
 
+
+	#region Methods
 	public void ByTag(object data)
 	{
 		MarketCategory2 = default;
@@ -63,4 +81,5 @@ internal partial class AuctionPanelViewModel : ObservableObject
 
 		Changed?.Invoke(this, EventArgs.Empty);
 	}
+	#endregion
 }

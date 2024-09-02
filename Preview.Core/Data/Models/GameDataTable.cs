@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Diagnostics;
+using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.DataStruct;
+using Xylia.Preview.Data.Engine.BinData.Helpers;
 using Xylia.Preview.Data.Engine.BinData.Models;
 
 namespace Xylia.Preview.Data.Models;
@@ -9,15 +11,14 @@ public class GameDataTable<T> : IEnumerable<T>, IEnumerable, IDisposable where T
 	#region Constructors
 	internal GameDataTable(Table source)
 	{
-		Helper = ModelElement.TypeHelper.Get(typeof(T));
 		Source = source;
+		ElementConverter.Get(typeof(T));
 
 		Trace.WriteLine($"{DateTime.Now} load table `{source.Name}` successful ({source.Records.Count})");
 	}
 	#endregion
 
 	#region Properties
-	private readonly ModelElement.TypeHelper Helper;
 	private List<T> elements;
 
 	public Table Source { get; }
@@ -48,7 +49,7 @@ public class GameDataTable<T> : IEnumerable<T>, IEnumerable, IDisposable where T
 		get => LoadElement(Source[alias]);
 	}
 
-	protected virtual T LoadElement(Record record) => record?.As<T>(Helper);
+	protected virtual T LoadElement(Record record) => record.As<T>();
 	#endregion
 
 

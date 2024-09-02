@@ -3,7 +3,7 @@ using HandyControl.Data;
 using LiveCharts;
 using LiveCharts.Defaults;
 using LiveCharts.Wpf;
-using Xylia.Preview.Data.Models.Creature;
+using Xylia.Preview.Data.Models;
 using Xylia.Preview.UI.ViewModels;
 
 namespace Xylia.Preview.UI.Views.Pages;

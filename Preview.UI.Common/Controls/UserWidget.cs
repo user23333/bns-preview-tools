@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
-using CUE4Parse.BNS.Assets.Exports;
 using Xylia.Preview.UI.Controls.Helpers;
 using Xylia.Preview.UI.Controls.Primitives;
 using Xylia.Preview.UI.Converters;
@@ -21,13 +21,26 @@ internal interface IUserWidget
 	UIElementCollection Children { get; }
 }
 
+/// <summary>
+///     The base class for all widgets.
+/// </summary>
 [ContentProperty("Children")]
-public abstract class UserWidget : Control, IUserWidget
+public abstract class UserWidget : FrameworkElement, IUserWidget
 {
-	#region Constructorss
+	#region Constructors
+	private static readonly Type Owner = typeof(UserWidget);
+
 	public UserWidget()
 	{
 		Children = new UIElementCollection(this, this);
+
+		EventManager.RegisterClassHandler(Owner, UIElement.PreviewMouseLeftButtonDownEvent, new MouseButtonEventHandler(HandleDoubleClick), true);
+		EventManager.RegisterClassHandler(Owner, UIElement.MouseLeftButtonDownEvent, new MouseButtonEventHandler(HandleDoubleClick), true);
+		EventManager.RegisterClassHandler(Owner, UIElement.PreviewMouseRightButtonDownEvent, new MouseButtonEventHandler(HandleDoubleClick), true);
+		EventManager.RegisterClassHandler(Owner, UIElement.MouseRightButtonDownEvent, new MouseButtonEventHandler(HandleDoubleClick), true);
+
+		// change handlers to update validation visual state
+		//IsKeyboardFocusedPropertyKey.OverrideMetadata(Owner, new PropertyMetadata(new PropertyChangedCallback(OnVisualStatePropertyChanged)));
 	}
 	#endregion
 
@@ -60,19 +73,307 @@ public abstract class UserWidget : Control, IUserWidget
 	}
 	#endregion
 
-	#region Layout
-	internal FLayoutData.Offset Offsets
+
+	#region Properties
+
+	/// <summary>
+	///     The DependencyProperty for the BorderBrush property.
+	/// </summary>
+	public static readonly DependencyProperty BorderBrushProperty = Border.BorderBrushProperty.AddOwner(Owner,
+		new FrameworkPropertyMetadata(Border.BorderBrushProperty.DefaultMetadata.DefaultValue, FrameworkPropertyMetadataOptions.AffectsRender));
+
+	/// <summary>
+	///     An object that describes the border background.
+	///     This will only affect controls whose template uses the property
+	///     as a parameter. On other controls, the property will do nothing.
+	/// </summary>
+	[Bindable(true), Category("Appearance")]
+	public Brush BorderBrush
 	{
-		get => LayoutData.GetOffsets(this);
-		set => LayoutData.SetOffsets(this, value);
+		get { return (Brush)GetValue(BorderBrushProperty); }
+		set { SetValue(BorderBrushProperty, value); }
+	}
+
+	/// <summary>
+	///     The DependencyProperty for the BorderThickness property.
+	/// </summary>
+	public static readonly DependencyProperty BorderThicknessProperty = Border.BorderThicknessProperty.AddOwner(Owner,
+		new FrameworkPropertyMetadata(Border.BorderThicknessProperty.DefaultMetadata.DefaultValue, FrameworkPropertyMetadataOptions.AffectsRender));
+
+	/// <summary>
+	///     An object that describes the border thickness.
+	///     This will only affect controls whose template uses the property
+	///     as a parameter. On other controls, the property will do nothing.
+	/// </summary>
+	[Bindable(true), Category("Appearance")]
+	public Thickness BorderThickness
+	{
+		get { return (Thickness)GetValue(BorderThicknessProperty); }
+		set { SetValue(BorderThicknessProperty, value); }
+	}
+
+	/// <summary>
+	///     The DependencyProperty for the Background property.
+	/// </summary>
+	public static readonly DependencyProperty BackgroundProperty = Panel.BackgroundProperty.AddOwner(Owner,
+		new FrameworkPropertyMetadata(Panel.BackgroundProperty.DefaultMetadata.DefaultValue, FrameworkPropertyMetadataOptions.AffectsRender));
+
+	/// <summary>
+	///     An object that describes the background.
+	///     This will only affect controls whose template uses the property
+	///     as a parameter. On other controls, the property will do nothing.
+	/// </summary>
+	[Bindable(true), Category("Appearance")]
+	public Brush Background
+	{
+		get { return (Brush)GetValue(BackgroundProperty); }
+		set { SetValue(BackgroundProperty, value); }
+	}
+
+	/// <summary>
+	///     The DependencyProperty for the Foreground property.
+	/// </summary>
+	public static readonly DependencyProperty ForegroundProperty = TextElement.ForegroundProperty.AddOwner(Owner,
+		new FrameworkPropertyMetadata(SystemColors.ControlTextBrush, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.Inherits));
+
+	/// <summary>
+	///     An brush that describes the foreground color.
+	///     This will only affect controls whose template uses the property
+	///     as a parameter. On other controls, the property will do nothing.
+	/// </summary>
+	[Bindable(true), Category("Appearance")]
+	public Brush Foreground
+	{
+		get { return (Brush)GetValue(ForegroundProperty); }
+		set { SetValue(ForegroundProperty, value); }
+	}
+
+	/// <summary>
+	///     The DependencyProperty for the FontFamily property.
+	/// </summary>
+	public static readonly DependencyProperty FontFamilyProperty = TextElement.FontFamilyProperty.AddOwner(Owner,
+		new FrameworkPropertyMetadata(SystemFonts.MessageFontFamily, FrameworkPropertyMetadataOptions.Inherits));
+
+	/// <summary>
+	///     The font family of the desired font.
+	///     This will only affect controls whose template uses the property
+	///     as a parameter. On other controls, the property will do nothing.
+	/// </summary>
+	[Bindable(true), Category("Appearance")]
+	[Localizability(LocalizationCategory.Font)]
+	public FontFamily FontFamily
+	{
+		get { return (FontFamily)GetValue(FontFamilyProperty); }
+		set { SetValue(FontFamilyProperty, value); }
+	}
+
+	/// <summary>
+	///     The DependencyProperty for the FontSize property.
+	/// </summary>
+	public static readonly DependencyProperty FontSizeProperty = TextElement.FontSizeProperty.AddOwner(Owner,
+		new FrameworkPropertyMetadata(SystemFonts.MessageFontSize, FrameworkPropertyMetadataOptions.Inherits));
+
+	/// <summary>
+	///     The size of the desired font.
+	///     This will only affect controls whose template uses the property
+	///     as a parameter. On other controls, the property will do nothing.
+	/// </summary>
+	[TypeConverter(typeof(FontSizeConverter))]
+	[Bindable(true), Category("Appearance")]
+	[Localizability(LocalizationCategory.None)]
+	public double FontSize
+	{
+		get { return (double)GetValue(FontSizeProperty); }
+		set { SetValue(FontSizeProperty, value); }
+	}
+
+	/// <summary>
+	///     The DependencyProperty for the FontStretch property.
+	/// </summary>
+	public static readonly DependencyProperty FontStretchProperty = TextElement.FontStretchProperty.AddOwner(Owner,
+		new FrameworkPropertyMetadata(TextElement.FontStretchProperty.DefaultMetadata.DefaultValue, FrameworkPropertyMetadataOptions.Inherits));
+
+	/// <summary>
+	///     The stretch of the desired font.
+	///     This will only affect controls whose template uses the property
+	///     as a parameter. On other controls, the property will do nothing.
+	/// </summary>
+	[Bindable(true), Category("Appearance")]
+	public FontStretch FontStretch
+	{
+		get { return (FontStretch)GetValue(FontStretchProperty); }
+		set { SetValue(FontStretchProperty, value); }
+	}
+
+	/// <summary>
+	///     The DependencyProperty for the FontStyle property.
+	/// </summary>
+	public static readonly DependencyProperty FontStyleProperty = TextElement.FontStyleProperty.AddOwner(Owner,
+		new FrameworkPropertyMetadata(SystemFonts.MessageFontStyle, FrameworkPropertyMetadataOptions.Inherits));
+
+	/// <summary>
+	///     The style of the desired font.
+	///     This will only affect controls whose template uses the property
+	///     as a parameter. On other controls, the property will do nothing.
+	/// </summary>
+	[Bindable(true), Category("Appearance")]
+	public FontStyle FontStyle
+	{
+		get { return (FontStyle)GetValue(FontStyleProperty); }
+		set { SetValue(FontStyleProperty, value); }
+	}
+
+	/// <summary>
+	///     The DependencyProperty for the FontWeight property.
+	/// </summary>
+	public static readonly DependencyProperty FontWeightProperty = TextElement.FontWeightProperty.AddOwner(Owner,
+		new FrameworkPropertyMetadata(SystemFonts.MessageFontWeight, FrameworkPropertyMetadataOptions.Inherits));
+
+	/// <summary>
+	///     The weight or thickness of the desired font.
+	///     This will only affect controls whose template uses the property
+	///     as a parameter. On other controls, the property will do nothing.
+	/// </summary>
+	[Bindable(true), Category("Appearance")]
+	public FontWeight FontWeight
+	{
+		get { return (FontWeight)GetValue(FontWeightProperty); }
+		set { SetValue(FontWeightProperty, value); }
+	}
+
+
+	/// <summary>
+	///     The DependencyProperty for the TabIndex property.
+	/// </summary>
+	public static readonly DependencyProperty TabIndexProperty
+			= KeyboardNavigation.TabIndexProperty.AddOwner(Owner);
+
+	/// <summary>
+	///     TabIndex property change the order of Tab navigation between Controls.
+	///     Control with lower TabIndex will get focus before the Control with higher index
+	/// </summary>
+	[Bindable(true), Category("Behavior")]
+	public int TabIndex
+	{
+		get { return (int)GetValue(TabIndexProperty); }
+		set { SetValue(TabIndexProperty, value); }
+	}
+
+	/// <summary>
+	///     The DependencyProperty for the IsTabStop property.
+	/// </summary>
+	public static readonly DependencyProperty IsTabStopProperty = KeyboardNavigation.IsTabStopProperty.AddOwner(Owner);
+
+	/// <summary>
+	///     Determine is the Control should be considered during Tab navigation.
+	///     If IsTabStop is false then it is excluded from Tab navigation
+	/// </summary>
+	[Bindable(true), Category("Behavior")]
+	public bool IsTabStop
+	{
+		get { return (bool)GetValue(IsTabStopProperty); }
+		set { SetValue(IsTabStopProperty, BooleanBoxes.Box(value)); }
+	}
+
+	/// <summary>
+	/// PaddingProperty
+	/// </summary>
+	public static readonly DependencyProperty PaddingProperty = DependencyProperty.Register("Padding", typeof(Thickness), Owner,
+		new FrameworkPropertyMetadata(new Thickness(), FrameworkPropertyMetadataOptions.AffectsParentMeasure));
+
+	/// <summary>
+	/// Padding Property
+	/// </summary>
+	[Bindable(true), Category("Layout")]
+	public Thickness Padding
+	{
+		get { return (Thickness)GetValue(PaddingProperty); }
+		set { SetValue(PaddingProperty, value); }
 	}
 
 	internal Vector ScrollOffset { get; set; }
 	#endregion
 
+	#region Events
 
-	#region Protected Methods
-	public override string ToString() => string.Format("{0} ({1})", Name, GetType());
+	/// <summary>
+	///     PreviewMouseDoubleClick event
+	/// </summary>
+	public static readonly RoutedEvent PreviewMouseDoubleClickEvent = EventManager.RegisterRoutedEvent("PreviewMouseDoubleClick", RoutingStrategy.Direct, typeof(MouseButtonEventHandler), Owner);
+
+	/// <summary>
+	///     An event reporting a mouse button was pressed twice in a row.
+	/// </summary>
+	public event MouseButtonEventHandler PreviewMouseDoubleClick
+	{
+		add { AddHandler(PreviewMouseDoubleClickEvent, value); }
+		remove { RemoveHandler(PreviewMouseDoubleClickEvent, value); }
+	}
+
+	/// <summary>
+	///     An event reporting a mouse button was pressed twice in a row.
+	/// </summary>
+	/// <param name="e">Event arguments</param>
+	protected virtual void OnPreviewMouseDoubleClick(MouseButtonEventArgs e)
+	{
+		RaiseEvent(e);
+	}
+
+	/// <summary>
+	///     MouseDoubleClick event
+	/// </summary>
+	public static readonly RoutedEvent MouseDoubleClickEvent = EventManager.RegisterRoutedEvent("MouseDoubleClick", RoutingStrategy.Direct, typeof(MouseButtonEventHandler), Owner);
+
+	/// <summary>
+	///     An event reporting a mouse button was pressed twice in a row.
+	/// </summary>
+	public event MouseButtonEventHandler MouseDoubleClick
+	{
+		add { AddHandler(MouseDoubleClickEvent, value); }
+		remove { RemoveHandler(MouseDoubleClickEvent, value); }
+	}
+
+	/// <summary>
+	///     An event reporting a mouse button was pressed twice in a row.
+	/// </summary>
+	/// <param name="e">Event arguments</param>
+	protected virtual void OnMouseDoubleClick(MouseButtonEventArgs e)
+	{
+		RaiseEvent(e);
+	}
+
+	private static void HandleDoubleClick(object sender, MouseButtonEventArgs e)
+	{
+		if (e.ClickCount == 2)
+		{
+			var widget = (UserWidget)sender;
+			MouseButtonEventArgs doubleClick = new MouseButtonEventArgs(e.MouseDevice, e.Timestamp, e.ChangedButton, e.StylusDevice);
+
+			if ((e.RoutedEvent == UIElement.PreviewMouseLeftButtonDownEvent) ||
+				(e.RoutedEvent == UIElement.PreviewMouseRightButtonDownEvent))
+			{
+				doubleClick.RoutedEvent = PreviewMouseDoubleClickEvent;
+				doubleClick.Source = e.OriginalSource; // Set OriginalSource because initially is null
+													   //doubleClick.OverrideSource(e.Source);
+				widget.OnPreviewMouseDoubleClick(doubleClick);
+			}
+			else
+			{
+				doubleClick.RoutedEvent = MouseDoubleClickEvent;
+				doubleClick.Source = e.OriginalSource; // Set OriginalSource because initially is null
+													   //doubleClick.OverrideSource(e.Source);
+				widget.OnMouseDoubleClick(doubleClick);
+			}
+
+			// If MouseDoubleClick event is handled - we delegate the state to original MouseButtonEventArgs
+			if (doubleClick.Handled)
+				e.Handled = true;
+		}
+	}
+
+	#endregion
+
+	#region Methods
 
 	/// <summary>
 	/// Update the current visual state of the control using transitions
@@ -217,7 +518,9 @@ public abstract class UserWidget : Control, IUserWidget
 
 		return new Rect(new Point(x, y), child.DesiredSize);
 	}
-	#endregion
+
+	#endregion Methods
+
 
 	#region ZOrder Support
 	private int[]? _zLut;                                //  look up table for converting from logical to visual indices
@@ -231,7 +534,7 @@ public abstract class UserWidget : Control, IUserWidget
 	/// is determined by their order in Panel.Children collection.
 	/// </summary>
 	public static readonly DependencyProperty ZOrderProperty = DependencyProperty.RegisterAttached("ZOrder",
-		typeof(int), typeof(UserWidget), new FrameworkPropertyMetadata(0,
+		typeof(int), Owner, new FrameworkPropertyMetadata(0,
 			new PropertyChangedCallback(OnZOrderPropertyChanged)));
 
 	/// <summary>

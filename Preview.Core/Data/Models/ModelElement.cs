@@ -1,12 +1,10 @@
-﻿using System.Diagnostics;
-using System.Reflection;
-using System.Runtime.CompilerServices;
+﻿using System.Reflection;
 using System.Xml;
 using Xylia.Preview.Common.Attributes;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Common.DataStruct;
-using Xylia.Preview.Data.Engine.Definitions;
+using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Properties;
 
@@ -16,26 +14,84 @@ public abstract class ModelElement : IElement
 	#region IElement
 	public Record Source { get; private set; }
 
-	public ElementType ElementType => Source.ElementType;
+	public ElementType ElementType => ElementType.Element;
 
 	public Ref PrimaryKey => Source.PrimaryKey;
 
 	public AttributeCollection Attributes => Source.Attributes;
-	#endregion
 
-
-	#region Override Methods
-	public override string ToString() => Source.ToString();
-
-	public override int GetHashCode() => Source?.GetHashCode() ?? base.GetHashCode();
-
-	public bool Equals(ModelElement other)
-	{
-		return other != null && this.Source == other.Source;
-	}
+	protected IDataProvider Provider => Source.Owner.Owner;
 	#endregion
 
 	#region Methods
+	public override string ToString() => Source.ToString();
+
+	internal void Initialize(Record source)
+	{
+		this.Source = source;
+
+		foreach (var prop in this.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
+		{
+			if (!prop.CanWrite) continue;
+
+			var type = prop.PropertyType;
+			var name = (prop.GetAttribute<NameAttribute>()?.Name ?? prop.Name).TitleLowerCase();
+			if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(LazyList<>))
+			{
+				var toType = typeof(List<>).MakeGenericType(type.GetGenericArguments()[0]);
+				var value = Activator.CreateInstance(type, new Func<object>(() => Convert(source, name, toType)));
+
+				prop.SetValue(this, value);
+			}
+			else
+			{
+				prop.SetValue(this, Convert(source, name, type));
+			}
+		}
+
+		LoadHiddenField();
+	}
+
+	private static object Convert(Record record, string name, Type type)
+	{
+		if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(List<>))
+		{
+			// valid
+			var recordType = type.GetGenericArguments()[0];
+			if (!record.Children.TryGetValue(name, out var children)) throw new InvalidDataException($"No `{name}` child element in definition");
+			if (!typeof(ModelElement).IsAssignableFrom(recordType)) throw new InvalidCastException($"{recordType} unable cast to {typeof(ModelElement)}");
+
+			// create instance
+			var records = Activator.CreateInstance(type);
+			var add = records.GetType().GetMethod("Add", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+			children.ForEach(child => add.Invoke(records, [child.As(recordType)]));
+
+			return records;
+		}
+
+		// attribute
+		var attribute = record.Definition.GetAttribute(name);
+		if (attribute is null) return null;
+		else if (attribute.Repeat == 1)
+		{
+			return AttributeConverter.Convert(name, record.Attributes[name], type);
+		}
+		else if (!type.IsArray)
+		{
+			throw new Exception($"Repeatable object must to use array type: {record.Name} -> {name}");
+		}
+		else
+		{
+			type = type.GetElementType();
+			var value = Array.CreateInstance(type, attribute.Repeat);
+
+			for (int i = 0; i < value.Length; i++)
+				value.SetValue(AttributeConverter.Convert(name, record.Attributes[$"{name}-{i + 1}"], type), i);
+
+			return value;
+		}
+	}
+
 	protected internal virtual void Load(XmlNode node, string tableDefName/*, AliasTable aliasTable*/)
 	{
 		//GameDataTableUtil.CheckAttribute(node, new string[]
@@ -57,161 +113,11 @@ public abstract class ModelElement : IElement
 		//this._table.Add(zoneRespawnData.Key, zoneRespawnData);
 	}
 
-	protected internal virtual void LoadHiddenField()
+	protected virtual void LoadHiddenField()
 	{
 
 	}
-
-
-	/// <summary>
-	/// Convert original record to model instance
-	/// </summary>
-	/// <typeparam name="T"></typeparam>
-	/// <param name="source"></param>
-	/// <param name="element"></param>
-	/// <returns></returns>
-	[MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-	internal static T As<T>(Record source, T element) where T : ModelElement
-	{
-		element.Source = source;
-
-		#region	instance
-		foreach (var prop in element.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
-		{
-			if (!prop.CanWrite) continue;
-
-			var type = prop.PropertyType;
-			var name = (prop.GetAttribute<NameAttribute>()?.Name ?? prop.Name).TitleLowerCase();
-			if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(LazyList<>))
-			{
-				var toType = typeof(List<>).MakeGenericType(type.GetGenericArguments()[0]);
-				var value = Activator.CreateInstance(type, new Func<object>(() => Convert(element, name, toType)));
-
-				prop.SetValue(element, value);
-			}
-			else
-			{
-				prop.SetValue(element, Convert(element, name, type));
-			}
-		}
-		#endregion
-
-		element.LoadHiddenField();
-		return element;
-	}
-
-	/// <summary>
-	/// Convert Attribute to Field
-	/// </summary>
-	/// <param name="element"></param>
-	/// <param name="name"></param>
-	/// <param name="type"></param>
-	/// <param name="repeat"></param>
-	/// <returns></returns>
-	/// <exception cref="Exception"></exception>
-	[MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-	private static object Convert(ModelElement element, string name, Type type)
-	{
-		var record = element.Source;
-
-		if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(List<>))
-		{
-			// valid
-			var recordType = type.GetGenericArguments()[0];
-			if (!record.Children.TryGetValue(name, out var children)) throw new InvalidDataException($"No `{name}` child element in definition");
-			if (!typeof(ModelElement).IsAssignableFrom(recordType)) throw new InvalidCastException($"{recordType} unable cast to {typeof(ModelElement)}");
-
-			// create instance
-			var records = Activator.CreateInstance(type);
-			var add = records.GetType().GetMethod("Add", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
-			children.ForEach(child => add.Invoke(records, [child.As<ModelElement>(recordType)]));
-
-			return records;
-		}
-
-		// attribute
-		var attribute = record.Definition.GetAttribute(name);
-		if (attribute is null) return null;
-		else if (attribute.Repeat == 1)
-		{
-			return AttributeConverter.Convert(record.Attributes[name], type);
-		}
-		else if (!type.IsArray)
-		{
-			throw new Exception($"Repeatable object must to use array type: {element.GetType()} -> {name}");
-		}
-		else
-		{
-			type = type.GetElementType();
-			var value = Array.CreateInstance(type, attribute.Repeat);
-
-			for (int i = 0; i < value.Length; i++)
-				value.SetValue(AttributeConverter.Convert(record.Attributes[$"{name}-{i + 1}"], type), i);
-
-			return value;
-		}
-	}
-	#endregion
-
-
-	#region Helper
-	internal class TypeHelper
-	{
-		private static readonly MessageManager message = [];
-		private static readonly Dictionary<Type, TypeHelper> helpers = [];
-
-		public static TypeHelper Get(Type type, string name = null)
-		{
-			lock (helpers)
-			{
-				if (!helpers.TryGetValue(type, out var subs))
-				{
-					subs = helpers[type] = new TypeHelper();
-					subs.GetSubType(type);
-				}
-
-				// Convert to real type
-				if (type == typeof(ModelElement))
-				{
-					Debug.Assert(name != null);
-					return Get(subs._subs[name]);
-				}
-
-				return subs;
-			}
-		}
-
-
-		#region Sub Class
-		private Type BaseType;
-		private readonly Dictionary<string, Type> _subs = new(TableNameComparer.Instance);
-
-		private void GetSubType(Type baseType)
-		{
-			this.BaseType = baseType;
-			var flag = baseType == typeof(ModelElement);
-
-			foreach (var instance in Assembly.GetExecutingAssembly().GetTypes())
-			{
-				if ((flag || !instance.IsAbstract) && instance.BaseType == baseType)
-					_subs[instance.Name.TitleLowerCase()] = instance;
-			}
-		}
-
-		public T CreateInstance<T>(string type)
-		{
-			Type _type = null;
-
-			if (!string.IsNullOrWhiteSpace(type) && !_subs.TryGetValue(type, out _type))
-			{
-				message.Debug($"cast object subclass failed: {BaseType} -> {type}");
-			}
-
-			return (T)Activator.CreateInstance(_type ?? BaseType);
-		}
-		#endregion
-	}
-	#endregion
+	#endregion	
 }
 
 public struct Ref<TElement> where TElement : ModelElement
@@ -228,11 +134,11 @@ public struct Ref<TElement> where TElement : ModelElement
 		source = value.Source;
 	}
 
-	/* Not recommended to use the constructor */
+	[Obsolete("Not recommended to use the constructor")]
 	public Ref(string value)
 	{
 		// Prevent designer request to load data
-		if (!Settings.Default.PreviewLoadData && !FileCache.Data.IsInitialized) return;
+		if (!Settings.Default.Text_LoadData && !FileCache.Data.IsInitialized) return;
 
 		// get available provider
 		var provider = FileCache.Data.Provider;

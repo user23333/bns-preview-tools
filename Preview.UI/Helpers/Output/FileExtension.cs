@@ -5,7 +5,7 @@ public static class FileExtension
 {
     public static void SetColumn(this ExcelWorksheet sheet, int index, string? header, int width = 10)
     {
-        sheet.Column(index).Width = width;
+		sheet.Column(index).Width = width;
         sheet.Cells[1, index].Value = header;
     }
 

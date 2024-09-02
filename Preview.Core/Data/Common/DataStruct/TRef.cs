@@ -1,9 +1,12 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Diagnostics;
+using System.Runtime.InteropServices;
+using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.Data.Common.DataStruct;
 
 [StructLayout(LayoutKind.Sequential)]
+[DebuggerDisplay("{Table}:{Ref}")]
 public struct TRef
 {
 	public int Table;
@@ -28,8 +31,6 @@ public struct TRef
 	}
 
 	#region Methods
-	public override readonly string ToString() => $"{Table}:{Ref}";
-
 	public static bool operator ==(TRef a, TRef b)
 	{
 		return a.Table == b.Table && a.Ref == b.Ref;
@@ -40,13 +41,20 @@ public struct TRef
 		return !(a == b);
 	}
 
-	public bool Equals(TRef other)
+	public readonly bool Equals(TRef other)
 	{
 		return Table == other.Table && Ref == other.Ref;
 	}
 
-	public override bool Equals(object obj) => obj is TRef other && Equals(other);
+	public override readonly bool Equals(object obj) => obj is TRef other && Equals(other);
 
-	public override int GetHashCode() => HashCode.Combine(Table, Ref);
+	public override readonly int GetHashCode() => HashCode.Combine(Table, Ref);
+
+	public readonly Record GetRecord(IDataProvider provider)
+	{
+		if (this == default) return null;
+
+		return provider.Tables[(ushort)this.Table]?[Ref];
+	}
 	#endregion
 }

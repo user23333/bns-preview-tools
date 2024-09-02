@@ -10,6 +10,7 @@ using CUE4Parse.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Helpers;
+using Xylia.Preview.Tests.Extensions;
 
 namespace Xylia.Preview.Tests.PakTests;
 
@@ -21,10 +22,10 @@ public class SceneTest
 	{
 		var Output = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "scene");
 
-		// using GameFileProvider Provider = new(IniHelper.Instance.GameFolder);
-		using GameFileProvider Provider = new("D:\\WeGameApps\\剑灵\\剑灵\\BNSR\\Content\\Paks");
+		using GameFileProvider Provider = new(IniHelper.Instance.GameFolder);
+		// using GameFileProvider Provider = new("D:\\WeGameApps\\剑灵\\剑灵\\BNSR\\Content\\Paks");
 		//var AssetPath = "BNSR/Content/Art/UI/V2/Common/ContentsWidget/Item/LegacyItemTooltipWidget.uasset";
-		var AssetPath = "BNSR/Content/Art/UI/GameUI/Scene/Game_QuestJournal/Game_QuestJournalScene/QuestJournalPanel.uasset";
+		var AssetPath = "BNSR/Content/Art/UI/GameUI/Scene/Game_Tooltip2/Game_TooltipScene2/GlyphSlotOpenTooltipPanel.uasset";
 		var Blueprint = Provider.LoadAllObjects(AssetPath).OfType<UWidgetBlueprintGeneratedClass>().First();
 
 		var dump = new WidgetDump() { Output = Path.Combine(Output, Path.GetFileNameWithoutExtension(AssetPath)) };
@@ -52,48 +53,6 @@ public class SceneTest
 				xmlns:s="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			"""));
 		#endregion
-	}
-
-	//[TestMethod]
-	public void Create()
-	{
-		var VfsFolder = "BNSR/Content/Art/UI/GameUI/Scene/";
-		var OutFolder = @"F:\Resources\文档\Programming\C#\Xylia\bns\bns-preview-tools\Preview.UI\Art\GameUI\Scene\新建文件夹";
-
-		foreach (var _gamefile in FileCache.Provider.Files)
-		{
-			var package = _gamefile.Value.Path;
-			if (package.Contains(".uasset") && package.StartsWith(VfsFolder, StringComparison.OrdinalIgnoreCase))
-			{
-				var temp = package.Replace(VfsFolder, null).Split('/');
-				if (temp.Length == 2)
-				{
-					var current = OutFolder + "/" + temp[0];
-					Directory.CreateDirectory(current);
-
-					var name = temp[1].Replace(".uasset", null);
-					if (name.Contains("_UIPanelList")) continue;
-					else if (name.Contains("_Datatable"))
-					{
-						File.WriteAllText($"{current}/{name}", null);
-					}
-					else
-					{
-						//File.WriteAllText($"{current}/{name}.xaml.cs", $$"""
-						//	namespace Xylia.Preview.UI.Art.GameUI.Scene.{{temp[0]}};
-						//	public partial class {{name}} 
-						//	{
-						//		public {{name}}()
-						//		{
-						//	        DataContext = new {{name}}ViewModel();
-						//			InitializeComponent();
-						//		}
-						//	}
-						//	""");
-					}
-				}
-			}
-		}
 	}
 }
 

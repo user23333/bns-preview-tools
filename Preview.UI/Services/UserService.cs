@@ -2,7 +2,7 @@
 internal class UserService : IService
 {
 	#region Methods
-	public static UserService? Instance { get; private set; } = new();
+	public static UserService Instance { get; private set; } = new();
 
 	public bool Register()
 	{

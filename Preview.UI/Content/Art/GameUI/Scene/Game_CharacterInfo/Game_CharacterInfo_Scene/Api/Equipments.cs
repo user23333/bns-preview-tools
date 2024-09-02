@@ -1,9 +1,8 @@
 ﻿using System.IO;
 using System.Net.Http;
-
 using Newtonsoft.Json;
 using Xylia.Preview.Data.Common.DataStruct;
-using Xylia.Preview.Data.Models.Creature;
+using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.UI.GameUI.Scene.Game_CharacterInfo.Api;
 public class Equipments
@@ -44,7 +43,7 @@ public class Equipments
 	public Equipment alternate_soulshield_8;
 
 
-	public static Equipments Get(Creature creature)
+	public static Equipments? Get(Creature creature)
 	{
 		string Host = @"https://%sgate.bns.qq.com";
 		string Url = @"/ingame/api/character/equipments.json";

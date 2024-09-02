@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.Abstractions;
-using Xylia.Preview.Data.Helpers;
+using Xylia.Preview.Data.Engine.DatData;
 
 namespace Xylia.Preview.Data.Models;
 public sealed class ItemImproveSuccession : ModelElement
@@ -20,15 +20,15 @@ public sealed class ItemImproveSuccession : ModelElement
 
 
 	#region Methods
-	internal static ItemImproveSuccession FindBySeed(Item SeedItem)
+	internal static ItemImproveSuccession FindBySeed(IDataProvider provider, Item SeedItem)
 	{
-		return FileCache.Data.Provider.GetTable<ItemImproveSuccession>().FirstOrDefault(record =>
+		return provider.GetTable<ItemImproveSuccession>().FirstOrDefault(record =>
 			SeedItem.ImproveId == record.SeedImproveId && SeedItem.ImproveLevel == record.SeedImproveLevel);
 	}
 
-	internal static ItemImproveSuccession FindByFeed(Item FeedItem, Item SeedItem = null)
+	internal static ItemImproveSuccession FindByFeed(IDataProvider provider, Item FeedItem, Item SeedItem = null)
 	{
-		return FileCache.Data.Provider.GetTable<ItemImproveSuccession>().FirstOrDefault(record =>
+		return provider.GetTable<ItemImproveSuccession>().FirstOrDefault(record =>
 			FeedItem.ImproveId == record.FeedMainImproveId && FeedItem.ImproveLevel == record.FeedMainImproveLevel &&
 		   (SeedItem is null || SeedItem.ImproveId == record.ResultImproveId));
 	}
@@ -38,8 +38,8 @@ public sealed class ItemImproveSuccession : ModelElement
 		// This method is missing the seed, the result is inaccurate
 		if (SeedItem is null)
 		{
-			ResultItem = FileCache.Data.Provider.GetTable<Item>().FirstOrDefault(item => item.ImproveId == ResultImproveId && item.ImproveLevel == ResultImproveLevel);
-			SeedItem = FileCache.Data.Provider.GetTable<Item>().FirstOrDefault(item => item.ImproveId == SeedImproveId && item.ImproveLevel == SeedImproveLevel);
+			ResultItem = Provider.GetTable<Item>().FirstOrDefault(item => item.ImproveId == ResultImproveId && item.ImproveLevel == ResultImproveLevel);
+			SeedItem = Provider.GetTable<Item>().FirstOrDefault(item => item.ImproveId == SeedImproveId && item.ImproveLevel == SeedImproveLevel);
 		}
 		else
 		{
@@ -51,16 +51,16 @@ public sealed class ItemImproveSuccession : ModelElement
 		// NOTE:
 		// If pass in is the feed-item , use the seed-item as the MainItem
 		// Otherwise , use the feed-item as the MainItem 
-		var FeedMainIngredient = Attributes.Get<Record>("feed-main-ingredient")?.As<Item>();
+		var FeedMainIngredient = Attributes.Get<Item>("feed-main-ingredient");
 		var FeedMainIngredientCount = Attributes.Get<short>("feed-main-ingredient-count");
-		var FeedSubIngredient = LinqExtensions.For(8, (id) => Attributes.Get<Record>($"feed-sub-ingredient-{id}")?.As<Item>());
+		var FeedSubIngredient = LinqExtensions.For(8, (id) => Attributes.Get<Item>($"feed-sub-ingredient-{id}"));
 		var FeedSubIngredientCount = LinqExtensions.For(8, (id) => Attributes.Get<short>($"feed-sub-ingredient-count-{id}"));
 		var CostMoney = Attributes.Get<int>("cost-money");
 
 
 		var recipe = new ItemRecipeHelper
 		{
-			MainItem = SeedItem,	  
+			MainItem = SeedItem,
 			MainItemCount = 1,
 			SubItem = [FeedMainIngredient, .. FeedSubIngredient],
 			SubItemCount = [FeedMainIngredientCount, .. FeedSubIngredientCount],

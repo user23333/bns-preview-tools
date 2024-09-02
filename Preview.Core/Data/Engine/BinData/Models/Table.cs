@@ -10,7 +10,6 @@ using Xylia.Preview.Common.Attributes;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Common.DataStruct;
-using Xylia.Preview.Data.Engine.BinData.Definitions;
 using Xylia.Preview.Data.Engine.BinData.Helpers;
 using Xylia.Preview.Data.Engine.BinData.Serialization;
 using Xylia.Preview.Data.Engine.DatData;
@@ -78,7 +77,7 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 		internal set => _records = value;
 		get
 		{
-			LoadAsync().Wait();
+			lock (this) { if (_records == null) LoadAsync().Wait(); }
 			return _records;
 		}
 	}
@@ -91,15 +90,12 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 
 
 	#region Load Methods
-	public virtual Task LoadAsync() => Task.Run(() =>
+	public Task LoadAsync() => Task.Run(() =>
 	{
-		lock (this)
-		{
-			if (_records != null) return;
+		if (_records != null) return;
 
-			if (IsBinary) LoadData();
-			else LoadXml(Owner.GetFiles(Definition.Pattern));
-		}
+		if (IsBinary) LoadData();
+		else LoadXml(Owner.GetFiles(Definition.Pattern));
 	});
 
 	private void LoadData()
@@ -152,22 +148,22 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 	/// load xml element
 	/// </summary>
 	/// <param name="parent"></param>
-	/// <param name="actions">data build action collection</param>
-	internal void LoadElement(XmlElement parent, ICollection<Action> actions)
+	/// <param name="build">data build action collection</param>
+	internal void LoadElement(XmlElement parent, ICollection<Action> build)
 	{
 		_records ??= [];
 
 		var length = _records.Count;
-		var elements = parent.SelectNodes($"./" + Definition.ElRecord.Name).OfType<XmlElement>().ToArray();
+		var elements = parent.ChildNodes.OfType<XmlElement>()
+			.Where(element => element.Name.Equals(Definition.ElRecord.Name, StringComparison.OrdinalIgnoreCase)).ToArray();
 
 		// load data
 		ConcurrentBag<Tuple<int, Record>> records = [];
 		Parallel.For(0, elements.Length, index =>
 		{
 			var element = elements[index];
-
-			// get definition
-			var definition = Definition.ElRecord.SubtableByName(element.GetAttribute(AttributeCollection.s_type), Message);
+			var definition = Definition.ElRecord.SubtableByName(element.GetAttribute(AttributeCollection.s_type));
+			
 			var record = new Record
 			{
 				Owner = this,
@@ -183,7 +179,6 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 			record.Attributes.BuildData(definition, true);
 
 			records.Add(new Tuple<int, Record>(index, record));
-
 			//Log.Warning($"[game-data-loader], load {Name} error, msg:{0}, fileName:{1}, nodeName:{element.Name}, record:{element.OuterXml}");
 		});
 
@@ -193,10 +188,9 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 			_records.Add(ByRef[record.PrimaryKey] = record);
 
 			// The ref is not determined at this time
-			actions?.Add(new Action(() => record.Attributes.BuildData(record.Definition)));
+			build?.Add(new Action(() => record.Attributes.BuildData(record.Definition)));
 		}
 	}
-
 
 	public void CheckSize()
 	{
@@ -213,7 +207,7 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 		get
 		{
 			if (Ref == default) return null;
-			if (_records == null) LoadAsync().Wait();
+			lock (this) { if (_records == null) LoadAsync().Wait(); }
 
 			if (ByRef.TryGetValue(Ref, out var item)) return item;
 
@@ -228,8 +222,6 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 	{
 		get
 		{
-			if (_records == null) LoadAsync().Wait();
-
 			if (string.IsNullOrEmpty(alias)) return null;
 			if (Ref.TryPrase(alias, out var key)) return this[key];
 
@@ -239,8 +231,8 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 				{
 					AliasTable = new();
 
-					var def = this.Definition.ElRecord["alias"];
-					if (def != null) _records?.ForEach(x => AliasTable.Add(x));
+					var def = Definition.ElRecord["alias"];
+					if (def != null) Records?.ForEach(x => AliasTable.Add(x));
 				}
 			}
 
@@ -254,14 +246,14 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 	{
 		var hash = new List<HashInfo>();
 
-		var name = this.Definition.Pattern.Replace("*", null);
+		var name = Definition.Pattern.Replace("*", null);
 		var path = Path.Combine(folder, name);
 		Directory.CreateDirectory(Path.GetDirectoryName(path));
 
 		var data = WriteXml(settings ?? new()
 		{
 			ReleaseSide = ReleaseSide.Client,
-			Encoding = path.EndsWith(".x16", StringComparison.OrdinalIgnoreCase) ? Encoding.Unicode : Encoding.UTF8,
+			Encoding = name.EndsWith(".x16", StringComparison.OrdinalIgnoreCase) ? Encoding.Unicode : Encoding.UTF8,
 		});
 		File.WriteAllBytes(path, data);
 
@@ -279,7 +271,7 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 		// document
 		writer.WriteStartDocument();
 		writer.WriteStartElement(Definition.ElRoot.Name);
-		writer.WriteAttributeString("release-module", TableModule.LocalizationData.ToString());
+		writer.WriteAttributeString("release-module", "LocalizationData");
 		writer.WriteAttributeString("release-side", settings.ReleaseSide.ToString().ToLower());
 		writer.WriteAttributeString("type", Definition.Name);
 		writer.WriteAttributeString("version", MajorVersion + "." + MinorVersion);

@@ -4,6 +4,8 @@ using Xylia.Preview.Data.Models;
 namespace Xylia.Preview.Data.Common;
 internal interface ITime
 {
+	internal ulong Ticks { get; }
+
 	/// <summary>Returns the year part of this DateTime. The returned value is an integer between 1 and 9999.</summary>
 	public int Year { get; }
 
@@ -23,7 +25,7 @@ internal interface ITime
 	public int Second { get; }
 }
 
-public static class TimeFormat
+internal static class TimeFormat
 {
 	internal static string Format(ITime value, string format, IFormatProvider formatProvider)
 	{
@@ -73,6 +75,14 @@ public static class TimeFormat
 
 			switch (ch)
 			{
+				case 'y':
+					i += tokenLen = ParseRepeatPattern(format, i, ch);
+					FormatDigits(ref result, value.Year, tokenLen, 4);
+					break;
+				case 'M':
+					i += tokenLen = ParseRepeatPattern(format, i, ch);
+					FormatDigits(ref result, value.Month, tokenLen, 2);
+					break;
 				case 'h':
 					i += tokenLen = ParseRepeatPattern(format, i, ch);
 					FormatDigits(ref result, value.Hour, tokenLen, 2);

@@ -1,5 +1,5 @@
 ﻿namespace Xylia.Preview.UI.Controls.Helpers;
-internal static class BooleanBoxes
+public static class BooleanBoxes
 {
     public const bool TrueBox = true;
     public const bool FalseBox = false;

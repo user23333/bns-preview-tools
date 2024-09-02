@@ -12,7 +12,7 @@ namespace Xylia.Preview.Data.Models;
 /// <summary>
 /// Provides converting attribute text to value, as well
 /// </summary>
-public class AttributeConverter
+internal class AttributeConverter
 {
 	/// <summary>
 	/// Gets the specified attribute from record
@@ -57,9 +57,9 @@ public class AttributeConverter
 				else return idx.ToString();
 			}
 
-			case AttributeType.TRef: return provider.Tables.GetRef(attribute.ReferedTable, record.Get<Ref>(attribute.Offset));
-			case AttributeType.TTRef: return provider.Tables.GetRef(record.Get<TRef>(attribute.Offset));
-			case AttributeType.TSub: return provider.Tables.GetSub(attribute.ReferedTable, record.Get<Sub>(attribute.Offset));
+			case AttributeType.TRef: return record.Get<Ref>(attribute.Offset).GetRecord(provider, attribute.ReferedTable);
+			case AttributeType.TTRef: return record.Get<TRef>(attribute.Offset).GetRecord(provider);
+			case AttributeType.TSub: return record.Get<Sub>(attribute.Offset).GetName(provider, attribute.ReferedTable);
 			case AttributeType.TSu: return record.Get<Su>(attribute.Offset);
 			case AttributeType.TVector16: throw new NotSupportedException();
 			case AttributeType.TVector32: return record.Get<Vector32>(attribute.Offset);
@@ -84,7 +84,7 @@ public class AttributeConverter
 				return record.StringLookup.GetString(n.Offset);
 			}
 			case AttributeType.TVersion: return record.Get<BnsVersion>(attribute.Offset);
-			case AttributeType.TIcon: return provider.Tables.GetRef(record.Get<IconRef>(attribute.Offset));
+			case AttributeType.TIcon: return record.Get<IconRef>(attribute.Offset).GetIcon(provider);
 			case AttributeType.TTime32: return record.Get<Time32>(attribute.Offset);
 			case AttributeType.TTime64: return record.Get<Time64>(attribute.Offset);
 			case AttributeType.TXUnknown1: return record.Get<TimeUniversal>(attribute.Offset);
@@ -132,7 +132,7 @@ public class AttributeConverter
 		AttributeType.TScript_obj => new Script_obj(value),
 		AttributeType.TNative => value,
 		AttributeType.TVersion => new Version(value),
-		AttributeType.TIcon => value,
+		AttributeType.TIcon => Icon.Parse(value, provider),
 		AttributeType.TTime32 => Time32.Parse(value, provider.Locale.Publisher),
 		AttributeType.TTime64 => Time64.Parse(value, provider.Locale.Publisher),
 		AttributeType.TXUnknown1 => TimeUniversal.Parse(value),
@@ -148,12 +148,8 @@ public class AttributeConverter
 		// convert
 		var text = value?.ToString();
 		if (value is float f) text = f.ToString("0.00");
-		else if (value is Time64 { Ticks: 0 }) return null;
-		else if (value is Record record)
-		{
-			if (attribute.Type == AttributeType.TTRef)
-				text = $"{record.OwnerName}:{text}";
-		}
+		else if (value is ITime { Ticks: 0 }) return null;
+		else if (value is Record record && attribute.Type == AttributeType.TTRef) text = $"{record.OwnerName}:{text}";
 
 		// check default
 		if (text == attribute.DefaultValue) return null;
@@ -189,20 +185,21 @@ public class AttributeConverter
 
 		[typeof(Script_obj)] = AttributeType.TScript_obj,
 		[typeof(BnsVersion)] = AttributeType.TVersion,
-
+		[typeof(Icon)] = AttributeType.TIcon,
+		[typeof(Time32)] = AttributeType.TTime32,
 		[typeof(Time64)] = AttributeType.TTime64,
 		[typeof(TimeUniversal)] = AttributeType.TXUnknown1,
 		[typeof(ObjectPath)] = AttributeType.TXUnknown2,
 	};
 
 	/// <summary>
-	/// Converts the attribute value to an object.
+	///  Converts the attribute value to an object.
 	/// </summary>
+	/// <param name="name"></param>
 	/// <param name="value"></param>
 	/// <param name="type"></param>
 	/// <returns></returns>
-	/// <exception cref="FormatException"></exception>
-	internal static object Convert(object value, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] Type type)
+	internal static object Convert(string name, object value, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] Type type)
 	{
 		if (value is null || value.GetType() == type) return value;
 		else if (type == typeof(bool))
@@ -218,7 +215,7 @@ public class AttributeConverter
 			if (item == typeof(Ref<>)) return Activator.CreateInstance(type, value);
 		}
 
-		Trace.WriteLine($"convert type failed: {value} -> {type.Name}");
+		Trace.WriteLine($"convert type failed: {name} ({value}) -> {type.Name}");
 		return value;
 	}
 	#endregion

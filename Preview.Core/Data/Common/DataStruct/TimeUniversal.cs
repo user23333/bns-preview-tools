@@ -57,11 +57,11 @@ public struct TimeUniversal(long ticks) : IFormattable, ITime
 
 
 	#region Override Methods	
-	public string ToString(string format, IFormatProvider formatProvider) => TimeFormat.Format(this, format, formatProvider);
+	public readonly string ToString(string format, IFormatProvider formatProvider) => TimeFormat.Format(this, format, formatProvider);
 
-	public override string ToString() => ToString(null, null);
+	public readonly override string ToString() => ToString(null, null);
 
-	public override int GetHashCode() => HashCode.Combine(Ticks);
+	public readonly override int GetHashCode() => HashCode.Combine(Ticks);
 	#endregion
 
 	#region Static Methods

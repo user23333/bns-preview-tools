@@ -1,5 +1,4 @@
 ﻿using CUE4Parse.UE4.Exceptions;
-
 using Ionic.Zlib;
 using K4os.Compression.LZ4;
 

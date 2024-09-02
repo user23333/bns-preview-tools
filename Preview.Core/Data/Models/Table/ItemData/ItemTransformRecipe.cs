@@ -1,7 +1,7 @@
 ﻿using Xylia.Preview.Common.Attributes;
 using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Common.DataStruct;
-using Xylia.Preview.Data.Helpers;
+using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Data.Models.Sequence;
 using static Xylia.Preview.Data.Models.Item;
 using static Xylia.Preview.Data.Models.Item.Accessory;
@@ -201,7 +201,7 @@ public sealed class ItemTransformRecipe : ModelElement
 	#endregion
 
 	#region Methods
-	protected internal override void LoadHiddenField()
+	protected override void LoadHiddenField()
 	{
 		var Warning = this.Attributes["warning"];
 		if (Warning is "lower" or "lower-gemslotreset")
@@ -323,7 +323,7 @@ public sealed class ItemTransformRecipe : ModelElement
 		};
 	}
 
-	public static IEnumerable<ItemTransformRecipe> QueryRecipe(Item Item) => FileCache.Data.Provider.GetTable<ItemTransformRecipe>().Where(o =>
+	public static IEnumerable<ItemTransformRecipe> QueryRecipe(IDataProvider provider, Item Item) => provider.GetTable<ItemTransformRecipe>().Where(o =>
 	{
 		var MainIngredient = o.MainIngredient.Instance;
 		if (MainIngredient is Item item) return item == Item;

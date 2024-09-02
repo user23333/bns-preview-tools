@@ -9,12 +9,9 @@ public readonly struct Integer(double value) : IFormattable
 	public static implicit operator Integer(double value) => new(value);
 	public static implicit operator double(Integer struc) => struc.Value;
 
-	public override string ToString() => Value.ToString();
+	public override string ToString() => ToString(null, null);
 
-	public string ToString(string format, IFormatProvider formatProvider)
-	{
-		throw new NotImplementedException();
-	}
+	public string ToString(string format, IFormatProvider formatProvider) => Value.ToString();
 	#endregion
 
 
@@ -23,33 +20,44 @@ public readonly struct Integer(double value) : IFormattable
 	public readonly string FloatDot1 => $"{Value / 10: 0.0}";
 	public readonly string FloatDot2 => $"{Value / 100: 0.00}";
 	public readonly string FloatDot3 => $"{Value / 1000: 0.000}";
-	#endregion
 
-	#region Time
-	public readonly string Dategmtime24 => $"#{Value} dategmtime24";
-	public readonly string Time => $"#{Value}Time";
-	public readonly string Timedate => $"#{Value}Timedate";
-	public readonly string Timedhm => $"#{Value}Timedhm";
-	public readonly string Timehm => $"#{Value}Timehm";
-	public readonly string Timeymd => $"#{Value}Timeymd";
-	public readonly string TimeRoundDown => $"#{Value}TimeRoundDown";
-//time-hms
-//time-hour
-//time-sec
-//time-colon
-//time-hms-centisecond
-//time-hms-centisecond-colon
-
-//<timer id="1" type="hms-plusonesec"/>
+	//integer02	comma	comma5
 	#endregion
 
 	#region Money
-	public readonly string Money => ToMoney(false);
-	public readonly string MoneyNonTooltip => ToMoney(false, false);
-	public readonly string MoneyDefault => ToMoney(true);
+	//moneyGold
+	//moneySilver
+	//moneyBronze
 
-	public readonly string SecondaryMoneyBlue => value + " <replace p=\"UI.Common.SecondaryMoney.IconOnly\"/>";
-	public readonly string SecondaryMoneyRed => value + " <replace p=\"UI.Common.SecondaryMoney.Red.IconOnly\"/>";
+	public readonly string Money => ToMoney(false);
+	public readonly string MoneyDefault => ToMoney(true);
+	//money-disable
+	public readonly string MoneyNonTooltip => ToMoney(false, false);
+	//money-text
+	#endregion
+
+	#region Time
+	//date-gmtime	
+	public readonly string DateGmtime => $"#{Value} DateGmtime";
+	public readonly string DateGmtime24 => $"#{Value} DateGmtime";
+	//date-ymd
+	//date-ymd-gmtime
+
+	public readonly string Time => $"#{Value}Time";
+	public readonly string Timedate => $"#{Value}Timedate";
+	public readonly string Timeymd => $"#{Value}Timeymd";
+	public readonly string TimeRounddown => $"#{Value}time-rounddown";
+	public readonly string TimeDhm => $"#{Value}time-dhm";
+	public readonly string TimeHm => $"#{Value}time-hm";
+	//time-hour
+	//time-sec
+	//time-hms
+	//time-hms-centisecond
+	//time-hms-centisecond-colon
+	//time-colon
+	//SecondDot1  	
+	//SecondDot2
+	//week
 
 	private readonly string ToMoney(bool IsDefault, bool Tooltip = true)
 	{
@@ -75,5 +83,10 @@ public readonly struct Integer(double value) : IFormattable
 
 		return builder.ToString();
 	}
+	#endregion
+
+	#region	Secondary
+	public readonly string SecondaryMoneyBlue => Value + " <replace p=\"UI.Common.SecondaryMoney.IconOnly\"/>";
+	public readonly string SecondaryMoneyRed => Value + " <replace p=\"UI.Common.SecondaryMoney.Red.IconOnly\"/>";
 	#endregion
 }

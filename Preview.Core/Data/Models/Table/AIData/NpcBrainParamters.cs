@@ -1,8 +1,4 @@
-﻿using Xylia.Preview.Common.Attributes;
-using Xylia.Preview.Data.Models.Sequence;
-
-namespace Xylia.Preview.Data.Models;
-[Side(ReleaseSide.Server)]
+﻿namespace Xylia.Preview.Data.Models;
 public sealed class NpcBrainParameters : ModelElement
 {
 	//public string Alias;
@@ -144,55 +140,4 @@ public sealed class NpcBrainParameters : ModelElement
 
 	//[Repeat(3)]
 	//public Ref<Item>[] Weapon;
-}
-
-
-
-/// <summary>
-/// 隐藏类型
-/// </summary>
-public enum HideType
-{
-	None,
-
-	/// <summary>
-	/// 地下, 无法攻击
-	/// </summary>
-	Burrow,
-
-	/// <summary>
-	/// 只是无法锁定, 还是可以攻击到
-	/// </summary>
-	Hide,
-}
-
-public enum TargetingType
-{
-	None,
-
-	[Name("hate-top")]
-	HateTop,
-
-	[Name("hate-tour")]
-	HateTour,
-}
-
-/// <summary>
-/// 战斗序列转移类型
-/// </summary>
-public enum TransitType
-{
-	None,
-
-	/// <summary>
-	/// Event转移
-	/// </summary>
-	[Name("by-event")]
-	ByEvent,
-
-	/// <summary>
-	/// 定时器转移
-	/// </summary>
-	[Name("by-timer")]
-	ByTimer,
 }

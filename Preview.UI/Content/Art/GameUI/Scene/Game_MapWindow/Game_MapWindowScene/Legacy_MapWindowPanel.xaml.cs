@@ -11,7 +11,6 @@ using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models;
 using Xylia.Preview.UI.Controls;
-using Xylia.Preview.UI.Extensions;
 
 namespace Xylia.Preview.UI.GameUI.Scene.Game_MapWindow;
 public partial class Legacy_MapWindowPanel
@@ -72,10 +71,7 @@ public partial class Legacy_MapWindowPanel
 	private void MapWindow_Minimap_MapChanged(object? sender, MapInfo MapInfo)
 	{
 		MapInfo.IsSelected = true;
-
 		//MapWindow_MapHolder.Width = MapWindow_MapHolder.Height = MapInfo.ImageSize;
-		MapWindow_QuestInfo.SetVisiable(false && MapWindow_Minimap.QuestCount > 0);
-		MapWindow_QuestInfo.String.LabelText = $"当前区域任务总数: {MapWindow_Minimap.QuestCount}";
 	}
 
 	private void MapWindow_Minimap_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
@@ -98,11 +94,11 @@ public partial class Legacy_MapWindowPanel
 			!int.TryParse(MapWindowPanel_PositionHolder_Y.Text, out var y)) return;
 
 		var point = new Vector32(x, y, 0);
-		MapWindow_Minimap.AddChild(new BnsCustomImageWidget()
+		MapWindow_Minimap.AddChild(point, null, new BnsCustomImageWidget()
 		{
 			Tag = MapUnit.CategorySeq.Player,
-			BaseImageProperty = new ImageProperty() { ImageSet = new MyFPackageIndex("/Game/Art/UI/GameUI/Resource/GameUI_Map_Indicator/teleport_point_current_normal") },
-		}, point);
+			BaseImageProperty = new ImageProperty() { EnableImageSet = true, ImageSet = new MyFPackageIndex("/Game/Art/UI/GameUI/Resource/GameUI_Map_Indicator/teleport_point_current_normal") },
+		});
 	}
 	#endregion
 

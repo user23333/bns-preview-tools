@@ -1,0 +1,10 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+	<ResourceDictionary.MergedDictionaries>
+		<ResourceDictionary Source="../../../Common/Controls/IconPicker.xaml"/>
+		<ResourceDictionary Source="../../../Common/Controls/ReferenceBox.xaml"/>
+		<ResourceDictionary Source="../../../Common/Controls/AttributeGrid/AttributeGrid.xaml"/>
+	</ResourceDictionary.MergedDictionaries>
+
+</ResourceDictionary>

@@ -189,6 +189,9 @@
   <data name="AbilityName.DefendPerfectParryReducePercent" xml:space="preserve">
     <value>DefendPerfectParryReducePercent</value>
   </data>
+  <data name="AbilityName.DefendPowerCreatureValue" xml:space="preserve">
+    <value>DefendPowerPercent</value>
+  </data>
   <data name="AbilityName.HateBasePercent" xml:space="preserve">
     <value>HateBasePercent</value>
   </data>
@@ -218,29 +221,48 @@
     <value>Github</value>
   </data>
   <data name="Application_UpdateLog" xml:space="preserve">
-    <value>[3.1.4]
+    <value>[ver=3.2.0,time=2024/9/1]
+Database Studio
++Optimize path of the export folder.
++Optimize data definition loaded from server.
++Fix some issues with incorrect data type.
++Fix the issue of memory leakage when connecting non-global source.
+
+Preview
++Add view probability of item combination.
++Fix the issue where some label text was truncated when viewing probability information.
++Optimize view probability to support glyph reward.
++Optimize the attribute editor support view extensible markup language (xml).
++Optimize the attribute editor support redirect reference type data.
+
+Other
++Add progress notification of icon export.
++Add 'Predefined Data Export' to the taskbar jump list.
++Optimize path selection function of TextViewer.
+
+[ver=3.1.4,time=2024/6/18]
 Probability information support smart drop groups.
 Fix issue where generating item list will throw errors.
 Fix issue of some tags display Korean (CN region). 
 
-[3.1.3]
+[ver=3.1.3,time=2024/6/12]
 Fix issues where programs cannot run in some cases.
 Optimize quest preview support rewards.
 Optimize message when model is not exist.
 
-[3.1.2]
+[ver=3.1.2,time=2024/5/25]
 Optimize item preview support equip-gem abilities and set effects.
 Fix filtering don't work when switching to a first level node in item preview.
 Optimize filtering function for quest preview.
 Optimize message when updating server check failed.
 
-[3.1.1]
+[ver=3.1.1,time=2024/4/29]
 Fix fixed-job gear reward skill also follow settings.
 Optimize store preview interface.
 Optimize partial tips for text editor.
 Optimize map preview function.
 
-[3.1.0]
+[ver=3.1.0,time=2024/4/14]
 Add theme system.
 Add support NEO Classic client.
 Add skill and reward preview.
@@ -261,6 +283,9 @@ Expand the response rectange with item preview.</value>
     <value>There is a problem when check update, please try again later.
 {0}</value>
   </data>
+  <data name="Assets_Name" xml:space="preserve">
+    <value>Assets</value>
+  </data>
   <data name="Asset_Extract" xml:space="preserve">
     <value>Extract</value>
   </data>
@@ -272,9 +297,6 @@ Expand the response rectange with item preview.</value>
   </data>
   <data name="Asset_Repack" xml:space="preserve">
     <value>Repack</value>
-  </data>
-  <data name="Assets_Name" xml:space="preserve">
-    <value>Assets</value>
   </data>
   <data name="AudioPlayer_BytesPerSecond" xml:space="preserve">
     <value>BytesPerSecond</value>
@@ -288,29 +310,26 @@ Expand the response rectange with item preview.</value>
   <data name="AudioPlayer_Name" xml:space="preserve">
     <value>AudioPlayer</value>
   </data>
+  <data name="Command_Output" xml:space="preserve">
+    <value>Predefined Data Export</value>
+  </data>
   <data name="Command_QueryAsset" xml:space="preserve">
     <value>Query Asset</value>
   </data>
   <data name="Command_QueryAsset2" xml:space="preserve">
     <value>Query Asset (old path)</value>
   </data>
-  <data name="DatSelector_CountDown" xml:space="preserve">
-    <value>Automatically select after {0} second</value>
+  <data name="DatabaseStudio_AttributeName" xml:space="preserve">
+    <value>Name</value>
   </data>
-  <data name="DatSelector_Name" xml:space="preserve">
-    <value>DatSelector</value>
-  </data>
-  <data name="DatSelector_Source1" xml:space="preserve">
-    <value>Xml Dat</value>
-  </data>
-  <data name="DatSelector_Source2" xml:space="preserve">
-    <value>Local Dat</value>
-  </data>
-  <data name="DatSelector_Tooltip" xml:space="preserve">
-    <value>Due to exists multiple files in your selected path, it is necessary to manually select.</value>
+  <data name="DatabaseStudio_AttributeType" xml:space="preserve">
+    <value>Type</value>
   </data>
   <data name="DatabaseStudio_Connect" xml:space="preserve">
     <value>Connect</value>
+  </data>
+  <data name="DatabaseStudio_ConnectionManager" xml:space="preserve">
+    <value>Connection Manager</value>
   </data>
   <data name="DatabaseStudio_ConnectMessage1" xml:space="preserve">
     <value>Are you still sure to disconnect?</value>
@@ -318,11 +337,11 @@ Expand the response rectange with item preview.</value>
   <data name="DatabaseStudio_ConnectMessage2" xml:space="preserve">
     <value>It is global data provider currently. Are you still sure to disconnect?</value>
   </data>
-  <data name="DatabaseStudio_ConnectionManager" xml:space="preserve">
-    <value>Connection Manager</value>
-  </data>
   <data name="DatabaseStudio_Disconnect" xml:space="preserve">
     <value>Disconnect</value>
+  </data>
+  <data name="DatabaseStudio_ExecutionTime" xml:space="preserve">
+    <value>Execution Time:</value>
   </data>
   <data name="DatabaseStudio_Extract" xml:space="preserve">
     <value>Extract</value>
@@ -332,6 +351,18 @@ Expand the response rectange with item preview.</value>
   </data>
   <data name="DatabaseStudio_Grid" xml:space="preserve">
     <value>Grid</value>
+  </data>
+  <data name="DatabaseStudio_Hidden" xml:space="preserve">
+    <value>Hidden</value>
+  </data>
+  <data name="DatabaseStudio_IsDeprecated" xml:space="preserve">
+    <value>Deprecated</value>
+  </data>
+  <data name="DatabaseStudio_IsKey" xml:space="preserve">
+    <value>Key</value>
+  </data>
+  <data name="DatabaseStudio_IsRequired" xml:space="preserve">
+    <value>Required</value>
   </data>
   <data name="DatabaseStudio_Mode_Folder" xml:space="preserve">
     <value>Folder</value>
@@ -345,6 +376,9 @@ Expand the response rectange with item preview.</value>
   <data name="DatabaseStudio_Name" xml:space="preserve">
     <value>Database Studio</value>
   </data>
+  <data name="DatabaseStudio_Offset" xml:space="preserve">
+    <value>Binary Offset</value>
+  </data>
   <data name="DatabaseStudio_OutputExcel" xml:space="preserve">
     <value>Save as excel</value>
   </data>
@@ -357,11 +391,14 @@ Expand the response rectange with item preview.</value>
   <data name="DatabaseStudio_SqlLoad" xml:space="preserve">
     <value>Load</value>
   </data>
+  <data name="DatabaseStudio_SqlNew" xml:space="preserve">
+    <value>New</value>
+  </data>
   <data name="DatabaseStudio_SqlSave" xml:space="preserve">
     <value>Save</value>
   </data>
   <data name="DatabaseStudio_TaskMessage1" xml:space="preserve">
-    <value>Progress: {0}/{1} ({2:P0})</value>
+    <value>Saving: {0}/{1} ({2:P0})</value>
   </data>
   <data name="DatabaseStudio_TaskMessage2" xml:space="preserve">
     <value>Task completed!</value>
@@ -377,6 +414,21 @@ Expand the response rectange with item preview.</value>
   </data>
   <data name="DatabaseStudio_ViewTable" xml:space="preserve">
     <value>View</value>
+  </data>
+  <data name="DatSelector_CountDown" xml:space="preserve">
+    <value>Automatically select after {0} second</value>
+  </data>
+  <data name="DatSelector_Name" xml:space="preserve">
+    <value>DatSelector</value>
+  </data>
+  <data name="DatSelector_Source1" xml:space="preserve">
+    <value>Xml Dat</value>
+  </data>
+  <data name="DatSelector_Source2" xml:space="preserve">
+    <value>Local Dat</value>
+  </data>
+  <data name="DatSelector_Tooltip" xml:space="preserve">
+    <value>Due to exists multiple files in your selected path, it is necessary to manually select.</value>
   </data>
   <data name="Extract_ItemBuyPrice" xml:space="preserve">
     <value>Extract ItemBuyPrice</value>
@@ -414,14 +466,14 @@ Expand the response rectange with item preview.</value>
   <data name="IconOut_FilterMode_Tooltip" xml:space="preserve">
     <value>create item only in list when checked, otherwise ignore listed item</value>
   </data>
-  <data name="IconOut_Goods" xml:space="preserve">
+  <data name="IconOut_GoodIcon" xml:space="preserve">
     <value>Extract Good Icon</value>
+  </data>
+  <data name="IconOut_ItemIcon" xml:space="preserve">
+    <value>Extract Item Icon</value>
   </data>
   <data name="IconOut_ItemList" xml:space="preserve">
     <value>Select item list</value>
-  </data>
-  <data name="IconOut_Items" xml:space="preserve">
-    <value>Extract Item Icon</value>
   </data>
   <data name="IconOut_Name" xml:space="preserve">
     <value>Icon</value>
@@ -429,7 +481,7 @@ Expand the response rectange with item preview.</value>
   <data name="IconOut_NameFormat" xml:space="preserve">
     <value>Output name format</value>
   </data>
-  <data name="IconOut_Skills" xml:space="preserve">
+  <data name="IconOut_SkillIcon" xml:space="preserve">
     <value>Extract Skill Icon</value>
   </data>
   <data name="IconOut_UseBackground" xml:space="preserve">
@@ -540,6 +592,15 @@ Expand the response rectange with item preview.</value>
   <data name="PreviewModel" xml:space="preserve">
     <value>View Model</value>
   </data>
+  <data name="PreviewModel_Empty" xml:space="preserve">
+    <value>Missing model resource.</value>
+  </data>
+  <data name="PreviewModel_Fail" xml:space="preserve">
+    <value>Model load failed.</value>
+  </data>
+  <data name="PreviewProbability" xml:space="preserve">
+    <value>View Probability Information</value>
+  </data>
   <data name="PreviewShowObject" xml:space="preserve">
     <value>View Show Object</value>
   </data>
@@ -553,14 +614,17 @@ Expand the response rectange with item preview.</value>
     <value>Blade &amp; Soul Preview Tool</value>
     <comment>Title</comment>
   </data>
-  <data name="PropertyEditor_Name" xml:space="preserve">
-    <value>Property Editor</value>
+  <data name="AttributeEditor_Name" xml:space="preserve">
+    <value>Attribute Editor</value>
   </data>
-  <data name="PropertyEditor_ViewSource_Tooltip" xml:space="preserve">
-    <value>Copy raw data to clipboard, or open text editor when invalid</value>
+  <data name="QuestJournal_Category" xml:space="preserve">
+    <value>Category</value>
   </data>
-  <data name="Repository" xml:space="preserve">
-    <value>Repository</value>
+  <data name="QuestJournal_ContentType" xml:space="preserve">
+    <value>Content Type</value>
+  </data>
+  <data name="QuestJournal_ResetType" xml:space="preserve">
+    <value>Reset Type</value>
   </data>
   <data name="Settings_CopyMode" xml:space="preserve">
     <value>Text Copy Mode</value>
@@ -588,6 +652,9 @@ Expand the response rectange with item preview.</value>
   </data>
   <data name="Settings_Job" xml:space="preserve">
     <value>Job</value>
+  </data>
+  <data name="Settings_KeepLogs" xml:space="preserve">
+    <value>Log keep time</value>
   </data>
   <data name="Settings_Language" xml:space="preserve">
     <value>Language</value>
@@ -625,6 +692,9 @@ Expand the response rectange with item preview.</value>
   <data name="Settings_Tab_General" xml:space="preserve">
     <value>General</value>
   </data>
+  <data name="Settings_Tab_Models" xml:space="preserve">
+    <value>Models (Lab)</value>
+  </data>
   <data name="Settings_TestMode" xml:space="preserve">
     <value>Data Test Mode</value>
   </data>
@@ -655,6 +725,39 @@ Expand the response rectange with item preview.</value>
   <data name="TableView_Name" xml:space="preserve">
     <value>Table View</value>
   </data>
+  <data name="Text.InvalidPath" xml:space="preserve">
+    <value>Please select a valid file.</value>
+  </data>
+  <data name="Text.TaskBegin" xml:space="preserve">
+    <value>Task begin...</value>
+  </data>
+  <data name="Text.TaskCancel_Ask" xml:space="preserve">
+    <value>Are you sure to cancel the task?</value>
+  </data>
+  <data name="Text.TaskCancel_Ask_Exist" xml:space="preserve">
+    <value>Task already being executed, are you sure to cancel it?</value>
+  </data>
+  <data name="Text.TaskCompleted" xml:space="preserve">
+    <value>Task completed.</value>
+  </data>
+  <data name="Text.TaskCompleted2" xml:space="preserve">
+    <value>Task completed, taking {0}.</value>
+  </data>
+  <data name="Text.TaskException" xml:space="preserve">
+    <value>Task unexpectedly terminated, because {0}</value>
+  </data>
+  <data name="Text.TaskProcess" xml:space="preserve">
+    <value>Task executing {0:P2}</value>
+  </data>
+  <data name="Text.TaskProcess2" xml:space="preserve">
+    <value>Task of {1} is executing {0:P2}</value>
+  </data>
+  <data name="TextEditor_Copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="TextEditor_CopyData" xml:space="preserve">
+    <value>Copy Data</value>
+  </data>
   <data name="TextEditor_Name" xml:space="preserve">
     <value>Text Editor</value>
   </data>
@@ -666,12 +769,6 @@ Expand the response rectange with item preview.</value>
   </data>
   <data name="TextView_LoadData_Tooltip" xml:space="preserve">
     <value>Loading non text data will take up a longer time.</value>
-  </data>
-  <data name="TextView_LoadLastOnStartup" xml:space="preserve">
-    <value>Load last on startup</value>
-  </data>
-  <data name="TextView_LoadLast_Ask" xml:space="preserve">
-    <value>Do you want to load last data?</value>
   </data>
   <data name="TextView_Name" xml:space="preserve">
     <value>Text Viewer</value>
@@ -719,14 +816,20 @@ Please note that do not modify the order of nodes</value>
   <data name="Text_FileSize" xml:space="preserve">
     <value>Length</value>
   </data>
+  <data name="Text_Group" xml:space="preserve">
+    <value>Group</value>
+  </data>
   <data name="Text_Import" xml:space="preserve">
     <value>Import</value>
   </data>
-  <data name="Text_Left" xml:space="preserve">
-    <value>Left</value>
+  <data name="Text_Info" xml:space="preserve">
+    <value>Information</value>
   </data>
   <data name="Text_LineNumber" xml:space="preserve">
     <value>Line</value>
+  </data>
+  <data name="Text_Name" xml:space="preserve">
+    <value>Name</value>
   </data>
   <data name="Text_None" xml:space="preserve">
     <value>None</value>
@@ -734,11 +837,23 @@ Please note that do not modify the order of nodes</value>
   <data name="Text_Ok" xml:space="preserve">
     <value>Ok</value>
   </data>
+  <data name="Text_OpenFile" xml:space="preserve">
+    <value>Open File...</value>
+  </data>
+  <data name="Text_OpenFolder" xml:space="preserve">
+    <value>Open Folder...</value>
+  </data>
+  <data name="Text_Option" xml:space="preserve">
+    <value>Options</value>
+  </data>
   <data name="Text_Options" xml:space="preserve">
     <value>Options</value>
   </data>
   <data name="Text_Output" xml:space="preserve">
     <value>Output</value>
+  </data>
+  <data name="Text_Path" xml:space="preserve">
+    <value>Path</value>
   </data>
   <data name="Text_Preview" xml:space="preserve">
     <value>Preview</value>
@@ -758,11 +873,11 @@ Please note that do not modify the order of nodes</value>
   <data name="Text_ReplaceInFiles" xml:space="preserve">
     <value>Replace in Files</value>
   </data>
+  <data name="Text_Repository" xml:space="preserve">
+    <value>Repository</value>
+  </data>
   <data name="Text_Reset" xml:space="preserve">
     <value>Reset</value>
-  </data>
-  <data name="Text_Right" xml:space="preserve">
-    <value>Right</value>
   </data>
   <data name="Text_Run" xml:space="preserve">
     <value>Run</value>
@@ -775,39 +890,6 @@ Please note that do not modify the order of nodes</value>
   </data>
   <data name="Text_Search" xml:space="preserve">
     <value>Search</value>
-  </data>
-  <data name="Text_Update" xml:space="preserve">
-    <value>Update</value>
-  </data>
-  <data name="DatabaseStudio_AttributeName" xml:space="preserve">
-    <value>Name</value>
-  </data>
-  <data name="DatabaseStudio_AttributeType" xml:space="preserve">
-    <value>Type</value>
-  </data>
-  <data name="DatabaseStudio_Hidden" xml:space="preserve">
-    <value>Hidden</value>
-  </data>
-  <data name="DatabaseStudio_IsDeprecated" xml:space="preserve">
-    <value>Deprecated</value>
-  </data>
-  <data name="DatabaseStudio_IsKey" xml:space="preserve">
-    <value>Key</value>
-  </data>
-  <data name="DatabaseStudio_IsRequired" xml:space="preserve">
-    <value>Required</value>
-  </data>
-  <data name="DatabaseStudio_Offset" xml:space="preserve">
-    <value>Binary Offset</value>
-  </data>
-  <data name="Message_InvalidPath" xml:space="preserve">
-    <value>Please select a valid file.</value>
-  </data>
-  <data name="Settings_Tab_Models" xml:space="preserve">
-    <value>Models (Lab)</value>
-  </data>
-  <data name="Settings_KeepLogs" xml:space="preserve">
-    <value>Log keep time</value>
   </data>
   <data name="Text_Time_Day" xml:space="preserve">
     <value> Day(s)</value>
@@ -824,56 +906,17 @@ Please note that do not modify the order of nodes</value>
   <data name="Text_Time_Second" xml:space="preserve">
     <value>Second(s)</value>
   </data>
-  <data name="QuestJournal_Category" xml:space="preserve">
-    <value>Category</value>
+  <data name="Text_Update" xml:space="preserve">
+    <value>Update</value>
   </data>
-  <data name="QuestJournal_ContentType" xml:space="preserve">
-    <value>Content Type</value>
+  <data name="Text_WordWrap" xml:space="preserve">
+    <value>Word Warp</value>
   </data>
-  <data name="QuestJournal_ResetType" xml:space="preserve">
-    <value>Reset Type</value>
-  </data>
-  <data name="AbilityName.DefendPowerCreatureValue" xml:space="preserve">
-    <value>DefendPowerPercent</value>
-  </data>
-  <data name="PreviewModel_Empty" xml:space="preserve">
-    <value>Missing model resource.</value>
-  </data>
-  <data name="PreviewModel_Fail" xml:space="preserve">
-    <value>Model load failed.</value>
-  </data>
-  <data name="PreviewProbability" xml:space="preserve">
-    <value>View Probability Information</value>
-  </data>
-  <data name="Text.TaskCancel_Ask" xml:space="preserve">
-    <value>Are you sure to cancel the task?</value>
-  </data>
-  <data name="Text.TaskCancel_Ask_Exist" xml:space="preserve">
-    <value>Task already being executed, are you sure to cancel it?</value>
-  </data>
-  <data name="Text.TaskCompleted" xml:space="preserve">
-    <value>Task completed.</value>
-  </data>
-  <data name="Text.TaskCompleted2" xml:space="preserve">
-    <value>Task completed, taking {0}.</value>
-  </data>
-  <data name="Text.TaskException" xml:space="preserve">
-    <value>Task unexpectedly terminated, because {0}</value>
-  </data>
-  <data name="Text.TaskBegin" xml:space="preserve">
-    <value>Task begin...</value>
-  </data>
-  <data name="DatabaseStudio_SqlNew" xml:space="preserve">
-    <value>New</value>
+  <data name="UI.ItemRandomOption.Skill.Describe" xml:space="preserve">
+    <value>&lt;font name="00008130.UI.Vital_LightBlue"&gt;&lt;arg p="1"/&gt;&lt;/font&gt; changed to &lt;font name="00008130.UI.Vital_LightBlue"&gt;&lt;arg p="2"/&gt;&lt;/font&gt;</value>
   </data>
   <data name="UI.ItemRandomOption.Undetermined" xml:space="preserve">
     <value>&lt;arg p="1:integer"/&gt; of the following</value>
-  </data>
-  <data name="UI.Tooltip.Skill.damage-percent" xml:space="preserve">
-    <value>&lt;arg p="1:integer"/&gt;xAP</value>
-  </data>
-  <data name="UI.Tooltip.Skill.damage-percent-min-max" xml:space="preserve">
-    <value>&lt;arg p="1:integer"/&gt;~&lt;arg p="2:integer"/&gt;xAP</value>
   </data>
   <data name="UI.RandomBox.Probability.CommonDroppedPouch" xml:space="preserve">
     <value>Party dropped pouch</value>
@@ -899,16 +942,16 @@ Please note that do not modify the order of nodes</value>
   <data name="UI.RandomBox.Probability.PersonalDroppedPouch.Difficulty3" xml:space="preserve">
     <value>Personal dropped pouch (Hard)</value>
   </data>
-  <data name="UI.ItemRandomOption.Skill.Describe" xml:space="preserve">
-    <value>&lt;font name="00008130.UI.Vital_LightBlue"&gt;&lt;arg p="1"/&gt;&lt;/font&gt; changed to &lt;font name="00008130.UI.Vital_LightBlue"&gt;&lt;arg p="2"/&gt;&lt;/font&gt;</value>
+  <data name="UI.Tooltip.Skill.damage-percent" xml:space="preserve">
+    <value>&lt;arg p="1:integer"/&gt;xAP</value>
   </data>
-  <data name="Text_Group" xml:space="preserve">
-    <value>Group</value>
+  <data name="UI.Tooltip.Skill.damage-percent-min-max" xml:space="preserve">
+    <value>&lt;arg p="1:integer"/&gt;~&lt;arg p="2:integer"/&gt;xAP</value>
   </data>
-  <data name="Text_Info" xml:space="preserve">
-    <value>Information</value>
+  <data name="DatabaseStudio_Definition" xml:space="preserve">
+    <value>Definition Version</value>
   </data>
-  <data name="Text_Name" xml:space="preserve">
-    <value>Name</value>
+  <data name="DatabaseStudio_Definition_Tooltip" xml:space="preserve">
+    <value>Select the default item if you don't know which one is want.</value>
   </data>
 </root>

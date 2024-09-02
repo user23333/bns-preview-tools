@@ -6,8 +6,8 @@
         Width="105" Height="40" Background="Black"
 		Left="{Binding Source={x:Static SystemParameters.MaximizedPrimaryScreenWidth}, Converter={converters:RatioConverter}, ConverterParameter='0.9'}"
 		Top="{Binding Source={x:Static SystemParameters.MaximizedPrimaryScreenHeight}, Converter={converters:RatioConverter}, ConverterParameter='0.6'}"
-		Title="Monitor" ShowInTaskbar="False" Topmost="True" ResizeMode="NoResize" SnapsToDevicePixels="True" AllowsTransparency="True" 
-		WindowStartupLocation="Manual" WindowStyle="None" WindowState="Normal" 
+		Title="Monitor" Topmost="True" ResizeMode="NoResize" SnapsToDevicePixels="True" AllowsTransparency="True" 
+		WindowStartupLocation="Manual" WindowStyle="None" WindowState="Normal" ShowInTaskbar="False" 
 		MouseLeftButtonDown="Window_MouseLeftButtonDown" Loaded="Window_Loaded" Closed="Window_Closed">
 	<Grid Margin="5 3 0 0">
 		<Grid.RowDefinitions>

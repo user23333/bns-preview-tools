@@ -1,28 +1,20 @@
-﻿using System.Globalization;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Data;
 using HandyControl.Controls;
-using Xylia.Preview.Data.Engine.BinData.Helpers;
 using Xylia.Preview.Data.Engine.BinData.Models;
-using Xylia.Preview.Data.Helpers;
+using Xylia.Preview.Data.Engine.DatData;
 
 namespace Xylia.Preview.UI.Controls;
-internal class ReferenceAttributeEditor : PropertyEditorBase, IValueConverter
+internal class ReferenceAttributeEditor(string? reference, IDataProvider provider) : PropertyEditorBase
 {
-	#region Constructorss
-	protected TableCollection Tables { get; }
+	#region Constructors
+	protected IDataProvider Provider { get; } = provider;
 
-	protected Table? ReferedTable { get; }
-
-	public ReferenceAttributeEditor(string reference)
-	{
-		Tables = FileCache.Data.Provider.Tables;
-		ReferedTable = Tables[reference];
-	}
+	protected Table? ReferedTable { get; } = provider.Tables[reference];
 	#endregion
 
 	#region Methods
-	public override FrameworkElement CreateElement(PropertyItem propertyItem) => new System.Windows.Controls.TextBox
+	public override FrameworkElement CreateElement(PropertyItem propertyItem) => new ReferenceBox
 	{
 		IsReadOnly = propertyItem.IsReadOnly
 	};
@@ -57,28 +49,8 @@ internal class ReferenceAttributeEditor : PropertyEditorBase, IValueConverter
 	//	return element;
 	//}
 
-	public override DependencyProperty GetDependencyProperty() => System.Windows.Controls.TextBox.TextProperty;
+	public override DependencyProperty GetDependencyProperty() => FrameworkElement.DataContextProperty;
 
 	public override UpdateSourceTrigger GetUpdateSourceTrigger(PropertyItem propertyItem) => UpdateSourceTrigger.LostFocus;
-	#endregion
-
-	#region IValueConverter
-	protected override IValueConverter GetConverter(PropertyItem propertyItem) => this;
-
-	public virtual object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
-	{
-		return value?.ToString();
-	}
-
-	public virtual object? ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-	{
-		if (value is string text)
-		{
-			if (text.Contains(':')) return Tables.GetRecord(text);
-			else return ReferedTable?[text];
-		}
-
-		throw new NotImplementedException();
-	}
 	#endregion
 }

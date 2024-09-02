@@ -17,6 +17,7 @@
 		<IsTrimmable>False</IsTrimmable>
 		<Authors>Xylia</Authors>
 	</PropertyGroup>
+	
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
 		<DebugSymbols>false</DebugSymbols>
 	</PropertyGroup>
@@ -30,11 +31,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="CUE4Parse" Version="9.1.1" />
-		<PackageReference Include="CUE4Parse-Conversion" Version="9.1.1" />
-		<PackageReference Include="HtmlAgilityPack" Version="1.11.61" />
+		<PackageReference Include="CUE4Parse" Version="9.1.2" />
+		<PackageReference Include="CUE4Parse-Conversion" Version="9.1.2" />
 		<PackageReference Include="ini-parser-netstandard" Version="2.5.2" />
 		<PackageReference Include="SharpZipLib" Version="1.4.2" />
+		<PackageReference Include="Vanara.PInvoke.User32" Version="4.0.3" />
 		<Reference Include="System.Xaml">
 		  <HintPath>Dlls\System.Xaml.dll</HintPath>
 		</Reference>
@@ -42,8 +43,7 @@
 	<ItemGroup>
 		<EmbeddedResource Include="Data\Definition\*.xml" />
 		<EmbeddedResource Include="Data\Definition\*\*.xml" />
-		<None Remove="Data\Definition\SmartDropReward.xml" />
-		
+
 		<None Include="..\LICENSE">
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>

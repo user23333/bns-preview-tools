@@ -8,10 +8,10 @@ public class FolderProvider(string path, EPublisher publisher = default) : IData
 {
 	#region Properties
 	public virtual string Name => path.SubstringAfterLast('\\');
-	public virtual DateTimeOffset CreatedAt => default;
+	public virtual Time64 CreatedAt => default;
 	public virtual BnsVersion ClientVersion => default;
-	public TableCollection Tables { get; private set; }
 	public Locale Locale => new(publisher);
+	public TableCollection Tables { get; private set; }
 	#endregion
 
 	#region Methods

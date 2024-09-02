@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using Xylia.Preview.Common.Extension;
+using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Properties;
 
 namespace Xylia.Preview.Data.Models;
@@ -10,7 +11,7 @@ public sealed class SkillTrainByItem : ModelElement
 
 	public Ref<Skill3>[] ChangeSkill { get; set; }
 
-	public string Icon { get; set; }
+	public Icon Icon { get; set; }
 
 	public Ref<Text> Description { get; set; }
 	#endregion

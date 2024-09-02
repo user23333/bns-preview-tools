@@ -25,11 +25,10 @@ internal partial class UserSettings : Settings
 	}
 	#endregion
 
-
 	#region Common 
 	public int NoticeId
 	{
-		get => GetValue().ToInt32();
+		get => GetValue<int>();
 		set { if (value > 0) SetValue(value); }
 	}
 
@@ -43,17 +42,17 @@ internal partial class UserSettings : Settings
 		set => SetValue(StringHelper.Current!.Language = value);
 		get
 		{
-			var e = GetValue().ToEnum<ELanguage>();
+			var e = GetValue<string>().ToEnum<ELanguage>();
 			return e > ELanguage.None ? e : StringHelper.Current!.Language;
 		}
 	}
 
 	/// <summary>
-	/// Gets or sets Update Mode
+	/// Gets or sets update mode
 	/// </summary>
 	public UpdateMode UpdateMode
 	{
-		get => (UpdateMode)GetValue().ToInt32();
+		get => (UpdateMode)GetValue<int>();
 		set
 		{
 			SetValue((int)value);
@@ -66,7 +65,7 @@ internal partial class UserSettings : Settings
 	/// </summary>
 	public bool? NightMode
 	{
-		get => GetValue()?.ToBool();
+		get => GetValue<bool?>();
 		set
 		{
 			SetValue(value);
@@ -79,7 +78,7 @@ internal partial class UserSettings : Settings
 	/// </summary>
 	public SkinType SkinType
 	{
-		get => (SkinType)GetValue().ToInt32();
+		get => (SkinType)GetValue<int>();
 		set
 		{
 			SetValue((int)value);
@@ -92,7 +91,7 @@ internal partial class UserSettings : Settings
 	/// </summary>
 	public CopyMode CopyMode
 	{
-		get => (CopyMode)GetValue().ToInt32();
+		get => (CopyMode)GetValue<int>();
 		set
 		{
 			SetValue((int)value);
@@ -105,13 +104,13 @@ internal partial class UserSettings : Settings
 	/// </summary>
 	public int KeepLogTime
 	{
-		get => int.TryParse(GetValue(), out var result) ? result : 15;
-		set => SetValue(value); 
+		get => int.TryParse(GetValue<string>(), out var result) ? result : 15;
+		set => SetValue(value);
 	}
 
 	public bool UsePerformanceMonitor
 	{
-		get => GetValue().ToBool();
+		get => GetValue<bool>();
 		set
 		{
 			SetValue(value);
@@ -127,13 +126,12 @@ internal partial class UserSettings : Settings
 
 	public JobSeq Job
 	{
-		set => SetValue(value);
-		get => GetValue().ToEnum(JobSeq.검사);
+		set => SetValue(value, "Preview");
+		get => GetValue<string>("Preview").ToEnum(JobSeq.검사);
 	}
 
-	public bool Text_LoadPrevious { get => GetValue().ToBool(); set => SetValue(value); }
-	public string Text_OldPath { get => GetValue(); set => SetValue(value); }
-	public string Text_NewPath { get => GetValue(); set => SetValue(value); }
+	public string? Text_OldPath { get => GetValue<string>(); set => SetValue(value); }
+	public string? Text_NewPath { get => GetValue<string>(); set => SetValue(value); }
 	#endregion
 
 	#region Model

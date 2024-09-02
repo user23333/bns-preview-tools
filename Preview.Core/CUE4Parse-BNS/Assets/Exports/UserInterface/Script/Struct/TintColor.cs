@@ -3,7 +3,6 @@ using System.Globalization;
 using CUE4Parse.UE4;
 using CUE4Parse.UE4.Assets.Utils;
 using CUE4Parse.UE4.Objects.Core.Math;
-using static System.MathF;
 
 namespace CUE4Parse.BNS.Assets.Exports;
 [StructFallback]
@@ -28,7 +27,7 @@ internal class TintColorConverter : TypeConverter
 	{
 		if (value is string s)
 		{
-			return new TintColor() { SpecifiedColor = ToLinearColor(s, true) };
+			return new TintColor() { SpecifiedColor = ToLinearColor(ToFColor(s), true) };
 		}
 
 		return base.ConvertFrom(context, culture, value);
@@ -48,10 +47,8 @@ internal class TintColorConverter : TypeConverter
 		return new FColor(r, g, b, a);
 	}
 
-	public static FLinearColor ToLinearColor(string s, bool sRGB)
+	public static FLinearColor ToLinearColor(FColor c, bool sRGB)
 	{
-		var c = ToFColor(s);
-
 		var floatR = c.R / 255.999f;
 		var floatG = c.G / 255.999f;
 		var floatB = c.B / 255.999f;
@@ -59,9 +56,9 @@ internal class TintColorConverter : TypeConverter
 
 		if (sRGB)
 		{
-			floatR = floatR <= 0.04045F ? floatR / 12.92F : Pow((floatR + 0.055F) / 1.055F, 2.4F);
-			floatG = floatG <= 0.04045F ? floatG / 12.92F : Pow((floatG + 0.055F) / 1.055F, 2.4F);
-			floatB = floatB <= 0.04045F ? floatB / 12.92F : Pow((floatB + 0.055F) / 1.055F, 2.4F);
+			floatR = floatR <= 0.04045F ? floatR / 12.92F : MathF.Pow((floatR + 0.055F) / 1.055F, 2.4F);
+			floatG = floatG <= 0.04045F ? floatG / 12.92F : MathF.Pow((floatG + 0.055F) / 1.055F, 2.4F);
+			floatB = floatB <= 0.04045F ? floatB / 12.92F : MathF.Pow((floatB + 0.055F) / 1.055F, 2.4F);
 		}
 
 		return new FLinearColor(floatR, floatG, floatB, floatA);

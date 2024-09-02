@@ -1,4 +1,6 @@
 ﻿using System.Reflection;
+using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Markup;
 using Xylia.Preview.Data.Models;
@@ -80,8 +82,26 @@ public abstract class RecordCommand : MarkupExtension, ICommand
 			if (definedType.IsAbstract || definedType.IsInterface || !baseType.IsAssignableFrom(definedType)) continue;
 
 			var instance = Activator.CreateInstance(definedType);
-			if (instance is RecordCommand command && command.CanExecute(name)) action?.Invoke(command);
+			if (instance is RecordCommand command && command.CanExecute(name)) action.Invoke(command);
 		}
+	}
+
+	/// <summary>
+	/// Bind menu
+	/// </summary>
+	/// <param name="command"></param>
+	/// <param name="menu"></param>
+	public static void Bind(RecordCommand command, ContextMenu menu)
+	{
+		var item = new MenuItem()
+		{
+			Header = StringHelper.Get(command.Name),
+			Command = command,
+			CommandParameter = new Binding("DataContext") { Source = menu }
+		};
+		item.SetBinding(MenuItem.CommandParameterProperty, new Binding("DataContext") { Source = menu });
+
+		menu.Items.Add(item);
 	}
 	#endregion
 }

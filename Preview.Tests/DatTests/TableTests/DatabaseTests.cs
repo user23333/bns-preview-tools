@@ -10,10 +10,10 @@ public sealed class DatabaseTests(IDataProvider provider, string outputPath) : B
 	/// from external files
 	/// </summary>
 	/// <param name="files"></param>
-	public void Output(params FileInfo[] files)
+	public void Output(params string[] files)
 	{
-		var defs = TableDefinitionHelper.LoadTableDefinition(new(), files);
-		if (Provider is DefaultProvider game) game.Detect.ParseType(defs);
+		var defs = files.Where(File.Exists).Select(f => TableDefinition.LoadFrom(new(), File.OpenRead(f)));
+		if (Provider is DefaultProvider game) game.Parser.Parse(defs);
 
 		Parallel.ForEach(defs, definition =>
 		{

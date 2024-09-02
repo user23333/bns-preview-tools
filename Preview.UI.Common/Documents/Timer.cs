@@ -1,43 +1,18 @@
-﻿using System;
-using System.Windows;
-using HtmlAgilityPack;
+﻿using System.Windows;
 using Xylia.Preview.Data.Common.DataStruct;
 
 namespace Xylia.Preview.UI.Documents;
-public class Timer : BaseElement
+public class Timer : BaseElement<Data.Models.Document.Timer>
 {
-	#region Fields
-	public int Id { get; set; }
-
-	public MsecFormat.MsecFormatType Type { get; set; }
-	#endregion
-
-	#region Properties
-	public Time64 Value { get; set; }
-
-	public Msec Span => Value - DateTime.Now;
-	#endregion
-
-
-	#region 0verride Methods
-	protected internal override void Load(HtmlNode node)
-	{
-		Id = node.GetAttributeValue("id", 0);
-		Type = node.GetAttributeValue("type", (MsecFormat.MsecFormatType)default);
-
-	   // Value = 
-	}
-
+	#region Methods
 	protected override Size MeasureCore(Size availableSize)
 	{
 		// HACK: 
-		this.Children = [new Run() { Text = Span.ToString(Type) }];
+		this.Children = [new Run() { Text = Element!.GetText(Timers) }];
 
 		return base.MeasureCore(availableSize);
 	}
-	#endregion
 
-	#region Methods
 	public static bool Valid(DayOfWeek DayOfWeek, int ResetTime, out Time64 Time)
 	{
 		var now = DateTime.Now;

@@ -18,5 +18,5 @@ public struct Script_obj
 		}
 	}
 
-	public override string ToString() => this.Full;
+	public readonly override string ToString() => this.Full;
 }

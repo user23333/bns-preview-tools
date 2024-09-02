@@ -13,7 +13,7 @@ namespace Xylia.Preview.Data.Engine.BinData.Serialization;
 public class ProviderSerialize(IDataProvider Provider)
 {
 	#region Fields
-	public string HashName = "hashes.txt";
+	public string HashName = "hashes";
 
 	/// <summary>
 	/// action after the data save finished

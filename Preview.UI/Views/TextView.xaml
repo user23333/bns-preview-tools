@@ -8,7 +8,7 @@
 	    xmlns:UI="https://github.com/xyliaup/bns-preview-tools"
 		xmlns:VM="clr-namespace:Xylia.Preview.UI.ViewModels"
         Title="{DynamicResource TextView_Name}" Icon="{x:Null}" Background="{DynamicResource RegionBrush}" 
-		Height="450" Width="800" Loaded="Window_Loaded">
+		Height="450" Width="800">
 	<Window.Resources>
 		<!-- SearchPanel -->
 		<Style TargetType="avalonEdit:SearchPanel">
@@ -107,11 +107,9 @@
 		<!-- Menu -->
 		<Menu Background="{DynamicResource BorderBrush}" FontSize="14" Grid.ColumnSpan="2" Visibility="Visible">
 			<MenuItem d:Header="File" Header="{DynamicResource Text_File}">
-				<MenuItem Header="{DynamicResource Text_Left}"  Click="OpenLeftFileMenuItem_Click" />
-				<MenuItem Header="{DynamicResource Text_Right}" Click="OpenRightFileMenuItem_Click" />
-				<MenuItem Header="{DynamicResource TextView_LoadLastOnStartup}" IsCheckable="True" IsChecked="{Binding Text_LoadPrevious, Source={x:Static VM:UserSettings.Default}}"/>
+				<MenuItem Header="{DynamicResource Text_OpenFile}" Command="ApplicationCommands.Open" />
 				<Separator />
-				<MenuItem Header="{DynamicResource Text_SaveAs}" Command="ApplicationCommands.SaveAs" d:Header="SaveAs" />
+				<MenuItem Header="{DynamicResource Text_SaveAs}" Command="ApplicationCommands.SaveAs" />
 			</MenuItem>
 
 			<MenuItem d:Header="Edit" Header="{DynamicResource Text_Edit}">
@@ -124,7 +122,7 @@
 			<MenuItem d:Header="Options" Header="{DynamicResource Text_Options}">
 				<!-- load data when preview -->
 				<MenuItem Header="{DynamicResource TextView_LoadData}" ToolTip="{DynamicResource TextView_LoadData_Tooltip}" 
-					IsCheckable="True" IsChecked="{Binding PreviewLoadData, Source={x:Static VM:UserSettings.Default}}"/>
+					IsCheckable="True" IsChecked="{Binding Text_LoadData, Source={x:Static VM:UserSettings.Default}}"/>
 
 				<MenuItem Header="Mode" Visibility="Collapsed">
 					<MenuItem Header="Inline Mode" Click="InlineModeToggle_Click" />

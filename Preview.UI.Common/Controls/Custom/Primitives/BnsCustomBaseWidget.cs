@@ -1,11 +1,12 @@
-﻿using System;
+﻿using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Media;
 using CUE4Parse.BNS.Assets.Exports;
-using CUE4Parse.UE4.Objects.Core.i18N;
 using SkiaSharp.Views.WPF;
 using Xylia.Preview.Common.Extension;
+using Xylia.Preview.Data.Helpers;
+using Xylia.Preview.Data.Models;
 using Xylia.Preview.UI.Controls.Helpers;
 using Xylia.Preview.UI.Converters;
 using Xylia.Preview.UI.Documents;
@@ -13,7 +14,7 @@ using Xylia.Preview.UI.Documents.Primitives;
 using Xylia.Preview.UI.Extensions;
 
 namespace Xylia.Preview.UI.Controls.Primitives;
-public abstract class BnsCustomBaseWidget : UserWidget, IMetaData
+public abstract class BnsCustomBaseWidget : UserWidget
 {
 	#region Constructors
 	internal BnsCustomBaseWidget()
@@ -33,9 +34,11 @@ public abstract class BnsCustomBaseWidget : UserWidget, IMetaData
 	private static readonly Type Owner = typeof(BnsCustomBaseWidget);
 	public static readonly DependencyProperty BaseImagePropertyProperty = Owner.Register<ImageProperty>(nameof(BaseImageProperty), null);
 	public static readonly DependencyProperty StringProperty = Owner.Register<StringProperty>(nameof(String), null, callback: OnStringChanged);
-	public static readonly DependencyProperty MetaDataProperty = Owner.Register(nameof(MetaData), string.Empty, callback: IMetaData.UpdateData);
+	public static readonly DependencyProperty MetaDataProperty = Owner.Register(nameof(MetaData), string.Empty, callback: OnMetaChanged);
 	public static readonly DependencyProperty ExpansionComponentListProperty = Owner.Register<ExpansionCollection>(nameof(ExpansionComponentList));
 
+	public static readonly DependencyProperty AutoResizeHorizontalProperty = Owner.Register<bool>(nameof(AutoResizeHorizontal), default, FrameworkPropertyMetadataOptions.AffectsParentArrange);
+	public static readonly DependencyProperty AutoResizeVerticalProperty = Owner.Register<bool>(nameof(AutoResizeVertical), default, FrameworkPropertyMetadataOptions.AffectsParentArrange);
 	public static readonly DependencyProperty HorizontalResizeLinkProperty = Owner.Register<ResizeLink>(nameof(HorizontalResizeLink), default, FrameworkPropertyMetadataOptions.AffectsParentArrange);
 	public static readonly DependencyProperty VerticalResizeLinkProperty = Owner.Register<ResizeLink>(nameof(VerticalResizeLink), default, FrameworkPropertyMetadataOptions.AffectsParentArrange);
 
@@ -75,17 +78,59 @@ public abstract class BnsCustomBaseWidget : UserWidget, IMetaData
 		set { SetValue(VerticalResizeLinkProperty, value); }
 	}
 
-	public bool AutoResizeHorizontal { get; set; }
-	public float MaxAutoResizeHorizontal { get; set; }
-	public float MinAutoResizeHorizontal { get; set; }
+	public bool AutoResizeHorizontal
+	{
+		get => (bool)GetValue(AutoResizeHorizontalProperty);
+		set => SetValue(AutoResizeHorizontalProperty, value);
+	}
+	public float MinAutoResizeHorizontal { get; set; } = 0;
+	public float MaxAutoResizeHorizontal { get; set; } = float.PositiveInfinity;
 
-	public bool AutoResizeVertical { get; set; }
-	public float MaxAutoResizeVertical { get; set; }
-	public float MinAutoResizeVertical { get; set; }
+	public bool AutoResizeVertical
+	{
+		get => (bool)GetValue(AutoResizeVerticalProperty);
+		set => SetValue(AutoResizeVerticalProperty, value);
+	}
+	public float MinAutoResizeVertical { get; set; } = 0;
+	public float MaxAutoResizeVertical { get; set; } = float.PositiveInfinity;
 	#endregion
 
 	#region StringProperty
 	internal readonly TextContainer _container;
+
+	internal void OnContainerChanged(EventArgs e)
+	{
+		InvalidateMeasure();
+		InvalidateArrange();
+		InvalidateVisual();
+	}
+
+	public static async void OnMetaChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+	{
+		var widget = (BnsCustomBaseWidget)d;
+		if (e.NewValue is not string s || string.IsNullOrEmpty(s)) return;
+
+		// return if in design
+		if (DesignerProperties.GetIsInDesignMode(d)) return;
+		await Task.Run(() => FileCache.Data.Provider.GetTable<Text>());
+
+		foreach (var meta in s.Split(';'))
+		{
+			var ls = meta.Split('=', 2);
+			if (ls.Length < 2) continue;
+
+			switch (ls[0])
+			{
+				case "textref": widget.UpdateString(ls[1].GetText()); return;
+				case "tooltip": widget.UpdateTooltip(ls[1].GetText()); return;
+				case "config":
+				case "width":
+				case "height": return;
+
+				default: Debug.Print("meta is not supported!"); break;
+			}
+		}
+	}
 
 	private static void OnStringChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 	{
@@ -102,27 +147,17 @@ public abstract class BnsCustomBaseWidget : UserWidget, IMetaData
 		OnContainerChanged(EventArgs.Empty);
 	}
 
-	internal void OnContainerChanged(EventArgs e)
+	protected void UpdateString(string text)
 	{
-		InvalidateMeasure();
-		InvalidateArrange();
-		InvalidateVisual();
-	}
-
-	//  IMetaData
-	public void UpdateString(string? text)
-	{
-		this.String ??= new StringProperty();
-		this.String.LabelText = new FText(text);
+		this.String.LabelText = text;
 		this.OnStringChanged(String);
 	}
 
-	void IMetaData.UpdateTooltip(string? text)
+	protected void UpdateTooltip(string text)
 	{
 		this.ToolTip = text;
 	}
 	#endregion
-
 
 	#region Protected Methods
 	protected override Size MeasureOverride(Size constraint)
@@ -130,7 +165,10 @@ public abstract class BnsCustomBaseWidget : UserWidget, IMetaData
 		if (AutoResizeHorizontal) constraint.Width = double.PositiveInfinity;
 		if (AutoResizeVertical) constraint.Height = double.PositiveInfinity;
 
-		return base.MeasureOverride(constraint);
+		var size = base.MeasureOverride(constraint);
+		return new Size(
+			Math.Min(MaxAutoResizeHorizontal, Math.Max(MinAutoResizeHorizontal, size.Width)),
+			Math.Min(MaxAutoResizeVertical, Math.Max(MinAutoResizeVertical, size.Height)));
 	}
 
 	protected override Rect ArrangeChild(UIElement child, Size constraint)
@@ -161,7 +199,7 @@ public abstract class BnsCustomBaseWidget : UserWidget, IMetaData
 
 		// Draw BaseImage & String 
 		DrawImage(dc, BaseImageProperty);
-		DrawString(dc, String, MetaData);
+		DrawString(dc, String);
 
 		#region ExpansionComponent
 		if (!ExpansionComponentList.IsEmpty())
@@ -177,7 +215,7 @@ public abstract class BnsCustomBaseWidget : UserWidget, IMetaData
 				}
 				else if (e.ExpansionType == ExpansionComponent.Type_STRING)
 				{
-					DrawString(dc, e.StringProperty, e.MetaData);
+					DrawString(dc, e.StringProperty/*, e.MetaData*/);
 				}
 				else Debug.Assert(string.IsNullOrEmpty(e.ExpansionType.PlainText));
 			}
@@ -199,13 +237,14 @@ public abstract class BnsCustomBaseWidget : UserWidget, IMetaData
 		}
 	}
 
-	protected Size DrawString(DrawingContext? ctx, StringProperty p, string MetaData)
+	protected Size DrawString(DrawingContext? ctx, StringProperty p, TextContainer? container = null)
 	{
 		if (p is null) return default;
 
 		// data
-		var document = _container.Document = new Paragraph() { FontSet = p.fontset, HorizontalAlignment = (HorizontalAlignment)p.HorizontalAlignment };
-		IMetaData.UpdateData(document, new(StringProperty, p, MetaData));
+		var document = container != null ? _container.Document : new P();
+		document.UpdateString(p);
+		//document.Element.HorizontalAlignment = p.HorizontalAlignment;
 		BaseElement.InheritDependency(this, document);
 
 		// layout

@@ -18,15 +18,15 @@ public class EffectList : ModelElement , IEnumerable
 	#region Methods
 	public IEnumerator GetEnumerator()
 	{
-		var result = new List<Tuple<string, string>>();
-
 		for (int i = 0; i < EffectTotalCount; i++)
 		{
-			result.Add(new(Effect[i].Instance?.Attributes["description-item-random-option"].GetText(),
-				((double)EffectWeight[i] / EffectTotalWeight).ToString("P2")));
+			var s = Effect[i].Instance?.Attributes["description-item-random-option"].GetText();
+			var w = (double)EffectWeight[i] / EffectTotalWeight;
+
+			yield return new Tuple<string, double>(s, w);
 		}
 
-		return result.GetEnumerator();
+		yield break;
 	}
 	#endregion
 }

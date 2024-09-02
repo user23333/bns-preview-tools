@@ -1,11 +1,9 @@
 ﻿using System.ComponentModel;
 using System.Windows.Input;
-
 using CommunityToolkit.Mvvm.ComponentModel;
 using HandyControl.Tools.Extension;
 
 namespace Xylia.Preview.UI.Views.Selector;
-
 [ObservableObject]
 [DesignTimeVisible(false)]
 public partial class FileModeDialog : IDialogResultable<FileModeDialog.FileMode>
@@ -21,7 +19,7 @@ public partial class FileModeDialog : IDialogResultable<FileModeDialog.FileMode>
 	#region Methods
 	private void TextFile_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 	{
-		Result = FileMode.Text;
+		Result = FileMode.Txt;
 		CloseAction?.Invoke();
 	}
 
@@ -32,7 +30,6 @@ public partial class FileModeDialog : IDialogResultable<FileModeDialog.FileMode>
 	}
 	#endregion
 
-
 	#region Interface
 	public Action? CloseAction { get; set; }
 
@@ -42,7 +39,7 @@ public partial class FileModeDialog : IDialogResultable<FileModeDialog.FileMode>
 	public enum FileMode
 	{
 		None,
-		Text,
+		Txt,
 		Xlsx,
 	}
 	#endregion

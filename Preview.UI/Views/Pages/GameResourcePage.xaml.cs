@@ -4,9 +4,9 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using HandyControl.Controls;
 using SkiaSharp;
+using Xylia.Preview.UI.Common.Converters;
 using Xylia.Preview.UI.Helpers.Output.Textures;
 using Xylia.Preview.UI.ViewModels;
-using Xylia.Preview.UI.Common.Converters;
 
 namespace Xylia.Preview.UI.Views.Pages;
 public partial class GameResourcePage
@@ -53,7 +53,7 @@ public partial class GameResourcePage
 		try
 		{
 			if (string.IsNullOrWhiteSpace(Selector.Text)) 
-				throw new WarningException(StringHelper.Get("Message_InvalidPath"));
+				throw new WarningException(StringHelper.Get("Text.InvalidPath"));
 
 			DateTime dt = DateTime.Now;
 			Extract.IsEnabled = false;
@@ -69,15 +69,14 @@ public partial class GameResourcePage
 
 	private async void Repack_Click(object sender, RoutedEventArgs e)
 	{
+		ArgumentNullException.ThrowIfNull(_viewModel.Packages);
+
 		try
 		{
-			ArgumentNullException.ThrowIfNull(_viewModel.Packages);
-
 			var folder = new DirectoryInfo(UserSettings.Default.GameFolder)
 				.GetDirectories("Paks", SearchOption.AllDirectories)
 				.FirstOrDefault()?.FullName ?? throw new DirectoryNotFoundException();
 			folder = Path.Combine(folder, "Mods");
-
 
 			Repack.IsEnabled = false;
 			await GameResourcePageViewModel.UeRepack(folder, [.. _viewModel.Packages]);
@@ -104,7 +103,7 @@ public partial class GameResourcePage
 
 		_viewModel.Run(new ItemIcon(UserSettings.Default.GameFolder, _viewModel.Icon_OutputFolder + @"\Items")
 		{
-			ChvPath = ItemListPath,
+			HashesPath = ItemListPath,
 			UseBackground = this.UseBackground.IsChecked == true,
 			IsWhiteList = this.FilterMode.IsChecked == true,
 

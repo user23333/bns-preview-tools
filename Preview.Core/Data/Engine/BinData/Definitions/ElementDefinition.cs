@@ -1,10 +1,12 @@
 ﻿using System.Diagnostics;
 using System.Text.RegularExpressions;
-using Xylia.Preview.Data.Helpers;
+using CUE4Parse.Utils;
+using Serilog;
+using Xylia.Preview.Common.Attributes;
 using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.Data.Engine.Definitions;
-public abstract class ElementBaseDefinition
+public abstract class IElementDefinition
 {
 	#region Properies
 	public string Name { get; set; }
@@ -16,13 +18,16 @@ public abstract class ElementBaseDefinition
 	public List<AttributeDefinition> Attributes { get; } = [];
 	public List<AttributeDefinition> ExpandedAttributes { get; private set; } = [];
 	public List<ElementDefinition> Children { get; } = [];
-
-	public override string ToString() => this.Name;
 	#endregion
 
 	#region Helper
+	public override string ToString() => this.Name;
+
 	private Dictionary<string, AttributeDefinition> _attributesDictionary = [];
 	private Dictionary<string, AttributeDefinition> _expandedAttributesDictionary = [];
+
+	public AttributeDefinition this[string name] => _expandedAttributesDictionary.GetValueOrDefault(name, null);
+	public AttributeDefinition GetAttribute(string name) => _attributesDictionary.GetValueOrDefault(name, null);
 
 	internal void CreateAttributeMap()
 	{
@@ -35,14 +40,52 @@ public abstract class ElementBaseDefinition
 			.ThenBy(o => Regex.Replace(o.Name, @"\d+", match => match.Value.PadLeft(4, '0')))];
 	}
 
-	public AttributeDefinition this[string name] => _expandedAttributesDictionary.GetValueOrDefault(name, null);
+	internal void RefreshSize(IEnumerable<AttributeDefinition> attributes, bool is64, int Offset = 16)
+	{
+		int Offset_Key = 8;
+		foreach (var attribute in attributes.OrderBy(x => !x.IsKey))
+		{
+			// skip
+			if (attribute.IsDeprecated || !attribute.Side.HasFlag(ReleaseSide.Client))
+				continue;
 
-	public AttributeDefinition GetAttribute(string name) => _attributesDictionary.GetValueOrDefault(name, null);
+			#region set offset
+			int offset = 0;
+			if (attribute.Offset != 0) offset = attribute.Offset;
+			else if (attribute.IsKey) offset = Offset_Key;
+			else offset = Offset;
+
+			// auto align
+			var size = AttributeDefinition.GetSize(attribute.Type, is64);
+			if (size == 2) offset = offset.Align(2);
+			else if (size != 1) offset = offset.Align(4);
+
+			attribute.Offset = (ushort)offset;
+			attribute.Size = size;
+
+			// create new alias
+			if (attribute.Name.Equals("unk-")) attribute.Name = "unk" + attribute.Offset;
+			#endregion
+
+			#region next offset
+			offset += attribute.Size;
+
+			if (attribute.IsKey)
+			{
+				Offset_Key = offset;
+				Offset = Math.Max(Offset, offset);
+			}
+			else Offset = Math.Max(Offset, offset);
+			#endregion
+		}
+
+		this.Size = (ushort)Offset.Align(4);
+	}
 	#endregion
 }
 
 
-public class ElementDefinition : ElementBaseDefinition
+public class ElementDefinition : IElementDefinition
 {
 	#region Properies
 	// always -1 on base table definition
@@ -56,7 +99,7 @@ public class ElementDefinition : ElementBaseDefinition
 
 	internal void CreateSubtableMap() => _subtablesDictionary = Subtables.ToDictionary(x => x.Name);
 
-	internal ElementBaseDefinition SubtableByName(string name, MessageManager messages)
+	internal IElementDefinition SubtableByName(string name)
 	{
 		// There are some special of Step
 		// HACK: we will directly return to the main table now
@@ -71,18 +114,18 @@ public class ElementDefinition : ElementBaseDefinition
 		else if (!IsEmpty && _subtablesDictionary.TryGetValue(name, out var definition)) return definition;
 		else
 		{
-			messages.Warning($"Invalid attribute, table:{this.Name}, name:type, value:{name}");
+			Log.Warning($"Invalid attribute, table:{this.Name}, name:type, value:{name}");
 			// throw new ArgumentOutOfRangeException(nameof(name));
 
 			return Subtables.First();
 		}
 	}
 
-	internal ElementBaseDefinition SubtableByType(short type, Record record = null)
+	internal IElementDefinition SubtableByType(short type, Record record = null)
 	{
 		lock (this)
 		{
-			ElementBaseDefinition definition = null;
+			IElementDefinition definition = null;
 
 			if (type == -1)
 			{
@@ -116,17 +159,15 @@ public class ElementDefinition : ElementBaseDefinition
 	}
 
 
-	private static void CheckSize(ElementBaseDefinition definition, Record record)
+	private static void CheckSize(IElementDefinition definition, Record record)
 	{
 		if (record.DataSize != definition.Size)
 		{
 			var block = (record.DataSize - definition.Size) / 4;
-#if DEBUG
-			record.Owner.Message.Warning(
-				$"check field size, table: {record.Owner.Name} " +
+			Debug.WriteLine($"check field size, " +
+				$"table: {record.Owner.Name} " +
 				$"type: {(record.SubclassType == -1 ? "null" : definition.Name)} " +
-				$"size: {definition.Size} <> {record.DataSize} block: {block}");
-#endif
+				$"size: {definition.Size} <> {record.DataSize} block: {block}", "Warning");
 
 			if (block > 0)
 			{
@@ -155,7 +196,7 @@ public class ElementDefinition : ElementBaseDefinition
 	#endregion
 }
 
-public class ElementSubDefinition : ElementBaseDefinition
+public class ElementSubDefinition : IElementDefinition
 {
 	public List<AttributeDefinition> ExpandedAttributesSubOnly { get; } = [];
 }

@@ -58,12 +58,12 @@ public static partial class ClassExtension
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	public static bool ContainAttribute<T>(this object EnumItem) where T : Attribute => EnumItem.ContainAttribute(out T _);
+	public static bool HasAttribute<T>(this object value) where T : Attribute => value.HasAttribute(out T _);
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	public static bool ContainAttribute<T>(this object EnumItemm, out T Target) where T : Attribute => (Target = EnumItemm.GetAttribute<T>()) != null;
+	public static bool HasAttribute<T>(this object value, out T attribute) where T : Attribute => (attribute = value.GetAttribute<T>()) != null;
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	public static string GetDescription(this object EnumItem) => EnumItem.GetAttribute<DescriptionAttribute>()?.Description;
+	public static string GetDescription(this object value) => value.GetAttribute<DescriptionAttribute>()?.Description;
 	#endregion
 }

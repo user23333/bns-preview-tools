@@ -1,31 +1,30 @@
-﻿using Xylia.Preview.Data.Models;
+﻿using OfficeOpenXml;
+using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.UI.Helpers.Output.Tables;
 internal sealed class ChallengeListOut : OutSet
 {
-	protected override void CreateData()
+	protected override void CreateData(ExcelPackage package)
 	{
 		#region Title
-		var sheet = CreateSheet();
-		//sheet.SetColumn(Column++, "任务序号", 10);
-		//sheet.SetColumn(Column++, "任务别名", 15);
-		//sheet.SetColumn(Column++, "任务名称", 30);
-		//sheet.SetColumn(Column++, "group", 25);
-		//sheet.SetColumn(Column++, "category", 10);
-		//sheet.SetColumn(Column++, "content-type", 10);
-		//sheet.SetColumn(Column++, "reset-type", 10);
-		//sheet.SetColumn(Column++, "retired", 10);
-		//sheet.SetColumn(Column++, "tutorial", 10);
+		var sheet = CreateSheet(package);
+		int column = 1, row = 1;
+		sheet.SetColumn(column++, "Sun", 40);
+		sheet.SetColumn(column++, "Mon", 40);
+		sheet.SetColumn(column++, "Tue", 40);
+		sheet.SetColumn(column++, "Wed", 40);
+		sheet.SetColumn(column++, "Thu", 40);
+		sheet.SetColumn(column++, "Fri", 40);
+		sheet.SetColumn(column++, "Sat", 40);
 		#endregion
 
-		int column = 0, row = 1;
-		foreach (var record in Source.Provider.GetTable<ChallengeList>().Where(x =>
-			x.ChallengeType >= ChallengeList.ChallengeTypeSeq.Mon &&
+		column = 0;
+		foreach (var record in Source!.Provider.GetTable<ChallengeList>().Where(x =>
+			x.ChallengeType > ChallengeList.ChallengeTypeSeq.None && 
 			x.ChallengeType <= ChallengeList.ChallengeTypeSeq.Sat))
 		{
 			column++;
-			sheet.Cells[row = 1, column].SetValue(record.ChallengeType);
-
+			sheet.Cells[row = 2, column].SetValue(record.ChallengeType);
 
 			// ChallengeQuestBasic
 			for (int i = 0; i < record.ChallengeQuestBasic.Length; i++)
@@ -51,7 +50,7 @@ internal sealed class ChallengeListOut : OutSet
 				var attraction = record.ChallengeNpcAttraction[i].Instance;
 				var quest = record.ChallengeNpcQuest[i];
 
-				sheet.Cells[row++, column].SetValue(GradeText(grade) + $"{difficulty} {npc.Name}");
+				sheet.Cells[row++, column].SetValue(GradeText(grade) + $"{difficulty} {npc.Name2.GetText()}");
 			}
 
 			// Reward
@@ -60,8 +59,9 @@ internal sealed class ChallengeListOut : OutSet
 				var reward = record.Reward[i].Instance;
 				if (reward is null) continue;
 
-				var count = record.ChallengeCountForReward[i];
-				sheet.Cells[row++, column].SetValue($"完成{count}个可获得 {reward}");
+				sheet.Cells[row++, column].SetValue(
+					"UI.ChallengeToday.TomorrowQuestCountGuide".GetText([null, null, record.ChallengeCountForReward[i]]) + "\n" +
+					reward);
 			}
 		}
 	}

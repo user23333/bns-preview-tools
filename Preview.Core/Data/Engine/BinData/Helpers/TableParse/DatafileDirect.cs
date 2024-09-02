@@ -5,7 +5,7 @@ namespace Xylia.Preview.Data.Engine.BinData.Helpers;
 /// <summary>
 /// parse from known define
 /// </summary>
-public sealed class DatafileDirect : ITableParseType
+public sealed class DatafileDirect : ITypeParser
 {
 	#region Helper
 	readonly Dictionary<string, ushort> by_name = new(new TableNameComparer());
@@ -14,7 +14,7 @@ public sealed class DatafileDirect : ITableParseType
 	public bool TryGetKey(string name, out ushort key) => by_name.TryGetValue(name, out key);
 	#endregion
 
-
+	#region Constructors
 	public DatafileDirect(FileInfo path)
 	{
 		var data = new FileIniDataParser().ReadFile(path.FullName);
@@ -24,7 +24,16 @@ public sealed class DatafileDirect : ITableParseType
 			var type = ushort.Parse(table.KeyName);
 			by_name[table.Value] = type;
 		}
-
-		var publish = data["publish"];
 	}
+
+	public DatafileDirect(IEnumerable<TableDefinition> definitions)
+	{
+		ushort type = 1;
+
+		foreach (var definition in definitions)
+		{
+			by_name[definition.Name] = type++;
+		}
+	}
+	#endregion
 }

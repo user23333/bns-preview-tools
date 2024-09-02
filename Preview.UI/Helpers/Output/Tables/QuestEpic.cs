@@ -1,4 +1,5 @@
-﻿using Xylia.Preview.Data.Helpers;
+﻿using OfficeOpenXml;
+using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models;
 using Xylia.Preview.Data.Models.Sequence;
 using Xylia.Preview.UI.ViewModels;
@@ -6,10 +7,10 @@ using Xylia.Preview.UI.ViewModels;
 namespace Xylia.Preview.UI.Helpers.Output.Tables;
 public sealed class QuestEpic : OutSet
 {
-	protected override void CreateData()
+	protected override void CreateData(ExcelPackage package)
 	{
 		#region Title
-		var sheet = CreateSheet();
+		var sheet = CreateSheet(package);
 		int column = 1, row = 1;
 		sheet.SetColumn(column++, "id", 10);
 		sheet.SetColumn(column++, "alias", 15);

@@ -1,13 +1,13 @@
 ﻿using System.Runtime.InteropServices;
 
 namespace Xylia.Preview.Data.Common.DataStruct;
-
 [StructLayout(LayoutKind.Sequential)]
 public struct Box(Vector16 l, Vector16 u)
 {
 	public Vector16 L = l;
 	public Vector16 U = u;
 
+	#region Methods
 	public static Box Parse(string input)
 	{
 		var items = input.Split([',', '/']);
@@ -26,4 +26,5 @@ public struct Box(Vector16 l, Vector16 u)
 	public override readonly int GetHashCode() => HashCode.Combine(L, U);
 
 	public override readonly string ToString() => $"{L},{U}";
+	#endregion
 }

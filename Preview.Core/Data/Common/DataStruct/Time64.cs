@@ -4,7 +4,7 @@ namespace Xylia.Preview.Data.Common.DataStruct;
 /// <summary>
 /// Represents an instant in time and related to time zone offset of publisher (global field).
 /// </summary>
-public struct Time64(long ticks) : IFormattable, ITime
+public struct Time64(long ticks) : IFormattable, ITime, IComparable<Time64>
 {
 	#region Properties
 	private const int HoursPerDay = 24;
@@ -95,30 +95,31 @@ public struct Time64(long ticks) : IFormattable, ITime
 	#endregion
 
 
-	#region Override Methods	
-	public string ToString(string format, IFormatProvider formatProvider) => TimeFormat.Format(this + BnsTimeZoneInfo.FromPublisher()!.Offset, format, formatProvider);
+	#region Override Methods
+	public readonly override string ToString() => ToString(null, null);
+	public readonly string ToString(string format) => ToString(format, null);
+	public readonly string ToString(string format, IFormatProvider formatProvider) => TimeFormat.Format(this + BnsTimeZoneInfo.FromPublisher()!.Offset, format, formatProvider);
 
-	public override string ToString() => ToString(null, null);
+	public readonly bool Equals(Time64 other) => Ticks == other.Ticks;
+	public readonly override bool Equals(object obj) => obj is Time64 other && Equals(other);
+	public readonly override int GetHashCode() => HashCode.Combine(Ticks);
+	public readonly int CompareTo(Time64 other) => this.Ticks.CompareTo(other.Ticks);
+	#endregion
 
-	public bool Equals(Time64 other) => Ticks == other.Ticks;
-
-	public override bool Equals(object obj) => obj is Time64 other && Equals(other);
-
-	public override int GetHashCode() => HashCode.Combine(Ticks);
-
-	public static bool operator ==(Time64 a, Time64 b) => a.Ticks == b.Ticks;
-
-	public static bool operator !=(Time64 a, Time64 b) => !(a == b);
+	#region Static Methods
+	public static bool operator ==(Time64 a, Time64 b) => a.CompareTo(b) == 0;
+	public static bool operator !=(Time64 a, Time64 b) => a.CompareTo(b) != 0;
+	public static bool operator <(Time64 a, Time64 b) => a.CompareTo(b) < 0;
+	public static bool operator >(Time64 a, Time64 b) => a.CompareTo(b) > 0;
 
 	public static Msec operator -(Time64 a, Time64 b) => (int)((a.Ticks - b.Ticks) * 1000);
 	public static Msec operator +(Time64 a, Time64 b) => (int)((a.Ticks + b.Ticks) * 1000);
 
 	public static Time64 operator -(Time64 a, Msec b) => (long)(a.Ticks - b.TotalSeconds);
 	public static Time64 operator +(Time64 a, Msec b) => (long)(a.Ticks + b.TotalSeconds);
-	#endregion
 
-	#region Static Methods
-	public static implicit operator Time64(long ticks) => new Time64(ticks);
+
+	public static implicit operator Time64(long ticks) => new(ticks);
 	public static implicit operator long(Time64 time) => (long)time.Ticks;
 
 	public static implicit operator Time64(DateTime dateTime) => Parse(dateTime);
@@ -127,7 +128,7 @@ public struct Time64(long ticks) : IFormattable, ITime
 
 	public static Time64 Parse(DateTime time, EPublisher? publisher = null)
 	{
-		return new Time64((time - new DateTime(1970, 1, 1)).Ticks / 10000000) - BnsTimeZoneInfo.FromPublisher(publisher).Offset;
+		return new Time64((time - DateTime.UnixEpoch).Ticks / 10000000) - BnsTimeZoneInfo.FromPublisher(publisher).Offset;
 	}
 	#endregion
 }

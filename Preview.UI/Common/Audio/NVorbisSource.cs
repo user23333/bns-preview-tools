@@ -17,10 +17,7 @@ public class NVorbisSource : ISampleSource
 	#region Constructor
 	public NVorbisSource(Stream stream)
 	{
-		if (stream == null)
-		{
-			throw new ArgumentNullException("stream");
-		}
+		ArgumentNullException.ThrowIfNull(stream);
 
 		if (!stream.CanRead)
 		{

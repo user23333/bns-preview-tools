@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Markup;
 using System.Windows.Media;
@@ -9,7 +10,7 @@ using Xylia.Preview.UI.Controls.Primitives;
 namespace Xylia.Preview.UI.Controls;
 
 [ContentProperty("Children")]
-public class BnsCustomEditBoxWidget : TextBox, IUserWidget
+public class BnsCustomEditBoxWidget : TextBox, IUserWidget 
 {
 	#region Constructors
 	public BnsCustomEditBoxWidget()
@@ -45,6 +46,6 @@ public class BnsCustomEditBoxWidget2 : BnsCustomTextBoxBaseWidget
 {
 	internal override FrameworkElement CreateRenderScope()
 	{
-		throw new System.NotImplementedException();
+		throw new NotImplementedException();
 	}
 }

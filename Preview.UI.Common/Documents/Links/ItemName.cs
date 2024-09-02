@@ -1,6 +1,4 @@
-﻿using System;
-
-using Xylia.Preview.Data.Common.DataStruct;
+﻿using Xylia.Preview.Data.Common.DataStruct;
 
 namespace Xylia.Preview.UI.Documents.Links;
 public sealed class ItemName : LinkId

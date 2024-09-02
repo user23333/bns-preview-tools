@@ -1,30 +1,65 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
+using Vanara.PInvoke;
 using Xylia.Preview.UI.Controls.Primitives;
 
 namespace Xylia.Preview.UI.Controls;
 public class BnsCustomWindowWidget : BnsCustomBaseWidget
 {
 	#region Constructors
+	static BnsCustomWindowWidget()
+	{
+		DefaultStyleKeyProperty.OverrideMetadata(Owner, new FrameworkPropertyMetadata(Owner));
+		DataContextProperty.OverrideMetadata(Owner, new FrameworkPropertyMetadata(OnDataChanged));
+	}
+
 	public BnsCustomWindowWidget()
 	{
-		this.DataContextChanged += (s, e) => OnDataChanged(e);
+		AutoResizeVertical = true;
+		SetValue(TitleProperty, GetType().Name);
 	}
 	#endregion
 
-	#region Properties
+	#region Events
 	public event EventHandler? Closed;
+	#endregion
+
+	#region Properties
+	private static readonly Type Owner = typeof(BnsCustomWindowWidget);
+
+	/// <summary>
+	///     The DependencyProperty for TitleProperty.
+	/// </summary>
+	public static readonly DependencyProperty TitleProperty = DependencyProperty.Register("Title",
+		typeof(string), Owner, new FrameworkPropertyMetadata(string.Empty));
+
+	/// <summary>
+	///     The data that will be displayed as the title of the window.
+	///     Hosts are free to display the title in any manner that they
+	///     want.  For example, the browser may display the title set via
+	///     the Title property somewhere besides the caption bar
+	/// </summary>
+	public string Title
+	{
+		get => (string)GetValue(TitleProperty);
+		set => SetValue(TitleProperty, value);
+	}
+
+
+	private static void OnDataChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+	{
+		var widget = (BnsCustomWindowWidget)d;
+		widget.OnDataChanged(e);
+	}
 	#endregion
 
 
 	#region Override Methods
 	protected override void OnInitialized(EventArgs e)
 	{
-		AutoResizeVertical = true;
-
 		base.OnInitialized(e);
 
 		// Maybe miss name if this is root element
@@ -70,11 +105,9 @@ public class BnsCustomWindowWidget : BnsCustomBaseWidget
 	/// </summary>
 	public void Show(bool ShowBorder = true)
 	{
-		Host = new Window
+		Host = new HostWindow
 		{
 			Content = this,
-			//Background = new SolidColorBrush(BackgroundColor),
-			//Foreground = new SolidColorBrush(Colors.White),
 			ResizeMode = ResizeMode.NoResize,
 			SizeToContent = SizeToContent.WidthAndHeight,
 			Title = this.Name,
@@ -89,6 +122,26 @@ public class BnsCustomWindowWidget : BnsCustomBaseWidget
 	#region Private Helpers
 	private Window? Host;
 	public readonly static Color BackgroundColor = Color.FromArgb(255, 30, 79, 122);
+
+	private class HostWindow : Window
+	{
+		protected override Size MeasureOverride(Size availableSize)
+		{
+			//boarder size
+			User32.GetWindowRect(new WindowInteropHelper(this).Handle, out var windowRect);
+			User32.GetClientRect(new WindowInteropHelper(this).Handle, out var clientRect);
+
+			if (Content is UIElement child)
+			{
+				child.Measure(availableSize);
+				return new Size(
+					child.DesiredSize.Width + windowRect.Width - clientRect.Width,
+					child.DesiredSize.Height + windowRect.Height - clientRect.Height);
+			}
+
+			return Size.Empty;
+		}
+	}
 
 	private void OnCloseClick()
 	{

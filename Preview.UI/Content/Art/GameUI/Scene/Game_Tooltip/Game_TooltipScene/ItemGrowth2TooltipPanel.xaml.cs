@@ -4,9 +4,9 @@ using System.Windows.Controls.Primitives;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models;
+using Xylia.Preview.Data.Models.Document;
 using Xylia.Preview.Data.Models.Sequence;
 using Xylia.Preview.UI.Common;
-using Xylia.Preview.UI.Documents;
 using Xylia.Preview.UI.Extensions;
 using Xylia.Preview.UI.ViewModels;
 
@@ -109,7 +109,7 @@ public partial class ItemGrowth2TooltipPanel
 
 		if (RandomOptionGroup.EffectList.HasValue)
 		{
-			data.Add(new(RandomOptionGroup.EffectList.Instance, "UI.ItemRandomOption.EffectOption.Title"));
+			data.Add(new(RandomOptionGroup.EffectList.Instance, "UI.ItemRandomOption.EffectOption.Title".GetText()));
 		}
 
 		if (RandomOptionGroup.AbilityListTotalCount > 0)

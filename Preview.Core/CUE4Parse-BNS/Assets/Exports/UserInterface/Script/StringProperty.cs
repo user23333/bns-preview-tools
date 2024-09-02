@@ -14,7 +14,7 @@ public class StringProperty : IUStruct, INotifyPropertyChanged
 {
 	private FPackageIndex _fontset;
 
-	[TypeConverter(typeof(FPackageIndexTypeConverter))] 
+	[TypeConverter(typeof(FPackageIndexTypeConverter))]
 	public FPackageIndex fontset
 	{
 		get => _fontset;
@@ -23,7 +23,6 @@ public class StringProperty : IUStruct, INotifyPropertyChanged
 
 	private FText _labelText;
 
-	[TypeConverter(typeof(FTextTypeConverter))]
 	public FText LabelText
 	{
 		get => _labelText;
@@ -33,11 +32,11 @@ public class StringProperty : IUStruct, INotifyPropertyChanged
 	public float SpaceBetweenLines { get; set; }
 	public HAlignment HorizontalAlignment { get; set; }
 	public VAlignment VerticalAlignment { get; set; }
-	[TypeConverter(typeof(Vector2DConverter))] public FVector2D ClippingBound { get; set; }
+	public FVector2D ClippingBound { get; set; }
 	public ClipMode ClipMode { get; set; }
 	public int MaxCharacters { get; set; }
 
-	[TypeConverter(typeof(Vector2DConverter))] public FVector2D Padding { get; set; }
+	public FVector2D Padding { get; set; }
 	public string ClippingBoundFace_Horizontal { get; set; }  //WidgetFaceFace_Left
 	public string ClippingBoundFace_Vertical { get; set; }    //WidgetFaceFace_Top
 	public bool bJustification { get; set; }
@@ -51,6 +50,22 @@ public class StringProperty : IUStruct, INotifyPropertyChanged
 	public float LastRenderWidth { get; set; }
 	public float LastRenderHeight { get; set; }
 
+
+	#region Constructors
+	public StringProperty()
+	{
+
+	}
+
+	public StringProperty(string text, 
+		HAlignment horizontalAlignment = HAlignment.HAlign_Center, 
+		VAlignment verticalAlignment = VAlignment.VAlign_Center)
+	{
+		LabelText = text;
+		HorizontalAlignment = horizontalAlignment;
+		VerticalAlignment = verticalAlignment;
+	}
+	#endregion
 
 	#region Methods
 	public event PropertyChangedEventHandler PropertyChanged;
@@ -78,9 +93,9 @@ internal class StringPropertyConverter : TypeConverter
 
 	public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
 	{
-		return new StringProperty() 
+		return new StringProperty()
 		{
-			LabelText = new FText(value?.ToString()) 
+			LabelText = new FText(value?.ToString()),
 		};
 	}
 }

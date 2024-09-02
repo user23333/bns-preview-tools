@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Reflection;
 using CUE4Parse.Utils;
 using HandyControl.Controls;
 using OfficeOpenXml;
@@ -10,27 +11,30 @@ using Xylia.Preview.UI.Common.Converters;
 namespace Xylia.Preview.UI.Helpers.Output;
 public abstract class OutSet
 {
-	#region Fields
-	protected ExcelPackage? Package;
-	protected BnsDatabase Source { get; set; } = FileCache.Data;
+	#region Constructor
+	static OutSet()
+	{
+		ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+	}
 	#endregion
 
 	#region Properies
 	public virtual string Name => GetType().Name.SubstringBefore("Out", StringComparison.OrdinalIgnoreCase);
+
+	protected virtual BnsDatabase? Source { get; set; } = FileCache.Data;
 	#endregion
 
-
 	#region Methods
-	protected ExcelWorksheet CreateSheet(string? name = null)
+	protected ExcelWorksheet CreateSheet(ExcelPackage package, string? name = null)
 	{
-		ArgumentNullException.ThrowIfNull(Package);
+		ArgumentNullException.ThrowIfNull(package);
 
-		var sheet = Package.Workbook.Worksheets.Add(name ?? this.Name);
-		sheet.Cells.Style.Font.Name = "宋体";
+		var sheet = package.Workbook.Worksheets.Add(name ?? this.Name);
+		sheet.Cells.Style.Font.Name = "Microsoft YaHei";
 		sheet.Cells.Style.Font.Size = 11F;
 		sheet.Cells.Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
 		sheet.Cells.Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
-
+		sheet.Cells.Style.WrapText = true;
 		return sheet;
 	}
 
@@ -38,45 +42,61 @@ public abstract class OutSet
 	/// Create xlsx file
 	/// </summary>
 	/// <param name="sheet"></param>
-	protected abstract void CreateData();
+	protected abstract void CreateData(ExcelPackage package);
 
 	/// <summary>
 	/// Create text file
 	/// </summary>
 	/// <exception cref="NotImplementedException"></exception>
-	protected virtual void CreateText() => throw new NotImplementedException();
+	protected virtual void CreateText(TextWriter writer) => throw new NotImplementedException();
 
+	public void Execute()
+	{
+		var save = new VistaSaveFileDialog
+		{
+			Filter = "Excel Files|*.xlsx",
+			FileName = $"{Name} ({DateTime.Now:yyyyMMdd}).xlsx",
+		};
+		if (save.ShowDialog() != true) throw new OperationCanceledException(); 
 
-	public Task Output(FileInfo path) => Task.Run(() =>
+		Execute(save.FileName);
+	}
+
+	public void Execute(string path)
 	{
 		ArgumentNullException.ThrowIfNull(path);
 
-		ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-		Package = new ExcelPackage();
-
-		//main sheet
-		CreateData();
-		Package.SaveAs(path.FullName);
+		var package = new ExcelPackage();
+		CreateData(package);
+		package.SaveAs(path);
 
 		GC.Collect();
-	});
+	}
+
+
+	public static IEnumerable<OutSet> Find()
+	{
+		var assembly = Assembly.GetExecutingAssembly();
+		var baseType = typeof(OutSet);
+
+		foreach (var definedType in assembly.DefinedTypes)
+		{
+			if (definedType.IsAbstract || definedType.IsInterface || !baseType.IsAssignableFrom(definedType)) continue;
+
+			if (Activator.CreateInstance(definedType) is OutSet instance)
+				yield return instance;
+		}
+
+		yield break;
+	}
 
 	/// <summary>
 	/// entry method for output
 	/// </summary>
-	public static async Task Start<T>() where T : OutSet, new()
+	internal static async Task Start<T>() where T : OutSet, new()
 	{
-		var instance = new T();
-
-		var save = new VistaSaveFileDialog
-		{
-			Filter = "Excel Files|*.xlsx",
-			FileName = $"{instance.Name} ({DateTime.Now:yyyyMMdd}).xlsx",
-		};
-		if (save.ShowDialog() != true) return;
-
 		DateTime dt = DateTime.Now;
-		await instance.Output(new FileInfo(save.FileName));
+		await Task.Run(() => new T().Execute());
 
 		Growl.Success(StringHelper.Get("Text.TaskCompleted2", TimeConverter.Convert(DateTime.Now - dt, null)));
 	}

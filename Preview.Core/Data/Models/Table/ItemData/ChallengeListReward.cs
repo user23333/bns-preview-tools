@@ -13,7 +13,6 @@ public class ChallengeListReward : ModelElement
 	public int RewarAccountExp { get; set; }
 	#endregion
 
-
 	#region Methods
 	public override string ToString()
 	{
@@ -24,13 +23,13 @@ public class ChallengeListReward : ModelElement
 			var item = RewardItem[i].Instance;
 			if (item is null) continue;
 
-			builder.Append($"\n{item.Name} x{RewardItemCount[i]}");
+			builder.AppendLine($"{item.Name} x{RewardItemCount[i]}");
 		}
 
-		if (RewardMoney > 0) builder.Append("Money: " + RewardMoney);
-		if (RewarAccountExp > 0) builder.Append("AExp: " + RewarAccountExp);
+		if (RewardMoney > 0) builder.AppendLine("Money: " + RewardMoney);
+		if (RewarAccountExp > 0) builder.AppendLine("AExp: " + RewarAccountExp);
 
-		return builder.ToString();
+		return builder.ToString().Trim();
 	}
 	#endregion
 }

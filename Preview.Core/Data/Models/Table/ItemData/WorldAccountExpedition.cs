@@ -1,5 +1,5 @@
 ﻿using Xylia.Preview.Common.Extension;
-using Xylia.Preview.Data.Helpers;
+using Xylia.Preview.Data.Engine.DatData;
 
 namespace Xylia.Preview.Data.Models;
 public sealed class WorldAccountExpedition : ModelElement
@@ -25,11 +25,11 @@ public sealed class WorldAccountExpedition : ModelElement
 	#endregion
 
 	#region Methods
-	public static Dictionary<ModelElement, WorldAccountExpedition> GetTargets()
+	public static Dictionary<ModelElement, WorldAccountExpedition> GetTargets(IDataProvider provider)
 	{
 		Dictionary<ModelElement, WorldAccountExpedition> dict = [];
 
-		foreach (var record in FileCache.Data.Provider.GetTable<WorldAccountExpedition>())
+		foreach (var record in provider.GetTable<WorldAccountExpedition>())
 		{
 			record.Target.Select(x => x.Instance).ForEach(x => dict[x] = record);
 		}

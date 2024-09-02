@@ -1,5 +1,5 @@
 ﻿using Xylia.Preview.Common.Extension;
-using Xylia.Preview.Data.Helpers;
+using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Models.Sequence;
 
 namespace Xylia.Preview.Data.Models;
@@ -40,7 +40,7 @@ public class SkillTooltipAttribute : ModelElement
 
 	public Ref<Text> Text { get; set; }
 
-	public string Icon { get; set; }
+	public Icon Icon { get; set; }
 
 	public ModifyType SkillModifyType { get; set; }
 
@@ -61,8 +61,6 @@ public class SkillTooltipAttribute : ModelElement
 
 	public string ToString(TextArguments arguments, short AttributeCoefficient)
 	{
-		var provider = FileCache.Data.Provider;
-
 		for (int x = 1; x < arguments.Count; x++)
 		{
 			var type = ArgType[x - 1];
@@ -83,19 +81,19 @@ public class SkillTooltipAttribute : ModelElement
 			{
 				ArgTypeSeq.DamagePercentMinMax => GetDamageInfo(value[0], value[1], AttributeCoefficient),
 				ArgTypeSeq.DamagePercent => GetDamageInfo(value[0], 0, AttributeCoefficient),
-				ArgTypeSeq.Time => "UI.Tooltip.Sequence.time".GetText([value[0] * 0.001]),
+				ArgTypeSeq.Time => "UI.Tooltip.Sequence.time".GetText([new Msec(value[0]).TotalSeconds]),
 				ArgTypeSeq.StackCount => "UI.Tooltip.Sequence.stack-count".GetText([value[0]]),
-				ArgTypeSeq.Effect => $"<font name=\"00008130.Program.Fontset_ItemGrade_6\">{provider.GetTable<Effect>()[arg]?.Name}</font>",
+				ArgTypeSeq.Effect => $"<font name=\"00008130.Program.Fontset_ItemGrade_6\">{Provider.GetTable<Effect>()[arg]?.Name}</font>",
 				ArgTypeSeq.HealPercent => "UI.Tooltip.Sequence.heal-percent".GetText([value[0]]),
 				ArgTypeSeq.DrainPercent => "UI.Tooltip.Sequence.drain-percent".GetText([value[0]]),
-				ArgTypeSeq.Skill => $"<font name=\"00008130.Program.Fontset_ItemGrade_4\">{provider.GetTable<Skill3>()[arg]?.Name}</font>",
+				ArgTypeSeq.Skill => $"<font name=\"00008130.Program.Fontset_ItemGrade_4\">{Provider.GetTable<Skill3>()[arg]?.Name}</font>",
 				ArgTypeSeq.ConsumePercent => "UI.Tooltip.Sequence.consume-percent".GetText([value[0]]),
 				ArgTypeSeq.ProbabilityPercent => "UI.Tooltip.Sequence.probability-percent".GetText([value[0]]),
 				ArgTypeSeq.StanceType => "UI.Tooltip.Sequence.stance-type".GetText([arg.ToEnum<StanceSeq>().GetText()]),
 				ArgTypeSeq.Percent => "UI.Tooltip.Sequence.percent".GetText([value[0]]),
 				ArgTypeSeq.Counter => "UI.Tooltip.Sequence.counter".GetText([value[0]]),
 				ArgTypeSeq.Distance => "UI.Tooltip.Sequence.distance".GetText([value[0] * 0.01]),
-				ArgTypeSeq.KeyCommand => "UI.Tooltip.Sequence.key-command".GetText([provider.GetTable<Skill3>()[arg]?.CurrentShortCutKey]),
+				ArgTypeSeq.KeyCommand => "UI.Tooltip.Sequence.key-command".GetText([Provider.GetTable<Skill3>()[arg]?.CurrentShortCutKey]),
 				ArgTypeSeq.Number => "UI.Tooltip.Sequence.number".GetText([value[0]]),
 				ArgTypeSeq.TextAlias => arg.GetText(),
 				_ => null,
@@ -103,18 +101,18 @@ public class SkillTooltipAttribute : ModelElement
 			#endregion
 		}
 
-		return IconTexture.Parse(Icon)?.Tag + Text.GetText(arguments);
+		return Icon?.GetImage()?.Tag + Text.GetText(arguments)
+			+ (AttributeCoefficient > 0 ? "UI.Tooltip.Attack.Icon.Attribute.only-one".GetText() : null);
 	}
 	#endregion
 
 
 	#region Helpers
-	internal static string GetDamageInfo(int vmin, int vmax, short AttributeCoefficient = 0)
+	internal static string GetDamageInfo(int min, int max, short AttributeCoefficient = 0)
 	{
-		return (vmax == 0 || vmin == vmax ? 
-			$"UI.Tooltip.Skill.damage-percent" : 
-			$"UI.Tooltip.Skill.damage-percent-min-max").GetText([vmin, vmax]) +
-			(AttributeCoefficient > 0 ? "UI.Tooltip.Attack.Icon.Attribute.only-one".GetText() : null);
+		return (max == 0 || min == max ?
+			$"UI.Tooltip.Skill.damage-percent" :
+			$"UI.Tooltip.Skill.damage-percent-min-max").GetText([min, max]);
 
 		//// get attack power
 		//var power = Settings.Default.Skill_AttackPower * 0.01;

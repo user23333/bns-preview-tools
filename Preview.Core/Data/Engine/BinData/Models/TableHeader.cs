@@ -1,9 +1,10 @@
-﻿using Xylia.Preview.Common.Extension;
-using Xylia.Preview.Data.Helpers;
+﻿using System.Diagnostics;
+using Xylia.Preview.Common.Extension;
 
 namespace Xylia.Preview.Data.Engine.BinData.Models;
 public abstract class TableHeader
 {
+	#region Fields
 	/// <summary>
 	/// name of table
 	/// </summary>
@@ -27,14 +28,12 @@ public abstract class TableHeader
 	/// </summary>
 	public ushort MinorVersion { get; set; }
 
-	public int Size { get; set; }
+	internal int Size { get; set; }
 
-	public bool IsCompressed { get; set; }
-
+	internal bool IsCompressed { get; set; }
+	#endregion
 
 	#region Methods
-	internal MessageManager Message = [];
-
 	internal void ReadHeaderFrom(DataArchive reader)
 	{
 		ElementCount = reader.Read<byte>();
@@ -45,7 +44,7 @@ public abstract class TableHeader
 		IsCompressed = reader.Read<bool>();
 	}
 
-	internal void WriteHeaderTo(BinaryWriter writer)
+	internal void WriteHeaderTo(DataArchiveWriter writer)
 	{
 		writer.Write(ElementCount);
 		writer.Write(Type);
@@ -68,7 +67,7 @@ public abstract class TableHeader
 		// check definition matches the data
 		else if (!MatchVersion(version.Item1 , version.Item2))
 		{
-			Message.Warning($"check table `{this.Name}` version: {version.Item1}.{version.Item2} <> {this.MajorVersion}.{this.MinorVersion}");
+			Debug.WriteLine($"check table `{this.Name}` version: {version.Item1}.{version.Item2} <> {this.MajorVersion}.{this.MinorVersion}", "Warning");
 		}
 	}
 

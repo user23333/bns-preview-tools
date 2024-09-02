@@ -56,6 +56,13 @@ public static class LinqExtensions
 	/// <param name="source">The System.Collections.Generic.IEnumerable`1 to check for emptiness.</param>
 	/// <returns></returns>
 	public static bool IsEmpty<T>(this IEnumerable<T> source) => source == null || !source.Any();
+
+	public static string Join(string separator, params string[] source) => Join(separator, (IEnumerable<string>)source);
+
+	public static string Join(string separator, IEnumerable<string> source)
+	{
+		return string.Join(separator, source.Where(t => !string.IsNullOrWhiteSpace(t)));
+	}
 	#endregion
 
 	#region Array
@@ -73,22 +80,20 @@ public static class LinqExtensions
 		return array;
 	}
 
-	public static Tuple<T1, T2>[] Combine<T1, T2>(T1[] array1, T2[] array2)
+	public static Tuple<T1, T2>[] Create<T1, T2>(T1[] array1, T2[] array2)
 	{
-		if (array1 is null) return null;
+		ArgumentNullException.ThrowIfNull(array1);
+		ArgumentNullException.ThrowIfNull(array2);
 
-		var source = For(array1.Length, (x) => new Tuple<T1, T2>(
-			array1[x - 1],
-			array2[x - 1]));
+		var source = new Tuple<T1, T2>[Math.Max(array1.Length, array2.Length)];
+		for (int i = 0; i < source.Length; i++)
+		{
+			source[i] = new Tuple<T1, T2>(
+				array1.ElementAtOrDefault(i),
+				array2.ElementAtOrDefault(i));
+		}
 
-		return source.Where(x => x.Item1 != null/* && x.Item2 != null*/).ToArray();
-	}
-	#endregion
-
-	#region Expand
-	public static string Join(this IEnumerable<string> source, string separator = "<br/>")
-	{
-		return string.Join(separator, source.Where(t => !t.IsNullOrWhiteSpace()));
+		return source;
 	}
 	#endregion
 }

@@ -10,14 +10,14 @@ public sealed class CreatureAppearance : ModelElement
 public class Param8
 {
 	#region Constructor
-	const int SIZE = 92;
+	const int SIZE = 96;
 	public sbyte[] Data;
 
 	public Param8(sbyte[] data) => this.Data = data;
 	public Param8(string data) => this.Data = data.ToBytes().Select(b => (sbyte)b).ToArray();
 	#endregion
 
-
+	#region Operator
 	public static bool operator ==(Param8 a, Param8 b)
 	{
 		if (SIZE != a.Data.Length || SIZE != b.Data.Length)
@@ -43,4 +43,5 @@ public class Param8
 	public static implicit operator Param8(sbyte[] data) => new(data);
 
 	public static implicit operator Param8(string data) => new(data);
+	#endregion
 }

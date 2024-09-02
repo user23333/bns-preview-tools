@@ -8,7 +8,7 @@ public class PackageParam(string path, bool? bit64 = null)
 
 	public string PackagePath { get; set; } = path;
 
-	public bool Bit64 { get; set; } = bit64 ?? path.Judge64Bit();
+	public bool Bit64 { get; set; } = bit64 ?? Path.GetFileNameWithoutExtension(path).Contains("64");
 
 	public CompressionLevel CompressionLevel { get; set; } = CompressionLevel.Normal;
 

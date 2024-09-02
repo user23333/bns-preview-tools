@@ -70,7 +70,7 @@ public struct FLayoutData : IUStruct
 		public override readonly string ToString() => $"{Minimum.X} {Minimum.Y} {Maximum.X} {Maximum.Y}";
 
 
-		public static Anchor Full = new() { Minimum = new FVector2D(0, 0), Maximum = new FVector2D(1, 1) };
+		public readonly static Anchor Full = new() { Minimum = new FVector2D(0, 0), Maximum = new FVector2D(1, 1) };
 	}
 
 	[StructFallback]

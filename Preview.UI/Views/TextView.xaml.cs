@@ -1,31 +1,33 @@
-﻿using HandyControl.Controls;
-using HandyControl.Data;
-using HandyControl.Interactivity;
-using ICSharpCode.AvalonEdit.Folding;
-using ICSharpCode.AvalonEdit.Rendering;
-using ICSharpCode.AvalonEdit.Search;
-using Microsoft.Win32;
-using System.IO;
+﻿using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Xml;
+using HandyControl.Controls;
+using HandyControl.Interactivity;
+using HandyControl.Tools.Extension;
+using ICSharpCode.AvalonEdit.Folding;
+using ICSharpCode.AvalonEdit.Rendering;
+using ICSharpCode.AvalonEdit.Search;
+using Microsoft.Win32;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Client;
 using Xylia.Preview.Data.Engine.BinData.Serialization;
+using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Data.Models;
 using Xylia.Preview.UI.Helpers;
 using Xylia.Preview.UI.ViewModels;
+using Xylia.Preview.UI.Views.Selector;
 using MessageBox = HandyControl.Controls.MessageBox;
 
 namespace Xylia.Preview.UI.Views;
-public partial class TextView 
+public partial class TextView
 {
 	#region Constructor
 	private readonly FoldingManager manager;
-	private readonly string token = nameof(TextView);
+	private readonly string TOKEN = nameof(TextView);
 
 	public TextView()
 	{
@@ -39,54 +41,15 @@ public partial class TextView
 	#endregion
 
 	#region Methods (UI)
-	private void RegisterCommands(CommandBindingCollection commandBindings)
-	{
-		commandBindings.Add(new CommandBinding(ApplicationCommands.Save, SaveCommand, CanExecuteSave));
-		commandBindings.Add(new CommandBinding(ApplicationCommands.SaveAs, SaveAsCommand, CanExecuteSaveAs));
-		commandBindings.Add(new CommandBinding(ApplicationCommands.Replace, ReplaceInFilesCommand, CanExecuteSaveAs));
-
-		// unable to edit in comparison mode
-		commandBindings.Add(new CommandBinding(ControlCommands.Switch, delegate { }, CanExecuteSaveAs));
-	}
-
-	private async void Window_Loaded(object sender, RoutedEventArgs e)
-	{
-		if (UserSettings.Default.Text_LoadPrevious && 
-			MessageBox.Show(StringHelper.Get("TextView_LoadLast_Ask"), StringHelper.Get("Message_Tip"), MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-		{
-			OldSource = UserSettings.Default.Text_OldPath;
-			NewSource = UserSettings.Default.Text_NewPath;
-			await RenderView();
-		}
-	}
-
 	protected override void OnClosed(EventArgs e)
 	{
-        source?.Dispose();
+		source?.Dispose();
 		source = null;
 
 		diffResult?.Clear();
 		diffResult = null;
 
-        base.OnClosed(e);
-    }
-
-	private async void OpenLeftFileMenuItem_Click(object sender, RoutedEventArgs e)
-	{
-		if (OpenTextFile(out var file))
-		{
-			UserSettings.Default.Text_OldPath = OldSource = file;
-			await RenderView();
-		}
-	}
-
-	private async void OpenRightFileMenuItem_Click(object sender, RoutedEventArgs e)
-	{
-		if (OpenTextFile(out var file))
-		{
-			UserSettings.Default.Text_NewPath = NewSource = file;
-			await RenderView();
-		}
+		base.OnClosed(e);
 	}
 
 	private void InlineModeToggle_Click(object sender, RoutedEventArgs e)
@@ -105,39 +68,18 @@ public partial class TextView
 	}
 	#endregion
 
-
 	#region Methods
 	bool inloading = false;
-
-	private string? OldSource;
-	private string? NewSource;
 	private LocalProvider? source;
 	private List<TextDiffPiece>? diffResult;
 
-	private static bool OpenTextFile(out string file)
-	{
-		var dialog = new OpenFileDialog
-		{
-			Filter = @"game text file|local*.dat|source text file|*.x16|All files|*.*"
-		};
-
-		if (dialog.ShowDialog() == true)
-		{
-			file = dialog.FileName;
-			return true;
-		}
-
-		file = string.Empty;
-		return false;
-	}
-
-	private async Task RenderView()
+	private async Task RenderView(string? oldPath, string? newPath)
 	{
 		ReadStatus.IsChecked = false;
 
 		#region Source
-		var source1 = new LocalProvider(OldSource);
-		var source2 = new LocalProvider(NewSource);
+		var source1 = new LocalProvider(oldPath);
+		var source2 = new LocalProvider(newPath);
 		await Task.Run(() => new BnsDatabase(source1).Initialize());
 		await Task.Run(() => new BnsDatabase(source2).Initialize());
 
@@ -230,27 +172,32 @@ public partial class TextView
 		#endregion
 	}
 
-	private void CanExecuteSave(object sender, CanExecuteRoutedEventArgs e)
+
+	private void RegisterCommands(CommandBindingCollection commandBindings)
 	{
-		// only single file and left source
-		e.CanExecute = !inloading && source != null && source.CanSave;
+		commandBindings.Add(new CommandBinding(ApplicationCommands.Open, OpenFileCommand));
+		commandBindings.Add(new CommandBinding(ApplicationCommands.Save, SaveCommand, CanExecuteSave));
+		commandBindings.Add(new CommandBinding(ApplicationCommands.SaveAs, SaveAsCommand, CanExecuteSaveAs));
+		commandBindings.Add(new CommandBinding(ApplicationCommands.Replace, ReplaceInFilesCommand, CanExecuteSaveAs));
+
+		// unable to edit in comparison mode
+		commandBindings.Add(new CommandBinding(ControlCommands.Switch, delegate { }, CanExecuteSaveAs));
 	}
 
-	private void CanExecuteSaveAs(object sender, CanExecuteRoutedEventArgs e)
+	private async void OpenFileCommand(object sender, RoutedEventArgs e)
 	{
-		e.CanExecute = !inloading && source != null;
-	}
+		var dialog = await Dialog.Show(new FileSelectorDialog()
+		{
+			Filter = @"game text file|local*.dat|source text file|*.x16|All files|*.*",
+			Path1 = UserSettings.Default.Text_OldPath,
+			Path2 = UserSettings.Default.Text_NewPath,
+		}).GetResultAsync<FileSelectorDialog>();
 
-	private void SaveAsCommand(object sender, RoutedEventArgs e)
-	{
-		var dialog = new SaveFileDialog
+		if (dialog.Status == true)
 		{
-			FileName = "TextData",
-			Filter = "xml file|*.x16",
-		};
-		if (dialog.ShowDialog() == true)
-		{
-			File.WriteAllText(dialog.FileName, Editor.Text, Encoding.Unicode);
+			await RenderView(
+				UserSettings.Default.Text_OldPath = dialog.Path1,
+				UserSettings.Default.Text_NewPath = dialog.Path2);
 		}
 	}
 
@@ -286,28 +233,53 @@ public partial class TextView
 		});
 	}
 
+	private void CanExecuteSaveAs(object sender, CanExecuteRoutedEventArgs e)
+	{
+		e.CanExecute = !inloading && source != null;
+	}
+
+	private void SaveAsCommand(object sender, RoutedEventArgs e)
+	{
+		var dialog = new SaveFileDialog
+		{
+			FileName = "TextData",
+			Filter = "xml file|*.x16",
+		};
+		if (dialog.ShowDialog() == true)
+		{
+			File.WriteAllText(dialog.FileName, Editor.Text, Encoding.Unicode);
+		}
+	}
+
+	private void CanExecuteSave(object sender, CanExecuteRoutedEventArgs e)
+	{
+		// only single file and left source
+		e.CanExecute = !inloading && source != null && source.CanSave;
+	}
+
 	private void SaveCommand(object sender, RoutedEventArgs e)
 	{
+		ArgumentNullException.ThrowIfNull(source);
 		inloading = true;
 
 		Task.Run(() =>
 		{
 			try
 			{
-				Growl.Info(new GrowlInfo()
+				if (source.HaveBackup)
 				{
-				    Message = StringHelper.Get("TextView_TaskStart"),
-					Token = token,
-				});
+					source.HaveBackup = MessageBox.Show(StringHelper.Get("TextView_BackUp_Ask"), StringHelper.Get("Message_Tip"), MessageBoxButton.YesNo) != MessageBoxResult.Yes;
+				}
 
-				var data = Encoding.Unicode.GetBytes(this.Dispatcher.Invoke(() => Editor.Text));
+				Growl.Info(StringHelper.Get("TextView_TaskStart"), TOKEN);
+				var data = Encoding.Unicode.GetBytes(Dispatcher.Invoke(() => Editor.Text));
 				source.Save(data);
 
-				Growl.Success(StringHelper.Get("TextView_SaveCompleted"), token);
+				Growl.Success(StringHelper.Get("TextView_SaveCompleted"), TOKEN);
 			}
 			catch (Exception ex)
 			{
-				Growl.Error(ex.Message, nameof(TextView));
+				Growl.Error(ex.Message, TOKEN);
 			}
 			finally
 			{

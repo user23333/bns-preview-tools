@@ -38,6 +38,7 @@ public partial class MainWindow
 	{
 		base.OnInitialized(e);
 
+		this.GrowlHolder2.ItemsSource = Growl2.Source;
 		this.Loaded += OpenUpdateLog;
 		this.MinWidth = this.Width;
 		this.MinHeight = this.Height;
@@ -63,7 +64,7 @@ public partial class MainWindow
 		SideMenuContainer.IsOpen = false;
 		var page = (IPageController)SideMenu.SelectedItem;
 
-		var content = page!.Content;
+		var content = page.Content;
 		if (content is Window window)
 		{
 			window.Closed += (s, e) => page.Content = null;

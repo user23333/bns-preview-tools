@@ -96,7 +96,7 @@ internal partial class GameResourcePageViewModel : ObservableObject
 	[RelayCommand]
 	public async Task AddFileInfo()
 	{
-		var file = await Dialog.Show<FileInfoDialog>().GetResultAsync<PackageParam.FileParam>();
+		var file = await Dialog.Show<VfsFileInfoDialog>().GetResultAsync<PackageParam.FileParam>();
 		if (file is null) return;
 
 		file.Owner = this.SelectedPackage;
@@ -106,7 +106,7 @@ internal partial class GameResourcePageViewModel : ObservableObject
 	[RelayCommand]
 	public async Task UpdateFileInfo()
 	{
-		var dialog = new FileInfoDialog() { Result = SelectedFile };
+		var dialog = new VfsFileInfoDialog() { Result = SelectedFile };
 		if (dialog.Result is null) return;
 
 		await Dialog.Show(dialog).GetResultAsync<PackageParam.FileParam>();
@@ -120,7 +120,7 @@ internal partial class GameResourcePageViewModel : ObservableObject
 	[RelayCommand]
 	public void RemoveFileInfo()
 	{
-		this.SelectedPackage?.Files.Remove(SelectedFile);
+		this.SelectedPackage.Files.Remove(SelectedFile);
 	}
 
 
@@ -131,7 +131,7 @@ internal partial class GameResourcePageViewModel : ObservableObject
 
 		Parallel.ForEach(provider.Files.Values, gamefile =>
 		{
-			if (gamefile.Extension != "uasset" || !gamefile.Path.Contains(filter, StringComparison.OrdinalIgnoreCase))
+			if (gamefile.Extension != "uasset" || !gamefile.Path.Contains(filter.SubstringBeforeLast('.'), StringComparison.OrdinalIgnoreCase))
 				return;
 
 			try
@@ -165,12 +165,8 @@ internal partial class GameResourcePageViewModel : ObservableObject
 
 
 	#region Icon
-	[ObservableProperty]
-	string icon_OutputFolder = Path.Combine(UserSettings.Default.OutputFolderResource, "Extract");
-
-	[ObservableProperty]
-	string icon_ItemListPath;
-
+	[ObservableProperty] string? icon_OutputFolder = Path.Combine(UserSettings.Default.OutputFolderResource, "Extract");
+	[ObservableProperty] string? icon_ItemListPath;
 
 	[RelayCommand]
 	public void OpenSettings()
@@ -193,9 +189,9 @@ internal partial class GameResourcePageViewModel : ObservableObject
 	}
 
 
-	readonly CancellationTokenSource[] Sources = new CancellationTokenSource[20];
+	readonly CancellationTokenSource?[] Sources = new CancellationTokenSource[20];
 
-	public void Run(IconOutBase Out, string format, int id) => Task.Run(() =>
+	public void Run(IconOutBase instance, string format, int id) => Task.Run(() =>
 	{
 		#region Token
 		var source = this.Sources[id];
@@ -213,31 +209,39 @@ internal partial class GameResourcePageViewModel : ObservableObject
 		source = this.Sources[id] = new CancellationTokenSource();
 		#endregion
 
+		#region Action 
+		var process = Growl2.Add(new()
+		{
+			Message = StringHelper.Get("Text.TaskBegin"),
+			Stop = new Action(() =>
+			{
+				source.Dispose();
+				this.Sources[id] = null;
+			}),
+		});
+		#endregion
+
 		try
 		{
 			DateTime start = DateTime.Now;
-			Growl.Info(StringHelper.Get("Text.TaskBegin"));
+			instance.Initialize(source.Token);
+			instance.Execute(format, (arg) =>
+				process.Message = StringHelper.Get("Text.TaskProcess2", arg, StringHelper.Get("IconOut_" + instance.GetType().Name)),
+				source.Token);
 
-			Out.LoadData(source.Token);
-			Out.Output(format, source.Token);
-			Out.Dispose();
-
-			Growl.SuccessGlobal(new GrowlInfo()
-			{
-				Message = StringHelper.Get("Text.TaskCompleted2", TimeConverter.Convert(DateTime.Now - start , null)),
-				StaysOpen = true,
-			});
+			process.Type = InfoType.Success;
+			process.Message = StringHelper.Get("Text.TaskCompleted2", TimeConverter.Convert(DateTime.Now - start, null));
 		}
 		catch (Exception ee)
 		{
-			Growl.Error(StringHelper.Get("Text.TaskException", ee.Message));
-			Log.Error(ee, "Exception at IconOut");
+			process.Type = InfoType.Error;
+			process.Message = StringHelper.Get("Text.TaskException", ee.Message);
+			Log.Fatal(ee, "Exception at IconOut");
 		}
 		finally
 		{
-			source.Dispose();
-			this.Sources[id] = null;
-
+			instance.Dispose();
+			process.Stop?.Invoke();
 			ProcessFloatWindow.ClearMemory();
 		}
 	});
@@ -396,7 +400,6 @@ public class PackageParam
 	public string MountPoint { get; set; } = @"BNSR\Content";
 
 	public ObservableCollection<FileParam> Files { get; set; } = [];
-
 
 	public class FileParam
 	{

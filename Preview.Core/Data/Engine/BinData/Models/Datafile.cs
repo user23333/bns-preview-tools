@@ -8,7 +8,7 @@ public abstract class Datafile
 	#region Fields
 	public byte DatafileVersion { get; set; } = 5;
 	public BnsVersion ClientVersion { get; set; }
-	public DateTimeOffset CreatedAt { get; set; }
+	public Time64 CreatedAt { get; set; }
 	public long AliasCount { get; set; }
 	public long AliasMapSize { get; set; }
 	internal AliasTable AliasTable { get; set; }
@@ -16,7 +16,6 @@ public abstract class Datafile
 	public TableCollection Tables { get; set; }
 	public bool Is64Bit { get; protected set; }
 	#endregion
-
 
 	#region	Serialize
 	protected void ReadFrom(byte[] bytes, bool is64bit)
@@ -63,7 +62,7 @@ public abstract class Datafile
 
 		var overwriteNameTableSize = datafileHeader.WriteHeaderTo(writer, tables.Length, AliasCount, is64bit);
 
-		if (this.AliasTable == null)
+		if (AliasTable == null) 
 			overwriteNameTableSize(AliasMapSize);
 
 		if (tables.Length > 10)

@@ -2,17 +2,19 @@
 using Xylia.Preview.Common.Attributes;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.Abstractions;
-using Xylia.Preview.Data.Helpers;
+using Xylia.Preview.Data.Models.Sequence;
 
 namespace Xylia.Preview.Data.Models;
 public sealed class ItemImproveOptionList : ModelElement, IItemRecipeHelper
 {
 	#region Attributes
+	public JobSeq Job { get; set; }
+
 	public Ref<ItemImproveOption>[] Option { get; set; }
 
-	public short[] OptionProbWeight { get; set; }
+	public short[] OptionWeight { get; set; }
 
-	public short OptionProbMax { get; set; }
+	public int OptionWeightTotal { get; set; }
 
 	public int[] DrawCostMoney { get; set; }
 
@@ -48,9 +50,9 @@ public sealed class ItemImproveOptionList : ModelElement, IItemRecipeHelper
 
 	public short[] SuccessionRandomOptionWeight { get; set; }
 
-	public short[] SuccessionRandomOptionWeightTotal { get; set; }
+	public int SuccessionRandomOptionWeightTotal { get; set; }
 	#endregion
-		 
+
 	#region Methods
 	public IEnumerable GetOptions(sbyte level)
 	{
@@ -61,8 +63,8 @@ public sealed class ItemImproveOptionList : ModelElement, IItemRecipeHelper
 			var option = Option[i].Instance;
 			if (option is null) continue;
 
-			option = FileCache.Data.Provider.GetTable<ItemImproveOption>()[option.Id + ((long)level << 32)];
-			options.Add(new(option, ((double)OptionProbWeight[i] / OptionProbMax).ToString("P2")));
+			option = this.Provider.GetTable<ItemImproveOption>()[option.Id + ((long)level << 32)];
+			options.Add(new(option, ((double)OptionWeight[i] / OptionWeightTotal).ToString("P3")));
 		}
 
 		return options;

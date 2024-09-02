@@ -4,6 +4,7 @@ using System.Text;
 namespace Xylia.Preview.Common.Extension;
 public static class BinaryExtension
 {
+	#region Common
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static T Read<T>(this BinaryReader reader)
 	{
@@ -28,6 +29,19 @@ public static class BinaryExtension
 		}
 
 		writer.Write(data);
+	}
+
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	public static async Task SaveAsync(this Stream stream, string path)
+	{
+		Directory.CreateDirectory(Path.GetDirectoryName(path)!);
+
+		await using var fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+		await stream.CopyToAsync(fs);
+		await fs.FlushAsync();
+
+		// return position
+		stream.Seek(0, SeekOrigin.Begin);
 	}
 
 
@@ -84,55 +98,97 @@ public static class BinaryExtension
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	public static byte[] ToBytes(this string Hex)
+	public static byte[] ToBytes(this string data)
 	{
-		Hex = Hex.UnCompress();
-		if (string.IsNullOrWhiteSpace(Hex))
+		data = data.UnCompress();
+		if (string.IsNullOrWhiteSpace(data))
 			return [];
 
-		var inputByteArray = new byte[Hex.Length / 2];
+		var inputByteArray = new byte[data.Length / 2];
 		for (var x = 0; x < inputByteArray.Length; x++)
-			inputByteArray[x] = (byte)Convert.ToInt32(Hex.Substring(x * 2, 2), 16);
+			inputByteArray[x] = (byte)Convert.ToInt32(data.Substring(x * 2, 2), 16);
 
 		return inputByteArray;
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	public static string UnCompress(this string Cipher)
+	public static string UnCompress(this string data)
 	{
-		if (string.IsNullOrWhiteSpace(Cipher))
-			return Cipher;
+		if (string.IsNullOrWhiteSpace(data))
+			return data;
 
 		StringBuilder builder = new();
-		for (int i = 0; i < Cipher.Length; i++)
+		for (int i = 0; i < data.Length; i++)
 		{
-			char s = Cipher[i];
+			char s = data[i];
 
-			if (i + 1 != Cipher.Length && s == '[')
+			if (s == '[')
 			{
-				StringBuilder InsiderBuilder = new StringBuilder();
+				StringBuilder num = new();
 
-				int NextId = i + 1;
-				char CurChar = Cipher[NextId];
-
-				while (CurChar != ']')
+				for (i++; i <= data.Length; i++)
 				{
-					InsiderBuilder.Append(CurChar);
+					if (i == data.Length) throw new InvalidDataException("missing suffix-label");
 
-					int NewId = ++NextId;
+					var c2 = data[i];
+					if (c2 == ']') break;
 
-					if (Cipher.Length < NewId + 1) throw new InvalidDataException("压缩文本中缺失了后标(即 \"]\" 标识)。");
-					CurChar = Cipher[NewId];
+					num.Append(c2);
 				}
 
-				for (int f = 0; f < int.Parse(InsiderBuilder.ToString()); f++) builder.Append('0');
-				InsiderBuilder.Clear();
-				i = NextId;
+				builder.Append('0', int.Parse(num.ToString()));
 			}
-			else if (s == ']') throw new InvalidDataException("无效的压缩文本后标");
+			else if (s == ']') throw new InvalidDataException("invalid suffix-label");
 			else builder.Append(s);
 		}
 
 		return builder.ToString().Replace(" ", null);
 	}
+	#endregion
+
+	#region Search
+	public static IEnumerable<long> IndexesOf(this byte[] source, int start, byte[] pattern)
+	{
+		ArgumentNullException.ThrowIfNull(source);
+		ArgumentNullException.ThrowIfNull(pattern);
+
+		long valueLength = source.LongLength;
+		long patternLength = pattern.LongLength;
+
+		if ((valueLength == 0) || (patternLength == 0) || (patternLength > valueLength))
+		{
+			yield break;
+		}
+
+		var badCharacters = new long[256];
+
+		for (var i = 0; i < 256; i++)
+		{
+			badCharacters[i] = patternLength;
+		}
+
+		var lastPatternByte = patternLength - 1;
+
+		for (long i = 0; i < lastPatternByte; i++)
+		{
+			badCharacters[pattern[i]] = lastPatternByte - i;
+		}
+
+		long index = start;
+
+		while (index <= valueLength - patternLength)
+		{
+			for (var i = lastPatternByte; source[index + i] == pattern[i]; i--)
+			{
+				if (i == 0)
+				{
+					yield return index;
+					break;
+				}
+			}
+
+			index += badCharacters[source[index + lastPatternByte]];
+		}
+	}
+	#endregion
 }

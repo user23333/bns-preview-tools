@@ -1,12 +1,11 @@
-﻿using Xylia.Preview.Data.Common.DataStruct;
+﻿using Serilog;
+using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.Data.Engine.BinData.Models;
-internal class AliasTable
+public class AliasTable
 {
-	#region Data
 	internal virtual Dictionary<string, Ref> Table { get; } = new(StringComparer.OrdinalIgnoreCase);
-	#endregion
 
 	#region Methods
 	public void Add(Ref Ref, string text)
@@ -31,8 +30,13 @@ internal class AliasTable
 		if (string.IsNullOrEmpty(fullAlias)) return default;
 		else if (Table.TryGetValue(fullAlias, out var value)) return value;
 
-		Serilog.Log.Warning($"cannot found alias map: {fullAlias}");
+		Log.Warning($"cannot found alias map: {fullAlias}");
 		return default;
+	}
+
+	public void Clear()
+	{
+		Table.Clear();
 	}
 
 	internal static string MakeKey(string tableDefName, string alias)

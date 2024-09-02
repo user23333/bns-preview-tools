@@ -61,7 +61,7 @@ internal partial class ItemPageViewModel : ObservableObject
 				return;
 			}
 
-			Out.Start(startTime, fileMode == FileModeDialog.FileMode.Xlsx);
+			Out.Start(fileMode);
 			var span = (int)(DateTime.Now - startTime).TotalSeconds;
 
 			// send finish tootip

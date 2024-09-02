@@ -4,28 +4,20 @@ using System.Text;
 namespace Xylia.Preview.Data.Engine.DatData;
 public static class PackageKey
 {
-	#region AES
-	public static byte[] AES_2014 => Encoding.ASCII.GetBytes("bns_obt_kr_2014#");
+	// AES
+	public readonly static byte[] AES_2014 = Encoding.ASCII.GetBytes("bns_obt_kr_2014#");
+	public readonly static byte[] AES_2020_01 = Encoding.ASCII.GetBytes("ja#n_2@020_compl");
+	public readonly static byte[] AES_2020_02 = Encoding.ASCII.GetBytes("jan_2#0_cpl_bns!");
+	public readonly static byte[] AES_2020_03 = [166, 228, 20, 193, 142, 29, 181, 184, 107, 21, 47, 88, 66, 181, 193, 49];
+	public readonly static byte[] AES_2020_04 = [56, 136, 117, 31, 170, 26, 76, 33, 186, 192, 59, 119, 197, 84, 103, 183];
+	public readonly static byte[] AES_2020_05 = [23, 81, 170, 213, 30, 54, 74, 27, 254, 96, 116, 231, 208, 133, 7, 104];
 
-	public static byte[] AES_2020_01 => Encoding.ASCII.GetBytes("ja#n_2@020_compl");
+	// XOR
+	public readonly static byte[] XOR_KEY_2014 = [164, 159, 216, 179, 246, 142, 57, 194, 45, 224, 97, 117, 92, 75, 26, 7];
+	public readonly static byte[] XOR_KEY_2021 = [15, 19, 93, 85, 72, 248, 65, 249, 53, 24, 42, 132, 81, 92];
 
-	public static byte[] AES_2020_02 => Encoding.ASCII.GetBytes("jan_2#0_cpl_bns!");
-
-	public static byte[] AES_2020_03 => new byte[] { 166, 228, 20, 193, 142, 29, 181, 184, 107, 21, 47, 88, 66, 181, 193, 49 };
-
-	public static byte[] AES_2020_04 => new byte[] { 56, 136, 117, 31, 170, 26, 76, 33, 186, 192, 59, 119, 197, 84, 103, 183 };
-
-	public static byte[] AES_2020_05 => new byte[] { 23, 81, 170, 213, 30, 54, 74, 27, 254, 96, 116, 231, 208, 133, 7, 104 };
-	#endregion
-
-	#region XOR
-	public static byte[] XOR_KEY_2014 => new byte[] { 164, 159, 216, 179, 246, 142, 57, 194, 45, 224, 97, 117, 92, 75, 26, 7 };
-
-	public static byte[] XOR_KEY_2021 => new byte[] { 15, 19, 93, 85, 72, 248, 65, 249, 53, 24, 42, 132, 81, 92 };
-	#endregion
-
-	#region RSA
-	public static RSAParameters RSA2 => new()
+	// RSA
+	public readonly static RSAParameters RSA2 = new()
 	{
 		Exponent = Convert.FromBase64String("AQAB"),
 		Modulus = Convert.FromBase64String("6frEEJqRXEuy/ttKNKxRZZdvqAgeSi0yDwMzMu4lZhtq4/sbojbQH2zkcsEUz6PJ7Ab9Zty2EuBDO1ZJoYN2Y0i1Pvi+avGGJbwTuHuPag352hxHwVPbBXZ//koxlL4J1J9FQKtEWHBCRkDM7UYVBkCQb5I6k9fEtyJejrzdmgk="),
@@ -36,8 +28,7 @@ public static class PackageKey
 		DQ = new byte[64],
 		InverseQ = new byte[64],
 	};
-
-	public static RSAParameters RSA3 => new()
+	public readonly static RSAParameters RSA3 = new()
 	{
 		Exponent = Convert.FromBase64String("AQAB"),
 		Modulus = Convert.FromBase64String("4n/9xPwCpn2/TGXY0bCc23xXKdU9iobCl2RCMWTDgz17uh+Jl8W+Jvci+apyTyXDYdQH8nh2SKkUpAYsQy8bA9v8k+ZbYDytp/DAcHKBfY/1ccknJQrWStbzxQwRXSGsmWmY0vwCW2K7iTkWGQbxo0qRG/L10/qDXQLxf7bmyE8="),
@@ -48,5 +39,4 @@ public static class PackageKey
 		DQ = new byte[64],
 		InverseQ = new byte[64],
 	};
-	#endregion
 }

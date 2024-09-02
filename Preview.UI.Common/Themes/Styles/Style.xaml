@@ -3,26 +3,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:c="clr-namespace:Xylia.Preview.UI.Controls">
 
-	<c:BnsTooltipTemplateSelector x:Key="BnsTooltipTemplateSelector" >
-		<c:BnsTooltipTemplateSelector.PlainTemplate>
-			<DataTemplate>
-				<c:BnsCustomLabelWidget Text="{Binding }" />
-			</DataTemplate>
-		</c:BnsTooltipTemplateSelector.PlainTemplate>
-	</c:BnsTooltipTemplateSelector>
+	<ResourceDictionary.MergedDictionaries>
+		<ResourceDictionary Source="Tooltip.xaml"/>
+	</ResourceDictionary.MergedDictionaries>
 
-	<Style x:Key="BnsTooltip" TargetType="ToolTip">
+	<Style TargetType="c:BnsCustomWindowWidget">
+		<Setter Property="Background" Value="{DynamicResource RegionBrush}" />
 		<Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
-		<Setter Property="TextElement.FontSize" Value="13.5" />
-		<Setter Property="Template">
-			<Setter.Value>
-				<ControlTemplate>
-					<Border BorderBrush="{DynamicResource BorderBrush}" Background="{DynamicResource RegionBrush}" BorderThickness="1.5" Padding="3">
-						<ContentControl Content="{TemplateBinding ContentControl.Content}" ContentTemplateSelector="{StaticResource BnsTooltipTemplateSelector}" />
-					</Border>
-				</ControlTemplate>
-			</Setter.Value>
-		</Setter>
 	</Style>
 
 </ResourceDictionary>

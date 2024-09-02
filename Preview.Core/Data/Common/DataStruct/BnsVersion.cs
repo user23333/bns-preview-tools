@@ -1,34 +1,48 @@
 ﻿namespace Xylia.Preview.Data.Common.DataStruct;
-public struct BnsVersion
+public readonly struct BnsVersion(ushort major, ushort minor, ushort build, ushort revision) : IComparable<BnsVersion>
 {
-	public ushort Major { get; }
-	public ushort Minor { get; }
-	public ushort Build { get; }
-	public ushort Revision { get; }
-
-	public BnsVersion(string data)
-	{
-		var strings = data.Split('.');
-
-		this.Major = ushort.Parse(strings[0]);
-		this.Minor = ushort.Parse(strings[1]);
-		this.Build = ushort.Parse(strings[2]);
-		this.Revision = ushort.Parse(strings[3]);
-	}
-
-	public BnsVersion(ushort major, ushort minor, ushort build, ushort revision)
-	{
-		this.Major = major;
-		this.Minor = minor;
-		this.Build = build;
-		this.Revision = revision;
-	}
+	public ushort Major { get; } = major;
+	public ushort Minor { get; } = minor;
+	public ushort Build { get; } = build;
+	public ushort Revision { get; } = revision;
 
 
 	#region Methods
 	public readonly override string ToString() => $"{Major}.{Minor}.{Build}.{Revision}";
 
+	public readonly int CompareTo(BnsVersion other)
+	{
+		if (this.Major != other.Major) return this.Major - other.Major;
+		if (this.Minor != other.Minor) return this.Minor - other.Minor;
+		if (this.Build != other.Build) return this.Build - other.Build;
+		if (this.Revision != other.Revision) return this.Revision - other.Revision;
 
-	public static implicit operator BnsVersion(string data) => new BnsVersion(data);
+		return 0;
+	}
+
+	public static BnsVersion Parse(string s)
+	{
+		var strs = s.Split('.', 4);
+
+		return new BnsVersion(
+			ushort.Parse(strs[0]),
+			ushort.Parse(strs[1]),
+			ushort.Parse(strs[2]),
+			ushort.Parse(strs[3]));
+	}
+
+	public static bool TryParse(string s, out BnsVersion result)
+	{
+		try
+		{
+			result = Parse(s);
+			return true;
+		}
+		catch
+		{
+			result = default;
+			return false;
+		}
+	}
 	#endregion
 }

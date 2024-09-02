@@ -1,10 +1,9 @@
-﻿using System.Text;
-using CUE4Parse.BNS.Assets.Exports;
+﻿using CUE4Parse.BNS.Assets.Exports;
+using CUE4Parse.UE4.Objects.Core.Math;
 using CUE4Parse.UE4.Objects.UObject;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Common.DataStruct;
-using Xylia.Preview.Data.Models.Creature;
 using Xylia.Preview.Data.Models.Sequence;
 using static Xylia.Preview.Data.Models.Item;
 using static Xylia.Preview.Data.Models.Item.Grocery;
@@ -16,7 +15,12 @@ public abstract class Item : ModelElement, IHaveName
 	public Ref<ItemCombat>[] ItemCombat { get; set; }
 	public Ref<ItemBrand> Brand { get; set; }
 
-	public GameCategory3Seq GameCategory3 => Attributes["game-category-3"].ToEnum<GameCategory3Seq>();
+	public GameCategorySeq GameCategory1 => Attributes.Get<string>("game-category-1").ToEnum<GameCategorySeq>();
+	public GameCategory2Seq GameCategory2 => Attributes.Get<string>("game-category-2").ToEnum<GameCategory2Seq>();
+	public GameCategory3Seq GameCategory3 => Attributes.Get<string>("game-category-3").ToEnum<GameCategory3Seq>();
+	public MarketCategorySeq MarketCategory => Attributes.Get<string>("market-category-1").ToEnum<MarketCategorySeq>();
+	public MarketCategory2Seq MarketCategory2 => Attributes.Get<string>("market-category-2").ToEnum<MarketCategory2Seq>();
+	public MarketCategory3Seq MarketCategory3 => Attributes.Get<string>("market-category-3").ToEnum<MarketCategory3Seq>();
 
 	public bool CannotDispose => Attributes.Get<BnsBoolean>("cannot-dispose");
 	public bool CannotSell => Attributes.Get<BnsBoolean>("cannot-sell");
@@ -42,7 +46,7 @@ public abstract class Item : ModelElement, IHaveName
 		Female,
 	}
 
-	public Race EquipRace => Race.Get(Attributes["equip-race"].ToEnum<RaceSeq2>());
+	public RaceSeq2 EquipRace => Attributes["equip-race"].ToEnum<RaceSeq2>();
 	public enum RaceSeq2
 	{
 		RaceNone,
@@ -69,7 +73,6 @@ public abstract class Item : ModelElement, IHaveName
 		COUNT
 	}
 
-
 	public ItemDecomposeInfo DecomposeInfo => new(this);
 
 	public Ref<SetItem> SetItem { get; set; }
@@ -80,8 +83,36 @@ public abstract class Item : ModelElement, IHaveName
 	public int ImproveId => Attributes.Get<int>("improve-id");
 	public sbyte ImproveLevel => Attributes.Get<sbyte>("improve-level");
 
-	public string ItemName => ItemNameOnly;
-	public string ItemNameOnly => $"<font name=\"00008130.Program.Fontset_ItemGrade_{ItemGrade}\">{Attributes["name2"].GetText() ?? ToString()}</font>";
+	public string ItemName => $"<link id='item:{ToString()}'>{ItemNameOnly}</link>";
+	public string ItemNameOnly
+	{
+		get
+		{
+			var TagIconGrade = Attributes.Get<Icon>("tag-icon-grade")?.GetImage();
+			if (TagIconGrade != null)
+			{
+				TagIconGrade.TintColor = new TintColor()
+				{
+					SpecifiedColor = ItemGrade switch
+					{
+						1 => new FLinearColor(0.325037f, 0.325037f, 0.325037f, 1f),
+						2 => new FLinearColor(1f, 1f, 1f, 1f),
+						3 => new FLinearColor(0.096266f, 1f, 0.186989f, 1f),
+						4 => new FLinearColor(0f, 0.694081f, 1f, 1f),
+						5 => new FLinearColor(0.68703f, 0.037029f, 1f, 1f),
+						6 => new FLinearColor(0.88318f, 0.442323f, 0.03423f, 1f),
+						7 => new FLinearColor(1f, 0.186989f, 0.000805f, 1f),
+						8 => new FLinearColor(1f, 0.000000f, 0.234895f, 1f),
+						9 => new FLinearColor(1f, 0.846873f, 0.016807f, 1f),
+						_ => default,
+					}
+				};
+			}
+
+			var text = Attributes["name2"].GetText() ?? ToString();
+			return $"<font name='00008130.Program.Fontset_ItemGrade_{ItemGrade}'>{text}</font>" + TagIconGrade?.Tag;
+		}
+	}
 
 	public int ClosetGroupId => Attributes.Get<int>("closet-group-id");
 	#endregion
@@ -221,111 +252,17 @@ public abstract class Item : ModelElement, IHaveName
 
 
 	#region Methods
-	public string Name => Attributes["name2"].GetText() ?? base.ToString();
+	public string Name => Attributes["name2"].GetText() ?? ToString();
 
 	public ImageProperty BackIcon => IconTexture.GetBackground(ItemGrade);
 
-	public ImageProperty FrontIcon => IconTexture.Parse(Attributes.Get<string>("icon"));
+	public ImageProperty FrontIcon => Attributes.Get<Icon>("icon")?.GetImage();
 
 	public FPackageIndex CanSaleItemImage => new MyFPackageIndex(
 		Auctionable ? "BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_Icon3_R/SlotItem_marketBusiness.SlotItem_marketBusiness" :
 		AccountUsed ? "BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_Icon3_R/SlotItem_privateSale.SlotItem_privateSale" : null);
 
 	public FPackageIndex UnusableImage => DecomposeInfo.GetImage();
-
-	public Tuple<string, string> CollectionSubstitute
-	{
-		get
-		{
-			StringBuilder Substitute1 = new(), Substitute2 = new();
-
-			#region Info
-			var MainInfo = Attributes.Get<Record>("main-info").GetText();
-			var SubInfo = Attributes.Get<Record>("sub-info").GetText();
-			if (MainInfo != null) Substitute1.AppendLine(MainInfo);
-			if (SubInfo != null) Substitute2.AppendLine(SubInfo);
-			#endregion
-
-			#region Ability
-			var data = new Dictionary<MainAbility, long>();
-
-			var AttackPowerEquipMin = Attributes.Get<short>("attack-power-equip-min");
-			var AttackPowerEquipMax = Attributes.Get<short>("attack-power-equip-max");
-			data[MainAbility.AttackPowerEquipMinAndMax] = (AttackPowerEquipMin + AttackPowerEquipMax) / 2;
-
-			var PveBossLevelNpcAttackPowerEquipMin = Attributes.Get<short>("pve-boss-level-npc-attack-power-equip-min");
-			var PveBossLevelNpcAttackPowerEquipMax = Attributes.Get<short>("pve-boss-level-npc-attack-power-equip-max");
-			data[MainAbility.PveBossLevelNpcAttackPowerEquipMinAndMax] = (PveBossLevelNpcAttackPowerEquipMin + PveBossLevelNpcAttackPowerEquipMax) / 2;
-
-			var PvpAttackPowerEquipMin = Attributes.Get<short>("pvp-attack-power-equip-min");
-			var PvpAttackPowerEquipMax = Attributes.Get<short>("pvp-attack-power-equip-max");
-			data[MainAbility.PvpAttackPowerEquipMinAndMax] = (PvpAttackPowerEquipMin + PvpAttackPowerEquipMax) / 2;
-
-			// HACK: Actually, the ability value is single get
-			foreach (var seq in Enum.GetValues<MainAbility>())
-			{
-				if (seq == MainAbility.None) continue;
-
-				var name = seq.ToString().TitleLowerCase();
-				var value = Convert.ToInt32(this.Attributes[name]);
-				if (value != 0) data[seq] = value;
-				else if (seq != MainAbility.AttackAttributeValue)
-				{
-					var value2 = Convert.ToInt32(this.Attributes[name + "-equip"]);
-					if (value2 != 0) data[seq] = value2;
-				}
-			}
-
-			// HACK: Actually, the MainAbility is not this sequence
-			var MainAbility1 = Attributes["main-ability-1"].ToEnum<MainAbility>();
-			var MainAbility2 = Attributes["main-ability-2"].ToEnum<MainAbility>();
-
-			foreach (var ability in data)
-			{
-				if (ability.Value == 0) continue;
-
-				var text = ability.Key.GetText(ability.Value);
-				if (ability.Key == MainAbility1 || ability.Key == MainAbility2) Substitute1.AppendLine(text);
-				else Substitute2.AppendLine(text);
-			}
-
-
-			if (this is Gem)
-			{
-				var MainAbilityFixed = Attributes.Get<Record>("main-ability-fixed")?.As<ItemRandomAbilitySlot>();
-				var SubAbilityFixed = Attributes.Get<Record>("sub-ability-fixed")?.As<ItemRandomAbilitySlot>();
-				var SubAbilityRandomCount = Attributes.Get<sbyte>("sub-ability-random-count");
-				var SubAbilityRandom = LinqExtensions.For(8, (id) => Attributes.Get<Record>("sub-ability-random-" + id)?.As<ItemRandomAbilitySlot>());
-
-				if (MainAbilityFixed != null) Substitute1.AppendLine(MainAbilityFixed.Description);
-				if (SubAbilityFixed != null) Substitute2.AppendLine(SubAbilityFixed.Description);
-				if (SubAbilityRandomCount > 0)
-				{
-					Substitute2.AppendLine("UI.ItemRandomOption.Undetermined".GetText([SubAbilityRandomCount]));
-					SubAbilityRandom.ForEach(x => Substitute2.AppendLine(x.Description + " <Image imagesetpath=\"00015590.Tag_Random\" enablescale=\"true\" scalerate=\"1.2\"/>"), true);
-				}
-			}
-			#endregion
-
-			#region Equip
-			for (int i = 1; i <= 4; i++)
-			{
-				var EffectEquip = Attributes.Get<Record>("effect-equip-" + i);
-				if (EffectEquip is null) continue;
-
-				var Name3 = EffectEquip.Attributes.Get<Record>("name3").GetText();
-				var Description3 = EffectEquip.Attributes.Get<Record>("description3").GetText();
-
-				if (Name3 != null) Substitute1.AppendLine(Name3);
-				if (Description3 != null) Substitute2.AppendLine(Description3);
-			}
-			#endregion
-
-			return new(
-				Substitute1.ToString().TrimEnd('\n'),
-				Substitute2.ToString().TrimEnd('\n'));
-		}
-	}
 
 	public string AcquireRoute
 	{
@@ -365,7 +302,6 @@ public class ItemDecomposeInfo
 
 	public Tuple<Item, short>[] Decompose_By_Item2;
 	public Tuple<Item, short>[] Job_Decompose_By_Item2;
-
 	#endregion
 
 	#region Constructor
@@ -377,11 +313,11 @@ public class ItemDecomposeInfo
 		DecomposeMoneyCost = attributes.Get<int>("decompose-money-cost");
 		DecomposeRewardByConsumeIndex = attributes.Get<BnsBoolean>("decompose-reward-by-consume-index");
 
-		LinqExtensions.For(ref DecomposeReward, 7, (id) => attributes.Get<Record>("decompose-reward-" + id)?.As<Reward>());
-		Job.GetPcJob().ForEach(job => DecomposeJobRewards[job] = attributes.Get<Record>("decompose-job-reward-" + job.GetDescription())?.As<Reward>());
+		LinqExtensions.For(ref DecomposeReward, 7, (id) => attributes.Get<Reward>("decompose-reward-" + id));
+		Job.GetPcJob().ForEach(job => DecomposeJobRewards[job] = attributes.Get<Reward>("decompose-job-reward-" + job.GetDescription()));
 
-		LinqExtensions.For(ref Decompose_By_Item2, 7, (id) => new(attributes.Get<Record>("decompose-by-item2-" + id)?.As<Item>(), attributes.Get<short>("decompose-by-item2-stack-count-" + id)));
-		LinqExtensions.For(ref Job_Decompose_By_Item2, 7, (id) => new(attributes.Get<Record>("job-decompose-by-item2-" + id)?.As<Item>(), attributes.Get<short>("job-decompose-by-item2-stack-count-" + id)));
+		LinqExtensions.For(ref Decompose_By_Item2, 7, (id) => new(attributes.Get<Item>("decompose-by-item2-" + id), attributes.Get<short>("decompose-by-item2-stack-count-" + id)));
+		LinqExtensions.For(ref Job_Decompose_By_Item2, 7, (id) => new(attributes.Get<Item>("job-decompose-by-item2-" + id), attributes.Get<short>("job-decompose-by-item2-stack-count-" + id)));
 	}
 	#endregion
 

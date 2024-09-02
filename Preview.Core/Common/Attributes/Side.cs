@@ -8,7 +8,6 @@ public class Side : Attribute
 	public Side(ReleaseSide sideType) => SideType = sideType;
 
 
-
 	public ReleaseSide SideType;
 }
 

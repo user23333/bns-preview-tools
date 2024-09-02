@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 using Xylia.Preview.Common.Extension;
-using Xylia.Preview.Data.Models.Creature;
+using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.UI.Views.Pages;
 public partial class AbilitySetting

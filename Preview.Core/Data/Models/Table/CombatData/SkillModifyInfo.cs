@@ -92,7 +92,7 @@ public class SkillModifyInfo : ModelElement
 			if (this is Skill Skill)
 			{
 				skill = string.Format("<font name=\"00008130.UI.Vital_LightBlue\">{0}</font>",
-					string.Join(", ", Skill.ParentSkill3Id.SelectNotNull(id => FileCache.Data.Provider.GetTable<Skill3>()[new Ref(id, 1)]?.Name2.GetText())));
+					string.Join(", ", Skill.ParentSkill3Id.SelectNotNull(id => Provider.GetTable<Skill3>()[new Ref(id, 1)]?.Name2.GetText())));
 			}
 			#endregion
 

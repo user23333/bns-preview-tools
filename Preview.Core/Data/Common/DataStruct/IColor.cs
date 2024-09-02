@@ -1,21 +1,14 @@
 ﻿using System.Runtime.InteropServices;
 
 namespace Xylia.Preview.Data.Common.DataStruct;
-
 [StructLayout(LayoutKind.Sequential)]
-public struct IColor
+public struct IColor(byte r, byte g, byte b)
 {
-	public byte R;
-	public byte G;
-	public byte B;
+	public byte R = r;
+	public byte G = g;
+	public byte B = b;
 
-	public IColor(byte r, byte g, byte b)
-	{
-		R = r;
-		G = g;
-		B = b;
-	}
-
+	#region Methods
 	public static IColor Parse(string input)
 	{
 		var items = input.Split(',');
@@ -43,20 +36,21 @@ public struct IColor
 		return !(a == b);
 	}
 
-	public bool Equals(IColor other)
+	public readonly bool Equals(IColor other)
 	{
 		return R == other.R && G == other.G && B == other.B;
 	}
 
-	public override bool Equals(object obj)
+	public readonly override bool Equals(object obj)
 	{
 		return obj is IColor other && Equals(other);
 	}
 
-	public override int GetHashCode()
+	public readonly override int GetHashCode()
 	{
 		return HashCode.Combine(R, G, B);
 	}
 
-	public override string ToString() => $"{R},{G},{B}";
+	public readonly override string ToString() => $"{R},{G},{B}";
+	#endregion
 }

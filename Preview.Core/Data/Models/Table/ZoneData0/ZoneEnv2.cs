@@ -200,7 +200,7 @@ public class ZoneEnv2 : ModelElement, IHaveName
 		#region Methods
 		public override MapUnit.CategorySeq MapUnitCategory => ExpeditionType == ExpeditionTypeSeq.ViewPoint ? MapUnit.CategorySeq.ExpeditionEnv : MapUnit.CategorySeq.Env;
 
-		protected internal override void LoadHiddenField()
+		protected override void LoadHiddenField()
 		{
 			base.LoadHiddenField();
 
@@ -439,7 +439,7 @@ public class ZoneEnv2 : ModelElement, IHaveName
 
 	public virtual MapUnit.CategorySeq MapUnitCategory => MapUnit.CategorySeq.Env;
 
-	protected internal override void LoadHiddenField()
+	protected override void LoadHiddenField()
 	{
 		if (false && this.Attributes["script"] is null)
 		{

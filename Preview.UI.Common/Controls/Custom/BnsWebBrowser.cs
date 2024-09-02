@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows.Data;
+﻿using System.Windows.Data;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.Wpf;
 using Xylia.Preview.UI.Controls.Primitives;
@@ -12,11 +11,10 @@ public class BnsWebBrowser : BnsCustomBaseWidget
 	{
 		_webView = new WebView2();
 		_webView.CoreWebView2InitializationCompleted += InitializationCompleted;
+		this.Children.Add(_webView);
 
 		BindingOperations.SetBinding(_webView, HeightProperty, new Binding("Height") { Source = this });
 		BindingOperations.SetBinding(_webView, WidthProperty, new Binding("Width") { Source = this });
-
-		this.Children.Add(_webView);
 	}
 	#endregion
 
@@ -37,7 +35,7 @@ public class BnsWebBrowser : BnsCustomBaseWidget
 	#endregion
 
 	#region Methods
-	private void InitializationCompleted(object sender, CoreWebView2InitializationCompletedEventArgs e)
+	private void InitializationCompleted(object? sender, CoreWebView2InitializationCompletedEventArgs e)
 	{
 		if (!e.IsSuccess) return;
 

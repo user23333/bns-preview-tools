@@ -1,31 +1,44 @@
-﻿using CUE4Parse.FileProvider;
+﻿using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.UI.Helpers.Output.Textures;
 public sealed class SkillIcon(string GameFolder, string OutputFolder) : IconOutBase(GameFolder, OutputFolder)
 {
-    protected override void Output(DefaultFileProvider provider, string format, CancellationToken cancellationToken)
-    {
-        Parallel.ForEach(db!.Provider.GetTable<Skill3>(), record =>
-        {
-            cancellationToken.ThrowIfCancellationRequested();
+	protected override void Execute(string format, IProgress<float> progress, CancellationToken token)
+	{
+		var source = database!.Provider.GetTable(nameof(Skill3));
+		var counter = new ProgressHelper(progress, source.Count());
 
-            try
-            {
-                // name
-                var key = record.PrimaryKey;
-                var alias = record.Attributes.Get<string>("alias");
-                var name2 = record.Name2.GetText();
-                var path = format.Replace("[alias]", alias).Replace("[id]", key.ToString()).Replace("[name]", name2);
+		Parallel.ForEach(source, record =>
+		{
+			token.ThrowIfCancellationRequested();
+			counter.Update();
 
-                // image
-                var bitmap = IconTexture.Parse(record.IconTexture, record.IconIndex, db, provider)?.Image;
-                Save(bitmap, path);
-            }
-            catch (Exception ee)
-            {
-                logger.Error($"{record} " + ee.Message);
-            }
-        });
-    }
+			try
+			{
+				// data
+				var key = record.PrimaryKey;
+				var alias = record.Attributes.Get<string>("alias");
+				var name2 = record.Attributes.Get<Record>("name2").GetText();
+				var iconTexture = record.Attributes.Get<Record>("icon-texture");
+				var iconIndex = record.Attributes.Get<short>("icon-index");
+				var icon = record.Attributes.Get<Icon>("icon") ?? new Icon(iconTexture, iconIndex);
+
+				// image
+				var bitmap = icon.GetImage(provider)?.Image ?? throw new Exception($"Get resouce failed ({icon})");
+				Save(bitmap, format
+					.Replace("[alias]", alias)
+					.Replace("[id]", key.ToString())
+					.Replace("[name]", name2));
+			}
+			catch (Exception ex)
+			{
+				logger.Error(string.Format("[{0}] {1}", record, ex.Message));
+			}
+			finally
+			{
+				record.Dispose();
+			}
+		});
+	}
 }

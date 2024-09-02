@@ -1,6 +1,8 @@
 ﻿using HandyControl.Controls;
 using HandyControl.Properties.Langs;
+using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Data.Engine.Definitions;
+using Xylia.Preview.Data.Models;
 using Xylia.Preview.UI.Common.Controls.AttributeGrid.Editor;
 using Xylia.Preview.UI.Services;
 
@@ -20,7 +22,7 @@ internal class AttributeResolver
 		return Lang.Miscellaneous;
 	}
 
-	public virtual bool ResolveIsBrowsable(AttributeDefinition attribute) => !attribute.IsDeprecated && attribute.CanInput;  // should use IsHidden
+	public virtual bool ResolveIsBrowsable(AttributeValue attribute) => true;  // should use IsHidden
 
 	public virtual bool ResolveIsReadOnly(AttributeDefinition attribute) => UserService.Instance.Role < UserRole.Advanced;
 
@@ -30,7 +32,7 @@ internal class AttributeResolver
 
 	public virtual string ResolveDescription(AttributeDefinition attribute) => $"{attribute.Type}";
 
-	public virtual PropertyEditorBase ResolveEditor(AttributeDefinition attribute) => attribute.Type switch
+	public virtual PropertyEditorBase ResolveEditor(AttributeDefinition attribute, IDataProvider provider) => attribute.Type switch
 	{
 		AttributeType.TInt8 => new NumberAttributeEditor(attribute),
 		AttributeType.TInt16 => new NumberAttributeEditor(attribute),
@@ -41,8 +43,8 @@ internal class AttributeResolver
 		AttributeType.TString => new StringPropertyEditor(),
 		AttributeType.TSeq => new SequenceAttributeEditor(attribute.Sequence),
 		AttributeType.TSeq16 => new SequenceAttributeEditor(attribute.Sequence),
-		AttributeType.TRef => new ReferenceAttributeEditor(attribute.ReferedTableName),
-		AttributeType.TTRef => new ReferenceAttributeEditor(null),
+		AttributeType.TRef => new ReferenceAttributeEditor(attribute.ReferedTableName, provider),
+		AttributeType.TTRef => new ReferenceAttributeEditor(null, provider),
 		//AttributeType.TSub => new tex(),
 		//AttributeType.TSu => new TextPropertyEditor(),
 		//AttributeType.TVector16 => new TextPropertyEditor(),
@@ -59,8 +61,8 @@ internal class AttributeResolver
 		AttributeType.TScript_obj => new ReadOnlyTextPropertyEditor(),
 		AttributeType.TNative => new StringPropertyEditor(),
 		//AttributeType.TVersion => new TextPropertyEditor(),
-		AttributeType.TIcon => new IconAttributeEditor(),
-		//AttributeType.TTime32 => new TextPropertyEditor(),
+		AttributeType.TIcon => new IconAttributeEditor(provider),
+		AttributeType.TTime32 => new TimeAttributeEditor(),
 		AttributeType.TTime64 => new TimeAttributeEditor(),
 		AttributeType.TXUnknown1 => new TimeAttributeEditor(),
 		AttributeType.TXUnknown2 => new StringPropertyEditor(),

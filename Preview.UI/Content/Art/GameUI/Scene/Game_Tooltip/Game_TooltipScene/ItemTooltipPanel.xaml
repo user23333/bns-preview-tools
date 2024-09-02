@@ -55,7 +55,7 @@
 					</ExpansionComponent>
 				</BnsCustomImageWidget.ExpansionComponentList>
 			</BnsCustomImageWidget>
-			<BnsCustomLabelWidget Name="CollectionSubstituteText" d:String="만으로도 완료 할 수 있습니다." String="{Binding CollectionSubstitute.Item1}" FontSize="15">
+			<BnsCustomLabelWidget Name="CollectionSubstituteText" String="만으로도 완료 할 수 있습니다." FontSize="15">
 				<BnsCustomLabelWidget.HorizontalResizeLink>
 					<ResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" Offset1="7" LinkWidgetName1="ItemIcon" />
 				</BnsCustomLabelWidget.HorizontalResizeLink>
@@ -63,13 +63,24 @@
 					<ResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" Offset1="3" LinkWidgetName1="ItemName" />
 				</BnsCustomLabelWidget.VerticalResizeLink>
 			</BnsCustomLabelWidget>
-			<BnsCustomLabelWidget Name="CollectionSubstitute2Text" d:String="만으로도 완료 할 수 있습니다." String="{Binding CollectionSubstitute.Item2}">
+			<BnsCustomLabelWidget Name="CollectionSubstitute2Text" String="만으로도 완료 할 수 있습니다.">
 				<BnsCustomLabelWidget.HorizontalResizeLink>
 					<ResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" Offset1="7" LinkWidgetName1="ItemIcon" />
 				</BnsCustomLabelWidget.HorizontalResizeLink>
 				<BnsCustomLabelWidget.VerticalResizeLink>
 					<ResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" Offset1="0" LinkWidgetName1="CollectionSubstituteText" />
 				</BnsCustomLabelWidget.VerticalResizeLink>
+			</BnsCustomLabelWidget>
+			<BnsCustomLabelWidget Name="ProbabilityText">
+				<BnsCustomLabelWidget.HorizontalResizeLink>
+					<ResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" Offset1="7" LinkWidgetName1="ItemIcon" />
+				</BnsCustomLabelWidget.HorizontalResizeLink>
+				<BnsCustomLabelWidget.VerticalResizeLink>
+					<ResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" Offset1="0" LinkWidgetName1="CollectionSubstitute2Text" />
+				</BnsCustomLabelWidget.VerticalResizeLink>
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Label_Green03_12.Label_Green03_12" SpaceBetweenLines="3" />
+				</BnsCustomLabelWidget.String>
 			</BnsCustomLabelWidget>
 		</BnsCustomWindowWidget>
 
@@ -101,31 +112,32 @@
 			</VerticalBox>
 		</BnsCustomWindowWidget>
 
+		<!-- Description -->
 		<BnsCustomLabelWidget Name="DecomposeDescription_Title">
 			<BnsCustomLabelWidget.String>
 				<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Label_LightYellow_12.Label_LightYellow_12" LabelText="Decompose Result Description Title" SpaceBetweenLines="3" />
 			</BnsCustomLabelWidget.String>
 		</BnsCustomLabelWidget>
-		<VerticalBox Name="DecomposeDescription" Margin="0 0 0 5"/>
-		<BnsCustomLabelWidget Name="ItemDescription_4_Title" Text="{TextResource Attributes[description4-title]}">
+		<VerticalBox Name="DecomposeDescription" Margin="0 0 0 5" />
+		<BnsCustomLabelWidget Name="ItemDescription_4_Title">
 			<BnsCustomLabelWidget.String>
 				<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Label_LightYellow_12.Label_LightYellow_12" LabelText="Item Description 4 Title" SpaceBetweenLines="3" />
 			</BnsCustomLabelWidget.String>
 		</BnsCustomLabelWidget>
-		<BnsCustomLabelWidget Name="ItemDescription_4" String="{TextResource Attributes[description4]}" d:String="Item Description4" />
-		<BnsCustomLabelWidget Name="ItemDescription_5_Title" Text="{TextResource Attributes[description5-title]}">
+		<BnsCustomLabelWidget Name="ItemDescription_4" String="Item Description4" />
+		<BnsCustomLabelWidget Name="ItemDescription_5_Title">
 			<BnsCustomLabelWidget.String>
 				<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Label_LightYellow_12.Label_LightYellow_12" LabelText="Item Description 5 Title" SpaceBetweenLines="3" />
 			</BnsCustomLabelWidget.String>
 		</BnsCustomLabelWidget>
-		<BnsCustomLabelWidget Name="ItemDescription_5" String="{TextResource Attributes[description5]}" d:String="Item Description5" />
-		<BnsCustomLabelWidget Name="ItemDescription_6_Title" Text="{TextResource Attributes[description6-title]}">
+		<BnsCustomLabelWidget Name="ItemDescription_5" String="Item Description5" />
+		<BnsCustomLabelWidget Name="ItemDescription_6_Title">
 			<BnsCustomLabelWidget.String>
 				<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Label_LightYellow_12.Label_LightYellow_12" LabelText="Item Description 6 Title" SpaceBetweenLines="3" />
 			</BnsCustomLabelWidget.String>
 		</BnsCustomLabelWidget>
-		<BnsCustomLabelWidget Name="ItemDescription_6" String="{TextResource Attributes[description6]}" d:String="Item Description6" />
-		<BnsCustomLabelWidget Name="ItemDescription" String="{TextResource Attributes[description2]}" d:String="Item Description2" />
+		<BnsCustomLabelWidget Name="ItemDescription_6" String="Item Description6" />
+		<BnsCustomLabelWidget Name="ItemDescription" String="Item Description2" />
 
 		<!-- ProcessComparisonHolder -->
 		<BnsCustomLabelWidget Name="Required" Margin="0 7" />

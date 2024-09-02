@@ -10,41 +10,9 @@ namespace Xylia.Preview.Data.Models;
 /// <summary>
 /// attributes of data record 
 /// </summary>
-public class AttributeCollection : IReadOnlyDictionary<AttributeDefinition, object>
+public class AttributeCollection : IReadOnlyList<AttributeValue>
 {
-	#region Fields
-	internal const string s_autoid = "auto-id";
-	internal const string s_type = "type";
-
-	/// <summary>
-	/// Owner element
-	/// </summary>
-	protected readonly Record record;
-
-	/// <summary>
-	/// for xml element
-	/// </summary>
-	protected readonly Dictionary<string, object> attributes = [];
-	#endregion
-
 	#region Constructors
-	internal void BuildData(ElementBaseDefinition definition, bool OnlyKey = false)
-	{
-		// convert to binary
-		void SetData(AttributeDefinition attribute) => record.Attributes.Set(attribute, record.Attributes.Get(attribute));
-
-		// implement IGameDataKeyParser
-		if (OnlyKey)
-		{
-			definition.ExpandedAttributes.Where(attr => attr.IsKey).ForEach(SetData);
-		}
-		else
-		{
-			// create data
-			definition.ExpandedAttributes.ForEach(SetData);
-			attributes.Clear();
-		}
-	}
 
 	internal AttributeCollection(Record record)
 	{
@@ -70,12 +38,11 @@ public class AttributeCollection : IReadOnlyDictionary<AttributeDefinition, obje
 		attributes[s_autoid] = index;
 		#endregion
 
-
 		#region children
 		var provider = record.Owner.Owner;
 		foreach (var child in definition.Children)
 		{
-			var table = new Table() { Owner = provider, Definition = new TableDefinition() { ElRecord = child } };
+			var table = new Table() { Owner = provider, Definition = new TableDefinition() { ElRecord = child, Name = child.Name } };
 			table.LoadElement(element, null);
 
 			record.Children[child.Name] = [.. table.Records];
@@ -84,8 +51,25 @@ public class AttributeCollection : IReadOnlyDictionary<AttributeDefinition, obje
 	}
 	#endregion
 
+	#region Fields
 
-	#region Methods
+	internal const string s_autoid = "auto-id";
+	internal const string s_type = "type";
+
+	/// <summary>
+	/// Owner element
+	/// </summary>
+	protected readonly Record record;
+
+	/// <summary>
+	/// for xml element
+	/// </summary>
+	protected readonly Dictionary<string, object> attributes = [];
+
+	#endregion
+
+
+	#region Public Methods
 	public object this[string name] { get => Get(name, out _); set => Set(name, value); }
 
 	public object this[AttributeDefinition key] { get => Get(key.Name, out _); set => Set(key, value); }
@@ -100,9 +84,27 @@ public class AttributeCollection : IReadOnlyDictionary<AttributeDefinition, obje
 			}
 		}
 	}
-	#endregion
 
-	#region Get
+	internal void BuildData(IElementDefinition definition, bool OnlyKey = false)
+	{
+		// convert to binary
+		void SetData(AttributeDefinition attribute) => record.Attributes.Set(attribute, record.Attributes.Get(attribute));
+
+		// implement IGameDataKeyParser
+		if (OnlyKey)
+		{
+			definition.ExpandedAttributes.Where(attr => attr.IsKey).ForEach(SetData);
+		}
+		else
+		{
+			// create data
+			definition.ExpandedAttributes.ForEach(SetData);
+			attributes.Clear();
+		}
+	}
+
+
+	// Getters
 	public bool TryGetValue(string name, out KeyValuePair<AttributeDefinition, object> pair)
 	{
 		var value = Get(name, out var definition);
@@ -154,10 +156,13 @@ public class AttributeCollection : IReadOnlyDictionary<AttributeDefinition, obje
 		return AttributeConverter.ConvertTo(record, attribute, record.Owner.Owner);
 	}
 
-	public T Get<T>(string name) => (T)Get(name, out _);
-	#endregion
+	public T Get<T>(string name)
+	{
+		return Get(name, out _).As<T>();
+	}
 
-	#region Set
+
+	// Setters
 	public void Set(string name, object value)
 	{
 		var attribute = record?.Definition[name];
@@ -218,8 +223,8 @@ public class AttributeCollection : IReadOnlyDictionary<AttributeDefinition, obje
 			case AttributeType.TIcon:
 			{
 				var provider = this.record.Owner.Owner;
-				var record = provider.Tables.GetIconRecord((string)value, out var index);
-				value = new IconRef(record, index);
+				var icon = provider.Tables.GetIcon((string)value);
+				value = (IconRef)icon;
 				break;
 			}
 
@@ -249,11 +254,10 @@ public class AttributeCollection : IReadOnlyDictionary<AttributeDefinition, obje
 	}
 	#endregion
 
-
-	#region IReadOnlyDictionary
+	#region IReadOnlyList
 	IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-	public IEnumerator<KeyValuePair<AttributeDefinition, object>> GetEnumerator()
+	public IEnumerator<AttributeValue> GetEnumerator()
 	{
 		if (attributes.Count != 0)
 		{
@@ -271,29 +275,23 @@ public class AttributeCollection : IReadOnlyDictionary<AttributeDefinition, obje
 
 				// virtual definition, ensure the name can be getted
 				definition ??= new AttributeDefinition() { Name = attribute.Key, Type = AttributeType.TString };
-				yield return new(definition, value);
+				yield return new AttributeValue(definition, value);
 			}
 		}
 		else
 		{
-			foreach (var attribute in record.Definition.ExpandedAttributes)
-				yield return new(attribute, AttributeConverter.ConvertTo(record, attribute, record.Owner.Owner));
+			foreach (var definition in record.Definition.ExpandedAttributes)
+			{
+				var value = AttributeConverter.ConvertTo(record, definition, record.Owner.Owner);
+				yield return new AttributeValue(definition, value);
+			}
 		}
 	}
 
-	public IEnumerable<AttributeDefinition> Keys => this.Select(x => x.Key);
+	public int Count => record.Definition.ExpandedAttributes.Count;
 
-	public IEnumerable<object> Values => this.Select(x => x.Value);
+	public AttributeValue this[int index] => throw new NotImplementedException();
 
-	public bool ContainsKey(AttributeDefinition key) => record.Definition[key.Name] != null;
-
-	public bool TryGetValue(AttributeDefinition key, out object value)
-	{
-		throw new NotImplementedException();
-	}
-
-	public int Count => this.Keys.Count();
-
-	public override string ToString() => this.Aggregate("<record ", (sum, now) => sum + $"{now.Key.Name}=\"{now.Value}\" ", result => result + "/>");
+	public override string ToString() => this.Aggregate($"<{record.Name} ", (sum, now) => sum + $"{now.Name}=\"{now.RawValue}\" ", result => result + "/>");
 	#endregion
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using System.Linq.Expressions;
 using System.Reflection;
+using Newtonsoft.Json.Linq;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.Exceptions;
 using Xylia.Preview.Data.Models;
@@ -300,9 +301,9 @@ public sealed class BsonExpression
     /// </summary>
     public static BsonExpression Create(string expression, AttributeDocument parameters)
     {
-        if (string.IsNullOrWhiteSpace(expression)) throw new ArgumentNullException(nameof(expression));
+		ArgumentException.ThrowIfNullOrWhiteSpace(expression);
 
-        var tokenizer = new Tokenizer(expression);
+		var tokenizer = new Tokenizer(expression);
 
         var expr = Create(tokenizer, BsonExpressionParserMode.Full, parameters);
 

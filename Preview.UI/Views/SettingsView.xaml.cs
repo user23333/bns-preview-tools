@@ -58,7 +58,7 @@ public partial class SettingsView : Window
 		return false;
 	}
 
-	public static bool TryBrowse(out string path, string filter = null)
+	public static bool TryBrowse(out string path, string? filter = null)
 	{
 		var dialog = new VistaOpenFileDialog()
 		{

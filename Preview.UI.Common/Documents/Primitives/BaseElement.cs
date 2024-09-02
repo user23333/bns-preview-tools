@@ -1,14 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.ComponentModel;
+using System.Reflection;
+using System.Runtime.Serialization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Markup;
 using System.Windows.Media;
 using CUE4Parse.BNS.Assets.Exports;
-using HtmlAgilityPack;
+using Xylia.Preview.Common.Attributes;
+using Xylia.Preview.Common.Extension;
+using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Models;
+using Xylia.Preview.Data.Models.Document;
 using Xylia.Preview.UI.Controls;
 using Xylia.Preview.UI.Controls.Primitives;
 using Xylia.Preview.UI.Documents.Primitives;
@@ -22,7 +24,7 @@ public abstract class BaseElement : ContentElement
 	/// <summary>
 	/// child element collection
 	/// </summary>
-	protected internal List<BaseElement>? Children { get; set; }
+	protected internal List<BaseElement> Children { get; set; } = [];
 
 	public Size DesiredSize { get; protected set; }
 
@@ -34,8 +36,8 @@ public abstract class BaseElement : ContentElement
 	/// DependencyProperty for <see cref="FontFamily" /> property.
 	/// </summary>
 	public static readonly DependencyProperty FontFamilyProperty = Control.FontFamilyProperty.AddOwner(typeof(BaseElement),
-		   new FrameworkPropertyMetadata(SystemFonts.MessageFontFamily,
-			   FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.Inherits));
+		new FrameworkPropertyMetadata(SystemFonts.MessageFontFamily,
+			FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.Inherits));
 
 	/// <summary>
 	/// The FontFamily property specifies the name of font family.
@@ -129,6 +131,16 @@ public abstract class BaseElement : ContentElement
 		set { SetValue(ForegroundProperty, value); }
 	}
 
+
+	public static readonly DependencyProperty StringProperty = BnsCustomBaseWidget.StringProperty.AddOwner(typeof(BaseElement),
+		new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.Inherits));
+
+	public StringProperty String
+	{
+		get { return (StringProperty)GetValue(StringProperty); }
+		set { SetValue(StringProperty, value); }
+	}
+
 	public static readonly DependencyProperty ArgumentsProperty = BnsCustomLabelWidget.ArgumentsProperty.AddOwner(typeof(BaseElement),
 		new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.Inherits));
 
@@ -139,13 +151,13 @@ public abstract class BaseElement : ContentElement
 	}
 
 
-	public static readonly DependencyProperty StringProperty = BnsCustomBaseWidget.StringProperty.AddOwner(typeof(BaseElement),
+	public static readonly DependencyProperty TimersProperty = BnsCustomLabelWidget.TimersProperty.AddOwner(typeof(BaseElement),
 		new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.Inherits));
 
-	public StringProperty String
+	public IDictionary<int, Time64> Timers
 	{
-		get { return (StringProperty)GetValue(StringProperty); }
-		set { SetValue(StringProperty, value); }
+		get { return (IDictionary<int, Time64>)GetValue(TimersProperty); }
+		set { SetValue(TimersProperty, value); }
 	}
 	#endregion
 
@@ -159,7 +171,6 @@ public abstract class BaseElement : ContentElement
 	{
 		// Always call base.OnPropertyChanged, otherwise Property Engine will not work.
 		base.OnPropertyChanged(e);
-
 
 		bool IsValueChange = e.NewValue != e.OldValue;
 
@@ -206,13 +217,15 @@ public abstract class BaseElement : ContentElement
 		Size lineSize = new Size();
 
 		// internal padding
-		if (this is Paragraph p &&
+		if (this is P p &&
 			!double.IsInfinity(availableSize.Width) &&
 			!double.IsInfinity(availableSize.Height))
 		{
-			availableSize = new Size(
-				availableSize.Width - p.LeftMargin - p.RightMargin,
-				availableSize.Height - p.TopMargin - p.BottomMargin);
+			if (p.Element != null)
+			{
+				availableSize.Width -= p.Element.LeftMargin + p.Element.RightMargin;
+				availableSize.Height -= p.Element.TopMargin + p.Element.BottomMargin;
+			}
 		}
 
 		foreach (var element in Children!)
@@ -221,7 +234,7 @@ public abstract class BaseElement : ContentElement
 			Size desiredSize = element.Measure(availableSize);
 
 			// warp layout
-			if (element is Paragraph)
+			if (element is P)
 			{
 				size.Width = Math.Max(lineSize.Width, size.Width);
 				size.Height += lineSize.Height;
@@ -268,7 +281,7 @@ public abstract class BaseElement : ContentElement
 			var element = Children[i];
 			Size desiredSize = element.DesiredSize;
 
-			if (element is Paragraph || i + 1 == Children.Count)
+			if (element is P || i + 1 == Children.Count)
 			{
 				lines.Add([.. Children.GetRange(firstInLine, i - firstInLine + 1)]);
 				lineSize = desiredSize;
@@ -298,7 +311,7 @@ public abstract class BaseElement : ContentElement
 
 		#region arrange every line
 		double y = finalRect.Y;
-		if (this is Paragraph p2) y += p2.TopMargin;
+		if (this is P p2) y += p2.Element?.TopMargin ?? 0;
 
 		foreach (var line in lines)
 		{
@@ -311,10 +324,10 @@ public abstract class BaseElement : ContentElement
 			double x = finalRect.X;
 
 			// support paragraph alignment
-			if (this is Paragraph p)
+			if (this is P p)
 			{
 				var vect = p.ComputeAlignmentOffset(finalRect.Size, new Size(width, height));
-				x += vect.X + p.LeftMargin;
+				x += vect.X + (p.Element?.LeftMargin ?? 0);
 			}
 
 			// arrange children
@@ -341,7 +354,26 @@ public abstract class BaseElement : ContentElement
 	/// Initialize element from html
 	/// </summary>
 	/// <param name="node"></param>
-	protected internal abstract void Load(HtmlNode node);
+	protected internal virtual void Load(HtmlNode node)
+	{
+		// attribute
+		foreach (var prop in this.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly))
+		{
+			if (prop.HasAttribute<IgnoreDataMemberAttribute>()) continue;
+
+			var type = prop.FieldType;
+			var name = (prop.GetAttribute<NameAttribute>()?.Name ?? prop.Name).ToLower();
+			var value = node.GetAttributeValue(name, type, null);
+
+			prop.SetValue(this, value);
+		}
+
+		// child
+		if (!HtmlNode.IsClosedElement(node.Name))
+		{
+			Children = TextContainer.Load(node.ChildNodes);
+		}
+	}
 
 	internal virtual IInputElement? InputHitTest(Point point)
 	{
@@ -380,9 +412,50 @@ public abstract class BaseElement : ContentElement
 		current.SetValue(ForegroundProperty, parent.GetValue(ForegroundProperty));
 		current.SetValue(FontFamilyProperty, parent.GetValue(FontFamilyProperty));
 		current.SetValue(ArgumentsProperty, parent.GetValue(ArgumentsProperty));
+		current.SetValue(TimersProperty, parent.GetValue(TimersProperty));
 		current.SetValue(Font.TextDecorationsProperty, parent.GetValue(Font.TextDecorationsProperty));
 	}
 
 	internal TextContainer? EnsureTextContainer() => null;
 	#endregion
+}
+
+public abstract class BaseElement<T> : BaseElement where T : HtmlElementNode, new()
+{
+	public T Element { get; set; } = new();
+
+	protected internal override void Load(HtmlNode node)
+	{
+		base.Load(node);
+		Element = (T)node;
+	}
+}
+
+
+internal static class ElementLoad
+{
+	private static readonly Dictionary<string, Type> _classes = new(StringComparer.OrdinalIgnoreCase);
+	private static readonly Type _run = typeof(Run);
+
+	static ElementLoad()
+	{
+		var baseType = typeof(BaseElement);
+
+		foreach (var definedType in Assembly.GetExecutingAssembly().GetTypes())
+		{
+			if (!definedType.IsAbstract &&
+				!definedType.IsInterface &&
+				baseType.IsAssignableFrom(definedType))
+				_classes[definedType.Name.ToLower()] = definedType;
+		}
+	}
+
+	internal static BaseElement CreateElement(HtmlNode node)
+	{
+		var type = _classes.GetValueOrDefault(node.Name, _run);
+		var element = (BaseElement)Activator.CreateInstance(type)!;
+		element.Load(node);
+
+		return element;
+	}
 }

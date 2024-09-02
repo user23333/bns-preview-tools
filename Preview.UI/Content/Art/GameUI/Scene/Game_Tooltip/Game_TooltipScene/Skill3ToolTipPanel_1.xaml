@@ -86,7 +86,7 @@
 			<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="Consume Information" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" />
 		</BnsCustomLabelWidget.String>
 	</BnsCustomLabelWidget>
-	<BnsCustomLabelWidget Name="Skill3ToolTipPanel_1_Name" LayoutData.Offsets="15 63.004395 0 16.001587" MetaData="textref=Name.Skill.Name">
+	<BnsCustomLabelWidget Name="Skill3ToolTipPanel_1_Name" LayoutData.Offsets="15 63.004395 0 16.001587" MetaData="textref=Name.Skill.Name" AutoResizeVertical="True">
 		<BnsCustomLabelWidget.HorizontalResizeLink>
 			<ResizeLink bEnable="true" Offset1="15" />
 		</BnsCustomLabelWidget.HorizontalResizeLink>

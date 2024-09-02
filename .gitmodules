@@ -1,0 +1,4 @@
+; Definitions is a separate repository for manage after v3
+[submodule "Preview.Core/Data/Definition"]
+	path = Preview.Core/Data/Definition
+	url = https://github.com/XyliaUp/bns-definition
