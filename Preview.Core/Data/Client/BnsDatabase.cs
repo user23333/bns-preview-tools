@@ -1,7 +1,4 @@
-﻿using System.Diagnostics;
-using CUE4Parse.UE4.Pak;
-using Xylia.Preview.Common.Extension;
-using Xylia.Preview.Data.Engine.BinData.Definitions;
+﻿using CUE4Parse.UE4.Pak;
 using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Data.Engine.Definitions;
 using Xylia.Preview.Data.Models;

@@ -53,9 +53,7 @@ public partial class DatabaseManager
 		}
 		else if (Provider_GameMode.IsChecked == true)
 		{
-			var path = ProviderSearch.Text;
-			if (!string.IsNullOrEmpty(path) && Directory.Exists(path))
-				await Provider_CheckFolder(path);
+			await Provider_CheckFolder(ProviderSearch.Text);
 		}
 	}
 
@@ -69,6 +67,8 @@ public partial class DatabaseManager
 
 	private async Task Provider_CheckFolder(string path, bool mode = false)
 	{
+		if (string.IsNullOrEmpty(path) || !Directory.Exists(path)) return;
+
 		try
 		{
 			var locale = mode ? default : new Locale(path);

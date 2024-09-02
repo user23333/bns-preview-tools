@@ -165,8 +165,7 @@ public class DefaultProvider : Datafile, IDataProvider
 
 	public static DefaultProvider Load(string GameFolder, IDatSelect selector = default, ResultMode mode = ResultMode.SelectDat)
 	{
-		if (string.IsNullOrWhiteSpace(GameFolder) || !Directory.Exists(GameFolder))
-			throw new WarningException("You must set game folder.");
+		if (string.IsNullOrEmpty(GameFolder) || !Directory.Exists(GameFolder)) throw new WarningException("Invalid folder");
 
 		// get all
 		var datas = new DataCollection(GameFolder);

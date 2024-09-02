@@ -65,7 +65,7 @@ public class Settings : INotifyPropertyChanged
 				data.SetValue(strs[i].As(type), i);
 
 			return (T)(object)data;
-		}			 
+		}
 		else return value.As<T>();
 	}
 
@@ -94,7 +94,7 @@ public class Settings : INotifyPropertyChanged
 	#region Common
 	public string GameFolder
 	{
-		get => GetValue<string>();
+		get => GetValue<string>() ?? throw new WarningException("You must set game folder.");
 		set
 		{
 			if (!Directory.Exists(value)) return;
@@ -106,7 +106,7 @@ public class Settings : INotifyPropertyChanged
 
 	public string OutputFolder
 	{
-		get => GetValue<string>();
+		get => GetValue<string>() ?? throw new WarningException("You must set output folder.");
 		set
 		{
 			if (!Directory.Exists(value)) return;
@@ -122,11 +122,7 @@ public class Settings : INotifyPropertyChanged
 
 	public bool UseUserDefinition { get => GetValue<bool>(); set => SetValue(value); }
 
-	public string DefitionKey
-	{
-		get => GetValue<string>();
-		set => SetValue(value);
-	}
+	internal string DefitionKey { get => GetValue<string>(); set => SetValue(value); }
 
 	public bool Text_LoadData { get => GetValue<bool>(); set => SetValue(value); }
 	#endregion

@@ -153,7 +153,7 @@ public class CompressDatafileDefinition : DatafileDefinition
 	internal static CompressDatafileDefinition Load()
 	{
 		var key = Settings.Default.DefitionKey;
-		if (key is null) return null;
+		if (string.IsNullOrWhiteSpace(key)) return null;
 
 		var path = Path.Combine(Settings.Default.OutputFolder, ".download", key);
 		return new CompressDatafileDefinition(File.OpenRead(path), CompressionMethod.Gzip) { Key = key };

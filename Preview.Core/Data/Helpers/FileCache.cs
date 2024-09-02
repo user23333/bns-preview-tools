@@ -38,7 +38,7 @@ public static class FileCache
 
 	public static void Clear()
 	{
-		_definition.Clear();
+		_definition?.Clear();
 		_definition = null;
 		_data?.Dispose();
 		_data = null;
