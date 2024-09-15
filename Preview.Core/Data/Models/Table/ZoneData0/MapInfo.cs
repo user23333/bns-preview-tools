@@ -48,7 +48,7 @@ public sealed class MapInfo : ModelElement, IHaveName, INotifyPropertyChanged
 
 	public short SortNo { get; set; }
 
-	public string ArenaDungeonParentMapinfo { get; set; }
+	public Ref<MapInfo> ArenaDungeonParentMapinfo { get; set; }
 
 	public bool ArenaDungeonUsePosInParent { get; set; }
 

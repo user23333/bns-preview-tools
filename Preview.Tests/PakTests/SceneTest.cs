@@ -9,7 +9,6 @@ using CUE4Parse.UE4.Objects.UObject;
 using CUE4Parse.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Xylia.Preview.Common.Extension;
-using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Tests.Extensions;
 
 namespace Xylia.Preview.Tests.PakTests;
@@ -148,7 +147,7 @@ public class WidgetDump
 		Console.WriteLine(new string('\t', level) + message);
 	}
 
-	private static void Write(XElement el, ExpansionComponent[] expansions)
+	private static void Write(XElement el, UBnsCustomExpansionComponent[] expansions)
 	{
 		if (expansions is null) return;
 

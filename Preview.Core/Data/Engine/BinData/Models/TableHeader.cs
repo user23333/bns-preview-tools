@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+﻿using Serilog;
 using Xylia.Preview.Common.Extension;
 
 namespace Xylia.Preview.Data.Engine.BinData.Models;
@@ -67,7 +67,7 @@ public abstract class TableHeader
 		// check definition matches the data
 		else if (!MatchVersion(version.Item1 , version.Item2))
 		{
-			Debug.WriteLine($"check table `{this.Name}` version: {version.Item1}.{version.Item2} <> {this.MajorVersion}.{this.MinorVersion}", "Warning");
+			Log.Warning($"check table `{this.Name}` version: {version.Item1}.{version.Item2} <> {this.MajorVersion}.{this.MinorVersion}", "Warning");
 		}
 	}
 

@@ -1,5 +1,4 @@
 ﻿using System.Runtime.CompilerServices;
-
 using CUE4Parse.UE4.Assets.Objects;
 using CUE4Parse.UE4.Assets.Objects.Properties;
 using CUE4Parse.UE4.Objects.UObject;
@@ -15,7 +14,6 @@ public static class FPropertyTagEx
 		writer.Write(property.Size);
 		writer.Write(property.ArrayIndex);
 
-		// 写属性实际数据
 		property.Tag.Serialize(writer);
 
 		//if (Version >= UE4Version.VER_UE4_PROPERTY_GUID_IN_PROPERTY_TAG)

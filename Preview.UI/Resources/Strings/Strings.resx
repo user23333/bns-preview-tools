@@ -147,7 +147,7 @@
   <data name="AbilityName.AttackPierceBasePercent" xml:space="preserve">
     <value>AttackPierceBasePercent</value>
   </data>
-  <data name="AbilityName.CounterEnhance" xml:space="preserve">
+  <data name="AbilityName.DefendCounterEnhance" xml:space="preserve">
     <value>CounterEnhance</value>
   </data>
   <data name="AbilityName.DefenceParryDamageReduce" xml:space="preserve">
@@ -953,5 +953,8 @@ Please note that do not modify the order of nodes</value>
   </data>
   <data name="DatabaseStudio_Definition_Tooltip" xml:space="preserve">
     <value>Select the default item if you don't know which one is want.</value>
+  </data>
+  <data name="Text_ShowEndOfLine" xml:space="preserve">
+    <value>Display Line break</value>
   </data>
 </root>

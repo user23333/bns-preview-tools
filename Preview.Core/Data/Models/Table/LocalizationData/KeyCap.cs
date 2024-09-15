@@ -7,8 +7,8 @@ using Xylia.Preview.Data.Models.Sequence;
 namespace Xylia.Preview.Data.Models;
 public sealed class KeyCap : ModelElement
 {
-	#region Properies
-	public KeyCode KeyCode => this.Attributes["key-code"].ToEnum<KeyCode>();
+	#region Properties
+	public KeyCode KeyCode => this.Attributes.Get<KeyCode>("key-code");
 
 	public ImageProperty Icon => Attributes.Get<Icon>("icon")?.GetImage();
 
@@ -18,7 +18,7 @@ public sealed class KeyCap : ModelElement
 	#region Methods
 	public static KeyCode GetKeyCode(string o)
 	{
-		// diffrent from sequence
+		// different from sequence
 		if (o == "SPACEBAR") return KeyCode.Space;
 
 		return o.Replace("_", null).ToEnum<KeyCode>();

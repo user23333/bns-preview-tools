@@ -213,10 +213,28 @@ internal class BooleanConvert : TypeConverter
 		return base.CanConvertFrom(context, sourceType);
 	}
 
+	public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
+	{
+		if (destinationType == typeof(bool)) return true;
+
+		return base.CanConvertTo(context, destinationType);
+	}
+
 	public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
 	{
 		if (value is string s) return BnsBoolean.Parse(s);
 
 		return base.ConvertFrom(context, culture, value);
 	}
+
+	public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
+	{
+		if (value is BnsBoolean b)
+		{
+			if (destinationType == typeof(bool)) return (bool)b;
+		}
+
+		return base.ConvertTo(context, culture, value, destinationType);
+	}
+
 }

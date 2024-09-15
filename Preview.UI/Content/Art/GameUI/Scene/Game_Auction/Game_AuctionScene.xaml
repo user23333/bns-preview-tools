@@ -6,5 +6,4 @@
 	x:Class="Xylia.Preview.UI.GameUI.Scene.Game_Auction.Game_AuctionScene">
 
 	<l:LegacyAuctionPanel x:Name="AuctionPanel_C" />
-	<l:AuctionPanel2 x:Name="AuctionPanel2_C" />
 </BnsCustomUISceneWidget>

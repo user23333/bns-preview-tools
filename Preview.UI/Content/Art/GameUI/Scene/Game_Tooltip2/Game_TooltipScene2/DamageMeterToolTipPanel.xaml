@@ -7,11 +7,11 @@
 		<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_Window.BNSR_Window" ImageUV="7 7" ImageUVSize="49 49" EnableSkinAlpha="true" StaticPadding="-17 -17" />
 	</BnsCustomWindowWidget.BaseImageProperty>
 	<BnsCustomWindowWidget.ExpansionComponentList>
-		<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Line" MetaData="">
-			<ExpansionComponent.ImageProperty>
+		<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Line" MetaData="">
+			<UBnsCustomExpansionComponent.ImageProperty>
 				<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_Window_Outfocus.BNSR_Window_Outfocus" ImageUV="7 7" ImageUVSize="49 49" EnableBrushOnly="true" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" StaticPadding="-13 -13" Opacity="1" ImageScale="1" />
-			</ExpansionComponent.ImageProperty>
-		</ExpansionComponent>
+			</UBnsCustomExpansionComponent.ImageProperty>
+		</UBnsCustomExpansionComponent>
 	</BnsCustomWindowWidget.ExpansionComponentList>
 	<BnsCustomLabelWidget Name="DamageMeterToolTipPanel_BossEvasionLabel" LayoutData.Offsets="245 83.00299 0 20.00299" MetaData="textref=UI.DamageMeterToolTip.BossEvasion">
 		<BnsCustomLabelWidget.String>
@@ -47,30 +47,30 @@
 				<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="29 125" ImageUVSize="3 3" EnableDrawColor="true" TintColor="262B33" Opacity="0.7" />
 			</BnsCustomImageWidget.BaseImageProperty>
 			<BnsCustomImageWidget.ExpansionComponentList>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="SkillLabel" MetaData="textref=UI.DamageMeterToolTip.Skill">
-					<ExpansionComponent.ImageProperty>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="SkillLabel" MetaData="textref=UI.DamageMeterToolTip.Skill">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-					<ExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent.StringProperty>
 						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="#무공무공" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" ClippingBound="-320 0" Padding="320 0" bWordWrap="true" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="164" LastRenderHeight="28" />
-					</ExpansionComponent.StringProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="CriticalLabel" MetaData="textref=UI.DamageMeterToolTip.Critical">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.StringProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="CriticalLabel" MetaData="textref=UI.DamageMeterToolTip.Critical">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-					<ExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent.StringProperty>
 						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="#명중횟수(치명)#명중횟수(치명)" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" ClippingBound="-40 0" Padding="200 0" bWordWrap="true" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="124" LastRenderHeight="28" />
-					</ExpansionComponent.StringProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="DamageLabel" MetaData="textref=UI.DamageMeterToolTip.AccumulateDamage">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.StringProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="DamageLabel" MetaData="textref=UI.DamageMeterToolTip.AccumulateDamage">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-					<ExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent.StringProperty>
 						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="#누적 피해량#누적 피해량#누적 피해량#누적 피해량#누적 피해량" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" ClippingBound="280 0" bWordWrap="true" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="204" LastRenderHeight="28" />
-					</ExpansionComponent.StringProperty>
-				</ExpansionComponent>
+					</UBnsCustomExpansionComponent.StringProperty>
+				</UBnsCustomExpansionComponent>
 			</BnsCustomImageWidget.ExpansionComponentList>
 			<BnsCustomImageWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Title_Line1" LayoutData.Anchors="0 0 0 1" LayoutData.Offsets="125 0 1 0">
 				<BnsCustomImageWidget.BaseImageProperty>
@@ -88,35 +88,35 @@
 				<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="29 125" ImageUVSize="3 3" EnableDrawColor="true" TintColor="262B33" Opacity="0.4" />
 			</BnsCustomImageWidget.BaseImageProperty>
 			<BnsCustomImageWidget.ExpansionComponentList>
-				<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="back2" MetaData="">
-					<ExpansionComponent.ImageProperty>
+				<UBnsCustomExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="back2" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="726 217" ImageUVSize="59 89" EnableResourceSize="true" EnableSkinColor="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="98 0" Opacity="0.1" ImageScale="0.24" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="SkillName" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="SkillName" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-					<ExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent.StringProperty>
 						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Over_12.Over_12" LabelText="SkillName&lt;image enablescale=&quot;true&quot; imagesetpath=&quot;00009076.CharInfo_tooltip_fire&quot; scalerate=&quot;1.2&quot;/&gt;&lt;image enablescale='true' imagesetpath='00009076.CharInfo_tooltip_lightning' scalerate='1.2'/&gt;" VerticalAlignment="VAlign_Center" ClippingBound="310 0" Padding="5 0" bWordWrap="true" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="170" LastRenderHeight="40" />
-					</ExpansionComponent.StringProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Critical" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.StringProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Critical" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-					<ExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent.StringProperty>
 						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="99" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="265 0" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="215" LastRenderHeight="40" />
-					</ExpansionComponent.StringProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Fatal" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.StringProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Fatal" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-					<ExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent.StringProperty>
 						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="(100%)" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="220 0" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="260" LastRenderHeight="40" />
-					</ExpansionComponent.StringProperty>
-				</ExpansionComponent>
+					</UBnsCustomExpansionComponent.StringProperty>
+				</UBnsCustomExpansionComponent>
 			</BnsCustomImageWidget.ExpansionComponentList>
 			<BnsCustomImageWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_10_Line2" LayoutData.Anchors="0 0 0 1" LayoutData.Offsets="220 0 1 0">
 				<BnsCustomImageWidget.BaseImageProperty>
@@ -130,22 +130,22 @@
 			</BnsCustomImageWidget>
 			<BnsCustomProgressBarWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_10_Guige" LayoutData.Anchors="1 0.5 1 0.5" LayoutData.Offsets="-2 0 200 40">
 				<BnsCustomProgressBarWidget.ExpansionComponentList>
-					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Damage" MetaData="">
-						<ExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Damage" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
 							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-						</ExpansionComponent.ImageProperty>
-						<ExpansionComponent.StringProperty>
+						</UBnsCustomExpansionComponent.ImageProperty>
+						<UBnsCustomExpansionComponent.StringProperty>
 							<StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="9.999.999" SpaceBetweenLines="2" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="55 0" Padding="0 -5" Opacity="1" TextScale="1" AnimScale="1" />
-						</ExpansionComponent.StringProperty>
-					</ExpansionComponent>
-					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Percentage" MetaData="">
-						<ExpansionComponent.ImageProperty>
+						</UBnsCustomExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Percentage" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
 							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-						</ExpansionComponent.ImageProperty>
-						<ExpansionComponent.StringProperty>
+						</UBnsCustomExpansionComponent.ImageProperty>
+						<UBnsCustomExpansionComponent.StringProperty>
 							<StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="(99%)" SpaceBetweenLines="2" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="10 0" Padding="0 -5" Opacity="1" TextScale="1" AnimScale="1" />
-						</ExpansionComponent.StringProperty>
-					</ExpansionComponent>
+						</UBnsCustomExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent>
 				</BnsCustomProgressBarWidget.ExpansionComponentList>
 			</BnsCustomProgressBarWidget>
 		</BnsCustomImageWidget>
@@ -154,35 +154,35 @@
 				<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="29 125" ImageUVSize="3 3" EnableDrawColor="true" TintColor="262B33" Opacity="0.4" />
 			</BnsCustomImageWidget.BaseImageProperty>
 			<BnsCustomImageWidget.ExpansionComponentList>
-				<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="back2" MetaData="">
-					<ExpansionComponent.ImageProperty>
+				<UBnsCustomExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="back2" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="726 217" ImageUVSize="59 89" EnableResourceSize="true" EnableSkinColor="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="98 0" Opacity="0.1" ImageScale="0.24" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="SkillName" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="SkillName" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-					<ExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent.StringProperty>
 						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Over_12.Over_12" LabelText="SkillName&lt;image enablescale=&quot;true&quot; imagesetpath=&quot;00009076.CharInfo_tooltip_fire&quot; scalerate=&quot;1.2&quot;/&gt;&lt;image enablescale='true' imagesetpath='00009076.CharInfo_tooltip_lightning' scalerate='1.2'/&gt;" VerticalAlignment="VAlign_Center" ClippingBound="310 0" Padding="5 0" bWordWrap="true" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="170" LastRenderHeight="40" />
-					</ExpansionComponent.StringProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Critical" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.StringProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Critical" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-					<ExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent.StringProperty>
 						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="99" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="265 0" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="215" LastRenderHeight="40" />
-					</ExpansionComponent.StringProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Fatal" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.StringProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Fatal" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-					<ExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent.StringProperty>
 						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="(100%)" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="220 0" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="260" LastRenderHeight="40" />
-					</ExpansionComponent.StringProperty>
-				</ExpansionComponent>
+					</UBnsCustomExpansionComponent.StringProperty>
+				</UBnsCustomExpansionComponent>
 			</BnsCustomImageWidget.ExpansionComponentList>
 			<BnsCustomImageWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_9_Line2" LayoutData.Anchors="0 0 0 1" LayoutData.Offsets="220 0 1 0">
 				<BnsCustomImageWidget.BaseImageProperty>
@@ -196,22 +196,22 @@
 			</BnsCustomImageWidget>
 			<BnsCustomProgressBarWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_9_Guige" LayoutData.Anchors="1 0.5 1 0.5" LayoutData.Offsets="-2 0 200 40">
 				<BnsCustomProgressBarWidget.ExpansionComponentList>
-					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Damage" MetaData="">
-						<ExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Damage" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
 							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-						</ExpansionComponent.ImageProperty>
-						<ExpansionComponent.StringProperty>
+						</UBnsCustomExpansionComponent.ImageProperty>
+						<UBnsCustomExpansionComponent.StringProperty>
 							<StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="9.999.999" SpaceBetweenLines="2" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="55 0" Padding="0 -5" Opacity="1" TextScale="1" AnimScale="1" />
-						</ExpansionComponent.StringProperty>
-					</ExpansionComponent>
-					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Percentage" MetaData="">
-						<ExpansionComponent.ImageProperty>
+						</UBnsCustomExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Percentage" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
 							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-						</ExpansionComponent.ImageProperty>
-						<ExpansionComponent.StringProperty>
+						</UBnsCustomExpansionComponent.ImageProperty>
+						<UBnsCustomExpansionComponent.StringProperty>
 							<StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="(99%)" SpaceBetweenLines="2" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="10 0" Padding="0 -5" Opacity="1" TextScale="1" AnimScale="1" />
-						</ExpansionComponent.StringProperty>
-					</ExpansionComponent>
+						</UBnsCustomExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent>
 				</BnsCustomProgressBarWidget.ExpansionComponentList>
 			</BnsCustomProgressBarWidget>
 		</BnsCustomImageWidget>
@@ -220,35 +220,35 @@
 				<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="29 125" ImageUVSize="3 3" EnableDrawColor="true" TintColor="262B33" Opacity="0.4" />
 			</BnsCustomImageWidget.BaseImageProperty>
 			<BnsCustomImageWidget.ExpansionComponentList>
-				<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="back2" MetaData="">
-					<ExpansionComponent.ImageProperty>
+				<UBnsCustomExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="back2" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="726 217" ImageUVSize="59 89" EnableResourceSize="true" EnableSkinColor="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="98 0" Opacity="0.1" ImageScale="0.24" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="SkillName" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="SkillName" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-					<ExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent.StringProperty>
 						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Over_12.Over_12" LabelText="SkillName&lt;image enablescale=&quot;true&quot; imagesetpath=&quot;00009076.CharInfo_tooltip_fire&quot; scalerate=&quot;1.2&quot;/&gt;&lt;image enablescale='true' imagesetpath='00009076.CharInfo_tooltip_lightning' scalerate='1.2'/&gt;" VerticalAlignment="VAlign_Center" ClippingBound="310 0" Padding="5 0" bWordWrap="true" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="170" LastRenderHeight="40" />
-					</ExpansionComponent.StringProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Critical" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.StringProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Critical" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-					<ExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent.StringProperty>
 						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="99" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="265 0" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="215" LastRenderHeight="40" />
-					</ExpansionComponent.StringProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Fatal" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.StringProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Fatal" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-					<ExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent.StringProperty>
 						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="(100%)" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="220 0" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="260" LastRenderHeight="40" />
-					</ExpansionComponent.StringProperty>
-				</ExpansionComponent>
+					</UBnsCustomExpansionComponent.StringProperty>
+				</UBnsCustomExpansionComponent>
 			</BnsCustomImageWidget.ExpansionComponentList>
 			<BnsCustomImageWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_8_Line2" LayoutData.Anchors="0 0 0 1" LayoutData.Offsets="220 0 1 0">
 				<BnsCustomImageWidget.BaseImageProperty>
@@ -262,22 +262,22 @@
 			</BnsCustomImageWidget>
 			<BnsCustomProgressBarWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_8_Guige" LayoutData.Anchors="1 0.5 1 0.5" LayoutData.Offsets="-2 0 200 40">
 				<BnsCustomProgressBarWidget.ExpansionComponentList>
-					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Damage" MetaData="">
-						<ExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Damage" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
 							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-						</ExpansionComponent.ImageProperty>
-						<ExpansionComponent.StringProperty>
+						</UBnsCustomExpansionComponent.ImageProperty>
+						<UBnsCustomExpansionComponent.StringProperty>
 							<StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="9.999.999" SpaceBetweenLines="2" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="55 0" Padding="0 -5" Opacity="1" TextScale="1" AnimScale="1" />
-						</ExpansionComponent.StringProperty>
-					</ExpansionComponent>
-					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Percentage" MetaData="">
-						<ExpansionComponent.ImageProperty>
+						</UBnsCustomExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Percentage" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
 							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-						</ExpansionComponent.ImageProperty>
-						<ExpansionComponent.StringProperty>
+						</UBnsCustomExpansionComponent.ImageProperty>
+						<UBnsCustomExpansionComponent.StringProperty>
 							<StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="(99%)" SpaceBetweenLines="2" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="10 0" Padding="0 -5" Opacity="1" TextScale="1" AnimScale="1" />
-						</ExpansionComponent.StringProperty>
-					</ExpansionComponent>
+						</UBnsCustomExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent>
 				</BnsCustomProgressBarWidget.ExpansionComponentList>
 			</BnsCustomProgressBarWidget>
 		</BnsCustomImageWidget>
@@ -286,35 +286,35 @@
 				<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="29 125" ImageUVSize="3 3" EnableDrawColor="true" TintColor="262B33" Opacity="0.4" />
 			</BnsCustomImageWidget.BaseImageProperty>
 			<BnsCustomImageWidget.ExpansionComponentList>
-				<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="back2" MetaData="">
-					<ExpansionComponent.ImageProperty>
+				<UBnsCustomExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="back2" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="726 217" ImageUVSize="59 89" EnableResourceSize="true" EnableSkinColor="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="98 0" Opacity="0.1" ImageScale="0.24" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="SkillName" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="SkillName" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-					<ExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent.StringProperty>
 						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Over_12.Over_12" LabelText="SkillName&lt;image enablescale=&quot;true&quot; imagesetpath=&quot;00009076.CharInfo_tooltip_fire&quot; scalerate=&quot;1.2&quot;/&gt;&lt;image enablescale='true' imagesetpath='00009076.CharInfo_tooltip_lightning' scalerate='1.2'/&gt;" VerticalAlignment="VAlign_Center" ClippingBound="310 0" Padding="5 0" bWordWrap="true" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="170" LastRenderHeight="40" />
-					</ExpansionComponent.StringProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Critical" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.StringProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Critical" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-					<ExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent.StringProperty>
 						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="99" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="265 0" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="215" LastRenderHeight="40" />
-					</ExpansionComponent.StringProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Fatal" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.StringProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Fatal" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-					<ExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent.StringProperty>
 						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="(100%)" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="220 0" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="260" LastRenderHeight="40" />
-					</ExpansionComponent.StringProperty>
-				</ExpansionComponent>
+					</UBnsCustomExpansionComponent.StringProperty>
+				</UBnsCustomExpansionComponent>
 			</BnsCustomImageWidget.ExpansionComponentList>
 			<BnsCustomImageWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_7_Line2" LayoutData.Anchors="0 0 0 1" LayoutData.Offsets="220 0 1 0">
 				<BnsCustomImageWidget.BaseImageProperty>
@@ -328,22 +328,22 @@
 			</BnsCustomImageWidget>
 			<BnsCustomProgressBarWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_7_Guige" LayoutData.Anchors="1 0.5 1 0.5" LayoutData.Offsets="-2 0 200 40">
 				<BnsCustomProgressBarWidget.ExpansionComponentList>
-					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Damage" MetaData="">
-						<ExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Damage" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
 							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-						</ExpansionComponent.ImageProperty>
-						<ExpansionComponent.StringProperty>
+						</UBnsCustomExpansionComponent.ImageProperty>
+						<UBnsCustomExpansionComponent.StringProperty>
 							<StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="9.999.999" SpaceBetweenLines="2" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="55 0" Padding="0 -5" Opacity="1" TextScale="1" AnimScale="1" />
-						</ExpansionComponent.StringProperty>
-					</ExpansionComponent>
-					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Percentage" MetaData="">
-						<ExpansionComponent.ImageProperty>
+						</UBnsCustomExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Percentage" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
 							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-						</ExpansionComponent.ImageProperty>
-						<ExpansionComponent.StringProperty>
+						</UBnsCustomExpansionComponent.ImageProperty>
+						<UBnsCustomExpansionComponent.StringProperty>
 							<StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="(99%)" SpaceBetweenLines="2" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="10 0" Padding="0 -5" Opacity="1" TextScale="1" AnimScale="1" />
-						</ExpansionComponent.StringProperty>
-					</ExpansionComponent>
+						</UBnsCustomExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent>
 				</BnsCustomProgressBarWidget.ExpansionComponentList>
 			</BnsCustomProgressBarWidget>
 		</BnsCustomImageWidget>
@@ -352,35 +352,35 @@
 				<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="29 125" ImageUVSize="3 3" EnableDrawColor="true" TintColor="262B33" Opacity="0.4" />
 			</BnsCustomImageWidget.BaseImageProperty>
 			<BnsCustomImageWidget.ExpansionComponentList>
-				<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="back2" MetaData="">
-					<ExpansionComponent.ImageProperty>
+				<UBnsCustomExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="back2" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="726 217" ImageUVSize="59 89" EnableResourceSize="true" EnableSkinColor="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="98 0" Opacity="0.1" ImageScale="0.24" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="SkillName" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="SkillName" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-					<ExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent.StringProperty>
 						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Over_12.Over_12" LabelText="SkillName&lt;image enablescale=&quot;true&quot; imagesetpath=&quot;00009076.CharInfo_tooltip_fire&quot; scalerate=&quot;1.2&quot;/&gt;&lt;image enablescale='true' imagesetpath='00009076.CharInfo_tooltip_lightning' scalerate='1.2'/&gt;" VerticalAlignment="VAlign_Center" ClippingBound="310 0" Padding="5 0" bWordWrap="true" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="170" LastRenderHeight="40" />
-					</ExpansionComponent.StringProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Critical" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.StringProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Critical" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-					<ExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent.StringProperty>
 						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="99" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="265 0" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="215" LastRenderHeight="40" />
-					</ExpansionComponent.StringProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Fatal" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.StringProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Fatal" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-					<ExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent.StringProperty>
 						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="(100%)" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="220 0" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="260" LastRenderHeight="40" />
-					</ExpansionComponent.StringProperty>
-				</ExpansionComponent>
+					</UBnsCustomExpansionComponent.StringProperty>
+				</UBnsCustomExpansionComponent>
 			</BnsCustomImageWidget.ExpansionComponentList>
 			<BnsCustomImageWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_6_Line2" LayoutData.Anchors="0 0 0 1" LayoutData.Offsets="220 0 1 0">
 				<BnsCustomImageWidget.BaseImageProperty>
@@ -394,22 +394,22 @@
 			</BnsCustomImageWidget>
 			<BnsCustomProgressBarWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_6_Guige" LayoutData.Anchors="1 0.5 1 0.5" LayoutData.Offsets="-2 0 200 40">
 				<BnsCustomProgressBarWidget.ExpansionComponentList>
-					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Damage" MetaData="">
-						<ExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Damage" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
 							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-						</ExpansionComponent.ImageProperty>
-						<ExpansionComponent.StringProperty>
+						</UBnsCustomExpansionComponent.ImageProperty>
+						<UBnsCustomExpansionComponent.StringProperty>
 							<StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="9.999.999" SpaceBetweenLines="2" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="55 0" Padding="0 -5" Opacity="1" TextScale="1" AnimScale="1" />
-						</ExpansionComponent.StringProperty>
-					</ExpansionComponent>
-					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Percentage" MetaData="">
-						<ExpansionComponent.ImageProperty>
+						</UBnsCustomExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Percentage" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
 							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-						</ExpansionComponent.ImageProperty>
-						<ExpansionComponent.StringProperty>
+						</UBnsCustomExpansionComponent.ImageProperty>
+						<UBnsCustomExpansionComponent.StringProperty>
 							<StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="(99%)" SpaceBetweenLines="2" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="10 0" Padding="0 -5" Opacity="1" TextScale="1" AnimScale="1" />
-						</ExpansionComponent.StringProperty>
-					</ExpansionComponent>
+						</UBnsCustomExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent>
 				</BnsCustomProgressBarWidget.ExpansionComponentList>
 			</BnsCustomProgressBarWidget>
 		</BnsCustomImageWidget>
@@ -418,35 +418,35 @@
 				<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="29 125" ImageUVSize="3 3" EnableDrawColor="true" TintColor="262B33" Opacity="0.4" />
 			</BnsCustomImageWidget.BaseImageProperty>
 			<BnsCustomImageWidget.ExpansionComponentList>
-				<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="back2" MetaData="">
-					<ExpansionComponent.ImageProperty>
+				<UBnsCustomExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="back2" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="726 217" ImageUVSize="59 89" EnableResourceSize="true" EnableSkinColor="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="98 0" Opacity="0.1" ImageScale="0.24" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="SkillName" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="SkillName" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-					<ExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent.StringProperty>
 						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Over_12.Over_12" LabelText="SkillName&lt;image enablescale=&quot;true&quot; imagesetpath=&quot;00009076.CharInfo_tooltip_fire&quot; scalerate=&quot;1.2&quot;/&gt;&lt;image enablescale='true' imagesetpath='00009076.CharInfo_tooltip_lightning' scalerate='1.2'/&gt;" VerticalAlignment="VAlign_Center" ClippingBound="310 0" Padding="5 0" bWordWrap="true" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="170" LastRenderHeight="40" />
-					</ExpansionComponent.StringProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Critical" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.StringProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Critical" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-					<ExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent.StringProperty>
 						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="99" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="265 0" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="215" LastRenderHeight="40" />
-					</ExpansionComponent.StringProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Fatal" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.StringProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Fatal" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-					<ExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent.StringProperty>
 						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="(100%)" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="220 0" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="260" LastRenderHeight="40" />
-					</ExpansionComponent.StringProperty>
-				</ExpansionComponent>
+					</UBnsCustomExpansionComponent.StringProperty>
+				</UBnsCustomExpansionComponent>
 			</BnsCustomImageWidget.ExpansionComponentList>
 			<BnsCustomImageWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_5_Line2" LayoutData.Anchors="0 0 0 1" LayoutData.Offsets="220 0 1 0">
 				<BnsCustomImageWidget.BaseImageProperty>
@@ -460,22 +460,22 @@
 			</BnsCustomImageWidget>
 			<BnsCustomProgressBarWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_5_Guige" LayoutData.Anchors="1 0.5 1 0.5" LayoutData.Offsets="-2 0 200 40">
 				<BnsCustomProgressBarWidget.ExpansionComponentList>
-					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Damage" MetaData="">
-						<ExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Damage" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
 							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-						</ExpansionComponent.ImageProperty>
-						<ExpansionComponent.StringProperty>
+						</UBnsCustomExpansionComponent.ImageProperty>
+						<UBnsCustomExpansionComponent.StringProperty>
 							<StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="9.999.999" SpaceBetweenLines="2" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="55 0" Padding="0 -5" Opacity="1" TextScale="1" AnimScale="1" />
-						</ExpansionComponent.StringProperty>
-					</ExpansionComponent>
-					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Percentage" MetaData="">
-						<ExpansionComponent.ImageProperty>
+						</UBnsCustomExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Percentage" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
 							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-						</ExpansionComponent.ImageProperty>
-						<ExpansionComponent.StringProperty>
+						</UBnsCustomExpansionComponent.ImageProperty>
+						<UBnsCustomExpansionComponent.StringProperty>
 							<StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="(99%)" SpaceBetweenLines="2" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="10 0" Padding="0 -5" Opacity="1" TextScale="1" AnimScale="1" />
-						</ExpansionComponent.StringProperty>
-					</ExpansionComponent>
+						</UBnsCustomExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent>
 				</BnsCustomProgressBarWidget.ExpansionComponentList>
 			</BnsCustomProgressBarWidget>
 		</BnsCustomImageWidget>
@@ -484,35 +484,35 @@
 				<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="29 125" ImageUVSize="3 3" EnableDrawColor="true" TintColor="262B33" Opacity="0.4" />
 			</BnsCustomImageWidget.BaseImageProperty>
 			<BnsCustomImageWidget.ExpansionComponentList>
-				<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="back2" MetaData="">
-					<ExpansionComponent.ImageProperty>
+				<UBnsCustomExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="back2" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="726 217" ImageUVSize="59 89" EnableResourceSize="true" EnableSkinColor="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="98 0" Opacity="0.1" ImageScale="0.24" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="SkillName" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="SkillName" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-					<ExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent.StringProperty>
 						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Over_12.Over_12" LabelText="SkillName&lt;image enablescale=&quot;true&quot; imagesetpath=&quot;00009076.CharInfo_tooltip_fire&quot; scalerate=&quot;1.2&quot;/&gt;&lt;image enablescale='true' imagesetpath='00009076.CharInfo_tooltip_lightning' scalerate='1.2'/&gt;" VerticalAlignment="VAlign_Center" ClippingBound="310 0" Padding="5 0" bWordWrap="true" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="170" LastRenderHeight="40" />
-					</ExpansionComponent.StringProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Critical" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.StringProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Critical" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-					<ExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent.StringProperty>
 						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="99" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="265 0" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="215" LastRenderHeight="40" />
-					</ExpansionComponent.StringProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Fatal" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.StringProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Fatal" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-					<ExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent.StringProperty>
 						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="(100%)" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="220 0" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="260" LastRenderHeight="40" />
-					</ExpansionComponent.StringProperty>
-				</ExpansionComponent>
+					</UBnsCustomExpansionComponent.StringProperty>
+				</UBnsCustomExpansionComponent>
 			</BnsCustomImageWidget.ExpansionComponentList>
 			<BnsCustomImageWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_4_Line2" LayoutData.Anchors="0 0 0 1" LayoutData.Offsets="220 0 1 0">
 				<BnsCustomImageWidget.BaseImageProperty>
@@ -526,22 +526,22 @@
 			</BnsCustomImageWidget>
 			<BnsCustomProgressBarWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_4_Guige" LayoutData.Anchors="1 0.5 1 0.5" LayoutData.Offsets="-2 0 200 40">
 				<BnsCustomProgressBarWidget.ExpansionComponentList>
-					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Damage" MetaData="">
-						<ExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Damage" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
 							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-						</ExpansionComponent.ImageProperty>
-						<ExpansionComponent.StringProperty>
+						</UBnsCustomExpansionComponent.ImageProperty>
+						<UBnsCustomExpansionComponent.StringProperty>
 							<StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="9.999.999" SpaceBetweenLines="2" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="55 0" Padding="0 -5" Opacity="1" TextScale="1" AnimScale="1" />
-						</ExpansionComponent.StringProperty>
-					</ExpansionComponent>
-					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Percentage" MetaData="">
-						<ExpansionComponent.ImageProperty>
+						</UBnsCustomExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Percentage" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
 							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-						</ExpansionComponent.ImageProperty>
-						<ExpansionComponent.StringProperty>
+						</UBnsCustomExpansionComponent.ImageProperty>
+						<UBnsCustomExpansionComponent.StringProperty>
 							<StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="(99%)" SpaceBetweenLines="2" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="10 0" Padding="0 -5" Opacity="1" TextScale="1" AnimScale="1" />
-						</ExpansionComponent.StringProperty>
-					</ExpansionComponent>
+						</UBnsCustomExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent>
 				</BnsCustomProgressBarWidget.ExpansionComponentList>
 			</BnsCustomProgressBarWidget>
 		</BnsCustomImageWidget>
@@ -550,35 +550,35 @@
 				<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="29 125" ImageUVSize="3 3" EnableDrawColor="true" TintColor="262B33" Opacity="0.4" />
 			</BnsCustomImageWidget.BaseImageProperty>
 			<BnsCustomImageWidget.ExpansionComponentList>
-				<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="back2" MetaData="">
-					<ExpansionComponent.ImageProperty>
+				<UBnsCustomExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="back2" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="726 217" ImageUVSize="59 89" EnableResourceSize="true" EnableSkinColor="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="98 0" Opacity="0.1" ImageScale="0.24" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="SkillName" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="SkillName" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-					<ExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent.StringProperty>
 						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Over_12.Over_12" LabelText="SkillName&lt;image enablescale=&quot;true&quot; imagesetpath=&quot;00009076.CharInfo_tooltip_fire&quot; scalerate=&quot;1.2&quot;/&gt;&lt;image enablescale='true' imagesetpath='00009076.CharInfo_tooltip_lightning' scalerate='1.2'/&gt;" VerticalAlignment="VAlign_Center" ClippingBound="310 0" Padding="5 0" bWordWrap="true" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="170" LastRenderHeight="40" />
-					</ExpansionComponent.StringProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Critical" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.StringProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Critical" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-					<ExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent.StringProperty>
 						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="99" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="265 0" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="215" LastRenderHeight="40" />
-					</ExpansionComponent.StringProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Fatal" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.StringProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Fatal" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-					<ExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent.StringProperty>
 						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="(100%)" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="220 0" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="260" LastRenderHeight="40" />
-					</ExpansionComponent.StringProperty>
-				</ExpansionComponent>
+					</UBnsCustomExpansionComponent.StringProperty>
+				</UBnsCustomExpansionComponent>
 			</BnsCustomImageWidget.ExpansionComponentList>
 			<BnsCustomImageWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_3_Line2" LayoutData.Anchors="0 0 0 1" LayoutData.Offsets="220 0 1 0">
 				<BnsCustomImageWidget.BaseImageProperty>
@@ -592,22 +592,22 @@
 			</BnsCustomImageWidget>
 			<BnsCustomProgressBarWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_3_Guige" LayoutData.Anchors="1 0.5 1 0.5" LayoutData.Offsets="-2 0 200 40">
 				<BnsCustomProgressBarWidget.ExpansionComponentList>
-					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Damage" MetaData="">
-						<ExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Damage" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
 							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-						</ExpansionComponent.ImageProperty>
-						<ExpansionComponent.StringProperty>
+						</UBnsCustomExpansionComponent.ImageProperty>
+						<UBnsCustomExpansionComponent.StringProperty>
 							<StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="9.999.999" SpaceBetweenLines="2" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="55 0" Padding="0 -5" Opacity="1" TextScale="1" AnimScale="1" />
-						</ExpansionComponent.StringProperty>
-					</ExpansionComponent>
-					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Percentage" MetaData="">
-						<ExpansionComponent.ImageProperty>
+						</UBnsCustomExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Percentage" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
 							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-						</ExpansionComponent.ImageProperty>
-						<ExpansionComponent.StringProperty>
+						</UBnsCustomExpansionComponent.ImageProperty>
+						<UBnsCustomExpansionComponent.StringProperty>
 							<StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="(99%)" SpaceBetweenLines="2" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="10 0" Padding="0 -5" Opacity="1" TextScale="1" AnimScale="1" />
-						</ExpansionComponent.StringProperty>
-					</ExpansionComponent>
+						</UBnsCustomExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent>
 				</BnsCustomProgressBarWidget.ExpansionComponentList>
 			</BnsCustomProgressBarWidget>
 		</BnsCustomImageWidget>
@@ -616,35 +616,35 @@
 				<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="29 125" ImageUVSize="3 3" EnableDrawColor="true" TintColor="262B33" Opacity="0.4" />
 			</BnsCustomImageWidget.BaseImageProperty>
 			<BnsCustomImageWidget.ExpansionComponentList>
-				<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="back2" MetaData="">
-					<ExpansionComponent.ImageProperty>
+				<UBnsCustomExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="back2" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="726 217" ImageUVSize="59 89" EnableResourceSize="true" EnableSkinColor="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="98 0" Opacity="0.1" ImageScale="0.24" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="SkillName" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="SkillName" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-					<ExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent.StringProperty>
 						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Over_12.Over_12" LabelText="SkillName&lt;image enablescale=&quot;true&quot; imagesetpath=&quot;00009076.CharInfo_tooltip_fire&quot; scalerate=&quot;1.2&quot;/&gt;&lt;image enablescale='true' imagesetpath='00009076.CharInfo_tooltip_lightning' scalerate='1.2'/&gt;" VerticalAlignment="VAlign_Center" ClippingBound="310 0" Padding="5 0" bWordWrap="true" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="164" LastRenderHeight="50" />
-					</ExpansionComponent.StringProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Critical" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.StringProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Critical" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-					<ExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent.StringProperty>
 						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="99" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="265 0" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="219" LastRenderHeight="50" />
-					</ExpansionComponent.StringProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Fatal" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.StringProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Fatal" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-					<ExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent.StringProperty>
 						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="(100%)" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="220 0" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="264" LastRenderHeight="50" />
-					</ExpansionComponent.StringProperty>
-				</ExpansionComponent>
+					</UBnsCustomExpansionComponent.StringProperty>
+				</UBnsCustomExpansionComponent>
 			</BnsCustomImageWidget.ExpansionComponentList>
 			<BnsCustomImageWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_2_Line2" LayoutData.Anchors="0 0 0 1" LayoutData.Offsets="220 0 1 0">
 				<BnsCustomImageWidget.BaseImageProperty>
@@ -658,22 +658,22 @@
 			</BnsCustomImageWidget>
 			<BnsCustomProgressBarWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_2_Guige" LayoutData.Anchors="1 0.5 1 0.5" LayoutData.Offsets="-2 0 200 40">
 				<BnsCustomProgressBarWidget.ExpansionComponentList>
-					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Damage" MetaData="">
-						<ExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Damage" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
 							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-						</ExpansionComponent.ImageProperty>
-						<ExpansionComponent.StringProperty>
+						</UBnsCustomExpansionComponent.ImageProperty>
+						<UBnsCustomExpansionComponent.StringProperty>
 							<StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="9.999.999" SpaceBetweenLines="2" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="55 0" Padding="0 -5" Opacity="1" TextScale="1" AnimScale="1" />
-						</ExpansionComponent.StringProperty>
-					</ExpansionComponent>
-					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Percentage" MetaData="">
-						<ExpansionComponent.ImageProperty>
+						</UBnsCustomExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Percentage" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
 							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-						</ExpansionComponent.ImageProperty>
-						<ExpansionComponent.StringProperty>
+						</UBnsCustomExpansionComponent.ImageProperty>
+						<UBnsCustomExpansionComponent.StringProperty>
 							<StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="(99%)" SpaceBetweenLines="2" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="10 0" Padding="0 -5" Opacity="1" TextScale="1" AnimScale="1" />
-						</ExpansionComponent.StringProperty>
-					</ExpansionComponent>
+						</UBnsCustomExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent>
 				</BnsCustomProgressBarWidget.ExpansionComponentList>
 			</BnsCustomProgressBarWidget>
 		</BnsCustomImageWidget>
@@ -682,35 +682,35 @@
 				<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="29 125" ImageUVSize="3 3" EnableDrawColor="true" TintColor="262B33" Opacity="0.4" />
 			</BnsCustomImageWidget.BaseImageProperty>
 			<BnsCustomImageWidget.ExpansionComponentList>
-				<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="back2" MetaData="">
-					<ExpansionComponent.ImageProperty>
+				<UBnsCustomExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="back2" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="726 217" ImageUVSize="59 89" EnableResourceSize="true" EnableSkinColor="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="98 0" Opacity="0.1" ImageScale="0.24" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="SkillName" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="SkillName" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-					<ExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent.StringProperty>
 						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Over_12.Over_12" LabelText="각성각성각성각성각성각성각성각성각성각성각성각성각성각성각성각성각성각성각성각성각성&lt;image enablescale=&quot;true&quot; imagesetpath=&quot;00009076.CharInfo_tooltip_fire&quot; scalerate=&quot;1.2&quot;/&gt;" VerticalAlignment="VAlign_Center" ClippingBound="310 0" Padding="5 0" bWordWrap="true" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="140" LastRenderHeight="40" />
-					</ExpansionComponent.StringProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Critical" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.StringProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Critical" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-					<ExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent.StringProperty>
 						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="99" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="265 0" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="215" LastRenderHeight="40" />
-					</ExpansionComponent.StringProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Fatal" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.StringProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Fatal" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-					<ExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent.StringProperty>
 						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="(100%)" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="220 0" Opacity="1" TextScale="1" AnimScale="1" LastRenderWidth="260" LastRenderHeight="40" />
-					</ExpansionComponent.StringProperty>
-				</ExpansionComponent>
+					</UBnsCustomExpansionComponent.StringProperty>
+				</UBnsCustomExpansionComponent>
 			</BnsCustomImageWidget.ExpansionComponentList>
 			<BnsCustomImageWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_1_Line2" LayoutData.Anchors="0 0 0 1" LayoutData.Offsets="220 0 1 0">
 				<BnsCustomImageWidget.BaseImageProperty>
@@ -724,22 +724,22 @@
 			</BnsCustomImageWidget>
 			<BnsCustomProgressBarWidget Name="DamageMeterToolTipPanel_BattleDamageInfoHolder_Info_1_Guige" LayoutData.Anchors="1 0.5 1 0.5" LayoutData.Offsets="-2 0 200 40">
 				<BnsCustomProgressBarWidget.ExpansionComponentList>
-					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Damage" MetaData="">
-						<ExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Damage" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
 							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-						</ExpansionComponent.ImageProperty>
-						<ExpansionComponent.StringProperty>
+						</UBnsCustomExpansionComponent.ImageProperty>
+						<UBnsCustomExpansionComponent.StringProperty>
 							<StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="9.999.999" SpaceBetweenLines="2" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="55 0" Padding="0 -5" Opacity="1" TextScale="1" AnimScale="1" />
-						</ExpansionComponent.StringProperty>
-					</ExpansionComponent>
-					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Percentage" MetaData="">
-						<ExpansionComponent.ImageProperty>
+						</UBnsCustomExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Percentage" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
 							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-						</ExpansionComponent.ImageProperty>
-						<ExpansionComponent.StringProperty>
+						</UBnsCustomExpansionComponent.ImageProperty>
+						<UBnsCustomExpansionComponent.StringProperty>
 							<StringProperty fontset="/Game/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="(100%)" SpaceBetweenLines="2" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="10 0" Padding="0 -5" Opacity="1" TextScale="1" AnimScale="1" />
-						</ExpansionComponent.StringProperty>
-					</ExpansionComponent>
+						</UBnsCustomExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent>
 				</BnsCustomProgressBarWidget.ExpansionComponentList>
 			</BnsCustomProgressBarWidget>
 		</BnsCustomImageWidget>

@@ -20,31 +20,6 @@ public class AbilityFunction
 	public List<LevelFactor> LevelFactors = [];
 	#endregion
 
-	#region Methods
-	public override string ToString() => Type.ToString();
-
-	public double GetPercent(double value, sbyte level, int? basepercent = null)
-	{
-		double factor = GetFactor(level);
-
-		if (double.IsNaN(factor))
-		{
-			var o = LevelFactors.Find(f => f.Level == level);
-			if (o is null) return double.NaN;
-
-			factor = o.Value;
-		}
-
-		return GetPercent(value, factor, basepercent);
-	}
-
-	internal double GetPercent(double value, double factor, int? basepercent)
-	{
-		double percent = (double)value * (0.01 * K) / (value + factor);
-		return percent + 0.001 * (basepercent ?? C);
-	}
-	#endregion
-
 	#region Factor
 	/// <summary>
 	///  Get factor by level
@@ -85,6 +60,33 @@ public class AbilityFunction
 		public double CalΦ(LevelFactor factor2) => Math.Log(Value / factor2.Value) / (Level - factor2.Level);
 
 		public double Calμ(double Φ) => Value / Math.Exp(Φ * Level);
+	}
+	#endregion
+
+	#region Methods		
+	public bool IsValid => K > 0 && Type != CreatureField.Creature_field_none;
+
+	public override string ToString() => Type.ToString();
+
+	public double GetPercent(double value, sbyte level, int? basepercent = null)
+	{
+		double factor = GetFactor(level);
+
+		if (double.IsNaN(factor))
+		{
+			var o = LevelFactors.Find(f => f.Level == level);
+			if (o is null) return double.NaN;
+
+			factor = o.Value;
+		}
+
+		return GetPercent(value, factor, basepercent);
+	}
+
+	internal double GetPercent(double value, double factor, int? basepercent)
+	{
+		double percent = (double)value * (0.01 * K) / (value + factor);
+		return percent + 0.001 * (basepercent ?? C);
 	}
 	#endregion
 
@@ -182,8 +184,26 @@ public class AbilityFunction
 	{
 		Type = CreatureField.DefendDodgeBasePercent,
 		K = 95,
-		LevelFactors = [new(45, 3121.196188691034), new(60, 10464.33)]
+		LevelFactors =
+		[
+			new(45, 3121.196188691034),
+			new(50, 4713.973699811077),
+			new(60, 10464.33)
+		]
 	};
+
+	public static AbilityFunction DefendCounterEnhance => new()
+	{
+		//Type = CreatureField.CounterEnhance,
+		K = 285,
+		LevelFactors =
+		[
+			new(45, 2842.410631019564),
+			new(50, 4363.411140868513),
+			new(60, 9835.18)
+		]
+	};
+
 
 	public static AbilityFunction DefendParry => new()
 	{
@@ -226,17 +246,6 @@ public class AbilityFunction
 		Type = CreatureField.DefendPerfectParryReducePercent,
 	};
 
-	public static AbilityFunction DefendCounterReducePercent => new()
-	{
-		Type = CreatureField.DefendCounterReducePercent,
-	};
-
-	//public static AbilityFunction CounterEnhance => new()
-	//{
-	//    Type = CreatureField.CounterEnhance,
-	//    K = 285,
-	//    LevelFactors = [new(60, 9835.18)]
-	//};
 
 	//public static AbilityFunction DefenceParryDamageReducePercent => new()
 	//{
@@ -244,7 +253,6 @@ public class AbilityFunction
 	//    K = 291,
 	//    LevelFactors = [new(60, 10042.45)]
 	//};
-
 
 
 	public static AbilityFunction HealPower => new()

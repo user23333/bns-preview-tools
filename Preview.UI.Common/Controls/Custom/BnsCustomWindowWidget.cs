@@ -5,6 +5,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using Vanara.PInvoke;
 using Xylia.Preview.UI.Controls.Primitives;
+using Xylia.Preview.UI.Extensions;
 
 namespace Xylia.Preview.UI.Controls;
 public class BnsCustomWindowWidget : BnsCustomBaseWidget
@@ -33,8 +34,7 @@ public class BnsCustomWindowWidget : BnsCustomBaseWidget
 	/// <summary>
 	///     The DependencyProperty for TitleProperty.
 	/// </summary>
-	public static readonly DependencyProperty TitleProperty = DependencyProperty.Register("Title",
-		typeof(string), Owner, new FrameworkPropertyMetadata(string.Empty));
+	public static readonly DependencyProperty TitleProperty = Owner.Register(nameof(Title), string.Empty);
 
 	/// <summary>
 	///     The data that will be displayed as the title of the window.
@@ -47,7 +47,6 @@ public class BnsCustomWindowWidget : BnsCustomBaseWidget
 		get => (string)GetValue(TitleProperty);
 		set => SetValue(TitleProperty, value);
 	}
-
 
 	private static void OnDataChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 	{

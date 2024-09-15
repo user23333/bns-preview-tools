@@ -92,9 +92,9 @@ public sealed class Quest : ModelElement, IHaveName
 		ExceptCompletionAndLogoutSave,
 	}
 
-	public CategorySeq Category => Attributes["category"].ToEnum<CategorySeq>();
-	public ContentTypeSeq ContentType => Attributes["content-type"].ToEnum<ContentTypeSeq>();
-	public ResetType ResetType => Attributes["reset-type"].ToEnum<ResetType>();
+	public CategorySeq Category => Attributes.Get<CategorySeq>("category");
+	public ContentTypeSeq ContentType => Attributes.Get<ContentTypeSeq>("content-type");
+	public ResetType ResetType => Attributes.Get<ResetType>("reset-type");
 	#endregion
 
 

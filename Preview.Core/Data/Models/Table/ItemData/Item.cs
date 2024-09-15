@@ -1,6 +1,7 @@
 ﻿using CUE4Parse.BNS.Assets.Exports;
 using CUE4Parse.UE4.Objects.Core.Math;
 using CUE4Parse.UE4.Objects.UObject;
+using Xylia.Preview.Common.Attributes;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Common.DataStruct;
@@ -15,12 +16,12 @@ public abstract class Item : ModelElement, IHaveName
 	public Ref<ItemCombat>[] ItemCombat { get; set; }
 	public Ref<ItemBrand> Brand { get; set; }
 
-	public GameCategorySeq GameCategory1 => Attributes.Get<string>("game-category-1").ToEnum<GameCategorySeq>();
-	public GameCategory2Seq GameCategory2 => Attributes.Get<string>("game-category-2").ToEnum<GameCategory2Seq>();
-	public GameCategory3Seq GameCategory3 => Attributes.Get<string>("game-category-3").ToEnum<GameCategory3Seq>();
-	public MarketCategorySeq MarketCategory => Attributes.Get<string>("market-category-1").ToEnum<MarketCategorySeq>();
-	public MarketCategory2Seq MarketCategory2 => Attributes.Get<string>("market-category-2").ToEnum<MarketCategory2Seq>();
-	public MarketCategory3Seq MarketCategory3 => Attributes.Get<string>("market-category-3").ToEnum<MarketCategory3Seq>();
+	public GameCategorySeq GameCategory1 => Attributes.Get<GameCategorySeq>("game-category-1");
+	public GameCategory2Seq GameCategory2 => Attributes.Get<GameCategory2Seq>("game-category-2");
+	public GameCategory3Seq GameCategory3 => Attributes.Get<GameCategory3Seq>("game-category-3");
+	public MarketCategorySeq MarketCategory => Attributes.Get<MarketCategorySeq>("market-category-1");
+	public MarketCategory2Seq MarketCategory2 => Attributes.Get<MarketCategory2Seq>("market-category-2");
+	public MarketCategory3Seq MarketCategory3 => Attributes.Get<MarketCategory3Seq>("market-category-3");
 
 	public bool CannotDispose => Attributes.Get<BnsBoolean>("cannot-dispose");
 	public bool CannotSell => Attributes.Get<BnsBoolean>("cannot-sell");
@@ -37,16 +38,16 @@ public abstract class Item : ModelElement, IHaveName
 
 
 	public JobSeq[] EquipJobCheck { get; set; }
-	public SexSeq2 EquipSex => Attributes["equip-sex"].ToEnum<SexSeq2>();
+	public SexSeq2 EquipSex => Attributes.Get<SexSeq2>("equip-sex");
 	public enum SexSeq2
 	{
 		SexNone,
 		All,
-		Male,
-		Female,
+		[Text("Name.sex.male")] Male,
+		[Text("Name.sex.female")] Female,
 	}
 
-	public RaceSeq2 EquipRace => Attributes["equip-race"].ToEnum<RaceSeq2>();
+	public Race EquipRace => Attributes.Get<RaceSeq2>("equip-race").To<Race>();
 	public enum RaceSeq2
 	{
 		RaceNone,
@@ -59,11 +60,11 @@ public abstract class Item : ModelElement, IHaveName
 		SummonedCat,
 	}
 
-	public EquipType EquipType => Attributes["equip-type"].ToEnum<EquipType>();
+	public EquipType EquipType => Attributes.Get<EquipType>("equip-type");
 
 	public sbyte ItemGrade => Attributes.Get<sbyte>("item-grade");
 
-	public LegendGradeBackgroundParticleTypeSeq LegendGradeBackgroundParticleType => Attributes["legend-grade-background-particle-type"].ToEnum<LegendGradeBackgroundParticleTypeSeq>();
+	public LegendGradeBackgroundParticleTypeSeq LegendGradeBackgroundParticleType => Attributes.Get<LegendGradeBackgroundParticleTypeSeq>("legend-grade-background-particle-type");
 	public enum LegendGradeBackgroundParticleTypeSeq
 	{
 		None,
@@ -120,7 +121,7 @@ public abstract class Item : ModelElement, IHaveName
 	#region Sub
 	public sealed class Weapon : Item
 	{
-		public WeaponTypeSeq WeaponType => Attributes["weapon-type"].ToEnum<WeaponTypeSeq>();
+		public WeaponTypeSeq WeaponType => Attributes.Get<WeaponTypeSeq>("weapon-type");
 		public enum WeaponTypeSeq
 		{
 			None,
@@ -153,7 +154,7 @@ public abstract class Item : ModelElement, IHaveName
 
 	public sealed class Grocery : Item
 	{
-		public GroceryTypeSeq GroceryType => Attributes["grocery-type"].ToEnum<GroceryTypeSeq>();
+		public GroceryTypeSeq GroceryType => Attributes.Get<GroceryTypeSeq>("grocery-type");
 		public enum GroceryTypeSeq
 		{
 			Other,
@@ -215,7 +216,7 @@ public abstract class Item : ModelElement, IHaveName
 
 	public sealed class Accessory : Item
 	{
-		public AccessoryTypeSeq AccessoryType => Attributes["accessory-type"].ToEnum<AccessoryTypeSeq>();
+		public AccessoryTypeSeq AccessoryType => Attributes.Get<AccessoryTypeSeq>("accessory-type");
 		public enum AccessoryTypeSeq
 		{
 			Accessory,

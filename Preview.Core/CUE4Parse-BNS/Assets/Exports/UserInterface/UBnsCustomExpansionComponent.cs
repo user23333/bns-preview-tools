@@ -3,20 +3,24 @@ using CUE4Parse.UE4.Assets.Objects;
 using CUE4Parse.UE4.Assets.Utils;
 using CUE4Parse.UE4.Objects.Core.i18N;
 using CUE4Parse.UE4.Objects.UObject;
-namespace CUE4Parse.BNS.Assets.Exports;
 
+namespace CUE4Parse.BNS.Assets.Exports;
 [StructFallback]
-public class ExpansionComponent : IUStruct
+public class UBnsCustomExpansionComponent : IUStruct
 {
+	//GetOwnerWidget
+	//PlayAlphaAnimation
+	//ResetAlphaAnimation
+
 	public bool bEnableSubState { get; set; }
 	public bool bPostExpansitonRender { get; set; }
 	public bool bShow { get; set; }
 	public bool bVisibleFlag { get; set; }
-	public FName ExpansionType { get; set; }
+	public EBNSCustomExpansionComponentType ExpansionType { get; set; }
 	public FName ExpansionName { get; set; }
 	public string MetaData { get; set; }
-	public string WidgetState { get; set; }    //BNSCustomWidgetState_None
-	public string WidgetSubState { get; set; } //Expansion_WidgetSubState_Normal
+	public EBNSCustomWidgetStateType WidgetState { get; set; }
+	public EBNSCustomExpansionWidgetSubState WidgetSubState { get; set; }
 	public FStructFallback PublisherVisible { get; set; }
 	public FStructFallback MetaDataByPublisher { get; set; }
 	public ImageProperty ImageProperty { get; set; }
@@ -24,12 +28,9 @@ public class ExpansionComponent : IUStruct
 
 
 	#region Methods
-	public const string Type_IMAGE = "IMAGE";
-	public const string Type_STRING = "STRING";
-
-	public ExpansionComponent Clone()
+	public UBnsCustomExpansionComponent Clone()
 	{
-		var component = (ExpansionComponent)this.MemberwiseClone();
+		var component = (UBnsCustomExpansionComponent)this.MemberwiseClone();
 		component.ImageProperty = ImageProperty?.Clone();
 		component.StringProperty = StringProperty?.Clone();
 
@@ -38,14 +39,14 @@ public class ExpansionComponent : IUStruct
 
 	public void SetValue(object value)
 	{
-		if (ExpansionType == Type_STRING)
+		if (ExpansionType == EBNSCustomExpansionComponentType.STRING)
 		{
 			if (value is StringProperty p) StringProperty = p;
 			else StringProperty.LabelText = new FText(value?.ToString());
 		}
-		else if (ExpansionType == Type_IMAGE)
+		else if (ExpansionType == EBNSCustomExpansionComponentType.IMAGE)
 		{
-			// set field or properies
+			// set field or properties
 			if (value is ImageProperty p) ImageProperty = p;
 			else if (ImageProperty.EnableImageSet) ImageProperty.ImageSet = (FPackageIndex)value;
 			else ImageProperty.BaseImageTexture = (FPackageIndex)value;
@@ -53,9 +54,13 @@ public class ExpansionComponent : IUStruct
 		else throw new NotSupportedException();
 	}
 
-	public void SetShow(bool value)
+	public void SetEnableGray() { }
+
+	public void SetExpansionShow(bool value)
 	{
 		this.bShow = value;
 	}
+
+	public void SetVisibleFlag() { }
 	#endregion
 }

@@ -134,7 +134,7 @@ public sealed class QuestReward : ModelElement
 	#endregion
 
 	#region Methods
-	public Integer Money => new((BasicMoney + DayofweekBonusMoney) * 1.0F);
+	public Integer Money => new(BasicMoney + DayofweekBonusMoney);
 
 	public Ref<Item>[] DayofweekFixedItem => DateTime.Now.DayOfWeek switch
 	{

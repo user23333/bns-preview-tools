@@ -50,7 +50,7 @@ public abstract class DatafileDefinition : Collection<TableDefinition>
 		if (item is null) return;
 
 		// HACK: is not binary table, it affects GetParser
-		if (item.Name is "filter-set" or "party-battle-field-zone-time-effect") return;
+		if (item.Name is "filter-set") return;
 
 		base.Add(item);
 	}

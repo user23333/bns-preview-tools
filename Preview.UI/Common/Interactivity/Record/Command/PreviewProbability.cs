@@ -21,7 +21,7 @@ internal class PreviewProbability : RecordCommand
 		{
 			case "item":
 			{
-				var pages = ItemTooltipPanel.DecomposePage.LoadFrom(record.As<Item>().DecomposeInfo);
+				var pages = ItemTooltipPanel.DecomposePage.LoadFrom(record.To<Item>().DecomposeInfo);
 				var GlyphReward = record.Attributes["glyph-reward"];
 
 				return pages.Count > 0 || GlyphReward != null;
@@ -44,7 +44,7 @@ internal class PreviewProbability : RecordCommand
 		{
 			case "item":
 			{
-				var pages = ItemTooltipPanel.DecomposePage.LoadFrom(record.As<Item>().DecomposeInfo);
+				var pages = ItemTooltipPanel.DecomposePage.LoadFrom(record.To<Item>().DecomposeInfo);
 				if (pages.Count > 0)
 				{
 					var reward = pages[0].DecomposeReward;
@@ -74,14 +74,14 @@ internal class PreviewProbability : RecordCommand
 				// display
 				var rewards = new List<NameObject<object>>()
 				{
-					new(RewardDefault?.As<Reward>(), "UI.RandomBox.Probability.CommonDroppedPouch".GetText()) { Flag = true },
-					new(PersonalDroppedPouchReward?.As<Reward>(), "UI.RandomBox.Probability.PersonalDroppedPouch".GetText()),
-					new(RewardDifficultyType1?.As<Reward>(), "UI.RandomBox.Probability.CommonDroppedPouch.Difficulty1".GetText()),
-					new(PersonalDroppedPouchRewardDifficultyType1?.As<Reward>(), "UI.RandomBox.Probability.PersonalDroppedPouch.Difficulty1".GetText()),
-					new(RewardDifficultyType2?.As<Reward>(), "UI.RandomBox.Probability.CommonDroppedPouch.Difficulty2".GetText()),
-					new(PersonalDroppedPouchRewardDifficultyType2?.As<Reward>(), "UI.RandomBox.Probability.PersonalDroppedPouch.Difficulty2".GetText()),
-					new(RewardDifficultyType3?.As<Reward>(), "UI.RandomBox.Probability.CommonDroppedPouch.Difficulty3".GetText()),
-					new(PersonalDroppedPouchRewardDifficultyType3?.As<Reward>(), "UI.RandomBox.Probability.PersonalDroppedPouch.Difficulty3".GetText()),
+					new(RewardDefault?.To<Reward>(), "UI.RandomBox.Probability.CommonDroppedPouch".GetText()) { Flag = true },
+					new(PersonalDroppedPouchReward?.To<Reward>(), "UI.RandomBox.Probability.PersonalDroppedPouch".GetText()),
+					new(RewardDifficultyType1?.To<Reward>(), "UI.RandomBox.Probability.CommonDroppedPouch.Difficulty1".GetText()),
+					new(PersonalDroppedPouchRewardDifficultyType1?.To<Reward>(), "UI.RandomBox.Probability.PersonalDroppedPouch.Difficulty1".GetText()),
+					new(RewardDifficultyType2?.To<Reward>(), "UI.RandomBox.Probability.CommonDroppedPouch.Difficulty2".GetText()),
+					new(PersonalDroppedPouchRewardDifficultyType2?.To<Reward>(), "UI.RandomBox.Probability.PersonalDroppedPouch.Difficulty2".GetText()),
+					new(RewardDifficultyType3?.To<Reward>(), "UI.RandomBox.Probability.CommonDroppedPouch.Difficulty3".GetText()),
+					new(PersonalDroppedPouchRewardDifficultyType3?.To<Reward>(), "UI.RandomBox.Probability.PersonalDroppedPouch.Difficulty3".GetText()),
 				};
 				dispatcher.Invoke(() => new ItemGrowth2TooltipPanel { DataContext = rewards }.Show());
 				break;
@@ -93,7 +93,7 @@ internal class PreviewProbability : RecordCommand
 
 				var rewards = new List<NameObject<object>>()
 				{
-					new(Reward?.As<Reward>(), "UI.RandomBox.Probability.PersonalDroppedPouch".GetText()) { Flag = true },
+					new(Reward?.To<Reward>(), "UI.RandomBox.Probability.PersonalDroppedPouch".GetText()) { Flag = true },
 				};
 				dispatcher.Invoke(() => new ItemGrowth2TooltipPanel { DataContext = rewards }.Show());
 				break;

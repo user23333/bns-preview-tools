@@ -60,7 +60,7 @@ public partial class LegacyItemStorePanel
 			IconImage.ExpansionComponentList["Grade_Image"]?.SetValue(null);
 			IconImage.ExpansionComponentList["UnusableImage"]?.SetValue(null);
 			IconImage.ExpansionComponentList["CanSaleItem"]?.SetValue(item.CanSaleItemImage);
-			IconImage.ExpansionComponentList["DisableBuyImage"]?.SetShow(itemBuyPrice is null);
+			IconImage.ExpansionComponentList["DisableBuyImage"]?.SetExpansionShow(itemBuyPrice is null);
 		}
 
 		var PriceHoler = widget.GetChild<BnsCustomImageWidget>("PriceHoler");

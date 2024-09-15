@@ -5,6 +5,7 @@ using System.Windows.Media;
 using CUE4Parse.BNS.Assets.Exports;
 using SkiaSharp.Views.WPF;
 using Xylia.Preview.Common.Extension;
+using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models;
 using Xylia.Preview.UI.Controls.Helpers;
@@ -25,22 +26,25 @@ public abstract class BnsCustomBaseWidget : UserWidget
 		_container = new TextContainer(this);
 		_container.ChangedHandler += (s, e) => OnContainerChanged(e);
 
-		SetCurrentValue(StringProperty, new StringProperty());
 		SetCurrentValue(ExpansionComponentListProperty, new ExpansionCollection());
+		SetCurrentValue(StringProperty, new StringProperty());
+		SetCurrentValue(TimersProperty, new Dictionary<int, Time64>());
 	}
 	#endregion
 
 	#region DependencyProperty 
 	private static readonly Type Owner = typeof(BnsCustomBaseWidget);
-	public static readonly DependencyProperty BaseImagePropertyProperty = Owner.Register<ImageProperty>(nameof(BaseImageProperty), null);
+	public static readonly DependencyProperty BaseImagePropertyProperty = Owner.Register<ImageProperty>(nameof(BaseImageProperty));
 	public static readonly DependencyProperty StringProperty = Owner.Register<StringProperty>(nameof(String), null, callback: OnStringChanged);
 	public static readonly DependencyProperty MetaDataProperty = Owner.Register(nameof(MetaData), string.Empty, callback: OnMetaChanged);
 	public static readonly DependencyProperty ExpansionComponentListProperty = Owner.Register<ExpansionCollection>(nameof(ExpansionComponentList));
+	public static readonly DependencyProperty TimersProperty = Owner.Register<IDictionary<int, Time64>>("Timers", null, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.Inherits);
 
 	public static readonly DependencyProperty AutoResizeHorizontalProperty = Owner.Register<bool>(nameof(AutoResizeHorizontal), default, FrameworkPropertyMetadataOptions.AffectsParentArrange);
 	public static readonly DependencyProperty AutoResizeVerticalProperty = Owner.Register<bool>(nameof(AutoResizeVertical), default, FrameworkPropertyMetadataOptions.AffectsParentArrange);
-	public static readonly DependencyProperty HorizontalResizeLinkProperty = Owner.Register<ResizeLink>(nameof(HorizontalResizeLink), default, FrameworkPropertyMetadataOptions.AffectsParentArrange);
-	public static readonly DependencyProperty VerticalResizeLinkProperty = Owner.Register<ResizeLink>(nameof(VerticalResizeLink), default, FrameworkPropertyMetadataOptions.AffectsParentArrange);
+	public static readonly DependencyProperty HorizontalResizeLinkProperty = Owner.Register<BnsCustomResizeLink>(nameof(HorizontalResizeLink), default, FrameworkPropertyMetadataOptions.AffectsParentArrange);
+	public static readonly DependencyProperty VerticalResizeLinkProperty = Owner.Register<BnsCustomResizeLink>(nameof(VerticalResizeLink), default, FrameworkPropertyMetadataOptions.AffectsParentArrange);
+
 
 	public ImageProperty BaseImageProperty
 	{
@@ -66,15 +70,22 @@ public abstract class BnsCustomBaseWidget : UserWidget
 		set { SetValue(ExpansionComponentListProperty, value); }
 	}
 
-	public ResizeLink HorizontalResizeLink
+	public IDictionary<int, Time64> Timers
 	{
-		get { return (ResizeLink)GetValue(HorizontalResizeLinkProperty); }
+		get { return (IDictionary<int, Time64>)GetValue(TimersProperty); }
+		set { SetValue(TimersProperty, value); }
+	}
+
+
+	public BnsCustomResizeLink HorizontalResizeLink
+	{
+		get { return (BnsCustomResizeLink)GetValue(HorizontalResizeLinkProperty); }
 		set { SetValue(HorizontalResizeLinkProperty, value); }
 	}
 
-	public ResizeLink VerticalResizeLink
+	public BnsCustomResizeLink VerticalResizeLink
 	{
-		get { return (ResizeLink)GetValue(VerticalResizeLinkProperty); }
+		get { return (BnsCustomResizeLink)GetValue(VerticalResizeLinkProperty); }
 		set { SetValue(VerticalResizeLinkProperty, value); }
 	}
 
@@ -209,15 +220,16 @@ public abstract class BnsCustomBaseWidget : UserWidget
 			{
 				if (!e.bShow) continue;
 
-				if (e.ExpansionType == ExpansionComponent.Type_IMAGE)
+				switch (e.ExpansionType)
 				{
-					DrawImage(dc, e.ImageProperty);
+					case EBNSCustomExpansionComponentType.IMAGE:
+						DrawImage(dc, e.ImageProperty);
+						break;
+
+					case EBNSCustomExpansionComponentType.STRING:
+						DrawString(dc, e.StringProperty /*, e.MetaData*/);
+						break;
 				}
-				else if (e.ExpansionType == ExpansionComponent.Type_STRING)
-				{
-					DrawString(dc, e.StringProperty/*, e.MetaData*/);
-				}
-				else Debug.Assert(string.IsNullOrEmpty(e.ExpansionType.PlainText));
 			}
 		}
 		#endregion
@@ -260,19 +272,19 @@ public abstract class BnsCustomBaseWidget : UserWidget
 		return size;
 	}
 
-	private void OnResizeLink(ResizeLink resizeLink, Size constraint, ref Rect rc, bool horizontal)
+	private void OnResizeLink(BnsCustomResizeLink link, Size constraint, ref Rect rc, bool horizontal)
 	{
-		if (resizeLink is null || !resizeLink.bEnable) return;
+		if (link is null || !link.bEnable) return;
 
 		#region Rect 
-		Rect rect = new Rect(constraint);
-		float offset = resizeLink.Offset1;
+		Rect rect = new(constraint);
+		float offset = link.Offset1;
 
-		var l = this.GetChild<UserWidget>(resizeLink.LinkWidgetName1, true);
+		var l = this.GetChild<UserWidget>(link.LinkWidgetName1, true);
 		if (l != null)
 		{
 			rect = l.GetFinalRect();
-			offset = l.Visibility == Visibility.Visible ? resizeLink.Offset1 : 0f;
+			offset = l.Visibility == Visibility.Visible ? link.Offset1 : 0f;
 		}
 
 		var size = horizontal ? rc.Width : rc.Height;
@@ -282,18 +294,18 @@ public abstract class BnsCustomBaseWidget : UserWidget
 
 		#region Final
 		double final;
-		switch (resizeLink.Type)
+		switch (link.Type)
 		{
 			case EBnsCustomResizeLinkType.BNS_CUSTOM_BORDER_LINK_LEFT:
 				final = left + offset;
 				break;
 
-			case EBnsCustomResizeLinkType.BNS_CUSTOM_BORDER_LINK_CENTER:
-				final = (right - left - offset - size) / 2;
-				break;
-
 			case EBnsCustomResizeLinkType.BNS_CUSTOM_BORDER_LINK_RIGHT:
 				final = right - offset - size;
+				break;
+
+			case EBnsCustomResizeLinkType.BNS_CUSTOM_BORDER_LINK_CENTER:
+				final = (right - left - offset - size) / 2;
 				break;
 
 			case EBnsCustomResizeLinkType.BNS_CUSTOM_WIDGET_LINK_LEFT:

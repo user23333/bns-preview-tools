@@ -79,6 +79,6 @@ public class Icon(Record record, short index)
 
 	public ImageProperty GetImage(IFileProvider pak = null)
 	{
-		return record.As<IconTexture>().GetImage(index, pak);
+		return record.To<IconTexture>().GetImage(index, pak);
 	}
 }

@@ -17,11 +17,11 @@ namespace Xylia.Preview.UI.ViewModels;
 internal partial class UserSettings : Settings
 {
 	#region Constructors 
-	public new static UserSettings Default { get; }
+	public new static UserSettings Default { get; } = new UserSettings();
 
-	static UserSettings()
+	private UserSettings()
 	{
-		Settings.Default = Default = new UserSettings();
+		Settings.Default = this;
 	}
 	#endregion
 
@@ -132,6 +132,9 @@ internal partial class UserSettings : Settings
 
 	public string? Text_OldPath { get => GetValue<string>(); set => SetValue(value); }
 	public string? Text_NewPath { get => GetValue<string>(); set => SetValue(value); }
+
+	public bool TextEditor_WordWrap { get => GetValue<bool>(); set => SetValue(value); }
+	public bool TextEditor_ShowEndOfLine { get => GetValue<bool>(); set => SetValue(value); }
 	#endregion
 
 	#region Model

@@ -49,7 +49,7 @@ public class GameDataTable<T> : IEnumerable<T>, IEnumerable, IDisposable where T
 		get => LoadElement(Source[alias]);
 	}
 
-	protected virtual T LoadElement(Record record) => record.As<T>();
+	protected virtual T LoadElement(Record record) => record.To<T>();
 	#endregion
 
 

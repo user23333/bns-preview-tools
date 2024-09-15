@@ -16,7 +16,7 @@ public static class XmlExtension
 			var value = element.GetAttribute(name);
 			if (string.IsNullOrEmpty(value)) return def;
 
-			return value.As<T>();
+			return value.To<T>();
 		}
 		catch
 		{

@@ -19,7 +19,7 @@ internal partial class ItemPageViewModel : ObservableObject
 	bool onlyUpdate;
 
 	[ObservableProperty]
-	string itemListPath;
+	string hashPath;
 
 
 	[RelayCommand]
@@ -32,7 +32,7 @@ internal partial class ItemPageViewModel : ObservableObject
 	private void BrowerItemList()
 	{
 		var dialog = new VistaOpenFileDialog() { Filter = @"|*.chv|All files|*.*" };
-		if (dialog.ShowDialog() == true) ItemListPath = dialog.FileName;
+		if (dialog.ShowDialog() == true) HashPath = dialog.FileName;
 	}
 
 	[RelayCommand]
@@ -41,7 +41,7 @@ internal partial class ItemPageViewModel : ObservableObject
 		#region Check
 		if (!Directory.Exists(UserSettings.Default.GameFolder)) throw new WarningException(StringHelper.Get("Settings_GameDirectory_Invalid"));
 		else if (!Directory.Exists(UserSettings.Default.OutputFolder)) throw new WarningException(StringHelper.Get("Settings_OutputDirectory_Invalid"));
-		else if (OnlyUpdate == true && !File.Exists(ItemListPath)) throw new WarningException(StringHelper.Get("ItemList_Path_Invalid"));
+		else if (OnlyUpdate == true && !File.Exists(HashPath)) throw new WarningException(StringHelper.Get("ItemList_Path_Invalid"));
 		#endregion
 
 		#region Load
@@ -51,23 +51,13 @@ internal partial class ItemPageViewModel : ObservableObject
 		using var Out = new ItemOut() { OnlyUpdate = this.OnlyUpdate };
 		await Task.Run(() =>
 		{
-			var startTime = DateTime.Now;
-
-			Out.LoadCache(ItemListPath);
-			var count = Out.LoadData();
-			if (count == 0)
-			{
-				Growl.Error(StringHelper.Get("ItemList_Empty"));
-				return;
-			}
-
-			Out.Start(fileMode);
-			var span = (int)(DateTime.Now - startTime).TotalSeconds;
+			var start = DateTime.Now;
+			var count = Out.Start(fileMode, HashPath);
 
 			// send finish tootip
 			Growl.Success(new GrowlInfo()
 			{
-				Message = StringHelper.Get("ItemList_TaskCompleted", count, span),
+				Message = StringHelper.Get("ItemList_TaskCompleted", count, (int)(DateTime.Now - start).TotalSeconds),
 				StaysOpen = true,
 			});
 		});

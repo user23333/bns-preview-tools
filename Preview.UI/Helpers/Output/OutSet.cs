@@ -12,13 +12,15 @@ namespace Xylia.Preview.UI.Helpers.Output;
 public abstract class OutSet
 {
 	#region Constructor
+
 	static OutSet()
 	{
 		ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 	}
+
 	#endregion
 
-	#region Properies
+	#region Properties
 	public virtual string Name => GetType().Name.SubstringBefore("Out", StringComparison.OrdinalIgnoreCase);
 
 	protected virtual BnsDatabase? Source { get; set; } = FileCache.Data;

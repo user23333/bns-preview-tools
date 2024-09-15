@@ -158,7 +158,7 @@ public class AttributeCollection : IReadOnlyList<AttributeValue>
 
 	public T Get<T>(string name)
 	{
-		return Get(name, out _).As<T>();
+		return Get(name, out _).To<T>();
 	}
 
 

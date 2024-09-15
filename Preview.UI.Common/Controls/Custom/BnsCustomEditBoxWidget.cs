@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Markup;
 using System.Windows.Media;
@@ -37,8 +36,8 @@ public class BnsCustomEditBoxWidget : TextBox, IUserWidget
 	#region Properties
 	public StringProperty String { get; set; }
 	public ExpansionCollection ExpansionComponentList { get; set; }
-	public ResizeLink HorizontalResizeLink { get; set; }
-	public ResizeLink VerticalResizeLink { get; set; }
+	public BnsCustomResizeLink HorizontalResizeLink { get; set; }
+	public BnsCustomResizeLink VerticalResizeLink { get; set; }
 	#endregion
 }
 

@@ -2,7 +2,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
-using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Engine.BinData.Helpers;
 using Xylia.Preview.Data.Helpers;
@@ -144,8 +143,8 @@ public partial class LegacyAuctionPanel
 		}
 		else
 		{
-			var MarketCategory2 = record.Attributes["market-category-2"].ToEnum<MarketCategory2Seq>();
-			var MarketCategory3 = record.Attributes["market-category-3"].ToEnum<MarketCategory3Seq>();
+			var MarketCategory2 = record.Attributes.Get<MarketCategory2Seq>("market-category-2");
+			var MarketCategory3 = record.Attributes.Get<MarketCategory3Seq>("market-category-3");
 
 			if (_viewModel.MarketCategory3 != default && _viewModel.MarketCategory3 != MarketCategory3) return false;
 			else if (_viewModel.MarketCategory2 != default && _viewModel.MarketCategory2 != MarketCategory2) return false;

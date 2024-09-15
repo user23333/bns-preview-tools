@@ -5,3 +5,12 @@ public abstract class UBnsCustomBaseWidgetProperty : USerializeObject
 {
 
 }
+
+
+public class UBnsCustomCaptionProperty : UBnsCustomBaseWidgetProperty { }
+
+public class UBnsCustomImageProperty : UBnsCustomBaseWidgetProperty { }
+
+public class UBnsCustomRadioButtonProperty  : UBnsCustomBaseWidgetProperty { }
+
+public class UBnsCustomWindowProperty : UBnsCustomBaseWidgetProperty { }

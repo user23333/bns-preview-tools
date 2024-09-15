@@ -13,8 +13,8 @@
 
     <Grid>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="230"/>
-			<ColumnDefinition Width="*"/>
+			<ColumnDefinition Width="230" />
+			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
 
         <TreeView Grid.Column="0" x:Name="TreeView" ItemsSource="{Binding Source}" SelectedItemChanged="TreeView_SelectedItemChanged" 

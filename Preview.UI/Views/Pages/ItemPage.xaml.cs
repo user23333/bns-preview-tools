@@ -24,7 +24,6 @@ public partial class ItemPage
 		{
 			"<br/>123456<br/>1111111<br/><br/>222222"
 		};
-		TestListHolder.TestMethod();
 
 		// timer
 		TestLabel.Timers[1] = new Time64(1722541536967);
@@ -51,9 +50,9 @@ public partial class ItemPage
 		}
 	}
 
-	private async void TestButton1_Click(object sender, RoutedEventArgs e)
+	private void TestButton1_Click(object sender, RoutedEventArgs e)
 	{
-		await OutSet.Start<ChallengeListOut>();
+
 	}
 	#endregion
 }

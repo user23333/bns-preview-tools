@@ -4,23 +4,15 @@ using CUE4Parse.Compression;
 namespace Xylia.Preview.Data.Engine.DatData;
 public class PackageParam(string path, bool? bit64 = null)
 {
-	public string FolderPath { get; set; }
-
-	public string PackagePath { get; set; } = path;
-
-	public bool Bit64 { get; set; } = bit64 ?? Path.GetFileNameWithoutExtension(path).Contains("64");
-
-	public CompressionLevel CompressionLevel { get; set; } = CompressionLevel.Normal;
-
-	public CompressionMethod CompressionMethod { get; set; } = CompressionMethod.Zlib;
-
-	public BinaryXmlVersion BinaryXmlVersion { get; set; } = BinaryXmlVersion.Version4;
-
-	public byte[] AES_KEY { get; set; } = PackageKey.AES_2020_05;
-
-	public byte[] XOR_KEY { get; set; } = PackageKey.XOR_KEY_2021;
-
-	public RSAParameters RSA_KEY { get; set; } = PackageKey.RSA3;
+	public string FolderPath;
+	public string PackagePath = path;
+	public bool Bit64 = bit64 ?? Path.GetFileNameWithoutExtension(path).Contains("64");
+	public CompressionLevel CompressionLevel = CompressionLevel.Normal;
+	public CompressionMethod CompressionMethod = CompressionMethod.Zlib;
+	public BinaryXmlVersion BinaryXmlVersion = BinaryXmlVersion.Version4;
+	public byte[] AES_KEY = PackageKey.AES_2020_05;
+	public byte[] XOR_KEY = PackageKey.XOR_KEY_2021;
+	public RSAParameters RSA_KEY = PackageKey.RSA3;
 }
 
 public enum CompressionLevel

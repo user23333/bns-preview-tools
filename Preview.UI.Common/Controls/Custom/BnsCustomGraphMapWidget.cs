@@ -127,7 +127,7 @@ public class BnsCustomGraphMapWidget : BnsCustomBaseWidget
 			//widget.ExpansionComponentList["Node_Icon"]?.SetValue(item.Icon);
 			widget.ExpansionComponentList["Node_ItemName"]?.SetValue(item.ItemName);
 
-			if (SeedItems.Length > 1) widget.ExpansionComponentList["Node_SubGroupImage"]?.SetShow(true);
+			if (SeedItems.Length > 1) widget.ExpansionComponentList["Node_SubGroupImage"]?.SetExpansionShow(true);
 			#endregion
 
 			this.Children.Add(items[item] = widget);
@@ -322,9 +322,9 @@ public class BnsCustomGraphMapWidget : BnsCustomBaseWidget
 	{
 		if (sender is not BnsCustomGraphMapWidget widget) return;
 
-		widget.Starting?.ExpansionComponentList["Node_StartImage"]?.SetShow(false);
+		widget.Starting?.ExpansionComponentList["Node_StartImage"]?.SetExpansionShow(false);
 		widget.Starting = e.Source as BnsCustomImageWidget;
-		widget.Starting!.ExpansionComponentList["Node_StartImage"]?.SetShow(true);
+		widget.Starting!.ExpansionComponentList["Node_StartImage"]?.SetExpansionShow(true);
 
 		//FileCache.Data.Provider.GetTable<GameMessage>()["Msg.ItemGraph.SetStartingPoint"]?.Instant();
 		widget.FindPath();
@@ -334,9 +334,9 @@ public class BnsCustomGraphMapWidget : BnsCustomBaseWidget
 	{
 		if (sender is not BnsCustomGraphMapWidget widget) return;
 
-		widget.Destination?.ExpansionComponentList["Node_PurposeImage"]?.SetShow(false);
+		widget.Destination?.ExpansionComponentList["Node_PurposeImage"]?.SetExpansionShow(false);
 		widget.Destination = e.Source as BnsCustomImageWidget;
-		widget.Destination!.ExpansionComponentList["Node_PurposeImage"]?.SetShow(true);
+		widget.Destination!.ExpansionComponentList["Node_PurposeImage"]?.SetExpansionShow(true);
 
 		//FileCache.Data.Provider.GetTable<GameMessage>()["Msg.ItemGraph.SetDestination"]?.Instant();
 		widget.FindPath();

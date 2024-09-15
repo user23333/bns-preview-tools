@@ -4,39 +4,40 @@ using System.ComponentModel;
 namespace Xylia.Preview.Common.Extension;
 public static class TypeInfoExtensions
 {
-	public static T As<T>(this object @this) => (T)As(@this, typeof(T));
+	public static T To<T>(this object value) => (T)To(value, typeof(T));
 
-	internal static object As(this object @this, Type type)
+	internal static object To(this object value, Type type, Func<object> failFunc = null)
 	{
-		if (@this != null)
+		if (value != null)
 		{
-			Type targetType = type;
-
-			if (@this.GetType() == targetType)
+			if (value.GetType() == type)
 			{
-				return @this;
+				return value;
 			}
 
-			var converter = TypeDescriptor.GetConverter(@this);
-			if (converter != null)
+			// system EnumConverter is incomplete
+			if (type.IsEnum)
 			{
-				if (converter.CanConvertTo(targetType))
-				{
-					return converter.ConvertTo(@this, targetType);
-				}
+				value.ToString().TryParseToEnum(type, out value);
+				return value;
 			}
 
-			converter = TypeDescriptor.GetConverter(targetType);
-			if (converter != null)
+			var converter = TypeDescriptor.GetConverter(value);
+			if (converter != null && converter.CanConvertTo(type))
 			{
-				if (converter.CanConvertFrom(@this.GetType()))
-				{
-					return converter.ConvertFrom(@this);
-				}
+				return converter.ConvertTo(value, type);
 			}
+
+			converter = TypeDescriptor.GetConverter(type);
+			if (converter != null && converter.CanConvertFrom(value.GetType()))
+			{
+				return converter.ConvertFrom(value);
+			}
+
+			if (failFunc != null) value = failFunc?.Invoke();
 		}
 
-		return @this;
+		return value;
 	}
 
 	internal static bool IsEnumerable(this Type type)

@@ -3,10 +3,10 @@ using System.Text.RegularExpressions;
 using CUE4Parse.Compression;
 
 namespace Xylia.Preview.Data.Engine.DatData;
-public sealed class BNSDat(PackageParam Params) : IDisposable
+public sealed class BNSDat(PackageParam param) : IDisposable
 {
 	#region DatInfo
-	internal PackageParam Params { private set; get; } = Params;
+	internal PackageParam Params { init; get; } = param;
 	public bool Bit64 => Params.Bit64;
 	public string Path => Params.PackagePath;
 
@@ -180,7 +180,7 @@ public sealed class BNSDat(PackageParam Params) : IDisposable
 	}
 	#endregion
 
-	#region Methods
+	#region Static Methods
 	public static byte[] Decrypt(byte[] buffer, long size, byte[] AES)
 	{
 		var aes = Aes.Create();
@@ -265,8 +265,7 @@ public sealed class BNSDat(PackageParam Params) : IDisposable
 	{
 		if (file is null || !file.Exists) return null;
 
-		var param = new PackageParam(file.FullName);
-		return new BNSDat(param);
+		return new BNSDat(new PackageParam(file.FullName));
 	}
 	#endregion
 }

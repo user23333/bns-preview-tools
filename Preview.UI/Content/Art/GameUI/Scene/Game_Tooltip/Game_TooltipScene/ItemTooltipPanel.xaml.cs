@@ -85,8 +85,8 @@ public partial class ItemTooltipPanel
 		}
 
 		// HACK: Actually, the MainAbility is not this sequence
-		var MainAbility1 = record.Attributes["main-ability-1"].ToEnum<MainAbility>();
-		var MainAbility2 = record.Attributes["main-ability-2"].ToEnum<MainAbility>();
+		var MainAbility1 = record.Attributes.Get<MainAbility>("main-ability-1");
+		var MainAbility2 = record.Attributes.Get<MainAbility>("main-ability-2");
 
 		foreach (var ability in data)
 		{
@@ -100,10 +100,10 @@ public partial class ItemTooltipPanel
 
 		if (record is Gem)
 		{
-			var MainAbilityFixed = record.Attributes.Get<Record>("main-ability-fixed")?.As<ItemRandomAbilitySlot>();
-			var SubAbilityFixed = record.Attributes.Get<Record>("sub-ability-fixed")?.As<ItemRandomAbilitySlot>();
+			var MainAbilityFixed = record.Attributes.Get<ItemRandomAbilitySlot>("main-ability-fixed");
+			var SubAbilityFixed = record.Attributes.Get<ItemRandomAbilitySlot>("sub-ability-fixed");
 			var SubAbilityRandomCount = record.Attributes.Get<sbyte>("sub-ability-random-count");
-			var SubAbilityRandom = LinqExtensions.For(8, (id) => record.Attributes.Get<Record>("sub-ability-random-" + id)?.As<ItemRandomAbilitySlot>());
+			var SubAbilityRandom = LinqExtensions.For(8, (id) => record.Attributes.Get<ItemRandomAbilitySlot>("sub-ability-random-" + id));
 
 			if (MainAbilityFixed != null) Substitute1.Add(MainAbilityFixed.Description);
 			if (SubAbilityFixed != null) Substitute2.Add(SubAbilityFixed.Description);
@@ -171,8 +171,8 @@ public partial class ItemTooltipPanel
 		SealEnable.SetVisiable(record.SealRenewalAuctionable);
 		if (record.SealRenewalAuctionable)
 		{
-			var SealConsumeItem1 = record.Attributes.Get<Record>("seal-consume-item-1")?.As<Item>();
-			var SealConsumeItem2 = record.Attributes.Get<Record>("seal-consume-item-2")?.As<Item>();
+			var SealConsumeItem1 = record.Attributes.Get<Item>("seal-consume-item-1");
+			var SealConsumeItem2 = record.Attributes.Get<Item>("seal-consume-item-2");
 			var SealConsumeItemCount1 = record.Attributes.Get<short>("seal-consume-item-count-1");
 			var SealConsumeItemCount2 = record.Attributes.Get<short>("seal-consume-item-count-2");
 			// seal-acquire-item
@@ -225,7 +225,7 @@ public partial class ItemTooltipPanel
 				{
 					// title
 					Combat_Holder.Children.Add(Combat_Holder_Title);
-					Combat_Holder_Title.String.LabelText = string.Format("{0} ({1}-{2})", RandomOptionGroup.SkillTrainByItemListTitle,
+					Combat_Holder_Title.String.LabelText = string.Format("{0} ({1}-{2})", RandomOptionGroup.SkillTrainByItemListTitle.GetText(),
 						RandomOptionGroup.SkillTrainByItemListSelectMin, RandomOptionGroup.SkillTrainByItemListSelectMax);
 
 					foreach (var SkillTrainByItemList in RandomOptionGroup.SkillTrainByItemList.SelectNotNull(x => x.Instance))
@@ -266,7 +266,7 @@ public partial class ItemTooltipPanel
 
 		if (record is Weapon)
 		{
-			var SkillByEquipment = record.Attributes.Get<Record>("skill-by-equipment")?.As<SkillByEquipment>();
+			var SkillByEquipment = record.Attributes.Get<SkillByEquipment>("skill-by-equipment");
 			if (SkillByEquipment is not null)
 			{
 				Combat_Holder.Visibility = Visibility.Visible;

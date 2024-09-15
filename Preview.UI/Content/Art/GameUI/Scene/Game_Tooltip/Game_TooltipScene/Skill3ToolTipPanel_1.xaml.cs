@@ -2,7 +2,6 @@
 using System.Windows.Input;
 using CUE4Parse.BNS.Assets.Exports;
 using CUE4Parse.UE4.Objects.UObject;
-using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models;
@@ -40,7 +39,7 @@ public partial class Skill3ToolTipPanel_1
 		Skill3ToolTipPanel_1_Name.Arguments = [record, record];
 		Skill3ToolTipPanel_1_Main_Icon.ExpansionComponentList["IconImage"]?.SetValue(record.FrontIcon);
 		Skill3ToolTipPanel_1_Main_Icon.ExpansionComponentList["KEYCOMMAND"]?.SetValue(record.CurrentShortCutKey);
-		Skill3ToolTipPanel_1_Main_Icon.ExpansionComponentList["SkillSkin"]?.SetShow(false);
+		Skill3ToolTipPanel_1_Main_Icon.ExpansionComponentList["SkillSkin"]?.SetExpansionShow(false);
 		Skill3ToolTipPanel_1_Main_Icon.InvalidateVisual();
 
 		// TODO: add reinforce
@@ -86,16 +85,16 @@ public partial class Skill3ToolTipPanel_1
 			var GatherRange = activeskill.GatherRange.Instance;
 			if (GatherRange != null)
 			{
-				var ExecGatherType = activeskill.Attributes["exec-gather-type-1"].ToEnum<GatherType>();
+				var ExecGatherType = activeskill.Attributes.Get<GatherType>("exec-gather-type-1");
 
-				Skill3ToolTipPanel_1_ScaleType.ExpansionComponentList["TypeImage_Diff_Before"]?.SetShow(false);
-				Skill3ToolTipPanel_1_ScaleType.ExpansionComponentList["TypeImage_Diff_Next"]?.SetShow(false);
+				Skill3ToolTipPanel_1_ScaleType.ExpansionComponentList["TypeImage_Diff_Before"]?.SetExpansionShow(false);
+				Skill3ToolTipPanel_1_ScaleType.ExpansionComponentList["TypeImage_Diff_Next"]?.SetExpansionShow(false);
 
 				if (ExecGatherType == GatherType.Target)
 				{
 					Skill3ToolTipPanel_1_ScaleType.String.LabelText = "Name.Skill.ScaleRange.Default".GetText();
-					Skill3ToolTipPanel_1_ScaleType.ExpansionComponentList["TypeImage"]?.SetShow(false);
-					Skill3ToolTipPanel_1_ScaleType.ExpansionComponentList["Multi"]?.SetShow(false);
+					Skill3ToolTipPanel_1_ScaleType.ExpansionComponentList["TypeImage"]?.SetExpansionShow(false);
+					Skill3ToolTipPanel_1_ScaleType.ExpansionComponentList["Multi"]?.SetExpansionShow(false);
 				}
 				else if (ExecGatherType == GatherType.TargetAndLinkTarget)
 				{
@@ -111,8 +110,8 @@ public partial class Skill3ToolTipPanel_1
 
 					Skill3ToolTipPanel_1_ScaleType.String.LabelText = "Name.Skill.ScaleRange.WidthHeight".GetText([null, this, GatherLaserWidth, GatherLaserFrontDistance]);
 					Skill3ToolTipPanel_1_ScaleType.ExpansionComponentList["TypeImage"]?.SetValue(new ImageProperty() { EnableImageSet = true, ImageSet = new MyFPackageIndex(path) });
-					Skill3ToolTipPanel_1_ScaleType.ExpansionComponentList["TypeImage"]?.SetShow(true);
-					Skill3ToolTipPanel_1_ScaleType.ExpansionComponentList["Multi"]?.SetShow(false);
+					Skill3ToolTipPanel_1_ScaleType.ExpansionComponentList["TypeImage"]?.SetExpansionShow(true);
+					Skill3ToolTipPanel_1_ScaleType.ExpansionComponentList["Multi"]?.SetExpansionShow(false);
 				}
 				else
 				{
@@ -134,8 +133,8 @@ public partial class Skill3ToolTipPanel_1
 
 					Skill3ToolTipPanel_1_ScaleType.String.LabelText = "Name.Skill.ScaleRange".GetText([null, this, GatherRange.GatherRadiusMax[0]]);
 					Skill3ToolTipPanel_1_ScaleType.ExpansionComponentList["TypeImage"]?.SetValue(new ImageProperty() { EnableImageSet = true, ImageSet = new MyFPackageIndex(path) });
-					Skill3ToolTipPanel_1_ScaleType.ExpansionComponentList["TypeImage"]?.SetShow(true);
-					Skill3ToolTipPanel_1_ScaleType.ExpansionComponentList["Multi"]?.SetShow(false);
+					Skill3ToolTipPanel_1_ScaleType.ExpansionComponentList["TypeImage"]?.SetExpansionShow(true);
+					Skill3ToolTipPanel_1_ScaleType.ExpansionComponentList["Multi"]?.SetExpansionShow(false);
 				}
 
 

@@ -4,6 +4,7 @@
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
+		xmlns:VM="clr-namespace:Xylia.Preview.UI.ViewModels"
         Title="{DynamicResource TextEditor_Name}" Icon="{x:Null}" Height="450" Width="800">
 	<Grid>
 		<Grid.RowDefinitions>
@@ -14,18 +15,18 @@
 		<Menu Background="{DynamicResource BorderBrush}" FontSize="14">
 			<MenuItem d:Header="File" Header="{DynamicResource Text_File}">
 				<MenuItem Header="{DynamicResource TextEditor_Copy}" Command="ApplicationCommands.Copy"/>
-				<MenuItem Header="{DynamicResource TextEditor_CopyData}" Command="ApplicationCommands.Properties" />
+				<MenuItem Header="{DynamicResource TextEditor_CopyData}" Command="ApplicationCommands.Save" />
 			</MenuItem>
 
 			<MenuItem d:Header="Options" Header="{DynamicResource Text_Options}">
-				<MenuItem Header="{DynamicResource Text_WordWrap}" IsCheckable="True" IsChecked="{Binding WordWrap,ElementName=Editor}"/>
+				<MenuItem x:Name="Option_WordWrap" Header="{DynamicResource Text_WordWrap}" IsCheckable="True" IsChecked="{Binding TextEditor_WordWrap,Source={x:Static VM:UserSettings.Default}}" />
+				<MenuItem Header="{DynamicResource Text_ShowEndOfLine}" Command="ApplicationCommands.Properties" CommandParameter="ShowEndOfLine" IsCheckable="True" IsChecked="{Binding TextEditor_ShowEndOfLine,Source={x:Static VM:UserSettings.Default}}" Visibility="Collapsed" />
 			</MenuItem>
 		</Menu>
 
-		<avalonEdit:TextEditor Name="Editor" Margin="0 0 0 0" Grid.Row="1"
-							   FontFamily="Consolas" FontSize="14" 
-							   ShowLineNumbers="True" LineNumbersForeground="#FF2B91AF"
-							   SyntaxHighlighting="XML" WordWrap="True" TextChanged="TextChanged">
+		<avalonEdit:TextEditor Name="Editor" Margin="0 0 0 0" Grid.Row="1" FontFamily="Consolas" FontSize="14" 
+							   SyntaxHighlighting="XML" ShowLineNumbers="True" LineNumbersForeground="#FF2B91AF"
+							   WordWrap="{Binding IsChecked,ElementName=Option_WordWrap}" TextChanged="TextChanged">
 			<avalonEdit:TextEditor.Options>
 				<avalonEdit:TextEditorOptions ShowSpaces="True" WordWrapIndentation="4" InheritWordWrapIndentation="true" />
 			</avalonEdit:TextEditor.Options>

@@ -6,18 +6,18 @@
 		<ImageProperty EnableBrushOnly="true" EnableDrawImage="true" Opacity="1" ImageScale="1" />
 	</BnsCustomWindowWidget.BaseImageProperty>
 	<BnsCustomWindowWidget.ExpansionComponentList>
-		<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="noise" MetaData="">
-			<ExpansionComponent.ImageProperty>
+		<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="noise" MetaData="">
+			<UBnsCustomExpansionComponent.ImageProperty>
 				<ImageProperty BaseImageTexture="bnsr/content/art/ui/v2/resource/neo_ui_common_resource/img_noise_texture_square.img_noise_texture_square" ImageUVSize="1 1" EnableBrushOnly="true" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="0.6" ImageScale="1" />
-			</ExpansionComponent.ImageProperty>
-		</ExpansionComponent>
+			</UBnsCustomExpansionComponent.ImageProperty>
+		</UBnsCustomExpansionComponent>
 	</BnsCustomWindowWidget.ExpansionComponentList>
 	<BnsCustomLabelWidget Name="GlyphSlotOpenTooltipPanel_RequiredAchievmentQuest" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="15 78.50391 15 12.500977">
 		<BnsCustomLabelWidget.HorizontalResizeLink>
-			<ResizeLink bEnable="true" Offset1="15" />
+			<BnsCustomResizeLink bEnable="true" Offset1="15" />
 		</BnsCustomLabelWidget.HorizontalResizeLink>
 		<BnsCustomLabelWidget.VerticalResizeLink>
-			<ResizeLink bEnable="true" Offset1="2" LinkWidgetName1="GlyphSlotOpenTooltipPanel_RequiredSealedQuest" />
+			<BnsCustomResizeLink bEnable="true" Offset1="2" LinkWidgetName1="GlyphSlotOpenTooltipPanel_RequiredSealedQuest" />
 		</BnsCustomLabelWidget.VerticalResizeLink>
 		<BnsCustomLabelWidget.String>
 			<StringProperty fontset="bnsr/content/art/ui/gameui/resource/gameui_fontset/ui/normal_12.normal_12" LabelText="필수 업적" SpaceBetweenLines="3" />
@@ -25,10 +25,10 @@
 	</BnsCustomLabelWidget>
 	<BnsCustomLabelWidget Name="GlyphSlotOpenTooltipPanel_OpenTitle" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="15 15 15 22.000977" MetaData="textref=UI">
 		<BnsCustomLabelWidget.HorizontalResizeLink>
-			<ResizeLink bEnable="true" Offset1="15" />
+			<BnsCustomResizeLink bEnable="true" Offset1="15" />
 		</BnsCustomLabelWidget.HorizontalResizeLink>
 		<BnsCustomLabelWidget.VerticalResizeLink>
-			<ResizeLink bEnable="true" Offset1="15" />
+			<BnsCustomResizeLink bEnable="true" Offset1="15" />
 		</BnsCustomLabelWidget.VerticalResizeLink>
 		<BnsCustomLabelWidget.String>
 			<StringProperty fontset="bnsr/content/art/ui/gameui_bnsr/resource/gameui_fontset_r/ui/normal_14.normal_14" LabelText="개방 조건#" SpaceBetweenLines="3" />
@@ -36,10 +36,10 @@
 	</BnsCustomLabelWidget>
 	<BnsCustomLabelWidget Name="GlyphSlotOpenTooltipPanel_RequiredLevel" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="15 37.000977 15 12.500977">
 		<BnsCustomLabelWidget.HorizontalResizeLink>
-			<ResizeLink bEnable="true" Offset1="15" />
+			<BnsCustomResizeLink bEnable="true" Offset1="15" />
 		</BnsCustomLabelWidget.HorizontalResizeLink>
 		<BnsCustomLabelWidget.VerticalResizeLink>
-			<ResizeLink bEnable="true" LinkWidgetName1="GlyphSlotOpenTooltipPanel_OpenTitle" />
+			<BnsCustomResizeLink bEnable="true" LinkWidgetName1="GlyphSlotOpenTooltipPanel_OpenTitle" />
 		</BnsCustomLabelWidget.VerticalResizeLink>
 		<BnsCustomLabelWidget.String>
 			<StringProperty fontset="bnsr/content/art/ui/gameui/resource/gameui_fontset/ui/normal_12.normal_12" LabelText="필수 레벨" SpaceBetweenLines="3" />
@@ -47,10 +47,10 @@
 	</BnsCustomLabelWidget>
 	<BnsCustomLabelWidget Name="GlyphSlotOpenTooltipPanel_RequiredSealedQuest" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="15 64.00293 15 12.500977">
 		<BnsCustomLabelWidget.HorizontalResizeLink>
-			<ResizeLink bEnable="true" Offset1="15" />
+			<BnsCustomResizeLink bEnable="true" Offset1="15" />
 		</BnsCustomLabelWidget.HorizontalResizeLink>
 		<BnsCustomLabelWidget.VerticalResizeLink>
-			<ResizeLink bEnable="true" Offset1="2" LinkWidgetName1="GlyphSlotOpenTooltipPanel_RequiredSealedLevel" />
+			<BnsCustomResizeLink bEnable="true" Offset1="2" LinkWidgetName1="GlyphSlotOpenTooltipPanel_RequiredSealedLevel" />
 		</BnsCustomLabelWidget.VerticalResizeLink>
 		<BnsCustomLabelWidget.String>
 			<StringProperty fontset="bnsr/content/art/ui/gameui/resource/gameui_fontset/ui/normal_12.normal_12" LabelText="미완료 퀘스트" SpaceBetweenLines="3" />
@@ -58,10 +58,10 @@
 	</BnsCustomLabelWidget>
 	<BnsCustomLabelWidget Name="GlyphSlotOpenTooltipPanel_RequiredSealedLevel" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="15 49.501953 15 12.500977">
 		<BnsCustomLabelWidget.HorizontalResizeLink>
-			<ResizeLink bEnable="true" Offset1="15" />
+			<BnsCustomResizeLink bEnable="true" Offset1="15" />
 		</BnsCustomLabelWidget.HorizontalResizeLink>
 		<BnsCustomLabelWidget.VerticalResizeLink>
-			<ResizeLink bEnable="true" LinkWidgetName1="GlyphSlotOpenTooltipPanel_RequiredLevel" />
+			<BnsCustomResizeLink bEnable="true" LinkWidgetName1="GlyphSlotOpenTooltipPanel_RequiredLevel" />
 		</BnsCustomLabelWidget.VerticalResizeLink>
 		<BnsCustomLabelWidget.String>
 			<StringProperty fontset="bnsr/content/art/ui/gameui/resource/gameui_fontset/ui/normal_12.normal_12" LabelText="필수 봉마 레벨" SpaceBetweenLines="3" />
@@ -69,10 +69,10 @@
 	</BnsCustomLabelWidget>
 	<BnsCustomLabelWidget Name="GlyphSlotOpenTooltipPanel_PriceTitle" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="15 106.00488 15 14.000977">
 		<BnsCustomLabelWidget.HorizontalResizeLink>
-			<ResizeLink bEnable="true" Offset1="15" />
+			<BnsCustomResizeLink bEnable="true" Offset1="15" />
 		</BnsCustomLabelWidget.HorizontalResizeLink>
 		<BnsCustomLabelWidget.VerticalResizeLink>
-			<ResizeLink bEnable="true" Offset1="15" LinkWidgetName1="GlyphSlotOpenTooltipPanel_RequiredAchievmentQuest" />
+			<BnsCustomResizeLink bEnable="true" Offset1="15" LinkWidgetName1="GlyphSlotOpenTooltipPanel_RequiredAchievmentQuest" />
 		</BnsCustomLabelWidget.VerticalResizeLink>
 		<BnsCustomLabelWidget.String>
 			<StringProperty fontset="bnsr/content/art/ui/gameui_bnsr/resource/gameui_fontset_r/ui/normal_14.normal_14" LabelText="개방 비용#" SpaceBetweenLines="3" />
@@ -80,20 +80,20 @@
 	</BnsCustomLabelWidget>
 	<BnsCustomImageWidget Name="GlyphSlotOpenTooltipPanel_GlyphSlot" LayoutData.Anchors="0.5 0 0.5 0" LayoutData.Offsets="0 130.00586 283 43">
 		<BnsCustomImageWidget.HorizontalResizeLink>
-			<ResizeLink bEnable="true" />
+			<BnsCustomResizeLink bEnable="true" />
 		</BnsCustomImageWidget.HorizontalResizeLink>
 		<BnsCustomImageWidget.VerticalResizeLink>
-			<ResizeLink bEnable="true" Offset1="10" LinkWidgetName1="GlyphSlotOpenTooltipPanel_PriceTitle" />
+			<BnsCustomResizeLink bEnable="true" Offset1="10" LinkWidgetName1="GlyphSlotOpenTooltipPanel_PriceTitle" />
 		</BnsCustomImageWidget.VerticalResizeLink>
 		<BnsCustomImageWidget.BaseImageProperty>
 			<ImageProperty BaseImageTexture="bnsr/content/art/ui/gameui/resource/gameui_window_r/bnsr_uielement.bnsr_uielement" ImageUV="20 116" ImageUVSize="18 18" EnableDrawColor="true" TintColor="5E687D" Opacity="0.2" ImageScale="1" />
 		</BnsCustomImageWidget.BaseImageProperty>
 		<BnsCustomImageWidget Name="GlyphSlotOpenTooltipPanel_GlyphSlot_HorizontalLine" LayoutData.Anchors="0.5 0 0.5 0" LayoutData.Offsets="0 39 258.99994 1">
 			<BnsCustomImageWidget.HorizontalResizeLink>
-				<ResizeLink bEnable="true" />
+				<BnsCustomResizeLink bEnable="true" />
 			</BnsCustomImageWidget.HorizontalResizeLink>
 			<BnsCustomImageWidget.VerticalResizeLink>
-				<ResizeLink bEnable="true" Offset1="7" LinkWidgetName1="GlyphSlotOpenTooltipPanel_GlyphSlot_Item_1_1" />
+				<BnsCustomResizeLink bEnable="true" Offset1="7" LinkWidgetName1="GlyphSlotOpenTooltipPanel_GlyphSlot_Item_1_1" />
 			</BnsCustomImageWidget.VerticalResizeLink>
 			<BnsCustomImageWidget.BaseImageProperty>
 				<ImageProperty BaseImageTexture="bnsr/content/art/ui/gameui/resource/gameui_window_r/bnsr_uielement.bnsr_uielement" ImageUV="199 61" ImageUVSize="5 1" EnableDrawImage="true" Opacity="0.1" ImageScale="1" />
@@ -101,248 +101,248 @@
 		</BnsCustomImageWidget>
 		<BnsCustomImageWidget Name="GlyphSlotOpenTooltipPanel_GlyphSlot_Item_1_4" LayoutData.Offsets="126 0 44 44">
 			<BnsCustomImageWidget.HorizontalResizeLink>
-				<ResizeLink bEnable="true" Offset1="5" LinkWidgetName1="GlyphSlotOpenTooltipPanel_GlyphSlot_Item_1_3" />
+				<BnsCustomResizeLink bEnable="true" Offset1="5" LinkWidgetName1="GlyphSlotOpenTooltipPanel_GlyphSlot_Item_1_3" />
 			</BnsCustomImageWidget.HorizontalResizeLink>
 			<BnsCustomImageWidget.VerticalResizeLink>
-				<ResizeLink bEnable="true" />
+				<BnsCustomResizeLink bEnable="true" />
 			</BnsCustomImageWidget.VerticalResizeLink>
 			<BnsCustomImageWidget.BaseImageProperty>
 				<ImageProperty ImageUV="868 275" ImageUVSize="44 44" Opacity="1" ImageScale="1" />
 			</BnsCustomImageWidget.BaseImageProperty>
 			<BnsCustomImageWidget.ExpansionComponentList>
-				<ExpansionComponent bShow="true" ExpansionType="Image" ExpansionName="BackGroundImage" MetaData="">
-					<ExpansionComponent.ImageProperty>
+				<UBnsCustomExpansionComponent bShow="true" ExpansionType="Image" ExpansionName="BackGroundImage" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty BaseImageTexture="bnsr/content/art/ui/gameui/resource/gameui_window_r/bnsr_uielement.bnsr_uielement" ImageUV="0 66" ImageUVSize="48 48" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="0.5" ImageScale="1" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="IconImage" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="IconImage" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty BaseImageTexture="bnsr/content/art/ui/gameui/resource/gameui_icon/acc_bangle_legendry_2-1phase.acc_bangle_legendry_2-1phase" ImageUVSize="64 64" EnableMultiImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="UnusableImage" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="UnusableImage" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="String" ExpansionName="StackableLabel" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="String" ExpansionName="StackableLabel" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
-					</ExpansionComponent.ImageProperty>
-					<ExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent.StringProperty>
 						<StringProperty fontset="bnsr/content/art/ui/gameui_bnsr/resource/gameui_fontset_r/ui/normal_out_10.normal_out_10" LabelText="99" SpaceBetweenLines="3" Padding="1 1" bWordWrap="true" Opacity="1" TextScale="1" AnimScale="1" />
-					</ExpansionComponent.StringProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="Grade_Image" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.StringProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="Grade_Image" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="CanSaleItem" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="CanSaleItem" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty BaseImageTexture="bnsr/content/art/ui/gameui/resource/gameui_icon/slotitem_marketbusiness.slotitem_marketbusiness" ImageUVSize="64 64" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="MouseOverImage" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="MouseOverImage" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty BaseImageTexture="bnsr/content/art/ui/gameui/resource/gameui_window_r/bnsr_uielement.bnsr_uielement" ImageUV="51 66" ImageUVSize="50 50" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" StaticPadding="-1.5 -1.5" Opacity="1" ImageScale="1" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="MousePressImage" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="MousePressImage" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty BaseImageTexture="bnsr/content/art/ui/gameui/resource/gameui_window_r/bnsr_uielement.bnsr_uielement" ImageUV="51 66" ImageUVSize="50 50" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" StaticPadding="-1.5 -1.5" Opacity="1" ImageScale="1" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
 			</BnsCustomImageWidget.ExpansionComponentList>
 		</BnsCustomImageWidget>
 		<BnsCustomImageWidget Name="GlyphSlotOpenTooltipPanel_GlyphSlot_Item_1_3" LayoutData.Offsets="89.00006 0 44 44">
 			<BnsCustomImageWidget.HorizontalResizeLink>
-				<ResizeLink bEnable="true" Offset1="5" LinkWidgetName1="GlyphSlotOpenTooltipPanel_GlyphSlot_Item_1_2" />
+				<BnsCustomResizeLink bEnable="true" Offset1="5" LinkWidgetName1="GlyphSlotOpenTooltipPanel_GlyphSlot_Item_1_2" />
 			</BnsCustomImageWidget.HorizontalResizeLink>
 			<BnsCustomImageWidget.VerticalResizeLink>
-				<ResizeLink bEnable="true" />
+				<BnsCustomResizeLink bEnable="true" />
 			</BnsCustomImageWidget.VerticalResizeLink>
 			<BnsCustomImageWidget.BaseImageProperty>
 				<ImageProperty ImageUV="868 275" ImageUVSize="44 44" Opacity="1" ImageScale="1" />
 			</BnsCustomImageWidget.BaseImageProperty>
 			<BnsCustomImageWidget.ExpansionComponentList>
-				<ExpansionComponent bShow="true" ExpansionType="Image" ExpansionName="BackgroundImage" MetaData="">
-					<ExpansionComponent.ImageProperty>
+				<UBnsCustomExpansionComponent bShow="true" ExpansionType="Image" ExpansionName="BackgroundImage" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty BaseImageTexture="bnsr/content/art/ui/gameui/resource/gameui_window_r/bnsr_uielement.bnsr_uielement" ImageUV="0 66" ImageUVSize="48 48" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="0.5" ImageScale="1" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="IconImage" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="IconImage" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty BaseImageTexture="bnsr/content/art/ui/gameui/resource/gameui_icon/acc_bangle_legendry_2-1phase.acc_bangle_legendry_2-1phase" ImageUVSize="64 64" EnableMultiImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="UnusableImage" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="UnusableImage" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="String" ExpansionName="StackableLabel" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="String" ExpansionName="StackableLabel" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
-					</ExpansionComponent.ImageProperty>
-					<ExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent.StringProperty>
 						<StringProperty fontset="bnsr/content/art/ui/gameui_bnsr/resource/gameui_fontset_r/ui/normal_out_10.normal_out_10" LabelText="99" SpaceBetweenLines="3" Padding="1 1" bWordWrap="true" Opacity="1" TextScale="1" AnimScale="1" />
-					</ExpansionComponent.StringProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="Grade_Image" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.StringProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="Grade_Image" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="CanSaleItem" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="CanSaleItem" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty BaseImageTexture="bnsr/content/art/ui/gameui/resource/gameui_icon/slotitem_marketbusiness.slotitem_marketbusiness" ImageUVSize="64 64" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="MouseOverImage" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="MouseOverImage" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty BaseImageTexture="bnsr/content/art/ui/gameui/resource/gameui_window_r/bnsr_uielement.bnsr_uielement" ImageUV="51 66" ImageUVSize="50 50" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" StaticPadding="-1.5 -1.5" Opacity="1" ImageScale="1" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="MousePressImage" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="MousePressImage" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty BaseImageTexture="bnsr/content/art/ui/gameui/resource/gameui_window_r/bnsr_uielement.bnsr_uielement" ImageUV="51 66" ImageUVSize="50 50" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" StaticPadding="-1.5 -1.5" Opacity="1" ImageScale="1" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
 			</BnsCustomImageWidget.ExpansionComponentList>
 		</BnsCustomImageWidget>
 		<BnsCustomImageWidget Name="GlyphSlotOpenTooltipPanel_GlyphSlot_Item_1_2" LayoutData.Offsets="52.00003 0 44 44">
 			<BnsCustomImageWidget.HorizontalResizeLink>
-				<ResizeLink bEnable="true" Offset1="5" LinkWidgetName1="GlyphSlotOpenTooltipPanel_GlyphSlot_Item_1_1" />
+				<BnsCustomResizeLink bEnable="true" Offset1="5" LinkWidgetName1="GlyphSlotOpenTooltipPanel_GlyphSlot_Item_1_1" />
 			</BnsCustomImageWidget.HorizontalResizeLink>
 			<BnsCustomImageWidget.VerticalResizeLink>
-				<ResizeLink bEnable="true" />
+				<BnsCustomResizeLink bEnable="true" />
 			</BnsCustomImageWidget.VerticalResizeLink>
 			<BnsCustomImageWidget.BaseImageProperty>
 				<ImageProperty ImageUV="868 275" ImageUVSize="44 44" Opacity="1" ImageScale="1" />
 			</BnsCustomImageWidget.BaseImageProperty>
 			<BnsCustomImageWidget.ExpansionComponentList>
-				<ExpansionComponent bShow="true" ExpansionType="Image" ExpansionName="BackGroundImage" MetaData="">
-					<ExpansionComponent.ImageProperty>
+				<UBnsCustomExpansionComponent bShow="true" ExpansionType="Image" ExpansionName="BackGroundImage" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty BaseImageTexture="bnsr/content/art/ui/gameui/resource/gameui_window_r/bnsr_uielement.bnsr_uielement" ImageUV="0 66" ImageUVSize="48 48" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="0.5" ImageScale="1" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="IconImage" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="IconImage" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty BaseImageTexture="bnsr/content/art/ui/gameui/resource/gameui_icon/acc_bangle_legendry_2-1phase.acc_bangle_legendry_2-1phase" ImageUVSize="64 64" EnableMultiImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="UnusableImage" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="UnusableImage" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="String" ExpansionName="StackableLabel" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="String" ExpansionName="StackableLabel" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
-					</ExpansionComponent.ImageProperty>
-					<ExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent.StringProperty>
 						<StringProperty fontset="bnsr/content/art/ui/gameui_bnsr/resource/gameui_fontset_r/ui/normal_out_10.normal_out_10" LabelText="99" SpaceBetweenLines="3" Padding="1 1" bWordWrap="true" Opacity="1" TextScale="1" AnimScale="1" />
-					</ExpansionComponent.StringProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="Grade_Image" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.StringProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="Grade_Image" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="CanSaleItem" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="CanSaleItem" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty BaseImageTexture="bnsr/content/art/ui/gameui/resource/gameui_icon/slotitem_marketbusiness.slotitem_marketbusiness" ImageUVSize="64 64" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="MouseOverImage" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="MouseOverImage" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty BaseImageTexture="bnsr/content/art/ui/gameui/resource/gameui_window_r/bnsr_uielement.bnsr_uielement" ImageUV="51 66" ImageUVSize="50 50" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" StaticPadding="-1.5 -1.5" Opacity="1" ImageScale="1" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="MousePressImage" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="MousePressImage" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty BaseImageTexture="bnsr/content/art/ui/gameui/resource/gameui_window_r/bnsr_uielement.bnsr_uielement" ImageUV="51 66" ImageUVSize="50 50" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" StaticPadding="-1.5 -1.5" Opacity="1" ImageScale="1" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
 			</BnsCustomImageWidget.ExpansionComponentList>
 		</BnsCustomImageWidget>
 		<BnsCustomImageWidget Name="GlyphSlotOpenTooltipPanel_GlyphSlot_Item_1_1" LayoutData.Offsets="15 0 44 44">
 			<BnsCustomImageWidget.HorizontalResizeLink>
-				<ResizeLink bEnable="true" Offset1="15" />
+				<BnsCustomResizeLink bEnable="true" Offset1="15" />
 			</BnsCustomImageWidget.HorizontalResizeLink>
 			<BnsCustomImageWidget.VerticalResizeLink>
-				<ResizeLink bEnable="true" />
+				<BnsCustomResizeLink bEnable="true" />
 			</BnsCustomImageWidget.VerticalResizeLink>
 			<BnsCustomImageWidget.BaseImageProperty>
 				<ImageProperty ImageUV="868 275" ImageUVSize="44 44" Opacity="1" ImageScale="1" />
 			</BnsCustomImageWidget.BaseImageProperty>
 			<BnsCustomImageWidget.ExpansionComponentList>
-				<ExpansionComponent bShow="true" ExpansionType="Image" ExpansionName="BackGroundImage" MetaData="">
-					<ExpansionComponent.ImageProperty>
+				<UBnsCustomExpansionComponent bShow="true" ExpansionType="Image" ExpansionName="BackGroundImage" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty BaseImageTexture="bnsr/content/art/ui/gameui/resource/gameui_window_r/bnsr_uielement.bnsr_uielement" ImageUV="0 66" ImageUVSize="48 48" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="0.5" ImageScale="1" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="IconImage" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="IconImage" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty BaseImageTexture="bnsr/content/art/ui/gameui/resource/gameui_icon/acc_bangle_legendry_2-1phase.acc_bangle_legendry_2-1phase" ImageUVSize="64 64" EnableMultiImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="UnusableImage" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="UnusableImage" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="String" ExpansionName="StackableLabel" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="String" ExpansionName="StackableLabel" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
-					</ExpansionComponent.ImageProperty>
-					<ExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent.StringProperty>
 						<StringProperty fontset="bnsr/content/art/ui/gameui_bnsr/resource/gameui_fontset_r/ui/normal_out_10.normal_out_10" LabelText="99" SpaceBetweenLines="3" Padding="1 1" bWordWrap="true" Opacity="1" TextScale="1" AnimScale="1" />
-					</ExpansionComponent.StringProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="Grade_Image" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.StringProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="Grade_Image" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="CanSaleItem" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="CanSaleItem" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty BaseImageTexture="bnsr/content/art/ui/gameui/resource/gameui_icon/slotitem_marketbusiness.slotitem_marketbusiness" ImageUVSize="64 64" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="MouseOverImage" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="MouseOverImage" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty BaseImageTexture="bnsr/content/art/ui/gameui/resource/gameui_window_r/bnsr_uielement.bnsr_uielement" ImageUV="51 66" ImageUVSize="50 50" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" StaticPadding="-1.5 -1.5" Opacity="1" ImageScale="1" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="MousePressImage" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="MousePressImage" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty BaseImageTexture="bnsr/content/art/ui/gameui/resource/gameui_window_r/bnsr_uielement.bnsr_uielement" ImageUV="51 66" ImageUVSize="50 50" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" StaticPadding="-1.5 -1.5" Opacity="1" ImageScale="1" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
 			</BnsCustomImageWidget.ExpansionComponentList>
 		</BnsCustomImageWidget>
 	</BnsCustomImageWidget>
 	<BnsCustomLabelWidget Name="GlyphSlotOpenTooltipPanel_GlyphSlot_Cost" LayoutData.Offsets="15 183.00586 254.99997 20.00296">
 		<BnsCustomLabelWidget.HorizontalResizeLink>
-			<ResizeLink bEnable="true" Offset1="15" />
+			<BnsCustomResizeLink bEnable="true" Offset1="15" />
 		</BnsCustomLabelWidget.HorizontalResizeLink>
 		<BnsCustomLabelWidget.VerticalResizeLink>
-			<ResizeLink bEnable="true" Offset1="10" LinkWidgetName1="GlyphSlotOpenTooltipPanel_GlyphSlot" />
+			<BnsCustomResizeLink bEnable="true" Offset1="10" LinkWidgetName1="GlyphSlotOpenTooltipPanel_GlyphSlot" />
 		</BnsCustomLabelWidget.VerticalResizeLink>
 		<BnsCustomLabelWidget.String>
 			<StringProperty fontset="bnsr/content/art/ui/gameui_bnsr/resource/gameui_fontset_r/ui/normal_12.normal_12" LabelText="00금00은00동" SpaceBetweenLines="3" />
 		</BnsCustomLabelWidget.String>
 		<BnsCustomLabelWidget.ExpansionComponentList>
-			<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="String" ExpansionName="CostLlabel" MetaData="textref=UI.ItemGrowth.Common.Money.none">
-				<ExpansionComponent.ImageProperty>
+			<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="String" ExpansionName="CostLlabel" MetaData="textref=UI.ItemGrowth.Common.Money.none">
+				<UBnsCustomExpansionComponent.ImageProperty>
 					<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
-				</ExpansionComponent.ImageProperty>
-				<ExpansionComponent.StringProperty>
+				</UBnsCustomExpansionComponent.ImageProperty>
+				<UBnsCustomExpansionComponent.StringProperty>
 					<StringProperty fontset="bnsr/content/art/ui/gameui_bnsr/resource/gameui_fontset_r/ui/normal_12.normal_12" LabelText="기본비용#" SpaceBetweenLines="3" Opacity="1" TextScale="1" AnimScale="1" />
-				</ExpansionComponent.StringProperty>
-			</ExpansionComponent>
+				</UBnsCustomExpansionComponent.StringProperty>
+			</UBnsCustomExpansionComponent>
 		</BnsCustomLabelWidget.ExpansionComponentList>
 	</BnsCustomLabelWidget>
 </BnsCustomWindowWidget>

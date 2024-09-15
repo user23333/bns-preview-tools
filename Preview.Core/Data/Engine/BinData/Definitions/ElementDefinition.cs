@@ -8,7 +8,7 @@ using Xylia.Preview.Data.Models;
 namespace Xylia.Preview.Data.Engine.Definitions;
 public abstract class IElementDefinition
 {
-	#region Properies
+	#region Properties
 	public string Name { get; set; }
 	public ushort Size { get; set; }
 	public bool AutoKey { get; internal set; }
@@ -87,7 +87,7 @@ public abstract class IElementDefinition
 
 public class ElementDefinition : IElementDefinition
 {
-	#region Properies
+	#region Properties
 	// always -1 on base table definition
 	public override short SubclassType { get => -1; set => throw new NotSupportedException(); }
 

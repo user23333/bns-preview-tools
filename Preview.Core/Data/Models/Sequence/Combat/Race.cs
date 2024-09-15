@@ -15,7 +15,6 @@ public enum RaceSeq
 	더더무서운몹,
 	[Text("Race.Name2.Cat")] 고양이,
 	[Text("Race.Name2.AdventSoul")] 강림체,
-	악귀,
-
+	[Text("Race.Name2.SwordDaemon")] 악귀,
 	COUNT
 }

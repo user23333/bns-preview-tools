@@ -21,6 +21,10 @@ public partial class Legacy_QuestJournalPanel : IRecordFilter
 	protected override void OnLoading()
 	{
 		InitializeComponent();
+		QuestJournal_Tab_RadioButton_1.Header = "UI.QuestJournal.ProgressTab".GetText();
+		QuestJournal_Tab_RadioButton_2.Header = "UI.QuestJournal.CompletedTab".GetText();
+		QuestJournal_Tab_RadioButton_3.Header = "UI.QuestJournal.CompletedDailyTab".GetText();
+		QuestJournal_Tab_RadioButton_4.Header = "UI.QuestJournal.LetterQuestTab".GetText();
 
 		// Filter
 		Filter_Category.ItemsSource = Enum.GetValues<CategorySeq>().Where(x => x < CategorySeq.COUNT);
@@ -35,7 +39,7 @@ public partial class Legacy_QuestJournalPanel : IRecordFilter
 		// Completed
 		List<Quest> CompletedQuest = [];
 		QuestEpic.GetEpic(CompletedQuest.Add);
-		QuestJournal_CompletedQuestList.ItemsSource = CompletedQuest.GroupBy(o => o.Title).Select(o => new TreeViewItem { Header = o.Key, ItemsSource = o.ToList(), });
+		QuestJournal_CompletedQuestList.ItemsSource = CompletedQuest.GroupBy(o => o.Title);
 	}
 	#endregion
 
@@ -135,14 +139,21 @@ public partial class Legacy_QuestJournalPanel : IRecordFilter
 
 	private void QuestJournal_ProgressQuestList_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
 	{
+		QuestJournal_QuestInfoHolder.DataContext = e.NewValue;
+	}
+
+	private void QuestJournal_QuestInfoHolder_DataChanged(object sender, DependencyPropertyChangedEventArgs e)
+	{
 		if (e.NewValue is not Quest quest) return;
 
-		QuestJournal_CurrentQuest_Info.DataContext = quest;
+		QuestJournal_QuestInfo_Description.Arguments = [null, quest];
+
+		#region Reward
+		var reward = quest.GetRewards().LastOrDefault();
+		QuestJournal_QuestInfo_Holder.SetVisiable(reward != null);
 		QuestJournal_RewardInfo_QuestInfo_Attraction_Guide.SetVisiable(quest.Category == CategorySeq.Attraction);
 
-		var reward = quest.GetRewards().LastOrDefault();
-		if (reward is null) QuestJournal_RewardInfo_QuestInfo_Holder.SetVisiable(false);
-		else
+		if (reward != null)
 		{
 			static void UpdateValue(FrameworkElement parent, BnsCustomLabelWidget label, int value)
 			{
@@ -174,7 +185,6 @@ public partial class Legacy_QuestJournalPanel : IRecordFilter
 				}
 			}
 
-			QuestJournal_RewardInfo_QuestInfo_Holder.SetVisiable(true);
 			QuestJournal_RewardInfo_Final_FixedReward_money.SetVisiable(reward.Money > 0);
 			QuestJournal_RewardInfo_Final_FixedReward_money.String.LabelText = reward.Money.Money;
 			QuestJournal_RewardInfo_Final_Exp.SetVisiable(reward.BasicExp > 0);
@@ -236,19 +246,23 @@ public partial class Legacy_QuestJournalPanel : IRecordFilter
 			}
 			#endregion
 		}
+		#endregion
 	}
+
 
 	// ------------------------------------------------------------------
 	// 
 	//  CompletedTab
 	// 
 	// ------------------------------------------------------------------
-	private void QuestJournal_CompletedQuestList_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+	private void CompletedTab_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
 	{
 		if (e.NewValue is not Quest quest) return;
 
 		QuestJournal_CompletedQuestDesc.String.LabelText = quest.Attributes["completed-desc"].GetText();
 	}
+
+
 
 	// ------------------------------------------------------------------
 	// 
@@ -270,4 +284,5 @@ public partial class Legacy_QuestJournalPanel : IRecordFilter
 	private const int MASK_ContentType = 16; //short (flags gather than 255)
 	private const int MASK_ResetType = 32;   //byte
 	#endregion
+
 }

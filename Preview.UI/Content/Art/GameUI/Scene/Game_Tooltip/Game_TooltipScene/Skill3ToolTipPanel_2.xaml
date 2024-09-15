@@ -6,11 +6,11 @@
 		<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_Window.BNSR_Window" ImageUV="7 7" ImageUVSize="49 49" EnableSkinAlpha="true" StaticPadding="-17 -17" />
 	</BnsCustomWindowWidget.BaseImageProperty>
 	<BnsCustomWindowWidget.ExpansionComponentList>
-		<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="Line" MetaData="" bPostExpansitonRender="true">
-			<ExpansionComponent.ImageProperty>
+		<UBnsCustomExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="Line" MetaData="" bPostExpansitonRender="true">
+			<UBnsCustomExpansionComponent.ImageProperty>
 				<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_Window_Outfocus.BNSR_Window_Outfocus" ImageUV="7 7" ImageUVSize="49 49" EnableBrushOnly="true" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" StaticPadding="-13 -13" Opacity="1" ImageScale="1" />
-			</ExpansionComponent.ImageProperty>
-		</ExpansionComponent>
+			</UBnsCustomExpansionComponent.ImageProperty>
+		</UBnsCustomExpansionComponent>
 	</BnsCustomWindowWidget.ExpansionComponentList>
 	<BnsCustomLabelWidget Name="Skill3ToolTipPanel_2_ItemProbability" LayoutData.Anchors="1 0 1 0" LayoutData.Offsets="-15 15 162.00049 27.000977">
 		<BnsCustomLabelWidget.String>
@@ -26,19 +26,19 @@
 				<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window2/GameUI_New_Scene_22.GameUI_New_Scene_22" ImageUV="731 252" ImageUVSize="9 48" Opacity="1.5" />
 			</BnsCustomImageWidget.BaseImageProperty>
 			<BnsCustomImageWidget.ExpansionComponentList>
-				<ExpansionComponent bShow="true" ExpansionType="STRING" ExpansionName="Info" MetaData="" bPostExpansitonRender="true">
-					<ExpansionComponent.ImageProperty>
+				<UBnsCustomExpansionComponent bShow="true" ExpansionType="STRING" ExpansionName="Info" MetaData="" bPostExpansitonRender="true">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-					<ExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent.StringProperty>
 						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_14.Normal_14" LabelText="&lt;image enablescale='true' imagesetpath='00009076.CharInfo_PcAttackPower' scalerate='1.2'/&gt; x 00.99" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" ClippingBound="-40 0" Opacity="1" TextScale="1" AnimScale="1" />
-					</ExpansionComponent.StringProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="Icon" MetaData="" bPostExpansitonRender="true">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.StringProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="Icon" MetaData="" bPostExpansitonRender="true">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty ImageSet="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window2/DamageInfo_Down.DamageInfo_Down" EnableImageSet="true" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="50 0" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
 			</BnsCustomImageWidget.ExpansionComponentList>
 		</BnsCustomImageWidget>
 		<BnsCustomLabelWidget Name="Skill3ToolTipPanel_2_DamageInfo_PvP" LayoutData.Offsets="175 0 170 24.000977" MetaData="textref=UI.ToolTip.DamageInfo.PvP">
@@ -46,11 +46,11 @@
 				<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="대인#" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
 			</BnsCustomLabelWidget.String>
 			<BnsCustomLabelWidget.ExpansionComponentList>
-				<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="BackgroundFrameImage" MetaData="">
-					<ExpansionComponent.ImageProperty>
+				<UBnsCustomExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="BackgroundFrameImage" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="1 35" ImageUVSize="31 31" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
 			</BnsCustomLabelWidget.ExpansionComponentList>
 		</BnsCustomLabelWidget>
 		<BnsCustomImageWidget Name="Skill3ToolTipPanel_2_DamageInfo_PvEInfo" LayoutData.Offsets="0 26.000977 170 48">
@@ -58,19 +58,19 @@
 				<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window2/GameUI_New_Scene_22.GameUI_New_Scene_22" ImageUV="731 252" ImageUVSize="9 48" Opacity="1.5" />
 			</BnsCustomImageWidget.BaseImageProperty>
 			<BnsCustomImageWidget.ExpansionComponentList>
-				<ExpansionComponent bShow="true" ExpansionType="STRING" ExpansionName="Info" MetaData="" bPostExpansitonRender="true">
-					<ExpansionComponent.ImageProperty>
+				<UBnsCustomExpansionComponent bShow="true" ExpansionType="STRING" ExpansionName="Info" MetaData="" bPostExpansitonRender="true">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-					<ExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent.StringProperty>
 						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_14.Normal_14" LabelText="&lt;image enablescale='true' imagesetpath='00009076.CharInfo_AttackPower' scalerate='1.2'/&gt; x 00.99" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" ClippingBound="-40 0" Opacity="1" TextScale="1" AnimScale="1" />
-					</ExpansionComponent.StringProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="Icon" MetaData="" bPostExpansitonRender="true">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.StringProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="Icon" MetaData="" bPostExpansitonRender="true">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty ImageSet="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window2/DamageInfo_Up.DamageInfo_Up" EnableImageSet="true" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="50 0" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
 			</BnsCustomImageWidget.ExpansionComponentList>
 		</BnsCustomImageWidget>
 		<BnsCustomLabelWidget Name="Skill3ToolTipPanel_2_DamageInfo_PvE" LayoutData.Offsets="0 0 170 24.000977" MetaData="textref=UI.ToolTip.DamageInfo.PvE">
@@ -78,11 +78,11 @@
 				<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="표준#" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
 			</BnsCustomLabelWidget.String>
 			<BnsCustomLabelWidget.ExpansionComponentList>
-				<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="BackgroundFrameImage" MetaData="">
-					<ExpansionComponent.ImageProperty>
+				<UBnsCustomExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="BackgroundFrameImage" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="1 35" ImageUVSize="31 31" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
 			</BnsCustomLabelWidget.ExpansionComponentList>
 		</BnsCustomLabelWidget>
 	</BnsCustomImageWidget>
@@ -130,29 +130,29 @@
 				<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="0 66" ImageUVSize="48 48" Opacity="0.5" />
 			</BnsCustomImageWidget.BaseImageProperty>
 			<BnsCustomImageWidget.ExpansionComponentList>
-				<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="IconImage" MetaData="" bPostExpansitonRender="true">
-					<ExpansionComponent.ImageProperty>
+				<UBnsCustomExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="IconImage" MetaData="" bPostExpansitonRender="true">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty EnableDrawImage="true" EnableMultiImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bShow="true" ExpansionType="STRING" ExpansionName="KEYCOMMAND" MetaData="" bPostExpansitonRender="true">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bShow="true" ExpansionType="STRING" ExpansionName="KEYCOMMAND" MetaData="" bPostExpansitonRender="true">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-					<ExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent.StringProperty>
 						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_14.Normal_14" LabelText="Key" SpaceBetweenLines="3" ClippingBound="4 4" Opacity="1" TextScale="1" AnimScale="1" />
-					</ExpansionComponent.StringProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="Slot" MetaData="" bPostExpansitonRender="true">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.StringProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="Slot" MetaData="" bPostExpansitonRender="true">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="533 776" ImageUVSize="70 70" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="SkillSkin" MetaData="" bPostExpansitonRender="true">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="SkillSkin" MetaData="" bPostExpansitonRender="true">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_SkillBookImage/SkillMovie_Apply.SkillMovie_Apply" ImageUVSize="32 32" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="8 5" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Bottom" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
 			</BnsCustomImageWidget.ExpansionComponentList>
 		</BnsCustomImageWidget>
 		<BnsCustomLabelWidget Name="Skill3ToolTipPanel_2_Main_Description" LayoutData.Offsets="82 3 258 64.00403">
@@ -175,11 +175,11 @@
 				<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="재사용*" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
 			</BnsCustomLabelWidget.String>
 			<BnsCustomLabelWidget.ExpansionComponentList>
-				<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="BackgroundFrameImage" MetaData="">
-					<ExpansionComponent.ImageProperty>
+				<UBnsCustomExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="BackgroundFrameImage" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="1 35" ImageUVSize="31 31" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
 			</BnsCustomLabelWidget.ExpansionComponentList>
 		</BnsCustomLabelWidget>
 		<BnsCustomLabelWidget Name="Skill3ToolTipPanel_2_CastingTimeLabel" LayoutData.Offsets="176 0 82 33.000977" MetaData="textref=UI.Tooltip.Casting">
@@ -187,11 +187,11 @@
 				<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="시전*" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
 			</BnsCustomLabelWidget.String>
 			<BnsCustomLabelWidget.ExpansionComponentList>
-				<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="BackgroundFrameImage" MetaData="">
-					<ExpansionComponent.ImageProperty>
+				<UBnsCustomExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="BackgroundFrameImage" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="1 35" ImageUVSize="31 31" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
 			</BnsCustomLabelWidget.ExpansionComponentList>
 		</BnsCustomLabelWidget>
 		<BnsCustomLabelWidget Name="Skill3ToolTipPanel_2_ScaleTypeLabel" LayoutData.Offsets="88 0 82 33.000977" MetaData="textref=UI.Tooltip.Scale">
@@ -199,11 +199,11 @@
 				<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="범위*" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
 			</BnsCustomLabelWidget.String>
 			<BnsCustomLabelWidget.ExpansionComponentList>
-				<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="BackgroundFrameImage" MetaData="">
-					<ExpansionComponent.ImageProperty>
+				<UBnsCustomExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="BackgroundFrameImage" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="1 35" ImageUVSize="31 31" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
 			</BnsCustomLabelWidget.ExpansionComponentList>
 		</BnsCustomLabelWidget>
 		<BnsCustomLabelWidget Name="Skill3ToolTipPanel_2_CastingRangeLabel" LayoutData.Offsets="0 0 82 33.000977" MetaData="textref=UI.CreateCharacter.Distance">
@@ -211,11 +211,11 @@
 				<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="거리*" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
 			</BnsCustomLabelWidget.String>
 			<BnsCustomLabelWidget.ExpansionComponentList>
-				<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="BackgroundFrameImage" MetaData="">
-					<ExpansionComponent.ImageProperty>
+				<UBnsCustomExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="BackgroundFrameImage" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="1 35" ImageUVSize="31 31" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
 			</BnsCustomLabelWidget.ExpansionComponentList>
 		</BnsCustomLabelWidget>
 		<BnsCustomImageWidget Name="Skill3ToolTipPanel_2_Sub_ResizeDummy" LayoutData.Offsets="-10 0 0 64">
@@ -228,11 +228,11 @@
 				<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="99 ~ 99m" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
 			</BnsCustomLabelWidget.String>
 			<BnsCustomLabelWidget.ExpansionComponentList>
-				<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="BackgroundFrameImage" MetaData="">
-					<ExpansionComponent.ImageProperty>
+				<UBnsCustomExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="BackgroundFrameImage" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="1 35" ImageUVSize="31 31" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
 			</BnsCustomLabelWidget.ExpansionComponentList>
 		</BnsCustomLabelWidget>
 		<BnsCustomLabelWidget Name="Skill3ToolTipPanel_2_ScaleType" LayoutData.Anchors="0 1 0 1" LayoutData.Offsets="88 0 82 78.00195">
@@ -240,34 +240,34 @@
 				<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="99m" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
 			</BnsCustomLabelWidget.String>
 			<BnsCustomLabelWidget.ExpansionComponentList>
-				<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="BackgroundFrameImage" MetaData="">
-					<ExpansionComponent.ImageProperty>
+				<UBnsCustomExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="BackgroundFrameImage" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="1 35" ImageUVSize="31 31" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="TypeImage" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="TypeImage" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/HUD_Icon_Menu_Test_nocomp.HUD_Icon_Menu_Test_nocomp" ImageUV="139 777" ImageUVSize="33 33" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="TypeImage_Diff_Before" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="TypeImage_Diff_Before" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/HUD_Icon_Menu_Test_nocomp.HUD_Icon_Menu_Test_nocomp" ImageUV="48 774" ImageUVSize="50 29" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="0 -20" Opacity="1" ImageScale="0.7" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="TypeImage_Diff_Next" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="TypeImage_Diff_Next" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/HUD_Icon_Menu_Test_nocomp.HUD_Icon_Menu_Test_nocomp" ImageUV="0 774" ImageUVSize="46 32" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Offset="0 20" Opacity="1" ImageScale="0.7" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
-				<ExpansionComponent bShow="true" ExpansionType="STRING" ExpansionName="Multi" MetaData="">
-					<ExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
+				<UBnsCustomExpansionComponent bShow="true" ExpansionType="STRING" ExpansionName="Multi" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-					</ExpansionComponent.ImageProperty>
-					<ExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent.StringProperty>
 						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="x9" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Bottom" Padding="5 5" Opacity="1" TextScale="1" AnimScale="1" />
-					</ExpansionComponent.StringProperty>
-				</ExpansionComponent>
+					</UBnsCustomExpansionComponent.StringProperty>
+				</UBnsCustomExpansionComponent>
 			</BnsCustomLabelWidget.ExpansionComponentList>
 		</BnsCustomLabelWidget>
 		<BnsCustomLabelWidget Name="Skill3ToolTipPanel_2_CastingTime" LayoutData.Anchors="0 1 0 1" LayoutData.Offsets="176 0 82 78.00195">
@@ -275,11 +275,11 @@
 				<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="1.0초" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
 			</BnsCustomLabelWidget.String>
 			<BnsCustomLabelWidget.ExpansionComponentList>
-				<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="BackgroundFrameImage" MetaData="">
-					<ExpansionComponent.ImageProperty>
+				<UBnsCustomExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="BackgroundFrameImage" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="1 35" ImageUVSize="31 31" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
 			</BnsCustomLabelWidget.ExpansionComponentList>
 		</BnsCustomLabelWidget>
 		<BnsCustomLabelWidget Name="Skill3ToolTipPanel_2_RecycleTime" LayoutData.Anchors="0 1 0 1" LayoutData.Offsets="264 0 82 78.00195" MetaData="Name.Skill.CastTime">
@@ -287,11 +287,11 @@
 				<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="1.0초" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
 			</BnsCustomLabelWidget.String>
 			<BnsCustomLabelWidget.ExpansionComponentList>
-				<ExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="BackgroundFrameImage" MetaData="">
-					<ExpansionComponent.ImageProperty>
+				<UBnsCustomExpansionComponent bShow="true" ExpansionType="IMAGE" ExpansionName="BackgroundFrameImage" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="1 35" ImageUVSize="31 31" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
 			</BnsCustomLabelWidget.ExpansionComponentList>
 		</BnsCustomLabelWidget>
 	</BnsCustomImageWidget>

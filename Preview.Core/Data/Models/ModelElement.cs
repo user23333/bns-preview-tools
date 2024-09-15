@@ -6,10 +6,11 @@ using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Data.Helpers;
+using Xylia.Preview.Data.Models.Document;
 using Xylia.Preview.Properties;
 
 namespace Xylia.Preview.Data.Models;
-public abstract class ModelElement : IElement
+public abstract class ModelElement : IElement, IArgument
 {
 	#region IElement
 	public Record Source { get; private set; }
@@ -52,6 +53,32 @@ public abstract class ModelElement : IElement
 		LoadHiddenField();
 	}
 
+	protected internal virtual void Load(XmlNode node, string tableDefName/*, AliasTable aliasTable*/)
+	{
+		//GameDataTableUtil.CheckAttribute(node, new string[]
+		//  {
+		//		"id",
+		//		"alias",
+		//		"zone"
+		//  });
+		//int num = Convert.ToInt32(node.Attributes["zone"].Value);
+		//short num2 = Convert.ToInt16(node.Attributes["id"].Value);
+		//string alias = AliasTable.MakeKey(tableDefName, node.Attributes["alias"].Value);
+		//long area = GameDataTableUtil.LoadMultiKeyRef(node.Attributes["area"], "ZoneArea", aliasTable, new ZoneAreaDataRefGenerator());
+		//ZoneRespawnData zoneRespawnData = new ZoneRespawnData(num, num2, alias, area);
+		//if (this._table.ContainsKey(zoneRespawnData.Key))
+		//{
+		//	throw new Exception(string.Format("already contains key {0}.{1}.", num, num2));
+		//}
+		//base.checkAlias(zoneRespawnData.Key, alias, aliasTable);
+		//this._table.Add(zoneRespawnData.Key, zoneRespawnData);
+	}
+
+	protected virtual void LoadHiddenField()
+	{
+
+	}
+
 	private static object Convert(Record record, string name, Type type)
 	{
 		if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(List<>))
@@ -64,7 +91,7 @@ public abstract class ModelElement : IElement
 			// create instance
 			var records = Activator.CreateInstance(type);
 			var add = records.GetType().GetMethod("Add", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
-			children.ForEach(child => add.Invoke(records, [child.As(recordType)]));
+			children.ForEach(child => add.Invoke(records, [child.To(recordType)]));
 
 			return records;
 		}
@@ -92,35 +119,25 @@ public abstract class ModelElement : IElement
 		}
 	}
 
-	protected internal virtual void Load(XmlNode node, string tableDefName/*, AliasTable aliasTable*/)
+	bool IArgument.TryGet(string name, out object value)
 	{
-		//GameDataTableUtil.CheckAttribute(node, new string[]
-		//  {
-		//		"id",
-		//		"alias",
-		//		"zone"
-		//  });
-		//int num = Convert.ToInt32(node.Attributes["zone"].Value);
-		//short num2 = Convert.ToInt16(node.Attributes["id"].Value);
-		//string alias = AliasTable.MakeKey(tableDefName, node.Attributes["alias"].Value);
-		//long area = GameDataTableUtil.LoadMultiKeyRef(node.Attributes["area"], "ZoneArea", aliasTable, new ZoneAreaDataRefGenerator());
-		//ZoneRespawnData zoneRespawnData = new ZoneRespawnData(num, num2, alias, area);
-		//if (this._table.ContainsKey(zoneRespawnData.Key))
-		//{
-		//	throw new Exception(string.Format("already contains key {0}.{1}.", num, num2));
-		//}
-		//base.checkAlias(zoneRespawnData.Key, alias, aliasTable);
-		//this._table.Add(zoneRespawnData.Key, zoneRespawnData);
-	}
+		if (Attributes.TryGetValue(name, out var pair))
+		{
+			value = pair.Value;
 
-	protected virtual void LoadHiddenField()
-	{
+			if (value is Record record && record.OwnerName == "text")
+				value = record.Attributes["text"];
 
+			return true;
+		}
+
+		value = null;
+		return false;
 	}
-	#endregion	
+	#endregion
 }
 
-public struct Ref<TElement> where TElement : ModelElement
+public struct Ref<TElement> : IHaveName where TElement : ModelElement
 {
 	#region Constructors
 	public Ref(Record value)
@@ -151,28 +168,26 @@ public struct Ref<TElement> where TElement : ModelElement
 	#endregion
 
 
-	#region	Instance
+	#region Fields
 	private readonly Record source;
 
 	private TElement _instance;
-	public TElement Instance => _instance ??= source?.As<TElement>();
+	public TElement Instance => _instance ??= source?.To<TElement>();
+	#endregion
 
-
+	#region	Methods
 	public static implicit operator TElement(Ref<TElement> value) => value.Instance;
-
 	public static implicit operator Ref<TElement>(TElement value) => new(value);
 	public static implicit operator Ref<TElement>(Record value) => new(value);
 
 	public static bool operator ==(Ref<TElement> left, Ref<TElement> right) => left.Equals(right);
 	public static bool operator !=(Ref<TElement> left, Ref<TElement> right) => !(left == right);
 
-
-	public readonly bool HasValue => source != null;
-
 	public override readonly int GetHashCode() => source?.GetHashCode() ?? 0;
-
 	public override readonly bool Equals(object obj) => obj is Ref<TElement> other && this.source == other.source;
 
+	public readonly bool HasValue => source != null;
+	string IHaveName.Name => Instance is IHaveName iName ? iName.Name : null;
 	public override string ToString() => Instance?.ToString();
 	#endregion
 }

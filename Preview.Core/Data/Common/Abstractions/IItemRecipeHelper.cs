@@ -31,14 +31,14 @@ public class ItemRecipeHelper
 	public short SuccessProbability { get; set; }
 	#endregion
 
-	#region Properies
+	#region Properties
 	public static float DiscountRate = 0.2F;
 
 	public Tuple<Item, short>[] SubItemList => LinqExtensions.Create(SubItem, SubItemCount);
 
 	public string Price => Money.Money;
 
-	public string DiscountPrice => new Integer(Money * (1 - DiscountRate)).Money;
+	public string DiscountPrice => new Integer((int)(Money * (1 - DiscountRate))).Money;
 
 	public string Guide { get; internal set; }
 	#endregion

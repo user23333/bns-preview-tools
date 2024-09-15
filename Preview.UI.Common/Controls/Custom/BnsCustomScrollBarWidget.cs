@@ -54,7 +54,7 @@ public class BnsCustomScrollBarWidget : BnsCustomBaseWidget
 
 			// update
 			var _offset = target.ScrollOffset;
-			if (widget.SliderBar.SliderOrientation == Orientation.Orient_Horizontal) target.ScrollOffset = new(_offset.X + offset, _offset.Y);
+			if (widget.SliderBar.SliderOrientation == EOrientation.Orient_Horizontal) target.ScrollOffset = new(_offset.X + offset, _offset.Y);
 			else target.ScrollOffset = new(_offset.X, _offset.Y + offset);
 
 			target.InvalidateArrange();

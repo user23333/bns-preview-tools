@@ -62,11 +62,11 @@ public class Settings : INotifyPropertyChanged
 			var data = Array.CreateInstance(type, strs.Length);
 
 			for (int i = 0; i < data.Length; i++)
-				data.SetValue(strs[i].As(type), i);
+				data.SetValue(strs[i].To(type), i);
 
 			return (T)(object)data;
 		}
-		else return value.As<T>();
+		else return value.To<T>();
 	}
 
 	public void SetValue(object value, string section = "Common", [CallerMemberName] string name = null)

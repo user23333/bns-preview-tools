@@ -26,7 +26,7 @@ public class RecordNameConverter : MarkupExtension, IValueConverter
 		return value?.ToString();
 	}
 
-	public string Convert(object value)
+	internal string Convert(object value)
 	{
 		return Convert(value, typeof(string), null, null) as string ?? "";
 	}

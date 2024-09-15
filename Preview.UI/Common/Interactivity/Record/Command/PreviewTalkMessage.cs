@@ -14,7 +14,7 @@ public class PreviewTalkMessage : RecordCommand
 		switch (record.OwnerName)
 		{
 			case "npctalkmessage":
-				var message = record.As<NpcTalkMessage>();
+				var message = record.To<NpcTalkMessage>();
 				var show = message.StepShow[0].LoadObject<UShowObject>();
 				Application.Current.Dispatcher.Invoke(() => new ShowObjectPlayer(show).Show());
 				break;

@@ -41,11 +41,22 @@ public partial class TextEditor : Window
 		foldingStrategy.UpdateFoldings(foldingManager, Editor.Document);
 	}
 
+
 	// Commands 
 	private void RegisterCommands(CommandBindingCollection commandBindings)
 	{
+		commandBindings.Add(new CommandBinding(ApplicationCommands.Properties, ChangeOptionCommand));
 		commandBindings.Add(new CommandBinding(ApplicationCommands.Copy, CopyCommand));
-		commandBindings.Add(new CommandBinding(ApplicationCommands.Properties, CopyDataCommand , CanExecuteCopyData));
+		commandBindings.Add(new CommandBinding(ApplicationCommands.Save, CopyDataCommand, CanExecuteCopyData));
+	}
+
+	private void ChangeOptionCommand(object sender, ExecutedRoutedEventArgs e)
+	{
+		var prop = Editor.Options.GetProperty(e.Parameter?.ToString());
+		if (prop is null) return;
+
+		var value = prop.GetValue(Editor.Options);
+		if (value is bool flag) prop.SetValue(Editor.Options, !flag);
 	}
 
 	private void CopyCommand(object sender, RoutedEventArgs e)

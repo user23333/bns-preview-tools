@@ -22,7 +22,7 @@ public partial class AudioPlayer
 	}
 	#endregion
 
-	#region Properies
+	#region Properties
 	static AudioPlayer? _instance;
 
 	public static AudioPlayer Instance

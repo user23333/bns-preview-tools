@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Xylia.Preview.Common.Attributes;
 using Xylia.Preview.Common.Extension;
@@ -199,24 +198,19 @@ internal class AttributeConverter
 	/// <param name="value"></param>
 	/// <param name="type"></param>
 	/// <returns></returns>
-	internal static object Convert(string name, object value, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] Type type)
+	internal static object Convert(string name, object value, Type type)
 	{
-		if (value is null || value.GetType() == type) return value;
-		else if (type == typeof(bool))
+		return value.To(type, () =>
 		{
-			if (value is BnsBoolean b) return (bool)b;
-			if (value is string s) return s.ToBool();
-		}
-		else if (type == typeof(string)) return value.ToString();
-		else if (type.IsEnum) return value.ToString().TryParseToEnum(type, out var seq) ? seq : default;
-		else if (type.IsGenericType)
-		{
-			var item = type.GetGenericTypeDefinition();
-			if (item == typeof(Ref<>)) return Activator.CreateInstance(type, value);
-		}
+			if (type.IsGenericType)
+			{
+				var item = type.GetGenericTypeDefinition();
+				if (item == typeof(Ref<>)) return Activator.CreateInstance(type, value);
+			}
 
-		Trace.WriteLine($"convert type failed: {name} ({value}) -> {type.Name}");
-		return value;
+			Debug.WriteLine($"convert type failed: {value} ({name}) -> {type.Name}");
+			return null;
+		});
 	}
 	#endregion
 }

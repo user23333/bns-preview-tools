@@ -7,6 +7,7 @@ using CUE4Parse.BNS.Assets.Exports;
 using SkiaSharp.Views.WPF;
 using Xylia.Preview.UI.Controls.Helpers;
 using Xylia.Preview.UI.Controls.Primitives;
+using Xylia.Preview.UI.Extensions;
 
 namespace Xylia.Preview.UI.Controls;
 
@@ -31,7 +32,7 @@ public class BnsCustomLabelButtonWidget : BnsCustomBaseWidget, ICommandSource
 
 	public BnsCustomLabelButtonWidget()
 	{
-		
+
 	}
 	#endregion
 
@@ -41,7 +42,7 @@ public class BnsCustomLabelButtonWidget : BnsCustomBaseWidget, ICommandSource
 	/// </summary>
 	protected virtual void OnClick()
 	{
-		RoutedEventArgs newEvent = new RoutedEventArgs(ClickEvent, this);
+		var newEvent = new RoutedEventArgs(ClickEvent, this);
 		RaiseEvent(newEvent);
 
 		if (Command != null && Command.CanExecute(CommandParameter))
@@ -63,8 +64,8 @@ public class BnsCustomLabelButtonWidget : BnsCustomBaseWidget, ICommandSource
 	{
 		get
 		{
-			Visual focusScope = FocusManager.GetFocusScope(this) as Visual;
-			return focusScope == null || VisualTreeHelper.GetParent(focusScope) == null;
+			var focusScope = FocusManager.GetFocusScope(this) as Visual;
+			return focusScope is null || VisualTreeHelper.GetParent(focusScope) == null;
 		}
 	}
 
@@ -145,10 +146,12 @@ public class BnsCustomLabelButtonWidget : BnsCustomBaseWidget, ICommandSource
 	#endregion
 
 	#region Properties and Events
+	public static readonly Type Owner = typeof(BnsCustomLabelButtonWidget);
+
 	/// <summary>
 	/// Event correspond to left mouse button click
 	/// </summary>
-	public static readonly RoutedEvent ClickEvent = EventManager.RegisterRoutedEvent("Click", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(BnsCustomLabelButtonWidget));
+	public static readonly RoutedEvent ClickEvent = EventManager.RegisterRoutedEvent("Click", RoutingStrategy.Bubble, typeof(RoutedEventHandler), Owner);
 
 	/// <summary>
 	/// Add / Remove ClickEvent handler
@@ -156,28 +159,9 @@ public class BnsCustomLabelButtonWidget : BnsCustomBaseWidget, ICommandSource
 	[Category("Behavior")]
 	public event RoutedEventHandler Click { add { AddHandler(ClickEvent, value); } remove { RemoveHandler(ClickEvent, value); } }
 
-	/// <summary>
-	///     The DependencyProperty for RoutedCommand
-	/// </summary>
-	public static readonly DependencyProperty CommandProperty = DependencyProperty.Register("Command",
-		typeof(ICommand), typeof(BnsCustomLabelButtonWidget),
-		  new FrameworkPropertyMetadata((ICommand)null, new PropertyChangedCallback(OnCommandChanged)));
-
-	/// <summary>
-	/// The DependencyProperty for the CommandParameter
-	/// </summary>
-	public static readonly DependencyProperty CommandParameterProperty = DependencyProperty.Register("CommandParameter",
-		typeof(object), typeof(BnsCustomLabelButtonWidget),
-		   new FrameworkPropertyMetadata((object)null, new PropertyChangedCallback(OnCommandParameterChanged)));
-
-	/// <summary>
-	///     The DependencyProperty for Target property
-	///     Flags:              None
-	///     Default Value:      null
-	/// </summary>
-	public static readonly DependencyProperty CommandTargetProperty = DependencyProperty.Register("CommandTarget",
-		typeof(IInputElement), typeof(BnsCustomLabelButtonWidget),
-		 new FrameworkPropertyMetadata((IInputElement)null));
+	public static readonly DependencyProperty CommandProperty = Owner.Register<ICommand>("Command", callback: OnCommandChanged);
+	public static readonly DependencyProperty CommandParameterProperty = Owner.Register<object>("CommandParameter", callback: OnCommandParameterChanged);
+	public static readonly DependencyProperty CommandTargetProperty = Owner.Register<IInputElement>("CommandTarget");
 
 	/// <summary>
 	///     The key needed set a read-only property.
@@ -327,9 +311,7 @@ public class BnsCustomLabelButtonWidget : BnsCustomBaseWidget, ICommandSource
 	}
 
 
-	public static DependencyProperty NormalImagePropertyProperty = DependencyProperty.Register(nameof(NormalImageProperty),
-		typeof(ImageProperty), typeof(BnsCustomLabelButtonWidget), new FrameworkPropertyMetadata((ImageProperty)default,
-		FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender));
+	public static readonly DependencyProperty NormalImagePropertyProperty = Owner.Register<ImageProperty>(nameof(NormalImageProperty), null, FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender);
 
 	public ImageProperty NormalImageProperty
 	{

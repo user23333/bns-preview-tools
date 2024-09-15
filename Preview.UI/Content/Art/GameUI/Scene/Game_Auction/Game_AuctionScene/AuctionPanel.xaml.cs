@@ -3,6 +3,6 @@ public partial class AuctionPanel
 {
 	public AuctionPanel()
 	{
-		InitializeComponent();
+		//InitializeComponent();
 	}
 }

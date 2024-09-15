@@ -40,9 +40,10 @@ internal class ElementConverter : TypeConverter
 	{
 		if (value is Record record)
 		{
-			if (!typeof(ModelElement).IsAssignableFrom(destinationType)) throw new InvalidCastException();
-
-			return record.Model ??= Get(destinationType, record.Owner.Name)?.CreateInstance(record);
+			if (typeof(ModelElement).IsAssignableFrom(destinationType))
+			{
+				return record.Model ??= Get(destinationType, record.Owner.Name)?.CreateInstance(record);
+			}
 		}
 
 		return base.ConvertTo(context, culture, value, destinationType);
@@ -103,7 +104,7 @@ internal class ElementConverter : TypeConverter
 
 		if (!string.IsNullOrWhiteSpace(subclass) && !Subs.TryGetValue(subclass, out type))
 		{
-			Debug.WriteLine($"cast object subclass failed: {BaseType} -> {subclass}");
+			Debug.WriteLine($"cast subclass failed: {BaseType} -> {subclass}");
 		}
 		#endregion
 

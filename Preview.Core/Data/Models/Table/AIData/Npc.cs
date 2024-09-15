@@ -734,30 +734,18 @@ public sealed class Npc : ModelElement
 			AttackAttributeBasePercent = AttackAttributeBasePercent,
 		};
 
-
-		Console.WriteLine(BossNpc.Instance?.BerserkSequenceInvokeTime);
-
-		var level = this.Level;
-		var masterylevel = this.MasteryLevel;
-
-		Console.WriteLine(this.Name2.GetText() + $" ({level})");
-
-		creature.TestMethod();
-
 		_ = this.AttackPerfectParryDamageModify;
 		_ = this.AttackAoePierceValue;
-
-		_ = this.AttackConcentrateValue;
 		_ = this.AttackCounterDamageModify;
 
 		Console.WriteLine($"parry reduce {this.DefendParryReduceModify + this.DefendParryReduceDiff} → " +
-			$"{AbilityFunction.DefendParryReducePercent.GetPercent(this.DefendParryReduceModify + this.DefendParryReduceDiff, level, this.DefendParryReducePercent):P3}");
+			$"{AbilityFunction.DefendParryReducePercent.GetPercent(this.DefendParryReduceModify + this.DefendParryReduceDiff, creature.Level, this.DefendParryReducePercent):P3}");
 
 		Console.WriteLine($"perfect parry reduce {this.DefendPerfectParryReduceModify} → " +
-			$"{AbilityFunction.DefendPerfectParryReducePercent.GetPercent(this.DefendPerfectParryReduceModify, level, this.DefendPerfectParryReducePercent):P3}");
+			$"{AbilityFunction.DefendPerfectParryReducePercent.GetPercent(this.DefendPerfectParryReduceModify, creature.Level, this.DefendPerfectParryReducePercent):P3}");
 
-		Console.WriteLine($"defend-counter {this.DefendCounterReduceModify} → " +
-			$"{AbilityFunction.DefendCounterReducePercent.GetPercent(this.DefendCounterReduceModify, level, this.DefendCounterReducePercent):P3}");
+		//Console.WriteLine($"defend-counter {this.DefendCounterReduceModify} → " +
+		//	$"{AbilityFunction.DefendCounterReducePercent.GetPercent(this.DefendCounterReduceModify, creature.level, this.DefendCounterReducePercent):P3}");
 
 		return creature;
 	}

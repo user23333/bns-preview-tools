@@ -12,14 +12,14 @@ internal class AbilityPageViewModel : ObservableObject
         var source = typeof(AbilityFunction)
             .GetProperties(BindingFlags.Static | BindingFlags.Public)
             .Select(x => x.GetValue(null))
-            .Where(x => x is AbilityFunction ability && ability.K != 0)
+            .Where(x => x is AbilityFunction ability && ability.IsValid)
             .OfType<AbilityFunction>();
 
         Source = new(source);
     }
 	#endregion
 
-	#region Properies
+	#region Properties
 	public ObservableCollection<AbilityFunction> Source { get; private set; }
 
 	public Func<double, string> PercentFormatter { get; } = (d) => $"{d:P2}";

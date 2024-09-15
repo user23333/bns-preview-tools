@@ -77,11 +77,11 @@ public sealed class ItemImproveOptionList : ModelElement, IItemRecipeHelper
 		for (sbyte i = 1; i <= 4; i++)
 		{
 			var CostMoney = Attributes.Get<int>("draw-cost-money-" + i);
-			var CostMainItem = Attributes.Get<Record>("draw-cost-main-item-" + i)?.As<Item>();
+			var CostMainItem = Attributes.Get<Item>("draw-cost-main-item-" + i);
 			if (CostMainItem is null) continue;
 
 			var CostMainItemCount = Attributes.Get<short>("draw-cost-main-item-count-" + i);
-			var CostSubItem = LinqExtensions.For(6, (id) => Attributes.Get<Record>($"draw-cost-sub-item-{i}-{id}")?.As<Item>());
+			var CostSubItem = LinqExtensions.For(6, (id) => Attributes.Get<Item>($"draw-cost-sub-item-{i}-{id}"));
 			var CostSubItemCount = LinqExtensions.For(6, (id) => Attributes.Get<short>($"draw-cost-sub-item-count-{i}-{id}"));
 
 			recipes.Add(new ItemRecipeHelper()

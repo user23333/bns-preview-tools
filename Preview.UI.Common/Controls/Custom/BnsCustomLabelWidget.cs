@@ -3,7 +3,6 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using CUE4Parse.BNS.Assets.Exports;
-using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Models;
 using Xylia.Preview.UI.Controls.Primitives;
 using Xylia.Preview.UI.Documents;
@@ -16,13 +15,6 @@ namespace Xylia.Preview.UI.Controls;
 /// </summary>
 public class BnsCustomLabelWidget : BnsCustomBaseWidget, IContentHost
 {
-	#region Constructors	
-	public BnsCustomLabelWidget()
-	{
-		SetValue(TimersProperty, new Dictionary<int, Time64>());
-	}
-	#endregion
-
 	#region Dependency Properties
 	private static readonly Type Owner = typeof(BnsCustomLabelWidget);
 	public static CopyMode CopyMode { get; set; } = CopyMode.Original;
@@ -43,7 +35,7 @@ public class BnsCustomLabelWidget : BnsCustomBaseWidget, IContentHost
 		set { SetValue(TextProperty, value); }
 	}
 
-	public HAlignment TextAlignment
+	public EHorizontalAlignment TextAlignment
 	{
 		get => String.HorizontalAlignment;
 		set => String.HorizontalAlignment = value;
@@ -56,15 +48,6 @@ public class BnsCustomLabelWidget : BnsCustomBaseWidget, IContentHost
 	{
 		get { return (TextArguments)GetValue(ArgumentsProperty); }
 		set { SetValue(ArgumentsProperty, _container.Arguments = value); }
-	}
-
-	public static readonly DependencyProperty TimersProperty = Owner.Register<IDictionary<int, Time64>>("Timers", null,
-		 FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.Inherits);
-
-	public IDictionary<int, Time64> Timers
-	{
-		get { return (IDictionary<int, Time64>)GetValue(TimersProperty); }
-		set { SetValue(TimersProperty, value); }
 	}
 	#endregion
 
@@ -81,12 +64,11 @@ public class BnsCustomLabelWidget : BnsCustomBaseWidget, IContentHost
 			CopyMode.Trimmed => TextContainer.Cut(TextExtension.Replace(raw, Arguments)),
 			CopyMode.Regular => TextExtension.Replace(raw, Arguments),
 			CopyMode.Original => raw,
-
 			_ => throw new NotSupportedException(),
 		};
 
-		if (string.IsNullOrWhiteSpace(text)) return;
-		Clipboard.SetText(text);
+		if (!string.IsNullOrWhiteSpace(text)) 
+			Clipboard.SetText(text);
 	}
 
 	protected override Size MeasureOverride(Size constraint)
@@ -97,6 +79,11 @@ public class BnsCustomLabelWidget : BnsCustomBaseWidget, IContentHost
 		return new Size(
 			Math.Max(size.Width, contentSize.Width),
 			Math.Max(size.Height, contentSize.Height));
+	}
+
+	protected override Size ArrangeOverride(Size constraint)
+	{
+		return base.ArrangeOverride(constraint);
 	}
 	#endregion
 
@@ -118,11 +105,6 @@ public class BnsCustomLabelWidget : BnsCustomBaseWidget, IContentHost
 
 
 	#region IContentHost
-	//-------------------------------------------------------------------
-	//
-	//  IContentHost
-	//
-	//-------------------------------------------------------------------
 	protected sealed override HitTestResult? HitTestCore(PointHitTestParameters hitTestParameters)
 	{
 		ArgumentNullException.ThrowIfNull(hitTestParameters);
@@ -145,7 +127,7 @@ public class BnsCustomLabelWidget : BnsCustomBaseWidget, IContentHost
 		return ie ?? this;
 	}
 
-	public ReadOnlyCollection<Rect>? GetRectangles(ContentElement child)
+	ReadOnlyCollection<Rect>? IContentHost.GetRectangles(ContentElement child)
 	{
 		ArgumentNullException.ThrowIfNull(child);
 
@@ -154,7 +136,7 @@ public class BnsCustomLabelWidget : BnsCustomBaseWidget, IContentHost
 		return null;
 	}
 
-	public IEnumerator<IInputElement> HostedElements
+	IEnumerator<IInputElement> IContentHost.HostedElements
 	{
 		get
 		{

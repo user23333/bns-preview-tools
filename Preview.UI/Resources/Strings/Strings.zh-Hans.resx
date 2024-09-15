@@ -147,8 +147,8 @@
   <data name="AbilityName.AttackPierceBasePercent" xml:space="preserve">
     <value>防御穿刺率</value>
   </data>
-  <data name="AbilityName.CounterEnhance" xml:space="preserve">
-    <value>CounterEnhance</value>
+  <data name="AbilityName.DefendCounterEnhance" xml:space="preserve">
+    <value>反击武功 强化</value>
   </data>
   <data name="AbilityName.DefenceParryDamageReduce" xml:space="preserve">
     <value>防御武功 强化</value>
@@ -946,5 +946,8 @@
   </data>
   <data name="DatabaseStudio_Definition_Tooltip" xml:space="preserve">
     <value>不知道选择哪个时，选择默认项</value>
+  </data>
+  <data name="Text_ShowEndOfLine" xml:space="preserve">
+    <value>显示换行符</value>
   </data>
 </root>

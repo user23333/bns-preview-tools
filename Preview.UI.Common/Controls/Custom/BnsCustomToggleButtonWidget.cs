@@ -120,7 +120,7 @@ public class BnsCustomToggleButtonWidget : BnsCustomLabelButtonWidget
 		// If RadioButton is checked we should uncheck the others in the same group
 		UpdateRadioButtonGroup();
 
-		ExpansionComponentList["checked"]?.SetShow(false);
+		ExpansionComponentList["checked"]?.SetExpansionShow(false);
 		RaiseEvent(e);
 	}
 
@@ -130,7 +130,7 @@ public class BnsCustomToggleButtonWidget : BnsCustomLabelButtonWidget
 	/// <param name="e">Event arguments for the routed event that is raised by the default implementation of this method.</param>
 	private void OnUnchecked(RoutedEventArgs e)
 	{
-		ExpansionComponentList["checked"]?.SetShow(true);
+		ExpansionComponentList["checked"]?.SetExpansionShow(true);
 		RaiseEvent(e);
 	}
 	#endregion

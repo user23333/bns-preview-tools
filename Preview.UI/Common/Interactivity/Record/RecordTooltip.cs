@@ -58,7 +58,7 @@ public sealed class RecordTooltip : ContentControl
 
 			case Record record when RecordTemplate.TryGetValue(record.Owner.Name, out var template):
 				visualTree = template.Invoke();
-				visualTree.DataContext = record.As<ModelElement>();
+				visualTree.DataContext = record.To<ModelElement>();
 				break;
 
 			default:
@@ -71,7 +71,6 @@ public sealed class RecordTooltip : ContentControl
 		Name = visualTree?.Name;
 	}
 	#endregion
-
 
 	#region Data
 	static readonly Dictionary<string, Func<FrameworkElement>> RecordTemplate = new(StringComparer.OrdinalIgnoreCase);

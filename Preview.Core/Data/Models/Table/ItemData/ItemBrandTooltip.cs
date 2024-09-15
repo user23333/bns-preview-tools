@@ -27,7 +27,7 @@ public sealed class ItemBrandTooltip : ModelElement
 	public RaceSeq2 EquipRace { get; set; }
 	#endregion
 
-	#region Properies
+	#region Properties
 	public ImageProperty FrontIcon => Attributes.Get<Icon>("icon")?.GetImage();
 	#endregion
 }

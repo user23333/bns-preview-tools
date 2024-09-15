@@ -4,25 +4,7 @@ using CUE4Parse.Compression;
 namespace Xylia.Preview.Data.Engine.DatData;
 public class FileTableEntry
 {
-	#region Fields
-	public string FilePath;
-	public byte Unknown_001;
-	public byte Unknown_002;
-	public bool IsCompressed;
-	public bool IsEncrypted;
-
-	public long FileDataOffset;        // (relative) offset
-	public long FileDataSizeSheared;   // without padding for AES
-	public long FileDataSizeStored;
-	public long FileDataSizeUnpacked;
-
-	public byte[] Padding;
-	private byte[] _data;
-	#endregion
-
 	#region Constructor
-	private BNSDat Owner { get; init; }
-
 	internal FileTableEntry(BNSDat owner, DataArchive archive)
 	{
 		Owner = owner;
@@ -55,8 +37,27 @@ public class FileTableEntry
 	}
 	#endregion
 
-	#region Methods
-	internal DataArchive DataArchive { get; set; }
+	#region Fields
+	public string FilePath;
+	public byte Unknown_001;
+	public byte Unknown_002;
+	public bool IsCompressed;
+	public bool IsEncrypted;
+
+	public long FileDataOffset;        // (relative) offset
+	public long FileDataSizeSheared;   // without padding for AES
+	public long FileDataSizeStored;
+	public long FileDataSizeUnpacked;
+	public byte[] Padding;
+	internal DataArchive DataArchive; 	
+
+	private byte[] _data;
+	#endregion
+
+	#region Properties
+	private BNSDat Owner { get; init; }
+
+	private bool IsBinaryXml => Owner.Params.BinaryXmlVersion != BinaryXmlVersion.None && (FilePath.EndsWith(".xml") || FilePath.EndsWith(".x16"));
 
 	public byte[] Data
 	{
@@ -71,28 +72,29 @@ public class FileTableEntry
 			{
 				var buffer = BNSDat.Unpack(DataArchive.CreateStream().ToArray(), FileDataSizeStored, FileDataSizeSheared, FileDataSizeUnpacked, IsEncrypted, Owner.IsCompressed, Owner.Params);
 
-				if (Owner.Params.BinaryXmlVersion > 0 &&
-					(FilePath.EndsWith(".xml") || FilePath.EndsWith(".x16")))
+				if (!IsBinaryXml) return buffer;
+				else
 				{
 					var Xml = new BXML_CONTENT(Owner.Params.XOR_KEY);
 					Xml.Read(buffer);
 
-					_data = Xml.ConvertToString();
+					return Xml.ConvertToString();
 				}
-				else _data = buffer;
 			}
 
 			return _data;
 		}
 	}
+	#endregion
 
+	#region Methods
 	internal void WriteHeader(DataArchiveWriter writer, bool Is64bit, int level, ref long FileDataOffset)
 	{
 		if (DataArchive is null)
 		{
 			var data = _data;
-			if (Owner.Params.BinaryXmlVersion > 0 &&
-				(FilePath.EndsWith(".xml") || FilePath.EndsWith(".x16")))
+
+			if (IsBinaryXml)
 			{
 				var bns_xml = new BXML_CONTENT(Owner.Params.XOR_KEY);
 				bns_xml.ConvertFrom(data, Owner.Params.BinaryXmlVersion);

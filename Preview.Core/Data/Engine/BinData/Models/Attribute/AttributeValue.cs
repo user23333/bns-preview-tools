@@ -9,14 +9,15 @@ using Xylia.Preview.Data.Engine.Definitions;
 namespace Xylia.Preview.Data.Models;
 /// <summary>
 /// Represent a Attribute Value
-/// </summary>
+/// </summary>			  
+[DebuggerDisplay("{RawValue}")]
 [JsonConverter(typeof(AttributeValueConverter))]
 public class AttributeValue : IComparable<AttributeValue>, IEquatable<AttributeValue>
 {
 	/// <summary>
 	/// Represent a NullValue
 	/// </summary>
-	public readonly static AttributeValue Null = new(null);
+	internal readonly static AttributeValue Null = new(null);
 
 	#region Constructor
 	internal AttributeValue(AttributeDefinition definition, object value)
