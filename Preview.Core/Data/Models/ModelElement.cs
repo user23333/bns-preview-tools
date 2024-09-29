@@ -101,7 +101,7 @@ public abstract class ModelElement : IElement, IArgument
 		if (attribute is null) return null;
 		else if (attribute.Repeat == 1)
 		{
-			return AttributeConverter.Convert(name, record.Attributes[name], type);
+			return AttributeConverter.ConvertTo(record.Attributes[name], type, name);
 		}
 		else if (!type.IsArray)
 		{
@@ -113,7 +113,7 @@ public abstract class ModelElement : IElement, IArgument
 			var value = Array.CreateInstance(type, attribute.Repeat);
 
 			for (int i = 0; i < value.Length; i++)
-				value.SetValue(AttributeConverter.Convert(name, record.Attributes[$"{name}-{i + 1}"], type), i);
+				value.SetValue(AttributeConverter.ConvertTo(record.Attributes[$"{name}-{i + 1}"], type, name), i);
 
 			return value;
 		}

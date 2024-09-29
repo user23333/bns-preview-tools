@@ -11,9 +11,9 @@ public static partial class EnumExtension
 		return def;
 	}
 
-	public static bool TryParseToEnum(this string str, Type type, out object value)
+	internal static bool TryParseToEnum(this string str, Type type, out object value)
 	{
-		value = default;
+		value = null;
 		if (string.IsNullOrWhiteSpace(str)) return false;
 		if (str.Contains('-')) return Enum.TryParse(type, str.Replace("-", null), true, out value);
 		if (byte.TryParse(str, out _) && Enum.TryParse(type, "N" + str, true, out value)) return true;

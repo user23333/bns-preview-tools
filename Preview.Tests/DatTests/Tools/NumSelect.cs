@@ -2,7 +2,7 @@
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Engine.Definitions;
 
-namespace Xylia.Preview.Tests.DatTool;
+namespace Xylia.Preview.Tests.DatTests.Tools;
 public partial class NumSelect : Form
 {
 	public NumSelect() => InitializeComponent();

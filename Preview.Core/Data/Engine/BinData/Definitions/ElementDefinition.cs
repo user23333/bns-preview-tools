@@ -17,7 +17,7 @@ public abstract class IElementDefinition
 
 	public List<AttributeDefinition> Attributes { get; } = [];
 	public List<AttributeDefinition> ExpandedAttributes { get; private set; } = [];
-	public List<ElementDefinition> Children { get; } = [];
+	public List<ElementDefinition> Children { get; set; } = [];
 	#endregion
 
 	#region Helper
@@ -83,7 +83,6 @@ public abstract class IElementDefinition
 	}
 	#endregion
 }
-
 
 public class ElementDefinition : IElementDefinition
 {

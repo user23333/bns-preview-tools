@@ -13,7 +13,7 @@ internal static partial class Commands
 		Console.WriteLine($"starting...");
 
 		bool status = false;
-		var provider = new GameFileProvider(UserSettings.Default.GameFolder);
+		using var provider = new GameFileProvider(UserSettings.Default.GameFolder);
 
 		// convert
 		path = provider.FixPath(path) ?? path;

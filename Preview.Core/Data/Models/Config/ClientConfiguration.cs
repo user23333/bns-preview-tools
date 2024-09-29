@@ -41,18 +41,18 @@ public class ClientConfiguration : ConfigTable
 			if (!options.ContainsKey(group + "x")) group += "1-";
 
 			// struct
-			x = (options.GetValueOrDefault(group + "x")?.value).ToFloat32();
-			y = (options.GetValueOrDefault(group + "y")?.value).ToFloat32();
-			a_h = (options.GetValueOrDefault(group + "a-h")?.value).ToInt32();
-			a_v = (options.GetValueOrDefault(group + "a-v")?.value).ToInt32();
+			x = (options.GetValueOrDefault(group + "x")?.value).To<float>();
+			y = (options.GetValueOrDefault(group + "y")?.value).To<float>();
+			a_h = (options.GetValueOrDefault(group + "a-h")?.value).To<int>();
+			a_v = (options.GetValueOrDefault(group + "a-v")?.value).To<int>();
 			name = (options.GetValueOrDefault(group + "n")?.value);
-			o = (options.GetValueOrDefault(group + "o")?.value).ToInt32();
-			l_h_t = (options.GetValueOrDefault(group + "l-h-t")?.value).ToInt32();
-			l_v_t = (options.GetValueOrDefault(group + "l-v-t")?.value).ToInt32();
-			l_h_o_1 = (options.GetValueOrDefault(group + "l-h-o-1")?.value).ToFloat32();
-			l_v_o_1 = (options.GetValueOrDefault(group + "l-v-o-1")?.value).ToFloat32();
-			l_h_o_2 = (options.GetValueOrDefault(group + "l-h-o-2")?.value).ToFloat32();
-			l_v_o_2 = (options.GetValueOrDefault(group + "l-v-o-2")?.value).ToFloat32();
+			o = (options.GetValueOrDefault(group + "o")?.value).To<int>();
+			l_h_t = (options.GetValueOrDefault(group + "l-h-t")?.value).To<int>();
+			l_v_t = (options.GetValueOrDefault(group + "l-v-t")?.value).To<int>();
+			l_h_o_1 = (options.GetValueOrDefault(group + "l-h-o-1")?.value).To<float>();
+			l_v_o_1 = (options.GetValueOrDefault(group + "l-v-o-1")?.value).To<float>();
+			l_h_o_2 = (options.GetValueOrDefault(group + "l-h-o-2")?.value).To<float>();
+			l_v_o_2 = (options.GetValueOrDefault(group + "l-v-o-2")?.value).To<float>();
 			l_h_tn_1 = (options.GetValueOrDefault(group + "l-h-tn-1")?.value);
 			l_v_tn_1 = (options.GetValueOrDefault(group + "l-v-tn-1")?.value);
 			l_h_tn_2 = (options.GetValueOrDefault(group + "l-h-tn-2")?.value);
@@ -107,7 +107,7 @@ public class ClientConfiguration : ConfigTable
 		if (process is null) Console.WriteLine("process not found");
 
 		// option
-		//var UiScale = (hash.GetValueOrDefault("ui-scale")?.value).ToInt32();
+		//var UiScale = (hash.GetValueOrDefault("ui-scale")?.value).To<int>();
 		//var controls = Linq.For(150, id => new HUDControl($"hc-{id}-", hash));
 
 

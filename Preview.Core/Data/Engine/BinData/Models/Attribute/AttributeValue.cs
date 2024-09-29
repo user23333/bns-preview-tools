@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using Newtonsoft.Json;
 using Xylia.Preview.Data.Client;
+using Xylia.Preview.Data.Common;
 using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Engine.BinData.Helpers;
 using Xylia.Preview.Data.Engine.Definitions;
@@ -318,7 +319,22 @@ public class AttributeValue : IComparable<AttributeValue>, IEquatable<AttributeV
 		return left.AsFloat / right.AsFloat;
 	}
 
-	public override string ToString() => this.RawValue?.ToString();
+	public override string ToString()
+	{
+		// convert
+		var value = this.RawValue;
+		var text = value switch
+		{
+			float f => f.ToString("0.00"),
+			ITime { Ticks: 0 } => null,
+			Record record when Definition.Type == AttributeType.TTRef => $"{record.OwnerName}:{value}",
+			_ => value?.ToString(),
+		};
+
+		// check default
+		if (text == Definition.DefaultValue) return null;
+		return text;
+	}
 	#endregion
 
 	#region IComparable, IEquatable		   

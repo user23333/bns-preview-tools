@@ -16,11 +16,11 @@ public partial class AbilitySetting
     private void GetFactor_Click(object sender, RoutedEventArgs e)
     {
         #region Initialize
-        int value1 = Page1_Value1.Text.ToInt32();
-        int value2 = Page1_Value2.Text.ToInt32();
-        double extra = Txt_Inital.Text.ToDouble();
-        double percent1 = Page1_Percent1.Text.ToDouble() - extra;
-        double percent2 = Page1_Percent2.Text.ToDouble() - extra;
+        int value1 = Page1_Value1.Text.To<int>();
+		int value2 = Page1_Value2.Text.To<int>();
+        double extra = Txt_Inital.Text.To<double>();
+        double percent1 = Page1_Percent1.Text.To<double>() - extra;
+        double percent2 = Page1_Percent2.Text.To<double>() - extra;
         #endregion
 
         #region Calculate
@@ -28,7 +28,7 @@ public partial class AbilitySetting
 
         if (Page1_k_Lock.IsChecked == true)
         {
-            k = Page1_k.Text.ToDouble();
+            k = Page1_k.Text.To<double>();
             A = ((value1 * k / percent1 - value1) + (value2 * k / percent2 - value2)) / 2;
         }
         else

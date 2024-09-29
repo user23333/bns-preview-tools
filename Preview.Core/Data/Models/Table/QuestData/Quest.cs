@@ -6,7 +6,6 @@ using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models.Sequence;
 using Xylia.Preview.Data.Models.Sequence.Combat;
-using static Xylia.Preview.Data.Models.Duel;
 using static Xylia.Preview.Data.Models.PartyBattleFieldZone;
 
 namespace Xylia.Preview.Data.Models;
@@ -478,7 +477,14 @@ public abstract class Case : ModelElement
 			Lose,
 		}
 
-		public DuelType DuelType { get; set; }
+		public DuelTypeSeq DuelType { get; set; }
+		public enum DuelTypeSeq
+		{
+			None,
+			DeathMatch1VS1,
+			TagMatch3VS3,
+			SuddenDeath3VS3,
+		}
 
 		public ArenaMatchingRuleDetail ArenaMatchingRuleDetail { get; set; }
 

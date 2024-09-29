@@ -11,6 +11,7 @@ using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models;
+using Xylia.Preview.Data.Models.Document;
 using Xylia.Preview.Data.Models.Sequence;
 using Xylia.Preview.UI.Controls.Primitives;
 using Xylia.Preview.UI.Converters;
@@ -29,7 +30,7 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
 	#region Public Properties
 	public event EventHandler<MapInfo>? MapChanged;
 
-	private static readonly System.Type Owner = typeof(BnsCustomMinimapWidget);
+	private static readonly Type Owner = typeof(BnsCustomMinimapWidget);
 
 	public static readonly DependencyProperty MapInfoProperty = Owner.Register<MapInfo>(nameof(MapInfo), null,
 		FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender, OnMapChanged);
@@ -100,13 +101,6 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
 		else Zoom += 0.1;
 
 		e.Handled = true;
-	}
-
-	protected override void OnPreviewMouseLeftButtonDown(MouseButtonEventArgs e)
-	{
-		base.OnPreviewMouseLeftButtonDown(e);
-
-		var offset = Mouse.GetPosition(this);
 	}
 	#endregion
 
@@ -244,10 +238,10 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
 
 			if (mapunit is MapUnit.Attraction)
 			{
-				var obj = new Ref<ModelElement>(mapunit.Attributes.Get<Record>("attraction")).Instance;
-				if (obj is IAttration attraction)
+				var obj = mapunit.Attributes.Get<ModelElement>("attraction");  //tref
+				if (obj is IAttraction attraction)
 				{
-					tooltip = attraction.Name + "\n" + attraction.Description;
+					tooltip = attraction.Name + BR.Tag + attraction.Description;
 				}
 				else if (obj != null)
 				{
@@ -312,14 +306,24 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
 	/// <summary>
 	/// The axis direction is diffrent with the layout direction
 	/// </summary>
-	private FVector2D Parse(FVector position)
+	private Point Parse(FVector position)
 	{
-		if (MapInfo is null) return FVector2D.ZeroVector;
+		ArgumentNullException.ThrowIfNull(MapInfo);
 
 		float posX = (position.X - MapInfo.LocalAxisX) / MapInfo.Scale;
 		float posY = (position.Y - MapInfo.LocalAxisY) / MapInfo.Scale;
 
-		return new FVector2D(posY, MapInfo.ImageSize - posX);
+		return new Point(posY, MapInfo.ImageSize - posX);
+	}
+
+	public FVector Parse(Point point)
+	{
+		ArgumentNullException.ThrowIfNull(MapInfo);
+
+		return new FVector(
+			MapInfo.LocalAxisX + MapInfo.Scale * (MapInfo.ImageSize - point.Y),
+			MapInfo.LocalAxisY + MapInfo.Scale * point.X,
+			0);
 	}
 
 	/// <summary>
@@ -338,7 +342,7 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
 		}
 
 		LayoutData.SetAlignments(widget, new FVector2D(0.5f, 0.5f));
-		LayoutData.SetOffsets(widget, new FLayoutData.Offset(offset.X, offset.Y, size.Value.X, size.Value.Y));
+		LayoutData.SetOffsets(widget, new FLayoutData.Offset((float)offset.X, (float)offset.Y, size.Value.X, size.Value.Y));
 		Children.Add(widget);
 	}
 

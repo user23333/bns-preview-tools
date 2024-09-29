@@ -5,7 +5,7 @@ using Xylia.Preview.Data.Models.Sequence;
 using Xylia.Preview.UI.ViewModels;
 
 namespace Xylia.Preview.UI.Helpers.Output.Tables;
-public sealed class QuestEpic : OutSet
+internal sealed class QuestEpic : OutSet
 {
 	protected override void CreateData(ExcelPackage package)
 	{

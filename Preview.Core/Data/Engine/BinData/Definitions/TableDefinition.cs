@@ -10,28 +10,26 @@ namespace Xylia.Preview.Data.Engine.Definitions;
 public class TableDefinition : TableHeader
 {
 	#region Fields
+	public int MaxId;
+	public bool AutoKey;
+	public long Module;
+
+	/// <summary>
+	/// table search patterns 
+	/// </summary>
+	public string Pattern;
+
 	/// <summary>
 	/// element definitions
 	/// </summary>
 	public List<ElementDefinition> Els { get; internal set; } = [];
-
-	public int MaxId { get; set; }
-
-	public bool AutoKey { get; set; }
-
-	public long Module { get; set; }
 	#endregion
 
 	#region Properties
 	/// <summary>
-	/// table search patterns 
-	/// </summary>
-	public string Pattern { get; set; }
-
-	/// <summary>
 	/// root element
 	/// </summary>
-	public ElementDefinition ElRoot => Els.FirstOrDefault();
+	internal ElementDefinition ElRoot => Els.FirstOrDefault();
 
 	/// <summary>
 	/// main element
@@ -50,6 +48,14 @@ public class TableDefinition : TableHeader
 	#endregion
 
 	#region Methods
+	internal void SetChild(string el, params string[] child)
+	{
+		ElementDefinition Find(string name) => Els.Find(x => x.Name == name);
+
+		Find(el).Children = [.. child.Select(Find)];
+	}
+
+
 	public byte[] WriteXml()
 	{
 		using var ms = new MemoryStream();
@@ -61,6 +67,7 @@ public class TableDefinition : TableHeader
 		writer.WriteAttributeString("version", MajorVersion + "." + MinorVersion);
 		writer.WriteAttributeString("module", Module.ToString());
 		if (MaxId != 0) writer.WriteAttributeString("maxid", MaxId.ToString());
+		if (Pattern != null) writer.WriteAttributeString("pattern", Pattern);
 
 		foreach (var el in Els)
 		{
@@ -154,8 +161,8 @@ public class TableDefinition : TableHeader
 
 		foreach (var el in els)
 		{
-			var source = tableNode.SelectSingleNode($"./el[@name='{el.Name}']");
-			var Inherit = (source.Attributes["inherit"]?.Value).ToBool();
+			var source = (XmlElement)tableNode.SelectSingleNode($"./el[@name='{el.Name}']");
+			var Inherit = source.GetAttribute<bool>("inherit");
 			if (Inherit)
 			{
 				// TODO

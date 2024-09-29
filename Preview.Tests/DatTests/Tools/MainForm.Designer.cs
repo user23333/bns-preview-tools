@@ -1,4 +1,4 @@
-﻿namespace Xylia.Preview.Tests.DatTool
+﻿namespace Xylia.Preview.Tests.DatTests.Tools
 {
 	partial class MainForm
 	{

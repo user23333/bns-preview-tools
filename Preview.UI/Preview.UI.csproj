@@ -171,4 +171,8 @@
 		<Page Remove="Content\Art\GameUI\Scene\Game_QuestJournal\Game_QuestJournalScene\QuestJournalPanel.xaml" />
 		<Compile Remove="Content\Art\GameUI\Scene\Game_QuestJournal\Game_QuestJournalScene\QuestJournalPanel.xaml.cs" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Content\Art\V3\Scene\Game_NeoPass\" />
+	  <Folder Include="Content\Art\V2\" />
+	</ItemGroup>
 </Project>

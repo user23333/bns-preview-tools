@@ -9,7 +9,7 @@ using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.UI.Common.Converters;
 
 namespace Xylia.Preview.UI.Helpers.Output;
-public abstract class OutSet
+internal abstract class OutSet
 {
 	#region Constructor
 

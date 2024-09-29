@@ -7,6 +7,8 @@ using HandyControl.Controls;
 using Serilog;
 using Vanara.PInvoke;
 using Xylia.Preview.Common.Extension;
+using Xylia.Preview.Data.Helpers;
+using Xylia.Preview.Data.Models;
 using Xylia.Preview.UI.Helpers;
 using Xylia.Preview.UI.Helpers.Output;
 using Xylia.Preview.UI.Resources.Themes;
@@ -26,11 +28,12 @@ public partial class App : Application
 
 #if DEVELOP
 		UpdateSkin(SkinType.Default, true);
-		TestProvider.Set(new DirectoryInfo(@"D:\Tencent\BnsData\GameData_ZTx"));
+		TestProvider.Set(new System.IO.DirectoryInfo(@"D:\Tencent\BnsData\GameData_ZTx"));
 
 		//new Xylia.Preview.UI.Content.TestPanel().Show();
 		//var _ = PreviewModel.SnooperViewer;
 		//new GameUI.Scene.Game_Tooltip.Skill3ToolTipPanel_1().Show();
+		FileCache.Data.Provider.GetTable<SoulBoostSeason>()["SoulBoost_Season_0012"].TestMethod();
 #else
 		MainWindow = new MainWindow();
 		MainWindow.Show();

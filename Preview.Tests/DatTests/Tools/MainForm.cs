@@ -9,22 +9,12 @@ using Serilog.Events;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Data.Engine.Definitions;
-using Xylia.Preview.Tests.DatTests;
-using Xylia.Preview.Tests.DatTests.DatTool.Utils;
 using Xylia.Preview.Tests.Extensions;
 
-namespace Xylia.Preview.Tests.DatTool;
+namespace Xylia.Preview.Tests.DatTests.Tools;
 public partial class MainForm : Form
 {
 	#region Constructor
-	[STAThread]
-	static void Main()
-	{
-		Application.EnableVisualStyles();
-		Application.SetCompatibleTextRenderingDefault(false);
-		Application.Run(new MainForm());
-	}
-
 	public MainForm()
 	{
 		InitializeComponent();
@@ -33,7 +23,6 @@ public partial class MainForm : Form
 		CheckForIllegalCrossThreadCalls = false;
 
 		ReadConfig(this);
-
 
 		// register log
 		string template = "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level}] {Message:lj}{NewLine}{Exception}";
@@ -55,7 +44,7 @@ public partial class MainForm : Form
 			var value = IniHelper.Instance.ReadValue(SECTION, $"{c.FindForm().Name}_{c.Name}");
 			if (c is CheckBox checkBox)
 			{
-				if (!string.IsNullOrWhiteSpace(value)) checkBox.Checked = value.ToBool();
+				if (!string.IsNullOrWhiteSpace(value)) checkBox.Checked = value.To<bool>();
 				checkBox.CheckedChanged += (s, e) => IniHelper.Instance.WriteValue(SECTION, this.Name + "_" + c.Name, checkBox.Checked);
 			}
 			else if (c is TextBox textBox)

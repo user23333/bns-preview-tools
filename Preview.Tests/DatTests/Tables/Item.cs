@@ -3,7 +3,7 @@ using Xylia.Preview.Data.Models;
 using Xylia.Preview.Data.Models.Sequence;
 
 namespace Xylia.Preview.Tests.DatTests;
-public partial class Tables
+public partial class TableTests
 {
 	[TestMethod]
 	[DataRow("Spirit_0002")]
@@ -51,7 +51,7 @@ public partial class Tables
 	[DataRow(180000, 90, 107)]
 	[DataRow(240000, 1, 285)]
 	[DataRow(600000, 1, 714)]
-	public void TestData(int total, int rank, double arg3)
+	public void WorldBossRewardTest(int total, int rank, double arg3)
 	{
 		var record = Database.Provider.GetTable<WorldBossReward>()["ME_BC_DesertDragon_0001_reward"];
 		var result = record.GetPriceReward(total, rank);

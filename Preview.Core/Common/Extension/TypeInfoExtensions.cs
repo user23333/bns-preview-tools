@@ -4,7 +4,17 @@ using System.ComponentModel;
 namespace Xylia.Preview.Common.Extension;
 public static class TypeInfoExtensions
 {
-	public static T To<T>(this object value) => (T)To(value, typeof(T));
+	/// <summary>
+	///  Converts the given value object to the specified type
+	/// </summary>
+	/// <typeparam name="T">The type to convert the value parameter to</typeparam>
+	/// <param name="value">The object to convert</param>
+	/// <returns></returns>
+	public static T To<T>(this object value)
+	{
+		value = To(value, typeof(T));
+		return value is null ? default : (T)value;
+	}
 
 	internal static object To(this object value, Type type, Func<object> failFunc = null)
 	{

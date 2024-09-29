@@ -135,14 +135,15 @@ public abstract class Item : ModelElement, IHaveName
 			Bow,
 			Staff,
 			Dagger,
-			Pet1,
-			Pet2,
+			[Name("pet-1")] Pet1,
+			[Name("pet-2")] Pet2,
 			Gun,
 			GreatSword,
 			LongBow,
 			Spear,
 			Orb,
 			DualBlade,
+			Instrument,
 			COUNT
 		}
 	}
@@ -167,7 +168,6 @@ public abstract class Item : ModelElement, IHaveName
 			Sealed,
 			WeaponGemSlotAdder,
 			Messenger,
-			QuestReplayEpic,
 			BaseCampWarp,
 			PetFood,
 			ResetDungeon,
@@ -177,9 +177,10 @@ public abstract class Item : ModelElement, IHaveName
 			Scroll,
 			FusionSubitem,
 			Card,
-			Glyph,
-			SoulBoost,
-
+			Relic,
+			RelicMaterial,
+			StarStone,
+			Voucher,
 			COUNT
 		}
 	}
@@ -233,14 +234,16 @@ public abstract class Item : ModelElement, IHaveName
 			Rune2,
 			Nova,
 			Vehicle,
-			AppearanceNormalState,
-			AppearanceIdleState,
-			AppearanceChatting,
-			AppearancePortrait,
-			AppearanceHypermove,
-			AppearanceNamePlate,
-			AppearanceSpeechBubble,
-
+			NormalStateAppearance,
+			IdleStateAppearance,
+			ChattingSymbol,
+			PortraitAppearance,
+			HypermoveAppearance,
+			NamePlateAppearance,
+			SpeechBubbleAppearance,
+			TalkSocial,
+			Armlet1,
+			Armlet2,
 			COUNT
 		}
 	}

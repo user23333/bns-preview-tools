@@ -2,11 +2,9 @@
 using System.IO;
 using CUE4Parse.BNS;
 using CUE4Parse.BNS.Assets.Exports;
-using CUE4Parse.Compression;
 using CUE4Parse.UE4.Assets;
 using CUE4Parse.UE4.Assets.Exports.BuildData;
 using CUE4Parse.UE4.Assets.Exports.Texture;
-using CUE4Parse.UE4.Pak;
 using CUE4Parse.UE4.Writers;
 using CUE4Parse_Conversion.Textures;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -14,7 +12,6 @@ using Newtonsoft.Json;
 using Xylia.Preview.Tests.Extensions;
 
 namespace Xylia.Preview.Tests.PakTests;
-
 [TestClass]
 public partial class AssetExport
 {
@@ -60,31 +57,13 @@ public partial class AssetExport
 	}
 
 	[TestMethod]
-	public void MapTest(string name)
+	public void MapTest()
 	{
-		using GameFileProvider Provider = new(IniHelper.Instance.GameFolder);
-		var MapRegistry = Provider.LoadObject<UMapBuildDataRegistry>($"/Game/bns/Package/World/Area/{name}_BuiltData");
+		using var provider = new GameFileProvider(IniHelper.Instance.GameFolder);
 
-		throw new Exception(MapRegistry.ToString());
-	}
+		var umap = provider.LoadPackage("bnsr/content/neo_art/area/zncs_guildbase_p.umap");
 
 
-	[TestMethod]
-	[DataRow(@"C:\腾讯游戏\Blade_and_Soul\BNSR\Content\Paks")]
-	public void RepackTest(string OutDir)
-	{
-		var pak = new MyPakFileReader(@"BNSR\Content");
-		//pak.Add(@"F:\NewTest\WindowsNoEditor\TestPack\Content\MyTest\intro2_texture.uasset", @"local\tencent\ChineseS\package\Art\UI\GameUI\Resource\GameUI_Loading\intro2_texture.uasset");
-		//pak.Add(@"F:\NewTest\WindowsNoEditor\TestPack\Content\MyTest\intro2_texture.uexp", @"local\tencent\ChineseS\package\Art\UI\GameUI\Resource\GameUI_Loading\intro2_texture.uexp", CompressionMethod.Oodle);
-		pak.Add(@"C:\腾讯游戏\Blade_and_Soul\BNSR\Content\local\Tencent\data\xml64.dat", "local/Tencent/data/xml64.dat", CompressionMethod.None);
-		pak.Add(@"C:\腾讯游戏\Blade_and_Soul\BNSR\Content\local\Tencent\data\config64.dat", "local/Tencent/data/config64.dat", CompressionMethod.None);
-
-		pak.WriteToDir(OutDir , "Xylia_P.pak");
-
-#if true
-		var provider = new GameFileProvider(OutDir);
-		if (provider.TrySaveAsset(pak.MountPoint + @"\lisence.txt", out var data))
-			Console.WriteLine("data: " + BitConverter.ToString(data));
-#endif
+		//var MapRegistry = provider.LoadObject<UMapBuildDataRegistry>($"/Game/bns/Package/World/Area/{name}_BuiltData");
 	}
 }

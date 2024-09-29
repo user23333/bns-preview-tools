@@ -84,8 +84,8 @@ public abstract class TableHeader
 	public static (ushort, ushort) ParseVersion(string value)
 	{
 		var version = value.Split('.');
-		var major = (ushort)version.ElementAtOrDefault(0).ToInt16();
-		var minor = (ushort)version.ElementAtOrDefault(1).ToInt16();
+		var major = (ushort)version.ElementAtOrDefault(0).To<short>();
+		var minor = (ushort)version.ElementAtOrDefault(1).To<short>();
 
 		return (major, minor);
 	}

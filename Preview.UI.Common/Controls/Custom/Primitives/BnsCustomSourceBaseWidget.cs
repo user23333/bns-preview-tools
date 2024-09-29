@@ -887,7 +887,7 @@ public class BnsCustomSourceBaseWidget : BnsCustomBaseWidget
 
 		foreach (var item in Items)
 		{
-			var child = (FrameworkElement)this.ItemTemplate.LoadContent();
+			var child = (FrameworkElement)ItemTemplate.LoadContent();
 			child.DataContext = item;
 
 			panel.Children.Add(child);

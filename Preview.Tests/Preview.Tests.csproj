@@ -2,7 +2,7 @@
 	<PropertyGroup>
 		<TargetFramework>net8.0-windows</TargetFramework>
 		<RootNamespace>Xylia.Preview.Tests</RootNamespace>
-		<StartupObject>Xylia.Preview.Tests.DatTool.MainForm</StartupObject>
+		<StartupObject>Xylia.Preview.Tests.Program</StartupObject>
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<PlatformTarget>x64</PlatformTarget>

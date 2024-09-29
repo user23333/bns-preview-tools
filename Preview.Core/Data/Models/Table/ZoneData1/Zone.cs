@@ -28,7 +28,7 @@ public class Zone : ModelElement
 	#endregion
 }
 
-public interface IAttration : IHaveName, IHaveDesc
+public interface IAttraction : IHaveName, IHaveDesc
 {
 
 }

@@ -5,5 +5,7 @@ public sealed class RandomDistribution : ModelElement
 	public string Alias { get; set; }
 
 	public short[] Weight { get; set; }
+
+	public int TotalWeight { get; set; }
 	#endregion
 }

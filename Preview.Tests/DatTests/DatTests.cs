@@ -1,19 +1,26 @@
-﻿using System.IO;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
+using CUE4Parse.Compression;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Xylia.Preview.Data.Client;
 using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Engine.DatData;
-using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.Tests.DatTests;
-
 [TestClass]
-public partial class Tables
+public partial class DatTests
 {
-	private BnsDatabase Database { get; } = new(new FolderProvider(
-		new DirectoryInfo(@"D:\Tencent\BnsData\GameData_ZTx").GetDirectories()[^1].FullName));
+    [TestMethod]
+    public void Package()
+    {
+        var param = new PackageParam(@"D:\Tencent\BnsData\Test\data.pak")
+        {
+            FolderPath = @"D:\Tencent\BnsData\Test\data",
+            CompressionLevel = CompressionLevel.Fast,
+            BinaryXmlVersion = BinaryXmlVersion.None,
+            CompressionMethod = CompressionMethod.Oodle,
+        };
+
+        BNSDat.CreateFromDirectory(param);
+    }
 
 	[TestMethod]
 	public void SerializeTest()

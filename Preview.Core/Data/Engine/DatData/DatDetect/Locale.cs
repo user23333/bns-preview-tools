@@ -53,7 +53,7 @@ public struct Locale
 
 				Publisher = config["Locale"]["Publisher"].ToEnum<EPublisher>();
 				Language = config["Locale"]["Language"].ToEnum<ELanguage>();
-				Universe = config["Locale"]["Universe"].ToInt32();
+				Universe = config["Locale"]["Universe"].To<int>();
 				AdditionalPublisher = config["Locale"]["AdditionalPublisher"].ToEnum<EPublisher>();
 				return;
 			}

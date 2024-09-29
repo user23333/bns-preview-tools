@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Xylia.Preview.Data.Models.Config;
 
 namespace Xylia.Preview.Tests.DatTests;
-public partial class Tables
+public partial class TableTests
 {
 	[TestMethod]
 	[DataRow(@"C:\Users\Xylia\Pictures\BnS\截图00000.jpg")]

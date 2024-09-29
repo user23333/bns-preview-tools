@@ -1,4 +1,6 @@
-﻿namespace Xylia.Preview.Common.Extension;
+﻿using Xylia.Preview.Data.Models;
+
+namespace Xylia.Preview.Common.Extension;
 public static class LinqExtensions
 {
 	#region IEnumerable
@@ -94,6 +96,13 @@ public static class LinqExtensions
 		}
 
 		return source;
+	}
+	#endregion
+
+	#region Expand
+	public static IEnumerable<T> Values<T>(this IEnumerable<Ref<T>> source) where T : ModelElement
+	{
+		return source.Select(x => x.Instance).Where(x => x != null);
 	}
 	#endregion
 }

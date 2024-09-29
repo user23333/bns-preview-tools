@@ -24,10 +24,10 @@ public class AttributeDefinition
 	public SequenceDefinition Sequence { get; set; }
 
 	public string DefaultValue { get; set; }
-	public long Max { get; set; }
 	public long Min { get; set; }
-	public float FMax { get; set; }
+	public long Max { get; set; }
 	public float FMin { get; set; }
+	public float FMax { get; set; }
 
 	public ReleaseSide Side { get; set; } = ReleaseSide.Client | ReleaseSide.Server;
 	#endregion
@@ -148,7 +148,7 @@ public class AttributeDefinition
 					break;
 
 				case AttributeType.TFloat32:
-					DefaultValue = DefaultValue.ToFloat32().ToString("0.00");
+					DefaultValue = DefaultValue.To<float>().ToString("0.00");
 					if (FMinValue == 0) FMinValue = float.MinValue;
 					if (FMaxValue == 0) FMaxValue = float.MaxValue;
 					break;

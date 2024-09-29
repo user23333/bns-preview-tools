@@ -292,6 +292,6 @@ public class AttributeCollection : IReadOnlyList<AttributeValue>
 
 	public AttributeValue this[int index] => throw new NotImplementedException();
 
-	public override string ToString() => this.Aggregate($"<{record.Name} ", (sum, now) => sum + $"{now.Name}=\"{now.RawValue}\" ", result => result + "/>");
+	public override string ToString() => this.Aggregate($"<{record.Name} ", (sum, now) => sum + $"{now.Name}=\"{now}\" ", result => result + "/>");
 	#endregion
 }

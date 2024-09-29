@@ -11,7 +11,7 @@ internal static partial class Commands
 {
     public static void Soundwave_output()
     {
-		var provider = new GameFileProvider(UserSettings.Default.GameFolder, true);
+		using var provider = new GameFileProvider(UserSettings.Default.GameFolder, true);
 		var assets = provider.AssetRegistryModule.GetAssets(x => x.AssetClass.Text == "SoundWave").ToArray();
 		Console.WriteLine($"total: {assets.Length}");
 

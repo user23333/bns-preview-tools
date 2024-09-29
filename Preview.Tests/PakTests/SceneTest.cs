@@ -12,7 +12,6 @@ using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Tests.Extensions;
 
 namespace Xylia.Preview.Tests.PakTests;
-
 [TestClass]
 public class SceneTest
 {

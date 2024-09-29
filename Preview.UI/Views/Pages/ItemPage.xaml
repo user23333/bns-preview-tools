@@ -63,7 +63,7 @@
 			<StackPanel>
 				<Button Content="TestButton1" Click="TestButton1_Click" />
 				
-				<c:BnsCustomLabelWidget x:Name="TestLabel">
+				<c:BnsCustomLabelWidget x:Name="TestLabel" Width="500">
 					<c:BnsCustomLabelWidget.Text>
 						<![CDATA[123]]>
 					</c:BnsCustomLabelWidget.Text>
