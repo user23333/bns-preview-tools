@@ -12,9 +12,9 @@ public partial class RewardTooltipPanel
 	{
 		InitializeComponent();
 
-		Column1.String.LabelText = StringHelper.Get("Text_Name");
-		Column2.String.LabelText = StringHelper.Get("Text_Group");
-		Column3.String.LabelText = StringHelper.Get("Text_Info");
+		Column1.String.LabelText = StringHelper.Get("Text.Name");
+		Column2.String.LabelText = StringHelper.Get("Text.Group");
+		Column3.String.LabelText = StringHelper.Get("Text.Info");
 	}
 	#endregion
 

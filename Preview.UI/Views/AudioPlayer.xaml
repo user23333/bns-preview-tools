@@ -35,7 +35,7 @@
 				<TextBlock Grid.Row="2" Grid.Column="0" Text="{DynamicResource AudioPlayer_Encoding}" d:Text="Encoding" VerticalAlignment="Center" Margin="0 0 0 10" />
 				<TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding Selected.Encoding}" VerticalAlignment="Center" HorizontalAlignment="Right" />
 
-				<TextBlock Grid.Row="3" Grid.Column="0" Text="{DynamicResource Text_FileSize}" d:Text="FileSize" VerticalAlignment="Center" Margin="0 0 0 10" />
+				<TextBlock Grid.Row="3" Grid.Column="0" Text="{DynamicResource Text.FileSize}" d:Text="FileSize" VerticalAlignment="Center" Margin="0 0 0 10" />
 				<TextBlock Grid.Row="3" Grid.Column="2" Text="{Binding Selected.Length}" VerticalAlignment="Center" HorizontalAlignment="Right" />
 
 				<TextBlock Grid.Row="4" Grid.Column="0" Text="{DynamicResource AudioPlayer_BytesPerSecond}" d:Text="Bytes Per Second" VerticalAlignment="Center" />

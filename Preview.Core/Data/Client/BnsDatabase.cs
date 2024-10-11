@@ -2,15 +2,14 @@
 using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Data.Engine.Definitions;
 using Xylia.Preview.Data.Models;
-using Xylia.Preview.Properties;
 
 namespace Xylia.Preview.Data.Client;
 public class BnsDatabase : IEngine, IDisposable
 {
 	#region Constructorss
-	public BnsDatabase(IDataProvider provider = null, DatafileDefinition definition = null)
+	public BnsDatabase(IDataProvider provider, DatafileDefinition definition = null)
 	{
-		_provider = provider ?? DefaultProvider.Load(Settings.Default.GameFolder);
+		_provider = provider;
 		_definition = definition ?? new DefaultDatafileDefinition();
 
 		ArgumentNullException.ThrowIfNull(_provider);

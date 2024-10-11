@@ -10,12 +10,12 @@ public class ModelView : Snooper
 	}
 
 
-	public ModelData[] Models { get; set; }
+	public ModelData[]? Models { get; set; }
 	public ModelData? SelectedData { get; private set; }
 
 	public bool TryLoadExport(CancellationToken token, ModelData? models = null)
 	{
-		SelectedData = models ?? Models.FirstOrDefault();
+		SelectedData = models ?? Models?.FirstOrDefault();
 		if (SelectedData is null) return false;
 
 		// render

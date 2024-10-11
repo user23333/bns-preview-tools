@@ -42,7 +42,7 @@
 			</ItemsControl>
 		</Grid>
 
-		<Button Content="{DynamicResource Text_Ok}" Command="{Binding SuccessCommand}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10 10" />
+		<Button Content="{DynamicResource Text.Ok}" Command="{Binding SuccessCommand}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10 10" />
 		<Button Command="{Binding CloseCommand}" Style="{StaticResource ButtonIcon}" Foreground="{DynamicResource PrimaryBrush}" hc:IconElement.Geometry="{StaticResource ErrorGeometry}" Width="30" Height="30" Padding="0" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.ColumnSpan="2" />
 	</Grid>
 </Border>

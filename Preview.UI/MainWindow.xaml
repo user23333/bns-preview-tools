@@ -11,7 +11,7 @@
 	<hc:Window.NonClientAreaContent>
 		<Grid>
 			<Menu HorizontalAlignment="Right" VerticalAlignment="Center">
-				<MenuItem Header="{DynamicResource Text_Repository}">
+				<MenuItem Header="{DynamicResource Text.Repository}">
 					<MenuItem Header="{DynamicResource Application_Github}" Command="hc:ControlCommands.OpenLink" CommandParameter="https://github.com/XyliaUp/bns-preview-tools">
 						<MenuItem.Icon>
 							<Path Data="{StaticResource GithubGeometry}" Fill="{DynamicResource PrimaryTextBrush}" />
@@ -134,7 +134,7 @@
 						<TextBlock VerticalAlignment="Bottom" Margin="10 5" Foreground="{DynamicResource SecondaryTextBrush}">
 							<TextBlock.ToolTip>
 								<TextBlock>
-								<Run Text="{DynamicResource Text_PublishOn}" />
+								<Run Text="{DynamicResource Text.PublishOn}" />
 								<Run Text="{Binding Source={x:Static VM:VersionHelper.Time},Mode=OneWay,StringFormat={}{0:D}}" />
 								</TextBlock>
 							</TextBlock.ToolTip>

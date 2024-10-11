@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Diagnostics;
 using Newtonsoft.Json;
+using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Client;
 using Xylia.Preview.Data.Common;
 using Xylia.Preview.Data.Common.DataStruct;
@@ -141,33 +142,36 @@ public class AttributeValue : IComparable<AttributeValue>, IEquatable<AttributeV
 	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 	public AttributeDocument AsDocument => this as AttributeDocument;
 
+	public T As<T>() => this.RawValue.To<T>();
+
+
 
 	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	public bool AsBoolean => (BnsBoolean?)this.RawValue ?? false;
+	public bool AsBoolean => this.RawValue.To<bool>();
 
 	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	public string AsString => (string)this.RawValue;
+	public string AsString => this.RawValue.To<string>();
 
 	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	public int AsInt8 => Convert.ToSByte(this.RawValue);
+	public int AsInt8 => this.RawValue.To<sbyte>();
 
 	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	public short AsInt16 => Convert.ToInt16(this.RawValue);
+	public short AsInt16 => this.RawValue.To<short>();
 
 	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	public int AsInt32 => Convert.ToInt32(this.RawValue);
+	public int AsInt32 => this.RawValue.To<int>();
 
 	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	public long AsInt64 => Convert.ToInt64(this.RawValue);
+	public long AsInt64 => this.RawValue.To<long>();
 
 	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	public float AsFloat => Convert.ToSingle(this.RawValue);
+	public float AsFloat => this.RawValue.To<float>();
 
 	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	internal decimal AsDecimal => Convert.ToDecimal(this.RawValue);
+	internal decimal AsDecimal => this.RawValue.To<decimal>();
 
 	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	public DateTime AsDateTime => (DateTime)this.RawValue;
+	public DateTime AsDateTime => this.RawValue.To<DateTime>();
 	#endregion
 
 	#region IsTypes

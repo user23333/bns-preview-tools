@@ -51,7 +51,7 @@ public sealed class ItemImprove : ModelElement, IItemRecipeHelper
 			var CostSubItem = LinqExtensions.For(8, (id) => Attributes.Get<Item>($"cost-sub-item-{i}-{id}"));
 			var CostSubItemCount = LinqExtensions.For(8, (id) => Attributes.Get<short>($"cost-sub-item-count-{i}-{id}"));
 			var SuccessProbability = Attributes.Get<short>("success-probability-" + i);
-			var UseSuccessProbability = Attributes.Get<BnsBoolean>("use-success-probability-" + i);
+			var UseSuccessProbability = Attributes.Get<bool>("use-success-probability-" + i);
 			var FailLevelDiff = Attributes.Get<sbyte>("fail-level-diff-" + i);
 
 			string Warning = !UseSuccessProbability ? null :

@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Threading;
 using CUE4Parse.BNS.Assets.Exports;
 using SkiaSharp.Views.WPF;
 using Xylia.Preview.Common.Extension;
@@ -70,7 +71,7 @@ public abstract class BnsCustomBaseWidget : UserWidget
 		set { SetValue(ExpansionComponentListProperty, value); }
 	}
 
-	public IDictionary<int, Time64> Timers
+	internal IDictionary<int, Time64> Timers
 	{
 		get { return (IDictionary<int, Time64>)GetValue(TimersProperty); }
 		set { SetValue(TimersProperty, value); }
@@ -123,7 +124,10 @@ public abstract class BnsCustomBaseWidget : UserWidget
 
 		// return if in design
 		if (DesignerProperties.GetIsInDesignMode(d)) return;
-		await Task.Run(() => FileCache.Data.Provider.GetTable<Text>());
+
+		// HACK: wait to load text data 
+		var provider = FileCache.Data.Provider;
+		await Task.Run(() => provider.GetTable<Text>());
 
 		foreach (var meta in s.Split(';'))
 		{
@@ -167,6 +171,23 @@ public abstract class BnsCustomBaseWidget : UserWidget
 	protected void UpdateTooltip(string text)
 	{
 		this.ToolTip = text;
+	}
+	#endregion
+
+	#region Timer
+	public void SetTimer(byte index, Time64 time)
+	{
+		// HACK: redraw
+		if (Timers.Count == 0)
+		{
+			var timer = new DispatcherTimer();
+			timer.Tick += ((s, e) => this?.InvalidateVisual());
+			timer.Interval = new TimeSpan(0, 0, 0, 1);
+			timer.IsEnabled = true;
+			timer.Start();
+		}
+
+		Timers[index] = time;
 	}
 	#endregion
 

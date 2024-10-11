@@ -20,7 +20,7 @@ public struct Locale
     /// <summary>
     /// Indicates whether the provider is a special server
     /// </summary>
-    public bool IsNeo => Publisher is EPublisher.ZNcs or EPublisher.ZTx;
+    public readonly bool IsNeo => Publisher is EPublisher.ZNcs or EPublisher.ZTx;
     #endregion
 
 	#region Methods

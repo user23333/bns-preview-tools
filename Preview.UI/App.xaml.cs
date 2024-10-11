@@ -27,6 +27,10 @@ public partial class App : Application
 		InitializeArgs(e.Args);
 
 #if DEVELOP
+		var view = Xylia.Preview.UI.Common.Interactivity.PreviewModel. ModelViewer;
+		view.Run();
+		return;
+
 		UpdateSkin(SkinType.Default, true);
 		TestProvider.Set(new System.IO.DirectoryInfo(@"D:\Tencent\BnsData\GameData_ZTx"));
 

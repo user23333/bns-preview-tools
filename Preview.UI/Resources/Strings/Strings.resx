@@ -147,9 +147,6 @@
   <data name="AbilityName.AttackPierceBasePercent" xml:space="preserve">
     <value>AttackPierceBasePercent</value>
   </data>
-  <data name="AbilityName.DefendCounterEnhance" xml:space="preserve">
-    <value>CounterEnhance</value>
-  </data>
   <data name="AbilityName.DefenceParryDamageReduce" xml:space="preserve">
     <value>DefenceParryDamageReduce</value>
   </data>
@@ -158,6 +155,9 @@
   </data>
   <data name="AbilityName.DefendBouncePercent" xml:space="preserve">
     <value>DefendBouncePercent</value>
+  </data>
+  <data name="AbilityName.DefendCounterEnhance" xml:space="preserve">
+    <value>CounterEnhance</value>
   </data>
   <data name="AbilityName.DefendCounterReducePercent" xml:space="preserve">
     <value>DefendCounterReducePercent</value>
@@ -200,6 +200,9 @@
   </data>
   <data name="AbilityName.SupportPowerBasePercent" xml:space="preserve">
     <value>SupportPowerBasePercent</value>
+  </data>
+  <data name="AbilityPage_ChartTitle" xml:space="preserve">
+    <value>{0} converted percent in Lv{1}</value>
   </data>
   <data name="AbilityPage_Level" xml:space="preserve">
     <value>Level</value>
@@ -298,6 +301,9 @@ Expand the response rectange with item preview.</value>
   <data name="Asset_Repack" xml:space="preserve">
     <value>Repack</value>
   </data>
+  <data name="AttributeEditor_Name" xml:space="preserve">
+    <value>Attribute Editor</value>
+  </data>
   <data name="AudioPlayer_BytesPerSecond" xml:space="preserve">
     <value>BytesPerSecond</value>
   </data>
@@ -336,6 +342,12 @@ Expand the response rectange with item preview.</value>
   </data>
   <data name="DatabaseStudio_ConnectMessage2" xml:space="preserve">
     <value>It is global data provider currently. Are you still sure to disconnect?</value>
+  </data>
+  <data name="DatabaseStudio_Definition" xml:space="preserve">
+    <value>Definition Version</value>
+  </data>
+  <data name="DatabaseStudio_Definition_Tooltip" xml:space="preserve">
+    <value>Select the default item if you don't know which one is want.</value>
   </data>
   <data name="DatabaseStudio_Disconnect" xml:space="preserve">
     <value>Disconnect</value>
@@ -614,9 +626,6 @@ Expand the response rectange with item preview.</value>
     <value>Blade &amp; Soul Preview Tool</value>
     <comment>Title</comment>
   </data>
-  <data name="AttributeEditor_Name" xml:space="preserve">
-    <value>Attribute Editor</value>
-  </data>
   <data name="QuestJournal_Category" xml:space="preserve">
     <value>Category</value>
   </data>
@@ -725,8 +734,119 @@ Expand the response rectange with item preview.</value>
   <data name="TableView_Name" xml:space="preserve">
     <value>Table View</value>
   </data>
+  <data name="Text.Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="Text.AnimSequence" xml:space="preserve">
+    <value>Anim Sequence</value>
+  </data>
+  <data name="Text.Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Text.ColumnNumber" xml:space="preserve">
+    <value>Column</value>
+  </data>
+  <data name="Text.Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Text.Export" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="Text.Extract" xml:space="preserve">
+    <value>Extract</value>
+  </data>
+  <data name="Text.File" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="Text.FileSize" xml:space="preserve">
+    <value>Length</value>
+  </data>
+  <data name="Text.Group" xml:space="preserve">
+    <value>Group</value>
+  </data>
+  <data name="Text.Import" xml:space="preserve">
+    <value>Import</value>
+  </data>
+  <data name="Text.Info" xml:space="preserve">
+    <value>Information</value>
+  </data>
   <data name="Text.InvalidPath" xml:space="preserve">
     <value>Please select a valid file.</value>
+  </data>
+  <data name="Text.LineNumber" xml:space="preserve">
+    <value>Line</value>
+  </data>
+  <data name="Text.Model" xml:space="preserve">
+    <value>Model</value>
+  </data>
+  <data name="Text.More" xml:space="preserve">
+    <value>More</value>
+  </data>
+  <data name="Text.Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Text.None" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="Text.Ok" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="Text.OpenFile" xml:space="preserve">
+    <value>Open File...</value>
+  </data>
+  <data name="Text.OpenFolder" xml:space="preserve">
+    <value>Open Folder...</value>
+  </data>
+  <data name="Text.Option" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="Text.Options" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="Text.Output" xml:space="preserve">
+    <value>Output</value>
+  </data>
+  <data name="Text.Path" xml:space="preserve">
+    <value>Path</value>
+  </data>
+  <data name="Text.Preview" xml:space="preserve">
+    <value>Preview</value>
+  </data>
+  <data name="Text.PublishOn" xml:space="preserve">
+    <value>Publish at</value>
+  </data>
+  <data name="Text.Refresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="Text.Remove" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="Text.Replace" xml:space="preserve">
+    <value>Replace</value>
+  </data>
+  <data name="Text.ReplaceInFiles" xml:space="preserve">
+    <value>Replace in Files</value>
+  </data>
+  <data name="Text.Repository" xml:space="preserve">
+    <value>Repository</value>
+  </data>
+  <data name="Text.Reset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="Text.Run" xml:space="preserve">
+    <value>Run</value>
+  </data>
+  <data name="Text.Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Text.SaveAs" xml:space="preserve">
+    <value>Save As...</value>
+  </data>
+  <data name="Text.Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="Text.ShowEndOfLine" xml:space="preserve">
+    <value>Display Line break</value>
   </data>
   <data name="Text.TaskBegin" xml:space="preserve">
     <value>Task begin...</value>
@@ -751,6 +871,27 @@ Expand the response rectange with item preview.</value>
   </data>
   <data name="Text.TaskProcess2" xml:space="preserve">
     <value>Task of {1} is executing {0:P2}</value>
+  </data>
+  <data name="Text.Time_Day" xml:space="preserve">
+    <value> Day(s)</value>
+  </data>
+  <data name="Text.Time_Hour" xml:space="preserve">
+    <value> Hour(s)</value>
+  </data>
+  <data name="Text.Time_Minute" xml:space="preserve">
+    <value> Minute(s)</value>
+  </data>
+  <data name="Text.Time_None" xml:space="preserve">
+    <value>Forever</value>
+  </data>
+  <data name="Text.Time_Second" xml:space="preserve">
+    <value>Second(s)</value>
+  </data>
+  <data name="Text.Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="Text.WordWrap" xml:space="preserve">
+    <value>Word Warp</value>
   </data>
   <data name="TextEditor_Copy" xml:space="preserve">
     <value>Copy</value>
@@ -795,123 +936,6 @@ Please note that do not modify the order of nodes</value>
   <data name="TextView_TaskStart" xml:space="preserve">
     <value>Please wait task finish...</value>
   </data>
-  <data name="Text_Add" xml:space="preserve">
-    <value>Add</value>
-  </data>
-  <data name="Text_Cancel" xml:space="preserve">
-    <value>Cancel</value>
-  </data>
-  <data name="Text_ColumnNumber" xml:space="preserve">
-    <value>Column</value>
-  </data>
-  <data name="Text_Edit" xml:space="preserve">
-    <value>Edit</value>
-  </data>
-  <data name="Text_Export" xml:space="preserve">
-    <value>Export</value>
-  </data>
-  <data name="Text_File" xml:space="preserve">
-    <value>File</value>
-  </data>
-  <data name="Text_FileSize" xml:space="preserve">
-    <value>Length</value>
-  </data>
-  <data name="Text_Group" xml:space="preserve">
-    <value>Group</value>
-  </data>
-  <data name="Text_Import" xml:space="preserve">
-    <value>Import</value>
-  </data>
-  <data name="Text_Info" xml:space="preserve">
-    <value>Information</value>
-  </data>
-  <data name="Text_LineNumber" xml:space="preserve">
-    <value>Line</value>
-  </data>
-  <data name="Text_Name" xml:space="preserve">
-    <value>Name</value>
-  </data>
-  <data name="Text_None" xml:space="preserve">
-    <value>None</value>
-  </data>
-  <data name="Text_Ok" xml:space="preserve">
-    <value>Ok</value>
-  </data>
-  <data name="Text_OpenFile" xml:space="preserve">
-    <value>Open File...</value>
-  </data>
-  <data name="Text_OpenFolder" xml:space="preserve">
-    <value>Open Folder...</value>
-  </data>
-  <data name="Text_Option" xml:space="preserve">
-    <value>Options</value>
-  </data>
-  <data name="Text_Options" xml:space="preserve">
-    <value>Options</value>
-  </data>
-  <data name="Text_Output" xml:space="preserve">
-    <value>Output</value>
-  </data>
-  <data name="Text_Path" xml:space="preserve">
-    <value>Path</value>
-  </data>
-  <data name="Text_Preview" xml:space="preserve">
-    <value>Preview</value>
-  </data>
-  <data name="Text_PublishOn" xml:space="preserve">
-    <value>Publish at</value>
-  </data>
-  <data name="Text_Refresh" xml:space="preserve">
-    <value>Refresh</value>
-  </data>
-  <data name="Text_Remove" xml:space="preserve">
-    <value>Remove</value>
-  </data>
-  <data name="Text_Replace" xml:space="preserve">
-    <value>Replace</value>
-  </data>
-  <data name="Text_ReplaceInFiles" xml:space="preserve">
-    <value>Replace in Files</value>
-  </data>
-  <data name="Text_Repository" xml:space="preserve">
-    <value>Repository</value>
-  </data>
-  <data name="Text_Reset" xml:space="preserve">
-    <value>Reset</value>
-  </data>
-  <data name="Text_Run" xml:space="preserve">
-    <value>Run</value>
-  </data>
-  <data name="Text_Save" xml:space="preserve">
-    <value>Save</value>
-  </data>
-  <data name="Text_SaveAs" xml:space="preserve">
-    <value>Save As...</value>
-  </data>
-  <data name="Text_Search" xml:space="preserve">
-    <value>Search</value>
-  </data>
-  <data name="Text_Time_Day" xml:space="preserve">
-    <value> Day(s)</value>
-  </data>
-  <data name="Text_Time_Hour" xml:space="preserve">
-    <value> Hour(s)</value>
-  </data>
-  <data name="Text_Time_Minute" xml:space="preserve">
-    <value> Minute(s)</value>
-  </data>
-  <data name="Text_Time_None" xml:space="preserve">
-    <value>Forever</value>
-  </data>
-  <data name="Text_Time_Second" xml:space="preserve">
-    <value>Second(s)</value>
-  </data>
-  <data name="Text_Update" xml:space="preserve">
-    <value>Update</value>
-  </data>
-  <data name="Text_WordWrap" xml:space="preserve">
-    <value>Word Warp</value>
-  </data>
   <data name="UI.ItemRandomOption.Skill.Describe" xml:space="preserve">
     <value>&lt;font name="00008130.UI.Vital_LightBlue"&gt;&lt;arg p="1"/&gt;&lt;/font&gt; changed to &lt;font name="00008130.UI.Vital_LightBlue"&gt;&lt;arg p="2"/&gt;&lt;/font&gt;</value>
   </data>
@@ -947,14 +971,5 @@ Please note that do not modify the order of nodes</value>
   </data>
   <data name="UI.Tooltip.Skill.damage-percent-min-max" xml:space="preserve">
     <value>&lt;arg p="1:integer"/&gt;~&lt;arg p="2:integer"/&gt;xAP</value>
-  </data>
-  <data name="DatabaseStudio_Definition" xml:space="preserve">
-    <value>Definition Version</value>
-  </data>
-  <data name="DatabaseStudio_Definition_Tooltip" xml:space="preserve">
-    <value>Select the default item if you don't know which one is want.</value>
-  </data>
-  <data name="Text_ShowEndOfLine" xml:space="preserve">
-    <value>Display Line break</value>
   </data>
 </root>

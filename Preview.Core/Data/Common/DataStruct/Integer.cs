@@ -116,7 +116,7 @@ internal class IntegerConverter : TypeConverter
 		Msec m => new Integer(m.Value),
 		Distance d => new Integer((int)(d.Value * 8 * 0.01)),
 		Velocity v => new Integer((int)(v.Value * 8 * 0.01)),
-		double d => new Integer(double.IsNaN(d) ? -1 : (int)(d * 1000)),
+		double d => new Integer(double.IsNaN(d) ? -1 : (int)(d * 100000)),
 		_ => new Integer(Convert.ToInt64(value)),
 	};
 }

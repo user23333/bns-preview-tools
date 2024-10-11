@@ -80,7 +80,7 @@
 				<Button Click="Refresh_Click" Style="{StaticResource ButtonTransparent}">
 					<StackPanel Orientation="Horizontal">
 						<Image Source="/Resources/Images/arrow_refresh.png" />
-						<TextBlock Margin="3,2,3,0" d:Text="Refresh" Text="{DynamicResource Text_Refresh}"/>
+						<TextBlock Margin="3,2,3,0" d:Text="Refresh" Text="{DynamicResource Text.Refresh}"/>
 					</StackPanel>
 				</Button>
 				<Separator />
@@ -88,7 +88,7 @@
 				<Button x:Name="Run" Command="ApplicationCommands.Print" Style="{StaticResource ButtonTransparent}">
 					<StackPanel Orientation="Horizontal">
 						<Image Source="/Resources/Images/resultset_next.png" />
-						<TextBlock Margin="3,2,10,0" d:Text="Run" Text="{DynamicResource Text_Run}"/>
+						<TextBlock Margin="3,2,10,0" d:Text="Run" Text="{DynamicResource Text.Run}"/>
 					</StackPanel>
 				</Button>
 			</ToolBar>
@@ -97,14 +97,14 @@
 				<Button Click="Import_Click" Style="{StaticResource ButtonTransparent}">
 					<StackPanel Orientation="Horizontal">
 						<Image Source="/Resources/Images/disk.png" />
-						<TextBlock Margin="3,2,10,0" d:Text="Import" Text="{DynamicResource Text_Import}"/>
+						<TextBlock Margin="3,2,10,0" d:Text="Import" Text="{DynamicResource Text.Import}"/>
 					</StackPanel>
 				</Button>
 
 				<Button Click="Save_Click" Style="{StaticResource ButtonTransparent}">
 					<StackPanel Orientation="Horizontal">
 						<Image Source="/Resources/Images/disk.png" />
-						<TextBlock Margin="3,2,10,0" d:Text="Save" Text="{DynamicResource Text_Save}"/>
+						<TextBlock Margin="3,2,10,0" d:Text="Save" Text="{DynamicResource Text.Save}"/>
 					</StackPanel>
 				</Button>
 			</ToolBar>

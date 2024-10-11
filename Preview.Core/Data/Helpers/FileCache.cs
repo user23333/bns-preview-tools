@@ -9,7 +9,10 @@ namespace Xylia.Preview.Data.Helpers;
 public static class FileCache
 {
 	private static readonly object Lock = new();
+	public static ITextProvider TextProvider { internal get; set; }
+	public static IDatSelect DatSelector { internal get; set; }
 
+	#region Data
 	private static DatafileDefinition _definition;
 	public static DatafileDefinition Definition
 	{
@@ -25,7 +28,7 @@ public static class FileCache
 	public static BnsDatabase Data
 	{
 		set => _data = value;
-		get { lock (Lock) return _data ??= new(DefaultProvider.Load(Settings.Default.GameFolder), Definition); }
+		get { lock (Lock) return _data ??= new(DefaultProvider.Load(Settings.Default.GameFolder, DatSelector), Definition); }
 	}
 
 	private static GameFileProvider _provider;
@@ -33,8 +36,6 @@ public static class FileCache
 	{
 		get { lock (Lock) { return _provider ??= new(Settings.Default.GameFolder); } }
 	}
-
-	public static ITextProvider TextProvider { get; set; }
 
 	public static void Clear()
 	{
@@ -46,4 +47,5 @@ public static class FileCache
 		_provider?.Dispose();
 		_provider = null;
 	}
+	#endregion
 }

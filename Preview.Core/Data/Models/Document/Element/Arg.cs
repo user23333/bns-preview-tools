@@ -20,50 +20,53 @@ public class Arg : HtmlElementNode
 	{
 		try
 		{
-			object obj;
-
-			#region source
+			object obj = null;
 			var ps = P?.Split(':');
-			var type = ps?[0];
 
-			switch (type)
+			for (int i = 0; i < ps.Length; i++)
 			{
-				case "id":
-					obj = new Ref<ModelElement>(Id).Instance;
-					break;
+				var p = ps[i];
 
-				case "seq":
-					var seqs = Seq?.Split(':');
-					obj = seqs[1].CastSeq(seqs[0]);
-					break;
-
-				default:
-					if (!byte.TryParse(type, out var id))
-						throw new InvalidCastException("bad argument id, must be byte value: " + type);
-
-					obj = arguments?[id - 1];
-					break;
-
-			}
-
-			if (obj is null) return null;
-			#endregion
-
-			#region child
-			foreach (var pl in ps.Skip(1))
-			{
-				var args = ArgItem.GetArgs(pl);
-				for (int x = 0; x < args.Length; x++)
+				// source
+				if (i == 0)
 				{
-					if (x == 0) args[0].ValidType(ref obj);
-					else
+					switch (p)
 					{
-						args[x].GetObject(ref obj, out var handle);
-						if (handle) break;
+						case "id":
+							obj = new Ref<ModelElement>(Id).Instance;
+							break;
+
+						case "seq":
+							var seqs = Seq?.Split(':');
+							obj = seqs[1].CastSeq(seqs[0]);
+							break;
+
+						default:
+							if (!byte.TryParse(p, out var id))
+								throw new InvalidCastException("bad argument id, must be byte value: " + p);
+
+							obj = arguments?[id - 1];
+							break;
+
+					}
+
+					if (obj is null) return null;
+				}
+				// child
+				else
+				{
+					var args = ArgItem.GetArgs(p);
+					for (int x = 0; x < args.Length; x++)
+					{
+						if (x == 0) args[0].ValidType(ref obj);
+						else
+						{
+							args[x].GetObject(ref obj, out var handle);
+							if (handle) break;
+						}
 					}
 				}
 			}
-			#endregion
 
 			return obj;
 		}
@@ -90,11 +93,9 @@ public class Arg : HtmlElementNode
 		#region Methods	
 		internal void ValidType(ref object value)
 		{
-			var target = Target?.ToLower();
-			if (target is null || value is null) return;
-			if (value is Integer integer && IArgument.TryGet(integer, target, out value)) return;
+			if (Target is null || value is null) return;
 
-			switch (target)
+			switch (Target.ToLower())
 			{
 				case "string": value = value.ToString(); break;
 				case "integer": value = value.To<Integer>(); break;
@@ -103,6 +104,8 @@ public class Arg : HtmlElementNode
 
 				default:
 				{
+					if (value is Integer integer && IArgument.TryGet(integer, Target, out value)) return;
+
 					if (!TableNameComparer.Instance.Equals(target, value.GetBaseType(typeof(ModelElement)).Name))
 						throw new InvalidCastException($"valid failed: {Target} >> {value.GetType()}");
 

@@ -45,7 +45,7 @@ public class Image : BaseElement<Data.Models.Document.Image>
 
 	protected internal override void OnRender(DrawingContext ctx)
 	{
-		var bitmap = Element?.Bitmap?.ToWriteableBitmap();
+		var bitmap = Element.Bitmap?.ToWriteableBitmap();
 		if (bitmap != null) ctx.DrawImage(bitmap, FinalRect);
 	}
 	#endregion

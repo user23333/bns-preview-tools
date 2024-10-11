@@ -23,18 +23,18 @@ public abstract class Item : ModelElement, IHaveName
 	public MarketCategory2Seq MarketCategory2 => Attributes.Get<MarketCategory2Seq>("market-category-2");
 	public MarketCategory3Seq MarketCategory3 => Attributes.Get<MarketCategory3Seq>("market-category-3");
 
-	public bool CannotDispose => Attributes.Get<BnsBoolean>("cannot-dispose");
-	public bool CannotSell => Attributes.Get<BnsBoolean>("cannot-sell");
-	public bool CannotTrade => Attributes.Get<BnsBoolean>("cannot-trade");
-	public bool CannotDepot => Attributes.Get<BnsBoolean>("cannot-depot");
-	public bool ConsumeDurability => Attributes.Get<BnsBoolean>("consume-durability");
-	public bool Auctionable => Attributes.Get<BnsBoolean>("auctionable");
-	public bool WorldBossAuctionable => Attributes.Get<BnsBoolean>("world-boss-auctionable");
-	public bool SealRenewalAuctionable => Attributes.Get<BnsBoolean>("seal-renewal-auctionable");
-	public bool PartyAuctionExclusion => Attributes.Get<BnsBoolean>("party-auction-exclusion");
-	public bool AcquireUsed => Attributes.Get<BnsBoolean>("acquire-used");
-	public bool EquipUsed => Attributes.Get<BnsBoolean>("equip-used");
-	public bool AccountUsed => Attributes.Get<BnsBoolean>("account-used");
+	public bool CannotDispose => Attributes.Get<bool>("cannot-dispose");
+	public bool CannotSell => Attributes.Get<bool>("cannot-sell");
+	public bool CannotTrade => Attributes.Get<bool>("cannot-trade");
+	public bool CannotDepot => Attributes.Get<bool>("cannot-depot");
+	public bool ConsumeDurability => Attributes.Get<bool>("consume-durability");
+	public bool Auctionable => Attributes.Get<bool>("auctionable");
+	public bool WorldBossAuctionable => Attributes.Get<bool>("world-boss-auctionable");
+	public bool SealRenewalAuctionable => Attributes.Get<bool>("seal-renewal-auctionable");
+	public bool PartyAuctionExclusion => Attributes.Get<bool>("party-auction-exclusion");
+	public bool AcquireUsed => Attributes.Get<bool>("acquire-used");
+	public bool EquipUsed => Attributes.Get<bool>("equip-used");
+	public bool AccountUsed => Attributes.Get<bool>("account-used");
 
 
 	public JobSeq[] EquipJobCheck { get; set; }
@@ -315,7 +315,7 @@ public class ItemDecomposeInfo
 
 		DecomposeMax = attributes.Get<sbyte>("decompose-max");
 		DecomposeMoneyCost = attributes.Get<int>("decompose-money-cost");
-		DecomposeRewardByConsumeIndex = attributes.Get<BnsBoolean>("decompose-reward-by-consume-index");
+		DecomposeRewardByConsumeIndex = attributes.Get<bool>("decompose-reward-by-consume-index");
 
 		LinqExtensions.For(ref DecomposeReward, 7, (id) => attributes.Get<Reward>("decompose-reward-" + id));
 		Job.GetPcJob().ForEach(job => DecomposeJobRewards[job] = attributes.Get<Reward>("decompose-job-reward-" + job.GetDescription()));

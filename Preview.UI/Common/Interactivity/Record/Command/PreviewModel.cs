@@ -52,7 +52,7 @@ internal class PreviewModel : RecordCommand
 				models.Add(new()
 				{
 					Export = await FileCache.Provider.LoadObjectAsync<UObject>(record.Attributes["body-mesh-name"]?.ToString()),
-					Cols = new string?[] { record.Attributes["body-material-name"]?.ToString() },
+					Cols = new string?[] { record.Attributes.Get<string>("body-material-name") },
 				});
 			}
 			break;
@@ -65,7 +65,7 @@ internal class PreviewModel : RecordCommand
 				models.Add(new()
 				{
 					Export = await FileCache.Provider.LoadObjectAsync<UObject>(appearance.Attributes["body-mesh-name"]?.ToString()),
-					Cols = new string?[] { appearance.Attributes["body-material-name"]?.ToString() },
+					Cols = new string?[] { appearance.Attributes.Get<string>("body-material-name") },
 					AnimSet = await FileCache.Provider.LoadObjectAsync<UAnimSet>(record.Attributes["animset"]?.ToString()),
 				});
 			}
@@ -80,7 +80,7 @@ internal class PreviewModel : RecordCommand
 					{
 						DisplayName = Mesh,
 						Export = FileCache.Provider.LoadObject<UObject>(record.Attributes[Mesh]?.ToString()),
-						Cols = new string?[] { record.Attributes[Col + 1]?.ToString(), record.Attributes[Col + 2]?.ToString(), record.Attributes[Col + 3]?.ToString() },
+						Cols = new string?[] { record.Attributes.Get<string>(Col + 1), record.Attributes.Get<string>(Col + 2), record.Attributes.Get<string>(Col + 3) },
 					});
 				}
 
@@ -150,7 +150,7 @@ internal class PreviewModel : RecordCommand
 				{
 					Export = await FileCache.Provider.LoadObjectAsync<UObject>(record.Attributes["mesh-name"]?.ToString()),
 					AnimSet = await FileCache.Provider.LoadObjectAsync<UAnimSet>(record.Attributes["anim-set-name"]?.ToString()),
-					Cols = [record.Attributes["material-name-1"]?.ToString(), record.Attributes["material-name-2"]?.ToString(), record.Attributes["material-name-3"]?.ToString()],
+					Cols = [record.Attributes.Get<string>("material-name-1"), record.Attributes.Get<string>("material-name-2"), record.Attributes.Get<string>("material-name-3")],
 				});
 				break;
 			}
@@ -161,7 +161,7 @@ internal class PreviewModel : RecordCommand
 				{
 					Export = FileCache.Provider.LoadObject<UObject>(record.Attributes["mesh-name"]?.ToString()),
 					AnimSet = FileCache.Provider.LoadObject<UAnimSet>(record.Attributes["anim-set-name"]?.ToString()),
-					Cols = [record.Attributes["material-name-1"]?.ToString(), record.Attributes["material-name-2"]?.ToString(), record.Attributes["material-name-3"]?.ToString()],
+					Cols = [record.Attributes.Get<string>("material-name-1"), record.Attributes.Get<string>("material-name-2"), record.Attributes.Get<string>("material-name-3")],
 				});
 				break;
 			}

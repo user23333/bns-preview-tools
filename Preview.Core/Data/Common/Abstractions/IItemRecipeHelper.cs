@@ -34,7 +34,7 @@ public class ItemRecipeHelper
 	#region Properties
 	public static float DiscountRate = 0.2F;
 
-	public Tuple<Item, short>[] SubItemList => LinqExtensions.Create(SubItem, SubItemCount);
+	public Tuple<Item, short>[] SubItemList => LinqExtensions.Tuple(SubItem, SubItemCount);
 
 	public string Price => Money.Money;
 
@@ -50,7 +50,7 @@ public class ItemRecipeHelper
 		return string.Format("{0} {1} {2}",
 			Money.Money,
 			MainItem?.ItemName + MainItemCount,
-			string.Join(",", SubItemList.Select(x => x.Item1.ItemName + x.Item2)));
+			string.Join(",", SubItemList.Where(x => x.Item1 != null).Select(x => x.Item1.ItemName + x.Item2)));
 	}
 	#endregion
 }

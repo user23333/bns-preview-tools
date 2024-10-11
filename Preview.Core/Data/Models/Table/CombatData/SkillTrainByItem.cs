@@ -1,50 +1,36 @@
-﻿using System.Text;
-using Xylia.Preview.Common.Extension;
+﻿using Xylia.Preview.Common.Attributes;
 using Xylia.Preview.Data.Common.DataStruct;
-using Xylia.Preview.Properties;
+using Xylia.Preview.Data.Models.Sequence;
 
 namespace Xylia.Preview.Data.Models;
 public sealed class SkillTrainByItem : ModelElement
 {
 	#region Attributes
-	public Ref<Skill3>[] OriginSkill { get; set; }
+	public short Id { get; set; }
 
-	public Ref<Skill3>[] ChangeSkill { get; set; }
+	public string Alias { get; set; }
+
+	public Ref<Skill3> MainOriginSkill { get; set; }
+
+	public Ref<Skill3> MainChangeSkill { get; set; }
+
+	public Ref<Skill3>[] SubOriginSkill { get; set; }
+
+	public Ref<Skill3>[] SubChangeSkill { get; set; }
 
 	public Icon Icon { get; set; }
 
 	public Ref<Text> Description { get; set; }
+
+	public EquipType ItemEquipType { get; set; }
+
+	public JobSeq Job { get; set; }
+
+	public Ref<ExtractSkillTrainByItem> ExtractSkillTrainByItem { get; set; }
 	#endregion
 
 
 	#region Methods
-	public string Description2
-	{
-		get
-		{
-			// dislay raw data
-			if (Settings.Default.UseDebugMode)
-			{
-				StringBuilder builder = new();
-
-				for (int x = 0; x < 6; x++)
-				{
-					var OriginSkill = this.OriginSkill[x].Instance;
-					var ChangeSkill = this.ChangeSkill[x].Instance;
-					if (OriginSkill is null) continue;
-
-					// newline 
-					if (builder.Length != 0) builder.Append("<br/>");
-
-					builder.Append("UI.ItemRandomOption.Skill.Describe".GetText([OriginSkill?.Name2, ChangeSkill.Name2]) + "<br/>");
-					ChangeSkill.Systematization.Select(x => x.Instance).ForEach(s => builder.Append($"<arg id=\"skill-systematization:{s}\" p=\"id:skill-systematization.name2\"/> "));
-				}
-
-				return builder.ToString();
-			}
-
-			return Description.GetText();
-		}
-	}
+	public string Description2 => Description.GetText();
 	#endregion
 }

@@ -127,7 +127,7 @@ public partial class LegacyItemStorePanel
 		if (e.OldValue == e.NewValue || e.NewValue is not Store2 record) return;
 
 		// update source
-		ItemStore_ItemList.ItemsSource = LinqExtensions.Create(
+		ItemStore_ItemList.ItemsSource = LinqExtensions.Tuple(
 			record.Item.Select(x => x.Instance).ToArray(),
 			record.BuyPrice.Select(x => x.Instance).ToArray())
 			.Where(x => x.Item1 != null);

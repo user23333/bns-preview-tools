@@ -13,14 +13,14 @@
 		</Grid.RowDefinitions>
 
 		<Menu Background="{DynamicResource BorderBrush}" FontSize="14">
-			<MenuItem d:Header="File" Header="{DynamicResource Text_File}">
+			<MenuItem d:Header="File" Header="{DynamicResource Text.File}">
 				<MenuItem Header="{DynamicResource TextEditor_Copy}" Command="ApplicationCommands.Copy"/>
 				<MenuItem Header="{DynamicResource TextEditor_CopyData}" Command="ApplicationCommands.Save" />
 			</MenuItem>
 
-			<MenuItem d:Header="Options" Header="{DynamicResource Text_Options}">
-				<MenuItem x:Name="Option_WordWrap" Header="{DynamicResource Text_WordWrap}" IsCheckable="True" IsChecked="{Binding TextEditor_WordWrap,Source={x:Static VM:UserSettings.Default}}" />
-				<MenuItem Header="{DynamicResource Text_ShowEndOfLine}" Command="ApplicationCommands.Properties" CommandParameter="ShowEndOfLine" IsCheckable="True" IsChecked="{Binding TextEditor_ShowEndOfLine,Source={x:Static VM:UserSettings.Default}}" Visibility="Collapsed" />
+			<MenuItem d:Header="Options" Header="{DynamicResource Text.Options}">
+				<MenuItem x:Name="Option_WordWrap" Header="{DynamicResource Text.WordWrap}" IsCheckable="True" IsChecked="{Binding TextEditor_WordWrap,Source={x:Static VM:UserSettings.Default}}" />
+				<MenuItem Header="{DynamicResource Text.ShowEndOfLine}" Command="ApplicationCommands.Properties" CommandParameter="ShowEndOfLine" IsCheckable="True" IsChecked="{Binding TextEditor_ShowEndOfLine,Source={x:Static VM:UserSettings.Default}}" Visibility="Collapsed" />
 			</MenuItem>
 		</Menu>
 

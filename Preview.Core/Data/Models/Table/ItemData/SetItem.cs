@@ -34,8 +34,8 @@ public sealed class SetItem : ModelElement, IHaveName, IHaveDesc
 				var Effect1 = Attributes.Get<Effect>($"count-{id}-effect-1");
 				var Effect2 = Attributes.Get<Effect>($"count-{id}-effect-2");
 				var SkillModifyInfoGroup = LinqExtensions.For(10, x => Attributes.Get<SkillModifyInfoGroup>($"count-{id}-skill-modify-info-group-{x}"));
-				var Tooltip1 = Attributes.Get<BnsBoolean>($"count-{id}-tooltip-1");
-				var Tooltip2 = Attributes.Get<BnsBoolean>($"count-{id}-tooltip-2");
+				var Tooltip1 = Attributes.Get<bool>($"count-{id}-tooltip-1");
+				var Tooltip2 = Attributes.Get<bool>($"count-{id}-tooltip-2");
 				var Talksocial = LinqExtensions.For(8, x => Attributes.Get<TalkSocial>($"count-{id}-talksocial-{x}"));
 				var SkillSkin = Attributes.Get<SkillSkin>($"count-{id}-skill-skin");
 

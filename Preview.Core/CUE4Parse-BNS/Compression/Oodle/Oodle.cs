@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-using static CUE4Parse.Compression.Oodle;
+using static CUE4Parse.Compression.OodleHelper;
 
 namespace CUE4Parse.Compression;
 public static class OodleCompress

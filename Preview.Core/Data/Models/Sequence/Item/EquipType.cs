@@ -108,25 +108,34 @@ public enum EquipType
     Vehicle,
 
     [Text("Name.EquipSlot.NormalStateAppearance")]
-    AppearanceNormalState,
+	NormalStateAppearance,
 
     [Text("Name.EquipSlot.IdleStateAppearance")]
-    AppearanceIdleState,
+	IdleStateAppearance,
 
     [Text("Name.EquipSlot.ChattingSymbol")]
-    AppearanceChatting,
+	ChattingSymbol,
 
     [Text("Name.EquipSlot.PortraitAppearance")]
-    AppearancePortrait,
+	PortraitAppearance,
 
     [Text("Name.EquipSlot.HypermoveAppearance")]
-    AppearanceHypermove,
+	HypermoveAppearance,
 
     [Text("Name.EquipSlot.NameplateAppearance")]
-    AppearanceNamePlate,
+	NamePlateAppearance,
 
     [Text("Name.EquipSlot.SpeechBubble")]
-    AppearanceSpeechBubble,
+	SpeechBubbleAppearance,
+
+	[Text("Name.EquipSlot.TalkSocialApperance")]
+	TalkSocial,
+
+	[Text("Name.EquipSlot.Armlet-1")]
+	Armlet1,
+
+	[Text("Name.EquipSlot.Armlet-2")]
+	Armlet2,
 
 	COUNT
 }

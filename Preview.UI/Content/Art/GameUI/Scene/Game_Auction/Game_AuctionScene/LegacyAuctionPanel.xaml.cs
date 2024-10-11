@@ -74,7 +74,7 @@ public partial class LegacyAuctionPanel
 				break;
 			}
 
-			case Key.LeftAlt when TooltipHolder != null:
+			case Key.LeftShift when TooltipHolder != null:
 			{
 #if DEBUG
 				(TooltipHolder.Content as BnsCustomWindowWidget)?.Show();
@@ -135,7 +135,7 @@ public partial class LegacyAuctionPanel
 		#region Category
 		if (_viewModel.WorldBoss)
 		{
-			if (!record.Attributes.Get<BnsBoolean>("world-boss-auctionable")) return false;
+			if (!record.Attributes.Get<bool>("world-boss-auctionable")) return false;
 		}
 		else if (_viewModel.MarketCategory2 == default && _viewModel.MarketCategory3 == default)  // all
 		{
@@ -155,8 +155,8 @@ public partial class LegacyAuctionPanel
 		#region Filter
 		// auctionable
 		if (_viewModel.Auctionable &&
-			!record.Attributes.Get<BnsBoolean>("auctionable") &&
-			!record.Attributes.Get<BnsBoolean>("seal-renewal-auctionable")) return false;
+			!record.Attributes.Get<bool>("auctionable") &&
+			!record.Attributes.Get<bool>("seal-renewal-auctionable")) return false;
 
 		// rule
 		if (IsEmpty) return true;

@@ -38,7 +38,7 @@ public class AttributeDefinition
 	public bool CanInput { get; set; } = true;
 
 	internal List<AttributeDefinition> Expands { get; private set; } = [];
-	#endregion	  
+	#endregion
 
 	#region Methods
 	public void WriteXml(XmlWriter writer)
@@ -83,7 +83,8 @@ public class AttributeDefinition
 		try
 		{
 			var Name = node.GetAttribute<string>("name").Trim();
-			var Type = Enum.TryParse("T" + node.GetAttribute("type"), true, out AttributeType type) ? type :
+			var Type = byte.TryParse(node.GetAttribute("type"), out var b) ? (AttributeType)b :
+				Enum.TryParse("T" + node.GetAttribute("type"), true, out AttributeType t) ? t :
 				throw BnsDataException.InvalidDefinition($"Failed to determine attribute type: {Name}");
 			var Repeat = ushort.TryParse(node.Attributes["repeat"]?.Value, out var tmp) ? tmp : (ushort)1;
 			var RefTable = node.GetAttribute<string>("ref");
@@ -228,8 +229,9 @@ public class AttributeDefinition
 				Side = side,
 			};
 		}
-		catch  (Exception ex)
+		catch (Exception ex)
 		{
+			Debug.WriteLine(node.OuterXml);
 			throw BnsDataException.InvalidDefinition($"attribute load failed: {node.OuterXml}", ex);
 		}
 	}

@@ -70,6 +70,6 @@
 			</Grid>
 		</GroupBox>
 
-		<Button Grid.Row="3" MinWidth="78" Margin="0 0 0 0" HorizontalAlignment="Right" VerticalAlignment="Bottom" d:Content="Ok" Content="{DynamicResource Text_Ok}" Command="ApplicationCommands.Open" IsDefault="True" />
+		<Button Grid.Row="3" MinWidth="78" Margin="0 0 0 0" HorizontalAlignment="Right" VerticalAlignment="Bottom" d:Content="Ok" Content="{DynamicResource Text.Ok}" Command="ApplicationCommands.Open" IsDefault="True" />
 	</Grid>
 </Window>

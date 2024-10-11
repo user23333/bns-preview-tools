@@ -51,8 +51,8 @@ public partial class ItemTooltipPanel
 
 		#region Substitute
 		List<string> Substitute1 = [], Substitute2 = [];
-		Substitute1.Add(record.Attributes.Get<Record>("main-info").GetText());
-		Substitute2.Add(record.Attributes.Get<Record>("sub-info").GetText());
+		Substitute1.Add(record.Attributes.Get<Record>("main-info").GetText(arguments));
+		Substitute2.Add(record.Attributes.Get<Record>("sub-info").GetText(arguments));
 
 		#region Ability
 		var data = new Dictionary<MainAbility, long>();
@@ -148,20 +148,21 @@ public partial class ItemTooltipPanel
 		DecomposeDescription.Children.Clear();
 		if (pages.Count > 0)
 		{
-			DecomposeDescription_Title.String.LabelText = (record is Item.Grocery ? "UI.ItemTooltip.RandomboxPreview.Title" : "UI.ItemTooltip.Decompose.Title").GetText();
+			DecomposeDescription_Title.String.LabelText = (record is Grocery grocery && grocery.GroceryType == Grocery.GroceryTypeSeq.RandomBox ?
+				"UI.ItemTooltip.RandomboxPreview.Title" : "UI.ItemTooltip.Decompose.Title").GetText();
 
 			var page = pages[0];
 			page.Update(DecomposeDescription.Children);
 		}
 
 		// Description
-		ItemDescription.String.LabelText = record.Attributes["description2"].GetText();
-		ItemDescription_4_Title.String.LabelText = record.Attributes["description4-title"].GetText();
-		ItemDescription_5_Title.String.LabelText = record.Attributes["description5-title"].GetText();
-		ItemDescription_6_Title.String.LabelText = record.Attributes["description6-title"].GetText();
-		ItemDescription_4.String.LabelText = record.Attributes["description4"].GetText();
-		ItemDescription_5.String.LabelText = record.Attributes["description5"].GetText();
-		ItemDescription_6.String.LabelText = record.Attributes["description6"].GetText();
+		ItemDescription.String.LabelText = record.Attributes["description2"].GetText(arguments);
+		ItemDescription_4_Title.String.LabelText = record.Attributes["description4-title"].GetText(arguments);
+		ItemDescription_5_Title.String.LabelText = record.Attributes["description5-title"].GetText(arguments);
+		ItemDescription_6_Title.String.LabelText = record.Attributes["description6-title"].GetText(arguments);
+		ItemDescription_4.String.LabelText = record.Attributes["description4"].GetText(arguments);
+		ItemDescription_5.String.LabelText = record.Attributes["description5"].GetText(arguments);
+		ItemDescription_6.String.LabelText = record.Attributes["description6"].GetText(arguments);
 		ItemDescription7.String.LabelText = LinqExtensions.Join(BR.Tag,
 			record.Attributes["description7"].GetText(),
 			string.Join(BR.Tag, record.ItemCombat.SelectNotNull(x => x.Instance?.Description)),
@@ -176,7 +177,7 @@ public partial class ItemTooltipPanel
 			var SealConsumeItemCount1 = record.Attributes.Get<short>("seal-consume-item-count-1");
 			var SealConsumeItemCount2 = record.Attributes.Get<short>("seal-consume-item-count-2");
 			// seal-acquire-item
-			var SealKeepLevel = record.Attributes.Get<BnsBoolean>("seal-keep-level");
+			var SealKeepLevel = record.Attributes.Get<bool>("seal-keep-level");
 			var SealEnableCount = record.Attributes.Get<sbyte>("seal-enable-count");
 
 			SealEnable.String.LabelText = (SealEnableCount == 0 ? "UI.Item.Tooltip.SealEnable" : "UI.Item.Tooltip.SealEnable.Count")

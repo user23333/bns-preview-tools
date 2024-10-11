@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
+using CUE4Parse.BNS.Assets.Exports;
 using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Data.Helpers;
@@ -362,8 +363,12 @@ public static class TextExtension
 
 			// element
 			var obj = ((Arg)doc.DocumentNode.FirstChild).GetObject(arguments);
-			var str = obj is Enum seq ? SequenceExtensions.GetText(seq) : obj?.ToString();
-			source = source.Replace(html, str);
+			source = source.Replace(html, obj switch
+			{
+				Enum seq => SequenceExtensions.GetText(seq),
+				ImageProperty image => image.Tag,
+				_ => obj?.ToString(),
+			});
 		}
 
 		return source;

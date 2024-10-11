@@ -68,9 +68,8 @@ public sealed class ConditionEvent : ModelElement
 	#region Methods
 	public string GetTooltipText1()
 	{
-		return TooltipText1.GetText([null, .. LinqExtensions.Create(TooltipArgType1, TooltipArg1).Select(GetTooltipArg)]);
+		return TooltipText1.GetText([null, .. LinqExtensions.Tuple(TooltipArgType1, TooltipArg1).Select(GetTooltipArg)]);
 	}
-
 
 	private string GetTooltipArg(Tuple<TooltipArgTypeSeq, int> tuple)
 	{

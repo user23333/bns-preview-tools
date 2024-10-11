@@ -711,8 +711,7 @@
 			richTextBox1.Name = "richTextBox1";
 			richTextBox1.Size = new Size(867, 264);
 			richTextBox1.TabIndex = 42;
-			richTextBox1.Text = "  <record name=\"TX_Gold_200716_001_Rare_0102_6\" id=\"686\" item=\"GB_General_Grocery_Coin_0067\" item-count=\"10\" item-price-money=\"100000\" />";
-			richTextBox1.ZoomFactor = 1.3F;
+			richTextBox1.Text = "";
 			// 
 			// MainForm
 			// 

@@ -62,7 +62,7 @@
 
 				<hc:UniformSpacingPanel Orientation="Vertical" Spacing="5" Grid.IsSharedSizeScope="True" >
 					<!-- Path -->
-					<hc:Divider Grid.ColumnSpan="10" Margin="0 5" d:Content="Path" Content="{DynamicResource Text_Path}" />
+					<hc:Divider Grid.ColumnSpan="10" Margin="0 5" d:Content="Path" Content="{DynamicResource Text.Path}" />
 					<ItemsControl>
 						<TextBlock>
 							<Run d:Text="Game Directory" Text="{DynamicResource Settings_GameDirectory}" /> *
@@ -84,7 +84,7 @@
 					</ItemsControl>
 
 					<!-- Options -->
-					<hc:Divider Grid.ColumnSpan="10" Margin="0 5" d:Content="Options" Content="{DynamicResource Text_Option}" />
+					<hc:Divider Grid.ColumnSpan="10" Margin="0 5" d:Content="Options" Content="{DynamicResource Text.Option}" />
 					<ItemsControl>
 						<TextBlock d:Text="Language" Text="{DynamicResource Settings_Language}" />
 						<ComboBox Grid.Column="1" ItemsSource="{Binding Languages,Mode=OneTime}" SelectedItem="{Binding Language}">
@@ -150,7 +150,7 @@
 
 				<hc:UniformSpacingPanel Orientation="Vertical" Spacing="5" Grid.IsSharedSizeScope="True">
 					<!-- Data Options -->
-					<hc:Divider Grid.ColumnSpan="10" Margin="0 5" d:Content="Options" Content="{DynamicResource Text_Option}" />
+					<hc:Divider Grid.ColumnSpan="10" Margin="0 5" d:Content="Options" Content="{DynamicResource Text.Option}" />
 
 					<ItemsControl>
 						<TextBlock d:Text="Job" Text="{DynamicResource Settings_Job}" />
@@ -257,7 +257,7 @@
 				</Grid.ColumnDefinitions>
 
 				<Button Grid.Column="1" MinWidth="78" Margin="0 0 12 0" IsDefault="True" IsCancel="False"
-					HorizontalAlignment="Right" VerticalAlignment="Bottom" d:Content="Ok" Content="{DynamicResource Text_Ok}" Click="OnClosing" />
+					HorizontalAlignment="Right" VerticalAlignment="Bottom" d:Content="Ok" Content="{DynamicResource Text.Ok}" Click="OnClosing" />
 			</Grid>
 		</Border>
 	</Grid>

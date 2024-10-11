@@ -384,7 +384,7 @@ internal partial class GameResourcePageViewModel : ObservableObject
 
 	public static NameObject<SKBitmap> GetImage(string path)
 	{
-		if (path == "None") return new(null, StringHelper.Get("Text_None"));
+		if (path == "None") return new(null, StringHelper.Get("Text.None"));
 
 		var resource = new Uri($"/Preview.UI;component/Content/{path}.png", UriKind.Relative);
 		using var stream = Application.GetResourceStream(resource).Stream;

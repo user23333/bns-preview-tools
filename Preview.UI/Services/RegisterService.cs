@@ -1,5 +1,7 @@
 ﻿using HandyControl.Controls;
+using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.UI.ViewModels;
+using Xylia.Preview.UI.Views.Selector;
 
 namespace Xylia.Preview.UI.Services;
 /// <summary>
@@ -13,6 +15,9 @@ internal class RegisterService : IService
 		UserSettings.Default.UsePerformanceMonitor = UserSettings.Default.UsePerformanceMonitor;
 		UserSettings.Default.CopyMode = UserSettings.Default.CopyMode;
 		UserSettings.Default.SkinType = UserSettings.Default.SkinType;
+
+		// init
+		FileCache.DatSelector = DatSelectDialog.Instance;
 
 		// ask
 		if (UserSettings.Default.UseUserDefinition)

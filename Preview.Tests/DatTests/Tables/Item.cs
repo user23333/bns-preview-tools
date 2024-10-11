@@ -6,16 +6,15 @@ namespace Xylia.Preview.Tests.DatTests;
 public partial class TableTests
 {
 	[TestMethod]
-	[DataRow("Spirit_0002")]
+	[DataRow("ItemSpirit_0180")]
 	public void DistributionTest(string alias)
 	{
-		var record = Database.Provider.GetTable<RandomDistribution>()[alias];
+		var record = Database.Provider.GetTable<ItemSpirit>()[alias];
+		var array1 = record.DistributionType.Instance.Do(record.AbilityMin[0], record.AbilityMax[0]);
+		var array2 = record.DistributionType.Instance.Do(record.AbilityMin[1], record.AbilityMax[1]);
 
-		var total = record.Weight.Sum(x => x);
-		var count = 155 - 78;
-
-		// 最大值应用 weight-101，然后均分剩下的值
-		// 如果有余数则分配给最小值
+		for (int i = 0; i < array1.Length; i++) Console.WriteLine($"{array1[i].Item1} {array1[i].Item2:P5}");
+		for (int i = 0; i < array2.Length; i++) Console.WriteLine($"{array2[i].Item1} {array2[i].Item2:P5}");
 	}
 
 	[TestMethod]

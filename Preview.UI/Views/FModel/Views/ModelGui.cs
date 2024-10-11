@@ -3,6 +3,7 @@ using CUE4Parse.BNS.Conversion;
 using FModel.Views.Snooper.Models;
 using ImGuiNET;
 using OpenTK.Windowing.Common;
+using Xylia.Preview.UI;
 using Xylia.Preview.UI.ViewModels;
 
 namespace FModel.Views.Snooper;
@@ -21,7 +22,7 @@ public partial class ModelGui : SnimGui
 
 	public override void Render(Snooper s)
 	{
-		this.view = s as ModelView;
+		this.view = (ModelView)s;
 
 		Controller.SemiBold();
 		DrawDockSpace(s.Size);
@@ -127,7 +128,7 @@ public partial class ModelGui : SnimGui
 		if (!ImGui.BeginMainMenuBar()) return;
 
 		#region Model
-		if (view.Models != null && ImGui.BeginMenu("Model"))
+		if (view.Models != null && ImGui.BeginMenu(StringHelper.Get("Text.Model")))
 		{
 			_viewportFocus = false;
 			foreach (var model in view.Models)
@@ -149,10 +150,12 @@ public partial class ModelGui : SnimGui
 			ImGui.EndMenu();
 		}
 		else _viewportFocus = true;
+
+		ArgumentNullException.ThrowIfNull(view.SelectedData);
 		#endregion
 
-		#region Anim 
-		if (view.SelectedData.AnimSet != null && ImGui.BeginMenu("Anim Sequence"))
+		#region Anim
+		if (view.SelectedData.AnimSet != null && ImGui.BeginMenu(StringHelper.Get("Text.AnimSequence")))
 		{
 			_viewportFocus = false;
 			foreach (var sequence in view.SelectedData.AnimSet.AnimSequenceMap)
@@ -175,19 +178,17 @@ public partial class ModelGui : SnimGui
 		else _viewportFocus = true;
 		#endregion
 
-
-		#region Settings 
-		if (ImGui.BeginMenu("Settings"))
+		#region More 
+		if (ImGui.BeginMenu(StringHelper.Get("Text.More")))
 		{
 			//if (ImGui.MenuItem("Show FPS", "", ref ShowFps))
 			//	view.ShowFps = ShowFps;
 
-			if (ImGui.MenuItem("Extract"))
+			if (ImGui.MenuItem(StringHelper.Get("Text.Extract")))
 			{
 				lastTime = DateTime.Now;
 				new Exporter(UserSettings.Default.OutputFolderResource).Run(view.SelectedData.Export);
 			}
-
 
 			ImGui.EndMenu();
 		}

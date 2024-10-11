@@ -106,20 +106,20 @@
 
 		<!-- Menu -->
 		<Menu Background="{DynamicResource BorderBrush}" FontSize="14" Grid.ColumnSpan="2" Visibility="Visible">
-			<MenuItem d:Header="File" Header="{DynamicResource Text_File}">
-				<MenuItem Header="{DynamicResource Text_OpenFile}" Command="ApplicationCommands.Open" />
+			<MenuItem d:Header="File" Header="{DynamicResource Text.File}">
+				<MenuItem Header="{DynamicResource Text.OpenFile}" Command="ApplicationCommands.Open" />
 				<Separator />
-				<MenuItem Header="{DynamicResource Text_SaveAs}" Command="ApplicationCommands.SaveAs" />
+				<MenuItem Header="{DynamicResource Text.SaveAs}" Command="ApplicationCommands.SaveAs" />
 			</MenuItem>
 
-			<MenuItem d:Header="Edit" Header="{DynamicResource Text_Edit}">
-				<MenuItem Header="{DynamicResource Text_Search}" Command="ApplicationCommands.Find" />
+			<MenuItem d:Header="Edit" Header="{DynamicResource Text.Edit}">
+				<MenuItem Header="{DynamicResource Text.Search}" Command="ApplicationCommands.Find" />
 				<Separator />
-				<MenuItem Header="{DynamicResource Text_ReplaceInFiles}" Command="ApplicationCommands.Replace" />
-				<MenuItem Header="{DynamicResource Text_Save}" Command="ApplicationCommands.Save" />
+				<MenuItem Header="{DynamicResource Text.ReplaceInFiles}" Command="ApplicationCommands.Replace" />
+				<MenuItem Header="{DynamicResource Text.Save}" Command="ApplicationCommands.Save" />
 			</MenuItem>
 
-			<MenuItem d:Header="Options" Header="{DynamicResource Text_Options}">
+			<MenuItem d:Header="Options" Header="{DynamicResource Text.Options}">
 				<!-- load data when preview -->
 				<MenuItem Header="{DynamicResource TextView_LoadData}" ToolTip="{DynamicResource TextView_LoadData_Tooltip}" 
 					IsCheckable="True" IsChecked="{Binding Text_LoadData, Source={x:Static VM:UserSettings.Default}}"/>
@@ -157,9 +157,9 @@
 				<hc:UniformSpacingPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Spacing="15" Margin="0 0 10 0" >
 					<ToggleButton Foreground="{DynamicResource PrimaryTextBrush}" >
 						<TextBlock >
-							<Run Text="{DynamicResource Text_LineNumber}" />
+							<Run Text="{DynamicResource Text.LineNumber}" />
 							<Run Name="LineNumber" Text="1" />
-							<Run Text="{DynamicResource Text_ColumnNumber}" />
+							<Run Text="{DynamicResource Text.ColumnNumber}" />
 							<Run Name="ColumnNumber" Text="1" />
 						</TextBlock>
 					</ToggleButton>

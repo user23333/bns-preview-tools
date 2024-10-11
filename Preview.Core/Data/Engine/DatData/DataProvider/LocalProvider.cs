@@ -64,10 +64,11 @@ public class LocalProvider(string source) : DefaultProvider
 	/// <summary>
 	/// Replace existed text
 	/// </summary>
+	/// <param name="table">text table</param>
 	/// <param name="files">x16 file path</param>
-	public void ReplaceText(FileInfo[] files)
+	public static void ReplaceText(Table table, params FileInfo[] files)
 	{
-		var table = TextTable ?? throw new ArgumentException("bad table");
+		ArgumentNullException.ThrowIfNull(table);
 
 		foreach (var file in files)
 		{

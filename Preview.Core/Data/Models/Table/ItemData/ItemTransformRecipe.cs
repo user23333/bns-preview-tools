@@ -220,7 +220,7 @@ public sealed class ItemTransformRecipe : ModelElement
 		}
 
 
-		var UseRandom = this.Attributes.Get<BnsBoolean>("use-random");
+		var UseRandom = this.Attributes.Get<bool>("use-random");
 		if (UseRandom)
 		{
 			if (this.Attributes["random-item-success-probability"] != null)

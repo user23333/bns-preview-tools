@@ -26,7 +26,10 @@ public class AbilityFunction
 	/// </summary>
 	public double GetFactor(sbyte level)
 	{
-		return μ * Math.Exp(Φ * level);
+		var f = μ * Math.Exp(Φ * level);
+		if (!double.IsNaN(f)) return f;
+
+		return LevelFactors.Find(f => f.Level == level)?.Value ?? double.NaN;
 	}
 
 	/// <summary>
@@ -66,27 +69,17 @@ public class AbilityFunction
 	#region Methods		
 	public bool IsValid => K > 0 && Type != CreatureField.Creature_field_none;
 
-	public override string ToString() => Type.ToString();
+	public string Text => $"AbilityName.{Type}".GetText();
 
 	public double GetPercent(double value, sbyte level, int? basepercent = null)
 	{
-		double factor = GetFactor(level);
-
-		if (double.IsNaN(factor))
-		{
-			var o = LevelFactors.Find(f => f.Level == level);
-			if (o is null) return double.NaN;
-
-			factor = o.Value;
-		}
-
-		return GetPercent(value, factor, basepercent);
+		return GetPercent(value, GetFactor(level), basepercent);
 	}
 
 	internal double GetPercent(double value, double factor, int? basepercent)
 	{
-		double percent = (double)value * (0.01 * K) / (value + factor);
-		return percent + 0.001 * (basepercent ?? C);
+		return 0.001 * (basepercent ?? C) +
+			0.01 * value * K / (value + factor);
 	}
 	#endregion
 
@@ -97,7 +90,10 @@ public class AbilityFunction
 		Type = CreatureField.AttackHitBasePercent,
 		C = 850,
 		K = 96,
-		LevelFactors = [new(60, 6081.99)]
+		LevelFactors = 
+		[
+			new(60, 6081.99)
+		]
 	};
 
 	public static AbilityFunction AttackPierce => new()
@@ -147,7 +143,6 @@ public class AbilityFunction
 			new(60, 7204.277159395931)
 		]
 	};
-
 
 
 	public static AbilityFunction DefendPower => new()

@@ -92,6 +92,17 @@ public enum MarketCategory2Seq
 
 	[Text("Name.item.market-category-2.relic")]
 	Relic,
+
+	[Text("Name.item.market-category-2.skill-train-by-item-extract")]
+	SkillTrainByItemExtract,
+
+	[Text("Name.item.market-category-2.gold")]
+	Gold,
+
+	[Text("Name.item.market-category-2.spirit")]
+	Spirit,
+
+	//COUNT
 }
 
 public enum MarketCategory3Seq
@@ -508,6 +519,15 @@ public enum MarketCategory3Seq
 
 	[Text("Name.item.market-category-3.armlet-2")]
 	Armlet2,
+
+	[Text("Name.item.market-category-3.skill-train-by-item-extract")]
+	SkillTrainByItemExtract,
+
+	[Text("Name.item.market-category-3.gold")]
+	Gold,
+
+	[Text("Name.item.market-category-3.spirit")]
+	Spirit,
 
 	COUNT
 }

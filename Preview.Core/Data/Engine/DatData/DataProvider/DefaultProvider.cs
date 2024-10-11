@@ -151,7 +151,7 @@ public class DefaultProvider : Datafile, IDataProvider
 
 
 	#region Constructors
-	public DefaultProvider()
+	protected DefaultProvider()
 	{
 
 	}
@@ -163,12 +163,13 @@ public class DefaultProvider : Datafile, IDataProvider
 		this.ConfigData = config;
 	}
 
-	public static DefaultProvider Load(string GameFolder, IDatSelect selector = default, ResultMode mode = ResultMode.SelectDat)
+	public static DefaultProvider Load(string folder, IDatSelect selector = default, ResultMode mode = ResultMode.SelectDat)
 	{
-		if (string.IsNullOrEmpty(GameFolder) || !Directory.Exists(GameFolder)) throw new WarningException("Invalid folder");
+		if (string.IsNullOrEmpty(folder) || !Directory.Exists(folder)) throw new WarningException("Invalid folder");
 
 		// get all
-		var datas = new DataCollection(GameFolder);
+		var locale = new Locale(folder);
+		var datas = new DataCollection(folder);
 		var xmls = datas.GetFiles(DatType.Xml, mode);
 		var locals = datas.GetFiles(DatType.Local, mode);
 		var configs = datas.GetFiles(DatType.Config, mode);
@@ -179,12 +180,12 @@ public class DefaultProvider : Datafile, IDataProvider
 		DefaultProvider provider;
 		if (xmls.Count == 0) throw new WarningException("invalid game data, maybe specified incorrect directory.");
 		else if (selector is null || (xmls.Count == 1 && locals.Count <= 1)) provider = new DefaultProvider(xmls.FirstOrDefault(), locals.FirstOrDefault());
-		else provider = selector.Show(xmls, locals);
+		else provider = selector.Show(xmls, locals, locale);
 
 		// return information
-		provider.Name = GameFolder.SubstringAfterLast('\\');
+		provider.Name = folder.SubstringAfterLast('\\');
 		provider.Is64Bit = provider.XmlData.Bit64;
-		provider.Locale = Locale.Current = new Locale(GameFolder);
+		provider.Locale = Locale.Current = locale;
 		provider.ConfigData = configs.FirstOrDefault();
 
 		return provider;
@@ -194,5 +195,5 @@ public class DefaultProvider : Datafile, IDataProvider
 
 public interface IDatSelect
 {
-	DefaultProvider Show(IEnumerable<FileInfo> Xml, IEnumerable<FileInfo> Local);
+	DefaultProvider Show(IEnumerable<FileInfo> xmls, IEnumerable<FileInfo> locals, Locale locale);
 }

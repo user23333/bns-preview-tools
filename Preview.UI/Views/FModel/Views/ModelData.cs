@@ -6,11 +6,11 @@ using Xylia.Preview.Data.Helpers;
 namespace Xylia.Preview.UI.FModel.Views;
 public class ModelData
 {
-	public string DisplayName;
-	public UObject Export;
-	public UAnimSet AnimSet;
+	public string? DisplayName;
+	public UObject? Export;
+	public UAnimSet? AnimSet;
+	public List<UMaterialInstance>? Materials;
 
-	public List<UMaterialInstance> Materials;
 	public IEnumerable<string?> Cols
 	{
 		set

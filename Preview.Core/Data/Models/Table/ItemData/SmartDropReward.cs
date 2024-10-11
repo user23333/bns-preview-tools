@@ -30,7 +30,7 @@ public class SmartDropReward : ModelElement
 		if (job.Length == 0) job = [JobSeq.JobNone];
 
 		// No need to deal with drop-rate in our project.
-		var items = Item.SelectNotNull(x => x.Instance).Where(x =>
+		var items = Item.Values().Where(x =>
 		{
 			foreach (var j in job)
 			{

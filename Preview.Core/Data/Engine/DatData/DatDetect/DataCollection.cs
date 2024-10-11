@@ -2,51 +2,50 @@
 public class DataCollection
 {
 	#region Constructor
-	private readonly Dictionary<DatType, List<FileInfo>> DataPathMenu = new();
+	private readonly Dictionary<DatType, List<FileInfo>> DataPathMenu = [];
 
-	public DataCollection(string Folder) => Init(Folder);
+	public DataCollection(string folder) => Init(folder);
 	#endregion
 
 	#region Methods
-	private void Init(string Folder)
+	private void Init(string folder)
 	{
 		List<FileInfo> files = [];
 
-		var DirInfo = new DirectoryInfo(Folder);
+		var DirInfo = new DirectoryInfo(folder);
 		files.AddRange(DirInfo.GetFiles("*.dat", SearchOption.AllDirectories));
 		files.AddRange(DirInfo.GetFiles("*.bin", SearchOption.AllDirectories));
 
 		foreach (var file in files)
 		{
 			DatType datType;
-			switch (Path.GetFileNameWithoutExtension(file.Name).ToLower())
+			switch (file.Name.ToLower())
 			{
-				case "xml":
-				case "datafile":
-				case "xml64":
-				case "datafile64":
+				case "xml.dat":
+				case "xml64.dat":
+				case "datafile.bin":
+				case "datafile64.bin":
 					datType = DatType.Xml;
 					break;
 
-				case "config":
-				case "config64":
+				case "config.dat":
+				case "config64.dat":
 					datType = DatType.Config;
 					break;
 
-				case "local":
-				case "localfile":
-				case "local64":
-				case "localfile64":
+				case "local.dat":
+				case "local64.dat":
+				case "localfile.bin":
+				case "localfile64.bin":
 					datType = DatType.Local;
 					break;
 
 				default: continue;
 			}
 
-
 			//add
 			if (!DataPathMenu.ContainsKey(datType))
-				DataPathMenu.Add(datType, new());
+				DataPathMenu.Add(datType, []);
 
 			DataPathMenu[datType].Add(file);
 		}

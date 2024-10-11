@@ -19,7 +19,7 @@ public abstract class ModelElement : IElement, IArgument
 
 	public Ref PrimaryKey => Source.PrimaryKey;
 
-	public AttributeCollection Attributes => Source.Attributes;
+	public AttributeCollection Attributes { get; private set; }
 
 	protected IDataProvider Provider => Source.Owner.Owner;
 	#endregion
@@ -29,8 +29,11 @@ public abstract class ModelElement : IElement, IArgument
 
 	internal void Initialize(Record source)
 	{
+		// initialize data
 		this.Source = source;
+		this.Attributes = source.Attributes;
 
+		// initialize property
 		foreach (var prop in this.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
 		{
 			if (!prop.CanWrite) continue;

@@ -1,12 +1,10 @@
-﻿using System.Windows;
-using Xylia.Preview.Data.Common.DataStruct;
+﻿using System.IO;
+using System.Windows;
+using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Data.Helpers;
-using Xylia.Preview.UI.Helpers.Output;
-using Xylia.Preview.UI.Helpers.Output.Tables;
 using Xylia.Preview.UI.ViewModels;
 using Xylia.Preview.UI.Views.Editor;
 using MessageBox = HandyControl.Controls.MessageBox;
-
 namespace Xylia.Preview.UI.Views.Pages;
 public partial class ItemPage
 {
@@ -25,15 +23,9 @@ public partial class ItemPage
 			"<br/>123456<br/>1111111<br/><br/>222222"
 		};
 
-		// timer
-		TestLabel.Timers[1] = new Time64(1722541536967);
-		var timer = new System.Windows.Threading.DispatcherTimer();
-		timer.Tick += ((s, e) => TestLabel?.InvalidateVisual());
-		timer.Interval = new TimeSpan(0, 0, 0, 1);
-		timer.IsEnabled = true;
-		timer.Start();
 
-		//Debug.WriteLine("stringstringstring   <arg p=\"2:string\"/>".Replace([null, "test"]));  
+		// timer
+		TestLabel.SetTimer(1, 1722541536967);
 #endif
 	}
 	#endregion
@@ -52,7 +44,8 @@ public partial class ItemPage
 
 	private void TestButton1_Click(object sender, RoutedEventArgs e)
 	{
-		
+		var table = FileCache.Data.Provider.GetTable("text");
+		LocalProvider.ReplaceText(table, new FileInfo(@"D:\Tencent\BnsData\GameData_ZNcs\20241008\TextData.x16"));
 	}
 	#endregion
 }

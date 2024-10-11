@@ -211,6 +211,6 @@ public static partial class SequenceExtensions
 		var name = SequenceExtensions.GetText(ability);
 		return value == 0 ? name : string.Format("{0} {1}", name,
 			ability.ToString().EndsWith("percent", StringComparison.OrdinalIgnoreCase) ?
-			new Integer(value).FloatDot1 + "%" : value.ToString());
+			new Integer(value).FloatDot2 + "%" : value.ToString());
 	}
 }

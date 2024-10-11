@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.ComponentModel;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -11,9 +12,7 @@ public partial class DatSelectDialog : Window, IDatSelect
 	#region Constructor
 	private IEnumerable<FileInfo>? list_xml;
 	private IEnumerable<FileInfo>? list_local;
-
-	public string? XML_Select;
-	public string? Local_Select;
+	private Locale locale;
 
 	private DatSelectDialog()
 	{
@@ -26,65 +25,6 @@ public partial class DatSelectDialog : Window, IDatSelect
 		NoResponse = new DispatcherTimer();
 		NoResponse.Interval = new TimeSpan(0, 0, 1);
 		NoResponse.Tick += NoResponse_Tick;
-	}
-	#endregion
-
-	#region Methods
-	private void Window_MouseEnter(object sender, MouseEventArgs e)
-	{
-		StopCountDown();
-		LastActTime = DateTime.Now;
-	}
-
-	private void Window_Loaded(object sender, RoutedEventArgs e)
-	{
-		RefreshList();
-		StartCountDown();
-
-		LastActTime = DateTime.Now;
-		NoResponse.IsEnabled = true;
-	}
-
-
-	private void Btn_Confirm_Click(object sender, RoutedEventArgs e)
-	{
-		// stop timer
-		NoResponse.Stop();
-		CountDown.Stop();
-
-		XML_Select = comboBox1.Text.Replace("...", @"contents\Local");
-		Local_Select = comboBox2.Text.Replace("...", @"contents\Local");
-
-		this.DialogResult = true;
-		this.TimeInfo.Visibility = Visibility.Hidden;
-	}
-
-	private void Btn_Cancel_Click(object sender, EventArgs e)
-	{
-		this.DialogResult = false;
-	}
-
-
-	private void RefreshList()
-	{
-		Load_Cmb(comboBox1, list_xml);
-		Load_Cmb(comboBox2, list_local);
-	}
-
-	private static void Load_Cmb(ComboBox control, IEnumerable<FileInfo> files)
-	{
-		control.Items.Clear();
-
-		foreach (var f in files)
-		{
-			var s = f.FullName.Replace(@"contents\Local", "...");
-
-			var is64 = Path.GetFileNameWithoutExtension(s).Contains("64");
-			if (is64 && true) control.Items.Add(s);
-		}
-
-		control.Text = control.Items.Count == 0 ? null : control.Items[0].ToString();
-		control.IsEnabled = control.Items.Count != 1;
 	}
 	#endregion
 
@@ -132,20 +72,90 @@ public partial class DatSelectDialog : Window, IDatSelect
 	}
 	#endregion
 
+	#region Methods
+	private void Window_MouseEnter(object sender, MouseEventArgs e)
+	{
+		StopCountDown();
+		LastActTime = DateTime.Now;
+	}
+
+	private void Window_Loaded(object sender, RoutedEventArgs e)
+	{
+		Load(comboBox1, list_xml);
+		Load(comboBox2, list_local, locale);
+
+		StartCountDown();
+		LastActTime = DateTime.Now;
+		NoResponse.IsEnabled = true;
+	}
+
+	protected override void OnClosing(CancelEventArgs e)
+	{
+		base.OnClosing(e);
+
+		e.Cancel = true;
+		Visibility = Visibility.Collapsed;
+	}
+
+	private void Btn_Confirm_Click(object sender, RoutedEventArgs e)
+	{
+		// stop timer
+		NoResponse.Stop();
+		CountDown.Stop();
+
+		SelectedXml = new FileInfo(comboBox1.Text.Replace("...", @"contents\Local"));
+		SelectedLocal = new FileInfo(comboBox2.Text.Replace("...", @"contents\Local"));
+
+		TimeInfo.Visibility = Visibility.Hidden;
+		DialogResult = Status = true;
+	}
+
+	private void Btn_Cancel_Click(object sender, EventArgs e)
+	{
+		DialogResult = Status = false;
+	}
+
+	private static void Load(ComboBox control, IEnumerable<FileInfo>? files, Locale locale = default)
+	{
+		control.Items.Clear();
+		control.SelectedIndex = 0;
+
+		if (files is null)
+		{
+			control.IsEnabled = false;
+			return;
+		}
+
+		foreach (var f in files)
+		{
+			var s = f.FullName.Replace(@"contents\Local", "...");
+			control.Items.Add(s);
+
+			if (locale.Language != 0 && s.Contains(locale.Language + "\\data\\", StringComparison.OrdinalIgnoreCase))
+				control.SelectedItem = s;
+		}
+
+		control.IsEnabled = control.Items.Count != 1;
+	}
+	#endregion
+
 
 	#region IDatSelect
-	DefaultProvider IDatSelect.Show(IEnumerable<FileInfo> Xml, IEnumerable<FileInfo> Local)
+	public bool Status;
+	public FileInfo? SelectedXml;
+	public FileInfo? SelectedLocal;
+
+	DefaultProvider IDatSelect.Show(IEnumerable<FileInfo> xmls, IEnumerable<FileInfo> locals, Locale locale)
 	{
+		this.list_xml = xmls;
+		this.list_local = locals;
+		this.locale = locale;
+
 		return Application.Current.Dispatcher.Invoke(() =>
 		{
-			var dialog = new DatSelectDialog()
-			{
-				list_xml = Xml,
-				list_local = Local,
-			};
-			if (dialog.ShowDialog() != true) throw new OperationCanceledException();
-
-			return new DefaultProvider(new FileInfo(dialog.XML_Select), new FileInfo(dialog.Local_Select));
+			ShowDialog();
+			if (Status) return new DefaultProvider(SelectedXml, SelectedLocal);
+			throw new OperationCanceledException();
 		});
 	}
 

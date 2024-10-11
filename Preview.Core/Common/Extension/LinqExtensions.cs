@@ -82,7 +82,7 @@ public static class LinqExtensions
 		return array;
 	}
 
-	public static Tuple<T1, T2>[] Create<T1, T2>(T1[] array1, T2[] array2)
+	public static Tuple<T1, T2>[] Tuple<T1, T2>(T1[] array1, T2[] array2)
 	{
 		ArgumentNullException.ThrowIfNull(array1);
 		ArgumentNullException.ThrowIfNull(array2);

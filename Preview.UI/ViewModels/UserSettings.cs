@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
 using CUE4Parse.UE4.Assets.Exports.Material;
+using CUE4Parse_Conversion;
 using CUE4Parse_Conversion.Meshes;
 using CUE4Parse_Conversion.Textures;
 using FModel.Views.Snooper;
@@ -263,6 +264,13 @@ internal partial class UserSettings : Settings
 	{
 		get => _saveSkeletonAsMesh;
 		set => SetProperty(ref _saveSkeletonAsMesh, value);
+	}
+
+	private ExporterOptions _exportOptions;
+	public ExporterOptions ExportOptions
+	{
+		get => _exportOptions;
+		set => SetProperty(ref _exportOptions, value);
 	}
 	#endregion
 }

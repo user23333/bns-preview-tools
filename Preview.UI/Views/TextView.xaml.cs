@@ -203,6 +203,8 @@ public partial class TextView
 
 	private void ReplaceInFilesCommand(object sender, RoutedEventArgs e)
 	{
+		ArgumentNullException.ThrowIfNull(source);
+
 		var dialog = new OpenFolderDialog();
 		if (dialog.ShowDialog() != true) return;
 
@@ -210,25 +212,25 @@ public partial class TextView
 		{
 			try
 			{
+				// replace
 				var files = new DirectoryInfo(dialog.FolderName).GetFiles("*.x16", SearchOption.AllDirectories);
 				if (files.Length == 0) throw new Exception(StringHelper.Get("TextView_NotExist_x16"));
-
-				source.ReplaceText(files);
+				LocalProvider.ReplaceText(source.TextTable, files);
 
 				// reload text
 				var settings = new TableWriterSettings() { Encoding = Encoding.Unicode };
 				var text = settings.Encoding.GetString(source.TextTable.WriteXml(settings));
 
 				Dispatcher.Invoke(() => Editor.Text = text);
-				Growl.Success(StringHelper.Get("TextView_ReplaceCompleted", nameof(TextView)));
+				Growl.Success(StringHelper.Get("TextView_ReplaceCompleted", TOKEN));
 			}
 			catch (XmlException ex)
 			{
-				Growl.Error(string.Format("{1}\n{0}", ex.Message, ex.SourceUri), nameof(TextView));
+				Growl.Error(string.Format("{1}\n{0}", ex.Message, ex.SourceUri), TOKEN);
 			}
 			catch (Exception ex)
 			{
-				Growl.Error(string.Format("{0}", ex.Message), nameof(TextView));
+				Growl.Error(string.Format("{0}", ex.Message), TOKEN);
 			}
 		});
 	}

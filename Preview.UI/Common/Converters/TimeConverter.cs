@@ -30,11 +30,11 @@ public class TimeConverter : MarkupExtension, IValueConverter
 		else if (value is TimeSpan time)
 		{
 			var builder = new StringBuilder();
-			if (time.Ticks == 0) return StringHelper.Get(key: "Text_Time_None");
-			if (time.Days > 0) builder.Append(time.Days + StringHelper.Get("Text_Time_Day"));
-			if (time.Hours > 0) builder.Append(time.Hours + StringHelper.Get("Text_Time_Hour"));
-			if (time.Minutes > 0) builder.Append(time.Minutes + StringHelper.Get("Text_Time_Minute"));
-			if (time.Seconds > 0) builder.Append(time.Seconds + StringHelper.Get("Text_Time_Second"));
+			if (time.Ticks == 0) return StringHelper.Get(key: "Text.Time_None");
+			if (time.Days > 0) builder.Append(time.Days + StringHelper.Get("Text.Time_Day"));
+			if (time.Hours > 0) builder.Append(time.Hours + StringHelper.Get("Text.Time_Hour"));
+			if (time.Minutes > 0) builder.Append(time.Minutes + StringHelper.Get("Text.Time_Minute"));
+			if (time.Seconds > 0) builder.Append(time.Seconds + StringHelper.Get("Text.Time_Second"));
 
 			return builder.ToString();
 		}

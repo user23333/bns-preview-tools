@@ -75,11 +75,11 @@ public sealed class SoulBoostSeason : ModelElement
 
 			Debug.WriteLine($"grade {i + 1}");
 
-			LinqExtensions.Create(GradeReward?.Item, GradeReward?.ItemCount)
+			LinqExtensions.Tuple(GradeReward?.Item, GradeReward?.ItemCount)
 				.Where(x => x.Item1.HasValue)
 				.ForEach(x => Debug.WriteLine($" {x.Item1.Instance.Name} {x.Item2}"));
 
-			LinqExtensions.Create(BmGradeReward?.Item, BmGradeReward?.ItemCount)
+			LinqExtensions.Tuple(BmGradeReward?.Item, BmGradeReward?.ItemCount)
 				.Where(x => x.Item1.HasValue)
 				.ForEach(x => Debug.WriteLine($" {x.Item1.Instance.Name} {x.Item2}"));
 		}
