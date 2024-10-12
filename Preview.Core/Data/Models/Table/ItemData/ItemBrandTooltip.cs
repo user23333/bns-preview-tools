@@ -10,7 +10,7 @@ public sealed class ItemBrandTooltip : ModelElement
 	#region Attributes
 	public int BrandId { get; set; }
 
-	public ConditionType ItemConditionType { get; set; }
+	public ItemConditionType ItemConditionType { get; set; }
 
 	public Ref<Text> Name2 { get; set; }
 

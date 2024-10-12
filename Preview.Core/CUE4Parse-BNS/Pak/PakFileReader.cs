@@ -67,12 +67,11 @@ public class MyPakFileReader : AbstractAesVfsReader
 		VfsPath ??= System.IO.Path.GetFileName(filePath);
 		VfsPath = VfsPath.Replace("\\", "/");
 
-
 		if (Method != CompressionMethod.None && Status == CompressedStatus.None)
 			Status = CompressedStatus.IsCompressed;
 
-		var Files = (Dictionary<string, GameFile>)this.Files;
-		Files.Add(filePath, new MyFPakEntry(this, filePath, VfsPath, Method, Status));
+		var files = (Dictionary<string, GameFile>)this.Files;
+		files.Add(VfsPath, new MyFPakEntry(this, filePath, VfsPath, Method, Status));
 	}
 
 	public void Write(BinaryWriter writer)
@@ -119,7 +118,7 @@ public class MyPakFileReader : AbstractAesVfsReader
 			file.WriteInfo(Info, writer, false);
 
 			if (!file.IsCompressed) writer.Write(file.Data);
-			else Array.ForEach(file.CompressionBlocksData, block => writer.Write(block));
+			else Array.ForEach(file.CompressionBlocksData, writer.Write);
 
 			offset = writer.BaseStream.Position;
 		}

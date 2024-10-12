@@ -223,7 +223,7 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 		get
 		{
 			if (string.IsNullOrEmpty(alias)) return null;
-			if (Ref.TryPrase(alias, out var key)) return this[key];
+			if (Ref.TryParse(alias, out var key)) return this[key];
 
 			lock (this)
 			{

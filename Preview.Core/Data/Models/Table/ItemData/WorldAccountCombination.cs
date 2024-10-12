@@ -48,7 +48,7 @@ public sealed class WorldAccountCombination : ModelElement
 			if (group is null) return;
 
 			var MemberProb = probability * 0.0001d / group.MemberItemCount;
-			foreach (var item in group.MemberItem.SelectNotNull(x => x.Instance))
+			foreach (var item in group.MemberItem.Values())
 			{
 				data.Add(new()
 				{

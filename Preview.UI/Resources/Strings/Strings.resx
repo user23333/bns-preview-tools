@@ -586,6 +586,27 @@ Expand the response rectange with item preview.</value>
   <data name="Message_Tip" xml:space="preserve">
     <value>Message</value>
   </data>
+  <data name="Name.PreviewBasic" xml:space="preserve">
+    <value>View Raw</value>
+  </data>
+  <data name="Name.PreviewModel" xml:space="preserve">
+    <value>View Model</value>
+  </data>
+  <data name="Name.PreviewProbability" xml:space="preserve">
+    <value>View Probability Information</value>
+  </data>
+  <data name="Name.PreviewShowObject" xml:space="preserve">
+    <value>View Show Object</value>
+  </data>
+  <data name="Name.PreviewTooltip" xml:space="preserve">
+    <value>View Detail</value>
+  </data>
+  <data name="Name.PreviewTransform" xml:space="preserve">
+    <value>View Item Growth</value>
+  </data>
+  <data name="Name.SetFavoriteCommand" xml:space="preserve">
+    <value>Add / Remove Favorite</value>
+  </data>
   <data name="Page_AbilityPage" xml:space="preserve">
     <value>Ability</value>
   </data>
@@ -595,32 +616,11 @@ Expand the response rectange with item preview.</value>
   <data name="Page_ItemPage" xml:space="preserve">
     <value>General</value>
   </data>
-  <data name="Page_QuestJournalPanel" xml:space="preserve">
-    <value>Quest</value>
-  </data>
-  <data name="PreviewBasic" xml:space="preserve">
-    <value>View Raw</value>
-  </data>
-  <data name="PreviewModel" xml:space="preserve">
-    <value>View Model</value>
-  </data>
   <data name="PreviewModel_Empty" xml:space="preserve">
     <value>Missing model resource.</value>
   </data>
   <data name="PreviewModel_Fail" xml:space="preserve">
     <value>Model load failed.</value>
-  </data>
-  <data name="PreviewProbability" xml:space="preserve">
-    <value>View Probability Information</value>
-  </data>
-  <data name="PreviewShowObject" xml:space="preserve">
-    <value>View Show Object</value>
-  </data>
-  <data name="PreviewTooltip" xml:space="preserve">
-    <value>View Detail</value>
-  </data>
-  <data name="PreviewTransform" xml:space="preserve">
-    <value>View Item Growth</value>
   </data>
   <data name="ProductName" xml:space="preserve">
     <value>Blade &amp; Soul Preview Tool</value>

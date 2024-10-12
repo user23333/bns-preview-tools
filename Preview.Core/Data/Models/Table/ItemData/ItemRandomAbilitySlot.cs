@@ -9,7 +9,7 @@ public sealed class ItemRandomAbilitySlot : ModelElement, IHaveDesc
 
 	public string Alias { get; set; }
 
-	public MainAbility Ability { get; set; }
+	public MainAbilitySeq Ability { get; set; }
 
 	public int ValueMin { get; set; }
 

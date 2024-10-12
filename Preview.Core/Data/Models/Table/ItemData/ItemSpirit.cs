@@ -26,7 +26,7 @@ public sealed class ItemSpirit : ModelElement
 
 	public short[] FixedIngredientStackCount { get; set; }
 
-	public AttachAbility[] AttachAbility { get; set; }
+	public AttachAbilitySeq[] AttachAbility { get; set; }
 
 	public int[] AbilityMin { get; set; }
 
@@ -44,5 +44,9 @@ public sealed class ItemSpirit : ModelElement
 		Fail,
 		COUNT
 	}
+	
+	public bool UseRandomAbilityValueSelect { get; set; }
+
+	public int SelectCount { get; set; }
 	#endregion
 }

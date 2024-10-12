@@ -18,6 +18,24 @@ public partial class TableTests
 	}
 
 	[TestMethod]
+	[DataRow(10001)]
+	public void RacoonStoreTest(int group)
+	{
+		var table = Database.Provider.GetTable<RacoonStoreItem>();
+		var records = table.Where(x => x.SlotGroup == group);
+		var TotalItemProbWeight = records.Sum(x => x.ItemProbWeight);
+
+		foreach (var record in records)
+		{
+			Console.WriteLine(string.Format("{0} {1:P3}  {2} {3}",
+				record.Item.Instance.Name,							  
+				(double)record.ItemProbWeight / TotalItemProbWeight,
+				record.CostType,
+				record.ItemCost
+			));
+		}
+	}
+
 	[DataRow("Accessory_Pirate_Grade5_Personal_002")]
 	public void SmartDropRewardTest(string alias)
 	{
@@ -28,21 +46,25 @@ public partial class TableTests
 	}
 
 	[TestMethod]
-	[DataRow(10008)]
-	public void RacoonStoreTest(int group)
+	[DataRow("SoulBoost_0001")]
+	public void SoulBoostTest(string alias)
 	{
-		var table = Database.Provider.GetTable<RacoonStoreItem>();
-		var records = table.Where(x => x.SlotGroup == group);
-		var TotalItemProbWeight = records.Sum(x => x.ItemProbWeight);
-
-		foreach (var record in records)
-		{
-			Console.WriteLine(string.Format("{0} {1:P3}",
-				record.Item.Instance.Name,
-				(double)record.ItemProbWeight / TotalItemProbWeight));
-		}
+		var record = Database.Provider.GetTable<SoulBoostSeason>()[alias];
+		record.TestMethod();
 	}
 
+	[TestMethod]
+	[DataRow("Summoner_L0_Rose_1")]
+	public void SkillBookTest(string parent)
+	{
+		var records = Database.Provider.GetTable<SkillBookCatalogueItem>()
+			.Where(record => record.ParentSkill.ToString() == parent);
+
+		foreach(var record in records)
+		{
+			Console.WriteLine($"{record.Row} {record.Column}  {record.BaseSkill.Instance?.Name}");
+		}
+	}
 
 
 	[TestMethod]

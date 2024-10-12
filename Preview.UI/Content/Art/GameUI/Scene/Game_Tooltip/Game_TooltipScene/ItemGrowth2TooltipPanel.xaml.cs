@@ -102,26 +102,31 @@ public partial class ItemGrowth2TooltipPanel
 		var EquipJobCheck = record.Attributes.Get<object[]>("equip-job-check").Cast<string>();
 		var job = UserSettings.Default.Job;
 
-		var RandomOptionGroup = FileCache.Data.Provider.GetTable<ItemRandomOptionGroup>()[RandomOptionGroupId + ((long)job << 32)];
-		if (RandomOptionGroup is null) return;
-
 		var data = new List<NameObject<object>>();
-
-		if (RandomOptionGroup.EffectList.HasValue)
+		var group = FileCache.Data.Provider.GetTable<ItemRandomOptionGroup>()[RandomOptionGroupId + ((long)job << 32)];
+		if (group != null)
 		{
-			data.Add(new(RandomOptionGroup.EffectList.Instance, "UI.ItemRandomOption.EffectOption.Title".GetText()));
-		}
+			if (group.EffectList.HasValue)
+			{
+				data.Add(new(group.EffectList.Instance, "UI.ItemRandomOption.EffectOption.Title".GetText()));
+			}
 
-		if (RandomOptionGroup.AbilityListTotalCount > 0)
-		{
-			int index = 0;
-			RandomOptionGroup.AbilityList.Select(x => x.Instance).ForEach(x => data.Add(new(x, "UI.ItemRandomOption.SubAbility.Title".GetText([++index]))));
-		}
+			if (group.AbilityListTotalCount > 0)
+			{
+				int index = 0;
+				group.AbilityList.Select(x => x.Instance).ForEach(x => data.Add(new(x, "UI.ItemRandomOption.SubAbility.Title".GetText([++index]))));
+			}
 
-		if (RandomOptionGroup.SkillBuildUpGroupListTotalCount > 0)
-		{
-			int index = 0;
-			RandomOptionGroup.SkillBuildUpGroupList.Select(x => x.Instance).ForEach(x => data.Add(new(x, "UI.ItemRandomOption.SkillEnhancement.Title".GetText([++index]))));
+			if (group.SkillTrainByItemListTotalCount > 0)
+			{
+				data.Add(new(group.SkillBuildUpGroupList.Values(), "UI.RandomOption.Probability.SkillOptionSlot.1DepthTitle".GetText([group.SkillTrainByItemListSelectMin, group.SkillTrainByItemListSelectMax])));
+			}
+
+			if (group.SkillBuildUpGroupListTotalCount > 0)
+			{
+				int index = 0;
+				group.SkillBuildUpGroupList.Values().ForEach(x => data.Add(new(x, "UI.ItemRandomOption.SkillEnhancement.Title".GetText([++index]))));
+			}
 		}
 
 		RandomOption_Groups.ItemsSource = data;

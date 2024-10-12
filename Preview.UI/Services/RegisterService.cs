@@ -1,5 +1,7 @@
 ﻿using HandyControl.Controls;
 using Xylia.Preview.Data.Helpers;
+using Xylia.Preview.UI.Controls;
+using Xylia.Preview.UI.GameUI.Scene.Game_Tooltip;
 using Xylia.Preview.UI.ViewModels;
 using Xylia.Preview.UI.Views.Selector;
 
@@ -18,6 +20,7 @@ internal class RegisterService : IService
 
 		// init
 		FileCache.DatSelector = DatSelectDialog.Instance;
+		BnsCustomMinimapWidget.AttractionMapUnitToolTip = new AttractionMapUnitToolTipPanel();
 
 		// ask
 		if (UserSettings.Default.UseUserDefinition)

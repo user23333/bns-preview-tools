@@ -10,6 +10,6 @@ public sealed class AcquireRouteList : ModelElement
 
 	public override string ToString()
 	{
-		return string.Join("<br/>", AcquireRoute.SelectNotNull(x => x.Instance));
+		return string.Join("<br/>", AcquireRoute.Values());
 	}
 }

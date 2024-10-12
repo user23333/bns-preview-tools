@@ -11,7 +11,6 @@ using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models;
-using Xylia.Preview.Data.Models.Document;
 using Xylia.Preview.Data.Models.Sequence;
 using Xylia.Preview.UI.Controls.Primitives;
 using Xylia.Preview.UI.Converters;
@@ -27,10 +26,13 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
 	}
 	#endregion
 
-	#region Public Properties
+	#region Events
 	public event EventHandler<MapInfo>? MapChanged;
+	#endregion
 
+	#region Public Properties
 	private static readonly Type Owner = typeof(BnsCustomMinimapWidget);
+	public static BnsCustomWindowWidget? AttractionMapUnitToolTip;
 
 	public static readonly DependencyProperty MapInfoProperty = Owner.Register<MapInfo>(nameof(MapInfo), null,
 		FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender, OnMapChanged);
@@ -231,7 +233,7 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
 			if (mapunit is MapUnit.Quest or MapUnit.GuildBattleFieldPortal) continue;
 
 			#region Initialize
-			var tooltip = mapunit.Name;
+			object? tooltip = null;
 			var category = mapunit.Category;
 			var Image = new ImageProperty() { EnableImageSet = true, ImageSet = new MyFPackageIndex(mapunit.Imageset) };
 			var OverImage = string.IsNullOrEmpty(mapunit.OverImageset) ? Image : new ImageProperty() { EnableImageSet = true, ImageSet = new MyFPackageIndex(mapunit.OverImageset) };
@@ -239,14 +241,12 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
 			if (mapunit is MapUnit.Attraction)
 			{
 				var obj = mapunit.Attributes.Get<ModelElement>("attraction");  //tref
-				if (obj is IAttraction attraction)
+				if (obj is IAttraction attraction && AttractionMapUnitToolTip != null)
 				{
-					tooltip = attraction.Name + BR.Tag + attraction.Description;
+					AttractionMapUnitToolTip.DataContext = attraction;
+					tooltip = AttractionMapUnitToolTip;
 				}
-				else if (obj != null)
-				{
-					tooltip = obj.ToString();
-				}
+				else if (obj != null) tooltip = obj.ToString();
 			}
 			else if (mapunit is MapUnit.Npc)
 			{

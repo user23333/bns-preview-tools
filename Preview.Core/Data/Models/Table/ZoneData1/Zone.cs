@@ -15,6 +15,7 @@ public class Zone : ModelElement
 		Single,
 		Instant,
 	}
+
 	public ZoneType2Seq ZoneType2 { get; set; }
 
 

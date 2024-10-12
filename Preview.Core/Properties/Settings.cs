@@ -29,7 +29,6 @@ public class Settings : INotifyPropertyChanged
 	#region PropertyChange	 
 	protected string ConfigPath;
 	protected IniData Configuration;
-
 	public event PropertyChangedEventHandler PropertyChanged;
 
 	protected virtual bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
@@ -44,7 +43,7 @@ public class Settings : INotifyPropertyChanged
 
 	public T GetValue<T>(string section = "Common", [CallerMemberName] string name = null)
 	{
-		//group
+		// group
 		if (name.Contains('_'))
 		{
 			var split = name.Split('_', 2);
@@ -52,26 +51,31 @@ public class Settings : INotifyPropertyChanged
 			name = split[1];
 		}
 
-		//value
+		// value
 		var value = Configuration[section][name];
-		if (value is null) return default;
-		else if (typeof(T).IsArray)
+		if (string.IsNullOrEmpty(value)) return default;
+
+		var type = typeof(T);
+		if (type.IsEnumerable())
 		{
+			// convert to array
 			var strs = value.Split(',');
-			var type = typeof(T).GetElementType();
-			var data = Array.CreateInstance(type, strs.Length);
+			var subtype = type.IsArray ? type.GetElementType() : type.GetGenericArguments()[0];
+			var data = Array.CreateInstance(subtype, strs.Length);
+			for (int i = 0; i < data.Length; i++) data.SetValue(strs[i].To(subtype), i);
 
-			for (int i = 0; i < data.Length; i++)
-				data.SetValue(strs[i].To(type), i);
-
-			return (T)(object)data;
+			// convert target type
+			if (type.IsArray) return data.To<T>();
+			else return Activator.CreateInstance(type, [data]).To<T>();
 		}
 		else return value.To<T>();
 	}
 
-	public void SetValue(object value, string section = "Common", [CallerMemberName] string name = null)
+	public T GetValue<T>(ref T value, string section = "Common", [CallerMemberName] string name = null) => value = GetValue<T>(section, name);
+
+	public void SetValue<T>(T value, string section = "Common", [CallerMemberName] string name = null)
 	{
-		//group
+		// group
 		if (name.Contains('_'))
 		{
 			var split = name.Split('_', 2);
@@ -79,13 +83,14 @@ public class Settings : INotifyPropertyChanged
 			name = split[1];
 		}
 
-		//value
-		if (value is IList objs) value = string.Join(",", objs.Cast<object>());
+		// write
+		Configuration[section][name] = value switch
+		{
+			IEnumerable objs when value is not string => string.Join(",", objs.Cast<object>()),
+			_ => value?.ToString()
+		};
 
-		//write
-		Configuration[section][name] = value?.ToString();
 		new FileIniDataParser().WriteFile(ConfigPath, Configuration);
-
 		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 	}
 	#endregion

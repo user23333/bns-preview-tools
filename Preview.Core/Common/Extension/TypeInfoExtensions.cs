@@ -4,6 +4,13 @@ using System.ComponentModel;
 namespace Xylia.Preview.Common.Extension;
 public static class TypeInfoExtensions
 {
+	public static bool IsEnumerable(this Type type)
+	{
+		return
+			type != typeof(string) &&
+			typeof(IEnumerable).IsAssignableFrom(type);
+	}
+
 	/// <summary>
 	///  Converts the given value object to the specified type
 	/// </summary>
@@ -48,13 +55,6 @@ public static class TypeInfoExtensions
 		}
 
 		return value;
-	}
-
-	internal static bool IsEnumerable(this Type type)
-	{
-		return
-			type != typeof(string) &&
-			typeof(IEnumerable).IsAssignableFrom(type);
 	}
 
 	public static Type GetBaseType(this object value, Type stopper = null)

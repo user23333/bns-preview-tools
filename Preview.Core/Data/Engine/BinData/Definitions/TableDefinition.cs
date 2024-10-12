@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Text;
 using System.Xml;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.Exceptions;
@@ -59,7 +60,7 @@ public class TableDefinition : TableHeader
 	public byte[] WriteXml()
 	{
 		using var ms = new MemoryStream();
-		using var writer = XmlWriter.Create(ms, new XmlWriterSettings() { Indent = true, IndentChars = "\t" });
+		using var writer = XmlWriter.Create(ms, new XmlWriterSettings() { Indent = true, IndentChars = "\t" , Encoding = new UTF8Encoding(false) });
 
 		writer.WriteStartDocument();
 		writer.WriteStartElement("table");
@@ -85,7 +86,6 @@ public class TableDefinition : TableHeader
 
 				writer.WriteEndElement();
 			}
-
 
 			writer.WriteEndElement();
 		}

@@ -23,8 +23,9 @@ public partial class NpcTooltipPanel
 		var creature = record.AbilityTest();
 
 		AddProperty(row++, "name", creature.Name);
-		AddProperty(row++, "level", "UI.CharacterInfo.Level".GetText([creature.Level]) +
-			(creature.MasteryLevel > 0 ? "UI.CharacterInfo.MasteryLevel".GetText([creature.MasteryLevel]) : null));
+		AddProperty(row++, "level", "UI.CharacterInfo.Level".GetText([creature.Level]) + (creature.MasteryLevel > 0 ? "UI.CharacterInfo.MasteryLevel".GetText([creature.MasteryLevel]) : null));
+	    AddProperty(row++, "race2", record.RaceType2.GetText());
+		AddProperty(row++, "attribute", record.AttributeType.GetText());
 
 		AddProperty(row++, "UI.CharacterInfo.Ability.MaxHp.Main".GetText(), creature.MaxHp.ToString());
 		AddProperty(row++, "UI.CharacterInfo.Ability.AttackPower.Main".GetText(), "UI.CharacterInfo.Ability.Tooltip.attack-power".GetText(),

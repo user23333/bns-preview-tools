@@ -62,7 +62,7 @@ internal class MyFPakEntry : VfsEntry
 			this.SHAHash = SHA1.HashData(FileBuffer);
 
 			if (Status == CompressedStatus.None) throw new ArgumentException("参数不能指定为None");
-			else if (Status == CompressedStatus.AlreadyCompressed) throw new NotImplementedException("尚未支持");
+			else if (Status == CompressedStatus.AlreadyCompressed) throw new NotImplementedException();
 			else
 			{
 				var CompressionBlocks = new List<KeyValuePair<FPakCompressedBlock, byte[]>>();

@@ -10,7 +10,7 @@ public class ItemBuyPrice : ModelElement
 
 	public Ref<ItemBrand> RequiredItembrand { get; set; }
 
-	public ConditionType RequiredItembrandConditionType { get; set; }
+	public ItemConditionType RequiredItembrandConditionType { get; set; }
 
 	public Ref<Item>[] RequiredItem { get; set; }
 

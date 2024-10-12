@@ -19,7 +19,7 @@ public sealed class ItemTransformRecipe : ModelElement
 
 	public Ref<ModelElement> MainIngredient { get; set; }
 
-	public ConditionType MainIngredientConditionType { get; set; }
+	public ItemConditionType MainIngredientConditionType { get; set; }
 
 	public sbyte MainIngredientMinLevel { get; set; }
 
@@ -39,7 +39,7 @@ public sealed class ItemTransformRecipe : ModelElement
 
 	public Ref<ModelElement>[] SubIngredient { get; set; }
 
-	public ConditionType[] SubIngredientConditionType { get; set; }
+	public ItemConditionType[] SubIngredientConditionType { get; set; }
 
 	public sbyte[] SubIngredientMinLevel { get; set; }
 
@@ -332,48 +332,48 @@ public sealed class ItemTransformRecipe : ModelElement
 			if (itembrand != Item.Brand.Instance) return false;
 
 			var type = o.MainIngredientConditionType;
-			if (type == ConditionType.All || type == ConditionType.None) return true;
+			if (type == ItemConditionType.All || type == ItemConditionType.None) return true;
 			else if (Item is Item.Weapon Weapon)
 			{
 				var WeaponType = Weapon.WeaponType;
-				if (type == ConditionType.Weapon && WeaponType != WeaponTypeSeq.Pet1 && WeaponType != WeaponTypeSeq.Pet2) return true;
+				if (type == ItemConditionType.Weapon && WeaponType != WeaponTypeSeq.Pet1 && WeaponType != WeaponTypeSeq.Pet2) return true;
 
 				return type == WeaponType switch
 				{
-					WeaponTypeSeq.Sword => ConditionType.Sword,
-					WeaponTypeSeq.Gauntlet => ConditionType.Gauntlet,
-					WeaponTypeSeq.AuraBangle => ConditionType.AuraBangle,
-					WeaponTypeSeq.TwoHandedAxe => ConditionType.Axe,
-					WeaponTypeSeq.Staff => ConditionType.Staff,
-					WeaponTypeSeq.Dagger => ConditionType.Dagger,
-					WeaponTypeSeq.Pet1 => ConditionType.Pet1,
-					WeaponTypeSeq.Pet2 => ConditionType.Pet2,
-					WeaponTypeSeq.Gun => ConditionType.ShooterGun,
-					WeaponTypeSeq.GreatSword => ConditionType.GreatSword,
-					WeaponTypeSeq.LongBow => ConditionType.LongBow,
-					WeaponTypeSeq.Spear => ConditionType.Spear,
-					WeaponTypeSeq.Orb => ConditionType.Orb,
+					WeaponTypeSeq.Sword => ItemConditionType.Sword,
+					WeaponTypeSeq.Gauntlet => ItemConditionType.Gauntlet,
+					WeaponTypeSeq.AuraBangle => ItemConditionType.AuraBangle,
+					WeaponTypeSeq.TwoHandedAxe => ItemConditionType.Axe,
+					WeaponTypeSeq.Staff => ItemConditionType.Staff,
+					WeaponTypeSeq.Dagger => ItemConditionType.Dagger,
+					WeaponTypeSeq.Pet1 => ItemConditionType.Pet1,
+					WeaponTypeSeq.Pet2 => ItemConditionType.Pet2,
+					WeaponTypeSeq.Gun => ItemConditionType.ShooterGun,
+					WeaponTypeSeq.GreatSword => ItemConditionType.GreatSword,
+					WeaponTypeSeq.LongBow => ItemConditionType.LongBow,
+					WeaponTypeSeq.Spear => ItemConditionType.Spear,
+					WeaponTypeSeq.Orb => ItemConditionType.Orb,
 
-					_ => ConditionType.None,
+					_ => ItemConditionType.None,
 				};
 			}
 			else if (Item is Item.Accessory Accessory)
 			{
 				return type == Accessory.AccessoryType switch
 				{
-					AccessoryTypeSeq.Ring => ConditionType.Ring,
-					AccessoryTypeSeq.Earring => ConditionType.Earring,
-					AccessoryTypeSeq.Necklace => ConditionType.Necklace,
-					AccessoryTypeSeq.Belt => ConditionType.Belt,
-					AccessoryTypeSeq.Bracelet => ConditionType.Bracelet,
-					AccessoryTypeSeq.Soul => ConditionType.Soul,
-					AccessoryTypeSeq.Soul2 => ConditionType.Soul2,
-					AccessoryTypeSeq.Gloves => ConditionType.Gloves,
-					AccessoryTypeSeq.Rune1 => ConditionType.Rune1,
-					AccessoryTypeSeq.Rune2 => ConditionType.Rune2,
-					AccessoryTypeSeq.Nova => ConditionType.Nova,
+					AccessoryTypeSeq.Ring => ItemConditionType.Ring,
+					AccessoryTypeSeq.Earring => ItemConditionType.Earring,
+					AccessoryTypeSeq.Necklace => ItemConditionType.Necklace,
+					AccessoryTypeSeq.Belt => ItemConditionType.Belt,
+					AccessoryTypeSeq.Bracelet => ItemConditionType.Bracelet,
+					AccessoryTypeSeq.Soul => ItemConditionType.Soul,
+					AccessoryTypeSeq.Soul2 => ItemConditionType.Soul2,
+					AccessoryTypeSeq.Gloves => ItemConditionType.Gloves,
+					AccessoryTypeSeq.Rune1 => ItemConditionType.Rune1,
+					AccessoryTypeSeq.Rune2 => ItemConditionType.Rune2,
+					AccessoryTypeSeq.Nova => ItemConditionType.Nova,
 
-					_ => ConditionType.None,
+					_ => ItemConditionType.None,
 				};
 			}
 		}

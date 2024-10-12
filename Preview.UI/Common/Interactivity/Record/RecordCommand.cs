@@ -51,10 +51,10 @@ public abstract class RecordCommand : MarkupExtension, ICommand
 	/// <summary>
 	/// Display text
 	/// </summary>
-	public virtual string Name => GetType().Name;
+	public virtual string Name => "Name." + GetType().Name;
 
 	/// <summary>
-	/// Supported table type
+	/// Supported table type, all table if <see langword="Null"/>
 	/// </summary>
 	protected abstract List<string>? Type { get; }
 
@@ -72,6 +72,11 @@ public abstract class RecordCommand : MarkupExtension, ICommand
 	#endregion
 
 	#region Static Methods
+	/// <summary>
+	/// Search command by table name.
+	/// </summary>
+	/// <param name="name"></param>
+	/// <param name="action"></param>
 	public static void Find(string name, Action<RecordCommand> action)
 	{
 		var assembly = Assembly.GetExecutingAssembly();
@@ -97,7 +102,6 @@ public abstract class RecordCommand : MarkupExtension, ICommand
 		{
 			Header = StringHelper.Get(command.Name),
 			Command = command,
-			CommandParameter = new Binding("DataContext") { Source = menu }
 		};
 		item.SetBinding(MenuItem.CommandParameterProperty, new Binding("DataContext") { Source = menu });
 

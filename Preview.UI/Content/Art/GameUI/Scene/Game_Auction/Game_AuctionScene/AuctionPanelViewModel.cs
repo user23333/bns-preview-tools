@@ -1,15 +1,15 @@
 ﻿using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Xylia.Preview.Data.Engine.BinData.Helpers;
-using Xylia.Preview.Data.Models.Sequence;
-using Xylia.Preview.UI.ViewModels;
+using Xylia.Preview.Data.Models;
+using Xylia.Preview.UI.Common.Interactivity;
 
 namespace Xylia.Preview.UI.GameUI.Scene.Game_Auction;
 internal partial class AuctionPanelViewModel : ObservableObject
 {
+	#region Fields
 	public ICollectionView? Source;
 	public event EventHandler? Changed;
-
 
 	private string? _nameFilter;
 	public string? NameFilter
@@ -22,7 +22,6 @@ internal partial class AuctionPanelViewModel : ObservableObject
 		}
 	}
 
-
 	private bool _auctionable;
 	public bool Auctionable
 	{
@@ -33,7 +32,6 @@ internal partial class AuctionPanelViewModel : ObservableObject
 			Changed?.Invoke(this, EventArgs.Empty);
 		}
 	}
-
 
 	private HashList? _hashList;
 	public HashList? HashList
@@ -46,40 +44,38 @@ internal partial class AuctionPanelViewModel : ObservableObject
 		}
 	}
 
-
-	private int[]? _favorites;
-	public int[] Favorites
+	private object? _tag;
+	public object? Tag
 	{
-		get => _favorites ??= UserSettings.Default.GetValue<int[]>("AuctionPanel", "Favorites");
+		get => _tag;
 		set
 		{
-			SetProperty(ref _favorites, value);
+			SetProperty(ref _tag, value);
 			Changed?.Invoke(this, EventArgs.Empty);
-
-			UserSettings.Default.SetValue(_favorites, "AuctionPanel", "Favorites");
 		}
-	}
-
-
-	public bool WorldBoss;
-	public MarketCategory2Seq MarketCategory2;
-	public MarketCategory3Seq MarketCategory3;
-
-
-	#region Methods
-	public void ByTag(object data)
-	{
-		MarketCategory2 = default;
-		MarketCategory3 = default;
-		WorldBoss = data is "WorldBoss";
-
-		switch (data)
-		{
-			case MarketCategory2Seq seq: MarketCategory2 = seq; break;
-			case MarketCategory3Seq seq: MarketCategory3 = seq; break;
-		}
-
-		Changed?.Invoke(this, EventArgs.Empty);
 	}
 	#endregion
+}
+
+public class SetFavoriteCommand : RecordCommand
+{
+	public event EventHandler? Executed;
+
+	protected override List<string> Type => [];  // manual register
+
+	protected override void Execute(Record record)
+	{
+		var key = record.PrimaryKey;
+
+		if (record.OwnerName == "item")
+		{
+			// add or remove
+			var favorites = MarketCategory2Group.Favorite.Favorites;
+			if (!favorites.Remove(key)) favorites.Add(key);
+
+			// save config
+			MarketCategory2Group.Favorite.Favorites = favorites;
+			Executed?.Invoke(null, EventArgs.Empty);
+		}
+	}
 }

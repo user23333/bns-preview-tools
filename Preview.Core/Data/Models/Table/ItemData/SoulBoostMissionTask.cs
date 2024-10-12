@@ -72,4 +72,8 @@ public sealed class SoulBoostMissionTask : ModelElement
 
 	public Ref<Text> DescriptionText { get; set; }
 	#endregion
+
+	#region Methods
+
+	#endregion
 }

@@ -62,7 +62,7 @@ public sealed class SoulBoostSeason : ModelElement
 
 			foreach (var MissionTask in MissionStep.MissionTask.Values())
 			{
-				Debug.WriteLine($"{MissionTask.MissionPoint}  {MissionTask.NameText.GetText()}");
+				Debug.WriteLine($"{MissionTask.MissionPoint}  {MissionTask.NameText.GetText()} {MissionTask.DescriptionText.GetText()}");
 			}
 		}
 

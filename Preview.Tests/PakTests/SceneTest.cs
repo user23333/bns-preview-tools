@@ -9,7 +9,6 @@ using CUE4Parse.UE4.Objects.UObject;
 using CUE4Parse.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Xylia.Preview.Common.Extension;
-using Xylia.Preview.Tests.Extensions;
 
 namespace Xylia.Preview.Tests.PakTests;
 [TestClass]
@@ -18,15 +17,14 @@ public class SceneTest
 	[TestMethod]
 	public void SceneInformation()
 	{
-		var Output = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "scene");
+		using GameFileProvider Provider = new("D:\\Tencent\\BNS_LIVE");  //IniHelper.Instance.GameFolder
 
-		using GameFileProvider Provider = new(IniHelper.Instance.GameFolder);
-		// using GameFileProvider Provider = new("D:\\WeGameApps\\剑灵\\剑灵\\BNSR\\Content\\Paks");
 		//var AssetPath = "BNSR/Content/Art/UI/V2/Common/ContentsWidget/Item/LegacyItemTooltipWidget.uasset";
-		var AssetPath = "BNSR/Content/Art/UI/GameUI/Scene/Game_Tooltip2/Game_TooltipScene2/GlyphSlotOpenTooltipPanel.uasset";
+		var AssetPath = "bnsr/content/art/ui/gameui/scene/game_tooltip/game_tooltipscene/attractionmapunittooltippanel.uasset";
 		var Blueprint = Provider.LoadAllObjects(AssetPath).OfType<UWidgetBlueprintGeneratedClass>().First();
 
-		var dump = new WidgetDump() { Output = Path.Combine(Output, Path.GetFileNameWithoutExtension(AssetPath)) };
+		var output = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "scene");
+		var dump = new WidgetDump() { Output = Path.Combine(output, Path.GetFileNameWithoutExtension(AssetPath)) };
 		dump.LoadBlueprint(Blueprint);
 		
 
@@ -109,15 +107,15 @@ public class WidgetDump
 		{
 			el.AddAttribute("MetaData", widget.MetaData);
 
-			if (widget.HorizontalResizeLink != null) el.AddElement($"{el.Name}.HorizontalResizeLink").AddElement("ResizeLink").Write(widget.HorizontalResizeLink);
-			if (widget.VerticalResizeLink != null) el.AddElement($"{el.Name}.VerticalResizeLink").AddElement("ResizeLink").Write(widget.VerticalResizeLink);
-			if (widget.StringProperty != null) el.AddElement($"{el.Name}.String").AddElement("StringProperty").Write(widget.StringProperty);
-			if (widget.BaseImageProperty != null) el.AddElement($"{el.Name}.BaseImageProperty").AddElement("ImageProperty").Write(widget.BaseImageProperty);
+			if (widget.HorizontalResizeLink != null) el.AddElement($"{el.Name}.HorizontalResizeLink").Write(widget.HorizontalResizeLink);
+			if (widget.VerticalResizeLink != null) el.AddElement($"{el.Name}.VerticalResizeLink").Write(widget.VerticalResizeLink);
+			if (widget.StringProperty != null) el.AddElement($"{el.Name}.String").Write(widget.StringProperty);
+			if (widget.BaseImageProperty != null) el.AddElement($"{el.Name}.BaseImageProperty").Write(widget.BaseImageProperty);
 
 
 			if (widget is UBnsCustomLabelButtonWidget buttonWidget)
 			{
-				el.AddElement($"{el.Name}.NormalImageProperty").AddElement("ImageProperty").Write(buttonWidget.NormalImageProperty);
+				el.AddElement($"{el.Name}.NormalImageProperty").Write(buttonWidget.NormalImageProperty);
 				//Write(el, buttonWidget.ActivatedImageProperty);
 			}
 
@@ -151,6 +149,6 @@ public class WidgetDump
 		if (expansions is null) return;
 
 		var element = el.AddElement($"{el.Name}.ExpansionComponentList");
-		expansions.ForEach(e => element.AddElement("ExpansionComponent").Write(e));
+		expansions.ForEach(e => element.Write(e));
 	}
 }

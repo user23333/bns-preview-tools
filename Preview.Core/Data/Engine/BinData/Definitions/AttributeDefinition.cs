@@ -41,15 +41,17 @@ public class AttributeDefinition
 	#endregion
 
 	#region Methods
-	public void WriteXml(XmlWriter writer)
+	internal void WriteXml(XmlWriter writer)
 	{
 		writer.WriteStartElement("attribute");
 		writer.WriteAttributeString("name", Name);
 		writer.WriteAttributeString("type", Type.ToString()[1..]);
 
-		if (IsKey) writer.WriteAttributeString("key", IsKey.ToString());
 		if (Repeat > 1) writer.WriteAttributeString("repeat", Repeat.ToString());
+		if (IsKey) writer.WriteAttributeString("key", IsKey.ToString());
 		if (IsRequired) writer.WriteAttributeString("required", IsRequired.ToString());
+		if (IsDeprecated) writer.WriteAttributeString("deprecated", IsDeprecated.ToString());
+		if (IsHidden) writer.WriteAttributeString("hidden", IsHidden.ToString());
 		if (DefaultValue != null) writer.WriteAttributeString("default", DefaultValue);
 		if (Min != 0) writer.WriteAttributeString("min", Min.ToString());
 		if (Max != 0) writer.WriteAttributeString("max", Max.ToString());
@@ -57,8 +59,6 @@ public class AttributeDefinition
 		if (FMax != 0) writer.WriteAttributeString("fmax", FMax.ToString());
 		if (ReferedTable != 0) writer.WriteAttributeString("ref", ReferedTableName ?? ReferedTable.ToString());
 		if (ReferedEl != 0) writer.WriteAttributeString("refel", ReferedEl.ToString());
-		if (IsDeprecated) writer.WriteAttributeString("deprecated", IsDeprecated.ToString());
-		if (IsHidden) writer.WriteAttributeString("hidden", IsHidden.ToString());
 
 		Sequence?.ForEach(s =>
 		{

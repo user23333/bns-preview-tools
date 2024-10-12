@@ -63,7 +63,7 @@ public sealed class Glyph : ModelElement
 
 	public sbyte RewardTier { get; set; }
 
-	public AttachAbility[] Ability { get; set; }
+	public AttachAbilitySeq[] Ability { get; set; }
 
 	public int[] AbilityValue { get; set; }
 

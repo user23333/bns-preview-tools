@@ -583,6 +583,27 @@
   <data name="Message_Tip" xml:space="preserve">
     <value>提示消息</value>
   </data>
+  <data name="Name.PreviewBasic" xml:space="preserve">
+    <value>查看源</value>
+  </data>
+  <data name="Name.PreviewModel" xml:space="preserve">
+    <value>查看模型</value>
+  </data>
+  <data name="Name.PreviewProbability" xml:space="preserve">
+    <value>查看概率信息</value>
+  </data>
+  <data name="Name.PreviewShowObject" xml:space="preserve">
+    <value>查看显示对象</value>
+  </data>
+  <data name="Name.PreviewTooltip" xml:space="preserve">
+    <value>查看详细信息</value>
+  </data>
+  <data name="Name.PreviewTransform" xml:space="preserve">
+    <value>查看物品成长</value>
+  </data>
+  <data name="Name.SetFavoriteCommand" xml:space="preserve">
+    <value>增加/取消 收藏</value>
+  </data>
   <data name="Page_AbilityPage" xml:space="preserve">
     <value>能力</value>
   </data>
@@ -592,29 +613,11 @@
   <data name="Page_ItemPage" xml:space="preserve">
     <value>常用</value>
   </data>
-  <data name="PreviewBasic" xml:space="preserve">
-    <value>查看源</value>
-  </data>
-  <data name="PreviewModel" xml:space="preserve">
-    <value>查看模型</value>
-  </data>
   <data name="PreviewModel_Empty" xml:space="preserve">
     <value>模型缺失资源</value>
   </data>
   <data name="PreviewModel_Fail" xml:space="preserve">
     <value>模型加载失败</value>
-  </data>
-  <data name="PreviewProbability" xml:space="preserve">
-    <value>查看概率信息</value>
-  </data>
-  <data name="PreviewShowObject" xml:space="preserve">
-    <value>查看显示对象</value>
-  </data>
-  <data name="PreviewTooltip" xml:space="preserve">
-    <value>查看详细</value>
-  </data>
-  <data name="PreviewTransform" xml:space="preserve">
-    <value>查看物品成长</value>
   </data>
   <data name="ProductName" xml:space="preserve">
     <value>Blade &amp; Soul Preview Tool</value>

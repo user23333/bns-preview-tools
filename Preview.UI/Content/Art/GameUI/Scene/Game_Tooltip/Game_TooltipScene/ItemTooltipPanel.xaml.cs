@@ -55,38 +55,38 @@ public partial class ItemTooltipPanel
 		Substitute2.Add(record.Attributes.Get<Record>("sub-info").GetText(arguments));
 
 		#region Ability
-		var data = new Dictionary<MainAbility, long>();
+		var data = new Dictionary<MainAbilitySeq, long>();
 
 		var AttackPowerEquipMin = record.Attributes.Get<short>("attack-power-equip-min");
 		var AttackPowerEquipMax = record.Attributes.Get<short>("attack-power-equip-max");
-		data[MainAbility.AttackPowerEquipMinAndMax] = (AttackPowerEquipMin + AttackPowerEquipMax) / 2;
+		data[MainAbilitySeq.AttackPowerEquipMinAndMax] = (AttackPowerEquipMin + AttackPowerEquipMax) / 2;
 
 		var PveBossLevelNpcAttackPowerEquipMin = record.Attributes.Get<short>("pve-boss-level-npc-attack-power-equip-min");
 		var PveBossLevelNpcAttackPowerEquipMax = record.Attributes.Get<short>("pve-boss-level-npc-attack-power-equip-max");
-		data[MainAbility.PveBossLevelNpcAttackPowerEquipMinAndMax] = (PveBossLevelNpcAttackPowerEquipMin + PveBossLevelNpcAttackPowerEquipMax) / 2;
+		data[MainAbilitySeq.PveBossLevelNpcAttackPowerEquipMinAndMax] = (PveBossLevelNpcAttackPowerEquipMin + PveBossLevelNpcAttackPowerEquipMax) / 2;
 
 		var PvpAttackPowerEquipMin = record.Attributes.Get<short>("pvp-attack-power-equip-min");
 		var PvpAttackPowerEquipMax = record.Attributes.Get<short>("pvp-attack-power-equip-max");
-		data[MainAbility.PvpAttackPowerEquipMinAndMax] = (PvpAttackPowerEquipMin + PvpAttackPowerEquipMax) / 2;
+		data[MainAbilitySeq.PvpAttackPowerEquipMinAndMax] = (PvpAttackPowerEquipMin + PvpAttackPowerEquipMax) / 2;
 
 		// HACK: Actually, the ability value is directly get
-		foreach (var seq in Enum.GetValues<MainAbility>())
+		foreach (var seq in Enum.GetValues<MainAbilitySeq>())
 		{
-			if (seq == MainAbility.None) continue;
+			if (seq == MainAbilitySeq.None) continue;
 
 			var name = seq.ToString().TitleLowerCase();
 			var value = Convert.ToInt32(record.Attributes[name]);
 			if (value != 0) data[seq] = value;
-			else if (seq != MainAbility.AttackAttributeValue && seq != MainAbility.AttackCriticalDamageValue)
+			else if (seq != MainAbilitySeq.AttackAttributeValue && seq != MainAbilitySeq.AttackCriticalDamageValue)
 			{
 				var value2 = Convert.ToInt32(record.Attributes[name + "-equip"]);
 				if (value2 != 0) data[seq] = value2;
 			}
 		}
 
-		// HACK: Actually, the MainAbility is not this sequence
-		var MainAbility1 = record.Attributes.Get<MainAbility>("main-ability-1");
-		var MainAbility2 = record.Attributes.Get<MainAbility>("main-ability-2");
+		// HACK: Actually, the MainAbilitySeq is not this sequence
+		var MainAbility1 = record.Attributes.Get<MainAbilitySeq>("main-ability-1");
+		var MainAbility2 = record.Attributes.Get<MainAbilitySeq>("main-ability-2");
 
 		foreach (var ability in data)
 		{
@@ -100,12 +100,12 @@ public partial class ItemTooltipPanel
 
 		if (record is Gem)
 		{
-			var MainAbilityFixed = record.Attributes.Get<ItemRandomAbilitySlot>("main-ability-fixed");
+			var MainAbilitySeqFixed = record.Attributes.Get<ItemRandomAbilitySlot>("main-ability-fixed");
 			var SubAbilityFixed = record.Attributes.Get<ItemRandomAbilitySlot>("sub-ability-fixed");
 			var SubAbilityRandomCount = record.Attributes.Get<sbyte>("sub-ability-random-count");
 			var SubAbilityRandom = LinqExtensions.For(8, (id) => record.Attributes.Get<ItemRandomAbilitySlot>("sub-ability-random-" + id));
 
-			if (MainAbilityFixed != null) Substitute1.Add(MainAbilityFixed.Description);
+			if (MainAbilitySeqFixed != null) Substitute1.Add(MainAbilitySeqFixed.Description);
 			if (SubAbilityFixed != null) Substitute2.Add(SubAbilityFixed.Description);
 			if (SubAbilityRandomCount > 0)
 			{
@@ -217,48 +217,43 @@ public partial class ItemTooltipPanel
 			var RandomOptionGroup = FileCache.Data.Provider.GetTable<ItemRandomOptionGroup>()[record.RandomOptionGroupId + ((long)jobs.FirstOrDefault() << 32)];
 			if (RandomOptionGroup != null)
 			{
-				for (int i = 0; i < RandomOptionGroup.AbilityListTotalCount; i++)
-				{
-					ProbabilityText.String.LabelText += "UI.ItemRandomOption.SubAbility.Undetermined".GetText() + BR.Tag;
-				}
+				LinqExtensions.For(RandomOptionGroup.AbilityListTotalCount, (i) => ProbabilityText.String.LabelText += "UI.ItemRandomOption.SubAbility.Undetermined".GetText() + BR.Tag);
+				LinqExtensions.For(RandomOptionGroup.SkillBuildUpGroupListTotalCount, (i) => ProbabilityText.String.LabelText += "UI.ItemRandomOption.SkillEnhancement.Undetermined".GetText() + BR.Tag);
 
 				if (RandomOptionGroup.SkillTrainByItemListTotalCount > 0)
 				{
 					// title
 					Combat_Holder.Children.Add(Combat_Holder_Title);
-					Combat_Holder_Title.String.LabelText = string.Format("{0} ({1}-{2})", RandomOptionGroup.SkillTrainByItemListTitle.GetText(),
-						RandomOptionGroup.SkillTrainByItemListSelectMin, RandomOptionGroup.SkillTrainByItemListSelectMax);
+					Combat_Holder_Title.String.LabelText = RandomOptionGroup.SkillTrainByItemListTitle.GetText();
 
-					foreach (var SkillTrainByItemList in RandomOptionGroup.SkillTrainByItemList.SelectNotNull(x => x.Instance))
+					foreach (var SkillTrainByItemList in RandomOptionGroup.SkillTrainByItemList.Values())
 					{
-						var ChangeSets = SkillTrainByItemList.ChangeSet.SelectNotNull(x => x.Instance);
+						var ChangeSets = SkillTrainByItemList.ChangeSet.Values();
 						if (ChangeSets.Count() > 1) Combat_Holder.Children.Add(new BnsCustomLabelWidget() { Text = "UI.ItemRandomOption.Undetermined".GetText([1]) });
 
 						foreach (var SkillTrainByItem in ChangeSets)
 						{
-							// element
-							var icon = new BnsCustomImageWidget
-							{
-								BaseImageProperty = SkillTrainByItem.Icon?.GetImage(),
-								Width = 32,
-								Height = 32,
-								Margin = new Thickness(0, 0, 10, 0),
-								VerticalAlignment = System.Windows.VerticalAlignment.Top,
-								//DataContext = SkillTrainByItem.ChangeSkill[0].Instance,
-								//ToolTip = new Skill3ToolTipPanel_1()
-							};
-
-							// description
-							var description = new BnsCustomLabelWidget();
-							description.String.LabelText = SkillTrainByItem.Description2;
-
-							// layout
 							var box = new HorizontalBox() { Margin = new Thickness(0, 0, 0, 3) };
 							LayoutData.SetAnchors(box, FLayoutData.Anchor.Full);
 							Combat_Holder.Children.Add(box);
 
-							box.Children.Add(icon);
-							box.Children.Add(description);
+							// icon
+							if (SkillTrainByItem.Icon != null)
+							{
+								box.Children.Add(new BnsCustomImageWidget
+								{
+									BaseImageProperty = SkillTrainByItem.Icon?.GetImage(),
+									Width = 32,
+									Height = 32,
+									Margin = new Thickness(0, 0, 10, 0),
+									VerticalAlignment = System.Windows.VerticalAlignment.Top,
+									//DataContext = SkillTrainByItem.ChangeSkill[0].Instance,
+									//ToolTip = new Skill3ToolTipPanel_1()
+								});
+							}
+
+							// description
+							box.Children.Add(new BnsCustomLabelWidget() { Text = SkillTrainByItem.Description2 });
 						}
 					}
 				}

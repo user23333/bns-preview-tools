@@ -27,17 +27,15 @@ public partial class App : Application
 		InitializeArgs(e.Args);
 
 #if DEVELOP
-		var view = Xylia.Preview.UI.Common.Interactivity.PreviewModel. ModelViewer;
-		view.Run();
-		return;
+		//var _ = PreviewModel.SnooperViewer;
+		//var view = Xylia.Preview.UI.Common.Interactivity.PreviewModel.ModelViewer;
+		//view.Run();
+		//return;
 
 		UpdateSkin(SkinType.Default, true);
-		TestProvider.Set(new System.IO.DirectoryInfo(@"D:\Tencent\BnsData\GameData_ZTx"));
+		TestProvider.Set(@"D:\Tencent\BnsData\GameData_ZNcs");
 
-		//new Xylia.Preview.UI.Content.TestPanel().Show();
-		//var _ = PreviewModel.SnooperViewer;
-		//new GameUI.Scene.Game_Tooltip.Skill3ToolTipPanel_1().Show();
-		FileCache.Data.Provider.GetTable<SoulBoostSeason>()["SoulBoost_Season_0012"].TestMethod();
+		new Xylia.Preview.UI.GameUI.Scene.Game_Tooltip.AttractionMapUnitToolTipPanel() { DataContext = FileCache.Data.Provider.GetTable<Dungeon>()["Dungeon_DongHae_chungkak_A_3"] }.Show();
 #else
 		MainWindow = new MainWindow();
 		MainWindow.Show();

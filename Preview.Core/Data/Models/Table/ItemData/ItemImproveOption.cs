@@ -10,7 +10,7 @@ public sealed class ItemImproveOption : ModelElement
 
 	public sbyte Level { get; set; }
 
-	public MainAbility Ability { get; set; }
+	public MainAbilitySeq Ability { get; set; }
 
 	public int AbilityValue { get; set; }
 
@@ -30,7 +30,7 @@ public sealed class ItemImproveOption : ModelElement
 	{
 		var builder = new StringBuilder();
 
-		if (Ability != MainAbility.None) builder.Append("UI.Tooltip.ItemImprove.Ability.Enable".GetText([Ability.GetText(AbilityValue)]));
+		if (Ability != MainAbilitySeq.None) builder.Append("UI.Tooltip.ItemImprove.Ability.Enable".GetText([Ability.GetText(AbilityValue)]));
 		if (EffectDescription.HasValue) builder.Append(EffectDescription.GetText());
 		if (SkillModifyInfoGroup.Any(x => x.HasValue)) builder.Append(string.Join("<br/>", 
 			SkillModifyInfoGroup.Skip(5).SelectNotNull(record => record.Instance?.Description)));

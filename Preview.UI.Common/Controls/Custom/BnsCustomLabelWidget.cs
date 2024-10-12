@@ -68,7 +68,7 @@ public class BnsCustomLabelWidget : BnsCustomBaseWidget, IContentHost
 		};
 
 		if (!string.IsNullOrWhiteSpace(text)) 
-			Clipboard.SetText(text);
+			Clipboard.SetDataObject(text);
 	}
 
 	protected override Size MeasureOverride(Size constraint)

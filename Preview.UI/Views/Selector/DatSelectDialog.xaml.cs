@@ -19,11 +19,11 @@ public partial class DatSelectDialog : Window, IDatSelect
 		InitializeComponent();
 
 		CountDown = new DispatcherTimer();
-		CountDown.Interval = new TimeSpan(0, 0, 1);
+		CountDown.Interval = new TimeSpan(500);
 		CountDown.Tick += CountDown_Tick;
 
 		NoResponse = new DispatcherTimer();
-		NoResponse.Interval = new TimeSpan(0, 0, 1);
+		NoResponse.Interval = new TimeSpan(1000);
 		NoResponse.Tick += NoResponse_Tick;
 	}
 	#endregion
@@ -58,7 +58,7 @@ public partial class DatSelectDialog : Window, IDatSelect
 		var RemainSec = CountDownSec - (int)DateTime.Now.Subtract(StartTime).TotalSeconds;
 		TimeInfo.Text = StringHelper.Get("DatSelector_CountDown", RemainSec);
 
-		if (RemainSec <= 0) Btn_Confirm_Click(null, null);
+		if (RemainSec <= 0) Confirm_Click(null, null);
 	}
 
 	private void NoResponse_Tick(object? sender, EventArgs e)
@@ -97,7 +97,7 @@ public partial class DatSelectDialog : Window, IDatSelect
 		Visibility = Visibility.Collapsed;
 	}
 
-	private void Btn_Confirm_Click(object sender, RoutedEventArgs e)
+	private void Confirm_Click(object sender, RoutedEventArgs e)
 	{
 		// stop timer
 		NoResponse.Stop();
@@ -110,7 +110,7 @@ public partial class DatSelectDialog : Window, IDatSelect
 		DialogResult = Status = true;
 	}
 
-	private void Btn_Cancel_Click(object sender, EventArgs e)
+	private void Cancel_Click(object sender, EventArgs e)
 	{
 		DialogResult = Status = false;
 	}

@@ -2,20 +2,18 @@
 using Xylia.Preview.Data.Client;
 using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Data.Helpers;
-using Xylia.Preview.UI.ViewModels;
 
 namespace Xylia.Preview.UI.Helpers;
 internal class TestProvider
 {
-	public static void Set(DirectoryInfo directory)
+	public static void Set(string basePath)
 	{
-		var path = directory.GetDirectories()[^1].FullName;
-		Set(path);
+		var dir = new DirectoryInfo(basePath).GetDirectories()[^1];
+		Set(dir);
 	}
 
-	public static void Set(string? path = null)
+	public static void Set(DirectoryInfo directory)
 	{
-		path ??= Path.Combine(UserSettings.Default.OutputFolder, "data");
-		FileCache.Data = new BnsDatabase(new FolderProvider(path));
+		FileCache.Data = new BnsDatabase(new FolderProvider(directory.FullName));
 	}
 }

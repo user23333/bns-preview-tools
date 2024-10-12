@@ -8,5 +8,5 @@ namespace Xylia.Preview.Tests.DatTests;
 public partial class TableTests
 {
 	private BnsDatabase Database { get; } = new(new FolderProvider(
-		new DirectoryInfo(@"D:\Tencent\BnsData\GameData_ZTx").GetDirectories()[^1].FullName));
+		new DirectoryInfo(@"D:\Tencent\BnsData\GameData_Zncs").GetDirectories()[^1].FullName));
 }

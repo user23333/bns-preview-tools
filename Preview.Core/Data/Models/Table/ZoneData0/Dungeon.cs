@@ -1,7 +1,7 @@
 ﻿using Xylia.Preview.Data.Common.DataStruct;
 
 namespace Xylia.Preview.Data.Models;
-public  class Dungeon : ModelElement, IAttraction
+public class Dungeon : ModelElement, IAttraction
 {
 	#region Attributes
 	public short Id { get; set; }

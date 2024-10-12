@@ -2,13 +2,14 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
-using Xylia.Preview.Data.Common.DataStruct;
+using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Engine.BinData.Helpers;
 using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models;
 using Xylia.Preview.Data.Models.Sequence;
 using Xylia.Preview.UI.Common.Interactivity;
 using Xylia.Preview.UI.Controls;
+using static Xylia.Preview.Data.Models.MarketCategory2Group;
 
 namespace Xylia.Preview.UI.GameUI.Scene.Game_Auction;
 public partial class LegacyAuctionPanel
@@ -20,31 +21,56 @@ public partial class LegacyAuctionPanel
 		InitializeComponent();
 		DataContext = _viewModel = new AuctionPanelViewModel();
 		ItemList.ItemsSource = _viewModel.Source = CollectionViewSource.GetDefaultView(FileCache.Data.Provider.GetTable<Item>());
-		_viewModel.Changed += RefreshList;
+		_viewModel.Changed += UpdateList;
 		_viewModel.Source.Filter = OnFilter;
 		#endregion
 
 		#region Category
-		var IsNeo = FileCache.Data.Provider.Locale.IsNeo;
+		TreeView.Items.Add(new TreeViewItem() { Header = new BnsCustomLabelWidget() { Text = "UI.Market.Category.All".GetText() } });
 
-		TreeView.Items.Add(new TreeViewItem() { Tag = "all", Header = new BnsCustomLabelWidget() { Text = "UI.Market.Category.All".GetText() } });
-		if (IsNeo) TreeView.Items.Add(new TreeViewItem() { Tag = "WorldBoss", Header = new BnsCustomLabelWidget() { Text = "UI.Market.Category.WorldBoss".GetText(), FontSize = 15 } });
-		TreeView.Items.Add(new TreeViewItem() { Tag = "favorites", Header = new BnsCustomLabelWidget() { Text = "UI.Market.Category.Favorites".GetText() } });
-
-		foreach (var category2 in SequenceExtensions.MarketCategory2Group(IsNeo))
+		var MarketCategory2Group = FileCache.Data.Provider.GetTable<MarketCategory2Group>();
+		if (MarketCategory2Group is null)
 		{
-			if (category2.Key == MarketCategory2Seq.None) continue;
+			var IsNeo = FileCache.Data.Provider.Locale.IsNeo;
 
-			var node = new TreeViewItem() { Tag = category2.Key, Header = category2.Key.GetText() };
-			TreeView.Items.Add(node);
+			TreeView.Items.Add(new TreeViewItem() { Tag = new Favorite(), Header = new BnsCustomLabelWidget() { Text = "UI.Market.Category.Favorites".GetText() } });
+			if (IsNeo) TreeView.Items.Add(new TreeViewItem() { Tag = new WorldBoss(), Header = new BnsCustomLabelWidget() { Text = "UI.Market.Category.WorldBoss".GetText() } });
 
-			foreach (var category3 in category2.Value)
+			foreach (var category2 in SequenceExtensions.MarketCategory2Group(IsNeo))
 			{
-				node.Items.Add(new TreeViewItem()
+				if (category2.Key == MarketCategory2Seq.None) continue;
+
+				var node = new TreeViewItem() { Tag = new MarketCategory2() { Marketcategory2 = category2.Key }, Header = category2.Key.GetText() };
+				TreeView.Items.Add(node);
+
+				foreach (var category3 in category2.Value)
 				{
-					Tag = category3,
-					Header = category3.GetText(),
-				});
+					node.Items.Add(new TreeViewItem()
+					{
+						Tag = new MarketCategory3Group() { MarketCategory3 = [category3] },
+						Header = category3.GetText(),
+					});
+				}
+			}
+		}
+		else
+		{
+			foreach (var category2 in MarketCategory2Group.OrderBy(x => x.SortNo))
+			{
+				var node = new TreeViewItem() { Tag = category2, Header = new BnsCustomLabelWidget() { Text = category2.Name2.GetText() } };
+				TreeView.Items.Add(node);
+
+				if (category2 is MarketCategory2Group.MarketCategory2 MarketCategory2)
+				{
+					foreach (var category3 in MarketCategory2.MarketCategory3Group.Values())
+					{
+						node.Items.Add(new TreeViewItem()
+						{
+							Tag = category3,
+							Header = new BnsCustomLabelWidget() { Text = category3.Name2.GetText() }
+						});
+					}
+				}
 			}
 		}
 		#endregion
@@ -59,6 +85,9 @@ public partial class LegacyAuctionPanel
 		TooltipHolder = (ToolTip)TryFindResource("TooltipHolder");
 		ItemMenu = (ContextMenu)TryFindResource("ItemMenu");
 
+		var SetFavoriteCommand = new SetFavoriteCommand();
+		SetFavoriteCommand.Executed += UpdateList2;
+		RecordCommand.Bind(SetFavoriteCommand, ItemMenu);
 		RecordCommand.Find("item", (act) => RecordCommand.Bind(act, ItemMenu));
 	}
 
@@ -109,7 +138,7 @@ public partial class LegacyAuctionPanel
 		if (e.OldValue == e.NewValue) return;
 		if (e.NewValue is not FrameworkElement item) return;
 
-		_viewModel.ByTag(item.Tag);
+		_viewModel.Tag = item.Tag;
 	}
 
 	public void SetFilter(string? name)
@@ -133,22 +162,12 @@ public partial class LegacyAuctionPanel
 		#endregion
 
 		#region Category
-		if (_viewModel.WorldBoss)
-		{
-			if (!record.Attributes.Get<bool>("world-boss-auctionable")) return false;
-		}
-		else if (_viewModel.MarketCategory2 == default && _viewModel.MarketCategory3 == default)  // all
+		if (_viewModel.Tag is null)  // all
 		{
 			if (_viewModel.HashList is null && IsEmpty) return false;
 		}
-		else
-		{
-			var MarketCategory2 = record.Attributes.Get<MarketCategory2Seq>("market-category-2");
-			var MarketCategory3 = record.Attributes.Get<MarketCategory3Seq>("market-category-3");
-
-			if (_viewModel.MarketCategory3 != default && _viewModel.MarketCategory3 != MarketCategory3) return false;
-			else if (_viewModel.MarketCategory2 != default && _viewModel.MarketCategory2 != MarketCategory2) return false;
-		}
+		else if (_viewModel.Tag is MarketCategory2Group MarketCategory2Group && !MarketCategory2Group.Filter(record)) return false;
+		else if (_viewModel.Tag is MarketCategory3Group MarketCategory3Group && !MarketCategory3Group.Filter(record)) return false;
 		#endregion
 
 
@@ -168,7 +187,8 @@ public partial class LegacyAuctionPanel
 		#endregion
 	}
 
-	private void RefreshList(object? sender, EventArgs e)
+
+	private void UpdateList(object? sender, EventArgs e)
 	{
 		Dispatcher.BeginInvoke(() =>
 		{
@@ -176,6 +196,11 @@ public partial class LegacyAuctionPanel
 			_viewModel.Source.MoveCurrentToFirst();
 			ItemList.ScrollIntoView(_viewModel.Source.CurrentItem);
 		});
+	}
+
+	private void UpdateList2(object? sender, EventArgs e)
+	{
+		if (_viewModel.Tag is Favorite) UpdateList(sender, e);
 	}
 	#endregion
 

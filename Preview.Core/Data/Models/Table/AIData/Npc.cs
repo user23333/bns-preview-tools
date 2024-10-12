@@ -585,9 +585,9 @@ public sealed class Npc : ModelElement
 
 	public bool JobChange { get; set; }
 
-	//public RaceType2 RaceType2 { get; set; }
+	public Race2AttributesInfo.RaceType2 RaceType2 { get; set; }
 
-	//public AttributeType AttributeType { get; set; }
+	public Race2AttributesInfo.AttributeType AttributeType { get; set; }
 
 	public int FatigabilityConsumeAmount { get; set; }
 
@@ -608,30 +608,6 @@ public sealed class Npc : ModelElement
 	#endregion
 
 	#region Methods
-	protected override void LoadHiddenField()
-	{
-		string alias = this.Attributes.Get<string>("alias");
-		var comparer = StringComparison.OrdinalIgnoreCase;
-
-		if (this.Attributes["brain"] is null)
-		{
-			string BrainInfo;
-			if (this.Attributes["boss-npc"] != null) BrainInfo = "Boss";
-			else if (alias.StartsWith("CH_", comparer) || alias.StartsWith("CE_", comparer)) BrainInfo = "Citizen";
-			else if (alias.StartsWith("MH_", comparer) || alias.StartsWith("ME_", comparer)) BrainInfo = "Monster";
-			else return;
-
-			this.Attributes["brain"] = BrainInfo;
-			this.Attributes["brain-parameters"] = alias + "_bp";
-		}
-
-		if (this.Attributes["formal-radius"] is null)
-		{
-			if (this.Attributes["radius"] is not null)
-				this.Attributes["formal-radius"] = this.Attributes["radius"];
-		}
-	}
-
 	//public short AbnormalAttackPowerModify { get; set; }
 	//public short AbnormalDefendPowerModify { get; set; }
 	//public short HatePowerModify { get; set; }
