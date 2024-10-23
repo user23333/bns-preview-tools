@@ -73,9 +73,9 @@ internal abstract class BasePipe
 		//	if (refId.IsNull || !refCol.IsString) return;
 
 		//	// do some cache re-using when is same $ref (almost always is the same $ref collection)
-		//	if (last != refCol.AsString)
+		//	if (last != refCol.As<string>)
 		//	{
-		//		last = refCol.AsString;
+		//		last = refCol.As<string>();
 
 		//		// initialize services
 		//		snapshot = _transaction.CreateSnapshot(LockMode.Read, last, false);

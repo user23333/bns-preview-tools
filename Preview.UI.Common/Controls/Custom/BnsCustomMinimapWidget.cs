@@ -32,7 +32,6 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
 
 	#region Public Properties
 	private static readonly Type Owner = typeof(BnsCustomMinimapWidget);
-	public static BnsCustomWindowWidget? AttractionMapUnitToolTip;
 
 	public static readonly DependencyProperty MapInfoProperty = Owner.Register<MapInfo>(nameof(MapInfo), null,
 		FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender, OnMapChanged);
@@ -233,7 +232,7 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
 			if (mapunit is MapUnit.Quest or MapUnit.GuildBattleFieldPortal) continue;
 
 			#region Initialize
-			object? tooltip = null;
+			object? tooltip = mapunit.Name;
 			var category = mapunit.Category;
 			var Image = new ImageProperty() { EnableImageSet = true, ImageSet = new MyFPackageIndex(mapunit.Imageset) };
 			var OverImage = string.IsNullOrEmpty(mapunit.OverImageset) ? Image : new ImageProperty() { EnableImageSet = true, ImageSet = new MyFPackageIndex(mapunit.OverImageset) };
@@ -241,11 +240,7 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
 			if (mapunit is MapUnit.Attraction)
 			{
 				var obj = mapunit.Attributes.Get<ModelElement>("attraction");  //tref
-				if (obj is IAttraction attraction && AttractionMapUnitToolTip != null)
-				{
-					AttractionMapUnitToolTip.DataContext = attraction;
-					tooltip = AttractionMapUnitToolTip;
-				}
+				if (obj is IAttraction attraction) tooltip = new BnsTooltipHolder(attraction);
 				else if (obj != null) tooltip = obj.ToString();
 			}
 			else if (mapunit is MapUnit.Npc)

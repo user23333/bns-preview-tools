@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using IniParser;
 using IniParser.Model;
 using Xylia.Preview.Common.Extension;
+using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Data.Helpers;
 
 namespace Xylia.Preview.Properties;
@@ -126,7 +127,7 @@ public class Settings : INotifyPropertyChanged
 	public bool UseDebugMode { get => GetValue<bool>(); set => SetValue(value); }
 
 	public bool UseUserDefinition { get => GetValue<bool>(); set => SetValue(value); }
-
+	public EPublisher DefitionType { get => GetValue<EPublisher>(); set => SetValue(value); }
 	internal string DefitionKey { get => GetValue<string>(); set => SetValue(value); }
 
 	public bool Text_LoadData { get => GetValue<bool>(); set => SetValue(value); }

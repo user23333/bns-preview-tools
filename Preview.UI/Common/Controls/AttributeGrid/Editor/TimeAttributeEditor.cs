@@ -17,15 +17,12 @@ internal class TimeAttributeEditor : PropertyEditorBase, IValueConverter
 
 	protected override IValueConverter GetConverter(PropertyItem propertyItem) => this;
 
-	public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+	public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => value switch
 	{
-		return value switch
-		{
-			Time64 time => DateTime.Parse(time.ToString()),
-			TimeUniversal time => DateTime.Parse(time.ToString()),
-			_ => throw new NotImplementedException(),
-		};
-	}
+		Time64 time => DateTime.Parse(time.ToString()),
+		TimeUniversal time => DateTime.Parse(time.ToString()),
+		_ => throw new NotImplementedException(),
+	};
 
 	public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
 	{
@@ -35,7 +32,7 @@ internal class TimeAttributeEditor : PropertyEditorBase, IValueConverter
 			if (targetType == typeof(TimeUniversal)) return (TimeUniversal)time;
 		}
 
-		throw new NotImplementedException();
+		return value;
 	}
 	#endregion
 }

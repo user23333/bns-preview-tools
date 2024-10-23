@@ -3,7 +3,7 @@
 	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	  xmlns:hc="https://handyorg.github.io/handycontrol"
 	  xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
-	  xmlns:UI="https://github.com/xyliaup/bns-preview-tools"
+	  xmlns:BNS="https://github.com/xyliaup/bns-preview-tools"
 	  Foreground="{DynamicResource PrimaryTextBrush}">
     <Page.Resources>
         <ContextMenu x:Key="Menu">

@@ -1,4 +1,5 @@
 ﻿using CUE4Parse.UE4.Pak;
+using Xylia.Preview.Data.Common.Exceptions;
 using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Data.Engine.Definitions;
 using Xylia.Preview.Data.Models;
@@ -6,13 +7,14 @@ using Xylia.Preview.Data.Models;
 namespace Xylia.Preview.Data.Client;
 public class BnsDatabase : IEngine, IDisposable
 {
-	#region Constructorss
+	#region Constructors
 	public BnsDatabase(IDataProvider provider, DatafileDefinition definition = null)
 	{
 		_provider = provider;
 		_definition = definition ?? new DefaultDatafileDefinition();
 
 		ArgumentNullException.ThrowIfNull(_provider);
+		BnsDataException.ThrowIfMismatch(provider.Locale.Publisher, _definition.Publisher);
 	}
 	#endregion
 

@@ -27,18 +27,28 @@ public static class TypeInfoExtensions
 	{
 		if (value != null)
 		{
-			if (value.GetType() == type)
+			// rewrite
+			if (type == value.GetType())
 			{
 				return value;
 			}
-
-			// system EnumConverter is incomplete
-			if (type.IsEnum)
-			{
+			else if (type.IsEnum)	
+			{	
+				// system EnumConverter is incomplete
 				value.ToString().TryParseToEnum(type, out value);
 				return value;
 			}
+			else if (type.IsArray && value is Array array)
+			{
+				type = type.GetElementType();
+				var newValue = Array.CreateInstance(type, array.Length);
 
+				int idx = 0;
+				foreach (var x in array) newValue.SetValue(x.To(type), idx++);
+				return newValue;
+			}
+
+			// converter
 			var converter = TypeDescriptor.GetConverter(value);
 			if (converter != null && converter.CanConvertTo(type))
 			{
@@ -51,6 +61,7 @@ public static class TypeInfoExtensions
 				return converter.ConvertFrom(value);
 			}
 
+			// fail	invoke
 			if (failFunc != null) value = failFunc?.Invoke();
 		}
 

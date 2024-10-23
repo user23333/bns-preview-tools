@@ -32,7 +32,7 @@ public abstract class UserWidget : FrameworkElement, IUserWidget
 
 	public UserWidget()
 	{
-		Children = new UIElementCollection(this, this);
+		Children = new WidgetCollection(this);
 
 		EventManager.RegisterClassHandler(Owner, UIElement.PreviewMouseLeftButtonDownEvent, new MouseButtonEventHandler(HandleDoubleClick), true);
 		EventManager.RegisterClassHandler(Owner, UIElement.MouseLeftButtonDownEvent, new MouseButtonEventHandler(HandleDoubleClick), true);

@@ -1,8 +1,7 @@
-﻿using Xylia.Preview.Data.Common.Abstractions;
-using Xylia.Preview.Data.Models.Sequence;
+﻿using Xylia.Preview.Data.Models.Sequence;
 
 namespace Xylia.Preview.Data.Models;
-public sealed class ItemRandomAbilitySlot : ModelElement, IHaveDesc
+public sealed class ItemRandomAbilitySlot : ModelElement
 {
 	#region Attributs
 	public int Id { get; set; }

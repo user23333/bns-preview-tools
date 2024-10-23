@@ -9,6 +9,7 @@ using Vanara.PInvoke;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models;
+using Xylia.Preview.UI.Common.Interactivity;
 using Xylia.Preview.UI.Helpers;
 using Xylia.Preview.UI.Helpers.Output;
 using Xylia.Preview.UI.Resources.Themes;
@@ -28,9 +29,7 @@ public partial class App : Application
 
 #if DEVELOP
 		//var _ = PreviewModel.SnooperViewer;
-		//var view = Xylia.Preview.UI.Common.Interactivity.PreviewModel.ModelViewer;
-		//view.Run();
-		//return;
+		return;
 
 		UpdateSkin(SkinType.Default, true);
 		TestProvider.Set(@"D:\Tencent\BnsData\GameData_ZNcs");
@@ -140,7 +139,7 @@ public partial class App : Application
 					if (!args.TryGetValue("path", out var path))
 					{
 						Console.Clear();
-						Console.WriteLine("please enter search rule...");
+						Console.WriteLine("Enter search rule to continue...");
 						path = Console.ReadLine()!;
 					}
 
@@ -151,7 +150,7 @@ public partial class App : Application
 				default: throw new WarningException();
 			}
 
-			if (!pause) Console.WriteLine($"no result!");
+			if (!pause) Console.WriteLine($"No result!");
 			Console.ReadKey();
 		}
 		else if (command == "output")

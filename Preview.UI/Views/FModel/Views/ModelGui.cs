@@ -60,7 +60,6 @@ public partial class ModelGui : SnimGui
 			ImGui.SetWindowSize(size);
 			ImGui.Image(view.Framebuffer.GetPointer(), size, new Vector2(0, 1), new Vector2(1, 0), Vector4.One);
 
-
 			if (ImGui.IsMouseDown(ImGuiMouseButton.Left))
 			{
 				view.CursorState = CursorState.Grabbed;
@@ -78,27 +77,27 @@ public partial class ModelGui : SnimGui
 
 
 			var pos = new Vector2(0, 5);
-			void SetAttribute(string Name, object Value = null)
+			void SetAttribute(string name, object? value = null)
 			{
 				ImGui.SetCursorPos(pos with { X = 7 });
 
 				var TextColor = new Vector4(.2f, 1.0f, .2f, 1.00f);
-				ImGui.TextColored(TextColor, string.Concat(Name, ":", Value));
+				ImGui.TextColored(TextColor, string.Concat(name, ":", value));
 
 				pos = ImGui.GetCursorPos();
 			}
 
-			var model = view.Renderer.Options.Models.First().Value;
+			var model = (SkeletalModel)view.Renderer.Options.Models.First().Value;
 			SetAttribute("Package", model.Path);
 			SetAttribute("Class", model.Type);
 			SetAttribute("Object", model.Name);
 			pos.Y += 10;
 
-			SetAttribute("Skeleton", (model as SkeletalModel).Skeleton.Name);
+			SetAttribute("Skeleton", model.Skeleton.Name);
 			SetAttribute("LOD", view.Renderer.Options.Models.Count);
 			SetAttribute("UV Set", model.UvCount);
 			SetAttribute("Colors", null);
-			SetAttribute("Bones", (model as SkeletalModel).Skeleton.BoneCount);
+			SetAttribute("Bones", model.Skeleton.BoneCount);
 
 			if (true)
 			{
@@ -115,7 +114,6 @@ public partial class ModelGui : SnimGui
 				ImGui.SetCursorPos(pos with { X = 7 });
 				ImGui.Text($"Extract files successful.");
 			}
-
 
 			ImGui.End();
 		}

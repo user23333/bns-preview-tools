@@ -1,5 +1,6 @@
 ﻿using Xylia.Preview.Common;
 using Xylia.Preview.Data.Client;
+using Xylia.Preview.Data.Engine.DatData;
 
 namespace Xylia.Preview.Data.Common.Exceptions;
 internal class BnsDataException : BnsException
@@ -17,9 +18,17 @@ internal class BnsDataException : BnsException
 	#endregion
 
 	#region	Definition
-	internal static BnsDataException InvalidGame(int game = 0)
+	internal static void ThrowIfMismatch(EPublisher expected, EPublisher code)
 	{
-		return new BnsDataException($"invalid game (code: {game})");
+		if (code == EPublisher.None || expected == code) return;
+
+		if (!Globals.MessageBox?.Show(Globals.TextProvider.Get("Exception_InvalidPublisher", expected)) ?? true)
+			throw new BnsDataException($"invalid publisher (code: {code})");
+	}
+
+	internal static BnsDataException InvalidGame(int code = 0)
+	{
+		return new BnsDataException($"invalid game (code: {code})");
 	}
 
 	internal static BnsDataException InvalidDefinition(string message, Exception exception = null)
@@ -30,6 +39,13 @@ internal class BnsDataException : BnsException
 	internal static BnsDataException InvalidSequence(string message, string name)
 	{
 		return new BnsDataException($"seq `{name}` {message}");
+	}
+	#endregion
+
+	#region Data
+	internal static BnsDataException InvalidTable(string name)
+	{
+		return new BnsDataException($"Non-existing table '{name}'.");
 	}
 	#endregion
 

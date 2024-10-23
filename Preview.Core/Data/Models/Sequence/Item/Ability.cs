@@ -1,5 +1,4 @@
 ﻿using Xylia.Preview.Common.Attributes;
-using Xylia.Preview.Data.Common.DataStruct;
 
 namespace Xylia.Preview.Data.Models.Sequence;
 public enum MainAbilitySeq : byte
@@ -216,7 +215,7 @@ public static partial class SequenceExtensions
 		if (value == 0) return name;
 
 		return ability.ToString().EndsWith("percent", StringComparison.OrdinalIgnoreCase) ?
-			string.Format("{0} {1}%", name, new Integer(value).FloatDot3) :
+			string.Format("{0} {1:0.0}%", name, value * 0.1d) :
 			string.Format("{0} {1}", name, value);
 	}
 }

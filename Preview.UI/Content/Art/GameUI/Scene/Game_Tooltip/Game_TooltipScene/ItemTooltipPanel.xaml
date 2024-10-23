@@ -100,10 +100,7 @@
 
 		<BnsCustomLabelWidget Name="ItemDescription7" d:String="Item Description7" />
 		<BnsCustomWindowWidget Name="Combat_Holder_Parent">
-			<BnsCustomWindowWidget.BaseImageProperty>
-				<ImageProperty />
-			</BnsCustomWindowWidget.BaseImageProperty>
-			<VerticalBox Name="Combat_Holder" LayoutData.Anchors="0 0 1 0">
+			<VerticalBox Name="Combat_Holder" LayoutData.Anchors="0 0 1 0" Margin="3 10">
 				<BnsCustomLabelWidget Name="Combat_Holder_Title">
 					<BnsCustomLabelWidget.String>
 						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Label_LightYellow_12.Label_LightYellow_12" LabelText="Combat Holder Title" SpaceBetweenLines="3" />

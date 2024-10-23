@@ -87,12 +87,30 @@ public static class LinqExtensions
 		ArgumentNullException.ThrowIfNull(array1);
 		ArgumentNullException.ThrowIfNull(array2);
 
-		var source = new Tuple<T1, T2>[Math.Max(array1.Length, array2.Length)];
+		var source = new Tuple<T1, T2>[array1.Length];
 		for (int i = 0; i < source.Length; i++)
 		{
 			source[i] = new Tuple<T1, T2>(
 				array1.ElementAtOrDefault(i),
 				array2.ElementAtOrDefault(i));
+		}
+
+		return source;
+	}
+
+	public static Tuple<T1, T2, T3>[] Tuple<T1, T2, T3>(T1[] array1, T2[] array2, T3[] array3)
+	{
+		ArgumentNullException.ThrowIfNull(array1);
+		ArgumentNullException.ThrowIfNull(array2);
+		ArgumentNullException.ThrowIfNull(array3);
+
+		var source = new Tuple<T1, T2, T3>[array1.Length];
+		for (int i = 0; i < source.Length; i++)
+		{
+			source[i] = new Tuple<T1, T2, T3>(
+				array1.ElementAtOrDefault(i),
+				array2.ElementAtOrDefault(i),
+				array3.ElementAtOrDefault(i));
 		}
 
 		return source;

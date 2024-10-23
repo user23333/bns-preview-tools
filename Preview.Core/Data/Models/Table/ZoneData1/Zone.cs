@@ -29,7 +29,9 @@ public class Zone : ModelElement
 	#endregion
 }
 
-public interface IAttraction : IHaveName, IHaveDesc
+public interface IAttraction : IHaveName
 {
+	string Description { get; }
 
+	Ref<AttractionRewardSummary> RewardSummary { get; }
 }

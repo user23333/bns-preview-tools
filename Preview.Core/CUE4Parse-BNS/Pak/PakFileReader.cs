@@ -86,7 +86,7 @@ public class MyPakFileReader : AbstractAesVfsReader
 			throw new IndexOutOfRangeException("MountPoint length out of range");
 
 		MountPoint = MountPoint.Replace("\\", "/");
-		if (!MountPoint.EndsWith("/")) MountPoint += "/";
+		if (!MountPoint.EndsWith('/')) MountPoint += "/";
 
 		// Version.Compression
 		if (this.Info.Version >= EPakFileVersion.PakFile_Version_FNameBasedCompressionMethod)

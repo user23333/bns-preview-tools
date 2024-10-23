@@ -9,7 +9,7 @@ using Xylia.Preview.UI.Controls.Primitives;
 namespace Xylia.Preview.UI.Controls;
 
 [ContentProperty("Children")]
-public class BnsCustomEditBoxWidget : TextBox, IUserWidget 
+public class BnsCustomEditBoxWidget : TextBox, IUserWidget
 {
 	#region Constructors
 	public BnsCustomEditBoxWidget()

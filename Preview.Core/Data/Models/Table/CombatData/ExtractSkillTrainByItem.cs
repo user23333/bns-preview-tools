@@ -8,6 +8,6 @@ public sealed class ExtractSkillTrainByItem : ModelElement
 
 	public Ref<CostGroup>[] SkillTrainByItemExtractCostGroup { get; set; }
 
-	public Ref<Item> ExtractSkillTrainByitem { get; set; }
+	public Ref<Item> extractSkillTrainByItem { get; set; }
 	#endregion
 }

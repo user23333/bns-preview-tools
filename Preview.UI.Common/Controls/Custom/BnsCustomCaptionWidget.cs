@@ -1,5 +1,3 @@
-using System.Windows.Controls;
-using System;
 using Xylia.Preview.UI.Controls.Primitives;
 
 namespace Xylia.Preview.UI.Controls;

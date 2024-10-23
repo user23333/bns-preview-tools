@@ -1,11 +1,10 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using Xylia.Preview.UI.Controls.Primitives;
 
 namespace Xylia.Preview.UI.Controls.Helpers;
-public class UIElementCollectionEx(UserWidget parent) : UIElementCollection(parent, parent)
+public class WidgetCollection(UserWidget parent) : UIElementCollection(parent, parent)
 {
 	public override IEnumerator GetEnumerator()
 	{

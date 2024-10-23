@@ -397,15 +397,15 @@ public class PackageParam
 {
 	public string Name { get; set; } = "Xylia_P";
 
-	public string MountPoint { get; set; } = @"BNSR\Content";
+	public string MountPoint { get; set; } = "BNSR/Content";
 
 	public ObservableCollection<FileParam> Files { get; set; } = [];
 
 	public class FileParam
 	{
-		public string? Path { get; set; }
-
 		public string? Vfs { get; set; }
+
+		public string? Path { get; set; }
 
 		public CompressionMethod Compression { get; set; }
 
@@ -414,7 +414,7 @@ public class PackageParam
 		public bool IsValid => File.Exists(Path);
 
 		[JsonIgnore]
-		internal PackageParam Owner { get; set; }
+		internal PackageParam? Owner { get; set; }
 
 		public override string ToString() => System.IO.Path.Combine(Owner.MountPoint, Vfs);
 	}

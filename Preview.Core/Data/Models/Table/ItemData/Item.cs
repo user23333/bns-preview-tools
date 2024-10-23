@@ -297,15 +297,15 @@ public class ItemDecomposeInfo
 {
 	#region Fields
 	public bool DecomposeRewardByConsumeIndex;
-	public int DecomposeMax = 1;
-	public int DecomposeMoneyCost;
-
 	public Reward[] DecomposeReward;
 	public Reward DecomposeEventReward;
 	public Dictionary<JobSeq, Reward> DecomposeJobRewards = [];
-
-	public Tuple<Item, short>[] Decompose_By_Item2;
-	public Tuple<Item, short>[] Job_Decompose_By_Item2;
+	public int DecomposeMax = 1;
+	public int DecomposeMoneyCost;
+	public Item[] DecomposeByItem2;
+	public short[] DecomposeByItem2StackCount;
+	public Item[] JobDecomposeByItem2;
+	public short[] JobDecomposeByItem2StackCount;
 	#endregion
 
 	#region Constructor
@@ -313,15 +313,16 @@ public class ItemDecomposeInfo
 	{
 		var attributes = data.Attributes;
 
+		DecomposeRewardByConsumeIndex = attributes.Get<bool>("decompose-reward-by-consume-index");
+		DecomposeReward = attributes.Get<Reward[]>("decompose-reward");
+		DecomposeEventReward = attributes.Get<Reward>("decompose-event-reward");
+		Job.PcJobs.ForEach(job => DecomposeJobRewards[job] = attributes.Get<Reward>("decompose-job-reward-" + job.GetDescription()));
 		DecomposeMax = attributes.Get<sbyte>("decompose-max");
 		DecomposeMoneyCost = attributes.Get<int>("decompose-money-cost");
-		DecomposeRewardByConsumeIndex = attributes.Get<bool>("decompose-reward-by-consume-index");
-
-		LinqExtensions.For(ref DecomposeReward, 7, (id) => attributes.Get<Reward>("decompose-reward-" + id));
-		Job.GetPcJob().ForEach(job => DecomposeJobRewards[job] = attributes.Get<Reward>("decompose-job-reward-" + job.GetDescription()));
-
-		LinqExtensions.For(ref Decompose_By_Item2, 7, (id) => new(attributes.Get<Item>("decompose-by-item2-" + id), attributes.Get<short>("decompose-by-item2-stack-count-" + id)));
-		LinqExtensions.For(ref Job_Decompose_By_Item2, 7, (id) => new(attributes.Get<Item>("job-decompose-by-item2-" + id), attributes.Get<short>("job-decompose-by-item2-stack-count-" + id)));
+		DecomposeByItem2 = attributes.Get<Item[]>("decompose-by-item2");
+		DecomposeByItem2StackCount = attributes.Get<short[]>("decompose-by-item2-stack-count");
+		JobDecomposeByItem2 = attributes.Get<Item[]>("job-decompose-by-item2");
+		JobDecomposeByItem2StackCount = attributes.Get<short[]>("job-decompose-by-item2-stack-count");
 	}
 	#endregion
 
@@ -329,9 +330,9 @@ public class ItemDecomposeInfo
 	#region Methods
 	public FPackageIndex GetImage()
 	{
-		var image = GetImage(this.Decompose_By_Item2[0].Item1);
-		image ??= GetImage(this.Job_Decompose_By_Item2[0].Item1);
-		image ??= this.DecomposeMoneyCost == 0 ? null : new MyFPackageIndex("BNSR/Content/Art/UI/GameUI/Resource/GameUI_Icon/Weapon_Lock_04.Weapon_Lock_04");
+		var image = GetImage(DecomposeByItem2[0]);
+		image ??= GetImage(JobDecomposeByItem2[0]);
+		image ??= DecomposeMoneyCost == 0 ? null : new MyFPackageIndex("BNSR/Content/Art/UI/GameUI/Resource/GameUI_Icon/Weapon_Lock_04.Weapon_Lock_04");
 
 		return image;
 	}

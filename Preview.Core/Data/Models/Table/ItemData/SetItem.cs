@@ -1,12 +1,11 @@
 ﻿using System.Text;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.Abstractions;
-using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Models.Document;
 using Xylia.Preview.Data.Models.Sequence;
 
 namespace Xylia.Preview.Data.Models;
-public sealed class SetItem : ModelElement, IHaveName, IHaveDesc
+public sealed class SetItem : ModelElement, IHaveName
 {
 	#region Attributes
 	public string Alias { get; set; }

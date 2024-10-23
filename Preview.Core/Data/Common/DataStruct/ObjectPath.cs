@@ -7,6 +7,8 @@ public readonly struct ObjectPath(string path)
 	public readonly string Path = path;
 
 	#region Methods
+	public bool IsValid => !string.IsNullOrWhiteSpace(Path);
+
 	public override string ToString() => Path;
 
 	public UObject LoadObject() => FileCache.Provider.LoadObject(Path);

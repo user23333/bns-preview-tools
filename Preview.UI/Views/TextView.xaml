@@ -5,7 +5,7 @@
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
 		xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
 		xmlns:hc="https://handyorg.github.io/handycontrol"
-	    xmlns:UI="https://github.com/xyliaup/bns-preview-tools"
+	    xmlns:BNS="https://github.com/xyliaup/bns-preview-tools"
 		xmlns:VM="clr-namespace:Xylia.Preview.UI.ViewModels"
         Title="{DynamicResource TextView_Name}" Icon="{x:Null}" Background="{DynamicResource RegionBrush}" 
 		Height="450" Width="800">
@@ -81,8 +81,8 @@
 
 								<!-- Preview -->
 								<StackPanel Grid.Row="1" Margin="5">
-									<UI:BnsCustomLabelWidget String="{Binding Tag.alias,Mode=OneWay}" FontWeight="Bold" Margin="0 0 0 5"/>
-									<UI:BnsCustomLabelWidget String="{Binding Tag.text ,Mode=OneWay}" />
+									<BNS:BnsCustomLabelWidget String="{Binding Tag.alias,Mode=OneWay}" FontWeight="Bold" Margin="0 0 0 5"/>
+									<BNS:BnsCustomLabelWidget String="{Binding Tag.text ,Mode=OneWay}" />
 								</StackPanel>
 							</Grid>
 						</Border>

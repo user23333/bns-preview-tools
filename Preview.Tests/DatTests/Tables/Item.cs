@@ -18,7 +18,7 @@ public partial class TableTests
 	}
 
 	[TestMethod]
-	[DataRow(10001)]
+	[DataRow(80)]
 	public void RacoonStoreTest(int group)
 	{
 		var table = Database.Provider.GetTable<RacoonStoreItem>();
@@ -28,7 +28,7 @@ public partial class TableTests
 		foreach (var record in records)
 		{
 			Console.WriteLine(string.Format("{0} {1:P3}  {2} {3}",
-				record.Item.Instance.Name,							  
+				record.Item.Instance.Name,
 				(double)record.ItemProbWeight / TotalItemProbWeight,
 				record.CostType,
 				record.ItemCost
@@ -46,26 +46,12 @@ public partial class TableTests
 	}
 
 	[TestMethod]
-	[DataRow("SoulBoost_0001")]
+	[DataRow("SoulBoost_Season_0014")]
 	public void SoulBoostTest(string alias)
 	{
 		var record = Database.Provider.GetTable<SoulBoostSeason>()[alias];
 		record.TestMethod();
 	}
-
-	[TestMethod]
-	[DataRow("Summoner_L0_Rose_1")]
-	public void SkillBookTest(string parent)
-	{
-		var records = Database.Provider.GetTable<SkillBookCatalogueItem>()
-			.Where(record => record.ParentSkill.ToString() == parent);
-
-		foreach(var record in records)
-		{
-			Console.WriteLine($"{record.Row} {record.Column}  {record.BaseSkill.Instance?.Name}");
-		}
-	}
-
 
 	[TestMethod]
 	[DataRow(180000, 183, 76)]

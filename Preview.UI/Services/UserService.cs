@@ -1,17 +1,16 @@
 ﻿namespace Xylia.Preview.UI.Services;
 internal class UserService : IService
 {
-	#region Methods
-	public static UserService Instance { get; private set; } = new();
-
-	public bool Register()
-	{
-		throw new NotImplementedException();
-	}
+	#region Fields
+	public int UserId;
+	public string? Name;
+	public UserRole Role = default;
 	#endregion
 
-	#region Fields
-	public UserRole Role = default;
+	#region Methods
+	public static UserService? Instance { get; private set; }
+
+	public bool Register() => throw new NotImplementedException();
 	#endregion
 }
 

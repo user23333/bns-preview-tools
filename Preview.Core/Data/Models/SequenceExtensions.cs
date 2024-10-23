@@ -25,7 +25,6 @@ public static partial class SequenceExtensions
 		return seqs.Any(x => x.Equals(value)) || seqs.All(x => x.Equals(_default));
 	}
 
-
 	public static object LoadSequence(Type type, string val)
 	{
 		return Enum.Parse(type, val.Replace('-', '_'), true);
@@ -48,6 +47,25 @@ public static partial class SequenceExtensions
 		return null;
 	}
 
+	/// <summary>
+	/// Gets relative description
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <param name="value"></param>
+	/// <returns></returns>
+	public static string GetText<T>(this T value) where T : Enum
+	{
+		// get text by attribute
+		var text = value.GetAttribute<TextAttribute>()?.Alias.GetText();
+		if (text != null) return text;
+
+		//// get description
+		//var description = value.GetAttribute<DescriptionAttribute>()?.Description;
+		//if (description != null) return description;
+
+		// don't return default
+		return value is 0 ? null : value.ToString();
+	}
 
 
 	/// <summary>
@@ -75,26 +93,5 @@ public static partial class SequenceExtensions
 	public static bool InFlag(this Enum seq, int mask)
 	{
 		return (mask & (1 << (int)(object)seq)) != 0;
-	}
-
-
-	/// <summary>
-	/// Gets relative description
-	/// </summary>
-	/// <typeparam name="T"></typeparam>
-	/// <param name="value"></param>
-	/// <returns></returns>
-	public static string GetText<T>(this T value) where T : Enum
-	{
-		// get text according attribute
-		var text = value.GetAttribute<TextAttribute>()?.Alias.GetText();
-		if (text != null) return text;
-
-		// get description
-		var description = value.GetAttribute<DescriptionAttribute>()?.Description;
-		if (description != null) return description;
-
-		// don't return default
-		return value is 0 ? null : value.ToString();
 	}
 }

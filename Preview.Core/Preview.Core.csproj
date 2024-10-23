@@ -5,8 +5,8 @@
 		<RootNamespace>Xylia.Preview</RootNamespace>
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<FileVersion>1.2.0</FileVersion>
-		<AssemblyVersion>1.2.0</AssemblyVersion>
+		<FileVersion>1.2.1</FileVersion>
+		<AssemblyVersion>1.2.1</AssemblyVersion>
 		<Lisence>MIT</Lisence>
 		<SignAssembly>True</SignAssembly>
 		<DelaySign>True</DelaySign>

@@ -145,7 +145,6 @@ public class AttributeValue : IComparable<AttributeValue>, IEquatable<AttributeV
 	public T As<T>() => this.RawValue.To<T>();
 
 
-
 	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 	public bool AsBoolean => this.RawValue.To<bool>();
 
@@ -215,7 +214,7 @@ public class AttributeValue : IComparable<AttributeValue>, IEquatable<AttributeV
 	public bool IsSeq16 => this.Type == AttributeType.TSeq16;
 
 	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	public bool IsRef => this.Type == AttributeType.TRef || this.Type == AttributeType.TTRef;
+	public bool IsRef => this.Type is AttributeType.TRef or AttributeType.TTRef;
 
 	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 	public bool IsProp_seq => this.Type == AttributeType.TProp_seq;
@@ -227,7 +226,7 @@ public class AttributeValue : IComparable<AttributeValue>, IEquatable<AttributeV
 	public bool IsNative => this.Type == AttributeType.TNative;
 
 	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	public bool IsDateTime => this.Type == AttributeType.TXUnknown1;
+	public bool IsDateTime => this.Type is AttributeType.TTime32 or AttributeType.TTime64 or AttributeType.TXUnknown1;
 	#endregion
 
 	#region Implicit Constructors

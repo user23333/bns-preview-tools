@@ -42,10 +42,10 @@ public class LayoutData
 	/// <param name="element">The element to which to write the Anchor attached property.</param>
 	/// <param name="value">The Anchor to set</param>
 	/// <seealso cref="Anchor.AnchorProperty" />
-	public static void SetAnchors(UIElement element, Anchor value)
+	public static void SetAnchors(UIElement element, Anchor? value)
 	{
 		ArgumentNullException.ThrowIfNull(element);
-		element.SetValue(AnchorsProperty, value);
+		if (value != null) element.SetValue(AnchorsProperty, value);
 	}
 
 	/// <summary>
@@ -66,10 +66,10 @@ public class LayoutData
 	/// <param name="element">The element to which to write the Offset attached property.</param>
 	/// <param name="value">The offset to set</param>
 	/// <seealso cref="Anchor.OffsetProperty" />
-	public static void SetOffsets(UIElement element, Offset value)
+	public static void SetOffsets(UIElement element, Offset? value)
 	{
 		ArgumentNullException.ThrowIfNull(element);
-		element.SetValue(OffsetsProperty, value);
+		if (value != null) element.SetValue(OffsetsProperty, value);
 	}
 
 	/// <summary>

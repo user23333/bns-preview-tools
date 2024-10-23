@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -18,11 +19,11 @@ public partial class LegacyAuctionPanel
 	public LegacyAuctionPanel()
 	{
 		#region Initialize 
-		InitializeComponent();
 		DataContext = _viewModel = new AuctionPanelViewModel();
-		ItemList.ItemsSource = _viewModel.Source = CollectionViewSource.GetDefaultView(FileCache.Data.Provider.GetTable<Item>());
+		InitializeComponent();
+
 		_viewModel.Changed += UpdateList;
-		_viewModel.Source.Filter = OnFilter;
+		_viewModel.Source = CollectionViewSource.GetDefaultView(FileCache.Data.Provider.GetTable<Item>());
 		#endregion
 
 		#region Category
@@ -133,60 +134,25 @@ public partial class LegacyAuctionPanel
 
 	private void Comapre_Unchecked(object sender, RoutedEventArgs e) => _viewModel.HashList = null;
 
+	private void GradeFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
+	{
+		if (e.AddedItems[0] is not FrameworkElement element) return;
+
+		_viewModel.Grade = element.DataContext.To<sbyte>();
+	}
+
 	private void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
 	{
 		if (e.OldValue == e.NewValue) return;
 		if (e.NewValue is not FrameworkElement item) return;
 
-		_viewModel.Tag = item.Tag;
+		_viewModel.Category = item.Tag;
 	}
 
 	public void SetFilter(string? name)
 	{
 		_viewModel.NameFilter = name;
 	}
-
-
-	// TODO: improvement efficiency
-	private bool OnFilter(object obj)
-	{
-		#region Initialize
-		if (obj is Record record) { }
-		else if (obj is ModelElement model) record = model.Source;
-		else return false;
-
-		if (_viewModel.HashList?.CheckFailed(record.PrimaryKey) ?? false) return false;
-
-		var rule = _viewModel.NameFilter!;
-		var IsEmpty = string.IsNullOrEmpty(rule);
-		#endregion
-
-		#region Category
-		if (_viewModel.Tag is null)  // all
-		{
-			if (_viewModel.HashList is null && IsEmpty) return false;
-		}
-		else if (_viewModel.Tag is MarketCategory2Group MarketCategory2Group && !MarketCategory2Group.Filter(record)) return false;
-		else if (_viewModel.Tag is MarketCategory3Group MarketCategory3Group && !MarketCategory3Group.Filter(record)) return false;
-		#endregion
-
-
-		#region Filter
-		// auctionable
-		if (_viewModel.Auctionable &&
-			!record.Attributes.Get<bool>("auctionable") &&
-			!record.Attributes.Get<bool>("seal-renewal-auctionable")) return false;
-
-		// rule
-		if (IsEmpty) return true;
-		if (int.TryParse(rule, out int id)) return record.PrimaryKey.Id == id;
-		if (record.Attributes.Get<string>("alias")?.Contains(rule, StringComparison.OrdinalIgnoreCase) ?? false) return true;
-		if (record.Attributes.Get<Record>("name2").GetText()?.Contains(rule, StringComparison.OrdinalIgnoreCase) ?? false) return true;
-
-		return false;
-		#endregion
-	}
-
 
 	private void UpdateList(object? sender, EventArgs e)
 	{
@@ -200,7 +166,7 @@ public partial class LegacyAuctionPanel
 
 	private void UpdateList2(object? sender, EventArgs e)
 	{
-		if (_viewModel.Tag is Favorite) UpdateList(sender, e);
+		if (_viewModel.Category is Favorite) UpdateList(sender, e);
 	}
 	#endregion
 

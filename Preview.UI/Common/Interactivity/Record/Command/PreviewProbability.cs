@@ -59,29 +59,29 @@ internal class PreviewProbability : RecordCommand
 
 			case "npc":
 			{
-				var PersonalDroppedPouchReward = record.Attributes.Get<Record>("personal-dropped-pouch-reward");
-				var PersonalDroppedPouchRewardDifficultyType1 = record.Attributes.Get<Record>("personal-dropped-pouch-reward-difficulty-type-1");
-				var PersonalDroppedPouchRewardDifficultyType2 = record.Attributes.Get<Record>("personal-dropped-pouch-reward-difficulty-type-2");
-				var PersonalDroppedPouchRewardDifficultyType3 = record.Attributes.Get<Record>("personal-dropped-pouch-reward-difficulty-type-3");
+				var PersonalDroppedPouchReward = record.Attributes.Get<Reward>("personal-dropped-pouch-reward");
+				var PersonalDroppedPouchRewardDifficultyType1 = record.Attributes.Get<Reward>("personal-dropped-pouch-reward-difficulty-type-1");
+				var PersonalDroppedPouchRewardDifficultyType2 = record.Attributes.Get<Reward>("personal-dropped-pouch-reward-difficulty-type-2");
+				var PersonalDroppedPouchRewardDifficultyType3 = record.Attributes.Get<Reward>("personal-dropped-pouch-reward-difficulty-type-3");
 
 				// client is missing fields
-				var RewardTable = record.Owner.Owner.GetTable("reward");
-				var RewardDefault = record.Attributes.Get<Record>("reward-default") ?? RewardTable[FixAlias(PersonalDroppedPouchReward)] ?? RewardTable[record.ToString()];
-				var RewardDifficultyType1 = record.Attributes.Get<Record>("reward-difficulty-type-1") ?? RewardTable[FixAlias(PersonalDroppedPouchRewardDifficultyType1)];
-				var RewardDifficultyType2 = record.Attributes.Get<Record>("reward-difficulty-type-2") ?? RewardTable[FixAlias(PersonalDroppedPouchRewardDifficultyType2)];
-				var RewardDifficultyType3 = record.Attributes.Get<Record>("reward-difficulty-type-3") ?? RewardTable[FixAlias(PersonalDroppedPouchRewardDifficultyType3)];
+				var RewardTable = record.Owner.Owner.GetTable<Reward>("reward");
+				var RewardDefault = (record.Attributes.Get<Reward>("reward-default") ?? RewardTable[FixAlias(PersonalDroppedPouchReward)] ?? RewardTable[record.ToString()]);
+				var RewardDifficultyType1 = record.Attributes.Get<Reward>("reward-difficulty-type-1") ?? RewardTable[FixAlias(PersonalDroppedPouchRewardDifficultyType1)];
+				var RewardDifficultyType2 = record.Attributes.Get<Reward>("reward-difficulty-type-2") ?? RewardTable[FixAlias(PersonalDroppedPouchRewardDifficultyType2)];
+				var RewardDifficultyType3 = record.Attributes.Get<Reward>("reward-difficulty-type-3") ?? RewardTable[FixAlias(PersonalDroppedPouchRewardDifficultyType3)];
 
 				// display
 				var rewards = new List<NameObject<object>>()
 				{
-					new(RewardDefault?.To<Reward>(), "UI.RandomBox.Probability.CommonDroppedPouch".GetText()) { Flag = true },
-					new(PersonalDroppedPouchReward?.To<Reward>(), "UI.RandomBox.Probability.PersonalDroppedPouch".GetText()),
-					new(RewardDifficultyType1?.To<Reward>(), "UI.RandomBox.Probability.CommonDroppedPouch.Difficulty1".GetText()),
-					new(PersonalDroppedPouchRewardDifficultyType1?.To<Reward>(), "UI.RandomBox.Probability.PersonalDroppedPouch.Difficulty1".GetText()),
-					new(RewardDifficultyType2?.To<Reward>(), "UI.RandomBox.Probability.CommonDroppedPouch.Difficulty2".GetText()),
-					new(PersonalDroppedPouchRewardDifficultyType2?.To<Reward>(), "UI.RandomBox.Probability.PersonalDroppedPouch.Difficulty2".GetText()),
-					new(RewardDifficultyType3?.To<Reward>(), "UI.RandomBox.Probability.CommonDroppedPouch.Difficulty3".GetText()),
-					new(PersonalDroppedPouchRewardDifficultyType3?.To<Reward>(), "UI.RandomBox.Probability.PersonalDroppedPouch.Difficulty3".GetText()),
+					new(RewardDefault, StringHelper.Get("UI.RandomBox.Probability.CommonDroppedPouch")) { Flag = true },
+					new(PersonalDroppedPouchReward, StringHelper.Get("UI.RandomBox.Probability.PersonalDroppedPouch")),
+					new(RewardDifficultyType1, StringHelper.Get("UI.RandomBox.Probability.CommonDroppedPouch.Difficulty1")),
+					new(PersonalDroppedPouchRewardDifficultyType1, StringHelper.Get("UI.RandomBox.Probability.PersonalDroppedPouch.Difficulty1")),
+					new(RewardDifficultyType2, StringHelper.Get("UI.RandomBox.Probability.CommonDroppedPouch.Difficulty2")),
+					new(PersonalDroppedPouchRewardDifficultyType2, StringHelper.Get("UI.RandomBox.Probability.PersonalDroppedPouch.Difficulty2")),
+					new(RewardDifficultyType3, StringHelper.Get("UI.RandomBox.Probability.CommonDroppedPouch.Difficulty3")),
+					new(PersonalDroppedPouchRewardDifficultyType3, StringHelper.Get("UI.RandomBox.Probability.PersonalDroppedPouch.Difficulty3")),
 				};
 				dispatcher.Invoke(() => new ItemGrowth2TooltipPanel { DataContext = rewards }.Show());
 				break;
@@ -103,9 +103,9 @@ internal class PreviewProbability : RecordCommand
 		}
 	}
 
-	private static string? FixAlias(Record record)
+	private static string? FixAlias(Reward record)
 	{
-		return record?.ToString().SubstringBeforeLast("_personal", StringComparison.OrdinalIgnoreCase);
+		return record?.Attributes.Get<string>("alias")?.SubstringBeforeLast("_personal", StringComparison.OrdinalIgnoreCase);
 	}
 	#endregion
 }

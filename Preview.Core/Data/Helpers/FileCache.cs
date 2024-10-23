@@ -1,6 +1,6 @@
 ﻿using CUE4Parse.BNS;
+using Xylia.Preview.Common;
 using Xylia.Preview.Data.Client;
-using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Data.Engine.Definitions;
 using Xylia.Preview.Properties;
@@ -9,10 +9,14 @@ namespace Xylia.Preview.Data.Helpers;
 public static class FileCache
 {
 	private static readonly object Lock = new();
-	public static ITextProvider TextProvider { internal get; set; }
-	public static IDatSelect DatSelector { internal get; set; }
 
 	#region Data
+	private static GameFileProvider _provider;
+	public static GameFileProvider Provider
+	{
+		get { lock (Lock) { return _provider ??= new(Settings.Default.GameFolder); } }
+	}
+
 	private static DatafileDefinition _definition;
 	public static DatafileDefinition Definition
 	{
@@ -28,13 +32,7 @@ public static class FileCache
 	public static BnsDatabase Data
 	{
 		set => _data = value;
-		get { lock (Lock) return _data ??= new(DefaultProvider.Load(Settings.Default.GameFolder, DatSelector), Definition); }
-	}
-
-	private static GameFileProvider _provider;
-	public static GameFileProvider Provider
-	{
-		get { lock (Lock) { return _provider ??= new(Settings.Default.GameFolder); } }
+		get { lock (Lock) return _data ??= new(DefaultProvider.Load(Settings.Default.GameFolder, Globals.DatSelector), Definition); }
 	}
 
 	public static void Clear()

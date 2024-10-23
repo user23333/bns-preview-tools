@@ -54,7 +54,7 @@ public abstract class RecordCommand : MarkupExtension, ICommand
 	public virtual string Name => "Name." + GetType().Name;
 
 	/// <summary>
-	/// Supported table type, all table if <see langword="Null"/>
+	/// Supported table type, <see langword="Null"/> means all table. 
 	/// </summary>
 	protected abstract List<string>? Type { get; }
 

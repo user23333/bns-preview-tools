@@ -936,11 +936,8 @@ Please note that do not modify the order of nodes</value>
   <data name="TextView_TaskStart" xml:space="preserve">
     <value>Please wait task finish...</value>
   </data>
-  <data name="UI.ItemRandomOption.Skill.Describe" xml:space="preserve">
-    <value>&lt;font name="00008130.UI.Vital_LightBlue"&gt;&lt;arg p="1"/&gt;&lt;/font&gt; changed to &lt;font name="00008130.UI.Vital_LightBlue"&gt;&lt;arg p="2"/&gt;&lt;/font&gt;</value>
-  </data>
   <data name="UI.ItemRandomOption.Undetermined" xml:space="preserve">
-    <value>&lt;arg p="1:integer"/&gt; of the following</value>
+    <value>{0} of the following</value>
   </data>
   <data name="UI.RandomBox.Probability.CommonDroppedPouch" xml:space="preserve">
     <value>Party dropped pouch</value>
@@ -967,9 +964,13 @@ Please note that do not modify the order of nodes</value>
     <value>Personal dropped pouch (Hard)</value>
   </data>
   <data name="UI.Tooltip.Skill.damage-percent" xml:space="preserve">
-    <value>&lt;arg p="1:integer"/&gt;xAP</value>
+    <value>{0}xAP</value>
   </data>
   <data name="UI.Tooltip.Skill.damage-percent-min-max" xml:space="preserve">
-    <value>&lt;arg p="1:integer"/&gt;~&lt;arg p="2:integer"/&gt;xAP</value>
+    <value>{0}~{1}xAP</value>
+  </data>
+  <data name="Exception_InvalidPublisher" xml:space="preserve">
+    <value>Publisher mismatch! Please go to DatabaseStudio to reconnect fisitly.
+Continuing to read may cause read exceptions, should we still continue?</value>
   </data>
 </root>

@@ -7,12 +7,18 @@ using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Engine.BinData.Definitions;
 using Xylia.Preview.Data.Engine.BinData.Helpers;
 using Xylia.Preview.Data.Engine.BinData.Models;
+using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Properties;
 
 namespace Xylia.Preview.Data.Engine.Definitions;
+/// <summary>
+/// definitions
+/// </summary>
 public abstract class DatafileDefinition : Collection<TableDefinition>
 {
 	#region Properties
+	public abstract EPublisher Publisher { get; }
+
 	public string Key { get; set; }
 
 	/// <summary>
@@ -76,8 +82,11 @@ public abstract class DatafileDefinition : Collection<TableDefinition>
 
 internal class DefaultDatafileDefinition : DatafileDefinition
 {
+	public override EPublisher Publisher => EPublisher.ZNcs;
+
 	public DefaultDatafileDefinition()
 	{
+		// load from extern
 		if (Settings.Default.UseUserDefinition)
 		{
 			var directory = new DirectoryInfo(Path.Combine(Settings.Default.OutputFolder, "definition"));
@@ -91,6 +100,7 @@ internal class DefaultDatafileDefinition : DatafileDefinition
 				this.Add(TableDefinition.LoadFrom(loader, File.OpenRead(file.FullName)));
 			}
 		}
+		// load from program
 		else
 		{
 			var assembly = Assembly.GetExecutingAssembly();
@@ -109,6 +119,9 @@ internal class DefaultDatafileDefinition : DatafileDefinition
 
 public class CompressDatafileDefinition : DatafileDefinition
 {
+	private EPublisher publisher = EPublisher.None;
+	public override EPublisher Publisher => publisher;
+
 	public CompressDatafileDefinition(Stream source, CompressionMethod mode)
 	{
 		var loader = new SequenceDefinitionLoader();
@@ -152,10 +165,11 @@ public class CompressDatafileDefinition : DatafileDefinition
 
 	internal static CompressDatafileDefinition Load()
 	{
+		var type = Settings.Default.DefitionType;
 		var key = Settings.Default.DefitionKey;
 		if (string.IsNullOrWhiteSpace(key)) return null;
 
 		var path = Path.Combine(Settings.Default.OutputFolder, ".download", key);
-		return new CompressDatafileDefinition(File.OpenRead(path), CompressionMethod.Gzip) { Key = key };
+		return new CompressDatafileDefinition(File.OpenRead(path), CompressionMethod.Gzip) { publisher = type , Key = key };
 	}
 }

@@ -224,7 +224,11 @@
     <value>Github</value>
   </data>
   <data name="Application_UpdateLog" xml:space="preserve">
-    <value>[ver=3.2.0,time=2024/9/1]
+    <value>[ver=3.2.1,time=2024/1/1]
++优化数据管理器中查看zone表时可以显示名称
++优化物品查看可筛选品质与职业
+
+[ver=3.2.0,time=2024/9/1]
 数据管理器
 +优化导出目录的路径
 +优化数据结构从云端获取
@@ -936,11 +940,8 @@
   <data name="TextView_TaskStart" xml:space="preserve">
     <value>请耐心等待任务完成...</value>
   </data>
-  <data name="UI.ItemRandomOption.Skill.Describe" xml:space="preserve">
-    <value>&lt;font name="00008130.UI.Vital_LightBlue"&gt;&lt;arg p="1"/&gt;&lt;/font&gt;武功变更为&lt;font name="00008130.UI.Vital_LightBlue"&gt;&lt;arg p="2"/&gt;&lt;/font&gt;</value>
-  </data>
   <data name="UI.ItemRandomOption.Undetermined" xml:space="preserve">
-    <value>在以下效果中获得其中&lt;arg p="1:integer"/&gt;种</value>
+    <value>在以下效果中获得其中{0}种</value>
   </data>
   <data name="UI.RandomBox.Probability.CommonDroppedPouch" xml:space="preserve">
     <value>队伍战利品箱</value>
@@ -967,9 +968,13 @@
     <value>个人战利品箱 (熟练)</value>
   </data>
   <data name="UI.Tooltip.Skill.damage-percent" xml:space="preserve">
-    <value>攻击力&lt;arg p="1:integer"/&gt;%的</value>
+    <value>攻击力{0}的</value>
   </data>
   <data name="UI.Tooltip.Skill.damage-percent-min-max" xml:space="preserve">
-    <value>攻击力&lt;arg p="1:integer"/&gt;%~&lt;arg p="2:integer"/&gt;%的</value>
+    <value>攻击力{0}~{1}%的</value>
+  </data>
+  <data name="Exception_InvalidPublisher" xml:space="preserve">
+    <value>发布商不一致，请先到数据管理器中重新链接！
+继续读取可能会造成读取异常，仍然继续吗?</value>
   </data>
 </root>

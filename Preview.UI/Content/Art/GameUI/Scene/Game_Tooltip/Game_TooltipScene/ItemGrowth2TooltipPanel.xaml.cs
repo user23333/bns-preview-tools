@@ -43,7 +43,7 @@ public partial class ItemGrowth2TooltipPanel
 					this.ImproveLevel = record.Attributes.Get<sbyte>("improve-level");
 					var Improves = FileCache.Data.Provider.GetTable<ItemImprove>().Where(record => record.Id == ImproveId);
 
-					// the highest stage may not have improve data, so we will add one stage
+					// the max stage may not have improve data, so we will add one stage
 					var levels = Improves.Select(record => record.Level);
 					if (levels.Any()) levels = levels.Append((sbyte)(levels.Max(x => x) + 1));
 
@@ -99,11 +99,11 @@ public partial class ItemGrowth2TooltipPanel
 	#region RandomOption   
 	private void RandomOption_Load(Record record, int RandomOptionGroupId)
 	{
-		var EquipJobCheck = record.Attributes.Get<object[]>("equip-job-check").Cast<string>();
-		var job = UserSettings.Default.Job;
-
 		var data = new List<NameObject<object>>();
-		var group = FileCache.Data.Provider.GetTable<ItemRandomOptionGroup>()[RandomOptionGroupId + ((long)job << 32)];
+		var jobs = record.Attributes.Get<JobSeq[]>("equip-job-check").Where(x => x != JobSeq.JobNone);
+		if (!jobs.Any()) jobs = [UserSettings.Default.Job];
+
+		var group = FileCache.Data.Provider.GetTable<ItemRandomOptionGroup>()[RandomOptionGroupId + ((long)jobs.FirstOrDefault() << 32)];
 		if (group != null)
 		{
 			if (group.EffectList.HasValue)

@@ -4,7 +4,7 @@
 		<RootNamespace>Xylia.Preview.UI</RootNamespace>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<UseWPF>true</UseWPF>
+		<UseWPF>True</UseWPF>
 		<DelaySign>True</DelaySign>
 		<SignAssembly>True</SignAssembly>
 	</PropertyGroup>
@@ -14,7 +14,7 @@
 	</PropertyGroup>
 	
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2792.45" />
+		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2849.39" />
 		<PackageReference Include="SkiaSharp.Views.WPF" Version="2.88.8" />
 		<PackageReference Include="Vanara.PInvoke.Kernel32" Version="4.0.4" />
 		<PackageReference Include="Vanara.PInvoke.User32" Version="4.0.4" />

@@ -1,4 +1,5 @@
-﻿using Xylia.Preview.Data.Models.Sequence;
+﻿using Xylia.Preview.Common.Attributes;
+using Xylia.Preview.Data.Models.Sequence;
 
 namespace Xylia.Preview.Data.Models;
 public sealed class AttractionRewardSummary : ModelElement
@@ -11,11 +12,11 @@ public sealed class AttractionRewardSummary : ModelElement
 	public enum ItemCategorySeq
 	{
 		None,
-		Costume,
-		Weapon,
-		EquipGem,
-		Accessory,
-		Etc,
+		[Text("UI.AttractionTooltip.Reward.Category.costume")] Costume,
+		[Text("UI.AttractionTooltip.Reward.Category.weapon")] Weapon,
+		[Text("UI.AttractionTooltip.Reward.Category.equip-gem")] EquipGem,
+		[Text("UI.AttractionTooltip.Reward.Category.accessory")] Accessory,
+		[Text("UI.AttractionTooltip.Reward.Category.etc")] Etc,
 		COUNT
 	}
 

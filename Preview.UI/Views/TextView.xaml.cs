@@ -222,7 +222,7 @@ public partial class TextView
 				var text = settings.Encoding.GetString(source.TextTable.WriteXml(settings));
 
 				Dispatcher.Invoke(() => Editor.Text = text);
-				Growl.Success(StringHelper.Get("TextView_ReplaceCompleted", TOKEN));
+				Growl.Success(StringHelper.Get("TextView_ReplaceCompleted"), TOKEN);
 			}
 			catch (XmlException ex)
 			{
@@ -291,7 +291,6 @@ public partial class TextView
 	}
 	#endregion
 }
-
 
 #region Area
 internal class TextAreaManager

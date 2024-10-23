@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Xylia.Preview.Data.Helpers;
 
 namespace Xylia.Preview.UI.Controls;
 /// <summary>
@@ -34,6 +35,7 @@ public abstract class GameWindow : Window
 
 	public GameWindow()
 	{
+		_ = FileCache.Data.Provider;  // check data
 		OnLoading();
 	}
 	#endregion
@@ -57,7 +59,7 @@ public abstract class GameWindow : Window
 
 	protected virtual void OnLoading()
 	{
-
+		
 	}
 
 	protected override void OnInitialized(EventArgs e)

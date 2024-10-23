@@ -345,7 +345,7 @@ public static class TextExtension
 		else if (obj is IHaveName instance) return instance.Name;
 		else if (obj is Enum sequence) return SequenceExtensions.GetText(sequence);
 		else if (obj is Record record && record.OwnerName == "text") return record.Attributes.Get<string>("text");
-		else if (obj is string alias) return FileCache.TextProvider?[alias] ?? (provider ?? FileCache.Data.Provider)?[alias];
+		else if (obj is string alias) return (provider ?? FileCache.Data.Provider)?[alias];
 		else throw new NotSupportedException();
 	}
 

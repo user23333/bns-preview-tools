@@ -25,11 +25,10 @@ public sealed class GameFileProvider : DefaultFileProvider, IDisposable
 
 	public GameFileProvider(string GameDirectory, bool LoadOnInit = false) : base(
 		GameDirectory, SearchOption.AllDirectories, true,
-		new() { Game = EGame.GAME_BladeAndSoul })
+		new() { Game = EGame.GAME_UE4_25 })
 	{
 		this.Initialize();
 		this.SubmitKey(new FGuid(), new FAesKey(_aesKey));
-		// this.LoadLocalization(ELanguage.Korean);
 
 		// load asset registry
 		if (LoadOnInit) LoadAssetRegistry();

@@ -57,7 +57,7 @@ public class BnsCustomGraphMapWidget : BnsCustomBaseWidget
 
 
 	#region Public Properties
-	private static readonly System.Type Owner = typeof(BnsCustomGraphMapWidget);
+	private static readonly Type Owner = typeof(BnsCustomGraphMapWidget);
 
 	public static readonly DependencyProperty CellSizeProperty = Owner.Register(nameof(CellSize), new Size(150, 150),
 		FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender);

@@ -6,13 +6,10 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using HandyControl.Controls;
-using HandyControl.Data;
-using Microsoft.Win32;
 using OfficeOpenXml;
 using Ookii.Dialogs.Wpf;
 using Xylia.Preview.Data.Client;
 using Xylia.Preview.Data.Engine.BinData.Models;
-using Xylia.Preview.Data.Engine.BinData.Serialization;
 using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.UI.Controls;
 using Xylia.Preview.UI.Helpers.Output;
@@ -21,6 +18,11 @@ using Xylia.Preview.UI.ViewModels;
 namespace Xylia.Preview.UI.Views.Editor;
 public partial class DatabaseStudio
 {
+	#region Fields
+	private readonly DatabaseStudioViewModel _viewModel;
+	public readonly static string TOKEN = nameof(DatabaseStudio);
+	#endregion
+
 	#region Constructors
 	static DatabaseStudio()
 	{
@@ -29,7 +31,7 @@ public partial class DatabaseStudio
 
 	public DatabaseStudio()
 	{
-		DataContext = _viewModel = new DatabaseStudioViewModel();
+		DataContext = _viewModel = new DatabaseStudioViewModel(UpdateMessage);
 		InitializeComponent();
 		RegisterCommands(this.CommandBindings);
 
@@ -45,7 +47,7 @@ public partial class DatabaseStudio
 
 	private void CanExecuteRun(object sender, CanExecuteRoutedEventArgs e)
 	{
-		e.CanExecute = _viewModel.Database != null && !string.IsNullOrEmpty(ActivateSql);
+		e.CanExecute = _viewModel.Database != null && _viewModel.Sql != null;
 	}
 
 	private async void RunCommand(object sender, RoutedEventArgs e)
@@ -55,11 +57,11 @@ public partial class DatabaseStudio
 			this.Run.IsEnabled = false;
 
 			var source = new CancellationTokenSource();
-			await ExecuteSql(ActivateSql, source.Token);
+			await ExecuteSql(_viewModel.Sql, source.Token);
 		}
 		catch (Exception ex)
 		{
-			Growl.Error(ex.Message, TOKEN);
+			Growl.Error(ex.Message, nameof(DatabaseStudio));
 		}
 		finally
 		{
@@ -69,7 +71,19 @@ public partial class DatabaseStudio
 	#endregion
 
 
-	#region Methods (UI)
+	#region Methods
+	protected override void OnClosed(EventArgs e)
+	{
+		if (!_viewModel.IsGlobalData)
+		{
+			_viewModel.Database?.Dispose();
+			_viewModel.Database = null;
+		}
+
+		GC.Collect();
+		base.OnClosed(e);
+	}
+
 	private async void Connect_Click(object sender, RoutedEventArgs e)
 	{
 		if (_viewModel.Database == null)
@@ -83,13 +97,13 @@ public partial class DatabaseStudio
 			_viewModel.IsGlobalData = dialog.IsGlobalData;
 
 			// loading
-			Connect.IsEnabled = false;
+			_viewModel.ConnectStatus = false;
 			tvwDatabase.Items.Add(new TreeViewItem() { Header = "loading..." });
 
 			await Task.Run(() => _viewModel.Database!.Initialize());
 
 			LoadTreeView();
-			Connect.IsEnabled = _viewModel.ConnectStatus = true;
+			_viewModel.ConnectStatus = true;
 		}
 		else
 		{
@@ -108,47 +122,57 @@ public partial class DatabaseStudio
 			_viewModel.Database = null;
 
 			tvwDatabase.Items.Clear();
-			_viewModel.ConnectStatus = false;
+			_viewModel.ConnectStatus = null;
 
 			GC.Collect();
 		}
 	}
 
-	protected override void OnClosed(EventArgs e)
+	/// <summary>
+	/// update right-bottom message
+	/// </summary>
+	/// <param name="text"></param>
+	private void UpdateMessage(string text)
 	{
-		if (!_viewModel.IsGlobalData)
-		{
-			_viewModel.Database?.Dispose();
-			_viewModel.Database = null;
-		}
-
-		GC.Collect();
-		base.OnClosed(e);
+		Dispatcher.Invoke(() => MessageHolder.Text = text);
 	}
 
-
-	private void TvwDatabase_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+	private void LoadTreeView()
 	{
-		if (tvwDatabase.SelectedItem is FrameworkElement item && item.DataContext is Table table)
-		{
-			_viewModel.CurrentTable = table;
-		}
-		else
-		{
-			_viewModel.CurrentTable = null;
-		}
-	}
+		tvwDatabase.Items.Clear();
+		if (_viewModel.Database is null) return;
 
-	private void TvwDatabase_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-	{
-		if (tvwDatabase.SelectedItem is FrameworkElement item)
+		// system nodes  		
+		var root = new TreeViewImageItem { Image = ImageHelper.Database, Header = _viewModel.Database.Name, IsExpanded = true };
+		var system = new TreeViewImageItem { Image = ImageHelper.Folder, Header = "System", IsExpanded = false };
+		tvwDatabase.Items.Add(root);
+		root.Items.Add(system);
+
+		if (_viewModel.Database is BnsDatabase bns)
 		{
-			if (item.DataContext is Table table)
+			system.Items.Add(new TreeViewImageItem { Image = ImageHelper.TableSys, Header = "Publisher: " + bns.Provider.Locale.Publisher });
+			system.Items.Add(new TreeViewImageItem { Image = ImageHelper.TableSys, Header = "Created: " + bns.Provider.CreatedAt });
+			system.Items.Add(new TreeViewImageItem { Image = ImageHelper.TableSys, Header = "Version: " + bns.Provider.Locale.ProductVersion });  //ClientVersion
+
+			// table nodes
+			foreach (var table in bns.Provider.Tables.OrderBy(x => x.Type))
 			{
-				string sql = $"SELECT * FROM \"{table.Name}\"\nLIMIT {_viewModel.LimitNum}";
-				AddTab(sql, table.Name);
+				// text
+				var text = table.Type.ToString();
+				if (table.Name != null) text = $"{table.Name.ToLower()} ({table.Type})";
+
+				// node
+				root.Items.Add(new TreeViewImageItem
+				{
+					Tag = table,
+					Header = text,
+					Image = ImageHelper.Table,
+					ContextMenu = this.TryFindResource("TableMenu") as ContextMenu,
+					Margin = new Thickness(0, 0, 0, 2),
+				});
 			}
 		}
+		else throw new NotSupportedException();
 	}
 
 	private void Refresh_Click(object sender, RoutedEventArgs e)
@@ -156,36 +180,54 @@ public partial class DatabaseStudio
 		LoadTreeView();
 	}
 
-
-	private void NewSql_Click(object sender, RoutedEventArgs e)
+	private void TvwDatabase_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
 	{
-		AddTab(string.Empty);
-	}
-
-	private void LoadSql_Click(object sender, RoutedEventArgs e)
-	{
-		var dialog = new VistaOpenFileDialog();
-		if (dialog.ShowDialog() != true) return;
-
-		// valid
-		var text = File.ReadAllText(dialog.FileName);
-		var header = Path.GetFileName(dialog.FileName);
-		AddTab(text, header);
-	}
-
-	private void SaveSql_Click(object sender, RoutedEventArgs e)
-	{
-		// valid
-		var text = ActivateSql;
-		if (text is null) return;
-
-		// save
-		var dialog = new VistaSaveFileDialog()
+		if (tvwDatabase.SelectedItem is FrameworkElement item)
 		{
-			Filter = "|*.sql",
-			FileName = "Query.sql",
-		};
-		if (dialog.ShowDialog() == true) File.WriteAllText(dialog.FileName, text);
+			_viewModel.CurrentTable = item.Tag as Table;
+		}
+	}
+
+	private void TvwDatabase_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+	{
+		if (tvwDatabase.SelectedItem is FrameworkElement item)
+		{
+			if (item.Tag is Table table)
+			{
+				string sql = $"SELECT * FROM \"{table.Name}\"\nLIMIT {_viewModel.LimitNum}";
+				_viewModel.Append(new SQL(sql, table.Name));
+			}
+		}
+	}
+
+	// SQL Holder
+	private async Task ExecuteSql(SQL sql, CancellationToken token)
+	{
+		ArgumentNullException.ThrowIfNull(_viewModel.Database);
+
+		var startTime = DateTime.Now;
+		var callback = new EventHandler((s, e) => UpdateMessage(string.Format("{0} {1:h\\:mm\\:ss\\.fff}", StringHelper.Get("DatabaseStudio_ExecutionTime"), DateTime.Now - startTime)));
+		var timer = new DispatcherTimer(new TimeSpan(TimeSpan.TicksPerMillisecond * 50), DispatcherPriority.Normal, callback, Dispatcher);
+		timer.Start();
+
+		try
+		{
+			await Task.Run(() => sql.ReadResult(_viewModel.Database.Execute(sql.Text)), token);
+
+			// update
+			_viewModel.BindData(sql, QueryGrid);
+			_viewModel.BindData(sql, QueryText);
+			PageHolder.SelectedItem = Page_SQL;
+		}
+		catch
+		{
+			throw;
+		}
+		finally
+		{
+			timer.Stop();
+			callback.Invoke(timer, EventArgs.Empty);
+		}
 	}
 
 	private void OutputExcel_Click(object sender, RoutedEventArgs e)
@@ -196,7 +238,6 @@ public partial class DatabaseStudio
 			FileName = $"query.xlsx",
 		};
 		if (save.ShowDialog() != true) return;
-
 
 		#region Sheet
 		ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
@@ -246,92 +287,11 @@ public partial class DatabaseStudio
 		File.WriteAllText(save.FileName, QueryText.Text);
 	}
 
-
-	private void ViewTable_Click(object sender, RoutedEventArgs e)
-	{
-		if (_viewModel.CurrentTable is null) return;
-
-		var window = new TableView { Table = _viewModel.CurrentTable };
-		window.Show();
-	}
-
-	private void ViewDefinition_Click(object sender, RoutedEventArgs e)
-	{
-		if (_viewModel.CurrentTable is null) return;
-
-		_viewModel.CurrentDefinition = _viewModel.CurrentTable.Definition;
-		PageHolder.SelectedItem = Page_Definition;
-	}
-
-	private async void TableExport_Click(object sender, RoutedEventArgs e)
-	{
-		if (_viewModel.CurrentTable is null) return;
-
-		await ExportAsync(_viewModel.CurrentTable);
-	}
-
-	private async void TableExportAll_Click(object sender, RoutedEventArgs e)
-	{
-		if (_viewModel.Database is not BnsDatabase database) return;
-
-		await ExportAsync([.. database.Provider.Tables]);
-	}
-
-	private async void Import_Click(object sender, RoutedEventArgs e)
-	{
-		if (_viewModel.Database is not BnsDatabase database) return;
-
-		try
-		{
-			DateTime dt = DateTime.Now;
-			Growl.Info("Start import", TOKEN);
-
-			serialize = new ProviderSerialize(database.Provider);
-			await serialize.ImportAsync(_viewModel.SaveDataPath);
-
-			Growl.Success(new GrowlInfo()
-			{
-				Token = TOKEN,
-				Message = "Import finished, " + (DateTime.Now - dt).TotalSeconds,
-				StaysOpen = false,
-			});
-		}
-		catch (Exception ex)
-		{
-			Growl.Error(ex.Message, TOKEN);
-		}
-	}
-
-	private async void Save_Click(object sender, RoutedEventArgs e)
-	{
-		if (_viewModel.Database is not BnsDatabase database) return;
-
-		var dialog = new OpenFolderDialog();
-		if (dialog.ShowDialog() == true)
-		{
-			serialize ??= new ProviderSerialize(database.Provider);
-			await serialize.SaveAsync(dialog.FolderName);
-
-			Growl.Success(new GrowlInfo()
-			{
-				Token = TOKEN,
-				Message = "Save finished",
-				StaysOpen = true,
-			});
-		}
-	}
-
-
 	//------------------------------------------------------
 	//
 	//  Page_Definition
 	//
 	//------------------------------------------------------
-	private void ReturnBtn_Click(object sender, RoutedEventArgs e)
-	{
-		PageHolder.SelectedItem = Page_SQL;
-	}
-
 	private void AttributeName_MouseDown(object sender, MouseButtonEventArgs e)
 	{
 		// copy attribute name
@@ -341,135 +301,8 @@ public partial class DatabaseStudio
 		}
 	}
 	#endregion
-
-	#region Methods
-	private void LoadTreeView()
-	{
-		tvwDatabase.Items.Clear();
-		if (_viewModel.Database is null) return;
-
-		// system nodes  		
-		var root = new TreeViewImageItem { Image = ImageHelper.Database, Header = _viewModel.Database.Name, IsExpanded = true };
-		var system = new TreeViewImageItem { Image = ImageHelper.Folder, Header = "System", IsExpanded = false };
-		tvwDatabase.Items.Add(root);
-		root.Items.Add(system);
-
-		if (_viewModel.Database is BnsDatabase bns)
-		{
-			system.Items.Add(new TreeViewImageItem { Image = ImageHelper.TableSys, Header = "Publisher: " + bns.Provider.Locale.Publisher });
-			system.Items.Add(new TreeViewImageItem { Image = ImageHelper.TableSys, Header = "Created: " + bns.Provider.CreatedAt });
-			system.Items.Add(new TreeViewImageItem { Image = ImageHelper.TableSys, Header = "Version: " + bns.Provider.Locale.ProductVersion });  //ClientVersion
-
-			// table nodes
-			foreach (var table in bns.Provider.Tables.OrderBy(x => x.Type))
-			{
-				// text
-				var text = table.Type.ToString();
-				if (table.Name != null) text = $"{table.Name.ToLower()} ({table.Type})";
-
-				// node
-				root.Items.Add(new TreeViewImageItem
-				{
-					DataContext = table,
-					Header = text,
-					Image = ImageHelper.Table,
-					ContextMenu = this.TryFindResource("TableMenu") as ContextMenu,
-					Margin = new Thickness(0, 0, 0, 2),
-				});
-			}
-		}
-		else throw new NotSupportedException();
-	}
-
-	/// <summary>
-	/// update right-bottom message
-	/// </summary>
-	/// <param name="text"></param>
-	private void UpdateMessage(string text)
-	{
-		Dispatcher.Invoke(() => MessageHolder.Text = text);
-	}
-
-	/// <summary>
-	/// append new sql tab
-	/// </summary>
-	/// <param name="sql"></param>
-	/// <param name="title"></param>
-	private void AddTab(string sql, string? title = null)
-	{
-		title ??= ("Page" + (editors.Items.Count + 1));
-		var item = new HandyControl.Controls.TabItem()
-		{
-			Content = new ICSharpCode.AvalonEdit.TextEditor() { Text = sql },
-			DataContext = null,   // fix issue with expand name, don't remove
-			Header = title,
-			ToolTip = title,
-		};
-
-		editors.Items.Insert(0, item);
-		editors.SelectedItem = item;
-	}
-
-	private string ActivateSql
-	{
-		get
-		{
-			var item = (editors.SelectedItem as ContentControl)?.Content;
-			if (item is not ICSharpCode.AvalonEdit.TextEditor editor) return string.Empty;
-
-			return editor.Text;
-		}
-	}
-
-	private async Task ExecuteSql(string sql, CancellationToken token)
-	{
-		ArgumentNullException.ThrowIfNull(_viewModel.Database);
-
-		var startTime = DateTime.Now;
-		var callback = new EventHandler((s, e) => UpdateMessage(string.Format("{0} {1:h\\:mm\\:ss\\.fff}", StringHelper.Get("DatabaseStudio_ExecutionTime"), DateTime.Now - startTime)));
-		var timer = new DispatcherTimer(new TimeSpan(TimeSpan.TicksPerMillisecond * 50), DispatcherPriority.Normal, callback, Dispatcher);
-		timer.Start();
-
-		try
-		{
-			await Task.Run(() => _viewModel.ReadResult(_viewModel.Database.Execute(sql)), token);
-
-			// update
-			_viewModel.BindData(this.QueryGrid);
-			_viewModel.BindData(this.QueryText);
-			PageHolder.SelectedItem = Page_SQL;
-		}
-		catch
-		{
-			throw;
-		}
-		finally
-		{
-			timer.Stop();
-			callback.Invoke(timer, EventArgs.Empty);
-		}
-	}
-
-	private async Task ExportAsync(params Table[] tables)
-	{
-		if (_viewModel.Database is not BnsDatabase database) return;
-
-		serialize = new ProviderSerialize(database.Provider);
-		await serialize.ExportAsync(_viewModel.SaveDataPath, (current, total) =>
-			UpdateMessage(current != tables.Length ?
-				StringHelper.Get("DatabaseStudio_TaskMessage1", current, tables.Length, (double)current / tables.Length) :
-				StringHelper.Get("DatabaseStudio_TaskMessage2", tables.Length))
-		, tables);
-	}
-	#endregion
-
-	#region Private Fields
-	internal static string TOKEN = nameof(DatabaseStudio);
-
-	private ProviderSerialize? serialize;
-	private readonly DatabaseStudioViewModel _viewModel;
-	#endregion
 }
+
 
 internal static class ImageHelper
 {

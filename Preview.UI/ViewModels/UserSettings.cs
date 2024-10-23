@@ -123,7 +123,7 @@ internal partial class UserSettings : Settings
 	#endregion
 
 	#region Preview
-	public ObservableCollection<JobSeq> Jobs => new(Data.Models.Job.GetPcJob());
+	public IEnumerable<JobSeq> Jobs => Data.Models.Job.PcJobs;
 
 	public JobSeq Job
 	{

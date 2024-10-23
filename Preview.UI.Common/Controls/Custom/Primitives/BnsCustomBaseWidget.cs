@@ -21,7 +21,7 @@ public abstract class BnsCustomBaseWidget : UserWidget
 	#region Constructors
 	internal BnsCustomBaseWidget()
 	{
-		Children = new UIElementCollectionEx(this);
+		Children = new WidgetCollection(this);
 
 		// Create TextContainer associated with it
 		_container = new TextContainer(this);

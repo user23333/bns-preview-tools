@@ -6,7 +6,6 @@ public abstract class TendencyField : ModelElement, IAttraction
 
 	public string Alias { get; set; }
 
-
 	public Ref<Text> TendencyFieldName2 { get; set; }
 
 	public Ref<Text> TendencyFieldDesc { get; set; }
@@ -58,7 +57,7 @@ public abstract class TendencyField : ModelElement, IAttraction
 	}
 	#endregion
 
-	#region Attraction
+	#region IAttraction
 	public string Name => this.TendencyFieldName2.GetText();
 
 	public string Description => this.TendencyFieldDesc.GetText();

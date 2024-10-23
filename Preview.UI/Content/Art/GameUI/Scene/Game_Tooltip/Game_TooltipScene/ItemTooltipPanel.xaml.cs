@@ -8,6 +8,7 @@ using Xylia.Preview.Data.Models;
 using Xylia.Preview.Data.Models.Document;
 using Xylia.Preview.Data.Models.Sequence;
 using Xylia.Preview.UI.Controls;
+using Xylia.Preview.UI.Controls.Helpers;
 using Xylia.Preview.UI.Converters;
 using Xylia.Preview.UI.Extensions;
 using Xylia.Preview.UI.ViewModels;
@@ -109,7 +110,7 @@ public partial class ItemTooltipPanel
 			if (SubAbilityFixed != null) Substitute2.Add(SubAbilityFixed.Description);
 			if (SubAbilityRandomCount > 0)
 			{
-				Substitute2.Add("UI.ItemRandomOption.Undetermined".GetText([SubAbilityRandomCount]));
+				Substitute2.Add(StringHelper.Get("UI.ItemRandomOption.Undetermined", SubAbilityRandomCount));
 				SubAbilityRandom.ForEach(x => Substitute2.Add(x.Description + " <Image imagesetpath='00015590.Tag_Random' enablescale='true' scalerate='1.2'/>"), true);
 			}
 		}
@@ -233,9 +234,10 @@ public partial class ItemTooltipPanel
 
 						foreach (var SkillTrainByItem in ChangeSets)
 						{
-							var box = new HorizontalBox() { Margin = new Thickness(0, 0, 0, 3) };
-							LayoutData.SetAnchors(box, FLayoutData.Anchor.Full);
-							Combat_Holder.Children.Add(box);
+							var box = Combat_Holder.Children.Add(new HorizontalBox()
+							{
+								Margin = new Thickness(0, 0, 0, 3)
+							}, FLayoutData.Anchor.Full);
 
 							// icon
 							if (SkillTrainByItem.Icon != null)
@@ -260,10 +262,37 @@ public partial class ItemTooltipPanel
 			}
 		}
 
-		if (record is Weapon)
+		if (record is Grocery)
+		{
+			var SkillTrainByItem = record.Attributes.Get<SkillTrainByItem>("skill-train-by-item-for-transmit");
+			if (SkillTrainByItem != null)
+			{
+				Combat_Holder.Visibility = Visibility.Visible;
+				CollectionSubstituteText.String.LabelText += "UI.ItemTooltip.SkillTrainByItemExtract".GetText([SkillTrainByItem.ItemEquipType.GetText(), SkillTrainByItem.Job.GetText()]);
+
+				var box = Combat_Holder.Children.Add(new HorizontalBox()
+				{
+					Margin = new Thickness(0, 0, 0, 3)
+				}, FLayoutData.Anchor.Full);
+
+				// icon
+				box.Children.Add(new BnsCustomImageWidget
+				{
+					BaseImageProperty = SkillTrainByItem.Icon?.GetImage(),
+					Width = 32,
+					Height = 32,
+					Margin = new Thickness(0, 0, 10, 0),
+					VerticalAlignment = System.Windows.VerticalAlignment.Top,
+				});
+
+				// description
+				box.Children.Add(new BnsCustomLabelWidget() { Text = SkillTrainByItem.Description2 });
+			}
+		}
+		else if (record is Weapon)
 		{
 			var SkillByEquipment = record.Attributes.Get<SkillByEquipment>("skill-by-equipment");
-			if (SkillByEquipment is not null)
+			if (SkillByEquipment != null)
 			{
 				Combat_Holder.Visibility = Visibility.Visible;
 				Combat_Holder.Children.Add(Combat_Holder_Title);
@@ -312,9 +341,9 @@ public partial class ItemTooltipPanel
 		#region Fields
 		public JobSeq Job;
 
-		public Reward? DecomposeReward { get; private set; }
-
-		public Tuple<Item, short>? OpenItem { get; private set; }
+		public Reward? DecomposeReward;
+		public Item? DecomposeByItem2;
+		public short DecomposeByItem2StackCount;
 		#endregion
 
 		#region Methods
@@ -322,36 +351,32 @@ public partial class ItemTooltipPanel
 		{
 			var pages = new List<DecomposePage>();
 
-			#region reward
+			// reward
 			for (int index = 0; index < info.DecomposeReward.Length; index++)
 			{
 				var reward = info.DecomposeReward[index];
-				var item2 = info.Decompose_By_Item2[index];
 				if (reward is null) continue;
 
-				pages.Add(new DecomposePage() { DecomposeReward = reward, OpenItem = item2 });
+				pages.Add(new DecomposePage()
+				{
+					DecomposeReward = reward,
+					DecomposeByItem2 = info.DecomposeByItem2[info.DecomposeRewardByConsumeIndex ? index : 0],
+					DecomposeByItem2StackCount = info.DecomposeByItem2StackCount[info.DecomposeRewardByConsumeIndex ? index : 0],
+				});
 			}
-			#endregion
 
-			#region job reward
-			var group_job = info.DecomposeJobRewards
-				.Where(x => x.Value is not null)
-				.Select(x => new DecomposePage() { Job = x.Key, DecomposeReward = x.Value, });
-
-			if (group_job.Any())
+			// job reward
+			var job = UserSettings.Default.Job;
+			if (info.DecomposeJobRewards.TryGetValue(job, out var jobreward) && jobreward != null)
 			{
-				// combine data according to cell num
-				//int num = group_job.Sum(group => group.Preview.Count);
-				//if (num >= 30) pages.AddRange(group_job);
-				//else pages.Add(new DecomposePage()
-				//{
-				//	Job = JobSeq.JobNone,
-				//	DecomposeReward = group_job.FirstOrDefault().DecomposeReward,
-				//	OpenItem = info.Job_Decompose_By_Item2.FirstOrDefault(),
-				//	Preview = group_job.SelectMany(group => group.Preview).ToList(),
-				//});
+				pages.Add(new DecomposePage()
+				{
+					Job = job,
+					DecomposeReward = jobreward,
+					DecomposeByItem2 = info.JobDecomposeByItem2[0],
+					DecomposeByItem2StackCount = info.JobDecomposeByItem2StackCount[0],
+				});
 			}
-			#endregion
 
 			return pages;
 		}

@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
 using System.Text;
 using System.Windows;
 using AutoUpdaterDotNET;
@@ -82,6 +83,7 @@ internal class UpdateService : IService
 		}
 		else
 		{
+			Debug.Print("verification successful!");
 			IPlatformFilePak.Signature = Encoding.UTF8.GetBytes(args.Signature);
 
 			if (args.NoticeID < 0 || UserSettings.Default.NoticeId < args.NoticeID)

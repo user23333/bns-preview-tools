@@ -5,11 +5,11 @@ using System.Reflection;
 using System.Resources;
 using System.Windows;
 using HandyControl.Tools;
+using Xylia.Preview.Common;
 using Xylia.Preview.Common.Attributes;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Engine.DatData;
-using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.UI.ViewModels;
 
 namespace Xylia.Preview.UI;
@@ -23,7 +23,7 @@ public partial class StringHelper : ResourceDictionary, ITextProvider
 
 	public StringHelper()
 	{
-		FileCache.TextProvider = Current = this;
+		Globals.TextProvider = Current = this;
 		Language = UserSettings.Default.Language;
 	}
 	#endregion

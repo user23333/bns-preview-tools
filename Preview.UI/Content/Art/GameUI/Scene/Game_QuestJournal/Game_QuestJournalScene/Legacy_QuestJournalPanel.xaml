@@ -8,7 +8,7 @@
 		Title="QuestJournalPanel" Height="790" Width="800">
 	<GameWindow.Resources>
 		<s:ContextMenu x:Key="ItemMenu">
-			<s:MenuItem Header="{s:DynamicResource PreviewBasic}" Command="{i:PreviewBasic}" CommandParameter="{Binding Path=.}"/>
+			<s:MenuItem Header="{s:DynamicResource Name.PreviewBasic}" Command="{i:PreviewBasic}" CommandParameter="{Binding Path=.}"/>
 		</s:ContextMenu>
 		
 		<s:Style x:Key="FilterOption" TargetType="s:ItemsControl">

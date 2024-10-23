@@ -1,9 +1,8 @@
 ﻿using Xylia.Preview.Common.Extension;
-using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Models.Sequence;
 
 namespace Xylia.Preview.Data.Models;
-public class SkillModifyInfoGroup : ModelElement, IHaveDesc
+public class SkillModifyInfoGroup : ModelElement
 {
 	#region Attributes
 	public JobStyleSeq JobStyle { get; set; }

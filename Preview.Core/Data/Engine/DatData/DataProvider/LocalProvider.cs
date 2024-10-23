@@ -62,10 +62,10 @@ public class LocalProvider(string source) : DefaultProvider
 
 	#region Public Methods
 	/// <summary>
-	/// Replace existed text
+	/// Replace existed text.
 	/// </summary>
 	/// <param name="table">text table</param>
-	/// <param name="files">x16 file path</param>
+	/// <param name="files">.x16 file path</param>
 	public static void ReplaceText(Table table, params FileInfo[] files)
 	{
 		ArgumentNullException.ThrowIfNull(table);
@@ -85,6 +85,20 @@ public class LocalProvider(string source) : DefaultProvider
 			}
 		}
 	}
+
+	/// <summary>
+	/// [Test] Replace text to alias.
+	/// </summary>
+	/// <param name="table"></param>
+	public static void ReplaceText(Table table)
+	{
+		foreach (var record in table)
+		{
+			var alias = record.Attributes.Get<string>("alias");
+			if (alias != null) record.Attributes["text"] = alias;
+		}
+	}
+
 
 	/// <summary>
 	/// Save as dat

@@ -101,8 +101,9 @@ public partial class DatabaseManager
 			if (Provider_GlobalMode.IsChecked == true)
 			{
 				IsGlobalData = true;
-				FileCache.Definition = definition;
+				FileCache.Definition = definition;  //set global definition
 				Engine = FileCache.Data;
+				UserSettings.Default.DefitionType = FileCache.Data.Provider.Locale.Publisher;
 			}
 			else
 			{

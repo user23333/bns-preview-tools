@@ -22,17 +22,6 @@ public static class ControlHelpers
 		PreviousArrangeRect.SetValue(element, value);
 	}
 
-	public static T? GetParent<T>(this DependencyObject reference) where T : Visual
-	{
-		while (true)
-		{
-			reference = VisualTreeHelper.GetParent(reference);
-
-			if (reference is null) return default;
-			if (reference is T) return reference as T;
-		}
-	}
-
 	public static void SetVisiable(this FrameworkElement element, bool visible)
 	{
 		element.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
@@ -99,7 +88,7 @@ public static class ControlHelpers
 		{
 			return Object.Equals(o1, o2);
 		}
-		catch (System.InvalidCastException)
+		catch (InvalidCastException)
 		{
 			// A common programming error: the type of o1 overrides Equals(object o2)
 			// but mistakenly assumes that o2 has the same type as o1:

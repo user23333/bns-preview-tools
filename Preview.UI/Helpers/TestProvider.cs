@@ -14,6 +14,6 @@ internal class TestProvider
 
 	public static void Set(DirectoryInfo directory)
 	{
-		FileCache.Data = new BnsDatabase(new FolderProvider(directory.FullName));
+		FileCache.Data = new BnsDatabase(new FolderProvider(directory.FullName), FileCache.Definition);
 	}
 }
