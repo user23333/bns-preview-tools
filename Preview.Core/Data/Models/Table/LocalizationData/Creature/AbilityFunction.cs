@@ -1,4 +1,6 @@
-﻿namespace Xylia.Preview.Data.Models;
+﻿using Xylia.Preview.Common;
+
+namespace Xylia.Preview.Data.Models;
 public class AbilityFunction
 {
 	#region Fields
@@ -69,7 +71,7 @@ public class AbilityFunction
 	#region Methods		
 	public bool IsValid => K > 0 && Type != CreatureField.Creature_field_none;
 
-	public string Text => $"AbilityName.{Type}".GetText();
+	public string Text => Globals.TextProvider.Get($"AbilityName.{Type}");
 
 	public double GetPercent(double value, sbyte level, int? basepercent = null)
 	{
@@ -90,7 +92,7 @@ public class AbilityFunction
 		Type = CreatureField.AttackHitBasePercent,
 		C = 850,
 		K = 96,
-		LevelFactors = 
+		LevelFactors =
 		[
 			new(60, 6081.99)
 		]

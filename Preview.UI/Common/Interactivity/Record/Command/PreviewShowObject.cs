@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows;
 using CUE4Parse.BNS.Assets.Exports;
-using Xylia.Preview.Data.Helpers;
+using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Models;
 using Xylia.Preview.UI.Views;
 
@@ -14,7 +14,7 @@ internal class PreviewShowObject : RecordCommand
 	{
 		if (record.OwnerName == "social")
 		{
-			if (record.Attributes["show"] != null) return true;
+			return record.Attributes.Get<ObjectPath>("show").IsValid;
 		}
 
 		return false;
@@ -26,9 +26,7 @@ internal class PreviewShowObject : RecordCommand
 		{
 			case "social":
 			{
-				var source = FileCache.Provider.LoadObject<UShowObject>(record.Attributes["show"]?.ToString());
-				if (source is null) throw new WarningException("no data"); 
-
+				var source = record.Attributes.Get<ObjectPath>("show").LoadObject<UShowObject>() ?? throw new WarningException(StringHelper.Get("Exception_InvalidData"));
 				Application.Current.Dispatcher.Invoke(() => new ShowObjectPlayer(source).Show());
 			}
 			break;

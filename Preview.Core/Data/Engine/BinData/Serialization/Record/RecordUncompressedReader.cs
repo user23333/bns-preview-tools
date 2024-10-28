@@ -117,9 +117,9 @@ internal unsafe class RecordUncompressedReader : IRecordReader
         return false;
     }
 
-    public void GetPadding(out Span<byte> outPadding)
+    public Span<byte> GetPadding()
     {
-        outPadding = new Span<byte>(_recordBuffer, _paddingSize);
+        return new Span<byte>(_recordBuffer, _paddingSize);
     }
 
     public int GetRecordCountOffset()

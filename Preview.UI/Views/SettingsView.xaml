@@ -171,7 +171,7 @@
 						<TextBlock d:Text="Use User Definition" Text="{DynamicResource Settings_UseUserDefinition}" ToolTip="{DynamicResource Settings_UseUserDefinition_Tooltip}" />
 						<CheckBox Grid.Column="1" IsChecked="{Binding UseUserDefinition}" ToolTip="{DynamicResource Settings_UseUserDefinition_Tooltip}" />
 					</ItemsControl>
-					<ItemsControl>
+					<ItemsControl x:Name="DebugMode">
 						<TextBlock d:Text="Use Debug Mode" Text="{DynamicResource Settings_DebugMode}" />
 						<CheckBox Grid.Column="1" IsChecked="{Binding UseDebugMode}" />
 					</ItemsControl>

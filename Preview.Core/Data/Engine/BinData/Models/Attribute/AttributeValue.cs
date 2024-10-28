@@ -321,23 +321,6 @@ public class AttributeValue : IComparable<AttributeValue>, IEquatable<AttributeV
 
 		return left.AsFloat / right.AsFloat;
 	}
-
-	public override string ToString()
-	{
-		// convert
-		var value = this.RawValue;
-		var text = value switch
-		{
-			float f => f.ToString("0.00"),
-			ITime { Ticks: 0 } => null,
-			Record record when Definition.Type == AttributeType.TTRef => $"{record.OwnerName}:{value}",
-			_ => value?.ToString(),
-		};
-
-		// check default
-		if (text == Definition.DefaultValue) return null;
-		return text;
-	}
 	#endregion
 
 	#region IComparable, IEquatable		   
@@ -458,6 +441,17 @@ public class AttributeValue : IComparable<AttributeValue>, IEquatable<AttributeV
 		hash = 37 * hash + this.Type.GetHashCode();
 		hash = 37 * hash + (this.RawValue?.GetHashCode() ?? 0);
 		return hash;
+	}
+
+	public override string ToString()
+	{
+		return RawValue switch
+		{
+			float f => f.ToString("0.00"),
+			ITime { Ticks: 0 } => null,
+			Record record when Definition.Type == AttributeType.TTRef => $"{record.OwnerName}:{record}",
+			_ => RawValue?.ToString(),
+		};
 	}
 	#endregion
 }

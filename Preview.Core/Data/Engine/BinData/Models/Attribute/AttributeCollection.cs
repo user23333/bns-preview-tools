@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Xml;
+using Serilog;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common;
 using Xylia.Preview.Data.Common.DataStruct;
@@ -177,6 +178,9 @@ public class AttributeCollection : IReadOnlyList<AttributeValue>
 
 	public void Set(AttributeDefinition attribute, object value)
 	{
+		// skip virtual attribute
+		if (attribute.Name == s_type) return;
+
 		switch (attribute.Type)
 		{
 			case AttributeType.TSeq:
@@ -185,7 +189,7 @@ public class AttributeCollection : IReadOnlyList<AttributeValue>
 				var seqIndex = (sbyte)attribute.Sequence.IndexOf((string)value);
 				if (seqIndex == -1)
 				{
-					Serilog.Log.Warning($"Invalid sequence, name: '{attribute.Name}' value: '{value}'");
+					Log.Error($"Invalid sequence, name: '{attribute.Name}' value: '{value}'");
 					seqIndex = 0;
 				}
 
@@ -199,7 +203,7 @@ public class AttributeCollection : IReadOnlyList<AttributeValue>
 				var seqIndex = (short)attribute.Sequence.IndexOf((string)value);
 				if (seqIndex == -1)
 				{
-					Serilog.Log.Warning($"Invalid sequence, name: '{attribute.Name}' value: '{value}'");
+					Log.Error($"Invalid sequence, name: '{attribute.Name}' value: '{value}'");
 					seqIndex = 0;
 				}
 
@@ -210,21 +214,19 @@ public class AttributeCollection : IReadOnlyList<AttributeValue>
 			case AttributeType.TRef:
 			{
 				var record = value as Record;
-				value = record.PrimaryKey;
+				value = record?.PrimaryKey ?? default;
 				break;
 			}
 			case AttributeType.TTRef:
 			{
-				var provider = this.record.Owner.Owner;
-				var record = provider.Tables.GetRecord((string)value);
+				var record = value as Record;
 				value = new TRef(record);
 				break;
 			}
 			case AttributeType.TIcon:
 			{
-				var provider = this.record.Owner.Owner;
-				var icon = provider.Tables.GetIcon((string)value);
-				value = (IconRef)icon;
+				var icon = (Icon)value;
+				value = icon.GetRef();
 				break;
 			}
 
@@ -246,11 +248,8 @@ public class AttributeCollection : IReadOnlyList<AttributeValue>
 			}
 		}
 
-		// valid result
-		if (value is null) return;
-		else if (value is string) throw new InvalidDataException("String is not expected type");
-		else if (record.Data.Length < attribute.Offset) throw new InvalidDataException("offset out of range");
-		else record.Data.Set(attribute.Offset, value);
+		// set data
+		record.Data.Set(attribute.Offset, value);
 	}
 	#endregion
 

@@ -148,8 +148,6 @@ internal class AliasTableUnit(string name)
 
 	internal static List<AliasTableUnit> Split(AliasTable aliasTable)
 	{
-		if (aliasTable is null) return null;
-
 		var tables = new Dictionary<string, AliasTableUnit>(StringComparer.OrdinalIgnoreCase);
 
 		foreach (var table in aliasTable.Table)

@@ -12,7 +12,6 @@ public abstract class Datafile
 	public long AliasCount { get; set; }
 	public long AliasMapSize { get; set; }
 	internal AliasTable AliasTable { get; set; }
-
 	public TableCollection Tables { get; set; }
 	public bool Is64Bit { get; protected set; }
 	#endregion
@@ -34,7 +33,7 @@ public abstract class Datafile
 			this.CreatedAt = bin.CreatedAt;
 			this.AliasCount = bin.AliasCount;
 			this.AliasMapSize = bin.AliasMapSize;
-			this.AliasTable = AliasTableArchive.LazyLoad(reader);
+			this.AliasTable = new AliasTableArchive(reader);
 		}
 
 		// TotalTableSize = bytes.Length - reader.Position - bin.ReadTableCount * 4
@@ -53,7 +52,7 @@ public abstract class Datafile
 		{
 			Magic = "TADBOSLB",
 			Reserved = new byte[54],
-			CreatedAt = DateTime.Now,
+			CreatedAt = CreatedAt, //DateTime.Now,
 			DatafileVersion = DatafileVersion,
 			ClientVersion = ClientVersion,
 			MaxBufferSize = 0x0,   //MaxBufferSize  好像等于 AliasMapSize  但是设置任何值游戏都没影响 
@@ -68,17 +67,16 @@ public abstract class Datafile
 		if (tables.Length > 10)
 		{
 			if (AliasTable is not AliasTableArchive alias)
-				throw new NullReferenceException("AliasTable was null on main datafile");
+				throw new NullReferenceException("Missing AliasTable on main datafile.");
 
 			var oldPosition = writer.Position;
 			AliasTableWriter.WriteTo(writer, alias);
 
 			var nameTableSize = writer.Position - oldPosition;
 			this.AliasMapSize = nameTableSize;
-			this.AliasCount = alias.Entries.Count;
+			this.AliasCount = alias.Entries.Length;
 			overwriteNameTableSize(nameTableSize);
 		}
-
 
 		var tableWriter = new TableWriter();
         foreach (var table in tables)

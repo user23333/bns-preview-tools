@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using IniParser;
@@ -6,6 +6,7 @@ using IniParser.Model;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Data.Helpers;
+using Xylia.Preview.Data.Models.Sequence;
 
 namespace Xylia.Preview.Properties;
 public class Settings : INotifyPropertyChanged
@@ -129,6 +130,14 @@ public class Settings : INotifyPropertyChanged
 	public bool UseUserDefinition { get => GetValue<bool>(); set => SetValue(value); }
 	public EPublisher DefitionType { get => GetValue<EPublisher>(); set => SetValue(value); }
 	internal string DefitionKey { get => GetValue<string>(); set => SetValue(value); }
+	#endregion
+
+	#region Preview
+	public JobSeq Job
+	{
+		get => GetValue<string>("Preview").ToEnum(JobSeq.검사);
+		set => SetValue(value, "Preview");
+	}
 
 	public bool Text_LoadData { get => GetValue<bool>(); set => SetValue(value); }
 	#endregion

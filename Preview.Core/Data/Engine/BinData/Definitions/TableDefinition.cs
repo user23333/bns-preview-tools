@@ -60,7 +60,7 @@ public class TableDefinition : TableHeader
 	public byte[] WriteXml()
 	{
 		using var ms = new MemoryStream();
-		using var writer = XmlWriter.Create(ms, new XmlWriterSettings() { Indent = true, IndentChars = "\t" , Encoding = new UTF8Encoding(false) });
+		using var writer = XmlWriter.Create(ms, new XmlWriterSettings() { Indent = true, IndentChars = "\t", Encoding = new UTF8Encoding(false) });
 
 		writer.WriteStartDocument();
 		writer.WriteStartElement("table");
@@ -195,17 +195,17 @@ public class TableDefinition : TableHeader
 				}
 			}
 
-			// Add auto key id
+			// Add auto-id key
 			if (!el.Attributes.Any(attribute => attribute.IsKey))
 			{
 				var autoIdAttr = new AttributeDefinition
 				{
 					Name = AttributeCollection.s_autoid,
 					Type = AttributeType.TInt64,
-					IsKey = true,
-					IsHidden = true,
 					Offset = 8,
 					Repeat = 1,
+					IsKey = true,
+					IsHidden = true,
 					CanInput = false,
 				};
 
@@ -226,6 +226,8 @@ public class TableDefinition : TableHeader
 					Repeat = 1,
 					ReferedTableName = name,
 					ReferedElement = el.Name,
+					IsHidden = true,
+					CanInput = false,
 				};
 
 				el.Attributes.Insert(0, typeAttr);

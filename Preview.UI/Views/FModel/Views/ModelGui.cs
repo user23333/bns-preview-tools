@@ -135,11 +135,10 @@ public partial class ModelGui : SnimGui
 
 				if (ImGui.MenuItem(model.DisplayName ?? "Default"))
 				{
-					view.Renderer.Options = new Options();   //clear model 
+					view.Renderer.Options = new Options();   // clear model 
 					view.TryLoadExport(default, model);
 
 					view.Renderer.Options.SetupModelsAndLights();
-					view.Transform();
 
 					_viewportFocus = true;
 				}

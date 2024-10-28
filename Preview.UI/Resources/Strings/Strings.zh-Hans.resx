@@ -225,8 +225,10 @@
   </data>
   <data name="Application_UpdateLog" xml:space="preserve">
     <value>[ver=3.2.1,time=2024/1/1]
-+优化数据管理器中查看zone表时可以显示名称
-+优化物品查看可筛选品质与职业
+优化数据管理器中查看zone表时可以显示名称
+优化物品查看可筛选品质与职业
+修复物品职业专用奖励不显示的问题
+修复默认值不显示的问题
 
 [ver=3.2.0,time=2024/9/1]
 数据管理器
@@ -359,6 +361,12 @@
   <data name="DatabaseStudio_ExecutionTime" xml:space="preserve">
     <value>执行时间:</value>
   </data>
+  <data name="DatabaseStudio_ExportMessage1" xml:space="preserve">
+    <value>保存中 {0}/{1} ({2:P0})</value>
+  </data>
+  <data name="DatabaseStudio_ExportMessage2" xml:space="preserve">
+    <value>已完成</value>
+  </data>
   <data name="DatabaseStudio_Extract" xml:space="preserve">
     <value>提取</value>
   </data>
@@ -368,11 +376,23 @@
   <data name="DatabaseStudio_Grid" xml:space="preserve">
     <value>表格</value>
   </data>
-  <data name="DatabaseStudio_Hidden" xml:space="preserve">
-    <value>隐藏</value>
+  <data name="DatabaseStudio_Import" xml:space="preserve">
+    <value>导入</value>
+  </data>
+  <data name="DatabaseStudio_ImportMessage1" xml:space="preserve">
+    <value>开始导入</value>
+  </data>
+  <data name="DatabaseStudio_ImportMessage2" xml:space="preserve">
+    <value>导入完成</value>
+  </data>
+  <data name="DatabaseStudio_Indent" xml:space="preserve">
+    <value>缩进</value>
   </data>
   <data name="DatabaseStudio_IsDeprecated" xml:space="preserve">
     <value>弃用</value>
+  </data>
+  <data name="DatabaseStudio_IsHidden" xml:space="preserve">
+    <value>隐藏</value>
   </data>
   <data name="DatabaseStudio_IsKey" xml:space="preserve">
     <value>主键</value>
@@ -395,14 +415,14 @@
   <data name="DatabaseStudio_Offset" xml:space="preserve">
     <value>二进制偏移</value>
   </data>
-  <data name="DatabaseStudio_OutputExcel" xml:space="preserve">
-    <value>另存为表格</value>
-  </data>
   <data name="DatabaseStudio_Paramters" xml:space="preserve">
     <value>参数</value>
   </data>
   <data name="DatabaseStudio_Provider" xml:space="preserve">
     <value>数据源</value>
+  </data>
+  <data name="DatabaseStudio_SaveMessage" xml:space="preserve">
+    <value>保存完成</value>
   </data>
   <data name="DatabaseStudio_SqlLoad" xml:space="preserve">
     <value>加载</value>
@@ -412,12 +432,6 @@
   </data>
   <data name="DatabaseStudio_SqlSave" xml:space="preserve">
     <value>保存</value>
-  </data>
-  <data name="DatabaseStudio_TaskMessage1" xml:space="preserve">
-    <value>保存中 {0}/{1} ({2:P0})</value>
-  </data>
-  <data name="DatabaseStudio_TaskMessage2" xml:space="preserve">
-    <value>已完成</value>
   </data>
   <data name="DatabaseStudio_Text" xml:space="preserve">
     <value>文本</value>
@@ -445,6 +459,16 @@
   </data>
   <data name="DatSelector_Tooltip" xml:space="preserve">
     <value>由于您选择的路径下存在多个相关文件，需要进行主动选择。</value>
+  </data>
+  <data name="Exception_InvalidData" xml:space="preserve">
+    <value>无数据</value>
+  </data>
+  <data name="Exception_InvalidModel" xml:space="preserve">
+    <value>缺失模型资源</value>
+  </data>
+  <data name="Exception_InvalidPublisher" xml:space="preserve">
+    <value>发布商不一致，请先到数据管理器中重新链接！
+继续读取可能会造成读取异常，仍然继续吗?</value>
   </data>
   <data name="Extract_ItemBuyPrice" xml:space="preserve">
     <value>输出物品购买价格</value>
@@ -617,12 +641,6 @@
   <data name="Page_ItemPage" xml:space="preserve">
     <value>常用</value>
   </data>
-  <data name="PreviewModel_Empty" xml:space="preserve">
-    <value>模型缺失资源</value>
-  </data>
-  <data name="PreviewModel_Fail" xml:space="preserve">
-    <value>模型加载失败</value>
-  </data>
   <data name="ProductName" xml:space="preserve">
     <value>Blade &amp; Soul Preview Tool</value>
   </data>
@@ -751,7 +769,7 @@
     <value>编辑</value>
   </data>
   <data name="Text.Export" xml:space="preserve">
-    <value>输出</value>
+    <value>导出</value>
   </data>
   <data name="Text.Extract" xml:space="preserve">
     <value>Extract</value>
@@ -767,7 +785,7 @@
     <value>分组</value>
   </data>
   <data name="Text.Import" xml:space="preserve">
-    <value>输入</value>
+    <value>导入</value>
   </data>
   <data name="Text.Info" xml:space="preserve">
     <value>信息</value>
@@ -777,6 +795,9 @@
   </data>
   <data name="Text.LineNumber" xml:space="preserve">
     <value>行</value>
+  </data>
+  <data name="Text.Load" xml:space="preserve">
+    <value>加载</value>
   </data>
   <data name="Text.Model" xml:space="preserve">
     <value>Model</value>
@@ -972,9 +993,5 @@
   </data>
   <data name="UI.Tooltip.Skill.damage-percent-min-max" xml:space="preserve">
     <value>攻击力{0}~{1}%的</value>
-  </data>
-  <data name="Exception_InvalidPublisher" xml:space="preserve">
-    <value>发布商不一致，请先到数据管理器中重新链接！
-继续读取可能会造成读取异常，仍然继续吗?</value>
   </data>
 </root>

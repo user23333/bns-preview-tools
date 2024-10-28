@@ -35,7 +35,7 @@ public class AttributeDefinition
 	#region Expand
 	public string ReferedTableName { get; set; }
 	public string ReferedElement { get; set; }
-	public bool CanInput { get; set; } = true;
+	public bool CanInput { get; internal set; } = true;
 
 	internal List<AttributeDefinition> Expands { get; private set; } = [];
 	#endregion
@@ -155,9 +155,13 @@ public class AttributeDefinition
 					break;
 
 				case AttributeType.TBool:
-					DefaultValue ??= "n";
+					DefaultValue = DefaultValue switch
+					{
+						"true" => "y",
+						"false" or null => "n",
+						_ => DefaultValue,
+					};
 					break;
-
 
 				case AttributeType.TRef:
 				case AttributeType.TIcon:
@@ -178,12 +182,9 @@ public class AttributeDefinition
 				{
 					if (DefaultValue is null && seq != null)
 					{
-						//DefaultValue = seq.Default;
-
 						// Ignore unnecessary attribute output
 						if (Required || Hidden) DefaultValue ??= seq.FirstOrDefault();
 					}
-
 					break;
 				}
 

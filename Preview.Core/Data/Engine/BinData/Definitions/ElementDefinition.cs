@@ -113,7 +113,7 @@ public class ElementDefinition : IElementDefinition
 		else if (!IsEmpty && _subtablesDictionary.TryGetValue(name, out var definition)) return definition;
 		else
 		{
-			Log.Warning($"Invalid attribute, table:{this.Name}, name:type, value:{name}");
+			Log.Error($"Invalid attribute, table:{this.Name}, name:type, value:{name}");
 			// throw new ArgumentOutOfRangeException(nameof(name));
 
 			return Subtables.First();

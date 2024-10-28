@@ -36,7 +36,7 @@ internal class PreviewModel : RecordCommand
 		{
 			view.Models = [.. models];
 			if (view.TryLoadExport(default)) view.Run();
-			else throw new WarningException(StringHelper.Get("PreviewModel_Empty"));
+			else throw new WarningException(StringHelper.Get("Exception_InvalidModel"));
 		}
 	}
 
@@ -74,12 +74,13 @@ internal class PreviewModel : RecordCommand
 			{
 				void LoadModel(string mesh, string col)
 				{
-					models.Add(new ModelData()
+					var model = new ModelData()
 					{
 						DisplayName = mesh,
 						Export = record.Attributes.Get<ObjectPath>(mesh).LoadObject(),
 						Cols = record.Attributes.Get<ObjectPath[]>(col),
-					});
+					};
+					if (model.Export != null) models.Add(model);
 				}
 
 				var MeshId = record.Attributes.Get<ObjectPath>("mesh-id");
@@ -109,13 +110,7 @@ internal class PreviewModel : RecordCommand
 					LoadModel("jin-female-mesh", "jin-female-mesh-col");
 					LoadModel("cat-mesh", "cat-mesh-col");
 
-					var temp = models.Where(model => model.Export != null);
-					if (temp.Any())
-					{
-						models = temp.ToList();
-						return;
-					}
-
+					if (models.Count > 0) return;
 					else if (record.Name == "weapon")
 					{
 						var pet = record.Attributes.Get<Record>("pet");

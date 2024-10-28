@@ -231,8 +231,8 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 				{
 					AliasTable = new();
 
-					var def = Definition.ElRecord["alias"];
-					if (def != null) Records?.ForEach(x => AliasTable.Add(x));
+					var aliasAttrDef = Definition.ElRecord["alias"];
+					if (aliasAttrDef != null) Records?.ForEach(x => AliasTable.Add(x));
 				}
 			}
 

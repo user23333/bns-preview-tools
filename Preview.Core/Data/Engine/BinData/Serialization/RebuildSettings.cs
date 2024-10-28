@@ -2,7 +2,7 @@
 /// <summary>
 /// Respents a set of features to support on publish package data
 /// </summary>
-public sealed class PublishSettings
+public sealed class RebuildSettings
 {
 	public bool Is64bit { get; set; }
 

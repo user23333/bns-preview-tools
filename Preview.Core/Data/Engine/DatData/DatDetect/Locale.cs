@@ -8,20 +8,20 @@ public struct Locale
 {
 	#region Fields	   
 	public BnsVersion ProductVersion;
-	public EPublisher Publisher;
+	public EPublisher Publisher = EPublisher.None;
 	public ELanguage Language;
 	public EPublisher AdditionalPublisher;
 	public int Universe;
 	#endregion
 
 	#region Properties
-    internal static Locale Current { get; set; }
+	internal static Locale Current { get; set; }
 
-    /// <summary>
-    /// Indicates whether the provider is a special server
-    /// </summary>
-    public readonly bool IsNeo => Publisher is EPublisher.ZNcs or EPublisher.ZTx;
-    #endregion
+	/// <summary>
+	/// Indicates whether the provider is a special server
+	/// </summary>
+	public readonly bool IsNeo => Publisher is EPublisher.ZNcs or EPublisher.ZTx;
+	#endregion
 
 	#region Methods
 	public Locale(EPublisher publisher)

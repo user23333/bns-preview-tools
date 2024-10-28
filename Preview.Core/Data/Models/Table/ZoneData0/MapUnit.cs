@@ -32,7 +32,7 @@ public class MapUnit : ModelElement, IHaveName
 		[Text("Name.mapunit.category.duel-enemy")] DuelEnemy,
 		[Text("Name.mapunit.category.quest")] Quest,
 		[Text("UI.MapInfoOption.NPC")] Npc,
-		[Text("UI.Expedition.Main.Collection")] Env,
+		Env,
 		[Text("Name.mapunit.category.teleport")] Teleport,
 		[Text("Name.mapunit.category.airdash")] Airdash,
 		Link,
@@ -65,6 +65,7 @@ public class MapUnit : ModelElement, IHaveName
 		[Text("Name.mapunit.category.expedition-env")] ExpeditionEnv,
 		[Text("Name.mapunit.category.wandering-npc")] WanderingNpc,
 
+		[Text("UI.Expedition.Main.Collection")] ExpeditionEnv_Collection, //append 
 		COUNT
 	}
 

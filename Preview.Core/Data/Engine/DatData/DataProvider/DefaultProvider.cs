@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using CUE4Parse.Utils;
 using Serilog;
+using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Engine.BinData.Helpers;
 using Xylia.Preview.Data.Engine.BinData.Models;
 using Xylia.Preview.Data.Engine.BinData.Serialization;
@@ -52,21 +53,17 @@ public class DefaultProvider : Datafile, IDataProvider
 		Parser.Parse(definitions);
 	}
 
-	public virtual void WriteData(string folder, PublishSettings settings)
+	public virtual void WriteData(string folder, RebuildSettings settings)
 	{
 		#region Rebuild alias map  
 		if (settings.RebuildAliasMap)
 		{
-			// If not complete definition, read the raw AliasMap
-			var units = AliasTableUnit.Split(Tables.Any(x => x.Definition.IsDefault) ? AliasTable : null);
-
-			AliasTable = new AliasTable();
-
 			Log.Information("Rebuilding alias map");
+			var aliasTable = new AliasTable();
 			var haveAlias = new HashSet<string>();
 
-			// get alias
-			foreach (var table in this.Tables)
+			// create alias	map
+			foreach (var table in Tables)
 			{
 				var aliasAttrDef = table.Definition.ElRecord["alias"];
 				if (aliasAttrDef == null || table.Archive != null) continue;
@@ -74,39 +71,30 @@ public class DefaultProvider : Datafile, IDataProvider
 				var tableDefName = table.Name.ToLowerInvariant();
 				haveAlias.Add(tableDefName);
 
-				foreach (var record in table.Records)
-				{
-					var alias = record.Attributes.Get<string>("alias");
-					if (alias == null) continue;
-
-					AliasTable.Add(record.PrimaryKey, AliasTable.MakeKey(tableDefName, alias));
-				}
+				table.Records.ForEach(aliasTable.Add);
 			}
 
-			// If not complete definition, read the raw AliasMap
-			if (units != null)
+			// If incomplete definition, read the raw map
+			if (Tables.Any(x => x.Definition.IsDefault))
 			{
-				foreach (var table in units)
+				foreach (var table in AliasTableUnit.Split(AliasTable))
 				{
 					if (haveAlias.Contains(table.Name)) continue;
 
-					foreach (var record in table.Records)
-						AliasTable.Add(record.Key, AliasTable.MakeKey(table.Name, record.Value));
+					table.Records.ForEach(x => aliasTable.Add(x.Key, AliasTable.MakeKey(table.Name, x.Value)));
 				}
 			}
 
-			var temp = new AliasTableBuilder(AliasTable).EndRebuilding();
-			AliasTable = temp;
-			AliasCount = temp.Entries.Count;
+			// build
+			AliasTable = new AliasTableBuilder(aliasTable).EndRebuilding();
+			AliasCount = AliasTable.Count;
 		}
 		#endregion
 
-
-		// Due to incomplete definition, local may missing table
-		// UserCommand remove at UE4
-		var raw = this.Tables.Where(x => !x.IsBinary);
-		var local = this.Tables.Where(x => x.Name == "petition-faq-list" || x.Name == "survey" || x.Name == "text" || (false && x.Name == "user-command"));
-		var xml = this.Tables.Except(local).Except(raw);
+		// UserCommand move to datafile after UE4
+		var raw = Tables.Where(x => !x.IsBinary);
+		var local = Tables.Where(x => x.Name == "petition-faq-list" || x.Name == "survey" || x.Name == "text" || (false && x.Name == "user-command"));
+		var xml = Tables.Except(local).Except(raw);
 
 		// write mode
 		if (settings.Mode == Mode.Datafile)
@@ -148,7 +136,6 @@ public class DefaultProvider : Datafile, IDataProvider
 		GC.Collect();
 	}
 	#endregion
-
 
 	#region Constructors
 	protected DefaultProvider()

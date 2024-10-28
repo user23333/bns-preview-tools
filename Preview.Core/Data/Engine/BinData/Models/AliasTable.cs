@@ -5,7 +5,11 @@ using Xylia.Preview.Data.Models;
 namespace Xylia.Preview.Data.Engine.BinData.Models;
 public class AliasTable
 {
+	#region Properties
 	internal virtual Dictionary<string, Ref> Table { get; } = new(StringComparer.OrdinalIgnoreCase);
+
+	internal virtual int Count => Table.Count;
+	#endregion
 
 	#region Methods
 	public void Add(Ref Ref, string text)
@@ -22,7 +26,7 @@ public class AliasTable
 	public void Add(Record record)
 	{
 		var alias = record.Attributes.Get<string>("alias");
-		Add(record.PrimaryKey, MakeKey(record.Owner.Name, alias));
+		if (alias != null) Add(record.PrimaryKey, MakeKey(record.Owner.Name, alias));
 	}
 
 	public Ref Find(string fullAlias)
@@ -30,7 +34,7 @@ public class AliasTable
 		if (string.IsNullOrEmpty(fullAlias)) return default;
 		else if (Table.TryGetValue(fullAlias, out var value)) return value;
 
-		Log.Warning($"cannot found alias map: {fullAlias}");
+		Log.Information($"cannot found alias map: {fullAlias}");
 		return default;
 	}
 

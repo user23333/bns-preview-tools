@@ -4,10 +4,8 @@ using System.IO;
 using System.Text;
 using OfficeOpenXml;
 using Xylia.Preview.Common.Extension;
-using Xylia.Preview.Data.Client;
 using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Engine.BinData.Helpers;
-using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Data.Models;
 using Xylia.Preview.Data.Models.Document;
 using Xylia.Preview.Data.Models.Sequence;
@@ -19,8 +17,6 @@ internal sealed class ItemOut : OutSet, IDisposable
 {
 	#region Properties
 	public bool OnlyUpdate { get; set; }
-
-	protected override BnsDatabase? Source { get; set; } = new(DefaultProvider.Load(UserSettings.Default.GameFolder, DatSelectDialog.Instance));
 	#endregion
 
 	#region Methods
@@ -126,7 +122,6 @@ internal sealed class ItemOut : OutSet, IDisposable
 
 	public void Dispose()
 	{
-		Source?.Dispose();
 		_data = null;
 		HashList = null;
 

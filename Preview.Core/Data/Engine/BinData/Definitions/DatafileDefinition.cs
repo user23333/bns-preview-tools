@@ -82,7 +82,7 @@ public abstract class DatafileDefinition : Collection<TableDefinition>
 
 internal class DefaultDatafileDefinition : DatafileDefinition
 {
-	public override EPublisher Publisher => EPublisher.ZNcs;
+	public override EPublisher Publisher => EPublisher.None;
 
 	public DefaultDatafileDefinition()
 	{

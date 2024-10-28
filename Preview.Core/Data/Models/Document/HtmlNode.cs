@@ -279,29 +279,6 @@ public partial class HtmlNode
 	}
 
 	/// <summary>
-	/// Gets or sets the value of the 'id' HTML attribute. The document must have been parsed using the OptionUseIdAttribute set to true.
-	/// </summary>
-	public string Id
-	{
-		get
-		{
-			if (_ownerdocument.Nodesid == null)
-				throw new Exception(HtmlDocument.HtmlExceptionUseIdAttributeFalse);
-
-			return GetId();
-		}
-		set
-		{
-			if (_ownerdocument.Nodesid == null)
-				throw new Exception(HtmlDocument.HtmlExceptionUseIdAttributeFalse);
-
-			ArgumentNullException.ThrowIfNull(value);
-
-			SetId(value);
-		}
-	}
-
-	/// <summary>
 	/// Gets or Sets the HTML between the start and end tags of the object.
 	/// </summary>
 	public virtual string InnerHtml

@@ -69,8 +69,8 @@ internal partial class DatabaseStudioViewModel(Action<string> Message) : Observa
 		serialize = new ProviderSerialize(database.Provider);
 		await serialize.ExportAsync(SaveDataPath, (current, total) =>
 			Message(current != tables.Length ?
-				StringHelper.Get("DatabaseStudio_TaskMessage1", current, tables.Length, (double)current / tables.Length) :
-				StringHelper.Get("DatabaseStudio_TaskMessage2", tables.Length))
+				StringHelper.Get("DatabaseStudio_ExportMessage1", current, tables.Length, (double)current / tables.Length) :
+				StringHelper.Get("DatabaseStudio_ExportMessage2", tables.Length))
 		, tables);
 	}
 
@@ -81,18 +81,12 @@ internal partial class DatabaseStudioViewModel(Action<string> Message) : Observa
 
 		try
 		{
-			DateTime dt = DateTime.Now;
-			Growl.Info("Start import", DatabaseStudio.TOKEN);
+			Growl.Info(StringHelper.Get("DatabaseStudio_ImportMessage1"), DatabaseStudio.TOKEN);
 
 			serialize = new ProviderSerialize(database.Provider);
 			await serialize.ImportAsync(SaveDataPath);
 
-			Growl.Success(new GrowlInfo()
-			{
-				Token = DatabaseStudio.TOKEN,
-				Message = "Import finished, " + (DateTime.Now - dt).TotalSeconds,
-				StaysOpen = false,
-			});
+			Growl.Success(StringHelper.Get("DatabaseStudio_ImportMessage2"), DatabaseStudio.TOKEN);
 		}
 		catch (Exception ex)
 		{
@@ -114,7 +108,7 @@ internal partial class DatabaseStudioViewModel(Action<string> Message) : Observa
 			Growl.Success(new GrowlInfo()
 			{
 				Token = DatabaseStudio.TOKEN,
-				Message = "Save finished",
+				Message = StringHelper.Get("DatabaseStudio_SaveMessage"),
 				StaysOpen = true,
 			});
 		}
@@ -135,7 +129,7 @@ internal partial class DatabaseStudioViewModel(Action<string> Message) : Observa
 	}
 	#endregion
 
-	#region SQL
+	#region Query
 	public ObservableCollection<SQL> Sqls { get; } = [];
 
 	[ObservableProperty]
@@ -174,39 +168,33 @@ internal partial class DatabaseStudioViewModel(Action<string> Message) : Observa
 
 	public void BindData(SQL sql, DataGrid grd)
 	{
+		ArgumentNullException.ThrowIfNull(sql.QueryResult);
+
 		using var dt = new System.Data.DataTable();
 
-		foreach (var value in sql.QueryResult!)
-		{
-			var row = dt.NewRow();
-
-			var doc = value.IsDocument ?
-				value.AsDocument :
-				new AttributeDocument { ["[value]"] = value };
-
-			if (doc.Count == 0) doc["[root]"] = "{}";
-
-			foreach (var key in doc)
-			{
-				var col = dt.Columns[key.Key];
-				if (col is null)
-				{
-					dt.Columns.Add(key.Key);
-				}
-			}
-
-			foreach (var key in doc)
-			{
-				row[key.Key] = value.IsDocument ? value[key.Key] : value;
-			}
-
-			dt.Rows.Add(row);
-		}
-
-		if (dt.Rows.Count == 0)
+		if (sql.QueryResult.Count == 0)
 		{
 			dt.Columns.Add("no-data");
 			dt.Rows.Add("[no result]");
+		}
+		else
+		{
+			foreach (var value in sql.QueryResult)
+			{
+				var doc = value.IsDocument ? value.AsDocument : new AttributeDocument { ["[value]"] = value };
+				if (doc.Count == 0) doc["[root]"] = "{}";
+
+				var row = dt.NewRow();
+
+				foreach (var key in doc)
+				{
+					if (!dt.Columns.Contains(key.Key)) dt.Columns.Add(key.Key);
+
+					row[key.Key] = value.IsDocument ? value[key.Key] : value;
+				}
+
+				dt.Rows.Add(row);
+			}
 		}
 
 		grd.ItemsSource = dt.DefaultView;
@@ -214,7 +202,8 @@ internal partial class DatabaseStudioViewModel(Action<string> Message) : Observa
 
 	public void BindData(SQL sql, ICSharpCode.AvalonEdit.TextEditor editor)
 	{
-		var index = 0;
+		ArgumentNullException.ThrowIfNull(sql.QueryResult);
+
 		var builder = new StringBuilder();
 		var settings = new JsonSerializerSettings()
 		{
@@ -222,15 +211,16 @@ internal partial class DatabaseStudioViewModel(Action<string> Message) : Observa
 			ReferenceLoopHandling = ReferenceLoopHandling.Ignore
 		};
 
-		if (sql.QueryResult!.Count == 0)
+		if (sql.QueryResult.Count == 0)
 		{
 			builder.AppendLine("no result");
 		}
 		else
 		{
+			var index = 1;
 			foreach (var value in sql.QueryResult)
 			{
-				builder.AppendLine($"/* {index++ + 1} */");
+				builder.AppendLine($"/* {index++} */");
 				builder.AppendLine(JsonConvert.SerializeObject(value, settings));
 				builder.AppendLine();
 			}
@@ -257,7 +247,7 @@ internal partial class SQL(string text, string? title = null) : ObservableObject
 	[ObservableProperty]
 	private string? _text = text;
 
-	private TextDocument _textDocument;
+	private TextDocument? _textDocument;
 	public TextDocument TextDocument
 	{
 		get

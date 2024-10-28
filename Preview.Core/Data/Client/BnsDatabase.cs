@@ -13,7 +13,7 @@ public class BnsDatabase : IEngine, IDisposable
 		_provider = provider;
 		_definition = definition ?? new DefaultDatafileDefinition();
 
-		ArgumentNullException.ThrowIfNull(_provider);
+		ArgumentNullException.ThrowIfNull(provider);
 		BnsDataException.ThrowIfMismatch(provider.Locale.Publisher, _definition.Publisher);
 	}
 	#endregion

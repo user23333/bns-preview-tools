@@ -32,19 +32,19 @@
 		</ContextMenu>
 
 		<ContextMenu x:Key="GridMenu">
-			<MenuItem Header="{DynamicResource DatabaseStudio_OutputExcel}" Click="OutputExcel_Click">
+			<MenuItem Header="{DynamicResource Text.SaveAs}" Click="OutputExcel_Click">
 				<MenuItem.Icon>
 					<TextBlock Text="&#xE74E;" Style="{StaticResource SegoeIcon}" />
 				</MenuItem.Icon>
 			</MenuItem>
 		</ContextMenu>
 		<ContextMenu x:Key="TextMenu">
-			<MenuItem Header="Indent" IsCheckable="True" IsChecked="{Binding IndentText}">
+			<MenuItem Header="{DynamicResource DatabaseStudio_Indent}" IsCheckable="True" IsChecked="{Binding IndentText}">
 				<MenuItem.Icon>
 					<TextBlock Text="" Style="{StaticResource SegoeIcon}" />
 				</MenuItem.Icon>
 			</MenuItem>
-			<MenuItem Header="Output" Click="OutputText_Click">
+			<MenuItem Header="{DynamicResource Text.SaveAs}" Click="OutputText_Click">
 				<MenuItem.Icon>
 					<TextBlock Text="&#xE74E;" Style="{StaticResource SegoeIcon}" />
 				</MenuItem.Icon>

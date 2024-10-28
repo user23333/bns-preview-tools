@@ -125,12 +125,6 @@ internal partial class UserSettings : Settings
 	#region Preview
 	public IEnumerable<JobSeq> Jobs => Data.Models.Job.PcJobs;
 
-	public JobSeq Job
-	{
-		set => SetValue(value, "Preview");
-		get => GetValue<string>("Preview").ToEnum(JobSeq.검사);
-	}
-
 	public string? Text_OldPath { get => GetValue<string>(); set => SetValue(value); }
 	public string? Text_NewPath { get => GetValue<string>(); set => SetValue(value); }
 

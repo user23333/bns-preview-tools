@@ -115,10 +115,10 @@ public class LocalProvider(string source) : DefaultProvider
 		using var stream = new MemoryStream(data);
 		table.LoadXml(stream).ForEach(a => a.Invoke());
 
-		WriteData(source, new PublishSettings() { Is64bit = Is64Bit, Mode = Mode.Package });
+		WriteData(source, new RebuildSettings() { Is64bit = Is64Bit, Mode = Mode.Package });
 	}
 
-	public override void WriteData(string folder, PublishSettings settings)
+	public override void WriteData(string folder, RebuildSettings settings)
 	{
 		var replaces = new Dictionary<string, byte[]>
 		{

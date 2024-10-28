@@ -80,6 +80,6 @@ public interface IDataProvider : IDisposable , ITextProvider
 	/// </summary>
 	/// <param name="folder"></param>
 	/// <param name="settings"></param>
-	public void WriteData(string folder, PublishSettings settings) => throw new NotImplementedException();
+	public void WriteData(string folder, RebuildSettings settings) => throw new NotImplementedException();
 	#endregion
 }

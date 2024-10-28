@@ -355,6 +355,12 @@ Expand the response rectange with item preview.</value>
   <data name="DatabaseStudio_ExecutionTime" xml:space="preserve">
     <value>Execution Time:</value>
   </data>
+  <data name="DatabaseStudio_ExportMessage1" xml:space="preserve">
+    <value>Saving: {0}/{1} ({2:P0})</value>
+  </data>
+  <data name="DatabaseStudio_ExportMessage2" xml:space="preserve">
+    <value>Task completed!</value>
+  </data>
   <data name="DatabaseStudio_Extract" xml:space="preserve">
     <value>Extract</value>
   </data>
@@ -364,11 +370,23 @@ Expand the response rectange with item preview.</value>
   <data name="DatabaseStudio_Grid" xml:space="preserve">
     <value>Grid</value>
   </data>
-  <data name="DatabaseStudio_Hidden" xml:space="preserve">
-    <value>Hidden</value>
+  <data name="DatabaseStudio_Import" xml:space="preserve">
+    <value>Import</value>
+  </data>
+  <data name="DatabaseStudio_ImportMessage1" xml:space="preserve">
+    <value>Start Import</value>
+  </data>
+  <data name="DatabaseStudio_ImportMessage2" xml:space="preserve">
+    <value>Import finished.</value>
+  </data>
+  <data name="DatabaseStudio_Indent" xml:space="preserve">
+    <value>Indent</value>
   </data>
   <data name="DatabaseStudio_IsDeprecated" xml:space="preserve">
     <value>Deprecated</value>
+  </data>
+  <data name="DatabaseStudio_IsHidden" xml:space="preserve">
+    <value>Hidden</value>
   </data>
   <data name="DatabaseStudio_IsKey" xml:space="preserve">
     <value>Key</value>
@@ -391,14 +409,14 @@ Expand the response rectange with item preview.</value>
   <data name="DatabaseStudio_Offset" xml:space="preserve">
     <value>Binary Offset</value>
   </data>
-  <data name="DatabaseStudio_OutputExcel" xml:space="preserve">
-    <value>Save as excel</value>
-  </data>
   <data name="DatabaseStudio_Paramters" xml:space="preserve">
     <value>Paramters</value>
   </data>
   <data name="DatabaseStudio_Provider" xml:space="preserve">
     <value>Provider</value>
+  </data>
+  <data name="DatabaseStudio_SaveMessage" xml:space="preserve">
+    <value>Save finished.</value>
   </data>
   <data name="DatabaseStudio_SqlLoad" xml:space="preserve">
     <value>Load</value>
@@ -408,12 +426,6 @@ Expand the response rectange with item preview.</value>
   </data>
   <data name="DatabaseStudio_SqlSave" xml:space="preserve">
     <value>Save</value>
-  </data>
-  <data name="DatabaseStudio_TaskMessage1" xml:space="preserve">
-    <value>Saving: {0}/{1} ({2:P0})</value>
-  </data>
-  <data name="DatabaseStudio_TaskMessage2" xml:space="preserve">
-    <value>Task completed!</value>
   </data>
   <data name="DatabaseStudio_Text" xml:space="preserve">
     <value>Text</value>
@@ -441,6 +453,16 @@ Expand the response rectange with item preview.</value>
   </data>
   <data name="DatSelector_Tooltip" xml:space="preserve">
     <value>Due to exists multiple files in your selected path, it is necessary to manually select.</value>
+  </data>
+  <data name="Exception_InvalidData" xml:space="preserve">
+    <value>No data.</value>
+  </data>
+  <data name="Exception_InvalidModel" xml:space="preserve">
+    <value>Missing model resource.</value>
+  </data>
+  <data name="Exception_InvalidPublisher" xml:space="preserve">
+    <value>Publisher mismatch! Please go to DatabaseStudio to reconnect fisitly.
+Continuing to read may cause read exceptions, should we still continue?</value>
   </data>
   <data name="Extract_ItemBuyPrice" xml:space="preserve">
     <value>Extract ItemBuyPrice</value>
@@ -616,12 +638,6 @@ Expand the response rectange with item preview.</value>
   <data name="Page_ItemPage" xml:space="preserve">
     <value>General</value>
   </data>
-  <data name="PreviewModel_Empty" xml:space="preserve">
-    <value>Missing model resource.</value>
-  </data>
-  <data name="PreviewModel_Fail" xml:space="preserve">
-    <value>Model load failed.</value>
-  </data>
   <data name="ProductName" xml:space="preserve">
     <value>Blade &amp; Soul Preview Tool</value>
     <comment>Title</comment>
@@ -775,6 +791,9 @@ Expand the response rectange with item preview.</value>
   </data>
   <data name="Text.LineNumber" xml:space="preserve">
     <value>Line</value>
+  </data>
+  <data name="Text.Load" xml:space="preserve">
+    <value>Load</value>
   </data>
   <data name="Text.Model" xml:space="preserve">
     <value>Model</value>
@@ -968,9 +987,5 @@ Please note that do not modify the order of nodes</value>
   </data>
   <data name="UI.Tooltip.Skill.damage-percent-min-max" xml:space="preserve">
     <value>{0}~{1}xAP</value>
-  </data>
-  <data name="Exception_InvalidPublisher" xml:space="preserve">
-    <value>Publisher mismatch! Please go to DatabaseStudio to reconnect fisitly.
-Continuing to read may cause read exceptions, should we still continue?</value>
   </data>
 </root>

@@ -25,7 +25,7 @@ public sealed class GameFileProvider : DefaultFileProvider, IDisposable
 
 	public GameFileProvider(string GameDirectory, bool LoadOnInit = false) : base(
 		GameDirectory, SearchOption.AllDirectories, true,
-		new() { Game = EGame.GAME_UE4_25 })
+		new() { Game = EGame.GAME_BladeAndSoul })
 	{
 		this.Initialize();
 		this.SubmitKey(new FGuid(), new FAesKey(_aesKey));

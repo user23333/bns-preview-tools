@@ -3,7 +3,6 @@ using CUE4Parse.UE4.Assets;
 using CUE4Parse.UE4.Assets.Exports;
 using CUE4Parse.UE4.Assets.Exports.Sound;
 using CUE4Parse.UE4.Assets.Exports.Sound.Node;
-using CUE4Parse.UE4.Objects.UObject;
 using CUE4Parse_Conversion.Sounds;
 using CUE4Parse_Conversion.Textures;
 using Xylia.Preview.Data.Helpers;

@@ -51,10 +51,10 @@
 					<ListBox Grid.Column="0" ItemsSource="{Binding Packages}" SelectedItem="{Binding SelectedPackage}" DisplayMemberPath="Name">
 						<ListBox.ContextMenu>
 							<ContextMenu>
-								<MenuItem Header="Add" Command="{Binding AddPackageInfoCommand}" />
-								<MenuItem Header="Remove" Command="{Binding RemovePackageInfoCommand}" />
-								<MenuItem Header="Load" Command="{Binding LoadPackageInfoCommand}" />
-								<MenuItem Header="Save" Command="{Binding SavePackageInfoCommand}" />
+								<MenuItem Header="{DynamicResource Text.Add}" Command="{Binding AddPackageInfoCommand}" />
+								<MenuItem Header="{DynamicResource Text.Remove}" Command="{Binding RemovePackageInfoCommand}" />
+								<MenuItem Header="{DynamicResource Text.Load}" Command="{Binding LoadPackageInfoCommand}" />
+								<MenuItem Header="{DynamicResource Text.Save}" Command="{Binding SavePackageInfoCommand}" />
 							</ContextMenu>
 						</ListBox.ContextMenu>
 					</ListBox>
@@ -62,9 +62,9 @@
 					<ListBox Grid.Column="1" ItemsSource="{Binding SelectedPackage.Files}" SelectedItem="{Binding SelectedFile}" Margin="5 0 0 0">
 						<ListBox.ContextMenu>
 							<ContextMenu>
-								<MenuItem Header="Update" Command="{Binding UpdateFileInfoCommand}" />
-								<MenuItem Header="Add" Command="{Binding AddFileInfoCommand}" />
-								<MenuItem Header="Remove" Command="{Binding RemoveFileInfoCommand}" />
+								<MenuItem Header="{DynamicResource Text.Update}" Command="{Binding UpdateFileInfoCommand}" />
+								<MenuItem Header="{DynamicResource Text.Add}" Command="{Binding AddFileInfoCommand}" />
+								<MenuItem Header="{DynamicResource Text.Remove}" Command="{Binding RemoveFileInfoCommand}" />
 							</ContextMenu>
 						</ListBox.ContextMenu>
 						<ListBox.ItemTemplate>

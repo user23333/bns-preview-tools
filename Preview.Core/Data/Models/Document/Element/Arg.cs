@@ -17,7 +17,7 @@ public class Arg : HtmlElementNode
 
 	#region Methods
 	public object GetObject(TextArguments arguments)
-	{
+	{			
 		try
 		{
 			object obj = null;

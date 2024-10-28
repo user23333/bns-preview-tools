@@ -343,26 +343,38 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
 
 	public void AddChild(FVector position, FVector2D? size, Func<UserWidget> widget) => AddChild(position, size, Dispatcher.Invoke(widget.Invoke));
 
-	public class MapUnitFilterManager : Dictionary<MapUnit.CategorySeq, MapUnitFilterManager.MapUnitFilter>, IEnumerable
+	public class MapUnitFilterManager : IEnumerable
 	{
 		public event EventHandler? OnFilterChanged;
+		private readonly Dictionary<MapUnit.CategorySeq, MapUnitFilter> dict = [];
 
 		public MapUnitFilterManager()
 		{
-			foreach (var seq in Enum.GetValues<MapUnit.CategorySeq>().Where(x => x > MapUnit.CategorySeq.None && x < MapUnit.CategorySeq.COUNT))
-			{
-				var IsChecked = true;
-				if (seq is MapUnit.CategorySeq.Gather or MapUnit.CategorySeq.GatherEnv or MapUnit.CategorySeq.Npc or MapUnit.CategorySeq.Env) IsChecked = false;
-
-				this[seq] = new MapUnitFilter(this, seq) { IsChecked = IsChecked };
-			}
+			Add(new(this, MapUnit.CategorySeq.Quest));
+			Add(new(this, MapUnit.CategorySeq.Teleport));
+			Add(new(this, MapUnit.CategorySeq.Airdash));
+			Add(new(this, MapUnit.CategorySeq.Auction));
+			Add(new(this, MapUnit.CategorySeq.Store));
+			Add(new(this, MapUnit.CategorySeq.Camp));
+			Add(new(this, MapUnit.CategorySeq.PartyCamp));
+			Add(new(this, MapUnit.CategorySeq.Roulette));
+			Add(new(this, MapUnit.CategorySeq.FieldBoss));
+			Add(new(this, MapUnit.CategorySeq.Craft));
+			Add(new(this, MapUnit.CategorySeq.ExpeditionEnv));
+			Add(new(this, MapUnit.CategorySeq.ExpeditionEnv_Collection) { IsChecked = false });
+			Add(new(this, MapUnit.CategorySeq.WanderingNpc));
+			Add(new(this, MapUnit.CategorySeq.Npc) { IsChecked = false });
+			Add(new(this, MapUnit.CategorySeq.Env) { NotUsed = true });
+			Add(new(this, MapUnit.CategorySeq.GatherEnv) { NotUsed = true });
 		}
 
-		public class MapUnitFilter(MapUnitFilterManager manager, MapUnit.CategorySeq category)
+		private class MapUnitFilter(MapUnitFilterManager manager, MapUnit.CategorySeq category)
 		{
+			public MapUnit.CategorySeq Category => category;			
 			public string Name => category.GetText();
-
-			private bool _isChecked;
+			public bool NotUsed { get; set; }
+		
+			private bool _isChecked = true;
 			public bool IsChecked
 			{
 				get => _isChecked;
@@ -371,34 +383,14 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
 					_isChecked = value;
 					manager.OnFilterChanged?.Invoke(this, EventArgs.Empty);
 				}
-			}
+			}		   
 		}
 
-		public bool Contains(MapUnit.CategorySeq category) => this.TryGetValue(category, out var filter) && filter.IsChecked;
+		private void Add(MapUnitFilter filter) => dict.Add(filter.Category, filter);
 
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			var category = new List<MapUnit.CategorySeq>()
-			{
-				MapUnit.CategorySeq.Quest,
-				MapUnit.CategorySeq.Teleport,
-				MapUnit.CategorySeq.Airdash,
-				MapUnit.CategorySeq.Auction,
-				MapUnit.CategorySeq.Store,
-				MapUnit.CategorySeq.Camp,
-				MapUnit.CategorySeq.PartyCamp,
-				MapUnit.CategorySeq.Roulette,
-				MapUnit.CategorySeq.FieldBoss,
-				MapUnit.CategorySeq.GatherEnv,
-				MapUnit.CategorySeq.Craft,
-				MapUnit.CategorySeq.ExpeditionEnv,
-				MapUnit.CategorySeq.WanderingNpc,
-				MapUnit.CategorySeq.Npc,
-				MapUnit.CategorySeq.Env,
-			};
+		public bool Contains(MapUnit.CategorySeq category) => !dict.TryGetValue(category, out var filter) || !filter.NotUsed & filter.IsChecked;
 
-			return category.SelectNotNull(x => this.GetValueOrDefault(x)).GetEnumerator();
-		}
+		public IEnumerator GetEnumerator() => dict.Values.Where(x => !x.NotUsed).GetEnumerator();
 	}
 	#endregion
 

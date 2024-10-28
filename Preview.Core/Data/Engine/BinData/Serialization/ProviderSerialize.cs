@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Xml;
 using CUE4Parse.Utils;
@@ -13,7 +14,7 @@ namespace Xylia.Preview.Data.Engine.BinData.Serialization;
 public class ProviderSerialize(IDataProvider Provider)
 {
 	#region Fields
-	public string HashName = "hashes";
+	const string HashName = "hashes";
 
 	/// <summary>
 	/// action after the data save finished
@@ -98,6 +99,8 @@ public class ProviderSerialize(IDataProvider Provider)
 				// return if no modification
 				if (modified)
 				{
+					Debug.WriteLine($"table `{table.Name}` has modified.");
+
 					var actions = table.LoadXml(files);
 					buildActions.Add(actions);
 				}
@@ -170,8 +173,17 @@ public class ProviderSerialize(IDataProvider Provider)
 
 	public async Task SaveAsync(string savePath) => await Task.Run(() =>
 	{
-		Provider.WriteData(savePath, new() { Is64bit = true, Mode = Mode.Datafile });
+		Provider.WriteData(savePath, new RebuildSettings()
+		{
+			Is64bit = true,
+#if DEBUG
+			Mode = Mode.PackageThird
+#else
+			Mode = Mode.Datafile
+#endif
+		});
+		
 		DataSaved?.Invoke();
 	});
-	#endregion
+#endregion
 }

@@ -8,7 +8,7 @@ internal class Program
 	static void Main()
 	{
 #if DEBUG
-		new AssetExport().MapTest();
+		new AssetTest().MapTest();
 #endif
 
 		Application.EnableVisualStyles();

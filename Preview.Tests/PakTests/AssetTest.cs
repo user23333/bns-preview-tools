@@ -1,11 +1,9 @@
 ﻿using System.Diagnostics;
-using System.IO;
 using CUE4Parse.BNS;
 using CUE4Parse.BNS.Assets.Exports;
 using CUE4Parse.UE4.Assets;
-using CUE4Parse.UE4.Assets.Exports.BuildData;
 using CUE4Parse.UE4.Assets.Exports.Texture;
-using CUE4Parse.UE4.Writers;
+using CUE4Parse.UE4.Objects.Engine;
 using CUE4Parse_Conversion.Textures;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
@@ -13,7 +11,7 @@ using Xylia.Preview.Tests.Extensions;
 
 namespace Xylia.Preview.Tests.PakTests;
 [TestClass]
-public partial class AssetExport
+public partial class AssetTest
 {
 	[TestMethod]
 	public void ObjectTest()
@@ -44,16 +42,6 @@ public partial class AssetExport
 			}
 			break;
 		}
-
-
-
-		using var writer = new FArchiveWriter();
-		package.Serialize(writer);
-
-		writer.Flush();
-
-		var path = @"F:\Resources\文档\Programming\C#\FModel2\Output\Exports\BNSR\Content\Art\FX\05_BM\EquipShow\a.uasset";
-		File.WriteAllBytes(path , writer.GetBuffer());
 	}
 
 	[TestMethod]
@@ -61,9 +49,10 @@ public partial class AssetExport
 	{
 		using var provider = new GameFileProvider(IniHelper.Instance.GameFolder);
 
-		var umap = provider.LoadPackage("bnsr/content/neo_art/area/zncs_guildbase_p.umap");
+		var umap = provider.LoadPackage("bnsr/content/neo_art/area/zncs_interserver_001_p.umap");
 
-
-		//var MapRegistry = provider.LoadObject<UMapBuildDataRegistry>($"/Game/bns/Package/World/Area/{name}_BuiltData");
+		var world = umap.GetExports().OfType<UWorld>().First();
+		var level = world.PersistentLevel.Load<ULevel>();
+		// world.StreamingLevels
 	}
 }
