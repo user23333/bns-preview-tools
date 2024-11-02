@@ -154,8 +154,7 @@ public struct Ref<TElement> : IHaveName where TElement : ModelElement
 		source = value.Source;
 	}
 
-	[Obsolete("Not recommended to use the constructor")]
-	public Ref(string value)
+	internal Ref(string value)
 	{
 		// Prevent designer request to load data
 		if (!Settings.Default.Text_LoadData && !FileCache.Data.IsInitialized) return;

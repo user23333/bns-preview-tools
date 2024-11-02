@@ -36,8 +36,6 @@ public abstract class Datafile
 			this.AliasTable = new AliasTableArchive(reader);
 		}
 
-		// TotalTableSize = bytes.Length - reader.Position - bin.ReadTableCount * 4
-
 		for (var tableId = 0; tableId < bin.ReadTableCount; tableId++)
 		{
 			this.Tables.Add(TableArchive.LazyLoad(reader));
@@ -55,8 +53,8 @@ public abstract class Datafile
 			CreatedAt = CreatedAt, //DateTime.Now,
 			DatafileVersion = DatafileVersion,
 			ClientVersion = ClientVersion,
-			MaxBufferSize = 0x0,   //MaxBufferSize  好像等于 AliasMapSize  但是设置任何值游戏都没影响 
-			TotalTableSize = 0x1,  //TotalTableSize 好像等于               必须 >0 但是无所谓值
+			MaxBufferSize = 0x0,   //MaxBufferSize = AliasMapSize ?
+			TotalTableSize = 0x1,  //TotalTableSize = bytes.Length - reader.Position - bin.ReadTableCount * 4
 		};
 
 		var overwriteNameTableSize = datafileHeader.WriteHeaderTo(writer, tables.Length, AliasCount, is64bit);
@@ -66,7 +64,7 @@ public abstract class Datafile
 
 		if (tables.Length > 10)
 		{
-			if (AliasTable is not AliasTableArchive alias)
+			if (AliasTable is not AliasTableArchive alias) 
 				throw new NullReferenceException("Missing AliasTable on main datafile.");
 
 			var oldPosition = writer.Position;

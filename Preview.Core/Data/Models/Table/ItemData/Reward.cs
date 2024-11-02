@@ -199,8 +199,8 @@ public class Reward : ModelElement
 	{
 		var data = new List<RewardInfo>();
 
-		#region Common		
-		FixedItem.Select(x => x.Instance).ForEach((item, idx) =>
+		#region Normal		
+		FixedItem.Values().ForEach((item, idx) =>
 		{
 			data.Add(new RewardInfo()
 			{
@@ -215,7 +215,7 @@ public class Reward : ModelElement
 		{
 			var probability = (double)Group12Probability / Group12TotalProbWeight;
 
-			Group1Item.Select(x => x.Instance).ForEach(item =>
+			Group1Item.Values().ForEach(item =>
 			{
 				data.Add(new RewardInfo()
 				{
@@ -224,7 +224,7 @@ public class Reward : ModelElement
 				});
 			});
 
-			Group2Item.Select(x => x.Instance).ForEach(item =>
+			Group2Item.Values().ForEach(item =>
 			{
 				data.Add(new RewardInfo()
 				{
@@ -236,7 +236,7 @@ public class Reward : ModelElement
 
 		if (Group3ItemTotalCount > 0)
 		{
-			Group3Item.Select(x => x.Instance).ForEach((item, idx) =>
+			Group3Item.Values().ForEach((item, idx) =>
 			{
 				data.Add(new RewardInfo()
 				{
@@ -251,7 +251,7 @@ public class Reward : ModelElement
 		if (Group4ItemTotalCount > 0)
 		{
 			var TotalProbWeight = Group4ItemMax.Sum();
-			Group4Item.Select(x => x.Instance).ForEach((item, idx) =>
+			Group4Item.Values().ForEach((item, idx) =>
 			{
 				var min = Group4ItemMin[idx];
 				var max = Group4ItemMax[idx];
@@ -269,7 +269,7 @@ public class Reward : ModelElement
 		if (Group5ItemTotalCount > 0)
 		{
 			var TotalProbWeight = Group5ItemMax.Sum();
-			Group5Item.Select(x => x.Instance).ForEach((item, idx) =>
+			Group5Item.Values().ForEach((item, idx) =>
 			{
 				var min = Group5ItemMin[idx];
 				var max = Group5ItemMax[idx];
@@ -286,7 +286,7 @@ public class Reward : ModelElement
 
 		if (RareItemTotalCount > 0)
 		{
-			RareItem.Select(x => x.Instance).ForEach((item, idx) =>
+			RareItem.Values().ForEach((item, idx) =>
 			{
 				data.Add(new RewardInfo()
 				{
@@ -302,7 +302,7 @@ public class Reward : ModelElement
 
 		if (SelectedItemAssuredCount > 0)
 		{
-			SelectedItem.Select(x => x.Instance).ForEach((item, idx) =>
+			SelectedItem.Values().ForEach((item, idx) =>
 			{
 				data.Add(new RewardInfo()
 				{
@@ -316,7 +316,7 @@ public class Reward : ModelElement
 		#endregion
 
 		#region SmartDrop
-		SmartFixedReward.Select(x => x.Instance).ForEach(reward =>
+		SmartFixedReward.Values().ForEach(reward =>
 		{
 			data.Add(new RewardInfo()
 			{
@@ -329,7 +329,7 @@ public class Reward : ModelElement
 		{
 			var probability = (double)SmartGroup12Probability / SmartGroup12TotalProbWeight;
 
-			SmartGroup1Reward.Select(x => x.Instance).ForEach(reward =>
+			SmartGroup1Reward.Values().ForEach(reward =>
 			{
 				data.Add(new RewardInfo()
 				{
@@ -338,7 +338,7 @@ public class Reward : ModelElement
 				});
 			});
 
-			SmartGroup2Reward.Select(x => x.Instance).ForEach(reward =>
+			SmartGroup2Reward.Values().ForEach(reward =>
 			{
 				data.Add(new RewardInfo()
 				{
@@ -350,7 +350,7 @@ public class Reward : ModelElement
 
 		if (SmartGroup3RewardTotalCount > 0)
 		{
-			SmartGroup3Reward.Select(x => x.Instance).ForEach((reward, idx) =>
+			SmartGroup3Reward.Values().ForEach((reward, idx) =>
 			{
 				data.Add(new RewardInfo()
 				{
@@ -364,7 +364,7 @@ public class Reward : ModelElement
 
 		if (SmartGroup4RewardTotalCount > 0)
 		{
-			SmartGroup4Reward.Select(x => x.Instance).ForEach((reward, idx) =>
+			SmartGroup4Reward.Values().ForEach((reward, idx) =>
 			{
 				data.Add(new RewardInfo()
 				{
@@ -376,7 +376,7 @@ public class Reward : ModelElement
 
 		if (SmartGroup5RewardTotalCount > 0)
 		{
-			SmartGroup5Reward.Select(x => x.Instance).ForEach((reward, idx) =>
+			SmartGroup5Reward.Values().ForEach((reward, idx) =>
 			{
 				data.Add(new RewardInfo()
 				{
@@ -388,7 +388,7 @@ public class Reward : ModelElement
 
 		if (SmartRareRewardTotalCount > 0)
 		{
-			SmartRareReward.Select(x => x.Instance).ForEach((reward, idx) =>
+			SmartRareReward.Values().ForEach((reward, idx) =>
 			{
 				data.Add(new RewardInfo()
 				{

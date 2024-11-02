@@ -2,6 +2,7 @@
 using System.Windows;
 using CUE4Parse.BNS.Assets.Exports;
 using Xylia.Preview.Common.Extension;
+using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models;
 using Xylia.Preview.UI.Controls;
 using Xylia.Preview.UI.Controls.Helpers;
@@ -15,6 +16,9 @@ public partial class AttractionMapUnitToolTipPanel
 	public AttractionMapUnitToolTipPanel()
 	{
 		InitializeComponent();
+#if DEVELOP
+		DataContext = FileCache.Data.Provider.GetTable<Dungeon>()["Dungeon_DongHae_chungkak_A_3"];
+#endif
 	}
 	#endregion
 

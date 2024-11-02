@@ -373,10 +373,19 @@ Expand the response rectange with item preview.</value>
   <data name="DatabaseStudio_Import" xml:space="preserve">
     <value>Import</value>
   </data>
-  <data name="DatabaseStudio_ImportMessage1" xml:space="preserve">
+  <data name="DatabaseStudio_ImportMessage0" xml:space="preserve">
     <value>Start Import</value>
   </data>
+  <data name="DatabaseStudio_ImportMessage1" xml:space="preserve">
+    <value>Reading data files... {0:P0}</value>
+  </data>
   <data name="DatabaseStudio_ImportMessage2" xml:space="preserve">
+    <value>Building data... {0:P0}</value>
+  </data>
+  <data name="DatabaseStudio_ImportMessage3" xml:space="preserve">
+    <value>Reading additional files... {0:P0}</value>
+  </data>
+  <data name="DatabaseStudio_ImportMessage4" xml:space="preserve">
     <value>Import finished.</value>
   </data>
   <data name="DatabaseStudio_Indent" xml:space="preserve">
@@ -619,6 +628,9 @@ Continuing to read may cause read exceptions, should we still continue?</value>
   </data>
   <data name="Name.PreviewShowObject" xml:space="preserve">
     <value>View Show Object</value>
+  </data>
+  <data name="Name.PreviewTalkMessage" xml:space="preserve">
+    <value>View Talk Message</value>
   </data>
   <data name="Name.PreviewTooltip" xml:space="preserve">
     <value>View Detail</value>

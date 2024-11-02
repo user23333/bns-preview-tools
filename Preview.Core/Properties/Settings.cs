@@ -16,11 +16,14 @@ public class Settings : INotifyPropertyChanged
 
 	protected internal static Settings Default { get; protected set; } = new();
 
-	protected Settings()
-	{
+	static Settings()
+	{     
 		// prevent exception when save
 		Directory.CreateDirectory(ApplicationData);
+	}
 
+	protected Settings()
+	{
 		ConfigPath = Path.Combine(ApplicationData, "Settings.config");
 		Configuration = File.Exists(ConfigPath) ?
 			new FileIniDataParser().ReadFile(ConfigPath) :

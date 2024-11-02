@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using CUE4Parse.BNS.Assets.Exports;
 using Xylia.Preview.Data.Models;
-using Xylia.Preview.UI.Common.Interactivity;
 using Xylia.Preview.UI.Controls;
 
 namespace Xylia.Preview.UI.GameUI.Scene.Game_Tooltip;

@@ -16,7 +16,7 @@ public class PreviewTalkMessage : RecordCommand
 			case "npctalkmessage":
 				var message = record.To<NpcTalkMessage>();
 				var show = message.StepShow[0].LoadObject<UShowObject>();
-				Application.Current.Dispatcher.Invoke(() => new ShowObjectPlayer(show).Show());
+				if (show != null) Application.Current.Dispatcher.Invoke(() => new ShowObjectPlayer(show).Show());
 				break;
 
 			default: throw new NotSupportedException();

@@ -2,13 +2,13 @@
 using System.Formats.Tar;
 using System.Reflection;
 using CUE4Parse.Compression;
-using Ionic.Zlib;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Engine.BinData.Definitions;
 using Xylia.Preview.Data.Engine.BinData.Helpers;
 using Xylia.Preview.Data.Engine.BinData.Models;
 using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Properties;
+using System.IO.Compression;
 
 namespace Xylia.Preview.Data.Engine.Definitions;
 /// <summary>
@@ -86,7 +86,6 @@ internal class DefaultDatafileDefinition : DatafileDefinition
 
 	public DefaultDatafileDefinition()
 	{
-		// load from extern
 		if (Settings.Default.UseUserDefinition)
 		{
 			var directory = new DirectoryInfo(Path.Combine(Settings.Default.OutputFolder, "definition"));
@@ -100,7 +99,6 @@ internal class DefaultDatafileDefinition : DatafileDefinition
 				this.Add(TableDefinition.LoadFrom(loader, File.OpenRead(file.FullName)));
 			}
 		}
-		// load from program
 		else
 		{
 			var assembly = Assembly.GetExecutingAssembly();

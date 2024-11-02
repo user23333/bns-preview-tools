@@ -91,7 +91,7 @@ public sealed class GlyphReward : ModelElement
 		{
 			var group = string.Format("{0}% ", AdditionalGlyphPickProbability) + "UI.GlyphProbability.Title.AcquireAddGlyph".GetText();
 
-			AdditionalGlyph.Select(x => x.Instance).ForEach((glyph, idx) =>
+			AdditionalGlyph.Values().ForEach((glyph, idx) =>
 			{
 				data.Add(new GlyphRewardInfo()
 				{
@@ -106,7 +106,7 @@ public sealed class GlyphReward : ModelElement
 		#region General
 		if (ResultGlyphProbWeightTotal > 0)
 		{
-			ResultGlyph.Select(x => x.Instance).ForEach((glyph, i) =>
+			ResultGlyph.Values().ForEach((glyph, i) =>
 			{
 				data.Add(new GlyphRewardInfo()
 				{

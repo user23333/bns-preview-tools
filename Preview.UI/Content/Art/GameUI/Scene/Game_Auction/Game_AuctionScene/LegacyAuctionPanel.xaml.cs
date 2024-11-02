@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -39,7 +38,7 @@ public partial class LegacyAuctionPanel
 
 			foreach (var category2 in SequenceExtensions.MarketCategory2Group(IsNeo))
 			{
-				if (category2.Key == MarketCategory2Seq.None) continue;
+				if (category2.Value is null) continue;
 
 				var node = new TreeViewItem() { Tag = new MarketCategory2() { Marketcategory2 = category2.Key }, Header = category2.Key.GetText() };
 				TreeView.Items.Add(node);

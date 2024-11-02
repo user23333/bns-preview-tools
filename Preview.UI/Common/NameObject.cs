@@ -3,7 +3,7 @@ public class NameObject<T>(T? value, string text)
 {
     public T? Value { get; } = value;
 
-	public bool Flag { get; internal set; }
+	public string Name { get; } = text;
 
-	public override string ToString() => text;
+	internal bool Flag { get; set; }
 }

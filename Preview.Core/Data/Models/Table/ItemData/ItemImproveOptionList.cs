@@ -56,7 +56,7 @@ public sealed class ItemImproveOptionList : ModelElement, IItemRecipeHelper
 	#region Methods
 	public IEnumerable GetOptions(sbyte level)
 	{
-		var options = new List<Tuple<ItemImproveOption, string>>();
+		var options = new List<Tuple<ItemImproveOption, double>>();
 
 		for (int i = 0; i < Option.Length; i++)
 		{
@@ -64,13 +64,13 @@ public sealed class ItemImproveOptionList : ModelElement, IItemRecipeHelper
 			if (option is null) continue;
 
 			option = this.Provider.GetTable<ItemImproveOption>()[option.Id + ((long)level << 32)];
-			options.Add(new(option, ((double)OptionWeight[i] / OptionWeightTotal).ToString("P3")));
+			options.Add(new(option, (double)OptionWeight[i] / OptionWeightTotal));
 		}
 
 		return options;
 	}
 
-	public IEnumerable<ItemRecipeHelper> CreateRecipe()
+	public IEnumerable<ItemRecipeHelper> GetRecipes()
 	{
 		var recipes = new List<ItemRecipeHelper>();
 

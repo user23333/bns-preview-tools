@@ -1,4 +1,5 @@
 ﻿using CUE4Parse.BNS.AssetRegistry;
+using CUE4Parse.Compression;
 using CUE4Parse.Encryption.Aes;
 using CUE4Parse.FileProvider;
 using CUE4Parse.FileProvider.Objects;
@@ -19,6 +20,9 @@ public sealed class GameFileProvider : DefaultFileProvider, IDisposable
 
 	static GameFileProvider()
 	{
+		CompressionHelper.InitZlib();
+		CompressionHelper.InitOodle();
+
 		// register game custom class
 		ObjectTypeRegistry.RegisterEngine(typeof(GameFileProvider).Assembly);
 	}

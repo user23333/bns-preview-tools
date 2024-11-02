@@ -5,7 +5,7 @@ using Xylia.Preview.Data.Models;
 namespace Xylia.Preview.Data.Common.Abstractions;
 internal interface IItemRecipeHelper
 {
-	IEnumerable<ItemRecipeHelper> CreateRecipe();
+	IEnumerable<ItemRecipeHelper> GetRecipes();
 }
 
 /// <summary>

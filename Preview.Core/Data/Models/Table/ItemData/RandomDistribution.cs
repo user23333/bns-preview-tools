@@ -48,7 +48,22 @@ public sealed class RandomDistribution : ModelElement
 		var array = new int[max - min + 1];
 		for (int i = 0; i < array.Length; i++) array[i] = i + min;
 
-		return LinqExtensions.Tuple(array , Do(array));
+		return LinqExtensions.Tuple(array, Do(array));
+	}
+
+	/// <summary>
+	/// use equal distribution 
+	/// </summary>
+	/// <param name="min"></param>
+	/// <param name="max"></param>
+	/// <returns></returns>
+	public static Tuple<int, double>[] Equal(int min, int max)
+	{
+		var array = new Tuple<int, double>[max - min + 1];
+		var weight = 1d / array.Length;
+		for (int i = 0; i < array.Length; i++) array[i] = new(i + min, weight);
+
+		return array;
 	}
 	#endregion
 }

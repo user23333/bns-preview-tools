@@ -20,7 +20,7 @@ public static class XmlExtension
 		}
 		catch
 		{
-			return default;
+			return def;
 		}
 	}
 }

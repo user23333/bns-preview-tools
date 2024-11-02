@@ -81,12 +81,12 @@ internal partial class DatabaseStudioViewModel(Action<string> Message) : Observa
 
 		try
 		{
-			Growl.Info(StringHelper.Get("DatabaseStudio_ImportMessage1"), DatabaseStudio.TOKEN);
+			Growl.Info(StringHelper.Get("DatabaseStudio_ImportMessage0"), DatabaseStudio.TOKEN);
 
 			serialize = new ProviderSerialize(database.Provider);
-			await serialize.ImportAsync(SaveDataPath);
+			await serialize.ImportAsync(SaveDataPath, (code, arg0) => Message(StringHelper.Get("DatabaseStudio_ImportMessage" + code, arg0)));
 
-			Growl.Success(StringHelper.Get("DatabaseStudio_ImportMessage2"), DatabaseStudio.TOKEN);
+			Growl.Success(StringHelper.Get("DatabaseStudio_ImportMessage4"), DatabaseStudio.TOKEN);
 		}
 		catch (Exception ex)
 		{

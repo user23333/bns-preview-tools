@@ -3,17 +3,19 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Markup;
 using System.Windows.Threading;
+using CUE4Parse.BNS;
+using CUE4Parse.UE4.Objects.Engine;
+using CUE4Parse.UE4.Objects.UObject;
 using HandyControl.Controls;
 using Serilog;
 using Vanara.PInvoke;
 using Xylia.Preview.Common.Extension;
-using Xylia.Preview.Data.Helpers;
-using Xylia.Preview.Data.Models;
 using Xylia.Preview.UI.Common.Interactivity;
 using Xylia.Preview.UI.Helpers;
 using Xylia.Preview.UI.Helpers.Output;
 using Xylia.Preview.UI.Resources.Themes;
 using Xylia.Preview.UI.Services;
+using Xylia.Preview.UI.ViewModels;
 
 namespace Xylia.Preview.UI;
 public partial class App : Application
@@ -28,13 +30,28 @@ public partial class App : Application
 		InitializeArgs(e.Args);
 
 #if DEVELOP
-		//var _ = PreviewModel.SnooperViewer;
+		var viewer = PreviewModel.SnooperViewer;
+		using var provider = new GameFileProvider(UserSettings.Default.GameFolder);
+
+		var umap = Task.Run(() => provider.LoadPackage("bnsr/content/neo_art/area/zncs_interserver_001_p.umap")).Result;
+
+		var World = umap.GetExports().OfType<UWorld>().First();
+		var PersistentLevel = World.PersistentLevel.Load<ULevel>();
+
+		foreach (var level in World.StreamingLevels)
+		{
+			var LevelStreamingDynamic = level.Load();
+			var WorldAsset = LevelStreamingDynamic.Get<FSoftObjectPath>("WorldAsset").Load<UWorld>();
+
+			if (viewer.TryLoadExport(default, WorldAsset))
+				viewer.Run();
+		}
 		return;
 
 		UpdateSkin(SkinType.Default, true);
 		TestProvider.Set(@"D:\Tencent\BnsData\GameData_ZNcs");
 
-		new Xylia.Preview.UI.GameUI.Scene.Game_Tooltip.AttractionMapUnitToolTipPanel() { DataContext = FileCache.Data.Provider.GetTable<Dungeon>()["Dungeon_DongHae_chungkak_A_3"] }.Show();
+		//new Xylia.Preview.UI.GameUI.Scene.Game_Tooltip.AttractionMapUnitToolTipPanel().Show();
 #else
 		MainWindow = new MainWindow();
 		MainWindow.Show();
@@ -131,7 +148,6 @@ public partial class App : Application
 
 		if (command == "query")
 		{
-			bool pause;
 			switch (type)
 			{
 				case "ue":
@@ -143,14 +159,13 @@ public partial class App : Application
 						path = Console.ReadLine()!;
 					}
 
-					pause = Commands.QueryAsset(path, args.GetValueOrDefault("class"));
+					Commands.QueryAsset(path, args.GetValueOrDefault("class"));
 					break;
 				}
 
 				default: throw new WarningException();
 			}
 
-			if (!pause) Console.WriteLine($"No result!");
 			Console.ReadKey();
 		}
 		else if (command == "output")

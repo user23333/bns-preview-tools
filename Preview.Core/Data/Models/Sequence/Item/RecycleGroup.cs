@@ -18,7 +18,7 @@ public enum RecycleGroup
     Class2,
 
     [Name("db")]
-    DB,
+    Db,
 
     [Name("gadget")]
     Gadget,

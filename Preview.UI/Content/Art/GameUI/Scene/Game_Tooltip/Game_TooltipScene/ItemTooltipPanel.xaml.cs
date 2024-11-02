@@ -230,7 +230,7 @@ public partial class ItemTooltipPanel
 					foreach (var SkillTrainByItemList in RandomOptionGroup.SkillTrainByItemList.Values())
 					{
 						var ChangeSets = SkillTrainByItemList.ChangeSet.Values();
-						if (ChangeSets.Count() > 1) Combat_Holder.Children.Add(new BnsCustomLabelWidget() { Text = "UI.ItemRandomOption.Undetermined".GetText([1]) });
+						if (ChangeSets.Count() > 1) Combat_Holder.Children.Add(new BnsCustomLabelWidget() { Text = StringHelper.Get("UI.ItemRandomOption.Undetermined", 1) });
 
 						foreach (var SkillTrainByItem in ChangeSets)
 						{
@@ -386,7 +386,7 @@ public partial class ItemTooltipPanel
 			ArgumentNullException.ThrowIfNull(DecomposeReward);
 
 			var info = DecomposeReward.GetInfo().OrderByDescending(x => x.Data.ItemGrade);
-			info.Where(x => x.Group.Item1 is "fixed").ForEach(item =>
+			info.Where(x => x.Group.Item1 is "fixed" or "smart-fixed-reward").ForEach(item =>
 			{
 				collection.Add(new BnsCustomLabelWidget()
 				{
@@ -408,7 +408,8 @@ public partial class ItemTooltipPanel
 					String = new StringProperty() { LabelText = "UI.ItemTooltip.RandomboxPreview.Selected".GetText() }
 				});
 			});
-			info.Where(x => x.Group.Item1 is "random" or "group-1" or "group-2" or "group-3" or "group-4" or "group-5" or "rare").ForEach(item =>
+			info.Where(x => x.Group.Item1 is "group-1" or "group-2" or "group-3" or "group-4" or "group-5" or "rare" or 
+				"smart-group-1-reward" or "smart-group-2-reward" or "smart-group-3-reward" or "smart-group-4-reward" or "smart-group-5-reward" or "smart-rare-reward").ForEach(item =>
 			{
 				collection.Add(new BnsCustomLabelWidget()
 				{

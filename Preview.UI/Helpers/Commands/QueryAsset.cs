@@ -5,19 +5,19 @@ using Xylia.Preview.UI.ViewModels;
 namespace Xylia.Preview.UI.Helpers;
 internal static partial class Commands
 {
-	public static bool QueryAsset(string path, string? ext)
+	public static void QueryAsset(string path, string? ext)
 	{
 		Console.WriteLine($"starting...");
 
 		using var provider = new GameFileProvider(UserSettings.Default.GameFolder);
 		var comparer = StringComparison.OrdinalIgnoreCase;
-		bool status = false;
-
+	
 		// convert
 		path = provider.FixPath(path) ?? path;
 		var filter = path.Split('.')[0];
 
 		// filter
+		bool status = false;
 		foreach (var gamefile in provider.Files)
 		{
 			if (gamefile.Value is VfsEntry vfsEntry)
@@ -36,6 +36,6 @@ internal static partial class Commands
 			}
 		}
 
-		return status;
+		if (!status) Console.WriteLine($"No result!");
 	}
 }

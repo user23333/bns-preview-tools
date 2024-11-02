@@ -379,10 +379,19 @@
   <data name="DatabaseStudio_Import" xml:space="preserve">
     <value>导入</value>
   </data>
-  <data name="DatabaseStudio_ImportMessage1" xml:space="preserve">
+  <data name="DatabaseStudio_ImportMessage0" xml:space="preserve">
     <value>开始导入</value>
   </data>
+  <data name="DatabaseStudio_ImportMessage1" xml:space="preserve">
+    <value>读取数据文件中... {0:P0}</value>
+  </data>
   <data name="DatabaseStudio_ImportMessage2" xml:space="preserve">
+    <value>构建中... {0:P0}</value>
+  </data>
+  <data name="DatabaseStudio_ImportMessage3" xml:space="preserve">
+    <value>读取附加文件中... {0:P0}</value>
+  </data>
+  <data name="DatabaseStudio_ImportMessage4" xml:space="preserve">
     <value>导入完成</value>
   </data>
   <data name="DatabaseStudio_Indent" xml:space="preserve">
@@ -622,6 +631,9 @@
   </data>
   <data name="Name.PreviewShowObject" xml:space="preserve">
     <value>查看显示对象</value>
+  </data>
+  <data name="Name.PreviewTalkMessage" xml:space="preserve">
+    <value>查看对话</value>
   </data>
   <data name="Name.PreviewTooltip" xml:space="preserve">
     <value>查看详细信息</value>

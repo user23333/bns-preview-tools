@@ -60,18 +60,15 @@ public class MyPakFileReader : AbstractAesVfsReader
 	}
 
 
-	public void Add(string filePath, string VfsPath = null, CompressionMethod Method = CompressionMethod.None, CompressedStatus Status = CompressedStatus.None)
+	public void Add(string filePath, string VfsPath = null, CompressionMethod Method = CompressionMethod.None)
 	{
 		//实际上 VfsPath 是完整路径（MountPoint + FileName）
 		//由于输出时有一个写 FileName 的操作，因此这里直接传递 FileName 部分
 		VfsPath ??= System.IO.Path.GetFileName(filePath);
 		VfsPath = VfsPath.Replace("\\", "/");
 
-		if (Method != CompressionMethod.None && Status == CompressedStatus.None)
-			Status = CompressedStatus.IsCompressed;
-
 		var files = (Dictionary<string, GameFile>)this.Files;
-		files.Add(VfsPath, new MyFPakEntry(this, filePath, VfsPath, Method, Status));
+		files.Add(VfsPath, new MyFPakEntry(this, filePath, VfsPath, Method));
 	}
 
 	public void Write(BinaryWriter writer)

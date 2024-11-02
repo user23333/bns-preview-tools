@@ -61,7 +61,7 @@ public class ImGuiController : IDisposable
 		var io = ImGui.GetIO();
 		unsafe
 		{
-			var iniFileNamePtr = Marshal.StringToCoTaskMemUTF8(Path.Combine(UserSettings.Default.OutputFolder, ".data", "imgui.ini"));
+			var iniFileNamePtr = Marshal.StringToCoTaskMemUTF8(Path.Combine(UserSettings.ApplicationData, "imgui.ini"));
 			io.NativePtr->IniFilename = (byte*)iniFileNamePtr;
 		}
 		FontNormal = io.Fonts.AddFontFromFileTTF("C:\\Windows\\Fonts\\segoeui.ttf", 16 * DpiScale);

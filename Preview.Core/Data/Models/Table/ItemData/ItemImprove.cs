@@ -1,6 +1,5 @@
 ﻿using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.Abstractions;
-using Xylia.Preview.Data.Common.DataStruct;
 
 namespace Xylia.Preview.Data.Models;
 public sealed class ItemImprove : ModelElement, IItemRecipeHelper
@@ -37,7 +36,7 @@ public sealed class ItemImprove : ModelElement, IItemRecipeHelper
 		else throw new NotSupportedException();
 	}
 
-	public IEnumerable<ItemRecipeHelper> CreateRecipe()
+	public IEnumerable<ItemRecipeHelper> GetRecipes()
 	{
 		var recipes = new List<ItemRecipeHelper>();
 

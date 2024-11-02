@@ -162,13 +162,6 @@ public class TableDefinition : TableHeader
 		foreach (var el in els)
 		{
 			var source = (XmlElement)tableNode.SelectSingleNode($"./el[@name='{el.Name}']");
-			var Inherit = source.GetAttribute<bool>("inherit");
-			if (Inherit)
-			{
-				// TODO
-				continue;
-			}
-
 
 			#region body
 			foreach (var attrDef in source.ChildNodes.OfType<XmlElement>()
@@ -206,7 +199,7 @@ public class TableDefinition : TableHeader
 					Repeat = 1,
 					IsKey = true,
 					IsHidden = true,
-					CanInput = false,
+					Writeable = false,
 				};
 
 				el.AutoKey = true;
@@ -227,7 +220,7 @@ public class TableDefinition : TableHeader
 					ReferedTableName = name,
 					ReferedElement = el.Name,
 					IsHidden = true,
-					CanInput = false,
+					Writeable = false,
 				};
 
 				el.Attributes.Insert(0, typeAttr);

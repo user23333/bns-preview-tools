@@ -40,20 +40,20 @@ internal class MyFPakEntry : VfsEntry
 	public byte[] SHAHash;
 	public new long Offset { get => base.Offset; set => base.Offset = value; }
 
-	public MyFPakEntry(MyPakFileReader reader, string FilePath, string VfsPath, CompressionMethod Method = CompressionMethod.None, CompressedStatus Status = CompressedStatus.None) : base(null)
+	public MyFPakEntry(MyPakFileReader reader, string FilePath, string VfsPath, CompressionMethod Method = CompressionMethod.None) : base(null)
 	{
 		Path = VfsPath;
 		Flags |= Flag_Encrypted;
 
 		var FileBuffer = File.ReadAllBytes(FilePath);
 		this.UncompressedSize = FileBuffer.Length;
-		this.CompressionBlockSize = 0;     // 不压缩时为0，压缩时为文件自身大小或1MB（1024*1024）
 
 		if (Method == CompressionMethod.None)
 		{
 			this.CompressedSize = FileBuffer.Length;
 			this.Data = reader.EncryptIfEncrypted(FileBuffer, this.IsEncrypted);
 			this.SHAHash = SHA1.HashData(this.Data.SubByteArray((int)this.UncompressedSize));
+			this.CompressionBlockSize = 0;
 		}
 		else
 		{
@@ -61,33 +61,26 @@ internal class MyFPakEntry : VfsEntry
 			this.CompressionMethod = Method;
 			this.SHAHash = SHA1.HashData(FileBuffer);
 
-			if (Status == CompressedStatus.None) throw new ArgumentException("参数不能指定为None");
-			else if (Status == CompressedStatus.AlreadyCompressed) throw new NotImplementedException();
-			else
+			var CompressionBlocks = new List<KeyValuePair<FPakCompressedBlock, byte[]>>();
+			this.CompressionBlockSize = Math.Min((uint)this.UncompressedSize, 1048576);
+
+			var tempReader = new BinaryReader(new MemoryStream(FileBuffer));
+			while (tempReader.BaseStream.Position < tempReader.BaseStream.Length)
 			{
-				var CompressionBlocks = new List<KeyValuePair<FPakCompressedBlock, byte[]>>();
-				this.CompressionBlockSize = Math.Min((uint)this.UncompressedSize, 1048576);
+				var BlockLength = (int)Math.Min(this.CompressionBlockSize, tempReader.BaseStream.Length - tempReader.BaseStream.Position);
+				var BlockData = reader.EncryptIfEncrypted(CompressionHelper.Compress(tempReader.ReadBytes(BlockLength), BlockLength, Method, 9), this.IsEncrypted);
 
-				#region 创建压缩区块
-				var tempReader = new BinaryReader(new MemoryStream(FileBuffer));
-				while (tempReader.BaseStream.Position < tempReader.BaseStream.Length)
+				CompressionBlocks.Add(new(new FPakCompressedBlock()
 				{
-					var BlockLength = (int)Math.Min(this.CompressionBlockSize, tempReader.BaseStream.Length - tempReader.BaseStream.Position);
-					var BlockData = reader.EncryptIfEncrypted(Compression2.Compress(tempReader.ReadBytes(BlockLength), BlockLength, Method, 9), this.IsEncrypted);
+					CompressedStart = this.CompressedSize,
+					CompressedEnd = this.CompressedSize + BlockData.Length,
+				}, BlockData));
 
-					CompressionBlocks.Add(new(new FPakCompressedBlock()
-					{
-						CompressedStart = this.CompressedSize,
-						CompressedEnd = this.CompressedSize + BlockData.Length,
-					}, BlockData));
-
-					this.CompressedSize += BlockData.Length;
-				}
-				#endregion
-
-				this.CompressionBlocks = CompressionBlocks.Select(o => o.Key).ToArray();
-				this.CompressionBlocksData = CompressionBlocks.Select(o => o.Value).ToArray();
+				this.CompressedSize += BlockData.Length;
 			}
+
+			this.CompressionBlocks = CompressionBlocks.Select(o => o.Key).ToArray();
+			this.CompressionBlocksData = CompressionBlocks.Select(o => o.Value).ToArray();
 		}
 
 		FileBuffer = null;

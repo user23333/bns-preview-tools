@@ -3,10 +3,22 @@ using System.Text.RegularExpressions;
 using CUE4Parse.Compression;
 
 namespace Xylia.Preview.Data.Engine.DatData;
-public sealed class BNSDat(PackageParam param) : IDisposable
+public sealed class BNSDat : IDisposable
 {
+	#region Constructor
+	static BNSDat()
+	{
+		CompressionHelper.InitZlib();
+	}
+
+	public BNSDat(PackageParam param)
+	{
+		this.Params = param;
+	}
+	#endregion
+
 	#region DatInfo
-	internal PackageParam Params { init; get; } = param;
+	internal PackageParam Params { init; get; }
 	public bool Bit64 => Params.Bit64;
 	public string Path => Params.PackagePath;
 
@@ -229,7 +241,7 @@ public sealed class BNSDat(PackageParam param) : IDisposable
 
 		if (compress)
 		{
-			output = Compression2.Compress(output, (int)sizeUnpacked, Params.CompressionMethod, compressionLevel);
+			output = CompressionHelper.Compress(output, (int)sizeUnpacked, Params.CompressionMethod, compressionLevel);
 
 			sizeSheared = output.Length;
 			sizeStored = output.Length;

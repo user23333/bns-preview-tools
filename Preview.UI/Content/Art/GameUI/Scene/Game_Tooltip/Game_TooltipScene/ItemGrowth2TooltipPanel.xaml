@@ -43,7 +43,7 @@
 
 							<DataTemplate>
 								<StackPanel>
-									<CheckBox Name="GroupName" Content="{Binding }" IsChecked="{Binding Flag, Mode=OneTime}" />
+									<CheckBox Name="GroupName" Content="{Binding Name}" IsChecked="{Binding Flag, Mode=OneTime}" />
 
 									<StackPanel Initialized="RandomOption_Initialized" DataContext="{Binding Value}" 
 												Visibility="{Binding IsChecked,ElementName=GroupName,Converter={StaticResource Boolean2VisibilityConverter}}">

@@ -149,11 +149,11 @@
 
 				<!-- Left -->
 				<StackPanel Grid.Column="0">
-					<ComboBox x:Name="Combobox_Grade" ItemsSource="{Binding GradeList}" SelectedItem="{Binding MergeIcon_Grade}" />
-					<ComboBox x:Name="Combobox_BottomLeft" ItemsSource="{Binding BottomLeftList}" SelectedItem="{Binding MergeIcon_BottomLeft}" />
-					<ComboBox x:Name="Combobox_TopRight" ItemsSource="{Binding TopRightList}" SelectedItem="{Binding MergeIcon_TopRight}" />
+					<ComboBox x:Name="Combobox_Grade" ItemsSource="{Binding GradeList}" SelectedItem="{Binding MergeIcon_Grade}" DisplayMemberPath="Name" />
+					<ComboBox x:Name="Combobox_BottomLeft" ItemsSource="{Binding BottomLeftList}" SelectedItem="{Binding MergeIcon_BottomLeft}" DisplayMemberPath="Name" />
+					<ComboBox x:Name="Combobox_TopRight" ItemsSource="{Binding TopRightList}" SelectedItem="{Binding MergeIcon_TopRight}" DisplayMemberPath="Name" />
 
-					<CheckBox Content="{DynamicResource MergeIcon_BackgroundMode}" IsChecked="{Binding MergeIcon_BackgroundMode}" ToolTip="UE4 resouce"/>
+					<CheckBox Content="{DynamicResource MergeIcon_BackgroundMode}" IsChecked="{Binding MergeIcon_BackgroundMode}" />
 				</StackPanel>
 
 				<!-- Center -->
