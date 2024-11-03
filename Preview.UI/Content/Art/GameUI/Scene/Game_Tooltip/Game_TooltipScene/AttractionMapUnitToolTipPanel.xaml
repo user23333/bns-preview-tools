@@ -1,7 +1,7 @@
 ﻿<BnsCustomWindowWidget x:Class="Xylia.Preview.UI.GameUI.Scene.Game_Tooltip.AttractionMapUnitToolTipPanel"
 		xmlns="https://github.com/xyliaup/bns-preview-tools"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		xmlns:s="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+		xmlns:s="http://schemas.microsoft.com/winfx/2006/xaml/presentation" MaxWidth="450">
 	<BnsCustomWindowWidget.BaseImageProperty>
 		<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_Window.BNSR_Window" ImageUV="7 7" ImageUVSize="49 49" EnableDrawImage="true" EnableSkinAlpha="true" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" SperateImageType="BNS_SperateImageType_9Frame" StaticPadding="-17 -17" Opacity="1" />
 	</BnsCustomWindowWidget.BaseImageProperty>
@@ -52,7 +52,7 @@
 				<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AttractionMapUnitToolTipPanel_Contents" Offset1="5" />
 			</BnsCustomLabelWidget.VerticalResizeLink>
 			<BnsCustomLabelWidget.String>
-				<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_Out_12.Normal_Out_12" LabelText="Desc" SpaceBetweenLines="3" />
+				<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_Out_12.Normal_Out_12" LabelText="Desc" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" />
 			</BnsCustomLabelWidget.String>
 		</BnsCustomLabelWidget>
 		<BnsCustomLabelWidget Name="AttractionMapUnitToolTipPanel_Contents" LayoutData.Anchors="0 0.5 1 0.5" LayoutData.Offsets="0 0.0028457642 0 15.002199">
@@ -121,7 +121,7 @@
 			<BnsCustomWindowWidget.BaseImageProperty>
 				<ImageProperty EnableDrawImage="true" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" Opacity="1" />
 			</BnsCustomWindowWidget.BaseImageProperty>
-			<BnsCustomLabelWidget Name="AttractionMapUnitToolTipPanel_AdditionalReward_Chancelabel" LayoutData.Offsets="0 -2.006256 70.00299 20" MetaData="textref=UI.AttractionReward.Chance">
+			<BnsCustomLabelWidget Name="AttractionMapUnitToolTipPanel_AdditionalReward_Chancelabel" LayoutData.Offsets="0 -2.006256 0 20" MetaData="textref=UI.AttractionReward.Chance">
 				<BnsCustomLabelWidget.HorizontalResizeLink>
 					<BnsCustomResizeLink bEnable="true" />
 				</BnsCustomLabelWidget.HorizontalResizeLink>
@@ -171,13 +171,10 @@
 				</BnsCustomLabelWidget.String>
 			</BnsCustomLabelWidget>
 		</BnsCustomWindowWidget>
-		<BnsCustomImageWidget Name="AttractionMapUnitToolTipPanel_AddtionalReward_HorizontalLine" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="0 3.0517578E-05 0 1">
+		<BnsCustomImageWidget Name="AttractionMapUnitToolTipPanel_AddtionalReward_HorizontalLine" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="0 3 0 1">
 			<BnsCustomImageWidget.HorizontalResizeLink>
 				<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_RIGHT_AND_LEFT" />
 			</BnsCustomImageWidget.HorizontalResizeLink>
-			<BnsCustomImageWidget.VerticalResizeLink>
-				<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" Offset1="10" />
-			</BnsCustomImageWidget.VerticalResizeLink>
 			<BnsCustomImageWidget.BaseImageProperty>
 				<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="199 61" ImageUVSize="5 1" EnableDrawImage="true" EnableSkinColor="true" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" SperateImageType="BNS_SperateImageType_3Frame" Opacity="0.1" />
 			</BnsCustomImageWidget.BaseImageProperty>
@@ -216,7 +213,7 @@
 			<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="199 61" ImageUVSize="5 1" EnableDrawImage="true" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" SperateImageType="BNS_SperateImageType_3Frame" Opacity="0.1" />
 		</BnsCustomImageWidget.BaseImageProperty>
 	</BnsCustomImageWidget>
-	<BnsCustomWindowWidget Name="AttractionMapUnitToolTipPanel_Reward" LayoutData.Offsets="12 254.00195 0 0">
+	<BnsCustomWindowWidget Name="AttractionMapUnitToolTipPanel_Reward" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="12 254.00195 0 0">
 		<BnsCustomWindowWidget.HorizontalResizeLink>
 			<BnsCustomResizeLink Type="BNS_CUSTOM_BORDER_LINK_RIGHT_AND_LEFT" Offset1="12" Offset2="12" />
 		</BnsCustomWindowWidget.HorizontalResizeLink>

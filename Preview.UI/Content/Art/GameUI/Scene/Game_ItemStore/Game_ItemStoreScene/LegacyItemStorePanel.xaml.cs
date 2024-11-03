@@ -55,7 +55,7 @@ public partial class LegacyItemStorePanel
 			IconImage.DataContext = item;
 			IconImage.ContextMenu = ItemMenu;
 			IconImage.ToolTip = new ItemTooltipPanel() { DataContext = item };
-			IconImage.ExpansionComponentList["BackGroundFrameImage"]?.SetValue(item.BackIcon);
+			IconImage.ExpansionComponentList["BackGroundFrameImage"]?.SetValue(item.BackgroundImage);
 			IconImage.ExpansionComponentList["IconImage"]?.SetValue(item.FrontIcon);
 			IconImage.ExpansionComponentList["Grade_Image"]?.SetValue(null);
 			IconImage.ExpansionComponentList["UnusableImage"]?.SetValue(null);
@@ -80,7 +80,7 @@ public partial class LegacyItemStorePanel
 				{
 					var ItemBrand = ExtraCost.GetChild<BnsCustomImageWidget>("ItemBrand")!;
 					ItemBrand.SetVisiable(itemBuyPrice.ItemBrand != null);
-					ItemBrand.ExpansionComponentList["IconImage"]?.SetValue(itemBuyPrice.ItemBrand?.FrontIcon);
+					ItemBrand.ExpansionComponentList["IconImage"]?.SetValue(itemBuyPrice.ItemBrand?.Icon);
 
 					DisposeItem_Initialized(ExtraCost.GetChild<BnsCustomImageWidget>("DisposeItem_1")!, itemBuyPrice.RequiredItem[0], itemBuyPrice.RequiredItemCount[0]);
 					DisposeItem_Initialized(ExtraCost.GetChild<BnsCustomImageWidget>("DisposeItem_2")!, itemBuyPrice.RequiredItem[1], itemBuyPrice.RequiredItemCount[1]);

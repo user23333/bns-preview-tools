@@ -52,6 +52,17 @@ public class ImageProperty : IUStruct
 	public float Opacity { get; set; } = 1;
 	#endregion
 
+	#region Constructor
+	public ImageProperty()
+	{
+
+	}
+
+	public ImageProperty(FPackageIndex imageset)
+	{
+		ImageSet = imageset;
+	}
+	#endregion
 
 	#region Methods
 	public static implicit operator SKBitmap(ImageProperty property) => property.Image;

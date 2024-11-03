@@ -30,7 +30,6 @@ internal class PreviewModel : RecordCommand
 		List<ModelData> models = [];
 		Load(record, models).Wait();
 
-		// show
 		var view = ModelViewer;
 		lock (view)
 		{
@@ -168,9 +167,12 @@ internal class PreviewModel : RecordCommand
 		{
 			if (_snooper != null) return _snooper;
 
-			var scale = ImGuiController.GetDpiScale();
-			var htz = Snooper.GetMaxRefreshFrequency();
-			return _snooper = new Snooper(
+			return Application.Current.Dispatcher.Invoke(() =>
+			{
+				var scale = ImGuiController.GetDpiScale();
+				var htz = Snooper.GetMaxRefreshFrequency();
+
+				return _snooper = new Snooper(
 				new GameWindowSettings { UpdateFrequency = htz },
 				new NativeWindowSettings
 				{
@@ -187,6 +189,7 @@ internal class PreviewModel : RecordCommand
 					StartFocused = false,
 					Title = "3D Viewer"
 				});
+			});
 		}
 	}
 

@@ -5,7 +5,7 @@ using Xylia.Preview.Data.Models;
 using Xylia.Preview.UI.Views;
 
 namespace Xylia.Preview.UI.Common.Interactivity;
-public class PreviewTalkMessage : RecordCommand
+internal class PreviewTalkMessage : RecordCommand
 {
 	protected override List<string> Type => ["npctalkmessage"];
 

@@ -175,8 +175,8 @@ public partial class Legacy_QuestJournalPanel : IRecordFilter
 					widget.ExpansionComponentList["Count"]?.SetValue(count.ToString());
 					widget.ExpansionComponentList["Grade_Image"]?.SetValue(null);
 					widget.ExpansionComponentList["CanSaleItem"]!.bShow = item.Auctionable;
-					widget.ExpansionComponentList["SymbolImage"]?.SetValue(null);
-					widget.ExpansionComponentList["SymbolImage_Chacked"]?.SetValue(null);
+					widget.ExpansionComponentList["SymbolImage"]?.SetExpansionShow(false);
+					widget.ExpansionComponentList["SymbolImage_Chacked"]?.SetExpansionShow(false);
 					widget.InvalidateVisual();
 				}
 				else if (slot is Skill3 skill)

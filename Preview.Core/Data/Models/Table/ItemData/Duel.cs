@@ -82,7 +82,6 @@ public sealed class Duel : ModelElement, IAttraction
 
 	#region IAttraction
 	public string Name => this.DuelName2.GetText();
-
 	public string Description => this.DuelDesc.GetText();
 	#endregion
 }

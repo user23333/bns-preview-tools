@@ -638,6 +638,9 @@ Continuing to read may cause read exceptions, should we still continue?</value>
   <data name="Name.PreviewTransform" xml:space="preserve">
     <value>View Item Growth</value>
   </data>
+  <data name="Name.PreviewWorld" xml:space="preserve">
+    <value>View World</value>
+  </data>
   <data name="Name.SetFavoriteCommand" xml:space="preserve">
     <value>Add / Remove Favorite</value>
   </data>

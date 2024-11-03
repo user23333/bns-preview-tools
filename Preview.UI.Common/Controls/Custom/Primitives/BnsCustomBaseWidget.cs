@@ -277,9 +277,8 @@ public abstract class BnsCustomBaseWidget : UserWidget
 		// data
 		var document = container != null ? _container.Document : new P();
 		document.UpdateString(p);
-		//document.Element.HorizontalAlignment = p.HorizontalAlignment;
 		BaseElement.InheritDependency(this, document);
-
+			  
 		// layout
 		var size = document.Measure(RenderSize);
 		var pos = LayoutData.ComputeOffset(RenderSize, size.Parse(), p.HorizontalAlignment, p.VerticalAlignment, p.Padding, p.ClippingBound);

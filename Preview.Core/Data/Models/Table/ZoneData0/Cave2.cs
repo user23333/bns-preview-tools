@@ -4,8 +4,6 @@ namespace Xylia.Preview.Data.Models;
 public sealed class Cave2 : ModelElement, IAttraction
 {
 	#region Attributes
-	public long AutoId { get; set; }
-
 	public short Id { get; set; }
 
 	public string Alias { get; set; }
@@ -125,7 +123,7 @@ public sealed class Cave2 : ModelElement, IAttraction
 	public Ref<ContentsJournalRecommendItem> RecommendAlias { get; set; }
 	#endregion
 
-	#region Methods
+	#region IAttraction
 	public string Name => this.Cave2Name2.GetText();
 	public string Description => this.Cave2Desc.GetText();
 	#endregion

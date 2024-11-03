@@ -1,4 +1,5 @@
-﻿using Xylia.Preview.Data.Common.DataStruct;
+﻿using SkiaSharp;
+using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.UI.Helpers.Output.Textures;
@@ -25,7 +26,7 @@ public sealed class SkillIcon(string GameFolder, string OutputFolder) : IconOutB
 				var icon = record.Attributes.Get<Icon>("icon") ?? new Icon(iconTexture, iconIndex);
 
 				// image
-				var bitmap = icon.GetImage(provider)?.Image ?? throw new Exception($"Get resouce failed ({icon})");
+				SKBitmap? bitmap = icon.GetImage(provider) ?? throw new Exception($"Get resouce failed ({icon})");
 				Save(bitmap, format
 					.Replace("[alias]", alias)
 					.Replace("[id]", key.ToString())

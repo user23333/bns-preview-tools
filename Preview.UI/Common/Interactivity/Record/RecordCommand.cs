@@ -21,7 +21,7 @@ public abstract class RecordCommand : MarkupExtension, ICommand
 	public bool CanExecute(object? parameter)
 	{
 		// get available command instances base on table name
-		if (parameter is string name) return Type is null || Type.Contains(name.ToLower());
+		if (parameter is string name) return Type is null || Type.Contains(name, StringComparer.OrdinalIgnoreCase);
 		// process the source element
 		else if (parameter is Record record) return CanExecute(record);
 		else if (parameter is ModelElement model) return CanExecute(model.Source);

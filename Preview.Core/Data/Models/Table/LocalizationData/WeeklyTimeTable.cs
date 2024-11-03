@@ -63,15 +63,14 @@ public sealed class WeeklyTimeTable : ModelElement
 				var startHour = startHours[i];
 				if (startHour == -1) continue;
 
-				periods.Add(new WeeklyTimeTable.WeeklyTimePeriod()
+				periods.Add(new WeeklyTimePeriod()
 				{
 					Data = this,
 					DayOfWeek = dayOfWeek,
 					StartHour = startHour,
 					EndHour = endHours[i],
-					//hack: error field
-					//StartMinute = this.StartMinute,
-					//EndMinute = this.EndMinute
+					StartMinute = this.StartMinute,
+					EndMinute = this.EndMinute
 				});
 			}
 		}

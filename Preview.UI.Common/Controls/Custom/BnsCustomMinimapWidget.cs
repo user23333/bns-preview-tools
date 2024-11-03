@@ -225,23 +225,21 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
 			}
 		}
 
-		// unit
+		// unit		 
 		foreach (var mapunit in provider.GetTable<MapUnit>().Where(o => o.Mapid == MapInfo.Id && o.MapDepth <= this.MapDepth))
 		{
 			// ignore quest area guide
 			if (mapunit is MapUnit.Quest or MapUnit.GuildBattleFieldPortal) continue;
 
-			#region Initialize
-			object? tooltip = mapunit.Name;
+			#region Initialize	
 			var category = mapunit.Category;
+			object? tooltip = mapunit.Name;
 			var Image = new ImageProperty() { EnableImageSet = true, ImageSet = new MyFPackageIndex(mapunit.Imageset) };
-			var OverImage = string.IsNullOrEmpty(mapunit.OverImageset) ? Image : new ImageProperty() { EnableImageSet = true, ImageSet = new MyFPackageIndex(mapunit.OverImageset) };
+			var OverImage = mapunit.OverImageset.IsValid ? new ImageProperty() { EnableImageSet = true, ImageSet = new MyFPackageIndex(mapunit.OverImageset) } : Image;
 
 			if (mapunit is MapUnit.Attraction)
 			{
-				var obj = mapunit.Attributes.Get<ModelElement>("attraction");  //tref
-				if (obj is IAttraction attraction) tooltip = new BnsTooltipHolder(attraction);
-				else if (obj != null) tooltip = obj.ToString();
+				tooltip = mapunit.Attributes.Get<ModelElement>("attraction");  //tref
 			}
 			else if (mapunit is MapUnit.Npc)
 			{
@@ -279,7 +277,8 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
 				{
 					BaseImageProperty = Image,
 					Tag = category,
-					ToolTip = tooltip,
+					ToolTip = new BnsTooltipHolder(),
+					DataContext = tooltip,
 				};
 				widget.MouseEnter += new((_, _) => widget.BaseImageProperty = OverImage);
 				widget.MouseLeave += new((_, _) => widget.BaseImageProperty = Image);
@@ -370,10 +369,10 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
 
 		private class MapUnitFilter(MapUnitFilterManager manager, MapUnit.CategorySeq category)
 		{
-			public MapUnit.CategorySeq Category => category;			
+			public MapUnit.CategorySeq Category => category;
 			public string Name => category.GetText();
 			public bool NotUsed { get; set; }
-		
+
 			private bool _isChecked = true;
 			public bool IsChecked
 			{
@@ -383,7 +382,7 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
 					_isChecked = value;
 					manager.OnFilterChanged?.Invoke(this, EventArgs.Empty);
 				}
-			}		   
+			}
 		}
 
 		private void Add(MapUnitFilter filter) => dict.Add(filter.Category, filter);

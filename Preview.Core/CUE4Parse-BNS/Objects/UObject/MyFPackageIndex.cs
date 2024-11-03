@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Globalization;
 using CUE4Parse.FileProvider;
+using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Helpers;
 
 namespace CUE4Parse.UE4.Objects.UObject;
@@ -13,6 +14,12 @@ public class MyFPackageIndex : FPackageIndex
 	{
 		Provider = provider ?? FileCache.Provider;
 		ObjectPath = path;
+	}
+
+	public MyFPackageIndex(ObjectPath path)
+	{
+		Provider = FileCache.Provider;
+		ObjectPath = path.Path;
 	}
 }
 

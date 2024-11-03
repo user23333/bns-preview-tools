@@ -67,8 +67,8 @@ public class Snooper : GameWindow
         });
     }
 
-	private unsafe void LoadWindowIcon()
-	{
+    private unsafe void LoadWindowIcon()
+    {
 		var info = Application.GetResourceStream(new Uri("/Views/FModel/Resources/engine.png", UriKind.Relative));
 		using var img = SKBitmap.Decode(info.Stream);
 
@@ -86,7 +86,7 @@ public class Snooper : GameWindow
 		Icon = new WindowIcon(new OpenTK.Windowing.Common.Input.Image(img.Width, img.Height, ms.ToArray()));
 	}
 
-	protected override void OnLoad()
+    protected override void OnLoad()
     {
         if (_init)
         {

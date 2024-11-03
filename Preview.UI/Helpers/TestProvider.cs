@@ -6,14 +6,15 @@ using Xylia.Preview.Data.Helpers;
 namespace Xylia.Preview.UI.Helpers;
 internal class TestProvider
 {
-	public static void Set(string basePath)
+	public static void Set(string basePath, EPublisher publisher)
 	{
 		var dir = new DirectoryInfo(basePath).GetDirectories()[^1];
-		Set(dir);
+		Set(dir, publisher);
 	}
 
-	public static void Set(DirectoryInfo directory)
+	public static void Set(DirectoryInfo directory, EPublisher publisher)
 	{
-		FileCache.Data = new BnsDatabase(new FolderProvider(directory.FullName), FileCache.Definition);
+		var provider = new FolderProvider(directory.FullName, publisher);
+		FileCache.Data = new BnsDatabase(provider, FileCache.Definition);
 	}
 }

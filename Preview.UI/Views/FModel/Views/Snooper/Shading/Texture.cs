@@ -158,8 +158,8 @@ public class Texture : IDisposable
         GL.TexParameter(_target, TextureParameterName.TextureWrapT, (int) TextureWrapMode.ClampToEdge);
     }
 
-	private void ProcessPixels(string texture, TextureTarget target)
-	{
+    private void ProcessPixels(string texture, TextureTarget target)
+    {
 		var info = Application.GetResourceStream(new Uri($"/Views/FModel/Resources/{texture}.png", UriKind.Relative));
 		using var img = SKBitmap.Decode(info.Stream);
 		Width = img.Width;
@@ -169,7 +169,7 @@ public class Texture : IDisposable
 		GL.TexParameter(target, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
 	}
 
-	public void Bind(TextureUnit textureSlot)
+    public void Bind(TextureUnit textureSlot)
     {
         GL.ActiveTexture(textureSlot);
         Bind(_target);

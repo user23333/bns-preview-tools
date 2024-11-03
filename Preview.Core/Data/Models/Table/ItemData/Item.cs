@@ -258,9 +258,9 @@ public abstract class Item : ModelElement, IHaveName
 	#region Methods
 	public string Name => Attributes["name2"].GetText() ?? ToString();
 
-	public ImageProperty BackIcon => IconTexture.GetBackground(ItemGrade);
+	public Icon FrontIcon => Attributes.Get<Icon>("icon");
 
-	public ImageProperty FrontIcon => Attributes.Get<Icon>("icon")?.GetImage();
+	public ImageProperty BackgroundImage => IconTexture.GetBackground(ItemGrade);
 
 	public FPackageIndex CanSaleItemImage => new MyFPackageIndex(
 		Auctionable ? "BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_Icon3_R/SlotItem_marketBusiness.SlotItem_marketBusiness" :
@@ -277,17 +277,6 @@ public abstract class Item : ModelElement, IHaveName
 
 			// Item.DescTitle.0001
 			return this.Attributes["description6"]?.GetText();
-		}
-	}
-
-	public bool IsExpiration
-	{
-		get
-		{
-			var time = Attributes.Get<Record>("event-info")?.Attributes.Get<Time64>("event-expiration-time");
-			if (time is null) return false;
-
-			return time.Value < DateTimeOffset.Now.ToUnixTimeSeconds();
 		}
 	}
 	#endregion

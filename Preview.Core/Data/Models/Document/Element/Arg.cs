@@ -17,7 +17,7 @@ public class Arg : HtmlElementNode
 
 	#region Methods
 	public object GetObject(TextArguments arguments)
-	{			
+	{
 		try
 		{
 			object obj = null;
@@ -83,7 +83,7 @@ public class Arg : HtmlElementNode
 	class ArgItem(string target)
 	{
 		#region Properties
-		public string Target => target;
+		public string Target => target?.ToLower();
 
 		public ArgItem Prev { get; private set; }
 
@@ -95,11 +95,12 @@ public class Arg : HtmlElementNode
 		{
 			if (Target is null || value is null) return;
 
-			switch (Target.ToLower())
+			switch (Target)
 			{
 				case "string": value = value.ToString(); break;
 				case "integer": value = value.To<Integer>(); break;
 				case "item-name" when value is Item item: value = item.ItemName; break;
+				case "item-brand" when value is ItemBrandTooltip: break;
 				case "skill" when value is Skill3: break;
 
 				default:
@@ -118,8 +119,12 @@ public class Arg : HtmlElementNode
 		{
 			handle = false;
 
-			if (value is null) return;
-			else if (value is string) return;
+			if (value is null or string) return;
+			else if (value is Icon icon)
+			{
+				value = icon.GetImage();
+				GetObject(ref value, out handle);
+			}
 			else if (value is ImageProperty image)
 			{
 				if (Target == "scale")
@@ -128,10 +133,10 @@ public class Arg : HtmlElementNode
 					handle = true;
 				}
 			}
-			else if (value.GetType().IsClass && IArgument.TryGet(value, Target, out var temp)) value = temp;
+			else if (value.GetType().IsClass && IArgument.TryGet(value, Target, out var value2)) value = value2;
 			else
 			{
-				Debug.WriteLine($"not supported class: {value} ({value.GetType().Name} > {Target})");
+				Debug.WriteLine($"Not supported class: {value} ({value.GetType().Name} > {Target})");
 				value = null;
 			}
 		}

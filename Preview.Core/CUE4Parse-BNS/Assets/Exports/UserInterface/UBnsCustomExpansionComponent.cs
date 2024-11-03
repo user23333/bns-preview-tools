@@ -3,6 +3,7 @@ using CUE4Parse.UE4.Assets.Objects;
 using CUE4Parse.UE4.Assets.Utils;
 using CUE4Parse.UE4.Objects.Core.i18N;
 using CUE4Parse.UE4.Objects.UObject;
+using Xylia.Preview.Data.Common.DataStruct;
 
 namespace CUE4Parse.BNS.Assets.Exports;
 [StructFallback]
@@ -39,6 +40,7 @@ public class UBnsCustomExpansionComponent : IUStruct
 
 	public void SetValue(object value)
 	{
+		// set field or properties
 		if (ExpansionType == EBNSCustomExpansionComponentType.STRING)
 		{
 			if (value is StringProperty p) StringProperty = p;
@@ -46,10 +48,17 @@ public class UBnsCustomExpansionComponent : IUStruct
 		}
 		else if (ExpansionType == EBNSCustomExpansionComponentType.IMAGE)
 		{
-			// set field or properties
-			if (value is ImageProperty p) ImageProperty = p;
-			else if (ImageProperty.EnableImageSet) ImageProperty.ImageSet = (FPackageIndex)value;
-			else ImageProperty.BaseImageTexture = (FPackageIndex)value;
+			switch (value)
+			{
+				case Icon icon: ImageProperty = icon.GetImage(); break;
+				case ImageProperty property: ImageProperty = property; break;
+				case FPackageIndex index:
+				{
+					if (ImageProperty.EnableImageSet) ImageProperty.ImageSet = index;
+					else ImageProperty.BaseImageTexture = index;
+					break;
+				}
+			}
 		}
 		else throw new NotSupportedException();
 	}

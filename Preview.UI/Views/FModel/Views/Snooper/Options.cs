@@ -60,9 +60,9 @@ public class Options
             ["tl_next"] = new ("tl_next"),
         };
 
-		//_game = FileCache.Provider.InternalGameName.ToUpper();
+        //_game = Services.ApplicationService.ApplicationView.CUE4Parse.Provider.InternalGameName.ToUpper();
 
-		SelectModel(Guid.Empty);
+        SelectModel(Guid.Empty);
     }
 
     public void SetupModelsAndLights()
@@ -220,7 +220,7 @@ public class Options
     public void SwapMaterial(bool value)
     {
         //Services.ApplicationService.ApplicationView.CUE4Parse.ModelIsOverwritingMaterial = value;
-    }
+	}
 
     public void AnimateMesh(bool value)
     {

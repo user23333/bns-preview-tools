@@ -7,10 +7,6 @@ internal class Program
 	[STAThread]
 	static void Main()
 	{
-#if DEBUG
-		new AssetTest().MapTest();
-#endif
-
 		Application.EnableVisualStyles();
 		Application.SetCompatibleTextRenderingDefault(false);
 		Application.Run(new MainForm());

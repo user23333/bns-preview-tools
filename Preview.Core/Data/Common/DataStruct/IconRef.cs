@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿using System.ComponentModel;
+using System.Diagnostics;
+using System.Globalization;
 using System.Runtime.InteropServices;
 using CUE4Parse.BNS.Assets.Exports;
 using CUE4Parse.FileProvider;
@@ -53,10 +55,9 @@ public readonly struct IconRef(Ref @ref, short index = 1)
 	#endregion
 }
 
+[TypeConverter(typeof(IconConvert))]
 public class Icon(Record record, short index)
 {
-	public static implicit operator IconRef(Icon icon) => icon.GetRef();
-
 	public static Icon Parse(string s, IDataProvider provider)
 	{
 		if (!string.IsNullOrWhiteSpace(s) && s.Contains(','))
@@ -80,4 +81,26 @@ public class Icon(Record record, short index)
 	}
 
 	public override string ToString() => $"{record},{index}";
+
+	public class IconConvert : TypeConverter
+	{
+		public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
+		{
+			if (destinationType == typeof(ImageProperty) ||
+				destinationType == typeof(IconRef)) return true;
+
+			return base.CanConvertTo(context, destinationType);
+		}
+
+		public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
+		{
+			if (value is Icon icon)
+			{
+				if (destinationType == typeof(ImageProperty)) return icon.GetImage();
+				if (destinationType == typeof(IconRef)) return icon.GetRef();
+			}
+
+			return null;
+		}
+	}
 }

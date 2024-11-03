@@ -12,10 +12,10 @@ public class Font : BaseElement<Data.Models.Document.Font>
 
 	}
 
-	internal Font(string name, List<BaseElement> elements)
+	internal Font(string name, params BaseElement[] elements)
 	{
 		this.Name = name;
-		this.Children = elements;
+		this.Children = [.. elements];
 	}
 	#endregion
 

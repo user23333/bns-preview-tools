@@ -302,8 +302,7 @@ public class Dungeon : ModelElement, IAttraction
 	#endregion
 
 	#region IAttraction
-	public string Name => this.DungeonName2.GetText();
-
+	public string Name => this.DungeonName2.GetText();	
 	public string Description => this.DungeonDesc.GetText();
 	#endregion
 }

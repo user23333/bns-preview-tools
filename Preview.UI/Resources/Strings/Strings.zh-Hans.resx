@@ -641,6 +641,9 @@
   <data name="Name.PreviewTransform" xml:space="preserve">
     <value>查看物品成长</value>
   </data>
+  <data name="Name.PreviewWorld" xml:space="preserve">
+    <value>查看世界 (实验)</value>
+  </data>
   <data name="Name.SetFavoriteCommand" xml:space="preserve">
     <value>增加/取消 收藏</value>
   </data>

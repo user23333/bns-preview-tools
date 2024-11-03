@@ -243,7 +243,7 @@ public partial class NpcTooltipPanel
 
 	private void AddProperty(int row, string name, string? tooltip, TextArguments arguments, string? value = null)
 	{
-		AddProperty(row, name, (value ?? "<arg p='2'/>").Replace(arguments), tooltip?.Replace(arguments));
+		AddProperty(row, name, (value ?? "<arg p='2'/>").Replace(arguments), tooltip.Replace(arguments));
 	}
 	#endregion
 }

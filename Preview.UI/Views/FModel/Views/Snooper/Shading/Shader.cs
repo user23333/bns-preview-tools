@@ -49,7 +49,7 @@ public class Shader : IDisposable
         var executingAssembly = Assembly.GetExecutingAssembly();
 		using var stream = executingAssembly.GetManifestResourceStream($"Xylia.Preview.UI.Views.FModel.Resources.{file}");
 		using var reader = new StreamReader(stream);
-        var handle = GL.CreateShader(type);
+		var handle = GL.CreateShader(type);
 
         var content = reader.ReadToEnd();
         if (file.Equals("default.frag") && GL.GetInteger(GetPName.MaxTextureCoords) == 0)

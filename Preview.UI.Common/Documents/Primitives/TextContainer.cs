@@ -3,7 +3,6 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using CUE4Parse.BNS.Assets.Exports;
 using Xylia.Preview.Data.Models;
-using Xylia.Preview.Data.Models.Document;
 
 namespace Xylia.Preview.UI.Documents.Primitives;
 /// <summary>
@@ -85,11 +84,6 @@ public class TextContainer
 
 
 	#region Static Methods
-	internal static List<BaseElement> Load(HtmlNodeCollection nodes)
-	{
-		return nodes.Select(ElementLoad.CreateElement).ToList();
-	}
-
 	public static string? Cut(string text)
 	{
 		if (text is null) return null;

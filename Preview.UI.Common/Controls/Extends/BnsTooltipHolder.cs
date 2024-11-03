@@ -11,16 +11,6 @@ public sealed class BnsTooltipHolder : ContentControl
 	{
 		DataContextProperty.OverrideMetadata(typeof(BnsTooltipHolder), new FrameworkPropertyMetadata(new PropertyChangedCallback(OnDataContextChanged)));
 	}
-
-	public BnsTooltipHolder()
-	{
-
-	}
-
-	public BnsTooltipHolder(object data)
-	{
-		DataContext = data;
-	}
 	#endregion
 
 	#region Methods
@@ -46,7 +36,7 @@ public sealed class BnsTooltipHolder : ContentControl
 				break;
 
 			default:
-			{	   
+			{
 				var template = ModelTemplate.FirstOrDefault(x => x.Key.IsInterface && x.Key.IsAssignableFrom(e.NewValue.GetType())).Value;
 				if (template != null)
 				{
@@ -55,8 +45,8 @@ public sealed class BnsTooltipHolder : ContentControl
 				}
 				else
 				{
-					visualTree = new TextBlock();
-					visualTree.SetValue(TextBlock.TextProperty, e.NewValue?.ToString());
+					visualTree = new BnsCustomLabelWidget();
+					visualTree.SetValue(BnsCustomLabelWidget.TextProperty, e.NewValue?.ToString());
 				}
 				break;
 			}

@@ -5,9 +5,6 @@ using CUE4Parse.BNS;
 using CUE4Parse.BNS.Assets.Exports;
 using CUE4Parse.UE4.Assets;
 using CUE4Parse.UE4.Assets.Exports.Texture;
-using CUE4Parse.UE4.Objects.Core.Math;
-using CUE4Parse.UE4.Objects.Engine;
-using CUE4Parse.UE4.Objects.UObject;
 using CUE4Parse.Utils;
 using CUE4Parse_Conversion.Textures;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -59,27 +56,6 @@ public partial class AssetTest
 				//Trace.WriteLine(JsonConvert.SerializeObject(emitter, Formatting.Indented));
 			}
 			break;
-		}
-	}
-
-	[TestMethod]
-	public void MapTest()
-	{
-		using var provider = new GameFileProvider(IniHelper.Instance.GameFolder);
-
-		var umap = provider.LoadPackage("bnsr/content/neo_art/area/zncs_interserver_001_p.umap");
-
-		var World = umap.GetExports().OfType<UWorld>().First();
-		var PersistentLevel = World.PersistentLevel.Load<ULevel>();
-		var ExtraReferencedObjects = World.ExtraReferencedObjects;
-
-		foreach (var level in World.StreamingLevels)
-		{
-			var LevelStreamingDynamic = level.Load();
-			var WorldAsset = LevelStreamingDynamic.Get<FSoftObjectPath>("WorldAsset").Load<UWorld>();
-			LevelStreamingDynamic.TryGetValue(out FColor LevelColor, "LevelColor");
-
-			Debug.WriteLine(WorldAsset.GetPathName());
 		}
 	}
 }

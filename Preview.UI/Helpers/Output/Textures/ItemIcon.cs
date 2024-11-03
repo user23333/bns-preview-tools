@@ -1,6 +1,7 @@
 ﻿using CUE4Parse.BNS.Conversion;
 using CUE4Parse.UE4.Assets.Exports.Texture;
 using CUE4Parse_Conversion.Textures;
+using SkiaSharp;
 using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Engine.BinData.Helpers;
 using Xylia.Preview.Data.Models;
@@ -45,7 +46,7 @@ public sealed class ItemIcon(string GameFolder, string OutputFolder) : IconOutBa
 				#endregion
 
 				#region Compose
-				var bitmap = icon?.GetImage(provider)?.Image ?? throw new Exception($"Get resouce failed ({icon})");
+				SKBitmap? bitmap = icon?.GetImage(provider) ?? throw new Exception($"Get resouce failed ({icon})");
 
 				if (UseBackground)
 				{

@@ -43,7 +43,7 @@ public partial class ItemTooltipPanel
 		TextArguments arguments = [null, record];
 
 		ItemName.String.LabelText = record.ItemName;
-		ItemIcon.ExpansionComponentList["BackgroundImage"]?.SetValue(record.BackIcon);
+		ItemIcon.ExpansionComponentList["BackgroundImage"]?.SetValue(record.BackgroundImage);
 		ItemIcon.ExpansionComponentList["IconImage"]?.SetValue(record.FrontIcon);
 		ItemIcon.ExpansionComponentList["UnusableImage"]?.SetValue(record.UnusableImage);
 		ItemIcon.ExpansionComponentList["Grade_Image"]?.SetValue(null);
@@ -325,6 +325,9 @@ public partial class ItemTooltipPanel
 			}
 		}
 		#endregion
+
+
+		//record.Attributes.Get<ItemEvent>("event-info")?.IsExpiration;
 	}
 
 	private static void AddRequired(List<string?> strings, string? str)

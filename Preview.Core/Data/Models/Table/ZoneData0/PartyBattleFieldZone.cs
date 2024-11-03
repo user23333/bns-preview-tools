@@ -5,6 +5,16 @@ namespace Xylia.Preview.Data.Models;
 public abstract class PartyBattleFieldZone : ModelElement, IAttraction
 {
 	#region Attributes
+	public enum PartyBattleFieldZoneType
+	{
+		None,
+		OccupationWar,
+		CaptureTheFlag,
+		LeadTheBall,
+		COUNT
+	}
+
+
 	public short Id { get; set; }
 
 	public string Alias { get; set; }
@@ -283,20 +293,8 @@ public abstract class PartyBattleFieldZone : ModelElement, IAttraction
 	}
 	#endregion
 
-	#region Enums
-	public enum PartyBattleFieldZoneType
-	{
-		None,
-		OccupationWar,
-		CaptureTheFlag,
-		LeadTheBall,
-		COUNT
-	}
-	#endregion
-
-	#region Methods
+	#region IAttraction
 	public string Name => this.ZoneName2.GetText();
-
 	public string Description => this.ZoneDesc.GetText();
 	#endregion
 }

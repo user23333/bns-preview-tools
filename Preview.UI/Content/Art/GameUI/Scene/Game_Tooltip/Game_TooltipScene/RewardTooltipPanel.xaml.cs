@@ -37,8 +37,9 @@ public partial class RewardTooltipPanel
 
 					ColumnList.AddChild(new BnsCustomLabelWidget()
 					{
+						DataContext = info.Data,
 						String = new StringProperty(info.Element),
-						ToolTip = new BnsTooltipHolder(info.Data),
+						ToolTip = new BnsTooltipHolder(),
 					}, row, 0);
 					ColumnList.AddChild(new BnsCustomLabelWidget()
 					{	
@@ -62,8 +63,9 @@ public partial class RewardTooltipPanel
 
 					ColumnList.AddChild(new BnsCustomLabelWidget()
 					{
+						DataContext = info.Data,
 						String = new StringProperty(info.Data.GlyphName),
-						ToolTip = new BnsTooltipHolder(info.Data),
+						ToolTip = new BnsTooltipHolder(),
 					}, row, 0);
 					ColumnList.AddChild(new BnsCustomLabelWidget()
 					{
@@ -87,8 +89,9 @@ public partial class RewardTooltipPanel
 
 					ColumnList.AddChild(new BnsCustomLabelWidget()
 					{
+						DataContext = info.Data,
 						String = new StringProperty(info.Data.ItemName),
-						ToolTip = new BnsTooltipHolder(info.Data),
+						ToolTip = new BnsTooltipHolder(),
 					}, row, 0);
 					ColumnList.AddChild(new BnsCustomLabelWidget()
 					{
@@ -112,8 +115,9 @@ public partial class RewardTooltipPanel
 
 					ColumnList.AddChild(new BnsCustomLabelWidget()
 					{
+						DataContext = info.Data,
 						String = new StringProperty(info.Data.ItemName),
-						ToolTip = new BnsTooltipHolder(info.Data),
+						ToolTip = new BnsTooltipHolder(),
 					}, row, 0);
 					ColumnList.AddChild(new BnsCustomLabelWidget()
 					{
