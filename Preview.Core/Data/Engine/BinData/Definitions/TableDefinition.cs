@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Xml;
+using Xylia.Preview.Common.Exceptions;
 using Xylia.Preview.Common.Extension;
-using Xylia.Preview.Data.Common.Exceptions;
 using Xylia.Preview.Data.Engine.BinData.Models;
 using Xylia.Preview.Data.Models;
 
@@ -10,28 +10,26 @@ namespace Xylia.Preview.Data.Engine.Definitions;
 public class TableDefinition : TableHeader
 {
 	#region Fields
+	public int MaxId;
+	public bool AutoKey;
+	public long Module;
+
+	/// <summary>
+	/// table search patterns 
+	/// </summary>
+	public string Pattern;
+
 	/// <summary>
 	/// element definitions
 	/// </summary>
 	public List<ElementDefinition> Els { get; internal set; } = [];
-
-	public int MaxId { get; set; }
-
-	public bool AutoKey { get; set; }
-
-	public long Module { get; set; }
 	#endregion
 
 	#region Properties
 	/// <summary>
-	/// table search patterns 
-	/// </summary>
-	public string Pattern { get; set; }
-
-	/// <summary>
 	/// root element
 	/// </summary>
-	public ElementDefinition ElRoot => Els.FirstOrDefault();
+	internal ElementDefinition ElRoot => Els.FirstOrDefault();
 
 	/// <summary>
 	/// main element
@@ -50,45 +48,6 @@ public class TableDefinition : TableHeader
 	#endregion
 
 	#region Methods
-	public byte[] WriteXml()
-	{
-		using var ms = new MemoryStream();
-		using var writer = XmlWriter.Create(ms, new XmlWriterSettings() { Indent = true, IndentChars = "\t" });
-
-		writer.WriteStartDocument();
-		writer.WriteStartElement("table");
-		writer.WriteAttributeString("name", Name);
-		writer.WriteAttributeString("version", MajorVersion + "." + MinorVersion);
-		writer.WriteAttributeString("module", Module.ToString());
-		if (MaxId != 0) writer.WriteAttributeString("maxid", MaxId.ToString());
-
-		foreach (var el in Els)
-		{
-			writer.WriteStartElement("el");
-			writer.WriteAttributeString("name", el.Name);
-			writer.WriteAttributeString("child", string.Join(",", el.Children.Select(x => x.Name)));
-
-			el.Attributes.ForEach(attribute => attribute.WriteXml(writer));
-
-			foreach (var sub in el.Subtables)
-			{
-				writer.WriteStartElement("sub");
-				writer.WriteAttributeString("name", sub.Name);
-				sub.Attributes.ForEach(attribute => attribute.WriteXml(writer));
-
-				writer.WriteEndElement();
-			}
-
-
-			writer.WriteEndElement();
-		}
-
-		writer.WriteEndElement();
-		writer.WriteEndDocument();
-		writer.Flush();
-		return ms.ToArray();
-	}
-
 	/// <summary>
 	/// create default <see cref="TableDefinition"/> if not found
 	/// </summary>
@@ -154,14 +113,7 @@ public class TableDefinition : TableHeader
 
 		foreach (var el in els)
 		{
-			var source = tableNode.SelectSingleNode($"./el[@name='{el.Name}']");
-			var Inherit = (source.Attributes["inherit"]?.Value).ToBool();
-			if (Inherit)
-			{
-				// TODO
-				continue;
-			}
-
+			var source = (XmlElement)tableNode.SelectSingleNode($"./el[@name='{el.Name}']");
 
 			#region body
 			foreach (var attrDef in source.ChildNodes.OfType<XmlElement>()
@@ -188,18 +140,18 @@ public class TableDefinition : TableHeader
 				}
 			}
 
-			// Add auto key id
+			// Add auto-id key
 			if (!el.Attributes.Any(attribute => attribute.IsKey))
 			{
 				var autoIdAttr = new AttributeDefinition
 				{
 					Name = AttributeCollection.s_autoid,
 					Type = AttributeType.TInt64,
-					IsKey = true,
-					IsHidden = true,
 					Offset = 8,
 					Repeat = 1,
-					CanInput = false,
+					IsKey = true,
+					IsHidden = true,
+					Writeable = false,
 				};
 
 				el.AutoKey = true;
@@ -219,6 +171,8 @@ public class TableDefinition : TableHeader
 					Repeat = 1,
 					ReferedTableName = name,
 					ReferedElement = el.Name,
+					IsHidden = true,
+					Writeable = false,
 				};
 
 				el.Attributes.Insert(0, typeAttr);

@@ -9,6 +9,7 @@ namespace Xylia.Preview.Data.Common.DataStruct;
 [DebuggerDisplay("{Table}:{Ref}")]
 public struct TRef
 {
+	#region Constructors
 	public int Table;
 	public Ref Ref;
 
@@ -29,6 +30,7 @@ public struct TRef
 		Table = record.Owner.Type;
 		Ref = record.PrimaryKey;
 	}
+	#endregion
 
 	#region Methods
 	public static bool operator ==(TRef a, TRef b)

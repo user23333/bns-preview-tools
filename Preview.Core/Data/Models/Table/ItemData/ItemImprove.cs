@@ -1,9 +1,7 @@
 ﻿using Xylia.Preview.Common.Extension;
-using Xylia.Preview.Data.Common.Abstractions;
-using Xylia.Preview.Data.Common.DataStruct;
 
 namespace Xylia.Preview.Data.Models;
-public sealed class ItemImprove : ModelElement, IItemRecipeHelper
+public sealed class ItemImprove : ModelElement, IRecipeHelper
 {
 	#region Attributes
 	public int Id { get; set; }
@@ -26,39 +24,39 @@ public sealed class ItemImprove : ModelElement, IItemRecipeHelper
 		if (item.ImproveLevel == improvelevel) return item;
 		else if (item.ImproveLevel > improvelevel)
 		{
-			item = item.Attributes.Get<Record>("improve-prev-item")?.As<Item>();
+			item = item.Attributes.Get<Item>("improve-prev-item");
 			return GetResultItem(item, improvelevel);
 		}
 		else if (item.ImproveLevel < improvelevel)
 		{
-			item = item.Attributes.Get<Record>("improve-next-item")?.As<Item>();
+			item = item.Attributes.Get<Item>("improve-next-item");
 			return GetResultItem(item, improvelevel);
 		}
 		else throw new NotSupportedException();
 	}
 
-	public IEnumerable<ItemRecipeHelper> CreateRecipe()
+	public IEnumerable<RecipeHelper> GetRecipes()
 	{
-		var recipes = new List<ItemRecipeHelper>();
+		var recipes = new List<RecipeHelper>();
 
 		for (sbyte i = 1; i <= 5; i++)
 		{
 			var CostMoney = Attributes.Get<int>("cost-money-" + i);
-			var CostMainItem = Attributes.Get<Record>("cost-main-item-" + i)?.As<Item>();
+			var CostMainItem = Attributes.Get<Item>("cost-main-item-" + i);
 			if (CostMainItem is null) continue;
 
 			var CostMainItemCount = Attributes.Get<short>("cost-main-item-count-" + i);
-			var CostSubItem = LinqExtensions.For(8, (id) => Attributes.Get<Record>($"cost-sub-item-{i}-{id}")?.As<Item>());
+			var CostSubItem = LinqExtensions.For(8, (id) => Attributes.Get<Item>($"cost-sub-item-{i}-{id}"));
 			var CostSubItemCount = LinqExtensions.For(8, (id) => Attributes.Get<short>($"cost-sub-item-count-{i}-{id}"));
 			var SuccessProbability = Attributes.Get<short>("success-probability-" + i);
-			var UseSuccessProbability = Attributes.Get<BnsBoolean>("use-success-probability-" + i);
+			var UseSuccessProbability = Attributes.Get<bool>("use-success-probability-" + i);
 			var FailLevelDiff = Attributes.Get<sbyte>("fail-level-diff-" + i);
 
 			string Warning = !UseSuccessProbability ? null :
 				FailLevelDiff > 0 ? "UI.ItemGrowth.Warning.Improvement.FailProbabilityWithLevelDown" :
 				"UI.ItemGrowth.Warning.Improvement.FailProbabilityWithoutLevelDown";
 
-			recipes.Add(new ItemRecipeHelper()
+			recipes.Add(new RecipeHelper()
 			{
 				MainItem = CostMainItem,
 				MainItemCount = CostMainItemCount,

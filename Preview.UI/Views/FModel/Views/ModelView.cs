@@ -10,24 +10,21 @@ public class ModelView : Snooper
 	}
 
 
-	public ModelData[] Models { get; set; }
+	public ModelData[]? Models { get; set; }
 	public ModelData? SelectedData { get; private set; }
 
 	public bool TryLoadExport(CancellationToken token, ModelData? models = null)
 	{
-		SelectedData = models ?? Models.FirstOrDefault();
+		SelectedData = models ?? Models?.FirstOrDefault();
 		if (SelectedData is null) return false;
 
 		// render
-		Renderer.Load(token, SelectedData.Export);
+		Renderer.Load(token, SelectedData.Export!);
+		if (!Renderer.Options.TryGetModel(out var model)) return false;
+
+		// transform
 		SelectedData.Materials?.ForEach(Renderer.Swap);
-
-		return Renderer.Options.Models.Count > 0;
-	}
-
-	public void Transform()
-	{
-		Renderer.Options.TryGetModel(out var model);
 		model.Transforms.First().Rotation.Z = 1F;
+		return true;
 	}
 }

@@ -8,23 +8,23 @@
 		Background="{DynamicResource BorderBrush}" Title="{DynamicResource DatabaseStudio_Name}" Height="800" Width="1200">
 	<Window.Resources>
 		<ContextMenu x:Key="TableMenu">
-			<MenuItem Header="{DynamicResource DatabaseStudio_ViewTable}" Click="ViewTable_Click">
+			<MenuItem Header="{DynamicResource DatabaseStudio_ViewTable}" Command="{Binding ViewTableCommand}">
 				<MenuItem.Icon>
 					<TextBlock Text="&#xE8FD;" Style="{StaticResource SegoeIcon}" />
 				</MenuItem.Icon>
 			</MenuItem>
-			<MenuItem Header="{DynamicResource DatabaseStudio_ViewDefinition}" Click="ViewDefinition_Click">
+			<MenuItem Header="{DynamicResource DatabaseStudio_ViewDefinition}" Command="{Binding SwitchPageCommand}" CommandParameter="1">
 				<MenuItem.Icon>
 					<TextBlock Text="&#xE8FD;" Style="{StaticResource SegoeIcon}" />
 				</MenuItem.Icon>
 			</MenuItem>
 
-			<MenuItem Header="{DynamicResource DatabaseStudio_Extract}" Click="TableExport_Click">
+			<MenuItem Header="{DynamicResource DatabaseStudio_Extract}" Command="{Binding ExportCommand}">
 				<MenuItem.Icon>
 					<TextBlock Text="&#xE74E;" Style="{StaticResource SegoeIcon}" />
 				</MenuItem.Icon>
 			</MenuItem>
-			<MenuItem Header="{DynamicResource DatabaseStudio_ExtractAll}" Click="TableExportAll_Click">
+			<MenuItem Header="{DynamicResource DatabaseStudio_ExtractAll}" Command="{Binding ExportAllCommand}">
 				<MenuItem.Icon>
 					<TextBlock Text="&#xF12B;" Style="{StaticResource SegoeIcon}" />
 				</MenuItem.Icon>
@@ -32,19 +32,19 @@
 		</ContextMenu>
 
 		<ContextMenu x:Key="GridMenu">
-			<MenuItem Header="{DynamicResource DatabaseStudio_OutputExcel}" Click="OutputExcel_Click">
+			<MenuItem Header="{DynamicResource Text.SaveAs}" Click="OutputExcel_Click">
 				<MenuItem.Icon>
 					<TextBlock Text="&#xE74E;" Style="{StaticResource SegoeIcon}" />
 				</MenuItem.Icon>
 			</MenuItem>
 		</ContextMenu>
 		<ContextMenu x:Key="TextMenu">
-			<MenuItem Header="Indent" IsCheckable="True" IsChecked="{Binding IndentText}">
+			<MenuItem Header="{DynamicResource DatabaseStudio_Indent}" IsCheckable="True" IsChecked="{Binding IndentText}">
 				<MenuItem.Icon>
 					<TextBlock Text="" Style="{StaticResource SegoeIcon}" />
 				</MenuItem.Icon>
 			</MenuItem>
-			<MenuItem Header="Output" Click="OutputText_Click">
+			<MenuItem Header="{DynamicResource Text.SaveAs}" Click="OutputText_Click">
 				<MenuItem.Icon>
 					<TextBlock Text="&#xE74E;" Style="{StaticResource SegoeIcon}" />
 				</MenuItem.Icon>
@@ -67,10 +67,19 @@
 		<!-- Function -->
 		<ToolBarTray Grid.ColumnSpan="99">
 			<ToolBar Band="0" BandIndex="0">
-				<Button Name="Connect" Click="Connect_Click" Style="{StaticResource ButtonTransparent}">
+				<Button Name="Connect" Click="Connect_Click">
+					<Button.Style>
+						<Style TargetType="Button" BasedOn="{StaticResource ButtonTransparent}">
+							<Style.Triggers>
+								<DataTrigger Binding="{Binding ConnectStatus}" Value="False">
+									<Setter Property="IsEnabled" Value="False" />
+								</DataTrigger>
+							</Style.Triggers>
+						</Style>
+					</Button.Style>
+					
 					<StackPanel Orientation="Horizontal">
 						<Image Source="/Resources/Images/database_connect.png" />
-
 						<TextBlock Margin="3,2,0,0" d:Text="Connect" Text="{DynamicResource DatabaseStudio_Connect}" Visibility="{Binding ConnectStatus,Converter={StaticResource Boolean2VisibilityReConverter}}"/>
 						<TextBlock Margin="3,2,0,0" d:Text="Disconnect" Text="{DynamicResource DatabaseStudio_Disconnect}" Visibility="{Binding ConnectStatus,Converter={StaticResource Boolean2VisibilityConverter}}" d:Visibility="Collapsed"/>
 					</StackPanel>
@@ -80,7 +89,7 @@
 				<Button Click="Refresh_Click" Style="{StaticResource ButtonTransparent}">
 					<StackPanel Orientation="Horizontal">
 						<Image Source="/Resources/Images/arrow_refresh.png" />
-						<TextBlock Margin="3,2,3,0" d:Text="Refresh" Text="{DynamicResource Text_Refresh}"/>
+						<TextBlock Margin="3,2,3,0" d:Text="Refresh" Text="{DynamicResource Text.Refresh}"/>
 					</StackPanel>
 				</Button>
 				<Separator />
@@ -88,23 +97,23 @@
 				<Button x:Name="Run" Command="ApplicationCommands.Print" Style="{StaticResource ButtonTransparent}">
 					<StackPanel Orientation="Horizontal">
 						<Image Source="/Resources/Images/resultset_next.png" />
-						<TextBlock Margin="3,2,10,0" d:Text="Run" Text="{DynamicResource Text_Run}"/>
+						<TextBlock Margin="3,2,10,0" d:Text="Run" Text="{DynamicResource Text.Run}"/>
 					</StackPanel>
 				</Button>
 			</ToolBar>
 
 			<ToolBar Band="0" BandIndex="1" Visibility="{Binding UseImport,Converter={StaticResource Boolean2VisibilityConverter}}">
-				<Button Click="Import_Click" Style="{StaticResource ButtonTransparent}">
+				<Button Style="{StaticResource ButtonTransparent}" Command="{Binding ImportCommand}">
 					<StackPanel Orientation="Horizontal">
 						<Image Source="/Resources/Images/disk.png" />
-						<TextBlock Margin="3,2,10,0" d:Text="Import" Text="{DynamicResource Text_Import}"/>
+						<TextBlock Margin="3,2,10,0" d:Text="Import" Text="{DynamicResource Text.Import}"/>
 					</StackPanel>
 				</Button>
 
-				<Button Click="Save_Click" Style="{StaticResource ButtonTransparent}">
+				<Button Style="{StaticResource ButtonTransparent}" Command="{Binding SaveCommand}">
 					<StackPanel Orientation="Horizontal">
 						<Image Source="/Resources/Images/disk.png" />
-						<TextBlock Margin="3,2,10,0" d:Text="Save" Text="{DynamicResource Text_Save}"/>
+						<TextBlock Margin="3,2,10,0" d:Text="Save" Text="{DynamicResource Text.Save}"/>
 					</StackPanel>
 				</Button>
 			</ToolBar>
@@ -115,7 +124,7 @@
         <GridSplitter Grid.Column="1" Grid.Row="1" Grid.RowSpan="99" Width="2" HorizontalAlignment="Stretch" Background="{StaticResource BorderBrush}"/>
 
         <!-- Content -->
-        <TabControl x:Name="PageHolder" Grid.Row="1" Grid.Column="2">
+		<TabControl x:Name="PageHolder" Grid.Row="1" Grid.Column="2" SelectedIndex="{Binding SelectedPage}">
 			<TabItem x:Name="Page_SQL" Visibility="Collapsed">
 				<Grid>
 					<Grid.RowDefinitions>
@@ -125,22 +134,41 @@
 					</Grid.RowDefinitions>
 					<Grid.Resources>
 						<ContextMenu x:Key="EditorsMenu">
-							<MenuItem d:Header="New" Header="{DynamicResource DatabaseStudio_SqlNew}" Click="NewSql_Click" />
-							<MenuItem d:Header="Load" Header="{DynamicResource DatabaseStudio_SqlLoad}" Click="LoadSql_Click" />
-							<MenuItem d:Header="Save" Header="{DynamicResource DatabaseStudio_SqlSave}" Click="SaveSql_Click" />
+							<MenuItem d:Header="New" Header="{DynamicResource DatabaseStudio_SqlNew}" Command="{Binding SqlNewCommand}" />
+							<MenuItem d:Header="Load" Header="{DynamicResource DatabaseStudio_SqlLoad}" Command="{Binding SqlLoadCommand}" />
+						</ContextMenu>
+						<ContextMenu x:Key="EditorMenu">
+							<MenuItem d:Header="Save" Header="{DynamicResource DatabaseStudio_SqlSave}" Command="{Binding SaveCommand}" />
 						</ContextMenu>
 					</Grid.Resources>
 
 					<!-- Input -->
-					<hc:TabControl Name="editors" ContextMenu="{StaticResource EditorsMenu}" 
-								   IsAnimationEnabled="True" ShowCloseButton="True" IsDraggable="True" TabItemWidth="150">
-						<TabControl.Resources>
-							<Style TargetType="avalonEdit:TextEditor" BasedOn="{StaticResource {x:Type avalonEdit:TextEditor}}">
-								<Setter Property="FontSize" Value="14" />
-								<Setter Property="SyntaxHighlighting" Value="SQL" />
-								<Setter Property="WordWrap" Value="False" />
-							</Style>
-						</TabControl.Resources>
+					<hc:TabControl Name="Editors" ContextMenu="{StaticResource EditorsMenu}" ItemsSource="{Binding Sqls}" SelectedItem="{Binding Sql}"
+								   IsAnimationEnabled="True" ShowCloseButton="True" IsDraggable="True" TabItemWidth="150" DisplayMemberPath="Title">
+						<TabControl.ContentTemplate>
+							<DataTemplate>
+								<avalonEdit:TextEditor Document="{Binding TextDocument}">
+									<Control.Style>
+										<Style TargetType="avalonEdit:TextEditor" BasedOn="{StaticResource {x:Type avalonEdit:TextEditor}}">
+											<Setter Property="FontSize" Value="14" />
+											<Setter Property="SyntaxHighlighting" Value="SQL" />
+											<Setter Property="WordWrap" Value="False" />
+											<Setter Property="ContextMenu" Value="{StaticResource EditorMenu}" />
+										</Style>
+									</Control.Style>
+								</avalonEdit:TextEditor>
+<!--
+								<TextBox Text="{Binding Text}" AcceptsReturn="True">
+									<TextBox.Style>
+										<Style TargetType="TextBox">
+											<Setter Property="FontSize" Value="14" />
+											<Setter Property="ContextMenu" Value="{StaticResource EditorMenu}" />
+										</Style>
+									</TextBox.Style>
+								</TextBox>
+-->
+							</DataTemplate>
+						</TabControl.ContentTemplate>
 					</hc:TabControl>
 
 					<!-- Result -->
@@ -168,12 +196,12 @@
 					</Grid.RowDefinitions>
 
 					<Grid Grid.Row="0" HorizontalAlignment="Left">
-						<Button Content="&#xE830;" FontFamily="{StaticResource SegoeAssets}" Style="{StaticResource ButtonTransparent}" Width="20" Height="20" Click="ReturnBtn_Click" />
-                        <ToggleButton Content="Editable" x:Name="Definition_Editable" Visibility="Collapsed"/>
+						<Button Content="&#xE830;" FontFamily="{StaticResource SegoeAssets}" Style="{StaticResource ButtonTransparent}" Width="20" Height="20" Command="{Binding SwitchPageCommand}" CommandParameter="0" />
+						<ToggleButton Content="Editable" x:Name="Definition_Editable" Visibility="Collapsed"/>
                     </Grid>
 
                     <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-                        <ItemsControl ItemsSource="{Binding CurrentDefinition.Els}" ScrollViewer.VerticalScrollBarVisibility="Auto">
+						<ItemsControl ItemsSource="{Binding CurrentTable.Definition.Els}" ScrollViewer.VerticalScrollBarVisibility="Auto">
 							<ItemsControl.ItemTemplate>
 								<DataTemplate>
 									<StackPanel>
@@ -192,7 +220,7 @@
                                         
                                         <!-- Attributes -->
 										<ListView Grid.Row="1" HorizontalContentAlignment="Stretch" VirtualizingStackPanel.IsVirtualizing="True"
-												ItemsSource="{Binding Attributes}" Visibility="{Binding IsChecked,ElementName=ElName,Converter={StaticResource Boolean2VisibilityConverter}}">
+												ItemsSource="{Binding ExpandedAttributes}" Visibility="{Binding IsChecked,ElementName=ElName,Converter={StaticResource Boolean2VisibilityConverter}}">
 											<ListView.ItemContainerStyle>
 												<Style TargetType="{x:Type ListViewItem}">
 													<Setter Property="Focusable" Value="False"/>

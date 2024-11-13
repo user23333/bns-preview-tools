@@ -3,8 +3,3 @@ public interface IHaveName
 {
 	string Name { get; }
 }
-
-public interface IHaveDesc
-{
-	string Description { get; }
-}

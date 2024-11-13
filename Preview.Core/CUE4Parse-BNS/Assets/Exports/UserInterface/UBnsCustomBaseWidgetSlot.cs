@@ -9,14 +9,11 @@ using CUE4Parse.UE4.Objects.UObject;
 namespace CUE4Parse.BNS.Assets.Exports;
 public class UBnsCustomBaseWidgetSlot : USerializeObject
 {
-	[UPROPERTY]
-	public FLayoutData LayoutData;
-
-	[UPROPERTY]
-	public FPackageIndex Parent;
-
-	[UPROPERTY]
-	public FPackageIndex Content;
+	[UPROPERTY] public bool bAutoSize;
+	[UPROPERTY] public FLayoutData LayoutData;
+	[UPROPERTY] public bool InbIsReadyOnly;
+	[UPROPERTY] public FPackageIndex Parent;
+	[UPROPERTY] public FPackageIndex Content;
 }
 
 [StructFallback]

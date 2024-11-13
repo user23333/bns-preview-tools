@@ -49,7 +49,7 @@ public class LocalProvider(string source) : DefaultProvider
 
 				LocalData = new FileInfo(source);
 				Is64Bit = LocalData.Bit64;
-				ReadFrom(LocalData.SearchFiles(PATH.Localfile(Is64Bit)).FirstOrDefault()?.Data, Is64Bit);
+				ReadFrom(LocalData.SearchFiles(DataSearch.Localfile(Is64Bit)).FirstOrDefault()?.Data, Is64Bit);
 
 				// detect text table type
 				Parser = definitions.GetParser(this);
@@ -62,12 +62,13 @@ public class LocalProvider(string source) : DefaultProvider
 
 	#region Public Methods
 	/// <summary>
-	/// Replace existed text
+	/// Replace existed text.
 	/// </summary>
-	/// <param name="files">x16 file path</param>
-	public void ReplaceText(FileInfo[] files)
+	/// <param name="table">text table</param>
+	/// <param name="files">.x16 file path</param>
+	public static void ReplaceText(Table table, params FileInfo[] files)
 	{
-		var table = TextTable ?? throw new ArgumentException("bad table");
+		ArgumentNullException.ThrowIfNull(table);
 
 		foreach (var file in files)
 		{
@@ -86,6 +87,20 @@ public class LocalProvider(string source) : DefaultProvider
 	}
 
 	/// <summary>
+	/// [Test] Replace text to alias.
+	/// </summary>
+	/// <param name="table"></param>
+	public static void ReplaceText(Table table)
+	{
+		foreach (var record in table)
+		{
+			var alias = record.Attributes.Get<string>("alias");
+			if (alias != null) record.Attributes["text"] = alias;
+		}
+	}
+
+
+	/// <summary>
 	/// Save as dat
 	/// </summary>
 	/// <remarks>
@@ -100,14 +115,14 @@ public class LocalProvider(string source) : DefaultProvider
 		using var stream = new MemoryStream(data);
 		table.LoadXml(stream).ForEach(a => a.Invoke());
 
-		WriteData(source, new PublishSettings() { Is64bit = Is64Bit, Mode = Mode.Package });
+		WriteData(source, new RebuildSettings() { Is64bit = Is64Bit, Mode = Mode.Package });
 	}
 
-	public override void WriteData(string folder, PublishSettings settings)
+	public override void WriteData(string folder, RebuildSettings settings)
 	{
 		var replaces = new Dictionary<string, byte[]>
 		{
-			{ PATH.Localfile(Is64Bit), WriteTo([.. Tables], settings.Is64bit) }
+			{ DataSearch.Localfile(Is64Bit), WriteTo([.. Tables], settings.Is64bit) }
 		};
 
 		var param = new PackageParam(folder, settings.Is64bit);

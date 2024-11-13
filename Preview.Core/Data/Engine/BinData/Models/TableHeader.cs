@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+﻿using Serilog;
 using Xylia.Preview.Common.Extension;
 
 namespace Xylia.Preview.Data.Engine.BinData.Models;
@@ -67,7 +67,7 @@ public abstract class TableHeader
 		// check definition matches the data
 		else if (!MatchVersion(version.Item1 , version.Item2))
 		{
-			Debug.WriteLine($"check table `{this.Name}` version: {version.Item1}.{version.Item2} <> {this.MajorVersion}.{this.MinorVersion}", "Warning");
+			Log.Warning($"check table `{this.Name}` version: {version.Item1}.{version.Item2} <> {this.MajorVersion}.{this.MinorVersion}", "Warning");
 		}
 	}
 
@@ -84,8 +84,8 @@ public abstract class TableHeader
 	public static (ushort, ushort) ParseVersion(string value)
 	{
 		var version = value.Split('.');
-		var major = (ushort)version.ElementAtOrDefault(0).ToInt16();
-		var minor = (ushort)version.ElementAtOrDefault(1).ToInt16();
+		var major = (ushort)version.ElementAtOrDefault(0).To<short>();
+		var minor = (ushort)version.ElementAtOrDefault(1).To<short>();
 
 		return (major, minor);
 	}

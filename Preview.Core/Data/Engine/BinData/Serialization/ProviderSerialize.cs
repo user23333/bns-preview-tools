@@ -1,19 +1,20 @@
 ﻿using System.Collections.Concurrent;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Xml;
 using CUE4Parse.Utils;
 using K4os.Hash.xxHash;
 using Serilog;
 using Xylia.Preview.Common.Extension;
+using Xylia.Preview.Data.Engine.BinData.Helpers;
 using Xylia.Preview.Data.Engine.BinData.Models;
 using Xylia.Preview.Data.Engine.DatData;
-using Xylia.Preview.Data.Helpers;
 
 namespace Xylia.Preview.Data.Engine.BinData.Serialization;
 public class ProviderSerialize(IDataProvider Provider)
 {
 	#region Fields
-	public string HashName = "hashes";
+	const string HashName = "hashes";
 
 	/// <summary>
 	/// action after the data save finished
@@ -34,7 +35,7 @@ public class ProviderSerialize(IDataProvider Provider)
 			try
 			{
 				var hash = table.WriteXml(folder);
-				hash.ForEach(x => hashes.Add(x));
+				hashes.Add(hash);
 
 				progress(++current, tables.Length);
 			}
@@ -52,10 +53,12 @@ public class ProviderSerialize(IDataProvider Provider)
 		}
 	});
 
-	public async Task ImportAsync(string folder) => await Task.Run(() =>
+	public async Task ImportAsync(string folder, Action<int, double> progress) => await Task.Run(() =>
 	{
-		// load cached hash
 		var root = new DirectoryInfo(folder);
+		if (!root.Exists) throw new DirectoryNotFoundException();
+		
+		// load cached hash
 		var hashes = new Dictionary<string, ulong>();
 		var modifiedHashes = new ConcurrentBag<HashInfo>();
 
@@ -69,9 +72,11 @@ public class ProviderSerialize(IDataProvider Provider)
 		}
 
 		// load xml table
+		double current = 0;
 		var buildActions = new ConcurrentBag<List<Action>>();
 		foreach (var table in Provider.Tables)
 		{
+			progress(1, current++ / Provider.Tables.Count);
 			Stream[] files = null;
 
 			try
@@ -98,6 +103,8 @@ public class ProviderSerialize(IDataProvider Provider)
 				// return if no modification
 				if (modified)
 				{
+					Debug.WriteLine($"table `{table.Name}` has modified.");
+
 					var actions = table.LoadXml(files);
 					buildActions.Add(actions);
 				}
@@ -113,33 +120,39 @@ public class ProviderSerialize(IDataProvider Provider)
 			}
 		}
 
-		// build after all tables are loaded
+		// build after all tables are loaded   
+		current = 0;
 		foreach (var actions in buildActions)
 		{
+			progress(2, current++ / buildActions.Count);
 			actions.ForEach(a => a.Invoke());
 		}
 
-
 		// load replace information
-		var Replace = root.GetDirectories("Replace").FirstOrDefault();
-		if (Replace != null)
+		var replace = root.GetDirectories("Replace").FirstOrDefault();
+		if (replace != null)
 		{
-			foreach (var xml in Replace.GetFiles("*.xml"))
+			current = 0;
+			var files = replace.GetFiles("*.xml");
+
+			foreach (var xml in files)
 			{
+				progress(3, current++ / files.Length);
+
 				XmlDocument doc = new();
 				doc.Load(xml.FullName);
 
-				foreach (XmlElement _table in doc.SelectNodes("table"))
+				foreach (XmlElement tableNode in doc.SelectNodes("table"))
 				{
-					var type = _table.GetAttribute("type");
+					var type = tableNode.GetAttribute("type");
 					var table = Provider.Tables[type];
 					if (table is null) continue;
 
-					foreach (XmlElement _record in _table.SelectNodes("./record"))
+					foreach (XmlElement recordNode in tableNode.SelectNodes("./record"))
 					{
-						var alias = new Regex(_record.GetAttribute("alias"));
+						var alias = new Regex(recordNode.GetAttribute("alias"));
 						var attributes =
-							from element in _record.SelectNodes("./attribute").OfType<XmlElement>()
+							from element in recordNode.SelectNodes("./attribute").OfType<XmlElement>()
 							select (element.GetAttribute("name"), element.GetAttribute("value"));
 
 						// HACK: 
@@ -149,7 +162,7 @@ public class ProviderSerialize(IDataProvider Provider)
 
 							foreach (var attr in attributes)
 							{
-								record.Attributes.Set(record.Definition[attr.Item1], attr.Item2);
+								record.Attributes.Set(attr.Item1, attr.Item2);
 							}
 						});
 					}
@@ -166,11 +179,21 @@ public class ProviderSerialize(IDataProvider Provider)
 
 			File.WriteAllLines(hashpath, hashes.OrderBy(x => x.Key).Select(x => $"{x.Key}={x.Value}"));
 		});
+		progress(4, 0);
 	});
 
 	public async Task SaveAsync(string savePath) => await Task.Run(() =>
 	{
-		Provider.WriteData(savePath, new() { Is64bit = true, Mode = Mode.Datafile });
+		Provider.WriteData(savePath, new RebuildSettings()
+		{
+			Is64bit = true,
+#if DEBUG
+			Mode = Mode.PackageThird
+#else
+			Mode = Mode.Datafile
+#endif
+		});
+
 		DataSaved?.Invoke();
 	});
 	#endregion

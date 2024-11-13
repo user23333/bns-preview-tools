@@ -3,8 +3,8 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using Xylia.Preview.Common;
 using Xylia.Preview.Common.Extension;
-using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models;
 using Xylia.Preview.UI.Common.Interactivity;
 using Xylia.Preview.UI.Controls;
@@ -22,7 +22,7 @@ public partial class LegacyItemStorePanel
 		InitializeComponent();
 
 		// data
-		source = CollectionViewSource.GetDefaultView(FileCache.Data.Provider.GetTable<Store2>());
+		source = CollectionViewSource.GetDefaultView(Globals.GameData.Provider.GetTable<Store2>());
 		source.Filter = OnFilter;
 		source.GroupDescriptions.Clear();
 		source.GroupDescriptions.Add(new StoreGroupDescription());
@@ -55,12 +55,12 @@ public partial class LegacyItemStorePanel
 			IconImage.DataContext = item;
 			IconImage.ContextMenu = ItemMenu;
 			IconImage.ToolTip = new ItemTooltipPanel() { DataContext = item };
-			IconImage.ExpansionComponentList["BackGroundFrameImage"]?.SetValue(item.BackIcon);
+			IconImage.ExpansionComponentList["BackGroundFrameImage"]?.SetValue(item.BackgroundImage);
 			IconImage.ExpansionComponentList["IconImage"]?.SetValue(item.FrontIcon);
 			IconImage.ExpansionComponentList["Grade_Image"]?.SetValue(null);
 			IconImage.ExpansionComponentList["UnusableImage"]?.SetValue(null);
 			IconImage.ExpansionComponentList["CanSaleItem"]?.SetValue(item.CanSaleItemImage);
-			IconImage.ExpansionComponentList["DisableBuyImage"]?.SetShow(itemBuyPrice is null);
+			IconImage.ExpansionComponentList["DisableBuyImage"]?.SetExpansionShow(itemBuyPrice is null);
 		}
 
 		var PriceHoler = widget.GetChild<BnsCustomImageWidget>("PriceHoler");
@@ -80,7 +80,7 @@ public partial class LegacyItemStorePanel
 				{
 					var ItemBrand = ExtraCost.GetChild<BnsCustomImageWidget>("ItemBrand")!;
 					ItemBrand.SetVisiable(itemBuyPrice.ItemBrand != null);
-					ItemBrand.ExpansionComponentList["IconImage"]?.SetValue(itemBuyPrice.ItemBrand?.FrontIcon);
+					ItemBrand.ExpansionComponentList["IconImage"]?.SetValue(itemBuyPrice.ItemBrand?.Icon);
 
 					DisposeItem_Initialized(ExtraCost.GetChild<BnsCustomImageWidget>("DisposeItem_1")!, itemBuyPrice.RequiredItem[0], itemBuyPrice.RequiredItemCount[0]);
 					DisposeItem_Initialized(ExtraCost.GetChild<BnsCustomImageWidget>("DisposeItem_2")!, itemBuyPrice.RequiredItem[1], itemBuyPrice.RequiredItemCount[1]);
@@ -127,7 +127,7 @@ public partial class LegacyItemStorePanel
 		if (e.OldValue == e.NewValue || e.NewValue is not Store2 record) return;
 
 		// update source
-		ItemStore_ItemList.ItemsSource = LinqExtensions.Create(
+		ItemStore_ItemList.ItemsSource = LinqExtensions.Tuple(
 			record.Item.Select(x => x.Instance).ToArray(),
 			record.BuyPrice.Select(x => x.Instance).ToArray())
 			.Where(x => x.Item1 != null);
@@ -165,7 +165,7 @@ public partial class LegacyItemStorePanel
 
 		public StoreGroupDescription()
 		{
-			var UnlocatedStore = FileCache.Data.Provider.GetTable<UnlocatedStore>();
+			var UnlocatedStore = Globals.GameData.Provider.GetTable<UnlocatedStore>();
 			foreach (var record in UnlocatedStore)
 			{
 				var store2 = record.Store2.Instance;
@@ -179,7 +179,7 @@ public partial class LegacyItemStorePanel
 			{
 				if (dict.TryGetValue(store2, out var record))
 				{
-					var UnlocatedStoreUi = FileCache.Data.Provider.GetTable<UnlocatedStoreUi>()[(sbyte)record.UnlocatedStoreType];
+					var UnlocatedStoreUi = Globals.GameData.Provider.GetTable<UnlocatedStoreUi>()[(sbyte)record.UnlocatedStoreType];
 					return UnlocatedStoreUi?.TitleText.GetText();
 				}
 				else

@@ -10,7 +10,7 @@ public class ItemBuyPrice : ModelElement
 
 	public Ref<ItemBrand> RequiredItembrand { get; set; }
 
-	public ConditionType RequiredItembrandConditionType { get; set; }
+	public ItemConditionType RequiredItembrandConditionType { get; set; }
 
 	public Ref<Item>[] RequiredItem { get; set; }
 
@@ -58,14 +58,7 @@ public class ItemBuyPrice : ModelElement
 	#endregion
 
 	#region Properties
-	public ItemBrandTooltip ItemBrand
-	{
-		get
-		{
-			if (RequiredItembrand.Instance is null) return null;
-			return Provider.GetTable<ItemBrandTooltip>()[RequiredItembrand.Instance.Id + ((long)RequiredItembrandConditionType << 32)];
-		}
-	}
+	public ItemBrandTooltip ItemBrand => RequiredItembrand.Instance?.GetTooltip(RequiredItembrandConditionType);
 
 	public string Coin
 	{

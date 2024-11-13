@@ -2,7 +2,6 @@
 using CUE4Parse.BNS.Assets.Exports;
 using CUE4Parse.UE4.Objects.UObject;
 using Xylia.Preview.Data.Models.Document;
-using Xylia.Preview.UI.Documents.Primitives;
 using HorizontalAlignment = Xylia.Preview.Data.Models.Document.HorizontalAlignment;
 using VerticalAlignment = Xylia.Preview.Data.Models.Document.VerticalAlignment;
 
@@ -15,7 +14,7 @@ public class P : BaseElement<Data.Models.Document.P>
 	#region Constructors
 	public P()
 	{
-		
+
 	}
 
 	internal P(string? InnerText, FPackageIndex? fontset = null) : this()
@@ -31,27 +30,40 @@ public class P : BaseElement<Data.Models.Document.P>
 		base.Load(node);
 		ArgumentNullException.ThrowIfNull(Element);
 
-		if (Element.Bullets != null)
-			Children.Insert(0, new Font(Element.bulletsfontset, [new Run(Element.Bullets)]));
+		// bullet
+		if (Element.Bullets != null) Children.Insert(0, new Font(Element.bulletsfontset, new Run(Element.Bullets)));
+	}
+
+	protected internal override bool NewLine()
+	{
+		if (Element.Justification) return true;
+
+		return false;
 	}
 
 	protected override Size MeasureCore(Size availableSize)
 	{
 		var size = base.MeasureCore(availableSize);
-
-		if (Element != null)
-		{
-			size.Height += Element.TopMargin + Element.BottomMargin;
-			size.Width += Element.LeftMargin + Element.RightMargin;
-		}
+		size.Height += Element.TopMargin + Element.BottomMargin;
+		size.Width += Element.LeftMargin + Element.RightMargin;
 
 		return size;
 	}
 
+	protected override Rect ArrangeCore(Rect finalRect)
+	{
+		finalRect.X += Element.LeftMargin;
+		finalRect.Y += Element.TopMargin;
+
+		return base.ArrangeCore(finalRect);
+	}
+	#endregion
+
+	#region Methods
 	public Vector ComputeAlignmentOffset(Size clientSize, Size inkSize)
 	{
-		var ha = Element?.HorizontalAlignment ?? default;
-		var va = Element?.VerticalAlignment ?? default;
+		var ha = Element.HorizontalAlignment;
+		var va = Element.VerticalAlignment;
 
 		Vector offset = new Vector();
 
@@ -107,8 +119,14 @@ public class P : BaseElement<Data.Models.Document.P>
 		var doc = new HtmlDocument();
 		doc.LoadHtml(text);
 
-		var elements = TextContainer.Load(doc.DocumentNode.ChildNodes);
-		Children = property.fontset is null ? elements : [new Font(property.fontset.GetPathName(), elements)];
+		if (property.fontset is null) this.LoadChildren(doc.DocumentNode);
+		else
+		{
+			var font = new Font() { Name = property.fontset.GetPathName() };
+			font.LoadChildren(doc.DocumentNode);
+
+			Children = [font];
+		}
 	}
 	#endregion
 }

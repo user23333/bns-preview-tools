@@ -1,4 +1,4 @@
-﻿using Xylia.Preview.Data.Helpers;
+﻿using Xylia.Preview.Common;
 using Xylia.Preview.Data.Models.Sequence;
 
 namespace Xylia.Preview.Data.Models;
@@ -13,7 +13,7 @@ public sealed class JobStyle : ModelElement
 	{
 		if (Job == JobSeq.JobNone) return null;
 
-		return FileCache.Data.Provider.GetTable<JobStyle>()[(long)Job + ((long)JobStyle << 8)];
+		return Globals.GameData.Provider.GetTable<JobStyle>()[(long)Job + ((long)JobStyle << 8)];
 	}
 	#endregion
 }

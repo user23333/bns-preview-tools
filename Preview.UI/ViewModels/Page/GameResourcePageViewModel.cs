@@ -30,71 +30,68 @@ namespace Xylia.Preview.UI.ViewModels;
 internal partial class GameResourcePageViewModel : ObservableObject
 {
 	#region Asset
-	[ObservableProperty]
-	ObservableCollection<PackageParam> packages;
+	[ObservableProperty] ObservableCollection<PackageParam>? packages;
+	[ObservableProperty] PackageParam? selectedPackage;
+	[ObservableProperty] PackageParam.FileParam? selectedFile;
 
-	[ObservableProperty]
-	PackageParam selectedPackage;
-
-	[ObservableProperty]
-	PackageParam.FileParam selectedFile;
-
-
-	[RelayCommand]
-	public void LoadPackageInfo(string? path = null)
+	public void LoadPackage(string path)
 	{
-		if (path is null)
-		{
-			var dialog = new VistaOpenFileDialog()
-			{
-				Filter = "configuration file|*.json",
-			};
-			if (dialog.ShowDialog() != true) return;
+		Packages ??= [];
 
-			path = dialog.FileName;
-		}
-
-		var pkg = JsonConvert.DeserializeObject<PackageParam[]>(File.ReadAllText(path))!;
-		foreach (var p in pkg)
+		foreach (var p in JsonConvert.DeserializeObject<PackageParam[]>(File.ReadAllText(path))!)
 		{
 			foreach (var f in p.Files)
 				f.Owner = p;
-		}
 
-		// update
-		this.Packages = new(pkg);
-		this.SelectedPackage = pkg.FirstOrDefault();
+			Packages.Add(p);
+		}
 	}
 
 	[RelayCommand]
-	public void SavePackageInfo()
+	private void LoadPackageInfo()
 	{
-		var dialog = new VistaSaveFileDialog()
+		var dialog = new VistaOpenFileDialog()
 		{
 			Filter = "configuration file|*.json",
-			FileName = "RepackInfo.json",
 		};
 		if (dialog.ShowDialog() != true) return;
 
-		File.WriteAllText($"{dialog.FileName}", JsonConvert.SerializeObject(Packages, Formatting.Indented));
+		LoadPackage(dialog.FileName);
+		SelectedPackage = Packages!.FirstOrDefault();
 	}
 
 	[RelayCommand]
-	public void AddPackageInfo()
+	private void SavePackageInfo()
 	{
-		this.Packages ??= [];
-		this.Packages.Add(new());
+		if (SelectedPackage is null) return;
+
+		var dialog = new VistaSaveFileDialog()
+		{
+			Filter = "configuration file|*.json",
+			FileName = $"RepackInfo_{SelectedPackage.Name}.json",
+		};
+		if (dialog.ShowDialog() != true) return;
+
+		File.WriteAllText($"{dialog.FileName}", JsonConvert.SerializeObject(SelectedPackage, Formatting.Indented));
 	}
 
 	[RelayCommand]
-	public void RemovePackageInfo()
+	private void AddPackageInfo()
 	{
-		this.Packages.Remove(SelectedPackage);
+		Packages ??= [];
+		Packages.Add(new());
+	}
+
+	[RelayCommand]
+	private void RemovePackageInfo()
+	{
+		if (SelectedPackage != null)
+			Packages!.Remove(SelectedPackage);
 	}
 
 
 	[RelayCommand]
-	public async Task AddFileInfo()
+	private async Task AddFileInfo()
 	{
 		var file = await Dialog.Show<VfsFileInfoDialog>().GetResultAsync<PackageParam.FileParam>();
 		if (file is null) return;
@@ -104,7 +101,7 @@ internal partial class GameResourcePageViewModel : ObservableObject
 	}
 
 	[RelayCommand]
-	public async Task UpdateFileInfo()
+	private async Task UpdateFileInfo()
 	{
 		var dialog = new VfsFileInfoDialog() { Result = SelectedFile };
 		if (dialog.Result is null) return;
@@ -118,7 +115,7 @@ internal partial class GameResourcePageViewModel : ObservableObject
 	}
 
 	[RelayCommand]
-	public void RemoveFileInfo()
+	private void RemoveFileInfo()
 	{
 		this.SelectedPackage.Files.Remove(SelectedFile);
 	}
@@ -384,7 +381,7 @@ internal partial class GameResourcePageViewModel : ObservableObject
 
 	public static NameObject<SKBitmap> GetImage(string path)
 	{
-		if (path == "None") return new(null, StringHelper.Get("Text_None"));
+		if (path == "None") return new(null, StringHelper.Get("Text.None"));
 
 		var resource = new Uri($"/Preview.UI;component/Content/{path}.png", UriKind.Relative);
 		using var stream = Application.GetResourceStream(resource).Stream;
@@ -397,15 +394,15 @@ public class PackageParam
 {
 	public string Name { get; set; } = "Xylia_P";
 
-	public string MountPoint { get; set; } = @"BNSR\Content";
+	public string MountPoint { get; set; } = "BNSR/Content";
 
 	public ObservableCollection<FileParam> Files { get; set; } = [];
 
 	public class FileParam
 	{
-		public string? Path { get; set; }
-
 		public string? Vfs { get; set; }
+
+		public string? Path { get; set; }
 
 		public CompressionMethod Compression { get; set; }
 
@@ -414,7 +411,7 @@ public class PackageParam
 		public bool IsValid => File.Exists(Path);
 
 		[JsonIgnore]
-		internal PackageParam Owner { get; set; }
+		internal PackageParam? Owner { get; set; }
 
 		public override string ToString() => System.IO.Path.Combine(Owner.MountPoint, Vfs);
 	}

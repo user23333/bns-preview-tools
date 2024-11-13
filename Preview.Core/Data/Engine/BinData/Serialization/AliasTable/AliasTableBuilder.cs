@@ -24,15 +24,17 @@ internal class AliasTableBuilder
 
 	public AliasTableArchive EndRebuilding()
 	{
-		var _target = new AliasTableArchive();
-		_target.Entries = [];
+		var target = new AliasTableArchive();
+		var entries = new List<AliasTableArchiveEntry>();
 
 		Optimize(_rootNode);
-		Rebuild(_target, _rootNode);
-		_target.RootEntry.Begin = _rootNode.Begin;
-		_target.RootEntry.End = _rootNode.End;
+		Rebuild(target, _rootNode, entries);
 
-		return _target;
+		target.Entries = [.. entries];
+		target.RootEntry.Begin = _rootNode.Begin;
+		target.RootEntry.End = _rootNode.End;
+
+		return target;
 	}
 
 
@@ -62,15 +64,15 @@ internal class AliasTableBuilder
 	/// <summary>
 	/// Only called on leafs
 	/// </summary>
-	private static void Rebuild(AliasTableArchive aliasTable, Node currentNode)
+	private static void Rebuild(AliasTableArchive aliasTable, Node currentNode, List<AliasTableArchiveEntry> entries)
 	{
 		foreach (var node in currentNode.Children.Values)
 		{
 			if (node.IsLeaf)
-				Rebuild(aliasTable, node);
+				Rebuild(aliasTable, node, entries);
 		}
 
-		var begin = (uint)aliasTable.Entries.Count;
+		var begin = (uint)entries.Count;
 
 		foreach (var (key, node) in currentNode.Children.OrderBy(x => x.Key, KoreanStringComparer.Instance))
 		{
@@ -80,10 +82,10 @@ internal class AliasTableBuilder
 				End = node.End,
 				String = key
 			};
-			aliasTable.Entries.Add(entry);
+			entries.Add(entry);
 		}
 
-		var end = (uint)aliasTable.Entries.Count - 1; // probably has to be - 1
+		var end = (uint)entries.Count - 1; // probably has to be - 1
 
 		currentNode.Begin = begin << 1;
 		currentNode.End = end;
@@ -118,7 +120,6 @@ internal class AliasTableBuilder
 	}
 
 
-
 	private class Node
 	{
 		public Dictionary<string, Node> Children { get; init; }
@@ -141,7 +142,7 @@ internal class AliasTableBuilder
 		public override string ToString() => $"{Begin >> 1}-{End} IsLeaf:{IsLeaf}";
 	}
 
-	private class KoreanStringComparer : IComparer<string>
+	public class KoreanStringComparer : IComparer<string>
 	{
 		public static readonly KoreanStringComparer Instance = new();
 		private static readonly Encoding KoreanEncoding = CodePagesEncodingProvider.Instance.GetEncoding(949);
@@ -165,6 +166,27 @@ internal class AliasTableBuilder
 			fixed (byte* p1 = b1)
 			fixed (byte* p2 = b2)
 				return strcmp(p1, p2);
+		}
+
+		public static string ReadAliasString(BinaryReader reader, Span<byte> buffer)
+		{
+			var position = reader.BaseStream.Position;
+			var size = 0;
+
+			while (true)
+			{
+				if (reader.ReadByte() == 0)
+					break;
+
+				size++;
+			}
+
+			buffer = buffer[..size];
+			reader.BaseStream.Seek(position, SeekOrigin.Begin);
+			reader.Read(buffer);
+			reader.ReadByte();
+
+			return KoreanEncoding.GetString(buffer);
 		}
 	}
 }

@@ -1,6 +1,5 @@
 ﻿using Xylia.Preview.Common.Attributes;
-using Xylia.Preview.Data.Common.Abstractions;
-using Xylia.Preview.Data.Common.DataStruct;
+using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Data.Models.Sequence;
 using static Xylia.Preview.Data.Models.Item;
@@ -19,7 +18,7 @@ public sealed class ItemTransformRecipe : ModelElement
 
 	public Ref<ModelElement> MainIngredient { get; set; }
 
-	public ConditionType MainIngredientConditionType { get; set; }
+	public ItemConditionType MainIngredientConditionType { get; set; }
 
 	public sbyte MainIngredientMinLevel { get; set; }
 
@@ -39,7 +38,7 @@ public sealed class ItemTransformRecipe : ModelElement
 
 	public Ref<ModelElement>[] SubIngredient { get; set; }
 
-	public ConditionType[] SubIngredientConditionType { get; set; }
+	public ItemConditionType[] SubIngredientConditionType { get; set; }
 
 	public sbyte[] SubIngredientMinLevel { get; set; }
 
@@ -201,123 +200,17 @@ public sealed class ItemTransformRecipe : ModelElement
 	#endregion
 
 	#region Methods
-	protected override void LoadHiddenField()
+	public RecipeHelper GetRecipe()
 	{
-		var Warning = this.Attributes["warning"];
-		if (Warning is "lower" or "lower-gemslotreset")
-		{
-			this.Attributes["random-result"] = "lower";
-		}
-
-		bool IsSure = Warning is null or "gemslotreset" or "delete-particle" or "delete-design";
-
-		for (int i = 1; i <= 8; i++)
-		{
-			if (this.Attributes["fixed-ingredient-" + i] != null && this.Attributes["fixed-ingredient-stack-count-" + i] is null)
-			{
-				this.Attributes["fixed-ingredient-stack-count-" + i] = 1;
-			}
-		}
-
-
-		var UseRandom = this.Attributes.Get<BnsBoolean>("use-random");
-		if (UseRandom)
-		{
-			if (this.Attributes["random-item-success-probability"] != null)
-				return;
-
-			int RandomMax = 20;
-			for (int i = 1; i <= RandomMax; i++)
-			{
-				var attr = this.Attributes[$"random-item-{i}"];
-				if (attr != null)
-				{
-					this.Attributes["random-item-stack-count-" + i] = 1;
-				}
-				else if (i != 1)
-				{
-					const int q = 3;
-					int TotalCount = i - 1;
-					int TotalWeight = 1 * (1 - (int)Math.Pow(q, TotalCount)) / (1 - q);
-
-					//概率权重和需要超过 1000
-					int ExtraWeight = 0;
-					if (TotalWeight < 1000)
-						ExtraWeight = (int)Math.Ceiling((decimal)(1000 - TotalWeight) / TotalCount);
-
-					for (int x = 1; x <= TotalCount; x++)
-					{
-						int Weight = 1 * (int)Math.Pow(q, x - 1) + ExtraWeight;
-						this.Attributes["random-item-select-prop-weight-" + x] = Weight;
-					}
-
-					//最大值 100
-					this.Attributes["random-item-success-probability"] = IsSure ? 100 : 20;
-					this.Attributes["random-item-total-count"] = TotalCount;
-
-					break;
-				}
-				else break;
-			}
-		}
-		else
-		{
-			if (this.Attributes["normal-item-success-probability"] == null)
-			{
-				int MormalMax = 10;
-				for (int i = 1; i <= MormalMax; i++)
-				{
-					var attr = this.Attributes[$"normal-item-{i}"];
-					if (attr != null)
-					{
-						this.Attributes["normal-item-stack-count-" + i] = 1;
-					}
-					else if (i != 1)
-					{
-						this.Attributes["normal-item-success-probability"] = IsSure ? 100 : 20;
-						this.Attributes["normal-item-select-count"] = i - 1;
-						this.Attributes["normal-item-total-count"] = i - 1;
-
-						break;
-					}
-					else break;
-				}
-			}
-
-			if (this.Attributes["rare-item-success-probability"] == null)
-			{
-				int RareMax = 10;
-				for (int i = 1; i <= RareMax; i++)
-				{
-					var attr = this.Attributes[$"rare-item-{i}"];
-					if (attr != null)
-					{
-						this.Attributes["rare-item-stack-count-" + i] = 1;
-					}
-					else if (i != 1)
-					{
-						this.Attributes["rare-item-success-probability"] = IsSure ? 1000 : 190;
-						this.Attributes["rare-item-select-count"] = i - 1;
-						this.Attributes["rare-item-total-count"] = i - 1;
-						break;
-					}
-					else break;
-				}
-			}
-		}
-	}
-
-	internal ItemRecipeHelper CreateRecipe()
-	{
-		var MainItem = SubIngredient.Select(ingredient => ingredient.Instance).FirstOrDefault() as Item;
+		var MainItem = SubIngredient.Values().FirstOrDefault() as Item;
 		var MainItemCount = SubIngredientStackCount.FirstOrDefault();
 
-		return new ItemRecipeHelper
+		return new RecipeHelper
 		{
 			MainItem = MainItem,
 			MainItemCount = MainItemCount,
-			SubItem = this.FixedIngredient.Select(x => x.Instance).ToArray(),
-			SubItemCount = this.FixedIngredientStackCount,
+			SubItem = FixedIngredient.Values().ToArray(),
+			SubItemCount = FixedIngredientStackCount,
 			Money = MoneyCost,
 			Guide = Warning.GetText(),
 		};
@@ -332,48 +225,48 @@ public sealed class ItemTransformRecipe : ModelElement
 			if (itembrand != Item.Brand.Instance) return false;
 
 			var type = o.MainIngredientConditionType;
-			if (type == ConditionType.All || type == ConditionType.None) return true;
+			if (type == ItemConditionType.All || type == ItemConditionType.None) return true;
 			else if (Item is Item.Weapon Weapon)
 			{
 				var WeaponType = Weapon.WeaponType;
-				if (type == ConditionType.Weapon && WeaponType != WeaponTypeSeq.Pet1 && WeaponType != WeaponTypeSeq.Pet2) return true;
+				if (type == ItemConditionType.Weapon && WeaponType != WeaponTypeSeq.Pet1 && WeaponType != WeaponTypeSeq.Pet2) return true;
 
 				return type == WeaponType switch
 				{
-					WeaponTypeSeq.Sword => ConditionType.Sword,
-					WeaponTypeSeq.Gauntlet => ConditionType.Gauntlet,
-					WeaponTypeSeq.AuraBangle => ConditionType.AuraBangle,
-					WeaponTypeSeq.TwoHandedAxe => ConditionType.Axe,
-					WeaponTypeSeq.Staff => ConditionType.Staff,
-					WeaponTypeSeq.Dagger => ConditionType.Dagger,
-					WeaponTypeSeq.Pet1 => ConditionType.Pet1,
-					WeaponTypeSeq.Pet2 => ConditionType.Pet2,
-					WeaponTypeSeq.Gun => ConditionType.ShooterGun,
-					WeaponTypeSeq.GreatSword => ConditionType.GreatSword,
-					WeaponTypeSeq.LongBow => ConditionType.LongBow,
-					WeaponTypeSeq.Spear => ConditionType.Spear,
-					WeaponTypeSeq.Orb => ConditionType.Orb,
+					WeaponTypeSeq.Sword => ItemConditionType.Sword,
+					WeaponTypeSeq.Gauntlet => ItemConditionType.Gauntlet,
+					WeaponTypeSeq.AuraBangle => ItemConditionType.AuraBangle,
+					WeaponTypeSeq.TwoHandedAxe => ItemConditionType.Axe,
+					WeaponTypeSeq.Staff => ItemConditionType.Staff,
+					WeaponTypeSeq.Dagger => ItemConditionType.Dagger,
+					WeaponTypeSeq.Pet1 => ItemConditionType.Pet1,
+					WeaponTypeSeq.Pet2 => ItemConditionType.Pet2,
+					WeaponTypeSeq.Gun => ItemConditionType.ShooterGun,
+					WeaponTypeSeq.GreatSword => ItemConditionType.GreatSword,
+					WeaponTypeSeq.LongBow => ItemConditionType.LongBow,
+					WeaponTypeSeq.Spear => ItemConditionType.Spear,
+					WeaponTypeSeq.Orb => ItemConditionType.Orb,
 
-					_ => ConditionType.None,
+					_ => ItemConditionType.None,
 				};
 			}
 			else if (Item is Item.Accessory Accessory)
 			{
 				return type == Accessory.AccessoryType switch
 				{
-					AccessoryTypeSeq.Ring => ConditionType.Ring,
-					AccessoryTypeSeq.Earring => ConditionType.Earring,
-					AccessoryTypeSeq.Necklace => ConditionType.Necklace,
-					AccessoryTypeSeq.Belt => ConditionType.Belt,
-					AccessoryTypeSeq.Bracelet => ConditionType.Bracelet,
-					AccessoryTypeSeq.Soul => ConditionType.Soul,
-					AccessoryTypeSeq.Soul2 => ConditionType.Soul2,
-					AccessoryTypeSeq.Gloves => ConditionType.Gloves,
-					AccessoryTypeSeq.Rune1 => ConditionType.Rune1,
-					AccessoryTypeSeq.Rune2 => ConditionType.Rune2,
-					AccessoryTypeSeq.Nova => ConditionType.Nova,
+					AccessoryTypeSeq.Ring => ItemConditionType.Ring,
+					AccessoryTypeSeq.Earring => ItemConditionType.Earring,
+					AccessoryTypeSeq.Necklace => ItemConditionType.Necklace,
+					AccessoryTypeSeq.Belt => ItemConditionType.Belt,
+					AccessoryTypeSeq.Bracelet => ItemConditionType.Bracelet,
+					AccessoryTypeSeq.Soul => ItemConditionType.Soul,
+					AccessoryTypeSeq.Soul2 => ItemConditionType.Soul2,
+					AccessoryTypeSeq.Gloves => ItemConditionType.Gloves,
+					AccessoryTypeSeq.Rune1 => ItemConditionType.Rune1,
+					AccessoryTypeSeq.Rune2 => ItemConditionType.Rune2,
+					AccessoryTypeSeq.Nova => ItemConditionType.Nova,
 
-					_ => ConditionType.None,
+					_ => ItemConditionType.None,
 				};
 			}
 		}

@@ -2,7 +2,7 @@
 using Xylia.Preview.Common.Extension;
 
 namespace Xylia.Preview.Data.Models;
-public class Reward : ModelElement
+public class Reward : ModelElement, IReward
 {
 	#region Attributes
 	public string Alias { get; set; }
@@ -195,17 +195,20 @@ public class Reward : ModelElement
 	#endregion
 
 	#region Methods
-	public List<RewardInfo> GetInfo()
+	IEnumerable<IRewardHelper> IReward.GetRewards() => GetRewards();
+
+	public IEnumerable<RewardInfo> GetRewards()
 	{
 		var data = new List<RewardInfo>();
 
-		#region Common		
-		FixedItem.Select(x => x.Instance).ForEach((item, idx) =>
+		#region Normal		
+		FixedItem.Values().ForEach((item, idx) =>
 		{
 			data.Add(new RewardInfo()
 			{
 				Data = item,
-				Group = new("fixed", "UI.RandomBox.Probability.MiddleCategory.FixedReward".GetText()),
+				Group = "fixed",
+				GroupText = "UI.RandomBox.Probability.MiddleCategory.FixedReward".GetText(),
 				Min = FixedItemMin[idx],
 				Max = FixedItemMax[idx],
 			});
@@ -215,33 +218,36 @@ public class Reward : ModelElement
 		{
 			var probability = (double)Group12Probability / Group12TotalProbWeight;
 
-			Group1Item.Select(x => x.Instance).ForEach(item =>
+			Group1Item.Values().ForEach(item =>
 			{
 				data.Add(new RewardInfo()
 				{
 					Data = item,
-					Group = new("group-1", string.Format("{0}% ", Group1ProbWeight * probability) + "UI.RandomBox.Probability.MiddleCategory.GroupReward1".GetText([Group1AssuredCount])),
+					Group = "group-1",
+					GroupText = string.Format("{0}% ", Group1ProbWeight * probability) + "UI.RandomBox.Probability.MiddleCategory.GroupReward1".GetText([Group1AssuredCount]),
 				});
 			});
 
-			Group2Item.Select(x => x.Instance).ForEach(item =>
+			Group2Item.Values().ForEach(item =>
 			{
 				data.Add(new RewardInfo()
 				{
 					Data = item,
-					Group = new("group-2", string.Format("{0}% ", Group2ProbWeight * probability) + "UI.RandomBox.Probability.MiddleCategory.GroupReward2".GetText([Group2AssuredCount])),
+					Group = "group-2",
+					GroupText = string.Format("{0}% ", Group2ProbWeight * probability) + "UI.RandomBox.Probability.MiddleCategory.GroupReward2".GetText([Group2AssuredCount]),
 				});
 			});
 		}
 
 		if (Group3ItemTotalCount > 0)
 		{
-			Group3Item.Select(x => x.Instance).ForEach((item, idx) =>
+			Group3Item.Values().ForEach((item, idx) =>
 			{
 				data.Add(new RewardInfo()
 				{
 					Data = item,
-					Group = new("group-3", string.Format("{0}% ", Group3Probability) + "UI.RandomBox.Probability.MiddleCategory.GroupReward3".GetText([1])),
+					Group = "group-3",
+					GroupText = string.Format("{0}% ", Group3Probability) + "UI.RandomBox.Probability.MiddleCategory.GroupReward3".GetText([1]),
 					Probability = Group3ItemProbWeight[idx],
 					ProbabilityType = Group3ItemTotalProbWeight,
 				});
@@ -251,7 +257,7 @@ public class Reward : ModelElement
 		if (Group4ItemTotalCount > 0)
 		{
 			var TotalProbWeight = Group4ItemMax.Sum();
-			Group4Item.Select(x => x.Instance).ForEach((item, idx) =>
+			Group4Item.Values().ForEach((item, idx) =>
 			{
 				var min = Group4ItemMin[idx];
 				var max = Group4ItemMax[idx];
@@ -259,7 +265,8 @@ public class Reward : ModelElement
 				data.Add(new RewardInfo()
 				{
 					Data = item,
-					Group = new("group-4", string.Format("{0}% ", Group4Probability) + "UI.RandomBox.Probability.MiddleCategory.GroupReward4".GetText([1])),
+					Group = "group-4",
+					GroupText = string.Format("{0}% ", Group4Probability) + "UI.RandomBox.Probability.MiddleCategory.GroupReward4".GetText([1]),
 					Probability = max,
 					ProbabilityType = TotalProbWeight,
 				});
@@ -269,7 +276,7 @@ public class Reward : ModelElement
 		if (Group5ItemTotalCount > 0)
 		{
 			var TotalProbWeight = Group5ItemMax.Sum();
-			Group5Item.Select(x => x.Instance).ForEach((item, idx) =>
+			Group5Item.Values().ForEach((item, idx) =>
 			{
 				var min = Group5ItemMin[idx];
 				var max = Group5ItemMax[idx];
@@ -277,7 +284,8 @@ public class Reward : ModelElement
 				data.Add(new RewardInfo()
 				{
 					Data = item,
-					Group = new("group-5", string.Format("{0}% ", Group5Probability) + "UI.RandomBox.Probability.MiddleCategory.GroupReward5".GetText([1])),
+					Group = "group-5",
+					GroupText = string.Format("{0}% ", Group5Probability) + "UI.RandomBox.Probability.MiddleCategory.GroupReward5".GetText([1]),
 					Probability = max,
 					ProbabilityType = TotalProbWeight,
 				});
@@ -286,12 +294,13 @@ public class Reward : ModelElement
 
 		if (RareItemTotalCount > 0)
 		{
-			RareItem.Select(x => x.Instance).ForEach((item, idx) =>
+			RareItem.Values().ForEach((item, idx) =>
 			{
 				data.Add(new RewardInfo()
 				{
 					Data = item,
-					Group = new("rare", "UI.RandomBox.Probability.MiddleCategory.RareReward".GetText([1])),
+					Group = "rare",
+					GroupText = "UI.RandomBox.Probability.MiddleCategory.RareReward".GetText([1]),
 					Min = RareItemMin[idx],
 					Max = RareItemMax[idx],
 					Probability = RareItemProbWeight[idx],
@@ -302,12 +311,13 @@ public class Reward : ModelElement
 
 		if (SelectedItemAssuredCount > 0)
 		{
-			SelectedItem.Select(x => x.Instance).ForEach((item, idx) =>
+			SelectedItem.Values().ForEach((item, idx) =>
 			{
 				data.Add(new RewardInfo()
 				{
 					Data = item,
-					Group = new("selected", "UI.RandomBox.Probability.MiddleCategory.SelectedReward".GetText([SelectedItemAssuredCount])),
+					Group = "selected",
+					GroupText = "UI.RandomBox.Probability.MiddleCategory.SelectedReward".GetText([SelectedItemAssuredCount]),
 					Min = SelectedItemCount[idx],
 					Max = SelectedItemCount[idx],
 				});
@@ -316,12 +326,13 @@ public class Reward : ModelElement
 		#endregion
 
 		#region SmartDrop
-		SmartFixedReward.Select(x => x.Instance).ForEach(reward =>
+		SmartFixedReward.Values().ForEach(reward =>
 		{
 			data.Add(new RewardInfo()
 			{
 				Data = reward,
-				Group = new("smart-fixed-reward", "UI.RandomBox.Probability.MiddleCategory.SmartDropFixedReward".GetText()),
+				Group = "smart-fixed-reward",
+				GroupText = "UI.RandomBox.Probability.MiddleCategory.SmartDropFixedReward".GetText(),
 			});
 		});
 
@@ -329,33 +340,36 @@ public class Reward : ModelElement
 		{
 			var probability = (double)SmartGroup12Probability / SmartGroup12TotalProbWeight;
 
-			SmartGroup1Reward.Select(x => x.Instance).ForEach(reward =>
+			SmartGroup1Reward.Values().ForEach(reward =>
 			{
 				data.Add(new RewardInfo()
 				{
 					Data = reward,
-					Group = new("smart-group-1-reward", string.Format("{0}% ", SmartGroup1ProbWeight * probability) + "UI.RandomBox.Probability.MiddleCategory.SmartDropGroupReward1".GetText([SmartGroup1AssuredCount])),
+					Group = "smart-group-1-reward",
+					GroupText = string.Format("{0}% ", SmartGroup1ProbWeight * probability) + "UI.RandomBox.Probability.MiddleCategory.SmartDropGroupReward1".GetText([SmartGroup1AssuredCount]),
 				});
 			});
 
-			SmartGroup2Reward.Select(x => x.Instance).ForEach(reward =>
+			SmartGroup2Reward.Values().ForEach(reward =>
 			{
 				data.Add(new RewardInfo()
 				{
 					Data = reward,
-					Group = new("smart-group-2-reward", string.Format("{0}% ", SmartGroup2ProbWeight * probability) + "UI.RandomBox.Probability.MiddleCategory.SmartDropGroupReward2".GetText([SmartGroup2AssuredCount])),
+					Group = "smart-group-2-reward",
+					GroupText = string.Format("{0}% ", SmartGroup2ProbWeight * probability) + "UI.RandomBox.Probability.MiddleCategory.SmartDropGroupReward2".GetText([SmartGroup2AssuredCount]),
 				});
 			});
 		}
 
 		if (SmartGroup3RewardTotalCount > 0)
 		{
-			SmartGroup3Reward.Select(x => x.Instance).ForEach((reward, idx) =>
+			SmartGroup3Reward.Values().ForEach((reward, idx) =>
 			{
 				data.Add(new RewardInfo()
 				{
 					Data = reward,
-					Group = new("smart-group-3-reward", string.Format("{0}% ", SmartGroup3Probability) + "UI.RandomBox.Probability.MiddleCategory.SmartDropGroupReward3".GetText([1])),
+					Group = "smart-group-3-reward",
+					GroupText = string.Format("{0}% ", SmartGroup3Probability) + "UI.RandomBox.Probability.MiddleCategory.SmartDropGroupReward3".GetText([1]),
 					Probability = SmartGroup3RewardProbWeight[idx],
 					ProbabilityType = SmartGroup3RewardTotalProbWeight,
 				});
@@ -364,36 +378,39 @@ public class Reward : ModelElement
 
 		if (SmartGroup4RewardTotalCount > 0)
 		{
-			SmartGroup4Reward.Select(x => x.Instance).ForEach((reward, idx) =>
+			SmartGroup4Reward.Values().ForEach((reward, idx) =>
 			{
 				data.Add(new RewardInfo()
 				{
 					Data = reward,
-					Group = new("smart-group-4-reward", string.Format("{0}% ", SmartGroup4Probability) + "UI.RandomBox.Probability.MiddleCategory.SmartDropGroupReward4".GetText([1])),
+					Group = "smart-group-4-reward",
+					GroupText = string.Format("{0}% ", SmartGroup4Probability) + "UI.RandomBox.Probability.MiddleCategory.SmartDropGroupReward4".GetText([1]),
 				});
 			});
 		}
 
 		if (SmartGroup5RewardTotalCount > 0)
 		{
-			SmartGroup5Reward.Select(x => x.Instance).ForEach((reward, idx) =>
+			SmartGroup5Reward.Values().ForEach((reward, idx) =>
 			{
 				data.Add(new RewardInfo()
 				{
 					Data = reward,
-					Group = new("smart-group-5-reward", string.Format("{0}% ", SmartGroup5Probability) + "UI.RandomBox.Probability.MiddleCategory.SmartDropGroupReward5".GetText([1])),
+					Group = "smart-group-5-reward",
+					GroupText = string.Format("{0}% ", SmartGroup5Probability) + "UI.RandomBox.Probability.MiddleCategory.SmartDropGroupReward5".GetText([1]),
 				});
 			});
 		}
 
 		if (SmartRareRewardTotalCount > 0)
 		{
-			SmartRareReward.Select(x => x.Instance).ForEach((reward, idx) =>
+			SmartRareReward.Values().ForEach((reward, idx) =>
 			{
 				data.Add(new RewardInfo()
 				{
 					Data = reward,
-					Group = new("smart-rare-reward", "UI.RandomBox.Probability.MiddleCategory.SmartDropRareReward".GetText([1])),
+					Group = "smart-rare-reward",
+					GroupText = "UI.RandomBox.Probability.MiddleCategory.SmartDropRareReward".GetText([1]),
 					Probability = SmartRareRewardProbWeight[idx],
 					ProbabilityType = SmartRareRewardProbWeightType,
 				});
@@ -404,23 +421,19 @@ public class Reward : ModelElement
 		return data;
 	}
 
-	public class RewardInfo : IReward
+	public class RewardInfo : IRewardHelper
 	{
 		public Item Data;
 		public short Min = 1;
 		public short Max = 1;
-		public (string, string) Group;
 		internal int Probability;
 		internal int ProbabilityType;
 
-		public string Element => (Min == Max ? "UI.RandomBox.Probability.MiddleCategory.Element.Fixed" : "UI.RandomBox.Probability.MiddleCategory.Element.Range").GetText([Data, Min, Max]);
-
+		object IRewardHelper.Data => Data;
+		public string Group { get; set; }
+		public string GroupText { get; set; }
+		public string Text => (Min == Max ? "UI.RandomBox.Probability.MiddleCategory.Element.Fixed" : "UI.RandomBox.Probability.MiddleCategory.Element.Range").GetText([Data, Min, Max]);
 		public string ProbabilityInfo => Probability == 0 ? string.Empty : ((double)Probability / ProbabilityType).ToString("P" + ProbabilityType.GetPercentLength());
 	}
 	#endregion
-}
-
-public interface IReward
-{
-
 }

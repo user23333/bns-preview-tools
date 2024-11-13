@@ -16,7 +16,6 @@ using Xylia.Preview.UI.Controls.Primitives;
 using Xylia.Preview.UI.Documents.Primitives;
 
 namespace Xylia.Preview.UI.Documents;
-
 [ContentProperty("Children")]
 public abstract class BaseElement : ContentElement
 {
@@ -192,6 +191,47 @@ public abstract class BaseElement : ContentElement
 		}
 	}
 
+	/// <summary>
+	/// Initialize element from html
+	/// </summary>
+	protected internal virtual void Load(HtmlNode node)
+	{
+		// attribute
+		foreach (var prop in this.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly))
+		{
+			if (prop.HasAttribute<IgnoreDataMemberAttribute>()) continue;
+
+			var type = prop.FieldType;
+			var name = (prop.GetAttribute<NameAttribute>()?.Name ?? prop.Name).ToLower();
+			var value = node.GetAttributeValue(name, type, null);
+
+			prop.SetValue(this, value);
+		}
+
+		// child
+		LoadChildren(node);
+	}
+
+	/// <summary>
+	/// Initialize children of element
+	/// </summary>
+	protected internal void LoadChildren(HtmlNode node)
+	{
+		Children.Clear();
+		if (HtmlNode.IsClosedElement(node.Name)) return;
+
+		foreach (var child in node.ChildNodes)
+		{
+			Children.Add(ElementLoad.CreateElement(child));
+		}
+	}
+
+	/// <summary>
+	/// Determine if use new line.
+	/// </summary>
+	protected internal virtual bool NewLine() => false;
+
+
 	public Size Measure(Size availableSize)
 	{
 		if (availableSize.Width == 0) availableSize.Width = double.PositiveInfinity;
@@ -205,7 +245,6 @@ public abstract class BaseElement : ContentElement
 		FinalRect = ArrangeCore(finalRect);
 	}
 
-
 	/// <summary>
 	/// Measurement override. Implement your size-to-content logic here.
 	/// </summary>
@@ -216,32 +255,13 @@ public abstract class BaseElement : ContentElement
 		Size size = new Size();
 		Size lineSize = new Size();
 
-		// internal padding
-		if (this is P p &&
-			!double.IsInfinity(availableSize.Width) &&
-			!double.IsInfinity(availableSize.Height))
-		{
-			if (p.Element != null)
-			{
-				availableSize.Width -= p.Element.LeftMargin + p.Element.RightMargin;
-				availableSize.Height -= p.Element.TopMargin + p.Element.BottomMargin;
-			}
-		}
-
-		foreach (var element in Children!)
+		foreach (var element in Children)
 		{
 			InheritDependency(this, element);
 			Size desiredSize = element.Measure(availableSize);
 
-			// warp layout
-			if (element is P)
-			{
-				size.Width = Math.Max(lineSize.Width, size.Width);
-				size.Height += lineSize.Height;
-				lineSize = desiredSize;
-			}
 			// new line
-			else if (element is BR || (!double.IsInfinity(availableSize.Width) && lineSize.Width + desiredSize.Width > availableSize.Width))
+			if (element.NewLine() || (!double.IsInfinity(availableSize.Width) && lineSize.Width + desiredSize.Width > availableSize.Width))
 			{
 				size.Width = Math.Max(lineSize.Width, size.Width);
 				size.Height += lineSize.Height;
@@ -257,7 +277,6 @@ public abstract class BaseElement : ContentElement
 		// full panel size
 		size.Width = Math.Ceiling(Math.Max(lineSize.Width, size.Width));
 		size.Height = Math.Ceiling(size.Height + lineSize.Height);
-
 		return size;
 	}
 
@@ -268,7 +287,7 @@ public abstract class BaseElement : ContentElement
 	/// <returns></returns>
 	protected virtual Rect ArrangeCore(Rect finalRect)
 	{
-		#region multiple lines
+		#region Split
 		if (Children is null) return finalRect;
 
 		// start element in current line 
@@ -281,13 +300,7 @@ public abstract class BaseElement : ContentElement
 			var element = Children[i];
 			Size desiredSize = element.DesiredSize;
 
-			if (element is P || i + 1 == Children.Count)
-			{
-				lines.Add([.. Children.GetRange(firstInLine, i - firstInLine + 1)]);
-				lineSize = desiredSize;
-				firstInLine = i + 1;
-			}
-			else if (element is BR || lineSize.Width + desiredSize.Width > finalRect.Width)
+			if (element.NewLine() || lineSize.Width + desiredSize.Width > finalRect.Width)  //New
 			{
 				lines.Add([.. Children.GetRange(firstInLine, i - firstInLine)]);
 				lineSize = desiredSize;
@@ -301,33 +314,43 @@ public abstract class BaseElement : ContentElement
 
 				firstInLine = i;
 			}
+			else if (element.Children.LastOrDefault() is BR)  //End
+			{
+				lines.Add([.. Children.GetRange(firstInLine, i - firstInLine + 1)]);
+				lineSize = desiredSize;
+				firstInLine = i + 1;
+			}
 			else
 			{
 				lineSize.Width += desiredSize.Width;
 				lineSize.Height = Math.Max(desiredSize.Height, lineSize.Height);
 			}
+
+			if (i + 1 == Children.Count && firstInLine != Children.Count)
+			{
+				lines.Add([.. Children.GetRange(firstInLine, i - firstInLine + 1)]);
+			}
 		}
 		#endregion
 
-		#region arrange every line
+		#region Arrange
 		double y = finalRect.Y;
-		if (this is P p2) y += p2.Element?.TopMargin ?? 0;
 
 		foreach (var line in lines)
 		{
 			if (line.Length == 0) continue;
 
-			double width = line.Sum(x => x.DesiredSize.Width);
-			double height = line.Max(x => x.DesiredSize.Height);
+			var width = line.Sum(x => x.DesiredSize.Width);
+			var height = line.Max(x => x.DesiredSize.Height);
 
 			// draw start point
 			double x = finalRect.X;
 
-			// support paragraph alignment
+			// paragraph alignment
 			if (this is P p)
 			{
 				var vect = p.ComputeAlignmentOffset(finalRect.Size, new Size(width, height));
-				x += vect.X + (p.Element?.LeftMargin ?? 0);
+				x += vect.X;
 			}
 
 			// arrange children
@@ -347,52 +370,6 @@ public abstract class BaseElement : ContentElement
 	protected internal virtual void OnRender(DrawingContext ctx)
 	{
 		Children?.ForEach(x => x.OnRender(ctx));
-	}
-
-
-	/// <summary>
-	/// Initialize element from html
-	/// </summary>
-	/// <param name="node"></param>
-	protected internal virtual void Load(HtmlNode node)
-	{
-		// attribute
-		foreach (var prop in this.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly))
-		{
-			if (prop.HasAttribute<IgnoreDataMemberAttribute>()) continue;
-
-			var type = prop.FieldType;
-			var name = (prop.GetAttribute<NameAttribute>()?.Name ?? prop.Name).ToLower();
-			var value = node.GetAttributeValue(name, type, null);
-
-			prop.SetValue(this, value);
-		}
-
-		// child
-		if (!HtmlNode.IsClosedElement(node.Name))
-		{
-			Children = TextContainer.Load(node.ChildNodes);
-		}
-	}
-
-	internal virtual IInputElement? InputHitTest(Point point)
-	{
-		IInputElement? element = null;
-
-		if (Children is null) return element;
-
-		// only Link need respond
-		foreach (var child in Children)
-		{
-			if (child.FinalRect.Contains(point))
-			{
-				if (child is Link) return child;
-			}
-
-			element = child.InputHitTest(point);
-		}
-
-		return element;
 	}
 	#endregion
 
@@ -414,6 +391,26 @@ public abstract class BaseElement : ContentElement
 		current.SetValue(ArgumentsProperty, parent.GetValue(ArgumentsProperty));
 		current.SetValue(TimersProperty, parent.GetValue(TimersProperty));
 		current.SetValue(Font.TextDecorationsProperty, parent.GetValue(Font.TextDecorationsProperty));
+	}
+
+	internal virtual IInputElement? InputHitTest(Point point)
+	{
+		IInputElement? element = null;
+
+		if (Children is null) return element;
+
+		// only Link need respond
+		foreach (var child in Children)
+		{
+			if (child.FinalRect.Contains(point))
+			{
+				if (child is Link) return child;
+			}
+
+			element = child.InputHitTest(point);
+		}
+
+		return element;
 	}
 
 	internal TextContainer? EnsureTextContainer() => null;

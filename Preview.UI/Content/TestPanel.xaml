@@ -26,11 +26,11 @@
 					<ImageProperty />
 				</BnsCustomImageWidget.BaseImageProperty>
 				<BnsCustomImageWidget.ExpansionComponentList>
-					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Selected" MetaData="">
-						<ExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Selected" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
 							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="0 138" ImageUVSize="140 21.5" EnableDrawImage="true" EnableAdditiveBlendMode="true" EnableDrawColor="true" TintColor="CCCCCC" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
-						</ExpansionComponent.ImageProperty>
-					</ExpansionComponent>
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
 				</BnsCustomImageWidget.ExpansionComponentList>
 				<BnsCustomLabelWidget Name="ItemGrowth2Panel_DrawImproveOption_BeforeInfo_Column_1_1_Abilty_1" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="10 0 8 20.001007">
 					<BnsCustomLabelWidget.String>
@@ -51,11 +51,11 @@
 						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="28 167" ImageUVSize="19 18" EnableSkinColor="true" />
 					</BnsCustomLabelButtonWidget.NormalImageProperty>
 					<BnsCustomLabelButtonWidget.ExpansionComponentList>
-						<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Normal" MetaData="">
-							<ExpansionComponent.ImageProperty>
+						<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Normal" MetaData="">
+							<UBnsCustomExpansionComponent.ImageProperty>
 								<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="344 568" ImageUVSize="11 9" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-							</ExpansionComponent.ImageProperty>
-						</ExpansionComponent>
+							</UBnsCustomExpansionComponent.ImageProperty>
+						</UBnsCustomExpansionComponent>
 					</BnsCustomLabelButtonWidget.ExpansionComponentList>
 				</BnsCustomLabelButtonWidget>
 				<BnsCustomLabelButtonWidget Name="ItemGrowth2Panel_DrawImproveOption_BeforeInfo_ScrollBar_IncrementButton" LayoutData.Anchors="0.5 1 0.5 1">
@@ -63,11 +63,11 @@
 						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="28 167" ImageUVSize="19 18" EnableResourceSize="true" EnableSkinColor="true" />
 					</BnsCustomLabelButtonWidget.NormalImageProperty>
 					<BnsCustomLabelButtonWidget.ExpansionComponentList>
-						<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Down" MetaData="">
-							<ExpansionComponent.ImageProperty>
+						<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Down" MetaData="">
+							<UBnsCustomExpansionComponent.ImageProperty>
 								<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="344 578" ImageUVSize="11 8" EnableDrawImage="true" EnableResourceSize="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-							</ExpansionComponent.ImageProperty>
-						</ExpansionComponent>
+							</UBnsCustomExpansionComponent.ImageProperty>
+						</UBnsCustomExpansionComponent>
 					</BnsCustomLabelButtonWidget.ExpansionComponentList>
 				</BnsCustomLabelButtonWidget>
 			</BnsCustomScrollBarWidget>
@@ -76,11 +76,11 @@
 					<ImageProperty />
 				</BnsCustomImageWidget.BaseImageProperty>
 				<BnsCustomImageWidget.ExpansionComponentList>
-					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Selected" MetaData="">
-						<ExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Selected" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
 							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="0 138" ImageUVSize="140 21.5" EnableDrawImage="true" EnableAdditiveBlendMode="true" EnableDrawColor="true" TintColor="CCCCCC" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
-						</ExpansionComponent.ImageProperty>
-					</ExpansionComponent>
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
 				</BnsCustomImageWidget.ExpansionComponentList>
 				<BnsCustomLabelWidget Name="ItemGrowth2Panel_DrawImproveOption_BeforeInfo_Column_2_1_Abilty_1" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="10 0 8 20.001007">
 					<BnsCustomLabelWidget.String>
@@ -93,11 +93,11 @@
 					<ImageProperty />
 				</BnsCustomImageWidget.BaseImageProperty>
 				<BnsCustomImageWidget.ExpansionComponentList>
-					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Selected" MetaData="">
-						<ExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Selected" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
 							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="0 138" ImageUVSize="140 21.5" EnableDrawImage="true" EnableAdditiveBlendMode="true" EnableDrawColor="true" TintColor="CCCCCC" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
-						</ExpansionComponent.ImageProperty>
-					</ExpansionComponent>
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
 				</BnsCustomImageWidget.ExpansionComponentList>
 				<BnsCustomLabelWidget Name="ItemGrowth2Panel_DrawImproveOption_BeforeInfo_Column_3_1_Abilty_1" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="10 0 8 20.001007">
 					<BnsCustomLabelWidget.String>
@@ -110,11 +110,11 @@
 					<ImageProperty />
 				</BnsCustomImageWidget.BaseImageProperty>
 				<BnsCustomImageWidget.ExpansionComponentList>
-					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Selected" MetaData="">
-						<ExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Selected" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
 							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="0 138" ImageUVSize="140 21.5" EnableDrawImage="true" EnableAdditiveBlendMode="true" EnableDrawColor="true" TintColor="CCCCCC" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
-						</ExpansionComponent.ImageProperty>
-					</ExpansionComponent>
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
 				</BnsCustomImageWidget.ExpansionComponentList>
 				<BnsCustomLabelWidget Name="ItemGrowth2Panel_DrawImproveOption_BeforeInfo_Column_4_1_Abilty_1" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="10 0 8 20.001007">
 					<BnsCustomLabelWidget.String>
@@ -127,11 +127,11 @@
 					<ImageProperty />
 				</BnsCustomImageWidget.BaseImageProperty>
 				<BnsCustomImageWidget.ExpansionComponentList>
-					<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Selected" MetaData="">
-						<ExpansionComponent.ImageProperty>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Selected" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
 							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="0 138" ImageUVSize="140 21.5" EnableDrawImage="true" EnableAdditiveBlendMode="true" EnableDrawColor="true" TintColor="CCCCCC" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
-						</ExpansionComponent.ImageProperty>
-					</ExpansionComponent>
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
 				</BnsCustomImageWidget.ExpansionComponentList>
 				<BnsCustomLabelWidget Name="ItemGrowth2Panel_DrawImproveOption_BeforeInfo_Column_5_1_Abilty_1" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="10 0 8 20.001007">
 					<BnsCustomLabelWidget.String>

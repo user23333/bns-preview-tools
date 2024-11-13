@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Markup;
 using System.Windows.Media;
@@ -10,7 +9,7 @@ using Xylia.Preview.UI.Controls.Primitives;
 namespace Xylia.Preview.UI.Controls;
 
 [ContentProperty("Children")]
-public class BnsCustomEditBoxWidget : TextBox, IUserWidget 
+public class BnsCustomEditBoxWidget : TextBox, IUserWidget
 {
 	#region Constructors
 	public BnsCustomEditBoxWidget()
@@ -37,8 +36,8 @@ public class BnsCustomEditBoxWidget : TextBox, IUserWidget
 	#region Properties
 	public StringProperty String { get; set; }
 	public ExpansionCollection ExpansionComponentList { get; set; }
-	public ResizeLink HorizontalResizeLink { get; set; }
-	public ResizeLink VerticalResizeLink { get; set; }
+	public BnsCustomResizeLink HorizontalResizeLink { get; set; }
+	public BnsCustomResizeLink VerticalResizeLink { get; set; }
 	#endregion
 }
 

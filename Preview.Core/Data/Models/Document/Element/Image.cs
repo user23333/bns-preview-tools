@@ -3,7 +3,7 @@ using CUE4Parse.BNS.Conversion;
 using CUE4Parse.UE4.Assets.Exports.Texture;
 using CUE4Parse_Conversion.Textures;
 using SkiaSharp;
-using Xylia.Preview.Data.Helpers;
+using Xylia.Preview.Common;
 
 namespace Xylia.Preview.Data.Models.Document;
 public class Image : HtmlElementNode
@@ -39,8 +39,8 @@ public class Image : HtmlElementNode
 	public SKBitmap Bitmap
 	{
 		set => _bitmap = value;
-		get => _bitmap ??= FileCache.Provider.LoadObject<UImageSet>(Imagesetpath)?.GetImage(Color) ??
-			FileCache.Provider.LoadObject<UTexture2D>(Path)?.Decode()?.Clone(U, V, UL, VL, Color);
+		get => _bitmap ??= Globals.GameProvider.LoadObject<UImageSet>(Imagesetpath)?.GetImage(Color) ??
+			Globals.GameProvider.LoadObject<UTexture2D>(Path)?.Decode()?.Clone(U, V, UL, VL, Color);
 	}
 	#endregion
 }

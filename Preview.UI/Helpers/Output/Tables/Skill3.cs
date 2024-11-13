@@ -30,9 +30,9 @@ internal class Skill3Out : OutSet
 			sheet.Cells[row, column++].SetValue(record);
 			sheet.Cells[row, column++].SetValue(record.Name);
 			sheet.Cells[row, column++].SetValue(TextContainer.Cut(
-				string.Join(BR.Tag, record.MainTooltip1.SelectNotNull(x => x.Instance)) + BR.Tag +
-				string.Join(BR.Tag, record.MainTooltip2.SelectNotNull(x => x.Instance))));
-			sheet.Cells[row, column++].SetValue(TextContainer.Cut(string.Join(BR.Tag, record.SubTooltip.SelectNotNull(x => x.Instance))));
+				string.Join(BR.Tag, record.MainTooltip1.Values()) + BR.Tag +
+				string.Join(BR.Tag, record.MainTooltip2.Values())));
+			sheet.Cells[row, column++].SetValue(TextContainer.Cut(string.Join(BR.Tag, record.SubTooltip.Values())));
 		}
 		#endregion
 	}

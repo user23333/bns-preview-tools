@@ -29,7 +29,7 @@ public partial class ProcessFloatWindow
 	}
 	#endregion
 
-	#region Properies
+	#region Properties
 	static ProcessFloatWindow? _instance;
 	public static ProcessFloatWindow Instance
 	{

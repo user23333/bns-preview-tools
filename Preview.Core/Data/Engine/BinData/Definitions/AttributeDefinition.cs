@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics;
 using System.Xml;
 using Xylia.Preview.Common.Attributes;
+using Xylia.Preview.Common.Exceptions;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.DataStruct;
-using Xylia.Preview.Data.Common.Exceptions;
 
 namespace Xylia.Preview.Data.Engine.Definitions;
 [DebuggerDisplay("{Name} ({Type}) repeat:{Repeat}")]
@@ -22,54 +22,23 @@ public class AttributeDefinition
 	public bool IsRequired { get; set; }
 	public bool IsHidden { get; set; }
 	public SequenceDefinition Sequence { get; set; }
-
 	public string DefaultValue { get; set; }
-	public long Max { get; set; }
 	public long Min { get; set; }
-	public float FMax { get; set; }
+	public long Max { get; set; }
 	public float FMin { get; set; }
-
-	public ReleaseSide Side { get; set; } = ReleaseSide.Client | ReleaseSide.Server;
+	public float FMax { get; set; }
 	#endregion
 
 	#region Expand
+	public ReleaseSide Side { get; set; } = ReleaseSide.Client | ReleaseSide.Server;
 	public string ReferedTableName { get; set; }
 	public string ReferedElement { get; set; }
-	public bool CanInput { get; set; } = true;
+	public bool Writeable { get; internal set; } = true;
 
 	internal List<AttributeDefinition> Expands { get; private set; } = [];
-	#endregion	  
+	#endregion
 
 	#region Methods
-	public void WriteXml(XmlWriter writer)
-	{
-		writer.WriteStartElement("attribute");
-		writer.WriteAttributeString("name", Name);
-		writer.WriteAttributeString("type", Type.ToString()[1..]);
-
-		if (IsKey) writer.WriteAttributeString("key", IsKey.ToString());
-		if (Repeat > 1) writer.WriteAttributeString("repeat", Repeat.ToString());
-		if (IsRequired) writer.WriteAttributeString("required", IsRequired.ToString());
-		if (DefaultValue != null) writer.WriteAttributeString("default", DefaultValue);
-		if (Min != 0) writer.WriteAttributeString("min", Min.ToString());
-		if (Max != 0) writer.WriteAttributeString("max", Max.ToString());
-		if (FMin != 0) writer.WriteAttributeString("fmin", FMin.ToString());
-		if (FMax != 0) writer.WriteAttributeString("fmax", FMax.ToString());
-		if (ReferedTable != 0) writer.WriteAttributeString("ref", ReferedTableName ?? ReferedTable.ToString());
-		if (ReferedEl != 0) writer.WriteAttributeString("refel", ReferedEl.ToString());
-		if (IsDeprecated) writer.WriteAttributeString("deprecated", IsDeprecated.ToString());
-		if (IsHidden) writer.WriteAttributeString("hidden", IsHidden.ToString());
-
-		Sequence?.ForEach(s =>
-		{
-			writer.WriteStartElement("case");
-			writer.WriteAttributeString("name", s);
-			writer.WriteEndElement();
-		});
-
-		writer.WriteEndElement();
-	}
-
 	internal AttributeDefinition Clone()
 	{
 		var newAttrDef = (AttributeDefinition)MemberwiseClone();
@@ -83,21 +52,15 @@ public class AttributeDefinition
 		try
 		{
 			var Name = node.GetAttribute<string>("name").Trim();
-			var Type = Enum.TryParse("T" + node.GetAttribute("type"), true, out AttributeType type) ? type :
-				throw BnsDataException.InvalidDefinition($"Failed to determine attribute type: {Name}");
-			var Repeat = ushort.TryParse(node.Attributes["repeat"]?.Value, out var tmp) ? tmp : (ushort)1;
-			var RefTable = node.GetAttribute<string>("ref");
-			var RefEl = node.GetAttribute<byte>("refel");
-			var Offset = node.GetAttribute<ushort>("offset");
-			var Deprecated = node.GetAttribute<bool>("deprecated");
-			var Key = node.GetAttribute<bool>("key");
+			var Type = byte.TryParse(node.GetAttribute("type"), out var b) ? (AttributeType)b :
+				Enum.TryParse("T" + node.GetAttribute("type"), true, out AttributeType t) ? t :
+				throw new Exception($"Failed to determine attribute type: {Name}");
+
 			var Required = node.GetAttribute<bool>("required");
 			var Hidden = node.GetAttribute<bool>("hidden");
 			var DefaultValue = node.GetAttribute<string>("default");
 			var MinValue = node.GetAttribute<long>("min");
 			var MaxValue = node.GetAttribute<long>("max");
-			var FMinValue = node.GetAttribute<float>("fmin");
-			var FMaxValue = node.GetAttribute<float>("fmax");
 
 			#region Check
 			ArgumentException.ThrowIfNullOrEmpty(Name);
@@ -111,8 +74,7 @@ public class AttributeDefinition
 			var seq = loader.Load(node);
 			seq?.Check(Type);
 
-			//default
-			if (string.IsNullOrEmpty(DefaultValue)) DefaultValue = null;
+			// fix default value
 			switch (Type)
 			{
 				case AttributeType.TInt8:
@@ -148,19 +110,22 @@ public class AttributeDefinition
 					break;
 
 				case AttributeType.TFloat32:
-					DefaultValue = DefaultValue.ToFloat32().ToString("0.00");
-					if (FMinValue == 0) FMinValue = float.MinValue;
-					if (FMaxValue == 0) FMaxValue = float.MaxValue;
+					DefaultValue = DefaultValue.To<float>().ToString("0.00");
 					break;
 
 				case AttributeType.TBool:
-					DefaultValue ??= "n";
+					DefaultValue = DefaultValue switch
+					{
+						"true" => "y",
+						"false" or null => "n",
+						_ => DefaultValue,
+					};
 					break;
-
 
 				case AttributeType.TRef:
 				case AttributeType.TIcon:
 				case AttributeType.TTRef:
+					if (DefaultValue == "0") DefaultValue = null;
 					break;
 
 
@@ -177,12 +142,9 @@ public class AttributeDefinition
 				{
 					if (DefaultValue is null && seq != null)
 					{
-						//DefaultValue = seq.Default;
-
 						// Ignore unnecessary attribute output
 						if (Required || Hidden) DefaultValue ??= seq.FirstOrDefault();
 					}
-
 					break;
 				}
 
@@ -210,27 +172,28 @@ public class AttributeDefinition
 			return new AttributeDefinition
 			{
 				Name = Name,
-				IsDeprecated = Deprecated,
-				IsKey = Key,
+				IsDeprecated = node.GetAttribute<bool>("deprecated"),
+				IsKey = node.GetAttribute<bool>("key"),
 				IsRequired = Required,
 				IsHidden = Hidden,
 				Type = Type,
-				Offset = Offset,
-				Repeat = Repeat,
-				ReferedTableName = RefTable,
-				ReferedEl = RefEl,
+				Offset = node.GetAttribute<ushort>("offset"),
+				Repeat = node.GetAttribute<ushort>("repeat", 1),
+				ReferedTableName = node.GetAttribute<string>("ref"),
+				ReferedEl = node.GetAttribute<byte>("refel"),
 				Sequence = seq,
 				DefaultValue = DefaultValue,
 				Max = MaxValue,
 				Min = MinValue,
-				FMax = FMaxValue,
-				FMin = FMinValue,
+				FMin = node.GetAttribute<float>("fmin", float.MinValue),
+				FMax = node.GetAttribute<float>("fmax", float.MaxValue),
 				Side = side,
 			};
 		}
-		catch  (Exception ex)
+		catch (Exception ex)
 		{
-			throw BnsDataException.InvalidDefinition($"attribute load failed: {node.OuterXml}", ex);
+			Debug.WriteLine(node.OuterXml);
+			throw BnsDataException.InvalidDefinition($"Load attribute failed: {node.OuterXml}", ex);
 		}
 	}
 

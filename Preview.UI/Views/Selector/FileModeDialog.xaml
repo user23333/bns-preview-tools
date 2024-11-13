@@ -17,8 +17,8 @@
 
 		<Image Grid.Column="0" Grid.Row="0" Source="pack://application:,,,/Resources/Images/icon-file.png" MouseLeftButtonDown="TextFile_MouseLeftButtonDown" Cursor="Hand"/>
 		<Image Grid.Column="1" Grid.Row="0" Source="pack://application:,,,/Resources/Images/icon-excel.png" MouseLeftButtonDown="ExcelFile_MouseLeftButtonDown" Cursor="Hand"/>
-		<TextBlock Grid.Column="0" Grid.Row="1" d:Text="Text File" Text="{DynamicResource FileMode_TextFile}" HorizontalAlignment="Center" FontSize="17 "/>
-		<TextBlock Grid.Column="1" Grid.Row="1" d:Text="Excel File" Text="{DynamicResource FileMode_ExcelFile}" HorizontalAlignment="Center" FontSize="17 "/>
+		<TextBlock Grid.Column="0" Grid.Row="1" d:Text="Text File" Text="{DynamicResource Text.PlainText}" HorizontalAlignment="Center" FontSize="17 "/>
+		<TextBlock Grid.Column="1" Grid.Row="1" d:Text="Excel File" Text="{DynamicResource Text.Excel}" HorizontalAlignment="Center" FontSize="17 "/>
 
 		<Button Width="30" Height="30" Command="hc:ControlCommands.Close" Style="{StaticResource ButtonIcon}" Foreground="{DynamicResource PrimaryBrush}" hc:IconElement.Geometry="{StaticResource ErrorGeometry}" Padding="0" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.ColumnSpan="2" />
 	</Grid>

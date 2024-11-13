@@ -14,6 +14,7 @@ public sealed class Glyph : ModelElement
 	public Ref<Text> Name { get; set; }
 
 	public GlyphTypeSeq GlyphType { get; set; }
+
 	public enum GlyphTypeSeq
 	{
 		None,
@@ -24,6 +25,7 @@ public sealed class Glyph : ModelElement
 	}
 
 	public ColorSeq Color { get; set; }
+
 	public enum ColorSeq
 	{
 		None,
@@ -42,6 +44,7 @@ public sealed class Glyph : ModelElement
 	public Ref<ConditionEvent> ConditionEvent { get; set; }
 
 	public ConditionEventTypeSeq ConditionEventType { get; set; }
+
 	public enum ConditionEventTypeSeq
 	{
 		Attack,
@@ -60,7 +63,7 @@ public sealed class Glyph : ModelElement
 
 	public sbyte RewardTier { get; set; }
 
-	public AttachAbility[] Ability { get; set; }
+	public AttachAbilitySeq[] Ability { get; set; }
 
 	public int[] AbilityValue { get; set; }
 
@@ -74,7 +77,7 @@ public sealed class Glyph : ModelElement
 	#region Methods
 	public string GlyphName => $"<font name='00008130.Program.Fontset_ItemGrade_{Grade}'>{Name.GetText()}</font>";
 
-	public string GlyphDescription => LinqExtensions.Join(BR.Tag, LinqExtensions.Create(Ability, AbilityValue).Select(x => x.Item1.GetText(x.Item2)).ToArray());
+	public string GlyphDescription => LinqExtensions.Join(BR.Tag, LinqExtensions.Tuple(Ability, AbilityValue).Select(x => x.Item1.GetText(x.Item2)).ToArray());
 
 	public string Description => GlyphType == GlyphTypeSeq.Material ? "UI.GlyphToolTip.Desc.Material".GetText() : ConditionEvent.Instance?.GetTooltipText1();
 	#endregion

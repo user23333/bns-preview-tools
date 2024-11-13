@@ -4,7 +4,7 @@ using Xylia.Preview.Common.Attributes;
 namespace Xylia.Preview.Data.Models.Sequence;
 public enum JobSeq
 {
-	[Description("")]
+	[Text("UI.Auction.JobFilter.All")]
 	JobNone,
 
 	[Description("blade-master")]

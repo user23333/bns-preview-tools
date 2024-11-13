@@ -1,8 +1,6 @@
 ﻿using System.Globalization;
 using System.Windows.Data;
-
 using HandyControl.Controls;
-
 using Xylia.Preview.Data.Common.DataStruct;
 
 namespace Xylia.Preview.UI.Common.Controls.AttributeGrid.Editor;

@@ -103,10 +103,10 @@ public sealed unsafe class Record : IElement, IDisposable
 		{
 			if (attribute.Name == AttributeCollection.s_autoid) continue;
 
-			// set value, it seem that WriteRaw must be last  
-			var value = AttributeConverter.ToString(attribute.Definition, attribute.RawValue);
-			if (value is null) continue;
+			var value = attribute.ToString();
+			if (value == attribute.Definition.DefaultValue) continue;
 
+			// set value, raw must be last  
 			if (attribute.Type == AttributeType.TNative) writer.WriteRaw(value);
 			else writer.WriteAttributeString(attribute.Name, value);
 		}

@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Markup;
+using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.UI.Common.Converters;
@@ -9,26 +10,15 @@ namespace Xylia.Preview.UI.Common.Converters;
 /// </summary>
 public class RecordNameConverter : MarkupExtension, IValueConverter
 {
+	public override object ProvideValue(IServiceProvider serviceProvider) => this;
+
 	public object? Convert(object value, Type targetType, object? parameter, CultureInfo? culture)
 	{
-		if (value is Record record)
-		{
-			if (record.Owner.Name == "text") return record.Attributes["text"];
-			else
-			{
-				var text = record.Attributes["name2"]?.GetText();
-				if (text != null) return text;
-			}
-		}
-
 		// if parameter exists and its value is BooleanBoxes.False means that return Null
-		if (parameter is false) return null;
-		return value?.ToString();
-	}
+		var str = parameter is false ? null : value?.ToString();
 
-	public string Convert(object value)
-	{
-		return Convert(value, typeof(string), null, null) as string ?? "";
+		if (value is Record record) return Convert(record) ?? str;
+		return str;
 	}
 
 	public object ConvertBack(object value, Type targetType, object? parameter, CultureInfo? culture)
@@ -36,5 +26,23 @@ public class RecordNameConverter : MarkupExtension, IValueConverter
 		throw new NotImplementedException();
 	}
 
-	public override object ProvideValue(IServiceProvider serviceProvider) => this;
+
+	internal static string? Convert(Record record)
+	{
+		switch (record.OwnerName)
+		{
+			case "item-combination" or "world-account-combination": return record.Attributes.Get<Text>("material-group-name")?.text;
+			case "text": return record.To<Text>().text;
+			case "zone": return record.Attributes.Get<MapArea>("area")?.Name;
+
+			default:
+			{
+				var text = record.Attributes["name2"]?.GetText();
+				if (text != null) return text;
+				break;
+			}
+		}
+
+		return null;
+	}
 }

@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics;
-using Xylia.Preview.Data.Common.Exceptions;
+using Xylia.Preview.Common.Exceptions;
 using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.Data.Client;

@@ -1,9 +1,7 @@
 ﻿using Newtonsoft.Json;
-using Xylia.Preview.Data.Common.Exceptions;
 using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.Data.Client;
-
 internal partial class BsonExpressionMethods
 {
     /// <summary>

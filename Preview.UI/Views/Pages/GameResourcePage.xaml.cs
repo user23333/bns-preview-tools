@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using HandyControl.Controls;
 using SkiaSharp;
+using Xylia.Preview.Common.Extension;
 using Xylia.Preview.UI.Common.Converters;
 using Xylia.Preview.UI.Helpers.Output.Textures;
 using Xylia.Preview.UI.ViewModels;
@@ -43,7 +44,7 @@ public partial class GameResourcePage
 			var files = (string[])e.Data.GetData(DataFormats.FileDrop);
 			if (files.Length == 0) return;
 
-			_viewModel.LoadPackageInfo(files[0]);
+			files.ForEach(_viewModel.LoadPackage);
 		}
 	}
 
@@ -52,8 +53,8 @@ public partial class GameResourcePage
 	{
 		try
 		{
-			if (string.IsNullOrWhiteSpace(Selector.Text)) 
-				throw new WarningException(StringHelper.Get("Text.InvalidPath"));
+			if (string.IsNullOrWhiteSpace(Selector.Text))
+				throw new WarningException(StringHelper.Get("Exception_InvalidPath"));
 
 			DateTime dt = DateTime.Now;
 			Extract.IsEnabled = false;

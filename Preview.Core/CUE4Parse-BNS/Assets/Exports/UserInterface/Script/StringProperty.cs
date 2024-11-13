@@ -6,12 +6,13 @@ using CUE4Parse.UE4.Assets.Utils;
 using CUE4Parse.UE4.Objects.Core.i18N;
 using CUE4Parse.UE4.Objects.Core.Math;
 using CUE4Parse.UE4.Objects.UObject;
-namespace CUE4Parse.BNS.Assets.Exports;
 
+namespace CUE4Parse.BNS.Assets.Exports;
 [StructFallback]
 [TypeConverter(typeof(StringPropertyConverter))]
 public class StringProperty : IUStruct, INotifyPropertyChanged
 {
+	#region Properties
 	private FPackageIndex _fontset;
 
 	[TypeConverter(typeof(FPackageIndexTypeConverter))]
@@ -30,26 +31,25 @@ public class StringProperty : IUStruct, INotifyPropertyChanged
 	}
 
 	public float SpaceBetweenLines { get; set; }
-	public HAlignment HorizontalAlignment { get; set; }
-	public VAlignment VerticalAlignment { get; set; }
+	public EHorizontalAlignment HorizontalAlignment { get; set; }
+	public EVerticalAlignment VerticalAlignment { get; set; }
 	public FVector2D ClippingBound { get; set; }
-	public ClipMode ClipMode { get; set; }
-	public int MaxCharacters { get; set; }
-
-	public FVector2D Padding { get; set; }
-	public string ClippingBoundFace_Horizontal { get; set; }  //WidgetFaceFace_Left
-	public string ClippingBoundFace_Vertical { get; set; }    //WidgetFaceFace_Top
+	public EBNSCustomTextClipMode ClipMode { get; set; }
+	public EBNSCustomWidgetFace ClippingBoundFace_Horizontal { get; set; } 
+	public EBNSCustomWidgetFace ClippingBoundFace_Vertical { get; set; }  
+	public EBNSCustomJustificationType JustificationType { get; set; }
 	public bool bJustification { get; set; }
-	public string JustificationType { get; set; }             //BNSCustomJustification_Type_Normal
 	public bool bWordWrap { get; set; }
 	public bool bIgnoreDPIScale { get; set; }
+	public FVector2D Padding { get; set; }
 	public float Opacity { get; set; }
-	public string TextDirection { get; set; }             //BNS_UIORIENT_Horizontal
+	public EBNSUIOrientation TextDirection { get; set; }
+	public int MaxCharacters { get; set; }
 	public float TextScale { get; set; }
 	public float AnimScale { get; set; }
 	public float LastRenderWidth { get; set; }
 	public float LastRenderHeight { get; set; }
-
+	#endregion
 
 	#region Constructors
 	public StringProperty()
@@ -57,9 +57,9 @@ public class StringProperty : IUStruct, INotifyPropertyChanged
 
 	}
 
-	public StringProperty(string text, 
-		HAlignment horizontalAlignment = HAlignment.HAlign_Center, 
-		VAlignment verticalAlignment = VAlignment.VAlign_Center)
+	public StringProperty(string text,
+		EHorizontalAlignment horizontalAlignment = EHorizontalAlignment.HAlign_Center,
+		EVerticalAlignment verticalAlignment = EVerticalAlignment.VAlign_Center)
 	{
 		LabelText = text;
 		HorizontalAlignment = horizontalAlignment;

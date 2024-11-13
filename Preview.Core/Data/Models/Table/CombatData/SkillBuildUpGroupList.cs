@@ -37,4 +37,4 @@ public sealed class SkillBuildUpGroupList : ModelElement, IEnumerable
 		yield break;
 	}
 	#endregion
-}
+}		

@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Xml;
-using Xylia.Preview.Data.Common.Exceptions;
+using Xylia.Preview.Common.Exceptions;
 
 namespace Xylia.Preview.Data.Engine.Definitions;
 public class SequenceDefinitionLoader

@@ -11,6 +11,7 @@ public partial class SettingsView : Window
 		DataContext = UserSettings.Default;
 		InitializeComponent();
 #if !DEBUG
+		DebugMode.Visibility = Visibility.Collapsed;
 		Models.Visibility = Visibility.Collapsed;
 #endif
 	}

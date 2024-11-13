@@ -1,16 +1,19 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.ComponentModel;
+using System.Globalization;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.Data.Common.DataStruct;
 [StructLayout(LayoutKind.Sequential)]
+[TypeConverter(typeof(RefConverter))]
 public struct Ref(int id, int variant = 0) : IComparable<Ref>
 {
 	public readonly int Id = id;
 	public readonly int Variant = variant;
 
-	#region Static Methods
+	#region Operator
 	[MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
 	public static implicit operator long(Ref r) => Unsafe.As<Ref, long>(ref r);
 	[MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
@@ -22,13 +25,13 @@ public struct Ref(int id, int variant = 0) : IComparable<Ref>
 	public static bool operator ==(Ref a, Ref b) => Unsafe.As<Ref, long>(ref a) == Unsafe.As<Ref, long>(ref b);
 	public static bool operator !=(Ref a, Ref b) => !(a == b);
 
-	public static Ref Prase(string input) => TryPrase(input, out var key) ? key : throw new ArgumentException("Invalid Ref string input");
+	public static Ref Parse(string input) => TryParse(input, out var key) ? key : throw new ArgumentException("Invalid Ref string input");
 
-	public static bool TryPrase(string input, out Ref key)
+	public static bool TryParse(string input, out Ref key)
 	{
 		key = default;
 
-		var split = input?.Split(':', 2) ?? [];
+		var split = input?.Split('.', 2) ?? [];
 		if (split.Length >= 1 && int.TryParse(split[0], out var id))
 		{
 			var variant = split.Length == 2 ? int.Parse(split[1]) : 0;
@@ -69,4 +72,20 @@ public struct Ref(int id, int variant = 0) : IComparable<Ref>
 		return provider.Tables[type]?[this];
 	}
 	#endregion
+}
+
+internal class RefConverter : TypeConverter
+{
+	public override bool CanConvertFrom(ITypeDescriptorContext context, Type type)
+	{
+		if (type == typeof(string)) return true;  // Double is not used at game
+
+		return base.CanConvertFrom(context, type);
+	}
+
+	public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value) => value switch
+	{
+		string s => Ref.Parse(s),
+		_ => throw new NotSupportedException()
+	};
 }

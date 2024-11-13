@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Xylia.Preview.Common.Attributes;
 using Xylia.Preview.Common.Extension;
@@ -14,6 +13,61 @@ namespace Xylia.Preview.Data.Models;
 /// </summary>
 internal class AttributeConverter
 {
+	public static readonly Dictionary<Type, AttributeType> TypeCode = new()
+	{
+		[typeof(sbyte)] = AttributeType.TInt8,
+		[typeof(short)] = AttributeType.TInt16,
+		[typeof(int)] = AttributeType.TInt32,
+		[typeof(long)] = AttributeType.TInt64,
+		[typeof(float)] = AttributeType.TFloat32,
+		[typeof(double)] = AttributeType.TFloat32,
+		[typeof(bool)] = AttributeType.TBool,
+		[typeof(string)] = AttributeType.TString,
+
+		[typeof(Su)] = AttributeType.TSu,
+		[typeof(Sub)] = AttributeType.TSub,
+		[typeof(Vector16)] = AttributeType.TVector16,
+		[typeof(Vector32)] = AttributeType.TVector32,
+		[typeof(IColor)] = AttributeType.TIColor,
+		[typeof(FColor)] = AttributeType.TFColor,
+		[typeof(Box)] = AttributeType.TBox,
+		[typeof(Angle)] = AttributeType.TAngle,
+		[typeof(Msec)] = AttributeType.TMsec,
+		[typeof(Distance)] = AttributeType.TDistance,
+		[typeof(Distance)] = AttributeType.TDistance,
+		[typeof(Velocity)] = AttributeType.TVelocity,
+
+		[typeof(Script_obj)] = AttributeType.TScript_obj,
+		[typeof(BnsVersion)] = AttributeType.TVersion,
+		[typeof(Icon)] = AttributeType.TIcon,
+		[typeof(Time32)] = AttributeType.TTime32,
+		[typeof(Time64)] = AttributeType.TTime64,
+		[typeof(TimeUniversal)] = AttributeType.TXUnknown1,
+		[typeof(ObjectPath)] = AttributeType.TXUnknown2,
+	};
+
+	/// <summary>
+	///  Converts the attribute value to an object.
+	/// </summary>
+	/// <param name="name"></param>
+	/// <param name="value"></param>
+	/// <param name="type"></param>
+	/// <returns></returns>
+	public static object ConvertTo(object value, Type type, string name = null)
+	{
+		return value.To(type, () =>
+		{
+			if (type.IsGenericType)
+			{
+				var item = type.GetGenericTypeDefinition();
+				if (item == typeof(Ref<>)) return Activator.CreateInstance(type, value);
+			}
+
+			Debug.WriteLine($"convert type failed: {value} ({name}) -> {type.Name}");
+			return null;
+		});
+	}
+
 	/// <summary>
 	/// Gets the specified attribute from record
 	/// </summary>
@@ -139,84 +193,4 @@ internal class AttributeConverter
 		AttributeType.TXUnknown2 => new ObjectPath(value),
 		_ => throw new Exception($"Unhandled type name: '{attribute.Type}'"),
 	};
-
-	/// <summary>
-	///  Returns a string that represents the current object.
-	/// </summary>
-	public static string ToString(AttributeDefinition attribute, object value)
-	{
-		// convert
-		var text = value?.ToString();
-		if (value is float f) text = f.ToString("0.00");
-		else if (value is ITime { Ticks: 0 }) return null;
-		else if (value is Record record && attribute.Type == AttributeType.TTRef) text = $"{record.OwnerName}:{text}";
-
-		// check default
-		if (text == attribute.DefaultValue) return null;
-		return text;
-	}
-
-
-	#region Model Extension Method		
-
-	internal static readonly Dictionary<Type, AttributeType> TypeCode = new()
-	{
-		[typeof(sbyte)] = AttributeType.TInt8,
-		[typeof(short)] = AttributeType.TInt16,
-		[typeof(int)] = AttributeType.TInt32,
-		[typeof(long)] = AttributeType.TInt64,
-		[typeof(float)] = AttributeType.TFloat32,
-		[typeof(double)] = AttributeType.TFloat32,
-		[typeof(bool)] = AttributeType.TBool,
-		[typeof(string)] = AttributeType.TString,
-
-		[typeof(Su)] = AttributeType.TSu,
-		[typeof(Sub)] = AttributeType.TSub,
-		[typeof(Vector16)] = AttributeType.TVector16,
-		[typeof(Vector32)] = AttributeType.TVector32,
-		[typeof(IColor)] = AttributeType.TIColor,
-		[typeof(FColor)] = AttributeType.TFColor,
-		[typeof(Box)] = AttributeType.TBox,
-		[typeof(Angle)] = AttributeType.TAngle,
-		[typeof(Msec)] = AttributeType.TMsec,
-		[typeof(Distance)] = AttributeType.TDistance,
-		[typeof(Distance)] = AttributeType.TDistance,
-		[typeof(Velocity)] = AttributeType.TVelocity,
-
-		[typeof(Script_obj)] = AttributeType.TScript_obj,
-		[typeof(BnsVersion)] = AttributeType.TVersion,
-		[typeof(Icon)] = AttributeType.TIcon,
-		[typeof(Time32)] = AttributeType.TTime32,
-		[typeof(Time64)] = AttributeType.TTime64,
-		[typeof(TimeUniversal)] = AttributeType.TXUnknown1,
-		[typeof(ObjectPath)] = AttributeType.TXUnknown2,
-	};
-
-	/// <summary>
-	///  Converts the attribute value to an object.
-	/// </summary>
-	/// <param name="name"></param>
-	/// <param name="value"></param>
-	/// <param name="type"></param>
-	/// <returns></returns>
-	internal static object Convert(string name, object value, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] Type type)
-	{
-		if (value is null || value.GetType() == type) return value;
-		else if (type == typeof(bool))
-		{
-			if (value is BnsBoolean b) return (bool)b;
-			if (value is string s) return s.ToBool();
-		}
-		else if (type == typeof(string)) return value.ToString();
-		else if (type.IsEnum) return value.ToString().TryParseToEnum(type, out var seq) ? seq : default;
-		else if (type.IsGenericType)
-		{
-			var item = type.GetGenericTypeDefinition();
-			if (item == typeof(Ref<>)) return Activator.CreateInstance(type, value);
-		}
-
-		Trace.WriteLine($"convert type failed: {name} ({value}) -> {type.Name}");
-		return value;
-	}
-	#endregion
 }

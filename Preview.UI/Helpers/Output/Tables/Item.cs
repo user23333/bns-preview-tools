@@ -1,12 +1,11 @@
 ﻿using System.Collections.Concurrent;
+using System.ComponentModel;
 using System.IO;
 using System.Text;
 using OfficeOpenXml;
 using Xylia.Preview.Common.Extension;
-using Xylia.Preview.Data.Client;
 using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Engine.BinData.Helpers;
-using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Data.Models;
 using Xylia.Preview.Data.Models.Document;
 using Xylia.Preview.Data.Models.Sequence;
@@ -16,33 +15,36 @@ using Xylia.Preview.UI.Views.Selector;
 namespace Xylia.Preview.UI.Helpers.Output.Tables;
 internal sealed class ItemOut : OutSet, IDisposable
 {
-	#region Fields
+	#region Properties
 	public bool OnlyUpdate { get; set; }
-
-	protected override BnsDatabase? Source { get; set; }
-
-	private Time64 CreatedAt { get; set; }
 	#endregion
 
 	#region Methods
-	public void Start(FileModeDialog.FileMode mode)
+	public int Start(FileModeDialog.FileMode mode, string? hash = null)
 	{
-		var outdir = Path.Combine(
-			UserSettings.Default.OutputFolder, "output", "item",
-			CreatedAt.ToString("yyyyMM"),
-			CreatedAt.ToString("dd hhmm"));
-
-		Directory.CreateDirectory(outdir);
-		var Path_ItemList = Path.Combine(outdir, $@"{CreatedAt:yyyy-MM-dd hh-mm}.chv");
-		var Path_Failure = Path.Combine(outdir, @"no_text.txt");
-		var Path_MainFile = Path.Combine(outdir, @"output." + mode.ToString().ToLower());
-
 		#region HashList
 		var refs = new List<Ref>();
-		if (HashList != null) refs.AddRange(HashList.HashMap);
-		refs.AddRange(ItemDatas.Select(item => item.PrimaryKey));
 
-		new HashList(refs).Save(Path_ItemList);
+		if (OnlyUpdate)
+		{
+			HashList = new HashList(hash);
+			refs.AddRange(HashList.HashMap);
+		}
+
+		refs.AddRange(Data.Select(item => item.PrimaryKey));
+		#endregion
+
+		#region Init
+		var createdAt = Source!.Provider.CreatedAt;
+		var outdir = Path.Combine(
+			UserSettings.Default.OutputFolder, "output", "item",
+			createdAt.ToString("yyyyMM"),
+			createdAt.ToString("dd hhmm"));
+
+		Directory.CreateDirectory(outdir);
+		var Path_Hash = Path.Combine(outdir, $@"{createdAt:yyyy-MM-dd hh-mm}.chv");
+		var Path_Failure = Path.Combine(outdir, @"no_text.txt");
+		var Path_MainFile = Path.Combine(outdir, @"output." + mode.ToString().ToLower());
 		#endregion
 
 		#region Output
@@ -65,13 +67,18 @@ internal sealed class ItemOut : OutSet, IDisposable
 			default: throw new NotSupportedException();
 		}
 
-		var Failures = ItemDatas.Where(o => o.Name2 is null);
-		if (Failures.Any())
+		// extra
+		new HashList(refs).Save(Path_Hash);
+
+		var failures = Data.Where(o => o.Name2 is null);
+		if (failures.Any())
 		{
 			using StreamWriter Out_Failure = new(Path_Failure);
-			Failures.OrderBy(o => o.PrimaryKey).ForEach(item => Out_Failure.WriteLine($"{item.PrimaryKey,-15} {item.Alias}"));
+			failures.OrderBy(o => o.PrimaryKey).ForEach(item => Out_Failure.WriteLine($"{item.PrimaryKey,-15} {item.Alias}"));
 		}
 		#endregion
+
+		return Data.Count();
 	}
 
 	protected override void CreateData(ExcelPackage package)
@@ -80,14 +87,14 @@ internal sealed class ItemOut : OutSet, IDisposable
 		int row = 1;
 		int index = 1;
 		sheet.SetColumn(index++, "id", 12);
-		sheet.SetColumn(index++, "key", 12);
+		sheet.SetColumn(index++, "key", 15);
 		sheet.SetColumn(index++, "name", 40);
 		sheet.SetColumn(index++, "alias", 40);
 		sheet.SetColumn(index++, "job", 20);
 		sheet.SetColumn(index++, "desc", 80);
 		sheet.SetColumn(index++, "info", 80);
 
-		foreach (var Item in ItemDatas)
+		foreach (var Item in Data.OrderBy(x => x.PrimaryKey))
 		{
 			row++;
 			int column = 1;
@@ -104,7 +111,7 @@ internal sealed class ItemOut : OutSet, IDisposable
 
 	protected override void CreateText(TextWriter writer)
 	{
-		foreach (var Item in ItemDatas)
+		foreach (var Item in Data.OrderBy(x => x.PrimaryKey))
 		{
 			writer.Write("{0,-15}", Item.PrimaryKey);
 			writer.Write("{0,-60}", "alias: " + Item.Alias);
@@ -115,47 +122,41 @@ internal sealed class ItemOut : OutSet, IDisposable
 
 	public void Dispose()
 	{
-		Source?.Dispose();
-		ItemDatas.Clear();
+		_data = null;
 		HashList = null;
 
 		GC.Collect();
 	}
 	#endregion
 
-
-	#region Helpers
+	#region Data
 	private HashList? HashList = null;
-	private List<ItemSimple> ItemDatas = [];
-
-	public void LoadCache(string path)
+	private IEnumerable<ItemSimple>? _data = null;
+	private IEnumerable<ItemSimple> Data
 	{
-		if (OnlyUpdate)
+		get
 		{
-			HashList = new HashList(path);
+			if (_data is null)
+			{
+				var text = TextDiff.BuildPieceHashes(Source!.Provider.GetTable("text"));
+				var items = new BlockingCollection<ItemSimple>();
+				Parallel.ForEach(Source.Provider.GetTable("item"), record =>
+				{
+					if (HashList != null && HashList.CheckFailed(record.PrimaryKey)) return;
+
+					var data = new ItemSimple(record, text);
+					items.Add(data);
+				});
+
+				// final
+				_data = items;
+				text.Clear();
+
+				if (items.Count == 0) throw new WarningException(StringHelper.Get("ItemList_Empty"));
+			}
+
+			return _data;
 		}
-	}
-
-	public int LoadData()
-	{
-		Source = new(DefaultProvider.Load(UserSettings.Default.GameFolder, DatSelectDialog.Instance));
-		CreatedAt = Source.Provider.CreatedAt;
-
-		var text = TextDiff.BuildPieceHashes(Source.Provider.GetTable("text"));
-		using var items = new BlockingCollection<ItemSimple>();
-		Parallel.ForEach(Source.Provider.GetTable("item"), record =>
-		{
-			if (HashList != null && HashList.CheckFailed(record.PrimaryKey)) return;
-
-			var data = new ItemSimple(record, text);
-			items.Add(data);
-		});
-
-		// final
-		text.Clear();
-		Source.Dispose();
-		ItemDatas = [.. items.OrderBy(x => x.PrimaryKey)];
-		return items.Count;
 	}
 
 	class ItemSimple

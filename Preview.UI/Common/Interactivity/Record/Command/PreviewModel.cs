@@ -1,12 +1,11 @@
 ﻿using System.ComponentModel;
 using System.Windows;
 using CUE4Parse.BNS.Assets.Exports;
-using CUE4Parse.UE4.Assets.Exports;
 using FModel.Framework;
 using FModel.Views.Snooper;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
-using Xylia.Preview.Data.Helpers;
+using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Models;
 using Xylia.Preview.UI.FModel.Views;
 
@@ -31,17 +30,16 @@ internal class PreviewModel : RecordCommand
 		List<ModelData> models = [];
 		Load(record, models).Wait();
 
-		// show
 		var view = ModelViewer;
 		lock (view)
 		{
 			view.Models = [.. models];
 			if (view.TryLoadExport(default)) view.Run();
-			else throw new WarningException(StringHelper.Get("PreviewModel_Empty"));
+			else throw new WarningException(StringHelper.Get("Exception_InvalidModel"));
 		}
 	}
 
-	private static async Task Load(Record record, List<ModelData> models)
+	private static async Task Load(Record? record, List<ModelData> models)
 	{
 		if (record is null) return;
 
@@ -51,8 +49,8 @@ internal class PreviewModel : RecordCommand
 			{
 				models.Add(new()
 				{
-					Export = await FileCache.Provider.LoadObjectAsync<UObject>(record.Attributes["body-mesh-name"]?.ToString()),
-					Cols = new string?[] { record.Attributes["body-material-name"]?.ToString() },
+					Export = record.Attributes.Get<ObjectPath>("body-mesh-name").LoadObject(),
+					Cols = [record.Attributes.Get<ObjectPath>("body-material-name")],
 				});
 			}
 			break;
@@ -64,71 +62,61 @@ internal class PreviewModel : RecordCommand
 
 				models.Add(new()
 				{
-					Export = await FileCache.Provider.LoadObjectAsync<UObject>(appearance.Attributes["body-mesh-name"]?.ToString()),
-					Cols = new string?[] { appearance.Attributes["body-material-name"]?.ToString() },
-					AnimSet = await FileCache.Provider.LoadObjectAsync<UAnimSet>(record.Attributes["animset"]?.ToString()),
+					Export = appearance.Attributes.Get<ObjectPath>("body-mesh-name").LoadObject(),
+					Cols = [appearance.Attributes.Get<ObjectPath>("body-material-name")],
+					AnimSet = record.Attributes.Get<ObjectPath>("animset").LoadObject<UAnimSet>()
 				});
 			}
 			break;
 
 			case "item":
 			{
-				void LoadModel(string Mesh, string Col = null)
+				void LoadModel(string mesh, string col)
 				{
-					Col ??= Mesh + "-col-";
-					models.Add(new ModelData()
+					var model = new ModelData()
 					{
-						DisplayName = Mesh,
-						Export = FileCache.Provider.LoadObject<UObject>(record.Attributes[Mesh]?.ToString()),
-						Cols = new string?[] { record.Attributes[Col + 1]?.ToString(), record.Attributes[Col + 2]?.ToString(), record.Attributes[Col + 3]?.ToString() },
-					});
+						DisplayName = mesh,
+						Export = record.Attributes.Get<ObjectPath>(mesh).LoadObject(),
+						Cols = record.Attributes.Get<ObjectPath[]>(col),
+					};
+					if (model.Export != null) models.Add(model);
 				}
 
-				var MeshId = record.Attributes["mesh-id"];
-				if (!string.IsNullOrEmpty(MeshId?.ToString()))
+				var MeshId = record.Attributes.Get<ObjectPath>("mesh-id");
+				if (MeshId.IsValid)
 				{
-					//"mesh-id"
-					//"mesh-id-2"
-					//"mesh-col-1"
-					//"mesh-col-2"
-					//"mesh-col-3"
 					//"mesh-animset"
 					//"mesh-attach"
 					//"mesh-animtree"
 
 					LoadModel("mesh-id", "mesh-col");
+					LoadModel("mesh-id-2", "mesh-col");
 
 					models.Add(new ModelData()
 					{
-						Export = FileCache.Provider.LoadObject<UObject>(record.Attributes["talk-mesh"]?.ToString()),
-						AnimSet = FileCache.Provider.LoadObject<UAnimSet>(record.Attributes["talk-animset"]?.ToString()),
+						Export = record.Attributes.Get<ObjectPath>("talk-mesh").LoadObject(),
+						AnimSet = record.Attributes.Get<ObjectPath>("talk-animset").LoadObject<UAnimSet>(),
 					});
 				}
 				else
 				{
-					LoadModel("kun-mesh");
-					LoadModel("gon-male-mesh");
-					LoadModel("gon-female-mesh");
-					LoadModel("lyn-male-mesh");
-					LoadModel("lyn-female-mesh");
-					LoadModel("jin-male-mesh");
-					LoadModel("jin-female-mesh");
-					LoadModel("cat-mesh");
+					LoadModel("kun-mesh", "kun-mesh-col");
+					LoadModel("gon-male-mesh", "gon-male-mesh-col");
+					LoadModel("gon-female-mesh", "gon-female-mesh-col");
+					LoadModel("lyn-male-mesh", "lyn-male-mesh-col");
+					LoadModel("lyn-female-mesh", "lyn-female-col");
+					LoadModel("jin-male-mesh", "jin-male-mesh-col");
+					LoadModel("jin-female-mesh", "jin-female-mesh-col");
+					LoadModel("cat-mesh", "cat-mesh-col");
 
-					var temp = models.Where(model => model.Export != null);
-					if (temp.Any())
-					{
-						models = temp.ToList();
-						return;
-					}
-
+					if (models.Count > 0) return;
 					else if (record.Name == "weapon")
 					{
 						var pet = record.Attributes.Get<Record>("pet");
 						await Load(pet, models);
 
-						var equipshow = record.Attributes["equip-show"];
-						if (!string.IsNullOrEmpty(equipshow?.ToString()))
+						var equipshow = record.Attributes.Get<ObjectPath>("equip-show");
+						if (equipshow.IsValid)
 						{
 							//var EquipShow = FileCache.Pakitem.LoadObject<UShowObject>(equipshow);
 						}
@@ -148,9 +136,9 @@ internal class PreviewModel : RecordCommand
 			{
 				models.Add(new()
 				{
-					Export = await FileCache.Provider.LoadObjectAsync<UObject>(record.Attributes["mesh-name"]?.ToString()),
-					AnimSet = await FileCache.Provider.LoadObjectAsync<UAnimSet>(record.Attributes["anim-set-name"]?.ToString()),
-					Cols = [record.Attributes["material-name-1"]?.ToString(), record.Attributes["material-name-2"]?.ToString(), record.Attributes["material-name-3"]?.ToString()],
+					Export = record.Attributes.Get<ObjectPath>("mesh-name").LoadObject(),
+					Cols = record.Attributes.Get<ObjectPath[]>("material-name"),
+					AnimSet = record.Attributes.Get<ObjectPath>("anim-set-name").LoadObject<UAnimSet>(),
 				});
 				break;
 			}
@@ -159,9 +147,9 @@ internal class PreviewModel : RecordCommand
 			{
 				models.Add(new ModelData()
 				{
-					Export = FileCache.Provider.LoadObject<UObject>(record.Attributes["mesh-name"]?.ToString()),
-					AnimSet = FileCache.Provider.LoadObject<UAnimSet>(record.Attributes["anim-set-name"]?.ToString()),
-					Cols = [record.Attributes["material-name-1"]?.ToString(), record.Attributes["material-name-2"]?.ToString(), record.Attributes["material-name-3"]?.ToString()],
+					Export = record.Attributes.Get<ObjectPath>("mesh-name").LoadObject(),
+					Cols = record.Attributes.Get<ObjectPath[]>("material-name"),
+					AnimSet = record.Attributes.Get<ObjectPath>("anim-set-name").LoadObject<UAnimSet>(),
 				});
 				break;
 			}
@@ -179,9 +167,12 @@ internal class PreviewModel : RecordCommand
 		{
 			if (_snooper != null) return _snooper;
 
-			var scale = ImGuiController.GetDpiScale();
-			var htz = Snooper.GetMaxRefreshFrequency();
-			return _snooper = new Snooper(
+			return Application.Current.Dispatcher.Invoke(() =>
+			{
+				var scale = ImGuiController.GetDpiScale();
+				var htz = Snooper.GetMaxRefreshFrequency();
+
+				return _snooper = new Snooper(
 				new GameWindowSettings { UpdateFrequency = htz },
 				new NativeWindowSettings
 				{
@@ -198,6 +189,7 @@ internal class PreviewModel : RecordCommand
 					StartFocused = false,
 					Title = "3D Viewer"
 				});
+			});
 		}
 	}
 
@@ -228,7 +220,6 @@ internal class PreviewModel : RecordCommand
 						APIVersion = new Version(4, 6),
 						StartVisible = false,
 						StartFocused = false,
-
 						Title = "Model",
 					});
 			});

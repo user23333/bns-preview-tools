@@ -1,5 +1,5 @@
 ﻿using OfficeOpenXml;
-using Xylia.Preview.Data.Helpers;
+using Xylia.Preview.Common;
 using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.UI.Helpers.Output.Tables;
@@ -68,7 +68,7 @@ internal sealed class ItemBuyPriceOut : OutSet
 
 			#region achievemen
 			string AchievementName = record.RequiredAchievementId == 0 ? null :
-				FileCache.Data.Provider.GetTable<Achievement>().FirstOrDefault(o => o.Id == record.RequiredAchievementId && o.Step == record.RequiredAchievementStepMin)?.Name;
+				Globals.GameData.Provider.GetTable<Achievement>().FirstOrDefault(o => o.Id == record.RequiredAchievementId && o.Step == record.RequiredAchievementStepMin)?.Name;
 			sheet.Cells[row, column++].SetValue(AchievementName);
 			#endregion
 

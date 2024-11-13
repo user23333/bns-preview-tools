@@ -1,22 +1,20 @@
-﻿using System.Diagnostics;
-using CUE4Parse.UE4.Pak;
-using Xylia.Preview.Common.Extension;
-using Xylia.Preview.Data.Engine.BinData.Definitions;
+﻿using CUE4Parse.UE4.Pak;
+using Xylia.Preview.Common.Exceptions;
 using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Data.Engine.Definitions;
 using Xylia.Preview.Data.Models;
-using Xylia.Preview.Properties;
 
 namespace Xylia.Preview.Data.Client;
 public class BnsDatabase : IEngine, IDisposable
 {
-	#region Constructorss
-	public BnsDatabase(IDataProvider provider = null, DatafileDefinition definition = null)
+	#region Constructors
+	public BnsDatabase(IDataProvider provider, DatafileDefinition definition = null)
 	{
-		_provider = provider ?? DefaultProvider.Load(Settings.Default.GameFolder);
+		_provider = provider;
 		_definition = definition ?? new DefaultDatafileDefinition();
 
-		ArgumentNullException.ThrowIfNull(_provider);
+		ArgumentNullException.ThrowIfNull(provider);
+		BnsDataException.ThrowIfMismatch(provider.Locale.Publisher, _definition.Publisher);
 	}
 	#endregion
 

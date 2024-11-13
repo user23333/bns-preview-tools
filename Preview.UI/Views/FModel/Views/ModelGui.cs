@@ -3,6 +3,7 @@ using CUE4Parse.BNS.Conversion;
 using FModel.Views.Snooper.Models;
 using ImGuiNET;
 using OpenTK.Windowing.Common;
+using Xylia.Preview.UI;
 using Xylia.Preview.UI.ViewModels;
 
 namespace FModel.Views.Snooper;
@@ -21,7 +22,7 @@ public partial class ModelGui : SnimGui
 
 	public override void Render(Snooper s)
 	{
-		this.view = s as ModelView;
+		this.view = (ModelView)s;
 
 		Controller.SemiBold();
 		DrawDockSpace(s.Size);
@@ -59,7 +60,6 @@ public partial class ModelGui : SnimGui
 			ImGui.SetWindowSize(size);
 			ImGui.Image(view.Framebuffer.GetPointer(), size, new Vector2(0, 1), new Vector2(1, 0), Vector4.One);
 
-
 			if (ImGui.IsMouseDown(ImGuiMouseButton.Left))
 			{
 				view.CursorState = CursorState.Grabbed;
@@ -77,27 +77,27 @@ public partial class ModelGui : SnimGui
 
 
 			var pos = new Vector2(0, 5);
-			void SetAttribute(string Name, object Value = null)
+			void SetAttribute(string name, object? value = null)
 			{
 				ImGui.SetCursorPos(pos with { X = 7 });
 
 				var TextColor = new Vector4(.2f, 1.0f, .2f, 1.00f);
-				ImGui.TextColored(TextColor, string.Concat(Name, ":", Value));
+				ImGui.TextColored(TextColor, string.Concat(name, ":", value));
 
 				pos = ImGui.GetCursorPos();
 			}
 
-			var model = view.Renderer.Options.Models.First().Value;
+			var model = (SkeletalModel)view.Renderer.Options.Models.First().Value;
 			SetAttribute("Package", model.Path);
 			SetAttribute("Class", model.Type);
 			SetAttribute("Object", model.Name);
 			pos.Y += 10;
 
-			SetAttribute("Skeleton", (model as SkeletalModel).Skeleton.Name);
+			SetAttribute("Skeleton", model.Skeleton.Name);
 			SetAttribute("LOD", view.Renderer.Options.Models.Count);
 			SetAttribute("UV Set", model.UvCount);
 			SetAttribute("Colors", null);
-			SetAttribute("Bones", (model as SkeletalModel).Skeleton.BoneCount);
+			SetAttribute("Bones", model.Skeleton.BoneCount);
 
 			if (true)
 			{
@@ -115,7 +115,6 @@ public partial class ModelGui : SnimGui
 				ImGui.Text($"Extract files successful.");
 			}
 
-
 			ImGui.End();
 		}
 
@@ -127,7 +126,7 @@ public partial class ModelGui : SnimGui
 		if (!ImGui.BeginMainMenuBar()) return;
 
 		#region Model
-		if (view.Models != null && ImGui.BeginMenu("Model"))
+		if (view.Models != null && ImGui.BeginMenu(StringHelper.Get("Text.Model")))
 		{
 			_viewportFocus = false;
 			foreach (var model in view.Models)
@@ -136,11 +135,10 @@ public partial class ModelGui : SnimGui
 
 				if (ImGui.MenuItem(model.DisplayName ?? "Default"))
 				{
-					view.Renderer.Options = new Options();   //clear model 
+					view.Renderer.Options = new Options();   // clear model 
 					view.TryLoadExport(default, model);
 
 					view.Renderer.Options.SetupModelsAndLights();
-					view.Transform();
 
 					_viewportFocus = true;
 				}
@@ -149,10 +147,12 @@ public partial class ModelGui : SnimGui
 			ImGui.EndMenu();
 		}
 		else _viewportFocus = true;
+
+		ArgumentNullException.ThrowIfNull(view.SelectedData);
 		#endregion
 
-		#region Anim 
-		if (view.SelectedData.AnimSet != null && ImGui.BeginMenu("Anim Sequence"))
+		#region Anim
+		if (view.SelectedData.AnimSet != null && ImGui.BeginMenu(StringHelper.Get("Text.AnimSequence")))
 		{
 			_viewportFocus = false;
 			foreach (var sequence in view.SelectedData.AnimSet.AnimSequenceMap)
@@ -175,19 +175,17 @@ public partial class ModelGui : SnimGui
 		else _viewportFocus = true;
 		#endregion
 
-
-		#region Settings 
-		if (ImGui.BeginMenu("Settings"))
+		#region More 
+		if (ImGui.BeginMenu(StringHelper.Get("Text.More")))
 		{
 			//if (ImGui.MenuItem("Show FPS", "", ref ShowFps))
 			//	view.ShowFps = ShowFps;
 
-			if (ImGui.MenuItem("Extract"))
+			if (ImGui.MenuItem(StringHelper.Get("Text.Extract")))
 			{
 				lastTime = DateTime.Now;
 				new Exporter(UserSettings.Default.OutputFolderResource).Run(view.SelectedData.Export);
 			}
-
 
 			ImGui.EndMenu();
 		}

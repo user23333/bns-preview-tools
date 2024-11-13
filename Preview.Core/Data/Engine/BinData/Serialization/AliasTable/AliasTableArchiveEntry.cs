@@ -1,4 +1,5 @@
-﻿using Xylia.Preview.Data.Common.DataStruct;
+﻿using System.Text;
+using Xylia.Preview.Data.Common.DataStruct;
 namespace Xylia.Preview.Data.Engine.BinData.Serialization;
 public class AliasTableArchiveEntry
 {
@@ -12,4 +13,16 @@ public class AliasTableArchiveEntry
 	public Ref ToRef() => (Begin | (long)End << 32) >> 1;
 
 	public override string ToString() => $"{Begin >> 1}-{End} IsLeaf:{IsLeaf}";
+
+	internal AliasTableArchiveEntry()
+	{
+
+	}
+
+	internal AliasTableArchiveEntry(DataArchive reader)
+	{
+		StringOffset = reader.ReadLongInt();
+		Begin = reader.Read<uint>();
+		End = reader.Read<uint>();
+	}
 }

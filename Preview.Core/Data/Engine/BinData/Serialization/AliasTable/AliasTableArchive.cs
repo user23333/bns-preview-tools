@@ -1,68 +1,77 @@
 ﻿using System.Text;
 using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Engine.BinData.Models;
+using static Xylia.Preview.Data.Engine.BinData.Serialization.AliasTableBuilder;
 
 namespace Xylia.Preview.Data.Engine.BinData.Serialization;
 internal class AliasTableArchive : AliasTable
 {
-	#region Data
-	private Dictionary<string, Ref> _table;
-
-	internal override Dictionary<string, Ref> Table
-    {
-        get
-        {
-            if (_table is null)
-            {
-                _table = [];
-
-				// load data
-				Read(this);
-				CreateNode(RootEntry, string.Empty);
-            }
-
-            return _table;
-        }
-    }
-	#endregion
-
-	#region Read
-	private static readonly Encoding KoreanEncoding = CodePagesEncodingProvider.Instance.GetEncoding(949);
-
-	public static AliasTable LazyLoad(DataArchive reader)
+	#region Constructors
+	public AliasTableArchive(DataArchive reader)
 	{
+		// lazy load
 		var position = reader.Position;
 
-		var globalStringTable = new AliasTableArchive();
-		globalStringTable.RootEntry.Begin = reader.Read<uint>();
-		globalStringTable.RootEntry.End = reader.Read<uint>();
+		RootEntry.Begin = reader.Read<uint>();
+		RootEntry.End = reader.Read<uint>();
 
-		var entryCount = reader.Read<int>();
-
-		if (reader.Is64Bit) reader.Seek(entryCount * 16, SeekOrigin.Current);
-		else reader.Seek(entryCount * 12, SeekOrigin.Current);
-
+		Entries = new AliasTableArchiveEntry[reader.Read<int>()];
+		if (reader.Is64Bit) reader.Seek(Entries.Length * 16, SeekOrigin.Current);
+		else reader.Seek(Entries.Length * 12, SeekOrigin.Current);
 
 		var stringTableSize = reader.Read<int>();
 		reader.Seek(stringTableSize, SeekOrigin.Current);
 
-		globalStringTable.Source = reader.OffsetedSource(position, reader.Position - position);
-
-		return globalStringTable;
+		Source = reader.OffsetedSource(position, reader.Position - position);
 	}
 
-	public static void Read(AliasTableArchive table)
+	public AliasTableArchive()
 	{
-		var reader = table.Source;
-		table.RootEntry.Begin = reader.Read<uint>();
-		table.RootEntry.End = reader.Read<uint>();
 
-		var entryCount = reader.Read<int>();
-		table.Entries = new List<AliasTableArchiveEntry>(entryCount);
+	}
+	#endregion
 
-		for (var i = 0; i < entryCount; i++)
+	#region Properties
+	public DataArchive Source { get; set; }
+
+	public AliasTableArchiveEntry[] Entries { get; internal set; }
+
+	public AliasTableArchiveEntry RootEntry { get; } = new AliasTableArchiveEntry();
+
+
+	private Dictionary<string, Ref> _table;
+	internal override Dictionary<string, Ref> Table
+	{
+		get
 		{
-			table.Entries.Add(ReadEntry(reader));
+			if (_table is null)
+			{
+				_table = [];
+
+				//load data
+				Read();
+				Expand(RootEntry, string.Empty);
+			}
+
+			return _table;
+		}
+	}
+	
+	internal override int Count => Entries.Length;
+	#endregion
+
+	#region Methods
+	public void Read()
+	{
+		var reader = this.Source;
+		RootEntry.Begin = reader.Read<uint>();
+		RootEntry.End = reader.Read<uint>();
+
+		Entries = new AliasTableArchiveEntry[reader.Read<int>()];
+
+		for (var i = 0; i < Entries.Length; i++)
+		{
+			Entries[i] = new AliasTableArchiveEntry(reader);
 		}
 
 		var stringTableSize = reader.Read<int>(); // Total size of string table
@@ -72,60 +81,21 @@ internal class AliasTableArchive : AliasTable
 
 		Span<byte> buffer = stackalloc byte[256];
 
-		foreach (var entry in table.Entries)
+		foreach (var entry in Entries)
 		{
 			memoryReader.BaseStream.Seek(entry.StringOffset, SeekOrigin.Begin);
-			entry.String = ReadAliasString(memoryReader, buffer);
+			entry.String = KoreanStringComparer.ReadAliasString(memoryReader, buffer);
 		}
 	}
 
-	private static string ReadAliasString(BinaryReader reader, Span<byte> buffer)
-	{
-		var position = reader.BaseStream.Position;
-		var size = 0;
-
-		while (true)
-		{
-			if (reader.ReadByte() == 0)
-				break;
-
-			size++;
-		}
-
-		buffer = buffer[..size];
-		reader.BaseStream.Seek(position, SeekOrigin.Begin);
-		reader.Read(buffer);
-		reader.ReadByte();
-
-		return KoreanEncoding.GetString(buffer);
-	}
-
-	private static AliasTableArchiveEntry ReadEntry(DataArchive reader)
-	{
-		return new AliasTableArchiveEntry
-		{
-			StringOffset = reader.ReadLongInt(),
-			Begin = reader.Read<uint>(),
-			End = reader.Read<uint>()
-		};
-	}
-	#endregion
-
-	#region Methods
-	public DataArchive Source { get; internal set; }
-
-	public AliasTableArchiveEntry RootEntry { get; } = new AliasTableArchiveEntry();
-
-	public List<AliasTableArchiveEntry> Entries { get; internal set; }
-
-	private void CreateNode(AliasTableArchiveEntry entry, string path)
+	private void Expand(AliasTableArchiveEntry entry, string path)
 	{
 		path += entry.String;
 
 		if (entry.IsLeaf)
 		{
 			for (uint i = entry.Begin >> 1; i <= entry.End; i++)
-				CreateNode(Entries[(int)i], path);
+				Expand(Entries[(int)i], path);
 		}
 		else
 		{

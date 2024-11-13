@@ -3,7 +3,6 @@
 namespace CUE4Parse.UE4.Assets.Exports;
 public class UUserWidget : USerializeObject
 {
-	[UPROPERTY] public bool bNeverActivate;
 	[UPROPERTY] public bool bIsVariable;
 	[UPROPERTY] public string Visibility;
 

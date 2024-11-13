@@ -1,11 +1,10 @@
 ﻿using System.Collections;
 using Xylia.Preview.Common.Attributes;
 using Xylia.Preview.Common.Extension;
-using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Models.Sequence;
 
 namespace Xylia.Preview.Data.Models;
-public sealed class ItemImproveOptionList : ModelElement, IItemRecipeHelper
+public sealed class ItemImproveOptionList : ModelElement, IRecipeHelper
 {
 	#region Attributes
 	public JobSeq Job { get; set; }
@@ -56,7 +55,7 @@ public sealed class ItemImproveOptionList : ModelElement, IItemRecipeHelper
 	#region Methods
 	public IEnumerable GetOptions(sbyte level)
 	{
-		var options = new List<Tuple<ItemImproveOption, string>>();
+		var options = new List<Tuple<ItemImproveOption, double>>();
 
 		for (int i = 0; i < Option.Length; i++)
 		{
@@ -64,27 +63,27 @@ public sealed class ItemImproveOptionList : ModelElement, IItemRecipeHelper
 			if (option is null) continue;
 
 			option = this.Provider.GetTable<ItemImproveOption>()[option.Id + ((long)level << 32)];
-			options.Add(new(option, ((double)OptionWeight[i] / OptionWeightTotal).ToString("P3")));
+			options.Add(new(option, (double)OptionWeight[i] / OptionWeightTotal));
 		}
 
 		return options;
 	}
 
-	public IEnumerable<ItemRecipeHelper> CreateRecipe()
+	public IEnumerable<RecipeHelper> GetRecipes()
 	{
-		var recipes = new List<ItemRecipeHelper>();
+		var recipes = new List<RecipeHelper>();
 
 		for (sbyte i = 1; i <= 4; i++)
 		{
 			var CostMoney = Attributes.Get<int>("draw-cost-money-" + i);
-			var CostMainItem = Attributes.Get<Record>("draw-cost-main-item-" + i)?.As<Item>();
+			var CostMainItem = Attributes.Get<Item>("draw-cost-main-item-" + i);
 			if (CostMainItem is null) continue;
 
 			var CostMainItemCount = Attributes.Get<short>("draw-cost-main-item-count-" + i);
-			var CostSubItem = LinqExtensions.For(6, (id) => Attributes.Get<Record>($"draw-cost-sub-item-{i}-{id}")?.As<Item>());
+			var CostSubItem = LinqExtensions.For(6, (id) => Attributes.Get<Item>($"draw-cost-sub-item-{i}-{id}"));
 			var CostSubItemCount = LinqExtensions.For(6, (id) => Attributes.Get<short>($"draw-cost-sub-item-count-{i}-{id}"));
 
-			recipes.Add(new ItemRecipeHelper()
+			recipes.Add(new RecipeHelper()
 			{
 				MainItem = CostMainItem,
 				MainItemCount = CostMainItemCount,

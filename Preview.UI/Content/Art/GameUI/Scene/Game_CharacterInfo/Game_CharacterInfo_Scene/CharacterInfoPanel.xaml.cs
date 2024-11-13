@@ -2,9 +2,9 @@
 using System.Diagnostics;
 using System.IO;
 using Microsoft.Web.WebView2.Core;
-using Xylia.Preview.Data.Helpers;
+using Xylia.Preview.Common;
 using Xylia.Preview.Data.Models;
-using Xylia.Preview.Data.Models.Config;
+using Xylia.Preview.Data.Models.Configuration;
 
 namespace Xylia.Preview.UI.GameUI.Scene.Game_CharacterInfo;
 public partial class CharacterInfoPanel
@@ -18,15 +18,15 @@ public partial class CharacterInfoPanel
 		CharacterInfoPanelWeb.PostMessage += CharacterInfoPanelWeb_PostMessage;
 
 
-		var config = FileCache.Data.Provider?.GetFiles("release.config2.xml").FirstOrDefault();
-		var release = ConfigTable.LoadFrom<Release>(config) ?? throw new FileNotFoundException();
+		var config = Globals.GameData.Provider?.GetFiles("release.config2.xml").FirstOrDefault();
+		var release = Table.LoadFrom<Release>(config) ?? throw new FileNotFoundException();
 
-		var group = release.group.First(x => x.name == "in-game-web");
-		CharacterInfoUrl = group["character-info-url"]?.value;
-		CharacterInfoUrl2 = group["character-info-url-2"]?.value;
-		CharacterInfoHomeUrn = group["character-info-home-urn"]?.value;
-		CharacterInfoOtherHomeUrn = group["character-info-other-home-urn"]?.value;
-		CharacterInfoDiffHomeUrn = group["character-info-diff-home-urn"]?.value;
+		var group = release["in-game-web"];
+		CharacterInfoUrl = group["character-info-url"]?.Value;
+		CharacterInfoUrl2 = group["character-info-url-2"]?.Value;
+		CharacterInfoHomeUrn = group["character-info-home-urn"]?.Value;
+		CharacterInfoOtherHomeUrn = group["character-info-other-home-urn"]?.Value;
+		CharacterInfoDiffHomeUrn = group["character-info-diff-home-urn"]?.Value;
 
 		InitUrl(new Creature() { WorldId = 1911, Name = "三千问乀" });
 	}
@@ -65,7 +65,7 @@ public partial class CharacterInfoPanel
 			//		var data = query["item"].Split('.').Select(int.Parse).ToArray();
 			//		Trace.WriteLine(data.Aggregate("", (sum, now) => sum + now + ";"));
 
-			//		//Task.Run(() => FileCache.Data.Item[data[0], data[1]].PreviewShow());
+			//		//Task.Run(() => Globals.GameData.Item[data[0], data[1]].PreviewShow());
 			//	}
 			//}
 		});

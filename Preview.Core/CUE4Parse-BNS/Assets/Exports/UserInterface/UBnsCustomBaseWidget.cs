@@ -2,31 +2,430 @@
 using CUE4Parse.UE4.Objects.UObject;
 
 namespace CUE4Parse.BNS.Assets.Exports;
-public abstract class UBnsCustomBaseWidget : UUserWidget 
+public abstract class UBnsCustomBaseWidget : UUserWidget
 {
-	[UPROPERTY] public bool bApplyAlphaToBlur;
-	[UPROPERTY] public bool bEnableActivateEvent;
-	[UPROPERTY] public bool bEnableCustomize;
-	[UPROPERTY] public bool bEnableEscapeKey;
-	[UPROPERTY] public bool bEnableTopOrder;
-	[UPROPERTY] public bool bEnableLeftButton;
-	[UPROPERTY] public bool bEnableRightButton;
-	[UPROPERTY] public bool bEnableWheel;
-	[UPROPERTY] public bool bStartedVisible;
-	[UPROPERTY] public bool bUseLocalFont;
-	[UPROPERTY] public bool bVisibleBlend;
+	[UPROPERTY] public bool bCommonEnable;
 	[UPROPERTY] public bool bVisibleScale;
-	[UPROPERTY] public bool CanAssignWidgetID;
-	[UPROPERTY] public string MetaData;
-	[UPROPERTY] public string ScaleHorizontalAlignment;
-	[UPROPERTY] public string ScaleVerticalAlignment;
-	[UPROPERTY] public ResizeLink HorizontalResizeLink;
-	[UPROPERTY] public ResizeLink VerticalResizeLink;
-
-	[UPROPERTY] public FPackageIndex ShowEvent;
+	[UPROPERTY] public bool bVisibleBlend;
+	[UPROPERTY] public bool bNeverActivateChildren;
+	[UPROPERTY] public bool bNeverActivate;
+	//PublisherVisibleStarted
+	[UPROPERTY] public bool bStartedVisible;
+	[UPROPERTY] public FPackageIndex ActiveEvent;
 	[UPROPERTY] public FPackageIndex HideEvent;
+	[UPROPERTY] public FPackageIndex ShowEvent;
+	[UPROPERTY] public FPackageIndex ActiveParticle;
+	[UPROPERTY] public bool bEnableActiveParticle;
 
+	[UPROPERTY] public bool AutoResizeHorizontal;
+	[UPROPERTY] public bool AutoResizeVertical;
+	[UPROPERTY] public float MinAutoResizeHorizontal;
+	[UPROPERTY] public float MinAutoResizeVertical;
+	[UPROPERTY] public float MaxAutoResizeHorizontal;
+	[UPROPERTY] public float MaxAutoResizeVertical;
+	[UPROPERTY] public BnsCustomResizeLink HorizontalResizeLink;
+	[UPROPERTY] public BnsCustomResizeLink VerticalResizeLink;
+	[UPROPERTY] public bool bIgnoreVerticalEnableResize;
+	[UPROPERTY] public bool bIgnoreHorizontalEnableResize;
+	[UPROPERTY] public bool bIgnoreBoundResize;
+	//EnableBoundResize;
+	//EnableResize;
+	[UPROPERTY] public bool bVerticalResizeHide;
+	[UPROPERTY] public bool bHorizontalResizeHide;
+	[UPROPERTY] public bool bApplyAlphaToBlur;
+	[UPROPERTY] public FPackageIndex RegionImageSet;
+
+	[UPROPERTY] public bool bIgnoreOwnerWheelEvent;
+	[UPROPERTY] public bool bEnableWheel;
+	//IgnoreInputRClicked;
+	//IgnoreInputClicked;
+	[UPROPERTY] public bool bEnableActiveOnly;
+	[UPROPERTY] public bool bChildrenEnableActivateEvent;
+	[UPROPERTY] public bool bEnableActivateEvent;
+	//MetaDataByPublisher;
+	[UPROPERTY] public UBnsCustomExpansionComponent[] ExpansionComponentList;
+	//DimensionSize;
+	[UPROPERTY] public bool bUseDimensionSize;
+	[UPROPERTY] public string ScaleVerticalAlignment;
+	[UPROPERTY] public string ScaleHorizontalAlignment;
+	[UPROPERTY] public int WidgetID;
+	[UPROPERTY] public bool CanAssignWidgetID;
+
+
+	[UPROPERTY] public string MetaData;
 	[UPROPERTY] public StringProperty StringProperty;
 	[UPROPERTY] public ImageProperty BaseImageProperty;
-	[UPROPERTY] public ExpansionComponent[] ExpansionComponentList;
+}
+
+
+public enum EBnsCustomDesiredSizeType
+{
+	PROPERTY,
+	CONTENTS_SIZE,
+	CALCULATE_SIZE,
+	CACHED_GEOMETRY,
+}
+
+public enum EBNSCustomExpansionComponentWidgetPresetFactorType
+{
+	Overwrite,
+	Preserve_Background,
+	Preserve_Foreground,
+}
+
+public enum EBnsCustomUIAnimationKeyType
+{
+	Position,
+	Resize,
+	Scale,
+	Alpha,
+	Scroll,
+	Show,
+	Hide,
+	Clipping,
+}
+
+public enum EBnsUIDragAndDropFailReason
+{
+	NONE,
+	NORMAL_CANCEL,
+	NOTFOUND_POSSIBLE_WIDGET
+}
+
+public enum EUIPanelContentType
+{
+	NONE,
+	DIALOG,
+	HUD,
+	WINDOW,
+	BACKGROUND_WINDOW,
+	CONFIRM,
+	WEB_BROWSER_WINDOW,
+}
+
+public enum EActionIconContextState
+{
+	ACTIONICON_STATE_NOT_USED,
+	ACTIONICON_STATE_NONE,
+	ACTIONICON_STATE_STATE_CHANGE,
+	ACTIONICON_STATE_COMBO,
+	ACTIONICON_STATE_EVENT_SKILL,
+	ACTIONICON_STATE_IMMUNE_BREAK,
+	ACTIONICON_STATE_STANCE,
+	ACTIONICON_STATE_INVENTORY,
+	ACTIONICON_STATE_RESIST_BOSS_SKILL,
+	ACTIONICON_STATE_DUEL_TAG_MATCH,
+	ACTIONICON_STATE_DUELBOT_CARD,
+	ACTIONICON_STATE_COMBO_HIGHLIGHT
+}
+
+public enum EActionIconStatus
+{
+	ACTIONICON_STATUS_NORMAL,
+	ACTIONICON_STATUS_NOTACQUIRED,
+	ACTIONICON_STATUS_NOTUSE,
+	ACTIONICON_STATUS_NOTENOUGH_MATERIAL,
+	ACTIONICON_STATUS_BONUS_MATERIAL,
+	ACTIONICON_STATUS_NOTENOUGH_TRANSFORM_MATERIAL,
+	ACTIONICON_STATUS_REQUIRED,
+	ACTIONICON_STATUS_REQUIRED_FAIL,
+	ACTIONICON_STATUS_NOTENOUGH_REPAIRER,
+	ACTIONICON_STATUS_NOTENOUGH_SEWING_MATERIAL,
+	ACTIONICON_STATUS_COUNT
+}
+
+public enum EActionIconType
+{
+	ACTIONICON_TYPE_NONE,
+	ACTIONICON_TYPE_SKILL,
+	ACTIONICON_TYPE_SKILL_SPRINT,
+	ACTIONICON_TYPE_SKILL_ACQUIRE_CONDITION,
+	ACTIONICON_TYPE_DUELBOT_CARD,
+	ACTIONICON_TYPE_EFFECT_BUF,
+	ACTIONICON_TYPE_ITEM,
+	ACTIONICON_TYPE_GEM_SLOT_ITEM,
+	ACTIONICON_TYPE_ITEM_BRAND,
+	ACTIONICON_TYPE_QUEST_LOOTING,
+	ACTIONICON_TYPE_SKILL_THROW_GADGET,
+	ACTIONICON_TYPE_SKILL_USE_GADGET,
+	ACTIONICON_TYPE_ACTION_THROW_GADGET,
+	ACTIONICON_TYPE_ACTION_DROP_GADGET,
+	ACTIONICON_TYPE_ACTION_PICKUP_GADGET,
+	ACTIONICON_TYPE_ACTION_PICKUP_DEADBODY,
+	ACTIONICON_TYPE_ACTION_OPEN_POUCH,
+	ACTIONICON_TYPE_ACTION_OPEN_PRIVATE_POUCH,
+	ACTIONICON_TYPE_ACTION_TALK,
+	ACTIONICON_TYPE_ACTION_GATHER_SOURCE,
+	ACTIONICON_TYPE_ACTION_MANIPULATE,
+	ACTIONICON_TYPE_ACTION_PICKUP_ITEM_ALL,
+	ACTIONICON_TYPE_ACTION_PICKUP_ITEM_ALL_FROM_ENV,
+	ACTIONICON_TYPE_ACTION_AIRDASH,
+	ACTIONICON_TYPE_ACTION_AIRDASH_LEAVE,
+	ACTIONICON_TYPE_ACTION_ARENA_PORTAL,
+	ACTIONICON_TYPE_ACTION_RESTORATION,
+	ACTIONICON_TYPE_ACTION_RETURN_TO_TOWN,
+	ACTIONICON_TYPE_ACTION_RESURRECTION,
+	ACTIONICON_TYPE_ACTION_HELP_RESTORATION,
+	ACTIONICON_TYPE_ACTION_SUMMON_HELP_RESTORATION,
+	ACTIONICON_TYPE_ACTION_SOCIAL_GROUP,
+	ACTIONICON_TYPE_ACTION_SOCIAL,
+	ACTIONICON_TYPE_ACTION_SOCIAL_ESCAPE,
+	ACTIONICON_TYPE_ACTION_SOCIAL_SELECT_GROUP,
+	ACTIONICON_TYPE_ACTION_SOCIAL_EMPTY_QUICK_SLOT_NORMAL,
+	ACTIONICON_TYPE_ACTION_SOCIAL_EMPTY_QUICK_SLOT_SPECIAL,
+	ACTIONICON_TYPE_ACTION_SOCIAL_EMPTY_QUICK_SLOT_SPECIAL_ACCESSORY,
+	ACTIONICON_TYPE_MONEY,
+	ACTIONICON_TYPE_ACTION_PARTY_MATCH,
+	ACTIONICON_TYPE_ACTION_SEXTET_PARTY_MATCH,
+	ACTIONICON_TYPE_ACTION_REPAIR,
+	ACTIONICON_TYPE_ACTION_RESCUE_ME,
+	ACTIONICON_TYPE_ACTION_SELF_RESURRECT_UNEQIPED,
+	ACTIONICON_TYPE_ACTION_CHECK_PC_INFORMATION,
+	ACTIONICON_TYPE_ACTION_HEART_RECHARGE,
+	ACTIONICON_TYPE_SKILL_LOCKED,
+	ACTIONICON_TYPE_ACTION_SURRENDER,
+	ACTIONICON_TYPE_HUD_CUSTOMIZE_DEFAULT,
+	ACTIONICON_TYPE_GUILD_BANK,
+	ACTIONICON_TYPE_AUTO_RUN_ON,
+	ACTIONICON_TYPE_AUTO_RUN_OFF,
+	ACTIONICON_TYPE_MOVE_CAMERA_ON,
+	ACTIONICON_TYPE_MOVE_CAMERA_OFF,
+	ACTIONICON_TYPE_ATTENDANCE_GOODS,
+	ACTIONICON_TYPE_DRAGON_JADE,
+	ACTIONICON_TYPE_SKILL_SKIN,
+	ACTIONICON_TYPE_FISHING_CANCEL,
+	ACTIONICON_TYPE_FISHING_HOOK_SET,
+	ACTIONICON_TYPE_STONE,
+	ACTIONICON_TYPE_ENERGYPOINT_REWARD,
+	ACTIONICON_TYPE_ACTION_GETOFF_VEHICLE,
+	ACTIONICON_TYPE_ACTION_ATTRACTION_POPUP,
+	ACTIONICON_TYPE_ACTION_GLYPH,
+	ACTIONICON_TYPE__ICON_IMAGE,
+	ACTIONICON_TYPE__SKILL_TRAIN_BY_ITEM,
+	ACTIONICON_TYPE_SECONDARY_MONEY_BLUE,
+	ACTIONICON_TYPE_SECONDARY_MONEY_RED,
+	ACTIONICON_TYPE_DUELNPCCHALLENGE_SKILL,
+	ACTIONICON_TYPE_COUNT
+}
+
+public enum EBNSWidgetFunctionType
+{
+	BNS_WIDGET_FUNCTION_NONE,
+	BNS_WIDGET_FUNCTION_SET_WIDGET_HORIZONTAL_LINK,
+	BNS_WIDGET_FUNCTION_SET_WIDGET_VERTICAL_LINK,
+	BNS_WIDGET_FUNCTION_SET_WIDGET_POSITION_LINKED,
+	BNS_WIDGET_FUNCTION_SET_WIDGET_POSITION,
+	BNS_WIDGET_FUNCTION_SET_WIDGET_ALIGNMENT,
+	BNS_WIDGET_FUNCTION_SET_COMMON_ENABLE_PROPERTIES,
+	BNS_WIDGET_FUNCTION_SET_TIMER,
+	BNS_WIDGET_FUNCTION_REMOVE_TIMER,
+	BNS_WIDGET_FUNCTION_SHOW,
+	BNS_WIDGET_FUNCTION_HIDE,
+	BNS_WIDGET_FUNCTION_SET_TEXT_VALUE,
+	BNS_WIDGET_FUNCTION_MAX
+}
+
+public enum EBnsCustomResizeLinkType
+{
+	BNS_CUSTOM_BORDER_LINK_LEFT,
+	BNS_CUSTOM_BORDER_LINK_RIGHT,
+	BNS_CUSTOM_BORDER_LINK_CENTER,
+	BNS_CUSTOM_BORDER_LINK_RIGHT_AND_LEFT,
+	BNS_CUSTOM_WIDGET_LINK_LEFT,
+	BNS_CUSTOM_WIDGET_LINK_RIGHT,
+	BNS_CUSTOM_WIDGET_LINKNRESIZE_LEFT,
+	BNS_CUSTOM_WIDGET_LINKNRESIZE_RIGHT,
+	BNS_CUSTOM_WIDGET_LINKNRESIZE_RIGHT_AND_LEFT
+}
+
+public enum EBNSCustomWidgetEventStateType
+{
+	BNSCustomWidgetEventState_Pressed,
+	BNSCustomWidgetEventState_Clicked,
+	BNSCustomWidgetEventState_Show,
+	BNSCustomWidgetEventState_Hide,
+	BNSCustomWidgetEventState_Active,
+}
+
+public enum EBNSCustomWidgetStateType
+{
+	BNSCustomWidgetState_None,
+	BNSCustomWidgetState_Normal,
+	BNSCustomWidgetState_Active,
+	BNSCustomWidgetState_Pressed,
+	BNSCustomWidgetState_Disabled,
+	BNSCustomWidgetState_ActiveOnly,
+}
+
+public enum EBNSCustomTextClipMode
+{
+	BNSCustomTextClipMode_Ellipsis,
+	BNSCustomTextClipMode_Wrap,
+}
+
+public enum EBNSCustomJustificationType
+{
+	BNSCustomJustification_Type_Normal,
+	BNSCustomJustification_Type_LineFeedByWidgetArea,
+	BNSCustomJustification_Type_LineFeedByLineArea,
+}
+
+public enum EBNSCustomWidgetFace
+{
+	WidgetFaceFace_Left,
+	WidgetFaceFace_Top,
+	WidgetFaceFace_Right,
+	WidgetFaceFace_Bottom,
+	WidgetFaceFace_Max
+}
+
+public enum EBNSCustomToggleCheckType
+{
+	BNSCustomToggleCheckType_Clicked,
+	BNSCustomToggleCheckType_Pressed,
+	BNSCustomToggleCheckType_MAX
+}
+
+public enum EBNSCustomToggleType
+{
+	BNSCustomToggleType_CheckBox,
+	BNSCustomToggleType_Toggle,
+	BNSCustomToggleType_MAX
+}
+
+public enum EBNSCustomExpansionWidgetSubState
+{
+	Expansion_WidgetSubState_Normal,
+	Expansion_WidgetSubState_Checked,
+}
+
+public enum EBNSCustomExpansionComponentType
+{
+	IMAGE,
+	STRING
+}
+
+
+
+
+
+
+public enum EScrollDirection
+{
+	Scroll_Down,
+	Scroll_Up
+}
+
+public enum EOrientation
+{
+	Orient_Horizontal,
+	Orient_Vertical
+}
+
+public enum EMenuPlacement
+{
+	MenuPlacement_BelowAnchor,
+	MenuPlacement_CenteredBelowAnchor,
+	MenuPlacement_BelowRightAnchor,
+	MenuPlacement_ComboBox,
+	MenuPlacement_ComboBoxRight,
+	MenuPlacement_MenuRight,
+	MenuPlacement_AboveAnchor,
+	MenuPlacement_CenteredAboveAnchor,
+	MenuPlacement_AboveRightAnchor,
+	MenuPlacement_MenuLeft,
+	MenuPlacement_Center,
+	MenuPlacement_RightLeftCenter,
+	MenuPlacement_MatchBottomLeft,
+}
+
+public enum EVerticalAlignment
+{
+	VAlign_Fill,
+	VAlign_Top,
+	VAlign_Center,
+	VAlign_Bottom,
+}
+
+public enum EHorizontalAlignment
+{
+	HAlign_Fill,
+	HAlign_Left,
+	HAlign_Center,
+	HAlign_Right,
+}
+
+
+
+
+
+
+
+
+public enum EBNSUIStringDirectionType
+{
+	BNS_UISTRING_DIRECTIONTYPE_LEFT,
+	BNS_UISTRING_DIRECTIONTYPE_TOP,
+	BNS_UISTRING_DIRECTIONTYPE_RIGHT,
+	BNS_UISTRING_DIRECTIONTYPE_BOTTOM,
+	BNS_UISTRING_DIRECTIONTYPE_TEXTPATH,
+	BNS_UISTRING_DIRECTIONTYPE_REVERSETEXTPATH,
+	BNS_UISTRING_DIRECTIONTYPE_MAX
+}
+
+public enum EBNSUITextStyleMaskType
+{
+	BNS_UITEXT_STYLEMASKTYPE_ALPHA,
+	BNS_UITEXT_STYLEMASKTYPE_COLOR,
+	BNS_UITEXT_STYLEMASKTYPE_FADE,
+	BNS_UITEXT_STYLEMASKTYPE_MAX
+}
+
+public enum EBNSUIStringAreaType
+{
+	BNS_UISTRING_AREATYPE_TEXT,
+	BNS_UISTRING_AREATYPE_LINE,
+	BNS_UISTRING_AREATYPE_RENDERBOX,
+	BNS_UISTRING_AREATYPE_MAX
+}
+
+public enum EBNSUIRenderDataType
+{
+	BNS_UIRENDER_DATATYPE_TEXT,
+	BNS_UIRENDER_DATATYPE_IMAGE,
+	BNS_UIRENDER_DATATYPE_BACKGROUND_TAG_IMAGE,
+	BNS_UIRENDER_DATATYPE_MAX
+}
+
+public enum EUIAlignment
+{
+	BNS_UIALIGN_Left,
+	BNS_UIALIGN_Center,
+	BNS_UIALIGN_Right,
+	BNS_UIALIGN_Default,
+	BNS_UIALIGN_MAX
+}
+
+public enum EBNSUIWidgetFace
+{
+	BNS_UIFACE_Left,
+	BNS_UIFACE_Top,
+	BNS_UIFACE_Right,
+	BNS_UIFACE_Bottom,
+	BNS_UIFACE_MAX
+}
+
+public enum EBNSSperateImageType
+{
+	BNS_SperateImageType_1Frame,
+	BNS_SperateImageType_3Frame,
+	BNS_SperateImageType_9Frame,
+	BNS_SperateImageType_MAX
+}
+
+public enum EBNSUIOrientation
+{
+	BNS_UIORIENT_Horizontal,
+	BNS_UIORIENT_Vertical,
+	BNS_UIORIENT_MAX
 }

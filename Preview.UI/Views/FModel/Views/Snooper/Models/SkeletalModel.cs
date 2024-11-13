@@ -1,9 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.Numerics;
 using CUE4Parse_Conversion.Meshes.PSK;
 using CUE4Parse.UE4.Assets.Exports.Animation;
 using CUE4Parse.UE4.Assets.Exports.SkeletalMesh;
 using CUE4Parse.UE4.Objects.Core.Math;
+using CUE4Parse.UE4.Objects.PhysicsEngine;
 using CUE4Parse.UE4.Objects.UObject;
 using FModel.Views.Snooper.Animations;
 using FModel.Views.Snooper.Buffers;
@@ -44,23 +46,73 @@ public class SkeletalModel : UModel
             Sockets.Add(new Socket(socket));
         }
 
-        Morphs = new List<Morph>();
-        for (var i = 0; i < export.MorphTargets.Length; i++)
+        if (export.PhysicsAsset.TryLoad(out UPhysicsAsset physicsAsset))
         {
-            if (!export.MorphTargets[i].TryLoad(out UMorphTarget morphTarget) ||
-                morphTarget.MorphLODModels.Length < 1 || morphTarget.MorphLODModels[0].Vertices.Length < 1)
+            foreach (var skeletalBodySetup in physicsAsset.SkeletalBodySetups)
+            {
+                if (!skeletalBodySetup.TryLoad(out USkeletalBodySetup bodySetup) || bodySetup.AggGeom == null) continue;
+                foreach (var convexElem in bodySetup.AggGeom.ConvexElems)
+                {
+                    Collisions.Add(new Collision(convexElem, bodySetup.BoneName));
+                }
+                foreach (var sphereElem in bodySetup.AggGeom.SphereElems)
+                {
+                    Collisions.Add(new Collision(sphereElem, bodySetup.BoneName));
+                }
+                foreach (var boxElem in bodySetup.AggGeom.BoxElems)
+                {
+                    Collisions.Add(new Collision(boxElem, bodySetup.BoneName));
+                }
+                foreach (var sphylElem in bodySetup.AggGeom.SphylElems)
+                {
+                    Collisions.Add(new Collision(sphylElem, bodySetup.BoneName));
+                }
+                foreach (var taperedCapsuleElem in bodySetup.AggGeom.TaperedCapsuleElems)
+                {
+                    Collisions.Add(new Collision(taperedCapsuleElem, bodySetup.BoneName));
+                }
+            }
+        }
+
+        Morphs = [];
+        if (export.MorphTargets.Length == 0) return;
+
+        export.PopulateMorphTargetVerticesData();
+
+        var verticesCount = Vertices.Length / VertexSize;
+        var cachedVertices = new float[verticesCount * Morph.VertexSize];
+        var vertexLookup = new Dictionary<uint, int>(verticesCount);
+        for (int i = 0; i < Vertices.Length; i += VertexSize)
+        {
+            var count = 0;
+            var baseIndex = i / VertexSize * Morph.VertexSize;
+            vertexLookup[(uint) Vertices[i]] = baseIndex;
+            {
+                cachedVertices[baseIndex + count++] = Vertices[i + 1];
+                cachedVertices[baseIndex + count++] = Vertices[i + 2];
+                cachedVertices[baseIndex + count++] = Vertices[i + 3];
+                cachedVertices[baseIndex + count++] = Vertices[i + 7];
+                cachedVertices[baseIndex + count++] = Vertices[i + 8];
+                cachedVertices[baseIndex + count++] = Vertices[i + 9];
+            }
+        }
+
+        foreach (var morph in export.MorphTargets)
+        {
+            if (!morph.TryLoad(out UMorphTarget morphTarget) || morphTarget.MorphLODModels.Length < 1 ||
+                morphTarget.MorphLODModels[0].Vertices.Length < 1)
                 continue;
 
-            Morphs.Add(new Morph(Vertices, VertexSize, morphTarget));
+            Morphs.Add(new Morph(cachedVertices, vertexLookup, morphTarget));
         }
     }
 
     public SkeletalModel(USkeleton export, FBox box) : base(export)
     {
-        Indices = Array.Empty<uint>();
-        Materials = Array.Empty<Material>();
-        Vertices = Array.Empty<float>();
-        Sections = Array.Empty<Section>();
+        Indices = [];
+        Materials = [];
+        Vertices = [];
+        Sections = [];
         AddInstance(Transform.Identity);
 
         Box = box * Constants.SCALE_DOWN_RATIO;
@@ -93,6 +145,26 @@ public class SkeletalModel : UModel
         Vao.VertexAttributePointer(13, 3, VertexAttribPointerType.Float, Morph.VertexSize, 0); // morph position
         Vao.VertexAttributePointer(14, 3, VertexAttribPointerType.Float, Morph.VertexSize, 0); // morph tangent
         Vao.Unbind();
+    }
+
+    public override void RenderCollision(Shader shader)
+    {
+        base.RenderCollision(shader);
+
+        GL.Disable(EnableCap.DepthTest);
+        GL.Disable(EnableCap.CullFace);
+        GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
+        foreach (var collision in Collisions)
+        {
+            var boneMatrix = Matrix4x4.Identity;
+            if (Skeleton.BonesByLoweredName.TryGetValue(collision.LoweredBoneName, out var bone))
+                boneMatrix = Skeleton.GetBoneMatrix(bone);
+
+            collision.Render(shader, boneMatrix);
+        }
+        GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
+        GL.Enable(EnableCap.CullFace);
+        GL.Enable(EnableCap.DepthTest);
     }
 
     public void Render(Shader shader)

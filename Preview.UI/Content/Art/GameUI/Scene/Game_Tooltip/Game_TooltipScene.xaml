@@ -27,7 +27,7 @@
 	<BnsCustomWindowWidget x:Name="SkillToolTipPanel_1_C" />
 	<BnsCustomWindowWidget x:Name="SkillToolTipPanel_2_C" />
 	<l:Skill3ToolTipPanel_1 x:Name="Skill3ToolTipPanel_1_C" />
-	<l:Skill3ToolTipPanel_2 x:Name="Skill3ToolTipPanel_2_C" />
+	<BnsCustomWindowWidget x:Name="Skill3ToolTipPanel_2_C" />
 	<BnsCustomWindowWidget x:Name="PartySearchRecruitToolTipPanel_C" />
 	<BnsCustomWindowWidget x:Name="AttractionMapUnitToolTipPanel_C" />
 	<BnsCustomWindowWidget x:Name="EnvObjectToolTipPanel_C" />

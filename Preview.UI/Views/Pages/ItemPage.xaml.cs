@@ -1,8 +1,7 @@
-﻿using System.Windows;
-using Xylia.Preview.Data.Common.DataStruct;
-using Xylia.Preview.Data.Helpers;
-using Xylia.Preview.UI.Helpers.Output;
-using Xylia.Preview.UI.Helpers.Output.Tables;
+﻿using System.IO;
+using System.Windows;
+using Xylia.Preview.Common;
+using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.UI.ViewModels;
 using Xylia.Preview.UI.Views.Editor;
 using MessageBox = HandyControl.Controls.MessageBox;
@@ -24,17 +23,9 @@ public partial class ItemPage
 		{
 			"<br/>123456<br/>1111111<br/><br/>222222"
 		};
-		TestListHolder.TestMethod();
 
 		// timer
-		TestLabel.Timers[1] = new Time64(1722541536967);
-		var timer = new System.Windows.Threading.DispatcherTimer();
-		timer.Tick += ((s, e) => TestLabel?.InvalidateVisual());
-		timer.Interval = new TimeSpan(0, 0, 0, 1);
-		timer.IsEnabled = true;
-		timer.Start();
-
-		//Debug.WriteLine("stringstringstring   <arg p=\"2:string\"/>".Replace([null, "test"]));  
+		TestLabel.SetTimer(1, 1722541536967);
 #endif
 	}
 	#endregion
@@ -46,14 +37,16 @@ public partial class ItemPage
 	{
 		if (MessageBox.Show(StringHelper.Get("DatabaseStudio_ConnectMessage1"), StringHelper.Get("Message_Tip"), MessageBoxButton.YesNo) == MessageBoxResult.Yes)
 		{
-			FileCache.Clear();
+			Globals.ClearData();
 			ProcessFloatWindow.ClearMemory();
 		}
 	}
 
-	private async void TestButton1_Click(object sender, RoutedEventArgs e)
+	private void TestButton1_Click(object sender, RoutedEventArgs e)
 	{
-		await OutSet.Start<ChallengeListOut>();
+		var dir = new DirectoryInfo(@"D:\Tencent\BnsData\GameData_ZNcs\20241011");
+		var table = Globals.GameData.Provider.GetTable("text");
+		LocalProvider.ReplaceText(table, dir.GetFiles("*.x16"));
 	}
 	#endregion
 }

@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using CUE4Parse.BNS.Assets.Exports;
 using Xylia.Preview.Data.Models;
-using Xylia.Preview.UI.Common.Interactivity;
 using Xylia.Preview.UI.Controls;
 
 namespace Xylia.Preview.UI.GameUI.Scene.Game_Tooltip;
@@ -12,9 +11,9 @@ public partial class RewardTooltipPanel
 	{
 		InitializeComponent();
 
-		Column1.String.LabelText = StringHelper.Get("Text_Name");
-		Column2.String.LabelText = StringHelper.Get("Text_Group");
-		Column3.String.LabelText = StringHelper.Get("Text_Info");
+		Column1.String.LabelText = StringHelper.Get("Text.Name");
+		Column2.String.LabelText = StringHelper.Get("Text.Group");
+		Column3.String.LabelText = StringHelper.Get("Text.Info");
 	}
 	#endregion
 
@@ -28,106 +27,27 @@ public partial class RewardTooltipPanel
 		ColumnList.Children.Add(Column3);
 
 		int row = 0;
-		switch (e.NewValue)
+		if (e.NewValue is IReward reward)
 		{
-			case Reward record:
+			foreach (var info in reward.GetRewards())
 			{
-				foreach (var info in record.GetInfo())
+				row++;
+
+				ColumnList.AddChild(new BnsCustomLabelWidget()
 				{
-					row++;
-
-					ColumnList.AddChild(new BnsCustomLabelWidget()
-					{
-						String = new StringProperty(info.Element),
-						ToolTip = new RecordTooltip(info.Data),
-					}, row, 0);
-					ColumnList.AddChild(new BnsCustomLabelWidget()
-					{	
-						Tag = info.Group.Item1,
-						String = new StringProperty(info.Group.Item2)
-					}, row, 1);
-					ColumnList.AddChild(new BnsCustomLabelWidget()
-					{
-						String = new StringProperty(info.ProbabilityInfo)
-					}, row, 2);
-				}
-
-				break;
-			}
-
-			case GlyphReward record:
-			{
-				foreach (var info in record.GetInfo())
+					DataContext = info.Data,
+					String = new StringProperty(info.Text),
+					ToolTip = new BnsTooltipHolder(),
+				}, row, 0);
+				ColumnList.AddChild(new BnsCustomLabelWidget()
 				{
-					row++;
-
-					ColumnList.AddChild(new BnsCustomLabelWidget()
-					{
-						String = new StringProperty(info.Data.GlyphName),
-						ToolTip = new RecordTooltip(info.Data),
-					}, row, 0);
-					ColumnList.AddChild(new BnsCustomLabelWidget()
-					{
-						Tag = info.Group,
-						String = new StringProperty(info.Group)
-					}, row, 1);
-					ColumnList.AddChild(new BnsCustomLabelWidget()
-					{
-						String = new StringProperty(info.ProbabilityInfo)
-					}, row, 2);
-				}
-
-				break;
-			}
-
-			case ItemCombination record:
-			{
-				foreach (var info in record.GetInfo())
+					Tag = info.Group,
+					String = new StringProperty(info.GroupText ?? info.Group)
+				}, row, 1);
+				ColumnList.AddChild(new BnsCustomLabelWidget()
 				{
-					row++;
-
-					ColumnList.AddChild(new BnsCustomLabelWidget()
-					{
-						String = new StringProperty(info.Data.ItemName),
-						ToolTip = new RecordTooltip(info.Data),
-					}, row, 0);
-					ColumnList.AddChild(new BnsCustomLabelWidget()
-					{
-						Tag = info.Group,
-						String = new StringProperty(info.Group)
-					}, row, 1);
-					ColumnList.AddChild(new BnsCustomLabelWidget()
-					{
-						String = new StringProperty(info.ProbabilityInfo)
-					}, row, 2);
-				}	 
-
-				break;
-			}
-
-			case WorldAccountCombination record:
-			{
-				foreach (var info in record.GetInfo())
-				{
-					row++;
-
-					ColumnList.AddChild(new BnsCustomLabelWidget()
-					{
-						String = new StringProperty(info.Data.ItemName),
-						ToolTip = new RecordTooltip(info.Data),
-					}, row, 0);
-					ColumnList.AddChild(new BnsCustomLabelWidget()
-					{
-						Tag = info.Group,
-						String = new StringProperty(info.Group)
-					}, row, 1);
-					ColumnList.AddChild(new BnsCustomLabelWidget()
-					{
-						String = new StringProperty(info.ProbabilityInfo)
-					}, row, 2);
-				}
-
-				break;
+					String = new StringProperty(info.ProbabilityInfo)
+				}, row, 2);
 			}
 		}
 	}

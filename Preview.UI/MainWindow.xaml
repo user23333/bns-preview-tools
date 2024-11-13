@@ -3,15 +3,16 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:hc="https://handyorg.github.io/handycontrol"
-	xmlns:UI="https://github.com/xyliaup/bns-preview-tools"
+	xmlns:BNS="https://github.com/xyliaup/bns-preview-tools"
     xmlns:VM="clr-namespace:Xylia.Preview.UI.ViewModels"
 	xmlns:themes="clr-namespace:Xylia.Preview.UI.Resources.Themes"
-	Title="{DynamicResource ProductName}" Icon="{x:Null}" Background="{DynamicResource RegionBrush}"
-	Height="600" Width="900" ResizeMode="CanResize" hc:Dialog.Token="MainContainer">
+	Title="{DynamicResource ProductName}" Background="{DynamicResource RegionBrush}" ResizeMode="CanResize" hc:Dialog.Token="MainContainer" 
+	Height="{Binding ContainerSize.Height,Source={x:Static VM:UserSettings.Default}}" 
+	Width="{Binding ContainerSize.Width,Source={x:Static VM:UserSettings.Default}}">
 	<hc:Window.NonClientAreaContent>
 		<Grid>
 			<Menu HorizontalAlignment="Right" VerticalAlignment="Center">
-				<MenuItem Header="{DynamicResource Text_Repository}">
+				<MenuItem Header="{DynamicResource Text.Repository}">
 					<MenuItem Header="{DynamicResource Application_Github}" Command="hc:ControlCommands.OpenLink" CommandParameter="https://github.com/XyliaUp/bns-preview-tools">
 						<MenuItem.Icon>
 							<Path Data="{StaticResource GithubGeometry}" Fill="{DynamicResource PrimaryTextBrush}" />
@@ -107,7 +108,7 @@
 											<Rectangle x:Name="Rect" Fill="{DynamicResource BorderBrush}" Width="4" HorizontalAlignment="Left" />
 											<DockPanel Margin="20 0 0 0">
 												<Image x:Name="PresenterIcon" HorizontalAlignment="Left" VerticalAlignment="Center" />
-												<TextBlock x:Name="PresenterHeader" Text="{UI:DynamicBinding Name}" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="12" Foreground="{DynamicResource PrimaryTextBrush}"/>
+												<TextBlock x:Name="PresenterHeader" Text="{BNS:DynamicBinding Name}" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="12" Foreground="{DynamicResource PrimaryTextBrush}"/>
 											</DockPanel>
 										</hc:SimplePanel>
 									</Border>
@@ -134,7 +135,7 @@
 						<TextBlock VerticalAlignment="Bottom" Margin="10 5" Foreground="{DynamicResource SecondaryTextBrush}">
 							<TextBlock.ToolTip>
 								<TextBlock>
-								<Run Text="{DynamicResource Text_PublishOn}" />
+								<Run Text="{DynamicResource Text.PublishOn}" />
 								<Run Text="{Binding Source={x:Static VM:VersionHelper.Time},Mode=OneWay,StringFormat={}{0:D}}" />
 								</TextBlock>
 							</TextBlock.ToolTip>
@@ -147,7 +148,7 @@
 					</Grid>
 				</Border>
 			</hc:Drawer>
-			
+
 			<ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Hidden">
 				<StackPanel hc:Growl.GrowlParent="True" VerticalAlignment="Top" Margin="0,10,0,10">
 

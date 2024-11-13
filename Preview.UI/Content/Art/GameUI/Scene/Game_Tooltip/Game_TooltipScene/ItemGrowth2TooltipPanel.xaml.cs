@@ -1,8 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using Xylia.Preview.Common;
 using Xylia.Preview.Common.Extension;
-using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models;
 using Xylia.Preview.Data.Models.Document;
 using Xylia.Preview.Data.Models.Sequence;
@@ -19,7 +19,7 @@ public partial class ItemGrowth2TooltipPanel
 		InitializeComponent();
 		DataContextChanged += OnDataChanged;
 #if DEVELOP
-		DataContext = FileCache.Data.Provider.GetTable<Item>()["Test_N-ShopAccountShippingItem"].Source;
+		DataContext = Globals.GameData.Provider.GetTable<Item>()["Test_N-ShopAccountShippingItem"].Source;
 #endif
 	}
 	#endregion
@@ -41,9 +41,9 @@ public partial class ItemGrowth2TooltipPanel
 				if (ImproveId != 0)
 				{
 					this.ImproveLevel = record.Attributes.Get<sbyte>("improve-level");
-					var Improves = FileCache.Data.Provider.GetTable<ItemImprove>().Where(record => record.Id == ImproveId);
+					var Improves = Globals.GameData.Provider.GetTable<ItemImprove>().Where(record => record.Id == ImproveId);
 
-					// the highest stage may not have improve data, so we will add one stage
+					// the max stage may not have improve data, so we will add one stage
 					var levels = Improves.Select(record => record.Level);
 					if (levels.Any()) levels = levels.Append((sbyte)(levels.Max(x => x) + 1));
 
@@ -89,42 +89,49 @@ public partial class ItemGrowth2TooltipPanel
 		if (sender is not Selector selector || selector.SelectedItem is not ItemImprove Improve) return;
 
 		// search options
-		var OptionList = FileCache.Data.Provider.GetTable<ItemImproveOptionList>()[Improve.SuccessOptionListId + ((long)JobSeq.JobNone << 32)];
+		var record = Globals.GameData.Provider.GetTable<ItemImproveOptionList>()[Improve.SuccessOptionListId + ((long)JobSeq.JobNone << 32)];
 
-		DrawImproveOption_After.ItemsSource = OptionList.GetOptions(ImproveLevel);
-		DrawImproveOption_Desc.String.LabelText = string.Join(BR.Tag, OptionList.CreateRecipe());
+		DrawImproveOption_After.ItemsSource = record.GetOptions(ImproveLevel);
+		DrawImproveOption_Desc.String.LabelText = string.Join(BR.Tag, record.GetRecipes());
 	}
 	#endregion
 
 	#region RandomOption   
 	private void RandomOption_Load(Record record, int RandomOptionGroupId)
 	{
-		var EquipJobCheck = record.Attributes.Get<object[]>("equip-job-check").Cast<string>();
-		var job = UserSettings.Default.Job;
+		var source = new List<NameObject<object>>();
+		var jobs = record.Attributes.Get<JobSeq[]>("equip-job-check").Where(x => x != JobSeq.JobNone);
+		if (!jobs.Any()) jobs = [UserSettings.Default.Job];
 
-		var RandomOptionGroup = FileCache.Data.Provider.GetTable<ItemRandomOptionGroup>()[RandomOptionGroupId + ((long)job << 32)];
-		if (RandomOptionGroup is null) return;
-
-		var data = new List<NameObject<object>>();
-
-		if (RandomOptionGroup.EffectList.HasValue)
+		var group = Globals.GameData.Provider.GetTable<ItemRandomOptionGroup>()[RandomOptionGroupId + ((long)jobs.FirstOrDefault() << 32)];
+		if (group != null)
 		{
-			data.Add(new(RandomOptionGroup.EffectList.Instance, "UI.ItemRandomOption.EffectOption.Title".GetText()));
+			if (group.EffectList.HasValue)
+			{
+				source.Add(new(group.EffectList.Instance, "UI.ItemRandomOption.EffectOption.Title".GetText()));
+			}
+
+			if (group.AbilityListTotalCount > 0)
+			{
+				int index = 0;
+				group.AbilityList.Values().ForEach(x => source.Add(new(x, "UI.ItemRandomOption.SubAbility.Title".GetText([++index]))));
+			}
+
+			if (group.SkillTrainByItemListTotalCount > 0)
+			{
+				var min = group.SkillTrainByItemListSelectMin;
+				var max = group.SkillTrainByItemListSelectMax;
+				source.Add(new(RandomDistribution.Equal(min, max), "UI.RandomOption.Probability.SkillOptionSlot.1DepthTitle".GetText([min, max])));
+			}
+
+			if (group.SkillBuildUpGroupListTotalCount > 0)
+			{
+				int index = 0;
+				group.SkillBuildUpGroupList.Values().ForEach(x => source.Add(new(x, "UI.ItemRandomOption.SkillEnhancement.Title".GetText([++index]))));
+			}
 		}
 
-		if (RandomOptionGroup.AbilityListTotalCount > 0)
-		{
-			int index = 0;
-			RandomOptionGroup.AbilityList.Select(x => x.Instance).ForEach(x => data.Add(new(x, "UI.ItemRandomOption.SubAbility.Title".GetText([++index]))));
-		}
-
-		if (RandomOptionGroup.SkillBuildUpGroupListTotalCount > 0)
-		{
-			int index = 0;
-			RandomOptionGroup.SkillBuildUpGroupList.Select(x => x.Instance).ForEach(x => data.Add(new(x, "UI.ItemRandomOption.SkillEnhancement.Title".GetText([++index]))));
-		}
-
-		RandomOption_Groups.ItemsSource = data;
+		RandomOption_Groups.ItemsSource = source;
 	}
 
 	private void RandomOption_Initialized(object sender, EventArgs e)

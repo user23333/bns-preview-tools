@@ -40,36 +40,136 @@ public partial class TextView
 	}
 	#endregion
 
-	#region Methods (UI)
-	protected override void OnClosed(EventArgs e)
+	#region Commands
+	private void RegisterCommands(CommandBindingCollection commandBindings)
 	{
-		source?.Dispose();
-		source = null;
-
-		diffResult?.Clear();
-		diffResult = null;
-
-		base.OnClosed(e);
+		commandBindings.Add(new CommandBinding(ApplicationCommands.Open, OpenFileCommand));
+		commandBindings.Add(new CommandBinding(ApplicationCommands.Save, SaveCommand, CanExecuteSave));
+		commandBindings.Add(new CommandBinding(ApplicationCommands.SaveAs, SaveAsCommand, CanExecuteSaveAs));
+		commandBindings.Add(new CommandBinding(ApplicationCommands.Replace, ReplaceInFilesCommand, CanExecuteSaveAs));
+		commandBindings.Add(new CommandBinding(ControlCommands.Switch, delegate { }, IsWriteable));
 	}
 
-	private void InlineModeToggle_Click(object sender, RoutedEventArgs e)
+	// Common
+	private async void OpenFileCommand(object sender, RoutedEventArgs e)
 	{
+		var dialog = await Dialog.Show(new FileSelectorDialog()
+		{
+			Filter = @"game text file|local*.dat|source text file|*.x16|All files|*.*",
+			Path1 = UserSettings.Default.TextView_OldPath,
+			Path2 = UserSettings.Default.TextView_NewPath,
+		}).GetResultAsync<FileSelectorDialog>();
 
+		if (dialog.Status == true)
+		{
+			await RenderView(
+				UserSettings.Default.TextView_OldPath = dialog.Path1,
+				UserSettings.Default.TextView_NewPath = dialog.Path2);
+		}
 	}
 
-	private void SideBySideModeToggle_Click(object sender, RoutedEventArgs e)
+	private void ReplaceInFilesCommand(object sender, RoutedEventArgs e)
 	{
+		ArgumentNullException.ThrowIfNull(source);
 
+		var dialog = new OpenFolderDialog();
+		if (dialog.ShowDialog() != true) return;
+
+		Task.Run(() =>
+		{
+			try
+			{
+				// replace
+				var files = new DirectoryInfo(dialog.FolderName).GetFiles("*.x16", SearchOption.AllDirectories);
+				if (files.Length == 0) throw new Exception(StringHelper.Get("TextView_NotExist_x16"));
+				LocalProvider.ReplaceText(source.TextTable, files);
+
+				// reload text
+				var settings = new TableWriterSettings() { Encoding = Encoding.Unicode };
+				var text = settings.Encoding.GetString(source.TextTable.WriteXml(settings));
+
+				Dispatcher.Invoke(() => Editor.Text = text);
+				Growl.Success(StringHelper.Get("TextView_ReplaceCompleted"), TOKEN);
+			}
+			catch (XmlException ex)
+			{
+				Growl.Error(string.Format("{1}\n{0}", ex.Message, ex.SourceUri), TOKEN);
+			}
+			catch (Exception ex)
+			{
+				Growl.Error(string.Format("{0}", ex.Message), TOKEN);
+			}
+		});
 	}
 
-	private void CollapseUnchangedSectionsToggle_Click(object sender, RoutedEventArgs e)
+	private void IsWriteable(object sender, CanExecuteRoutedEventArgs e)
 	{
+		// unable to edit in comparison mode
+		e.CanExecute = Mode is TextViewMode.None or TextViewMode.Single;
+	}
 
+	// Save 
+	bool inSaving = false;
+
+	private void CanExecuteSave(object sender, CanExecuteRoutedEventArgs e)
+	{
+		// only single file and left source
+		e.CanExecute = !inSaving && source != null && source.CanSave;
+	}
+
+	private void SaveCommand(object sender, RoutedEventArgs e)
+	{
+		ArgumentNullException.ThrowIfNull(source);
+		inSaving = true;
+
+		Task.Run(() =>
+		{
+			try
+			{
+				if (source.HaveBackup)
+				{
+					source.HaveBackup = MessageBox.Show(StringHelper.Get("TextView_BackUp_Ask"), StringHelper.Get("Message_Tip"), MessageBoxButton.YesNo) != MessageBoxResult.Yes;
+				}
+
+				Growl.Info(StringHelper.Get("TextView_TaskStart"), TOKEN);
+				var data = Encoding.Unicode.GetBytes(Dispatcher.Invoke(() => Editor.Text));
+				source.Save(data);
+
+				Growl.Success(StringHelper.Get("TextView_SaveCompleted"), TOKEN);
+			}
+			catch (Exception ex)
+			{
+				Growl.Error(ex.Message, TOKEN);
+			}
+			finally
+			{
+				inSaving = false;
+			}
+		});
+	}
+
+	// SaveAs
+	private void CanExecuteSaveAs(object sender, CanExecuteRoutedEventArgs e)
+	{
+		e.CanExecute = source != null;
+	}
+
+	private void SaveAsCommand(object sender, RoutedEventArgs e)
+	{
+		var dialog = new SaveFileDialog
+		{
+			FileName = "TextData",
+			Filter = "xml file|*.x16",
+		};
+		if (dialog.ShowDialog() == true)
+		{
+			File.WriteAllText(dialog.FileName, Editor.Text, Encoding.Unicode);
+		}
 	}
 	#endregion
 
 	#region Methods
-	bool inloading = false;
+	private TextViewMode Mode;  // current working mode
 	private LocalProvider? source;
 	private List<TextDiffPiece>? diffResult;
 
@@ -78,19 +178,23 @@ public partial class TextView
 		ReadStatus.IsChecked = false;
 
 		#region Source
-		var source1 = new LocalProvider(oldPath);
-		var source2 = new LocalProvider(newPath);
+		LocalProvider source1 = new(oldPath), source2 = new(newPath);
 		await Task.Run(() => new BnsDatabase(source1).Initialize());
 		await Task.Run(() => new BnsDatabase(source2).Initialize());
 
-		var IsEmpty1 = source1.TextTable.IsEmpty();
-		var IsEmpty2 = source2.TextTable.IsEmpty();
+		bool IsEmpty1 = source1.TextTable.IsEmpty(), IsEmpty2 = source2.TextTable.IsEmpty();
 		#endregion
 
 		#region Lines
-		if (IsEmpty1 && IsEmpty2) return;
+		if (IsEmpty1 && IsEmpty2)
+		{
+			Mode = TextViewMode.None;
+			OnClosed(null);
+			Editor.Text = null;
+		}
 		else if (!IsEmpty1 && !IsEmpty2)
 		{
+			Mode = TextViewMode.Compare;
 			this.InlineHeaderText.Text = source1.Name + " → " + source2.Name;
 
 			// create diff
@@ -134,10 +238,11 @@ public partial class TextView
 		}
 		else
 		{
+			Mode = TextViewMode.Single;
 			diffResult = null;
+			source = IsEmpty2 ? source1 : source2;
 
-			this.source = IsEmpty2 ? source1 : source2;
-			InlineHeaderText.Text = source.Name;
+			this.InlineHeaderText.Text = source.Name;
 
 			var settings = new TableWriterSettings() { Encoding = Encoding.Unicode };
 			Editor.Text = await Task.Run(() => settings.Encoding.GetString(source.TextTable.WriteXml(settings)));
@@ -147,162 +252,70 @@ public partial class TextView
 
 	private void OnPositionChanged(Control sender)
 	{
-		#region Show
+		#region Display
 		var caret = Editor.TextArea.Caret;
-		ColumnNumber.Text = caret.Column.ToString();
+		var lineNum = caret.Line.ToString();
+		if (lineNum == LineNumber.Text && Mode != TextViewMode.None) return;  // return if same line
 
-		var lineNum = Editor.TextArea.Caret.Line.ToString();
-		if (LineNumber.Text == lineNum) return;
-		else LineNumber.Text = lineNum;
+		LineNumber.Text = lineNum;
+		ColumnNumber.Text = caret.Column.ToString();
 		#endregion
 
 		#region Preview
-		var index = caret.Line - 1;
-		if (diffResult is null)
+		if (Mode == TextViewMode.Compare)
 		{
-			var line = Editor.Document.Lines[index];
+			ArgumentNullException.ThrowIfNull(diffResult);
+			sender.Tag = diffResult.Count < caret.Line ? null : diffResult[caret.Line - 1];
+		}
+		else
+		{
+			var line = Editor.Document.Lines[caret.Line - 1];
 			var text = Editor.Document.Text.Substring(line.Offset, line.Length);
 
-			sender.Tag = Text.Parse(text);
-		}
-		else if (diffResult.Count > index)
-		{
-			sender.Tag = diffResult[index];
+			sender.Tag = Text.Parse(text) ?? new Text(null, text);
 		}
 		#endregion
 	}
 
-
-	private void RegisterCommands(CommandBindingCollection commandBindings)
+	protected override void OnClosed(EventArgs? e)
 	{
-		commandBindings.Add(new CommandBinding(ApplicationCommands.Open, OpenFileCommand));
-		commandBindings.Add(new CommandBinding(ApplicationCommands.Save, SaveCommand, CanExecuteSave));
-		commandBindings.Add(new CommandBinding(ApplicationCommands.SaveAs, SaveAsCommand, CanExecuteSaveAs));
-		commandBindings.Add(new CommandBinding(ApplicationCommands.Replace, ReplaceInFilesCommand, CanExecuteSaveAs));
+		// clear data
+		source?.Dispose();
+		source = null;
+		diffResult?.Clear();
+		diffResult = null;
 
-		// unable to edit in comparison mode
-		commandBindings.Add(new CommandBinding(ControlCommands.Switch, delegate { }, CanExecuteSaveAs));
+		if (e is not null) base.OnClosed(e);
 	}
 
-	private async void OpenFileCommand(object sender, RoutedEventArgs e)
+	private void InlineModeToggle_Click(object sender, RoutedEventArgs e)
 	{
-		var dialog = await Dialog.Show(new FileSelectorDialog()
-		{
-			Filter = @"game text file|local*.dat|source text file|*.x16|All files|*.*",
-			Path1 = UserSettings.Default.Text_OldPath,
-			Path2 = UserSettings.Default.Text_NewPath,
-		}).GetResultAsync<FileSelectorDialog>();
 
-		if (dialog.Status == true)
-		{
-			await RenderView(
-				UserSettings.Default.Text_OldPath = dialog.Path1,
-				UserSettings.Default.Text_NewPath = dialog.Path2);
-		}
 	}
 
-	private void ReplaceInFilesCommand(object sender, RoutedEventArgs e)
+	private void SideBySideModeToggle_Click(object sender, RoutedEventArgs e)
 	{
-		var dialog = new OpenFolderDialog();
-		if (dialog.ShowDialog() != true) return;
 
-		Task.Run(() =>
-		{
-			try
-			{
-				var files = new DirectoryInfo(dialog.FolderName).GetFiles("*.x16", SearchOption.AllDirectories);
-				if (files.Length == 0) throw new Exception(StringHelper.Get("TextView_NotExist_x16"));
-
-				source.ReplaceText(files);
-
-				// reload text
-				var settings = new TableWriterSettings() { Encoding = Encoding.Unicode };
-				var text = settings.Encoding.GetString(source.TextTable.WriteXml(settings));
-
-				Dispatcher.Invoke(() => Editor.Text = text);
-				Growl.Success(StringHelper.Get("TextView_ReplaceCompleted", nameof(TextView)));
-			}
-			catch (XmlException ex)
-			{
-				Growl.Error(string.Format("{1}\n{0}", ex.Message, ex.SourceUri), nameof(TextView));
-			}
-			catch (Exception ex)
-			{
-				Growl.Error(string.Format("{0}", ex.Message), nameof(TextView));
-			}
-		});
 	}
 
-	private void CanExecuteSaveAs(object sender, CanExecuteRoutedEventArgs e)
+	private void CollapseUnchangedSectionsToggle_Click(object sender, RoutedEventArgs e)
 	{
-		e.CanExecute = !inloading && source != null;
-	}
 
-	private void SaveAsCommand(object sender, RoutedEventArgs e)
-	{
-		var dialog = new SaveFileDialog
-		{
-			FileName = "TextData",
-			Filter = "xml file|*.x16",
-		};
-		if (dialog.ShowDialog() == true)
-		{
-			File.WriteAllText(dialog.FileName, Editor.Text, Encoding.Unicode);
-		}
-	}
-
-	private void CanExecuteSave(object sender, CanExecuteRoutedEventArgs e)
-	{
-		// only single file and left source
-		e.CanExecute = !inloading && source != null && source.CanSave;
-	}
-
-	private void SaveCommand(object sender, RoutedEventArgs e)
-	{
-		ArgumentNullException.ThrowIfNull(source);
-		inloading = true;
-
-		Task.Run(() =>
-		{
-			try
-			{
-				if (source.HaveBackup)
-				{
-					source.HaveBackup = MessageBox.Show(StringHelper.Get("TextView_BackUp_Ask"), StringHelper.Get("Message_Tip"), MessageBoxButton.YesNo) != MessageBoxResult.Yes;
-				}
-
-				Growl.Info(StringHelper.Get("TextView_TaskStart"), TOKEN);
-				var data = Encoding.Unicode.GetBytes(Dispatcher.Invoke(() => Editor.Text));
-				source.Save(data);
-
-				Growl.Success(StringHelper.Get("TextView_SaveCompleted"), TOKEN);
-			}
-			catch (Exception ex)
-			{
-				Growl.Error(ex.Message, TOKEN);
-			}
-			finally
-			{
-				inloading = false;
-			}
-		});
 	}
 	#endregion
 }
 
-
-#region Area
-internal class TextAreaManager
+#region Manager
+public enum TextViewMode
 {
-	readonly ICSharpCode.AvalonEdit.TextEditor _editor;
-	readonly List<TextArea> _areas;
+	None,
+	Single,
+	Compare,
+}
 
-	public TextAreaManager(ICSharpCode.AvalonEdit.TextEditor TextEditor)
-	{
-		_areas = [];
-		_editor = TextEditor;
-	}
-
+internal class TextAreaManager(ICSharpCode.AvalonEdit.TextEditor editor)
+{
+	readonly List<TextArea> _areas = [];
 
 	public void Add(TextArea area)
 	{
@@ -311,7 +324,7 @@ internal class TextAreaManager
 
 	public void UpdateFoldings(FoldingManager manager)
 	{
-		var document = _editor.Document;
+		var document = editor.Document;
 
 		var foldings = _areas.Where(x => x.StartLine < x.EndLine).Select(x => new NewFolding()
 		{
@@ -327,7 +340,7 @@ internal class TextAreaManager
 
 	public void UpdateRenders()
 	{
-		var textView = _editor.TextArea.TextView;
+		var textView = editor.TextArea.TextView;
 		textView.BackgroundRenderers.Clear();
 
 		foreach (var x in _areas)
@@ -356,11 +369,10 @@ internal class TextAreaManager
 
 		public KnownLayer Layer => KnownLayer.Selection;
 		private Pen BorderPen { get; set; }
-		private SolidColorBrush BackgroundBrush { get; set; }
+		private SolidColorBrush? BackgroundBrush { get; set; }
 
-		private TextArea Area { get; set; }
+		private TextArea Area { get; init; }
 		#endregion
-
 
 		public TextAreaRenderer(TextArea area)
 		{

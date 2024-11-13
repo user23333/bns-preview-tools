@@ -5,7 +5,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using HandyControl.Controls;
 using SkiaSharp.Views.WPF;
-using Xylia.Preview.Data.Helpers;
+using Xylia.Preview.Common;
 using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.UI.Controls;
@@ -132,7 +132,7 @@ public partial class IconPicker : AutoCompleteTextBox
 	{
 		string Text = this.Text?.Split(',').First();
 
-		var record = FileCache.Data.Provider.GetTable<IconTexture>()[Text];
+		var record = Globals.GameData.Provider.GetTable<IconTexture>()[Text];
 		if (record is null) return;
 
 		_image.CellSize = new Size(record.IconWidth, record.IconHeight);

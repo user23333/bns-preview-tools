@@ -7,12 +7,12 @@ using HandyControl.Controls;
 using HandyControl.Data;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Xylia.Preview.Common;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Client;
 using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Data.Engine.Definitions;
-using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.UI.ViewModels;
 using Xylia.Preview.UI.Views.Selector;
 
@@ -20,10 +20,12 @@ namespace Xylia.Preview.UI.Views.Editor;
 public partial class DatabaseManager
 {
 	#region Constructor	
-	public DatabaseManager()
+	public DatabaseManager(System.Windows.Window owner)
 	{
 		InitializeComponent();
-		this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Open, ConnectCommand, CanExecuteConnect));
+
+		Owner = owner;
+		CommandBindings.Add(new CommandBinding(ApplicationCommands.Open, ConnectCommand, CanExecuteConnect));
 	}
 	#endregion
 
@@ -53,9 +55,7 @@ public partial class DatabaseManager
 		}
 		else if (Provider_GameMode.IsChecked == true)
 		{
-			var path = ProviderSearch.Text;
-			if (!string.IsNullOrEmpty(path) && Directory.Exists(path))
-				await Provider_CheckFolder(path);
+			await Provider_CheckFolder(ProviderSearch.Text);
 		}
 	}
 
@@ -67,15 +67,18 @@ public partial class DatabaseManager
 		await Provider_CheckFolder(ProviderSearch.Text = path);
 	}
 
-	private async Task Provider_CheckFolder(string path, bool mode = false)
+	private async Task Provider_CheckFolder(string path)
 	{
+		var directory = new DirectoryInfo(path);
+		if (!directory.Exists) return;
+
 		try
 		{
-			var locale = mode ? default : new Locale(path);
+			var locale = new Locale(directory);
 			Run_Version.Text = string.Format(" ({0})", locale.ProductVersion);
 
 			// get and update defs
-			var commits = (await GetCommits(locale.IsNeo ? "NEO" : "LIVE")).OrderByDescending(x => x.Version);
+			var commits = (await GetCommits(locale.Publisher)).OrderByDescending(x => x.Version);
 			DefinitionList.ItemsSource = commits;
 			DefinitionList.SelectedItem = commits.FirstOrDefault(x => locale.ProductVersion.CompareTo(x.Version) >= 0) ?? throw new Exception("No matched definition version");
 			DefinitionList.ScrollIntoView(DefinitionList.SelectedItem);
@@ -101,13 +104,14 @@ public partial class DatabaseManager
 			if (Provider_GlobalMode.IsChecked == true)
 			{
 				IsGlobalData = true;
-				FileCache.Definition = definition;
-				Engine = FileCache.Data;
+				Globals.Definition = definition;  //set global definition
+				Engine = Globals.GameData;
+				UserSettings.Default.DefitionType = Globals.GameData.Provider.Locale.Publisher;
 			}
 			else
 			{
 				var path = ProviderSearch.Text;
-				ArgumentException.ThrowIfNullOrWhiteSpace(path, StringHelper.Get("Text.InvalidPath"));
+				ArgumentException.ThrowIfNullOrWhiteSpace(path, StringHelper.Get("Exception_InvalidPath"));
 
 				IDataProvider? provider;
 				if (Provider_GameMode.IsChecked == true) provider = DefaultProvider.Load(path, DatSelectDialog.Instance);
@@ -169,6 +173,13 @@ public partial class DatabaseManager
 
 		return commits;
 	}
+
+	public static async Task<IEnumerable<Commit>> GetCommits(EPublisher publisher) => await GetCommits(publisher switch
+	{
+		EPublisher.ZTx => "ZTX",
+		EPublisher.ZNcs => "ZNCS",
+		_ => "LIVE",
+	});
 
 	public class Branch
 	{

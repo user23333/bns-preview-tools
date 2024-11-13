@@ -1,0 +1,224 @@
+﻿<BnsCustomWindowWidget x:Class="Xylia.Preview.UI.GameUI.Scene.Game_Tooltip.AttractionMapUnitToolTipPanel"
+		xmlns="https://github.com/xyliaup/bns-preview-tools"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:s="http://schemas.microsoft.com/winfx/2006/xaml/presentation" MaxWidth="450">
+	<BnsCustomWindowWidget.BaseImageProperty>
+		<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_Window.BNSR_Window" ImageUV="7 7" ImageUVSize="49 49" EnableDrawImage="true" EnableSkinAlpha="true" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" SperateImageType="BNS_SperateImageType_9Frame" StaticPadding="-17 -17" Opacity="1" />
+	</BnsCustomWindowWidget.BaseImageProperty>
+	<BnsCustomWindowWidget.ExpansionComponentList>
+		<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="Line" MetaData="">
+			<UBnsCustomExpansionComponent.ImageProperty>
+				<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_Window_Outfocus.BNSR_Window_Outfocus" EnableBrushOnly="true" ImageUV="7 7" ImageUVSize="49 49" EnableDrawImage="true" GrayWeightValue="0.15" ImageScale="1" SperateImageType="BNS_SperateImageType_9Frame" TintColor="FFFFFF" StaticPadding="-13 -13" Opacity="1" />
+			</UBnsCustomExpansionComponent.ImageProperty>
+		</UBnsCustomExpansionComponent>
+	</BnsCustomWindowWidget.ExpansionComponentList>
+	<BnsCustomImageWidget Name="AttractionMapUnitToolTipPanel_Info_Holder" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="12 0 12 0">
+		<BnsCustomImageWidget.HorizontalResizeLink>
+			<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_RIGHT_AND_LEFT" Offset1="12" Offset2="12" />
+		</BnsCustomImageWidget.HorizontalResizeLink>
+		<BnsCustomImageWidget.VerticalResizeLink>
+			<BnsCustomResizeLink bEnable="true" />
+		</BnsCustomImageWidget.VerticalResizeLink>
+		<BnsCustomImageWidget.BaseImageProperty>
+			<ImageProperty EnableDrawImage="true" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" Opacity="1" />
+		</BnsCustomImageWidget.BaseImageProperty>
+		<BnsCustomLabelWidget Name="AttractionMapUnitToolTipPanel_Name" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="0 15 0 20.001617">
+			<BnsCustomLabelWidget.HorizontalResizeLink>
+				<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_RIGHT_AND_LEFT" />
+			</BnsCustomLabelWidget.HorizontalResizeLink>
+			<BnsCustomLabelWidget.VerticalResizeLink>
+				<BnsCustomResizeLink bEnable="true" Offset1="15" />
+			</BnsCustomLabelWidget.VerticalResizeLink>
+			<BnsCustomLabelWidget.String>
+				<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Label_Green03_16.Label_Green03_16" LabelText="던전이름" SpaceBetweenLines="3" LastRenderWidth="272.00342" LastRenderHeight="320" />
+			</BnsCustomLabelWidget.String>
+		</BnsCustomLabelWidget>
+		<BnsCustomLabelWidget Name="AttractionMapUnitToolTipPanel_Desc_Title" LayoutData.Offsets="0 45.001617 290 0" MetaData="textref=UI.InterDungeon.MapToolTip.Desc" Visibility="Collapsed">
+			<BnsCustomLabelWidget.HorizontalResizeLink>
+				<BnsCustomResizeLink Type="BNS_CUSTOM_BORDER_LINK_RIGHT_AND_LEFT" Offset1="12" Offset2="12" />
+			</BnsCustomLabelWidget.HorizontalResizeLink>
+			<BnsCustomLabelWidget.VerticalResizeLink>
+				<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AttractionMapUnitToolTipPanel_Name" Offset1="10" />
+			</BnsCustomLabelWidget.VerticalResizeLink>
+			<BnsCustomLabelWidget.String>
+				<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Label_LightYellow_12.Label_LightYellow_12" LabelText="#설명" SpaceBetweenLines="3" />
+			</BnsCustomLabelWidget.String>
+		</BnsCustomLabelWidget>
+		<BnsCustomLabelWidget Name="AttractionMapUnitToolTipPanel_Desc" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="0 60.00383 0 0">
+			<BnsCustomLabelWidget.HorizontalResizeLink>
+				<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_RIGHT_AND_LEFT" />
+			</BnsCustomLabelWidget.HorizontalResizeLink>
+			<BnsCustomLabelWidget.VerticalResizeLink>
+				<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AttractionMapUnitToolTipPanel_Contents" Offset1="5" />
+			</BnsCustomLabelWidget.VerticalResizeLink>
+			<BnsCustomLabelWidget.String>
+				<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_Out_12.Normal_Out_12" LabelText="Desc" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" />
+			</BnsCustomLabelWidget.String>
+		</BnsCustomLabelWidget>
+		<BnsCustomLabelWidget Name="AttractionMapUnitToolTipPanel_Contents" LayoutData.Anchors="0 0.5 1 0.5" LayoutData.Offsets="0 0.0028457642 0 15.002199">
+			<BnsCustomLabelWidget.HorizontalResizeLink>
+				<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_RIGHT_AND_LEFT" />
+			</BnsCustomLabelWidget.HorizontalResizeLink>
+			<BnsCustomLabelWidget.VerticalResizeLink>
+				<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AttractionMapUnitToolTipPanel_Desc_Title" Offset1="5" />
+			</BnsCustomLabelWidget.VerticalResizeLink>
+			<BnsCustomLabelWidget.String>
+				<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_Out_12.Normal_Out_12" SpaceBetweenLines="3" LastRenderWidth="272.00342" LastRenderHeight="5000" />
+			</BnsCustomLabelWidget.String>
+			<HorizontalBox Name="HorizontalBox_0" LayoutData.Anchors="0 0.5 1 0.5" LayoutData.Offsets="0 -7.5011 0 16" />
+		</BnsCustomLabelWidget>
+		<BnsCustomImageWidget Name="AttractionMapUnitToolTipPanel_Newbie_Title_HorizontalLine" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="0 86.00603 0 1">
+			<BnsCustomImageWidget.HorizontalResizeLink>
+				<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_RIGHT_AND_LEFT" />
+			</BnsCustomImageWidget.HorizontalResizeLink>
+			<BnsCustomImageWidget.VerticalResizeLink>
+				<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_LEFT" LinkWidgetName1="AttractionMapUnitToolTipPanel_Newbie_Title" Offset1="-2" />
+			</BnsCustomImageWidget.VerticalResizeLink>
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="199 61" ImageUVSize="5 1" EnableDrawImage="true" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" SperateImageType="BNS_SperateImageType_3Frame" Opacity="0.1" />
+			</BnsCustomImageWidget.BaseImageProperty>
+		</BnsCustomImageWidget>
+		<BnsCustomLabelWidget Name="AttractionMapUnitToolTipPanel_Newbie_Title" LayoutData.Offsets="0 107.008224 290 24.002213">
+			<BnsCustomLabelWidget.HorizontalResizeLink>
+				<BnsCustomResizeLink Type="BNS_CUSTOM_BORDER_LINK_RIGHT_AND_LEFT" Offset1="12" Offset2="12" />
+			</BnsCustomLabelWidget.HorizontalResizeLink>
+			<BnsCustomLabelWidget.VerticalResizeLink>
+				<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AttractionMapUnitToolTipPanel_Desc" Offset1="10" />
+			</BnsCustomLabelWidget.VerticalResizeLink>
+			<BnsCustomLabelWidget.String>
+				<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Label_LightYellow_12.Label_LightYellow_12" LabelText="도전던전" SpaceBetweenLines="3" />
+			</BnsCustomLabelWidget.String>
+		</BnsCustomLabelWidget>
+		<BnsCustomLabelWidget Name="AttractionMapUnitToolTipPanel_Newbie" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="0 112.00824 0 0">
+			<BnsCustomLabelWidget.HorizontalResizeLink>
+				<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_RIGHT_AND_LEFT" />
+			</BnsCustomLabelWidget.HorizontalResizeLink>
+			<BnsCustomLabelWidget.VerticalResizeLink>
+				<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AttractionMapUnitToolTipPanel_Newbie_Title" Offset1="3" />
+			</BnsCustomLabelWidget.VerticalResizeLink>
+			<BnsCustomLabelWidget.String>
+				<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_Out_12.Normal_Out_12" LabelText="Newbie" SpaceBetweenLines="3" />
+			</BnsCustomLabelWidget.String>
+		</BnsCustomLabelWidget>
+	</BnsCustomImageWidget>
+	<BnsCustomImageWidget Name="AttractionMapUnitToolTipPanel_AdditionalReward_Holder" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="12 134.00197 12 90" Visibility="Collapsed">
+		<BnsCustomImageWidget.HorizontalResizeLink>
+			<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_RIGHT_AND_LEFT" Offset1="12" Offset2="12" />
+		</BnsCustomImageWidget.HorizontalResizeLink>
+		<BnsCustomImageWidget.VerticalResizeLink>
+			<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AttractionMapUnitToolTipPanel_Info_Holder" Offset1="5" />
+		</BnsCustomImageWidget.VerticalResizeLink>
+		<BnsCustomImageWidget.BaseImageProperty>
+			<ImageProperty EnableDrawImage="true" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" Opacity="1" />
+		</BnsCustomImageWidget.BaseImageProperty>
+		<BnsCustomWindowWidget Name="AttractionMapUnitToolTipPanel_AdditionalReward_Chance" LayoutData.Offsets="0 31.001022 290 18">
+			<BnsCustomWindowWidget.HorizontalResizeLink>
+				<BnsCustomResizeLink bEnable="true" />
+			</BnsCustomWindowWidget.HorizontalResizeLink>
+			<BnsCustomWindowWidget.VerticalResizeLink>
+				<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AttractionMapUnitToolTipPanel_AdditionalReward_ChanceTitle" Offset1="5" />
+			</BnsCustomWindowWidget.VerticalResizeLink>
+			<BnsCustomWindowWidget.BaseImageProperty>
+				<ImageProperty EnableDrawImage="true" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" Opacity="1" />
+			</BnsCustomWindowWidget.BaseImageProperty>
+			<BnsCustomLabelWidget Name="AttractionMapUnitToolTipPanel_AdditionalReward_Chancelabel" LayoutData.Offsets="0 -2.006256 0 20" MetaData="textref=UI.AttractionReward.Chance">
+				<BnsCustomLabelWidget.HorizontalResizeLink>
+					<BnsCustomResizeLink bEnable="true" />
+				</BnsCustomLabelWidget.HorizontalResizeLink>
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="추가보상 횟수" SpaceBetweenLines="3" VerticalAlignment="VAlign_Center" />
+				</BnsCustomLabelWidget.String>
+			</BnsCustomLabelWidget>
+			<BnsCustomLabelWidget Name="AttractionMapUnitToolTipPanel_AdditionalReward_ChanceNum" LayoutData.Offsets="75.00302 -2.011261 30.001953 20.001007">
+				<BnsCustomLabelWidget.HorizontalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AttractionMapUnitToolTipPanel_AdditionalReward_Chancelabel" Offset1="5" />
+				</BnsCustomLabelWidget.HorizontalResizeLink>
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="1/3" SpaceBetweenLines="3" VerticalAlignment="VAlign_Center" />
+				</BnsCustomLabelWidget.String>
+			</BnsCustomLabelWidget>
+		</BnsCustomWindowWidget>
+		<BnsCustomWindowWidget Name="AttractionMapUnitToolTipPanel_AdditionalReward_ChargeChance" LayoutData.Offsets="0 49.001022 290 18">
+			<BnsCustomWindowWidget.HorizontalResizeLink>
+				<BnsCustomResizeLink bEnable="true" />
+			</BnsCustomWindowWidget.HorizontalResizeLink>
+			<BnsCustomWindowWidget.VerticalResizeLink>
+				<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AttractionMapUnitToolTipPanel_AdditionalReward_Chance" />
+			</BnsCustomWindowWidget.VerticalResizeLink>
+			<BnsCustomWindowWidget.BaseImageProperty>
+				<ImageProperty EnableDrawImage="true" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" Opacity="1" />
+			</BnsCustomWindowWidget.BaseImageProperty>
+			<BnsCustomLabelWidget Name="AttractionMapUnitToolTipPanel_AdditionalReward_ChargeChancelabel" LayoutData.Anchors="0 0.5 0 0.5" LayoutData.Offsets="0 0 115.00101 20" MetaData="textref=UI.AttractionReward.ChargeChanceNum">
+				<BnsCustomLabelWidget.HorizontalResizeLink>
+					<BnsCustomResizeLink bEnable="true" />
+				</BnsCustomLabelWidget.HorizontalResizeLink>
+				<BnsCustomLabelWidget.VerticalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_CENTER" />
+				</BnsCustomLabelWidget.VerticalResizeLink>
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="충전 특별 보상 횟수#4" SpaceBetweenLines="3" VerticalAlignment="VAlign_Center" ClippingBoundFace_Horizontal="WidgetFaceFace_Right" />
+				</BnsCustomLabelWidget.String>
+			</BnsCustomLabelWidget>
+			<BnsCustomLabelWidget Name="AttractionMapUnitToolTipPanel_AdditionalReward_ChargeChanceNum" LayoutData.Anchors="0 0.5 0 0.5" LayoutData.Offsets="120.00101 0 30.00293 20.001953" MetaData="textref=UI.AttractionReward.Title">
+				<BnsCustomLabelWidget.HorizontalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AttractionMapUnitToolTipPanel_AdditionalReward_ChargeChancelabel" Offset1="5" />
+				</BnsCustomLabelWidget.HorizontalResizeLink>
+				<BnsCustomLabelWidget.VerticalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_CENTER" />
+				</BnsCustomLabelWidget.VerticalResizeLink>
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="1/3" SpaceBetweenLines="3" VerticalAlignment="VAlign_Center" />
+				</BnsCustomLabelWidget.String>
+			</BnsCustomLabelWidget>
+		</BnsCustomWindowWidget>
+		<BnsCustomImageWidget Name="AttractionMapUnitToolTipPanel_AddtionalReward_HorizontalLine" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="0 3 0 1">
+			<BnsCustomImageWidget.HorizontalResizeLink>
+				<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_RIGHT_AND_LEFT" />
+			</BnsCustomImageWidget.HorizontalResizeLink>
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="199 61" ImageUVSize="5 1" EnableDrawImage="true" EnableSkinColor="true" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" SperateImageType="BNS_SperateImageType_3Frame" Opacity="0.1" />
+			</BnsCustomImageWidget.BaseImageProperty>
+		</BnsCustomImageWidget>
+		<BnsCustomLabelWidget Name="AttractionMapUnitToolTipPanel_AdditionalReward_ChanceTitle" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="0 1.0000305 0 26.001007" MetaData="textref=UI.AttractionReward.Title">
+			<BnsCustomLabelWidget.HorizontalResizeLink>
+				<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_RIGHT_AND_LEFT" />
+			</BnsCustomLabelWidget.HorizontalResizeLink>
+			<BnsCustomLabelWidget.VerticalResizeLink>
+				<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AttractionMapUnitToolTipPanel_AddtionalReward_HorizontalLine" />
+			</BnsCustomLabelWidget.VerticalResizeLink>
+			<BnsCustomLabelWidget.String>
+				<StringProperty fontset="BNSR/Content/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Label_LightYellow_14.Label_LightYellow_14" LabelText="던전 추가 보상#" SpaceBetweenLines="3" ClippingBound="0 12" />
+			</BnsCustomLabelWidget.String>
+		</BnsCustomLabelWidget>
+		<BnsCustomLabelWidget Name="AttractionmapUnitToolTipPanel_AdditionalReward_item_Name" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="0 73.00104 0 12.001007">
+			<BnsCustomLabelWidget.HorizontalResizeLink>
+				<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_RIGHT_AND_LEFT" />
+			</BnsCustomLabelWidget.HorizontalResizeLink>
+			<BnsCustomLabelWidget.VerticalResizeLink>
+				<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AttractionMapUnitToolTipPanel_AdditionalReward_ChargeChance" Offset1="5" />
+			</BnsCustomLabelWidget.VerticalResizeLink>
+			<BnsCustomLabelWidget.String>
+				<StringProperty fontset="BNSR/Content/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="아이템이름" SpaceBetweenLines="3" VerticalAlignment="VAlign_Center" />
+			</BnsCustomLabelWidget.String>
+		</BnsCustomLabelWidget>
+	</BnsCustomImageWidget>
+	<BnsCustomImageWidget Name="AttractionMapUnitToolTipPanel_Reward_Title_HorizontalLine" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="12 234.00197 12 0.9999924">
+		<BnsCustomImageWidget.HorizontalResizeLink>
+			<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_RIGHT_AND_LEFT" Offset1="12" Offset2="12" />
+		</BnsCustomImageWidget.HorizontalResizeLink>
+		<BnsCustomImageWidget.VerticalResizeLink>
+			<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AttractionMapUnitToolTipPanel_AdditionalReward_Holder" Offset1="10" />
+		</BnsCustomImageWidget.VerticalResizeLink>
+		<BnsCustomImageWidget.BaseImageProperty>
+			<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="199 61" ImageUVSize="5 1" EnableDrawImage="true" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" SperateImageType="BNS_SperateImageType_3Frame" Opacity="0.1" />
+		</BnsCustomImageWidget.BaseImageProperty>
+	</BnsCustomImageWidget>
+	<BnsCustomWindowWidget Name="AttractionMapUnitToolTipPanel_Reward" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="12 254.00195 0 0">
+		<BnsCustomWindowWidget.HorizontalResizeLink>
+			<BnsCustomResizeLink Type="BNS_CUSTOM_BORDER_LINK_RIGHT_AND_LEFT" Offset1="12" Offset2="12" />
+		</BnsCustomWindowWidget.HorizontalResizeLink>
+		<BnsCustomWindowWidget.VerticalResizeLink>
+			<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AttractionMapUnitToolTipPanel_Reward_Title_HorizontalLine" />
+		</BnsCustomWindowWidget.VerticalResizeLink>
+	</BnsCustomWindowWidget>
+</BnsCustomWindowWidget>

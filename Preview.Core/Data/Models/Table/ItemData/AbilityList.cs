@@ -5,7 +5,13 @@ namespace Xylia.Preview.Data.Models;
 public sealed class AbilityList : ModelElement, IEnumerable
 {
 	#region Attributes
-	public MainAbility[] Ability { get; set; }
+	public int Id { get; set; }	
+	
+	public sbyte ImproveLevel { get; set; }
+
+	public string Alias { get; set; }
+
+	public MainAbilitySeq[] Ability { get; set; }
 
 	public short[] AbilityWeight { get; set; }
 

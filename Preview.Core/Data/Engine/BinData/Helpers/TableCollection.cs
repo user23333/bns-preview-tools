@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
+using Serilog;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Engine.BinData.Models;
@@ -57,7 +58,7 @@ public class TableCollection : Collection<Table>
 		var array = value.Split(':', 2);
 		if (array.Length < 2)
 		{
-			Serilog.Log.Warning($"TRef get failed, value: {value}");
+			Log.Warning($"TRef get failed, value: {value}");
 			return null;
 		}
 

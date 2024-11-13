@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using Xylia.Preview.Data.Helpers;
 
 namespace Xylia.Preview.Data.Models;
 public sealed class SkillBuildUpGroup : ModelElement, IEnumerable<string>

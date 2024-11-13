@@ -5,9 +5,10 @@
 	    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
 		xmlns:hc="https://handyorg.github.io/handycontrol"
 		xmlns:converters="clr-namespace:Xylia.Preview.UI.Common.Converters"
+		xmlns:BNS="https://github.com/xyliaup/bns-preview-tools"
 		Background="{DynamicResource RegionBrush}" Icon="{x:Null}" Title="{DynamicResource Settings_Name}" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" SizeToContent="Height"
-		MinHeight="{Binding Source={x:Static SystemParameters.MaximizedPrimaryScreenHeight}, Converter={StaticResource RatioConverter}, ConverterParameter='0.10'}"
-		Width="{Binding Source={x:Static SystemParameters.MaximizedPrimaryScreenWidth}, Converter={StaticResource RatioConverter}, ConverterParameter='0.35'}">
+		MinHeight="{Binding Source={x:Static SystemParameters.MaximizedPrimaryScreenHeight},Converter={StaticResource RatioConverter},ConverterParameter='0.10'}"
+		Width="{Binding Source={x:Static SystemParameters.MaximizedPrimaryScreenWidth},Converter={StaticResource RatioConverter},ConverterParameter='0.35'}">
 
 	<Grid>
 		<Grid.RowDefinitions>
@@ -62,7 +63,7 @@
 
 				<hc:UniformSpacingPanel Orientation="Vertical" Spacing="5" Grid.IsSharedSizeScope="True" >
 					<!-- Path -->
-					<hc:Divider Grid.ColumnSpan="10" Margin="0 5" d:Content="Path" Content="{DynamicResource Text_Path}" />
+					<hc:Divider Grid.ColumnSpan="10" Margin="0 5" d:Content="Path" Content="{DynamicResource Text.Path}" />
 					<ItemsControl>
 						<TextBlock>
 							<Run d:Text="Game Directory" Text="{DynamicResource Settings_GameDirectory}" /> *
@@ -84,7 +85,7 @@
 					</ItemsControl>
 
 					<!-- Options -->
-					<hc:Divider Grid.ColumnSpan="10" Margin="0 5" d:Content="Options" Content="{DynamicResource Text_Option}" />
+					<hc:Divider Grid.ColumnSpan="10" Margin="0 5" d:Content="Options" Content="{DynamicResource Text.Option}" />
 					<ItemsControl>
 						<TextBlock d:Text="Language" Text="{DynamicResource Settings_Language}" />
 						<ComboBox Grid.Column="1" ItemsSource="{Binding Languages,Mode=OneTime}" SelectedItem="{Binding Language}">
@@ -150,7 +151,7 @@
 
 				<hc:UniformSpacingPanel Orientation="Vertical" Spacing="5" Grid.IsSharedSizeScope="True">
 					<!-- Data Options -->
-					<hc:Divider Grid.ColumnSpan="10" Margin="0 5" d:Content="Options" Content="{DynamicResource Text_Option}" />
+					<hc:Divider Grid.ColumnSpan="10" Margin="0 5" d:Content="Options" Content="{DynamicResource Text.Option}" />
 
 					<ItemsControl>
 						<TextBlock d:Text="Job" Text="{DynamicResource Settings_Job}" />
@@ -170,7 +171,7 @@
 						<TextBlock d:Text="Use User Definition" Text="{DynamicResource Settings_UseUserDefinition}" ToolTip="{DynamicResource Settings_UseUserDefinition_Tooltip}" />
 						<CheckBox Grid.Column="1" IsChecked="{Binding UseUserDefinition}" ToolTip="{DynamicResource Settings_UseUserDefinition_Tooltip}" />
 					</ItemsControl>
-					<ItemsControl>
+					<ItemsControl x:Name="DebugMode">
 						<TextBlock d:Text="Use Debug Mode" Text="{DynamicResource Settings_DebugMode}" />
 						<CheckBox Grid.Column="1" IsChecked="{Binding UseDebugMode}" />
 					</ItemsControl>
@@ -181,70 +182,66 @@
 			<!-- Models -->
 			<TabItem Name="Models" d:Header="Models" Header="{DynamicResource Settings_Tab_Models}">
 				<hc:UniformSpacingPanel Orientation="Vertical" Spacing="5" Grid.IsSharedSizeScope="True">
+					<ItemsControl>
+						<TextBlock Grid.Column="0" Text="Mesh Format" />
+						<ComboBox Grid.Column="1" ItemsSource="{Binding MeshExportFormats}" SelectedItem="{Binding MeshExportFormat, Mode=TwoWay}">
+							<ComboBox.ItemTemplate>
+								<DataTemplate>
 
+								</DataTemplate>
+							</ComboBox.ItemTemplate>
+						</ComboBox>
+					</ItemsControl>
+					<ItemsControl>
+						<TextBlock Grid.Column="0" Text="Socket Format" />
+						<ComboBox Grid.Column="1" ItemsSource="{Binding SocketExportFormats}" SelectedItem="{Binding SocketExportFormat, Mode=TwoWay}">
+							<ComboBox.ItemTemplate>
+								<DataTemplate>
 
-					<hc:UniformSpacingPanel Orientation="Vertical" IsEnabled="False">
-						<ItemsControl>
-							<TextBlock Grid.Column="0" Text="Mesh Format" />
-							<ComboBox Grid.Column="1" ItemsSource="{Binding MeshExportFormats}" SelectedItem="{Binding SelectedMeshExportFormat, Mode=TwoWay}">
-								<ComboBox.ItemTemplate>
-									<DataTemplate>
+								</DataTemplate>
+							</ComboBox.ItemTemplate>
+						</ComboBox>
+					</ItemsControl>
+					<ItemsControl>
+						<TextBlock Grid.Column="0" Text="Level Of Detail Format" />
+						<ComboBox Grid.Column="1" ItemsSource="{Binding LodExportFormats}" SelectedItem="{Binding LodExportFormat, Mode=TwoWay}">
+							<ComboBox.ItemTemplate>
+								<DataTemplate>
 
-									</DataTemplate>
-								</ComboBox.ItemTemplate>
-							</ComboBox>
-						</ItemsControl>
-						<ItemsControl>
-							<TextBlock Grid.Column="0" Text="Socket Format" />
-							<ComboBox Grid.Column="1" ItemsSource="{Binding SocketExportFormats}" SelectedItem="{Binding SelectedSocketExportFormat, Mode=TwoWay}">
-								<ComboBox.ItemTemplate>
-									<DataTemplate>
+								</DataTemplate>
+							</ComboBox.ItemTemplate>
+						</ComboBox>
+					</ItemsControl>
 
-									</DataTemplate>
-								</ComboBox.ItemTemplate>
-							</ComboBox>
-						</ItemsControl>
-						<ItemsControl>
-							<TextBlock Grid.Column="0" Text="Level Of Detail Format" />
-							<ComboBox Grid.Column="1" ItemsSource="{Binding LodExportFormats}" SelectedItem="{Binding SelectedLodExportFormat, Mode=TwoWay}">
-								<ComboBox.ItemTemplate>
-									<DataTemplate>
-
-									</DataTemplate>
-								</ComboBox.ItemTemplate>
-							</ComboBox>
-						</ItemsControl>
-
-						<hc:Divider Grid.ColumnSpan="10" Margin="0 5" />
-						<ItemsControl>
-							<TextBlock Grid.Column="0" Text="Preview Max Texture Size" VerticalAlignment="Center" Margin="0 0 5 0" />
-							<Slider Grid.Column="1" TickPlacement="None" Minimum="4" Maximum="4096" Ticks="4,8,16,32,64,128,256,512,1024,2048,4096"
+					<hc:Divider Grid.ColumnSpan="10" Margin="0 5" />
+					<ItemsControl>
+						<TextBlock Grid.Column="0" Text="Preview Max Texture Size" VerticalAlignment="Center" Margin="0 0 5 0" />
+						<Slider Grid.Column="1" TickPlacement="None" Minimum="4" Maximum="4096" Ticks="4,8,16,32,64,128,256,512,1024,2048,4096"
 							AutoToolTipPlacement="BottomRight" IsMoveToPointEnabled="True" IsSnapToTickEnabled="True" />
-						</ItemsControl>
+					</ItemsControl>
 
-						<hc:Divider Grid.ColumnSpan="10" Margin="0 5" />
-						<ItemsControl>
-							<TextBlock Grid.Column="0" Text="Material Format" />
-							<ComboBox Grid.Column="1" ItemsSource="{Binding MaterialExportFormats}" SelectedItem="{Binding SelectedMaterialExportFormat, Mode=TwoWay}">
-								<ComboBox.ItemTemplate>
-									<DataTemplate>
+					<hc:Divider Grid.ColumnSpan="10" Margin="0 5" />
+					<ItemsControl>
+						<TextBlock Grid.Column="0" Text="Material Format" />
+						<ComboBox Grid.Column="1" ItemsSource="{Binding MaterialExportFormats}" SelectedItem="{Binding MaterialExportFormat, Mode=TwoWay}">
+							<ComboBox.ItemTemplate>
+								<DataTemplate>
 
-									</DataTemplate>
-								</ComboBox.ItemTemplate>
-							</ComboBox>
+								</DataTemplate>
+							</ComboBox.ItemTemplate>
+						</ComboBox>
 
-						</ItemsControl>
-						<ItemsControl>
-							<TextBlock Grid.Column="0" Text="Texture Format" />
-							<ComboBox Grid.Column="1" ItemsSource="{Binding TextureExportFormats}" SelectedItem="{Binding SelectedTextureExportFormat, Mode=TwoWay}">
-								<ComboBox.ItemTemplate>
-									<DataTemplate>
+					</ItemsControl>
+					<ItemsControl>
+						<TextBlock Grid.Column="0" Text="Texture Format" />
+						<ComboBox Grid.Column="1" ItemsSource="{Binding TextureExportFormats}" SelectedItem="{Binding TextureExportFormat, Mode=TwoWay}">
+							<ComboBox.ItemTemplate>
+								<DataTemplate>
 
-									</DataTemplate>
-								</ComboBox.ItemTemplate>
-							</ComboBox>
-						</ItemsControl>
-					</hc:UniformSpacingPanel>
+								</DataTemplate>
+							</ComboBox.ItemTemplate>
+						</ComboBox>
+					</ItemsControl>
 				</hc:UniformSpacingPanel>
 			</TabItem>
 		</TabControl>
@@ -257,9 +254,9 @@
 				</Grid.ColumnDefinitions>
 
 				<Button Grid.Column="1" MinWidth="78" Margin="0 0 12 0" IsDefault="True" IsCancel="False"
-					HorizontalAlignment="Right" VerticalAlignment="Bottom" d:Content="Ok" Content="{DynamicResource Text_Ok}" Click="OnClosing" />
+					HorizontalAlignment="Right" VerticalAlignment="Bottom" d:Content="Ok" Content="{DynamicResource Text.Ok}" Click="OnClosing" />
 			</Grid>
 		</Border>
 	</Grid>
-	
+
 </Window>

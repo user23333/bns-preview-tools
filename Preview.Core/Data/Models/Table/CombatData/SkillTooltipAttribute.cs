@@ -1,4 +1,5 @@
-﻿using Xylia.Preview.Common.Extension;
+﻿using Xylia.Preview.Common;
+using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Models.Sequence;
 
@@ -110,9 +111,9 @@ public class SkillTooltipAttribute : ModelElement
 	#region Helpers
 	internal static string GetDamageInfo(int min, int max, short AttributeCoefficient = 0)
 	{
-		return (max == 0 || min == max ?
-			$"UI.Tooltip.Skill.damage-percent" :
-			$"UI.Tooltip.Skill.damage-percent-min-max").GetText([min, max]);
+		return Globals.TextProvider.Get((max == 0 || min == max) ? 
+			"UI.Tooltip.Skill.damage-percent" : 
+			"UI.Tooltip.Skill.damage-percent-min-max", min, max);
 
 		//// get attack power
 		//var power = Settings.Default.Skill_AttackPower * 0.01;

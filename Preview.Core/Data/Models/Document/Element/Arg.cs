@@ -20,50 +20,53 @@ public class Arg : HtmlElementNode
 	{
 		try
 		{
-			object obj;
-
-			#region source
+			object obj = null;
 			var ps = P?.Split(':');
-			var type = ps?[0];
 
-			switch (type)
+			for (int i = 0; i < ps.Length; i++)
 			{
-				case "id":
-					obj = new Ref<ModelElement>(Id).Instance;
-					break;
+				var p = ps[i];
 
-				case "seq":
-					var seqs = Seq?.Split(':');
-					obj = seqs[1].CastSeq(seqs[0]);
-					break;
-
-				default:
-					if (!byte.TryParse(type, out var id))
-						throw new InvalidCastException("bad argument id, must be byte value: " + type);
-
-					obj = arguments?[id - 1];
-					break;
-
-			}
-
-			if (obj is null) return null;
-			#endregion
-
-			#region child
-			foreach (var pl in ps.Skip(1))
-			{
-				var args = ArgItem.GetArgs(pl);
-				for (int x = 0; x < args.Length; x++)
+				// source
+				if (i == 0)
 				{
-					if (x == 0) args[0].ValidType(ref obj);
-					else
+					switch (p)
 					{
-						args[x].GetObject(ref obj, out var handle);
-						if (handle) break;
+						case "id":
+							obj = new Ref<ModelElement>(Id).Instance;
+							break;
+
+						case "seq":
+							var seqs = Seq?.Split(':');
+							obj = seqs[1].CastSeq(seqs[0]);
+							break;
+
+						default:
+							if (!byte.TryParse(p, out var id))
+								throw new InvalidCastException("bad argument id, must be byte value: " + p);
+
+							obj = arguments?[id - 1];
+							break;
+
+					}
+
+					if (obj is null) return null;
+				}
+				// child
+				else
+				{
+					var args = ArgItem.GetArgs(p);
+					for (int x = 0; x < args.Length; x++)
+					{
+						if (x == 0) args[0].ValidType(ref obj);
+						else
+						{
+							args[x].GetObject(ref obj, out var handle);
+							if (handle) break;
+						}
 					}
 				}
 			}
-			#endregion
 
 			return obj;
 		}
@@ -80,7 +83,7 @@ public class Arg : HtmlElementNode
 	class ArgItem(string target)
 	{
 		#region Properties
-		public string Target => target;
+		public string Target => target?.ToLower();
 
 		public ArgItem Prev { get; private set; }
 
@@ -90,30 +93,38 @@ public class Arg : HtmlElementNode
 		#region Methods	
 		internal void ValidType(ref object value)
 		{
-			var target = Target?.ToLower();
-			if (target is null || value is null) return;
+			if (Target is null || value is null) return;
 
-			// convert type
-			var type = value.GetBaseType(typeof(ModelElement));
-			if (target == "string")
+			switch (Target)
 			{
-				if (type != typeof(string)) value = value.ToString();
-				return;
+				case "string": value = value.ToString(); break;
+				case "integer": value = value.To<Integer>(); break;
+				case "item-name" when value is Item item: value = item.ItemName; break;
+				case "item-brand" when value is ItemBrandTooltip: break;
+				case "skill" when value is Skill3: break;
+
+				default:
+				{
+					if (value is Integer integer && IArgument.TryGet(integer, Target, out value)) return;
+
+					if (!TableNameComparer.Instance.Equals(target, value.GetBaseType(typeof(ModelElement)).Name))
+						throw new InvalidCastException($"valid failed: {Target} >> {value.GetType()}");
+
+					break;
+				}
 			}
-			else if (target == "integer") value = new Integer(Convert.ToDouble(value));
-			else if (value is Integer integer && TryGetArgument(integer, target, out var temp)) value = temp;
-			else if (value is Item item && target.Equals("item-name")) value = item.ItemName;
-			else if (value is Skill3 && target.Equals("skill")) return;
-			else if (TableNameComparer.Instance.Equals(target, type.Name)) return;
-			else throw new InvalidCastException($"valid failed: {Target} >> {type}");
 		}
 
 		internal void GetObject(ref object value, out bool handle)
 		{
 			handle = false;
 
-			if (value is null) return;
-			else if (value is string) return;
+			if (value is null or string) return;
+			else if (value is Icon icon)
+			{
+				value = icon.GetImage();
+				GetObject(ref value, out handle);
+			}
 			else if (value is ImageProperty image)
 			{
 				if (Target == "scale")
@@ -122,10 +133,10 @@ public class Arg : HtmlElementNode
 					handle = true;
 				}
 			}
-			else if (value.GetType().IsClass && TryGetArgument(value, Target, out var param)) value = param;
+			else if (value.GetType().IsClass && IArgument.TryGet(value, Target, out var value2)) value = value2;
 			else
 			{
-				Debug.WriteLine($"not supported class: {value} ({value.GetType().Name} > {Target})");
+				Debug.WriteLine($"Not supported class: {value} ({value.GetType().Name} > {Target})");
 				value = null;
 			}
 		}
@@ -144,40 +155,37 @@ public class Arg : HtmlElementNode
 
 			return args;
 		}
-
-		internal static bool TryGetArgument<T>(T instance, string name, out object value)
-		{
-			if (name == instance!.GetType().Name)
-			{
-				value = instance;
-				return true;
-			}
-
-			// property
-			var member = instance.GetProperty(name);
-			if (member != null)
-			{
-				value = member.GetValue(instance);
-				if (value is Ref<Text> text) value = text.GetText();
-
-				return true;
-			}
-
-			// attribute
-			if (instance is ModelElement element && element.Attributes.TryGetValue(name, out var pair))
-			{
-				value = pair.Value;
-
-				if (value is Record record && record.OwnerName == "text")
-					value = record.Attributes["text"];
-
-				return true;
-			}
-
-			value = null;
-			return false;
-		}
 		#endregion
 	}
 	#endregion
+}
+
+public interface IArgument
+{
+	bool TryGet(string name, out object value);
+
+	internal static bool TryGet<T>(T instance, string name, out object value)
+	{
+		if (name == instance.GetType().Name)
+		{
+			value = instance;
+			return true;
+		}
+
+		// property
+		var prop = instance.GetProperty(name);
+		if (prop != null)
+		{
+			value = prop.GetValue(instance);
+			if (value is Ref<Text> text) value = text.GetText();
+
+			return true;
+		}
+
+		// interface
+		if (instance is IArgument provider && provider.TryGet(name, out value)) return true;
+
+		value = null;
+		return false;
+	}
 }

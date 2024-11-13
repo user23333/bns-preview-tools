@@ -1,5 +1,4 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -14,24 +13,13 @@ public static class ControlHelpers
 	public static Rect GetFinalRect(this UIElement element)
 	{
 		ArgumentNullException.ThrowIfNull(element);
-		return (Rect)PreviousArrangeRect!.GetValue(element)!;
+		return (Rect)PreviousArrangeRect.GetValue(element)!;
 	}
 
 	public static void SetFinalRect(this UIElement element, Rect value)
 	{
 		ArgumentNullException.ThrowIfNull(element);
-		PreviousArrangeRect!.SetValue(element, value);
-	}
-
-	public static T? GetParent<T>(this DependencyObject reference) where T : Visual
-	{
-		while (true)
-		{
-			reference = VisualTreeHelper.GetParent(reference);
-
-			if (reference is null) return default;
-			if (reference is T) return reference as T;
-		}
+		PreviousArrangeRect.SetValue(element, value);
 	}
 
 	public static void SetVisiable(this FrameworkElement element, bool visible)
@@ -58,8 +46,12 @@ public static class ControlHelpers
 		FrameworkPropertyMetadataOptions flags = FrameworkPropertyMetadataOptions.AffectsRender,
 		PropertyChangedCallback? callback = null)
 	{
-		return DependencyProperty.Register(name, typeof(T), ownerType,
-			new FrameworkPropertyMetadata(defaultValue, flags, callback));
+		return Register<T>(ownerType, name, new FrameworkPropertyMetadata(defaultValue, flags, callback));
+	}
+
+	public static DependencyProperty Register<T>(this Type ownerType, string name, FrameworkPropertyMetadata metadata)
+	{
+		return DependencyProperty.Register(name, typeof(T), ownerType, metadata);
 	}
 	#endregion
 
@@ -96,7 +88,7 @@ public static class ControlHelpers
 		{
 			return Object.Equals(o1, o2);
 		}
-		catch (System.InvalidCastException)
+		catch (InvalidCastException)
 		{
 			// A common programming error: the type of o1 overrides Equals(object o2)
 			// but mistakenly assumes that o2 has the same type as o1:

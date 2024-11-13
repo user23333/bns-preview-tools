@@ -3,7 +3,7 @@
 	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	  xmlns:hc="https://handyorg.github.io/handycontrol"
 	  xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
-	  xmlns:UI="https://github.com/xyliaup/bns-preview-tools"
+	  xmlns:BNS="https://github.com/xyliaup/bns-preview-tools"
 	  Foreground="{DynamicResource PrimaryTextBrush}">
     <Page.Resources>
         <ContextMenu x:Key="Menu">
@@ -13,15 +13,15 @@
 
     <Grid>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="230"/>
-			<ColumnDefinition Width="*"/>
+			<ColumnDefinition Width="230" />
+			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
 
         <TreeView Grid.Column="0" x:Name="TreeView" ItemsSource="{Binding Source}" SelectedItemChanged="TreeView_SelectedItemChanged" 
                   ContextMenu="{StaticResource Menu}" BorderThickness="0" Margin="0 10 0 0">
 			<TreeView.ItemTemplate>
 				<DataTemplate>
-					<TextBlock Grid.Column="0" Text="{UI:DynamicBinding Prefix=AbilityName.}" FontSize="12" />
+					<TextBlock Grid.Column="0" Text="{Binding Text}" FontSize="12" />
 				</DataTemplate>
 			</TreeView.ItemTemplate>
 		</TreeView>
@@ -39,7 +39,7 @@
 			</Grid.ColumnDefinitions>
 
 			<!-- Chart -->
-			<lvc:CartesianChart Name="Chart" Grid.Row="0" Grid.ColumnSpan="3">
+			<lvc:CartesianChart Name="Chart" Grid.Row="0" Grid.ColumnSpan="3" Series="{Binding Series}">
 				<lvc:CartesianChart.AxisY>
 					<lvc:Axis Name="Chart_AxisY" ShowLabels="True" LabelFormatter="{Binding PercentFormatter}" />
 				</lvc:CartesianChart.AxisY>
@@ -48,14 +48,14 @@
 			<!-- Value -->
 			<hc:UniformSpacingPanel Grid.Row="2" Grid.Column="0" Spacing="20">
 				<TextBlock Text="{DynamicResource AbilityPage_Level}" />
-				<hc:NumericUpDown x:Name="LevelText" MinWidth="100" Value="{Binding Level}" Minimum="0" Maximum="100" ValueChanged="Level_Changed"/>
+				<hc:NumericUpDown x:Name="LevelText" MinWidth="100" Value="{Binding Level}" Minimum="0" Maximum="100" />
 			</hc:UniformSpacingPanel>
 			<hc:UniformSpacingPanel Grid.Row="3" Grid.Column="0" Spacing="20">
 				<TextBlock Text="{DynamicResource AbilityPage_Value}" />
 				<hc:NumericUpDown x:Name="AbilityText" MinWidth="100" Value="{Binding Value}" Minimum="0" />
 			</hc:UniformSpacingPanel>
-			
-			<TextBlock Text="{Binding Text}" Grid.Row="4"/>
+
+			<TextBlock Text="{Binding ResultText}" Grid.Row="4"/>
 		</Grid>
 	</Grid>
 </Page>

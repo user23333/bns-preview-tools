@@ -1,6 +1,7 @@
 ﻿using CUE4Parse.BNS.Assets.Exports;
 using CUE4Parse.UE4.Objects.Core.Math;
 using CUE4Parse.UE4.Objects.UObject;
+using Xylia.Preview.Common.Attributes;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Common.DataStruct;
@@ -15,38 +16,38 @@ public abstract class Item : ModelElement, IHaveName
 	public Ref<ItemCombat>[] ItemCombat { get; set; }
 	public Ref<ItemBrand> Brand { get; set; }
 
-	public GameCategorySeq GameCategory1 => Attributes.Get<string>("game-category-1").ToEnum<GameCategorySeq>();
-	public GameCategory2Seq GameCategory2 => Attributes.Get<string>("game-category-2").ToEnum<GameCategory2Seq>();
-	public GameCategory3Seq GameCategory3 => Attributes.Get<string>("game-category-3").ToEnum<GameCategory3Seq>();
-	public MarketCategorySeq MarketCategory => Attributes.Get<string>("market-category-1").ToEnum<MarketCategorySeq>();
-	public MarketCategory2Seq MarketCategory2 => Attributes.Get<string>("market-category-2").ToEnum<MarketCategory2Seq>();
-	public MarketCategory3Seq MarketCategory3 => Attributes.Get<string>("market-category-3").ToEnum<MarketCategory3Seq>();
+	public GameCategorySeq GameCategory1 => Attributes.Get<GameCategorySeq>("game-category-1");
+	public GameCategory2Seq GameCategory2 => Attributes.Get<GameCategory2Seq>("game-category-2");
+	public GameCategory3Seq GameCategory3 => Attributes.Get<GameCategory3Seq>("game-category-3");
+	public MarketCategorySeq MarketCategory => Attributes.Get<MarketCategorySeq>("market-category-1");
+	public MarketCategory2Seq MarketCategory2 => Attributes.Get<MarketCategory2Seq>("market-category-2");
+	public MarketCategory3Seq MarketCategory3 => Attributes.Get<MarketCategory3Seq>("market-category-3");
 
-	public bool CannotDispose => Attributes.Get<BnsBoolean>("cannot-dispose");
-	public bool CannotSell => Attributes.Get<BnsBoolean>("cannot-sell");
-	public bool CannotTrade => Attributes.Get<BnsBoolean>("cannot-trade");
-	public bool CannotDepot => Attributes.Get<BnsBoolean>("cannot-depot");
-	public bool ConsumeDurability => Attributes.Get<BnsBoolean>("consume-durability");
-	public bool Auctionable => Attributes.Get<BnsBoolean>("auctionable");
-	public bool WorldBossAuctionable => Attributes.Get<BnsBoolean>("world-boss-auctionable");
-	public bool SealRenewalAuctionable => Attributes.Get<BnsBoolean>("seal-renewal-auctionable");
-	public bool PartyAuctionExclusion => Attributes.Get<BnsBoolean>("party-auction-exclusion");
-	public bool AcquireUsed => Attributes.Get<BnsBoolean>("acquire-used");
-	public bool EquipUsed => Attributes.Get<BnsBoolean>("equip-used");
-	public bool AccountUsed => Attributes.Get<BnsBoolean>("account-used");
+	public bool CannotDispose => Attributes.Get<bool>("cannot-dispose");
+	public bool CannotSell => Attributes.Get<bool>("cannot-sell");
+	public bool CannotTrade => Attributes.Get<bool>("cannot-trade");
+	public bool CannotDepot => Attributes.Get<bool>("cannot-depot");
+	public bool ConsumeDurability => Attributes.Get<bool>("consume-durability");
+	public bool Auctionable => Attributes.Get<bool>("auctionable");
+	public bool WorldBossAuctionable => Attributes.Get<bool>("world-boss-auctionable");
+	public bool SealRenewalAuctionable => Attributes.Get<bool>("seal-renewal-auctionable");
+	public bool PartyAuctionExclusion => Attributes.Get<bool>("party-auction-exclusion");
+	public bool AcquireUsed => Attributes.Get<bool>("acquire-used");
+	public bool EquipUsed => Attributes.Get<bool>("equip-used");
+	public bool AccountUsed => Attributes.Get<bool>("account-used");
 
 
 	public JobSeq[] EquipJobCheck { get; set; }
-	public SexSeq2 EquipSex => Attributes["equip-sex"].ToEnum<SexSeq2>();
+	public SexSeq2 EquipSex => Attributes.Get<SexSeq2>("equip-sex");
 	public enum SexSeq2
 	{
 		SexNone,
 		All,
-		Male,
-		Female,
+		[Text("Name.sex.male")] Male,
+		[Text("Name.sex.female")] Female,
 	}
 
-	public RaceSeq2 EquipRace => Attributes["equip-race"].ToEnum<RaceSeq2>();
+	public Race EquipRace => Attributes.Get<RaceSeq2>("equip-race").To<Race>();
 	public enum RaceSeq2
 	{
 		RaceNone,
@@ -59,11 +60,11 @@ public abstract class Item : ModelElement, IHaveName
 		SummonedCat,
 	}
 
-	public EquipType EquipType => Attributes["equip-type"].ToEnum<EquipType>();
+	public EquipType EquipType => Attributes.Get<EquipType>("equip-type");
 
 	public sbyte ItemGrade => Attributes.Get<sbyte>("item-grade");
 
-	public LegendGradeBackgroundParticleTypeSeq LegendGradeBackgroundParticleType => Attributes["legend-grade-background-particle-type"].ToEnum<LegendGradeBackgroundParticleTypeSeq>();
+	public LegendGradeBackgroundParticleTypeSeq LegendGradeBackgroundParticleType => Attributes.Get<LegendGradeBackgroundParticleTypeSeq>("legend-grade-background-particle-type");
 	public enum LegendGradeBackgroundParticleTypeSeq
 	{
 		None,
@@ -120,7 +121,7 @@ public abstract class Item : ModelElement, IHaveName
 	#region Sub
 	public sealed class Weapon : Item
 	{
-		public WeaponTypeSeq WeaponType => Attributes["weapon-type"].ToEnum<WeaponTypeSeq>();
+		public WeaponTypeSeq WeaponType => Attributes.Get<WeaponTypeSeq>("weapon-type");
 		public enum WeaponTypeSeq
 		{
 			None,
@@ -134,14 +135,15 @@ public abstract class Item : ModelElement, IHaveName
 			Bow,
 			Staff,
 			Dagger,
-			Pet1,
-			Pet2,
+			[Name("pet-1")] Pet1,
+			[Name("pet-2")] Pet2,
 			Gun,
 			GreatSword,
 			LongBow,
 			Spear,
 			Orb,
 			DualBlade,
+			Instrument,
 			COUNT
 		}
 	}
@@ -153,7 +155,7 @@ public abstract class Item : ModelElement, IHaveName
 
 	public sealed class Grocery : Item
 	{
-		public GroceryTypeSeq GroceryType => Attributes["grocery-type"].ToEnum<GroceryTypeSeq>();
+		public GroceryTypeSeq GroceryType => Attributes.Get<GroceryTypeSeq>("grocery-type");
 		public enum GroceryTypeSeq
 		{
 			Other,
@@ -166,7 +168,6 @@ public abstract class Item : ModelElement, IHaveName
 			Sealed,
 			WeaponGemSlotAdder,
 			Messenger,
-			QuestReplayEpic,
 			BaseCampWarp,
 			PetFood,
 			ResetDungeon,
@@ -176,9 +177,10 @@ public abstract class Item : ModelElement, IHaveName
 			Scroll,
 			FusionSubitem,
 			Card,
-			Glyph,
-			SoulBoost,
-
+			Relic,
+			RelicMaterial,
+			StarStone,
+			Voucher,
 			COUNT
 		}
 	}
@@ -215,7 +217,7 @@ public abstract class Item : ModelElement, IHaveName
 
 	public sealed class Accessory : Item
 	{
-		public AccessoryTypeSeq AccessoryType => Attributes["accessory-type"].ToEnum<AccessoryTypeSeq>();
+		public AccessoryTypeSeq AccessoryType => Attributes.Get<AccessoryTypeSeq>("accessory-type");
 		public enum AccessoryTypeSeq
 		{
 			Accessory,
@@ -232,14 +234,16 @@ public abstract class Item : ModelElement, IHaveName
 			Rune2,
 			Nova,
 			Vehicle,
-			AppearanceNormalState,
-			AppearanceIdleState,
-			AppearanceChatting,
-			AppearancePortrait,
-			AppearanceHypermove,
-			AppearanceNamePlate,
-			AppearanceSpeechBubble,
-
+			NormalStateAppearance,
+			IdleStateAppearance,
+			ChattingSymbol,
+			PortraitAppearance,
+			HypermoveAppearance,
+			NamePlateAppearance,
+			SpeechBubbleAppearance,
+			TalkSocial,
+			Armlet1,
+			Armlet2,
 			COUNT
 		}
 	}
@@ -254,9 +258,9 @@ public abstract class Item : ModelElement, IHaveName
 	#region Methods
 	public string Name => Attributes["name2"].GetText() ?? ToString();
 
-	public ImageProperty BackIcon => IconTexture.GetBackground(ItemGrade);
+	public Icon FrontIcon => Attributes.Get<Icon>("icon");
 
-	public ImageProperty FrontIcon => Attributes.Get<Icon>("icon")?.GetImage();
+	public ImageProperty BackgroundImage => IconTexture.GetBackground(ItemGrade);
 
 	public FPackageIndex CanSaleItemImage => new MyFPackageIndex(
 		Auctionable ? "BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_Icon3_R/SlotItem_marketBusiness.SlotItem_marketBusiness" :
@@ -275,17 +279,6 @@ public abstract class Item : ModelElement, IHaveName
 			return this.Attributes["description6"]?.GetText();
 		}
 	}
-
-	public bool IsExpiration
-	{
-		get
-		{
-			var time = Attributes.Get<Record>("event-info")?.Attributes.Get<Time64>("event-expiration-time");
-			if (time is null) return false;
-
-			return time.Value < DateTimeOffset.Now.ToUnixTimeSeconds();
-		}
-	}
 	#endregion
 }
 
@@ -293,15 +286,15 @@ public class ItemDecomposeInfo
 {
 	#region Fields
 	public bool DecomposeRewardByConsumeIndex;
-	public int DecomposeMax = 1;
-	public int DecomposeMoneyCost;
-
 	public Reward[] DecomposeReward;
 	public Reward DecomposeEventReward;
 	public Dictionary<JobSeq, Reward> DecomposeJobRewards = [];
-
-	public Tuple<Item, short>[] Decompose_By_Item2;
-	public Tuple<Item, short>[] Job_Decompose_By_Item2;
+	public int DecomposeMax = 1;
+	public int DecomposeMoneyCost;
+	public Item[] DecomposeByItem2;
+	public short[] DecomposeByItem2StackCount;
+	public Item[] JobDecomposeByItem2;
+	public short[] JobDecomposeByItem2StackCount;
 	#endregion
 
 	#region Constructor
@@ -309,15 +302,16 @@ public class ItemDecomposeInfo
 	{
 		var attributes = data.Attributes;
 
+		DecomposeRewardByConsumeIndex = attributes.Get<bool>("decompose-reward-by-consume-index");
+		DecomposeReward = attributes.Get<Reward[]>("decompose-reward");
+		DecomposeEventReward = attributes.Get<Reward>("decompose-event-reward");
+		Job.PcJobs.ForEach(job => DecomposeJobRewards[job] = attributes.Get<Reward>("decompose-job-reward-" + job.GetDescription()));
 		DecomposeMax = attributes.Get<sbyte>("decompose-max");
 		DecomposeMoneyCost = attributes.Get<int>("decompose-money-cost");
-		DecomposeRewardByConsumeIndex = attributes.Get<BnsBoolean>("decompose-reward-by-consume-index");
-
-		LinqExtensions.For(ref DecomposeReward, 7, (id) => attributes.Get<Reward>("decompose-reward-" + id));
-		Job.GetPcJob().ForEach(job => DecomposeJobRewards[job] = attributes.Get<Reward>("decompose-job-reward-" + job.GetDescription()));
-
-		LinqExtensions.For(ref Decompose_By_Item2, 7, (id) => new(attributes.Get<Item>("decompose-by-item2-" + id), attributes.Get<short>("decompose-by-item2-stack-count-" + id)));
-		LinqExtensions.For(ref Job_Decompose_By_Item2, 7, (id) => new(attributes.Get<Item>("job-decompose-by-item2-" + id), attributes.Get<short>("job-decompose-by-item2-stack-count-" + id)));
+		DecomposeByItem2 = attributes.Get<Item[]>("decompose-by-item2");
+		DecomposeByItem2StackCount = attributes.Get<short[]>("decompose-by-item2-stack-count");
+		JobDecomposeByItem2 = attributes.Get<Item[]>("job-decompose-by-item2");
+		JobDecomposeByItem2StackCount = attributes.Get<short[]>("job-decompose-by-item2-stack-count");
 	}
 	#endregion
 
@@ -325,9 +319,9 @@ public class ItemDecomposeInfo
 	#region Methods
 	public FPackageIndex GetImage()
 	{
-		var image = GetImage(this.Decompose_By_Item2[0].Item1);
-		image ??= GetImage(this.Job_Decompose_By_Item2[0].Item1);
-		image ??= this.DecomposeMoneyCost == 0 ? null : new MyFPackageIndex("BNSR/Content/Art/UI/GameUI/Resource/GameUI_Icon/Weapon_Lock_04.Weapon_Lock_04");
+		var image = GetImage(DecomposeByItem2[0]);
+		image ??= GetImage(JobDecomposeByItem2[0]);
+		image ??= DecomposeMoneyCost == 0 ? null : new MyFPackageIndex("BNSR/Content/Art/UI/GameUI/Resource/GameUI_Icon/Weapon_Lock_04.Weapon_Lock_04");
 
 		return image;
 	}

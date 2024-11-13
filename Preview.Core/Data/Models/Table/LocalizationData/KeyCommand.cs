@@ -1,4 +1,4 @@
-﻿using Xylia.Preview.Data.Helpers;
+﻿using Xylia.Preview.Common;
 using Xylia.Preview.Data.Models.Sequence;
 
 namespace Xylia.Preview.Data.Models;
@@ -46,6 +46,6 @@ public sealed class KeyCommand : ModelElement
 
 	public override string ToString() => this.Key1?.Image;
 
-	public static KeyCommand Cast(KeyCommandSeq KeyCommand) => FileCache.Data.Provider.GetTable<KeyCommand>().FirstOrDefault(o => o.Command == KeyCommand);
+	public static KeyCommand Cast(KeyCommandSeq KeyCommand) => Globals.GameData.Provider.GetTable<KeyCommand>().FirstOrDefault(o => o.Command == KeyCommand);
 	#endregion
 }

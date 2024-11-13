@@ -96,7 +96,9 @@ internal class TableArchive
 			records.Add(row);
 		}
 
+		table.Records = records;
 		table.RecordCountOffset = _recordUncompressedReader.GetRecordCountOffset();
+		table.Padding = _recordUncompressedReader.GetPadding().ToArray();
 
 		if (rowMemory.StringBufferBegin != null)
 		{
@@ -105,12 +107,6 @@ internal class TableArchive
 
 			stringLookup.Data = stringBuffer;
 		}
-
-		_recordUncompressedReader.GetPadding(out var padding);
-		if (padding.Length > 0)
-			table.Padding = padding.ToArray();
-
-		table.Records = records;
 
 #if DEVELOP
 		if (table.RecordCountOffset != 0)

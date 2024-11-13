@@ -26,17 +26,17 @@ public class Texture : IDisposable
     public int Height;
 
     private const int DisabledChannel = (int)BlendingFactor.Zero;
-    private readonly bool[] _values = { true, true, true, true };
-    private readonly string[] _labels = { "R", "G", "B", "A" };
+    private readonly bool[] _values = [true, true, true, true];
+    private readonly string[] _labels = ["R", "G", "B", "A"];
     public int[] SwizzleMask =
-    {
+    [
         (int) PixelFormat.Red,
         (int) PixelFormat.Green,
         (int) PixelFormat.Blue,
         (int) PixelFormat.Alpha
-    };
+    ];
 
-    public Texture(TextureType type)
+    private Texture(TextureType type)
     {
         _handle = GL.GenTexture();
         _type = type;
@@ -89,7 +89,19 @@ public class Texture : IDisposable
         Height = bitmap.Height;
         Bind(TextureUnit.Texture0);
 
-        GL.TexImage2D(_target, 0, texture2D.SRGB ? PixelInternalFormat.Srgb : PixelInternalFormat.Rgb, Width, Height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, bitmap.Bytes);
+        var internalFormat = Format switch
+        {
+            EPixelFormat.PF_G8 => PixelInternalFormat.R8,
+            _ => texture2D.SRGB ? PixelInternalFormat.Srgb : PixelInternalFormat.Rgb
+        };
+
+        var pixelFormat = Format switch
+        {
+            EPixelFormat.PF_G8 => PixelFormat.Red,
+            _ => PixelFormat.Rgba
+        };
+
+        GL.TexImage2D(_target, 0, internalFormat, Width, Height, 0, pixelFormat, PixelType.UnsignedByte, bitmap.Bytes);
         GL.TexParameter(_target, TextureParameterName.TextureMinFilter, (int) TextureMinFilter.LinearMipmapLinear);
         GL.TexParameter(_target, TextureParameterName.TextureMagFilter, (int) TextureMagFilter.Linear);
         GL.TexParameter(_target, TextureParameterName.TextureBaseLevel, 0);
@@ -150,14 +162,14 @@ public class Texture : IDisposable
     {
 		var info = Application.GetResourceStream(new Uri($"/Views/FModel/Resources/{texture}.png", UriKind.Relative));
 		using var img = SKBitmap.Decode(info.Stream);
-        Width = img.Width;
-        Height = img.Height;
-        GL.TexImage2D(target, 0, PixelInternalFormat.Rgb, Width, Height, 0, PixelFormat.Bgra, PixelType.UnsignedByte, img.Bytes);
+		Width = img.Width;
+		Height = img.Height;
+		GL.TexImage2D(target, 0, PixelInternalFormat.Rgb, Width, Height, 0, PixelFormat.Bgra, PixelType.UnsignedByte, img.Bytes);
 		GL.TexParameter(target, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.LinearMipmapLinear);
 		GL.TexParameter(target, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
 	}
 
-	public void Bind(TextureUnit textureSlot)
+    public void Bind(TextureUnit textureSlot)
     {
         GL.ActiveTexture(textureSlot);
         Bind(_target);

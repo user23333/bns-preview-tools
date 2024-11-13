@@ -17,23 +17,23 @@ internal class AliasTableWriter
 
 		writer.Write(table.RootEntry.Begin);
 		writer.Write(table.RootEntry.End);
-		writer.Write(table.Entries.Count);
+		writer.Write(table.Entries.Length);
 
 		var stringTableMemory = new MemoryStream();
 		var stringTableWriter = new BinaryWriter(stringTableMemory, Encoding.Default, true);
 
-        foreach (var entry in table.Entries)
-        {
-            entry.StringOffset = (int)stringTableMemory.Position;
-            stringTableWriter.Write(KoreanEncoding.GetBytes(entry.String));
-            stringTableWriter.Write((byte)0);
+		foreach (var entry in table.Entries)
+		{
+			entry.StringOffset = (int)stringTableMemory.Position;
+			stringTableWriter.Write(KoreanEncoding.GetBytes(entry.String));
+			stringTableWriter.Write((byte)0);
 
-            writer.WriteLongInt(entry.StringOffset);
-            writer.Write(entry.Begin);
-            writer.Write(entry.End);
-        }
+			writer.WriteLongInt(entry.StringOffset);
+			writer.Write(entry.Begin);
+			writer.Write(entry.End);
+		}
 
-        stringTableWriter.Flush();
+		stringTableWriter.Flush();
 		writer.Write((uint)stringTableMemory.Length);
 		writer.Flush();
 

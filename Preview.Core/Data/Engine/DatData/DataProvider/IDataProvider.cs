@@ -10,7 +10,7 @@ namespace Xylia.Preview.Data.Engine.DatData;
 /// <summary>
 /// bns data package provider
 /// </summary>
-public interface IDataProvider : IDisposable , ITextProvider
+public interface IDataProvider : IDisposable, ITextProvider
 {
 	#region Fields
 	/// <summary>
@@ -18,10 +18,10 @@ public interface IDataProvider : IDisposable , ITextProvider
 	/// </summary>
 	string Name { get; }
 
-    /// <summary>
-    /// DataSource localized information
-    /// </summary>
-    Locale Locale => default;
+	/// <summary>
+	/// DataSource localized information
+	/// </summary>
+	Locale Locale => default;
 
 	/// <summary>
 	/// DataSource Timestamp
@@ -33,14 +33,10 @@ public interface IDataProvider : IDisposable , ITextProvider
 	/// </summary>
 	BnsVersion ClientVersion { get; }
 
-    /// <summary>
-    /// bns data table
-    /// </summary>
-    TableCollection Tables { get; }
-	#endregion
-
-	#region Properties
-	string ITextProvider.this[string alias] => GetTable("text")[alias]?.Attributes.Get<string>("text");
+	/// <summary>
+	/// bns data table
+	/// </summary>
+	TableCollection Tables { get; }
 	#endregion
 
 	#region Methods
@@ -65,7 +61,7 @@ public interface IDataProvider : IDisposable , ITextProvider
 	/// <param name="name"></param>
 	/// <param name="reload"></param>
 	/// <returns></returns>
-	public GameDataTable<T> GetTable<T>(string name = null, bool reload = false) where T : ModelElement => Tables.Get<T>(name , reload);
+	public GameDataTable<T> GetTable<T>(string name = null, bool reload = false) where T : ModelElement => Tables.Get<T>(name, reload);
 
 
 	/// <summary>
@@ -80,6 +76,10 @@ public interface IDataProvider : IDisposable , ITextProvider
 	/// </summary>
 	/// <param name="folder"></param>
 	/// <param name="settings"></param>
-	public void WriteData(string folder, PublishSettings settings) => throw new NotImplementedException();
+	public void WriteData(string folder, RebuildSettings settings) => throw new NotImplementedException();
+	#endregion
+
+	#region Properties
+	string ITextProvider.this[string alias] => GetTable("text")[alias]?.Attributes.Get<string>("text");
 	#endregion
 }

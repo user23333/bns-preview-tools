@@ -2,11 +2,10 @@
 using CUE4Parse.UE4.Objects.UObject;
 using Xylia.Preview.Common.Attributes;
 using Xylia.Preview.Common.Extension;
+using Xylia.Preview.Data.Common;
 using Xylia.Preview.Data.Common.Abstractions;
-using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models.Sequence;
 using Xylia.Preview.Data.Models.Sequence.Combat;
-using static Xylia.Preview.Data.Models.Duel;
 using static Xylia.Preview.Data.Models.PartyBattleFieldZone;
 
 namespace Xylia.Preview.Data.Models;
@@ -92,9 +91,9 @@ public sealed class Quest : ModelElement, IHaveName
 		ExceptCompletionAndLogoutSave,
 	}
 
-	public CategorySeq Category => Attributes["category"].ToEnum<CategorySeq>();
-	public ContentTypeSeq ContentType => Attributes["content-type"].ToEnum<ContentTypeSeq>();
-	public ResetType ResetType => Attributes["reset-type"].ToEnum<ResetType>();
+	public CategorySeq Category => Attributes.Get<CategorySeq>("category");
+	public ContentTypeSeq ContentType => Attributes.Get<ContentTypeSeq>("content-type");
+	public ResetType ResetType => Attributes.Get<ResetType>("reset-type");
 	#endregion
 
 
@@ -478,7 +477,14 @@ public abstract class Case : ModelElement
 			Lose,
 		}
 
-		public DuelType DuelType { get; set; }
+		public DuelTypeSeq DuelType { get; set; }
+		public enum DuelTypeSeq
+		{
+			None,
+			DeathMatch1VS1,
+			TagMatch3VS3,
+			SuddenDeath3VS3,
+		}
 
 		public ArenaMatchingRuleDetail ArenaMatchingRuleDetail { get; set; }
 

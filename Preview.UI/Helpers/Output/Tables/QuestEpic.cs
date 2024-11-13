@@ -1,11 +1,11 @@
 ﻿using OfficeOpenXml;
-using Xylia.Preview.Data.Helpers;
+using Xylia.Preview.Common;
 using Xylia.Preview.Data.Models;
 using Xylia.Preview.Data.Models.Sequence;
 using Xylia.Preview.UI.ViewModels;
 
 namespace Xylia.Preview.UI.Helpers.Output.Tables;
-public sealed class QuestEpic : OutSet
+internal sealed class QuestEpic : OutSet
 {
 	protected override void CreateData(ExcelPackage package)
 	{
@@ -33,7 +33,7 @@ public sealed class QuestEpic : OutSet
 	}
 
 
-	public static void GetEpic(Action<Quest> act, JobSeq? job = null) => GetEpic(FileCache.Data.Provider.GetTable<Quest>()["q_epic_221"], act, job ?? UserSettings.Default.Job);
+	public static void GetEpic(Action<Quest> act, JobSeq? job = null) => GetEpic(Globals.GameData.Provider.GetTable<Quest>()["q_epic_221"], act, job ?? UserSettings.Default.Job);
 
 	public static void GetEpic(Quest quest, Action<Quest> act, JobSeq job)
 	{

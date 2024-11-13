@@ -6,7 +6,7 @@
 	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
 	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
 	  xmlns:VM="clr-namespace:Xylia.Preview.UI.ViewModels">
-	
+
 	<TabControl BorderThickness="0">
 		<TabItem Header="{DynamicResource ItemList_Name}" d:Header="ItemList">
 			<Grid>
@@ -27,7 +27,7 @@
 						Text="{Binding GameFolder, Source={x:Static VM:UserSettings.Default}, Mode=OneWay}" Command="{Binding OpenSettingsCommand}" />
 				<hc:SearchBar Grid.Row="1"
 						Style="{StaticResource SearchBarExtend}" hc:InfoElement.Title="{DynamicResource ItemList_Path}"
-						Text="{Binding ItemListPath}" Command="{Binding BrowerItemListCommand}"
+						Text="{Binding HashPath}" Command="{Binding BrowerItemListCommand}"
 						Visibility="{Binding OnlyUpdate, Converter={StaticResource Boolean2VisibilityConverter}}" />
 				<CheckBox Grid.Row="2" IsChecked="{Binding OnlyUpdate}" Margin="0 15 0 0" d:Content="Only Update" Content="{DynamicResource ItemList_OnlyUpdate}" />
 
@@ -35,7 +35,7 @@
 			</Grid>
 		</TabItem>
 
-		<TabItem Header="{DynamicResource Text_Preview}" d:Header="Preview">
+		<TabItem Header="{DynamicResource Text.Preview}" d:Header="Preview">
 			<WrapPanel Orientation="Vertical">
 				<WrapPanel.Resources>
 					<Style TargetType="{x:Type Button}">
@@ -61,11 +61,11 @@
 
 		<TabItem Header="Test" x:Name="TestHolder" Visibility="Collapsed">
 			<StackPanel>
-				<Button Content="Def Manager Test" Click="TestButton1_Click" />
-				
+				<Button Content="TestButton1" Click="TestButton1_Click" />
+
 				<c:BnsCustomLabelWidget x:Name="TestLabel">
 					<c:BnsCustomLabelWidget.Text>
-						<![CDATA[123]]>
+						<![CDATA[<p topmargin="0">1111</p><p justification="true" leftmargin="0" topmargin="0">2222</p>]]>
 					</c:BnsCustomLabelWidget.Text>
 				</c:BnsCustomLabelWidget>
 
@@ -81,5 +81,5 @@
 			</StackPanel>
 		</TabItem>
 	</TabControl>
-	
+
 </Page>

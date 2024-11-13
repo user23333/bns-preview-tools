@@ -1,4 +1,6 @@
-﻿namespace Xylia.Preview.Common.Extension;
+﻿using Xylia.Preview.Data.Models;
+
+namespace Xylia.Preview.Common.Extension;
 public static class LinqExtensions
 {
 	#region IEnumerable
@@ -80,12 +82,12 @@ public static class LinqExtensions
 		return array;
 	}
 
-	public static Tuple<T1, T2>[] Create<T1, T2>(T1[] array1, T2[] array2)
+	public static Tuple<T1, T2>[] Tuple<T1, T2>(T1[] array1, T2[] array2)
 	{
 		ArgumentNullException.ThrowIfNull(array1);
 		ArgumentNullException.ThrowIfNull(array2);
 
-		var source = new Tuple<T1, T2>[Math.Max(array1.Length, array2.Length)];
+		var source = new Tuple<T1, T2>[array1.Length];
 		for (int i = 0; i < source.Length; i++)
 		{
 			source[i] = new Tuple<T1, T2>(
@@ -94,6 +96,31 @@ public static class LinqExtensions
 		}
 
 		return source;
+	}
+
+	public static Tuple<T1, T2, T3>[] Tuple<T1, T2, T3>(T1[] array1, T2[] array2, T3[] array3)
+	{
+		ArgumentNullException.ThrowIfNull(array1);
+		ArgumentNullException.ThrowIfNull(array2);
+		ArgumentNullException.ThrowIfNull(array3);
+
+		var source = new Tuple<T1, T2, T3>[array1.Length];
+		for (int i = 0; i < source.Length; i++)
+		{
+			source[i] = new Tuple<T1, T2, T3>(
+				array1.ElementAtOrDefault(i),
+				array2.ElementAtOrDefault(i),
+				array3.ElementAtOrDefault(i));
+		}
+
+		return source;
+	}
+	#endregion
+
+	#region Expand
+	public static IEnumerable<T> Values<T>(this IEnumerable<Ref<T>> source) where T : ModelElement
+	{
+		return source?.Select(x => x.Instance).Where(x => x != null) ?? [];
 	}
 	#endregion
 }

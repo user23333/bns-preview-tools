@@ -8,9 +8,9 @@ public static partial class ClassExtension
 	public static PropertyInfo GetProperty<T>(this T instance, string name)
 	{
 		var flags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.IgnoreCase;
-		var type = instance.GetType();
 
-		return type.GetProperty(name.Replace("-", null), flags);
+		name = name?.Replace("-", null);
+		return name is null ? null : instance.GetType().GetProperty(name, flags);
 	}
 
 	public static bool IsNullOrDefault<T>(this T argument)

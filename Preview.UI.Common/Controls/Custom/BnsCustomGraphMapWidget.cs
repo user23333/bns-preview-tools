@@ -5,8 +5,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using Xylia.Preview.Common;
 using Xylia.Preview.Common.Extension;
-using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models;
 using Xylia.Preview.Data.Models.Sequence;
 using Xylia.Preview.UI.Controls.Helpers;
@@ -57,7 +57,7 @@ public class BnsCustomGraphMapWidget : BnsCustomBaseWidget
 
 
 	#region Public Properties
-	private static readonly System.Type Owner = typeof(BnsCustomGraphMapWidget);
+	private static readonly Type Owner = typeof(BnsCustomGraphMapWidget);
 
 	public static readonly DependencyProperty CellSizeProperty = Owner.Register(nameof(CellSize), new Size(150, 150),
 		FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender);
@@ -90,7 +90,7 @@ public class BnsCustomGraphMapWidget : BnsCustomBaseWidget
 		this.Children.Clear();
 
 		#region Data
-		var table = FileCache.Data.Provider.GetTable<ItemGraph>();
+		var table = Globals.GameData.Provider.GetTable<ItemGraph>();
 		var seeds = table.Where(record => record is ItemGraph.Seed seed).Cast<ItemGraph.Seed>();
 
 		var seq = type.ToEnum<EquipType>();
@@ -127,7 +127,7 @@ public class BnsCustomGraphMapWidget : BnsCustomBaseWidget
 			//widget.ExpansionComponentList["Node_Icon"]?.SetValue(item.Icon);
 			widget.ExpansionComponentList["Node_ItemName"]?.SetValue(item.ItemName);
 
-			if (SeedItems.Length > 1) widget.ExpansionComponentList["Node_SubGroupImage"]?.SetShow(true);
+			if (SeedItems.Length > 1) widget.ExpansionComponentList["Node_SubGroupImage"]?.SetExpansionShow(true);
 			#endregion
 
 			this.Children.Add(items[item] = widget);
@@ -178,7 +178,7 @@ public class BnsCustomGraphMapWidget : BnsCustomBaseWidget
 		NodeMenu.Items.Cast<DependencyObject>().ForEach(item => SetCommandTarget(item , NodeMenu));
 
 		//NodeTemplate.ExpansionComponentList["Node_Icon"].ImageProperty =
-		//	FileCache.Data.Provider.GetTable<Item>()[new Ref(2080002, 1)]?.Icon;
+		//	Globals.GameData.Provider.GetTable<Item>()[new Ref(2080002, 1)]?.Icon;
 	}
 
 	protected override void OnPreviewMouseWheel(MouseWheelEventArgs e)
@@ -322,11 +322,11 @@ public class BnsCustomGraphMapWidget : BnsCustomBaseWidget
 	{
 		if (sender is not BnsCustomGraphMapWidget widget) return;
 
-		widget.Starting?.ExpansionComponentList["Node_StartImage"]?.SetShow(false);
+		widget.Starting?.ExpansionComponentList["Node_StartImage"]?.SetExpansionShow(false);
 		widget.Starting = e.Source as BnsCustomImageWidget;
-		widget.Starting!.ExpansionComponentList["Node_StartImage"]?.SetShow(true);
+		widget.Starting!.ExpansionComponentList["Node_StartImage"]?.SetExpansionShow(true);
 
-		//FileCache.Data.Provider.GetTable<GameMessage>()["Msg.ItemGraph.SetStartingPoint"]?.Instant();
+		//Globals.GameData.Provider.GetTable<GameMessage>()["Msg.ItemGraph.SetStartingPoint"]?.Instant();
 		widget.FindPath();
 	}
 
@@ -334,11 +334,11 @@ public class BnsCustomGraphMapWidget : BnsCustomBaseWidget
 	{
 		if (sender is not BnsCustomGraphMapWidget widget) return;
 
-		widget.Destination?.ExpansionComponentList["Node_PurposeImage"]?.SetShow(false);
+		widget.Destination?.ExpansionComponentList["Node_PurposeImage"]?.SetExpansionShow(false);
 		widget.Destination = e.Source as BnsCustomImageWidget;
-		widget.Destination!.ExpansionComponentList["Node_PurposeImage"]?.SetShow(true);
+		widget.Destination!.ExpansionComponentList["Node_PurposeImage"]?.SetExpansionShow(true);
 
-		//FileCache.Data.Provider.GetTable<GameMessage>()["Msg.ItemGraph.SetDestination"]?.Instant();
+		//Globals.GameData.Provider.GetTable<GameMessage>()["Msg.ItemGraph.SetDestination"]?.Instant();
 		widget.FindPath();
 	}
 

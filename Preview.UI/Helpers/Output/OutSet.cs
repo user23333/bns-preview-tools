@@ -4,24 +4,26 @@ using CUE4Parse.Utils;
 using HandyControl.Controls;
 using OfficeOpenXml;
 using Ookii.Dialogs.Wpf;
+using Xylia.Preview.Common;
 using Xylia.Preview.Data.Client;
-using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.UI.Common.Converters;
 
 namespace Xylia.Preview.UI.Helpers.Output;
-public abstract class OutSet
+internal abstract class OutSet
 {
 	#region Constructor
+
 	static OutSet()
 	{
 		ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 	}
+
 	#endregion
 
-	#region Properies
+	#region Properties
 	public virtual string Name => GetType().Name.SubstringBefore("Out", StringComparison.OrdinalIgnoreCase);
 
-	protected virtual BnsDatabase? Source { get; set; } = FileCache.Data;
+	protected virtual BnsDatabase? Source { get; set; } = Globals.GameData;
 	#endregion
 
 	#region Methods

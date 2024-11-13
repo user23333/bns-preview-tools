@@ -23,9 +23,9 @@
 				</Grid.RowDefinitions>
 
 
-				<hc:SearchBar Grid.Row="0" hc:InfoElement.Title="{DynamicResource Settings_OutputDirectory}" Style="{StaticResource SearchBarExtend}" 
+				<hc:SearchBar Grid.Row="0" Style="{StaticResource SearchBarExtend}" hc:InfoElement.Title="{DynamicResource Settings_OutputDirectory}" hc:InfoElement.Necessary="True" 
 					Text="{Binding OutputFolderResource, Source={x:Static VM:UserSettings.Default}, Mode=OneWay}" Command="{Binding OpenSettingsCommand}"/>
-				<hc:ComboBox Grid.Row="1" x:Name="Selector" hc:InfoElement.Title="{DynamicResource Asset_FilterPah}" IsEditable="True" IsTextSearchEnabled="True" >
+				<hc:ComboBox Grid.Row="1" x:Name="Selector" hc:InfoElement.Title="{DynamicResource Asset_FilterPah}" hc:InfoElement.Necessary="True" IsEditable="True" IsTextSearchEnabled="True" >
 					<ComboBoxItem Content="Game/Art/UI/GameUI/Resource/GameUI_Icon/" />
 					<ComboBoxItem Content="Game/Art/UI/GameUI/Resource/GameUI_Icon2nd" />
 					<ComboBoxItem Content="Game/Art/UI/GameUI/Resource/GameUI_Icon3rd" />
@@ -51,10 +51,10 @@
 					<ListBox Grid.Column="0" ItemsSource="{Binding Packages}" SelectedItem="{Binding SelectedPackage}" DisplayMemberPath="Name">
 						<ListBox.ContextMenu>
 							<ContextMenu>
-								<MenuItem Header="Add" Command="{Binding AddPackageInfoCommand}" />
-								<MenuItem Header="Remove" Command="{Binding RemovePackageInfoCommand}" />
-								<MenuItem Header="Load" Command="{Binding LoadPackageInfoCommand}" />
-								<MenuItem Header="Save" Command="{Binding SavePackageInfoCommand}" />
+								<MenuItem Header="{DynamicResource Text.Add}" Command="{Binding AddPackageInfoCommand}" />
+								<MenuItem Header="{DynamicResource Text.Remove}" Command="{Binding RemovePackageInfoCommand}" />
+								<MenuItem Header="{DynamicResource Text.Load}" Command="{Binding LoadPackageInfoCommand}" />
+								<MenuItem Header="{DynamicResource Text.Save}" Command="{Binding SavePackageInfoCommand}" />
 							</ContextMenu>
 						</ListBox.ContextMenu>
 					</ListBox>
@@ -62,9 +62,9 @@
 					<ListBox Grid.Column="1" ItemsSource="{Binding SelectedPackage.Files}" SelectedItem="{Binding SelectedFile}" Margin="5 0 0 0">
 						<ListBox.ContextMenu>
 							<ContextMenu>
-								<MenuItem Header="Update" Command="{Binding UpdateFileInfoCommand}" />
-								<MenuItem Header="Add" Command="{Binding AddFileInfoCommand}" />
-								<MenuItem Header="Remove" Command="{Binding RemoveFileInfoCommand}" />
+								<MenuItem Header="{DynamicResource Text.Update}" Command="{Binding UpdateFileInfoCommand}" />
+								<MenuItem Header="{DynamicResource Text.Add}" Command="{Binding AddFileInfoCommand}" />
+								<MenuItem Header="{DynamicResource Text.Remove}" Command="{Binding RemoveFileInfoCommand}" />
 							</ContextMenu>
 						</ListBox.ContextMenu>
 						<ListBox.ItemTemplate>
@@ -149,11 +149,11 @@
 
 				<!-- Left -->
 				<StackPanel Grid.Column="0">
-					<ComboBox x:Name="Combobox_Grade" ItemsSource="{Binding GradeList}" SelectedItem="{Binding MergeIcon_Grade}" />
-					<ComboBox x:Name="Combobox_BottomLeft" ItemsSource="{Binding BottomLeftList}" SelectedItem="{Binding MergeIcon_BottomLeft}" />
-					<ComboBox x:Name="Combobox_TopRight" ItemsSource="{Binding TopRightList}" SelectedItem="{Binding MergeIcon_TopRight}" />
+					<ComboBox x:Name="Combobox_Grade" ItemsSource="{Binding GradeList}" SelectedItem="{Binding MergeIcon_Grade}" DisplayMemberPath="Name" />
+					<ComboBox x:Name="Combobox_BottomLeft" ItemsSource="{Binding BottomLeftList}" SelectedItem="{Binding MergeIcon_BottomLeft}" DisplayMemberPath="Name" />
+					<ComboBox x:Name="Combobox_TopRight" ItemsSource="{Binding TopRightList}" SelectedItem="{Binding MergeIcon_TopRight}" DisplayMemberPath="Name" />
 
-					<CheckBox Content="{DynamicResource MergeIcon_BackgroundMode}" IsChecked="{Binding MergeIcon_BackgroundMode}" ToolTip="UE4 resouce"/>
+					<CheckBox Content="{DynamicResource MergeIcon_BackgroundMode}" IsChecked="{Binding MergeIcon_BackgroundMode}" />
 				</StackPanel>
 
 				<!-- Center -->
@@ -163,8 +163,8 @@
 
 				<!-- Right -->
 				<hc:ButtonGroup Grid.Column="2" Orientation="Vertical">
-					<Button Content="{DynamicResource Text_Reset}" Click="Reset_Click"/>
-					<Button Content="{DynamicResource Text_Save}" Command="{Binding MergeIcon_SaveCommand}" />
+					<Button Content="{DynamicResource Text.Reset}" Click="Reset_Click"/>
+					<Button Content="{DynamicResource Text.Save}" Command="{Binding MergeIcon_SaveCommand}" />
 				</hc:ButtonGroup>
 			</Grid>
 		</TabItem>

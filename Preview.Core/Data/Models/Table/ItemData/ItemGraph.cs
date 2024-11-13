@@ -1,6 +1,4 @@
-﻿using Xylia.Preview.Data.Common.Abstractions;
-using Xylia.Preview.Data.Helpers;
-using Xylia.Preview.Data.Models.Sequence;
+﻿using Xylia.Preview.Data.Models.Sequence;
 
 namespace Xylia.Preview.Data.Models;
 public class ItemGraph : ModelElement
@@ -84,11 +82,11 @@ public class ItemGraph : ModelElement
 				var item = this.SeedItem.FirstOrDefault().Instance;
 				if (item is null) return;
 
-				var Improve = this.Provider.GetTable<ItemImprove>().FirstOrDefault(x => x.Id == item.ImproveId && x.Level == item.ImproveLevel);
-				if (Improve != null)
+				var improve = this.Provider.GetTable<ItemImprove>().FirstOrDefault(x => x.Id == item.ImproveId && x.Level == item.ImproveLevel);
+				if (improve != null)
 				{
 					var NextItem = item.Attributes.Get<Record>("improve-next-item");
-					foreach (var recipe in Improve.CreateRecipe())
+					foreach (var recipe in improve.GetRecipes())
 					{
 						table.Elements.Add(new ItemGraph.Edge()
 						{
@@ -101,10 +99,10 @@ public class ItemGraph : ModelElement
 					}
 				}
 
-				var Succession = ItemImproveSuccession.FindByFeed(Provider, item, ImproveSuccessionSeed);
-				if (Succession != null)
+				var succession = ItemImproveSuccession.FindByFeed(Provider, item, ImproveSuccessionSeed);
+				if (succession != null)
 				{
-					foreach (var recipe in Succession.CreateRecipe(ImproveSuccessionSeed, out var NextItem))
+					foreach (var recipe in succession.CreateRecipe(ImproveSuccessionSeed, out var NextItem))
 					{
 						table.Elements.Add(new ItemGraph.Edge()
 						{
@@ -139,14 +137,14 @@ public class ItemGraph : ModelElement
 		#endregion
 
 		#region Helper
+		public string Title => $"{StartItem.Instance?.ItemName} ➠ {EndItem.Instance?.ItemName}";
+
+		public RecipeHelper Recipe { get; internal set; }
+
 		public void CreateRecipeHelper()
 		{
-			Recipe = FeedRecipe.Instance?.CreateRecipe();
+			Recipe = FeedRecipe.Instance?.GetRecipe();
 		}
-
-		public ItemRecipeHelper Recipe { get; internal set; }
-
-		public string Title => $"{StartItem.Instance?.ItemName} ➠ {EndItem.Instance?.ItemName}";
 		#endregion
 	}
 	#endregion

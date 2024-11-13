@@ -98,7 +98,7 @@ public struct Time64(long ticks) : IFormattable, ITime, IComparable<Time64>
 	#region Override Methods
 	public readonly override string ToString() => ToString(null, null);
 	public readonly string ToString(string format) => ToString(format, null);
-	public readonly string ToString(string format, IFormatProvider formatProvider) => TimeFormat.Format(this + BnsTimeZoneInfo.FromPublisher()!.Offset, format, formatProvider);
+	public readonly string ToString(string format, IFormatProvider formatProvider) => BnsTimeFormat.Format(this + BnsTimeZoneInfo.FromPublisher()!.Offset, format, formatProvider);
 
 	public readonly bool Equals(Time64 other) => Ticks == other.Ticks;
 	public readonly override bool Equals(object obj) => obj is Time64 other && Equals(other);
@@ -106,15 +106,14 @@ public struct Time64(long ticks) : IFormattable, ITime, IComparable<Time64>
 	public readonly int CompareTo(Time64 other) => this.Ticks.CompareTo(other.Ticks);
 	#endregion
 
-	#region Static Methods
+	#region Operators
 	public static bool operator ==(Time64 a, Time64 b) => a.CompareTo(b) == 0;
 	public static bool operator !=(Time64 a, Time64 b) => a.CompareTo(b) != 0;
 	public static bool operator <(Time64 a, Time64 b) => a.CompareTo(b) < 0;
 	public static bool operator >(Time64 a, Time64 b) => a.CompareTo(b) > 0;
 
-	public static Msec operator -(Time64 a, Time64 b) => (int)((a.Ticks - b.Ticks) * 1000);
-	public static Msec operator +(Time64 a, Time64 b) => (int)((a.Ticks + b.Ticks) * 1000);
-
+	public static Msec operator -(Time64 a, Time64 b) => ((long)a.Ticks - (long)b.Ticks) * 1000;
+	public static Msec operator +(Time64 a, Time64 b) => ((long)a.Ticks + (long)b.Ticks) * 1000;
 	public static Time64 operator -(Time64 a, Msec b) => (long)(a.Ticks - b.TotalSeconds);
 	public static Time64 operator +(Time64 a, Msec b) => (long)(a.Ticks + b.TotalSeconds);
 

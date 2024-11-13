@@ -585,9 +585,9 @@ public sealed class Npc : ModelElement
 
 	public bool JobChange { get; set; }
 
-	//public RaceType2 RaceType2 { get; set; }
+	public Race2AttributesInfo.RaceType2 RaceType2 { get; set; }
 
-	//public AttributeType AttributeType { get; set; }
+	public Race2AttributesInfo.AttributeType AttributeType { get; set; }
 
 	public int FatigabilityConsumeAmount { get; set; }
 
@@ -608,30 +608,6 @@ public sealed class Npc : ModelElement
 	#endregion
 
 	#region Methods
-	protected override void LoadHiddenField()
-	{
-		string alias = this.Attributes.Get<string>("alias");
-		var comparer = StringComparison.OrdinalIgnoreCase;
-
-		if (this.Attributes["brain"] is null)
-		{
-			string BrainInfo;
-			if (this.Attributes["boss-npc"] != null) BrainInfo = "Boss";
-			else if (alias.StartsWith("CH_", comparer) || alias.StartsWith("CE_", comparer)) BrainInfo = "Citizen";
-			else if (alias.StartsWith("MH_", comparer) || alias.StartsWith("ME_", comparer)) BrainInfo = "Monster";
-			else return;
-
-			this.Attributes["brain"] = BrainInfo;
-			this.Attributes["brain-parameters"] = alias + "_bp";
-		}
-
-		if (this.Attributes["formal-radius"] is null)
-		{
-			if (this.Attributes["radius"] is not null)
-				this.Attributes["formal-radius"] = this.Attributes["radius"];
-		}
-	}
-
 	//public short AbnormalAttackPowerModify { get; set; }
 	//public short AbnormalDefendPowerModify { get; set; }
 	//public short HatePowerModify { get; set; }
@@ -734,30 +710,18 @@ public sealed class Npc : ModelElement
 			AttackAttributeBasePercent = AttackAttributeBasePercent,
 		};
 
-
-		Console.WriteLine(BossNpc.Instance?.BerserkSequenceInvokeTime);
-
-		var level = this.Level;
-		var masterylevel = this.MasteryLevel;
-
-		Console.WriteLine(this.Name2.GetText() + $" ({level})");
-
-		creature.TestMethod();
-
 		_ = this.AttackPerfectParryDamageModify;
 		_ = this.AttackAoePierceValue;
-
-		_ = this.AttackConcentrateValue;
 		_ = this.AttackCounterDamageModify;
 
 		Console.WriteLine($"parry reduce {this.DefendParryReduceModify + this.DefendParryReduceDiff} → " +
-			$"{AbilityFunction.DefendParryReducePercent.GetPercent(this.DefendParryReduceModify + this.DefendParryReduceDiff, level, this.DefendParryReducePercent):P3}");
+			$"{AbilityFunction.DefendParryReducePercent.GetPercent(this.DefendParryReduceModify + this.DefendParryReduceDiff, creature.Level, this.DefendParryReducePercent):P3}");
 
 		Console.WriteLine($"perfect parry reduce {this.DefendPerfectParryReduceModify} → " +
-			$"{AbilityFunction.DefendPerfectParryReducePercent.GetPercent(this.DefendPerfectParryReduceModify, level, this.DefendPerfectParryReducePercent):P3}");
+			$"{AbilityFunction.DefendPerfectParryReducePercent.GetPercent(this.DefendPerfectParryReduceModify, creature.Level, this.DefendPerfectParryReducePercent):P3}");
 
-		Console.WriteLine($"defend-counter {this.DefendCounterReduceModify} → " +
-			$"{AbilityFunction.DefendCounterReducePercent.GetPercent(this.DefendCounterReduceModify, level, this.DefendCounterReducePercent):P3}");
+		//Console.WriteLine($"defend-counter {this.DefendCounterReduceModify} → " +
+		//	$"{AbilityFunction.DefendCounterReducePercent.GetPercent(this.DefendCounterReduceModify, creature.level, this.DefendCounterReducePercent):P3}");
 
 		return creature;
 	}

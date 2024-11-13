@@ -1,13 +1,16 @@
-﻿using Xylia.Preview.Common.Attributes;
+﻿using System.ComponentModel;
+using System.Globalization;
+using Xylia.Preview.Common;
+using Xylia.Preview.Common.Attributes;
+using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Common.DataStruct;
-using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models.Sequence;
 using static Xylia.Preview.Data.Models.Item;
 
 namespace Xylia.Preview.Data.Models;
-
 [Side(ReleaseSide.Client)]
-public sealed class Race : ModelElement
+[TypeConverter(typeof(RaceConverter))]
+public sealed class Race : ModelElement, IHaveName
 {
 	#region Attributes
 	public RaceSeq race { get; set; }
@@ -28,17 +31,33 @@ public sealed class Race : ModelElement
 	#endregion
 
 	#region Methods
-	public static Race Get(RaceSeq? seq) => FileCache.Data.Provider.GetTable<Race>()?.FirstOrDefault(record => record.race == seq);
+	public string Name => Name2.GetText();
 
-	public static Race Get(RaceSeq2 seq) => seq switch
+	private static Race Get(RaceSeq? seq) => Globals.GameData.Provider.GetTable<Race>()?.FirstOrDefault(record => record.race == seq);
+
+	public class RaceConverter : TypeConverter
 	{
-		RaceSeq2.Kun => Get(RaceSeq.건),
-		RaceSeq2.Gon => Get(RaceSeq.곤),
-		RaceSeq2.Lyn => Get(RaceSeq.린),
-		RaceSeq2.Jin => Get(RaceSeq.진),
-		RaceSeq2.SummonedCat => Get(RaceSeq.고양이),
+		public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
+		{
+			if (sourceType == typeof(RaceSeq) || sourceType == typeof(RaceSeq2)) return true;
 
-		_ => null,
-	};
+			return base.CanConvertFrom(context, sourceType);
+		}
+
+		public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
+		{
+			return value switch
+			{
+				RaceSeq seq => Get(seq),
+				RaceSeq2.RaceNone => Get(RaceSeq.RaceNone),
+				RaceSeq2.Kun => Get(RaceSeq.건),
+				RaceSeq2.Gon => Get(RaceSeq.곤),
+				RaceSeq2.Lyn => Get(RaceSeq.린),
+				RaceSeq2.Jin => Get(RaceSeq.진),
+				RaceSeq2.SummonedCat => Get(RaceSeq.고양이),
+				_ => null,
+			};
+		}
+	}
 	#endregion
 }

@@ -2,7 +2,7 @@
 using static Xylia.Preview.Data.Models.ItemCombination;
 
 namespace Xylia.Preview.Data.Models;
-public sealed class WorldAccountCombination : ModelElement
+public sealed class WorldAccountCombination : ModelElement, IReward
 {
 	#region Attributes
 	public int Id { get; set; }
@@ -39,7 +39,7 @@ public sealed class WorldAccountCombination : ModelElement
 	#endregion
 
 	#region Methods
-	public List<ItemCombinationInfo> GetInfo()
+	public IEnumerable<IRewardHelper> GetRewards()
 	{
 		var data = new List<ItemCombinationInfo>();
 
@@ -48,9 +48,9 @@ public sealed class WorldAccountCombination : ModelElement
 			if (group is null) return;
 
 			var MemberProb = probability * 0.0001d / group.MemberItemCount;
-			foreach (var item in group.MemberItem.SelectNotNull(x => x.Instance))
+			foreach (var item in group.MemberItem.Values())
 			{
-				data.Add(new()
+				data.Add(new ItemCombinationInfo()
 				{
 					Data = item,
 					Group = name,

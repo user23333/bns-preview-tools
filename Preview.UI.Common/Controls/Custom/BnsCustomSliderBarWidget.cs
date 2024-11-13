@@ -1,10 +1,11 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using CUE4Parse.BNS.Assets.Exports;
 using Xylia.Preview.UI.Controls.Helpers;
 using Xylia.Preview.UI.Controls.Primitives;
 using Xylia.Preview.UI.Converters;
-using Orientation = CUE4Parse.BNS.Assets.Exports.Orientation;
+using Xylia.Preview.UI.Extensions;
 
 namespace Xylia.Preview.UI.Controls;
 public class BnsCustomSliderBarWidget : BnsCustomRangeBaseWidget
@@ -151,17 +152,15 @@ public class BnsCustomSliderBarWidget : BnsCustomRangeBaseWidget
 	#region Properties
 	private static readonly Type Owner = typeof(BnsCustomSliderBarWidget);
 
-	public static readonly DependencyProperty SliderOrientationProperty = DependencyProperty.Register(nameof(SliderOrientation),
-		typeof(Orientation), Owner, new FrameworkPropertyMetadata(Orientation.Orient_Vertical));
+	public static readonly DependencyProperty SliderOrientationProperty = Owner.Register(nameof(SliderOrientation), EOrientation.Orient_Vertical);
 
-	public Orientation SliderOrientation
+	public EOrientation SliderOrientation
 	{
-		get { return (Orientation)GetValue(SliderOrientationProperty); }
+		get { return (EOrientation)GetValue(SliderOrientationProperty); }
 		set { SetValue(SliderOrientationProperty, value); }
 	}
 
-	public static readonly DependencyProperty SliderStepValueProperty = DependencyProperty.Register(nameof(SliderStepValue),
-		typeof(float), Owner, new FrameworkPropertyMetadata(1.0F));
+	public static readonly DependencyProperty SliderStepValueProperty = Owner.Register(nameof(SliderStepValue), 1.0F);
 
 	/// <summary>
 	///     Specifies the amount of time, in milliseconds, between repeats once repeating starts.
@@ -174,8 +173,7 @@ public class BnsCustomSliderBarWidget : BnsCustomRangeBaseWidget
 	}
 
 
-	public static readonly DependencyProperty bReverseDirectionProperty = DependencyProperty.Register(nameof(bReverseDirection),
-		typeof(bool), Owner, new FrameworkPropertyMetadata(BooleanBoxes.FalseBox));
+	public static readonly DependencyProperty bReverseDirectionProperty = Owner.Register(nameof(bReverseDirection), BooleanBoxes.FalseBox);
 
 	public bool bReverseDirection
 	{
@@ -333,7 +331,7 @@ public class BnsCustomSliderBarWidget : BnsCustomRangeBaseWidget
 		Size markerSize = Marker.RenderSize;
 		double range = Maximum - Minimum;
 
-		if (SliderOrientation == Orientation.Orient_Vertical)
+		if (SliderOrientation == EOrientation.Orient_Vertical)
 		{
 			return Math.Max(0.0, (trackSize.Height - markerSize.Height) / range);
 		}
@@ -348,7 +346,7 @@ public class BnsCustomSliderBarWidget : BnsCustomRangeBaseWidget
 		var direction = bReverseDirection ? -1 : 1;
 		var Density = ValueToSize();
 
-		if (SliderOrientation == Orientation.Orient_Vertical)
+		if (SliderOrientation == EOrientation.Orient_Vertical)
 		{
 			return direction * vertical / Density;
 		}
@@ -365,7 +363,7 @@ public class BnsCustomSliderBarWidget : BnsCustomRangeBaseWidget
 		var offset = LayoutData.GetOffsets(Marker);
 		var valueToSize = ValueToSize();
 
-		if (SliderOrientation == Orientation.Orient_Vertical)
+		if (SliderOrientation == EOrientation.Orient_Vertical)
 		{
 			var pos = bReverseDirection ?
 				(Maximum - Value) * valueToSize :

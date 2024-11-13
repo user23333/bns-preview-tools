@@ -9,7 +9,7 @@ public class Arg : BaseElement<Data.Models.Document.Arg>
 	{
 		this.Children = [];
 
-		var result = Element!.GetObject(Arguments);
+		var result = Element.GetObject(Arguments);
 		if (result is null) return new Size();
 		else if (result is ImageProperty property) Children.Add(new Image(property));
 		else if (result is int @int) Children.Add(new Run() { Text = @int.ToString("N0") });

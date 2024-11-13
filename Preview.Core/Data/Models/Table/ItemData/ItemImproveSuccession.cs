@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
 using Xylia.Preview.Common.Extension;
-using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Engine.DatData;
 
 namespace Xylia.Preview.Data.Models;
@@ -18,7 +17,6 @@ public sealed class ItemImproveSuccession : ModelElement
 	public bool KeepMainIngredientSpirit { get; set; }
 	#endregion
 
-
 	#region Methods
 	internal static ItemImproveSuccession FindBySeed(IDataProvider provider, Item SeedItem)
 	{
@@ -33,7 +31,7 @@ public sealed class ItemImproveSuccession : ModelElement
 		   (SeedItem is null || SeedItem.ImproveId == record.ResultImproveId));
 	}
 
-	internal IEnumerable<ItemRecipeHelper> CreateRecipe(Item SeedItem, out Item ResultItem)
+	internal IEnumerable<RecipeHelper> CreateRecipe(Item SeedItem, out Item ResultItem)
 	{
 		// This method is missing the seed, the result is inaccurate
 		if (SeedItem is null)
@@ -58,7 +56,7 @@ public sealed class ItemImproveSuccession : ModelElement
 		var CostMoney = Attributes.Get<int>("cost-money");
 
 
-		var recipe = new ItemRecipeHelper
+		var recipe = new RecipeHelper
 		{
 			MainItem = SeedItem,
 			MainItemCount = 1,

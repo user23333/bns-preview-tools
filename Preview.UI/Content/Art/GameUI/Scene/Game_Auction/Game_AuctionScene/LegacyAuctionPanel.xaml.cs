@@ -2,14 +2,15 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using Xylia.Preview.Common;
 using Xylia.Preview.Common.Extension;
-using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Engine.BinData.Helpers;
-using Xylia.Preview.Data.Helpers;
+using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Data.Models;
 using Xylia.Preview.Data.Models.Sequence;
 using Xylia.Preview.UI.Common.Interactivity;
 using Xylia.Preview.UI.Controls;
+using static Xylia.Preview.Data.Models.MarketCategory2Group;
 
 namespace Xylia.Preview.UI.GameUI.Scene.Game_Auction;
 public partial class LegacyAuctionPanel
@@ -18,34 +19,59 @@ public partial class LegacyAuctionPanel
 	public LegacyAuctionPanel()
 	{
 		#region Initialize 
-		InitializeComponent();
 		DataContext = _viewModel = new AuctionPanelViewModel();
-		ItemList.ItemsSource = _viewModel.Source = CollectionViewSource.GetDefaultView(FileCache.Data.Provider.GetTable<Item>());
-		_viewModel.Changed += RefreshList;
-		_viewModel.Source.Filter = OnFilter;
+		InitializeComponent();
+
+		_viewModel.Changed += UpdateList;
+		_viewModel.Source = CollectionViewSource.GetDefaultView(Globals.GameData.Provider.GetTable<Item>());
 		#endregion
 
 		#region Category
-		var IsNeo = FileCache.Data.Provider.Locale.IsNeo;
+		TreeView.Items.Add(new TreeViewItem() { Header = new BnsCustomLabelWidget() { Text = "UI.Market.Category.All".GetText() } });
 
-		TreeView.Items.Add(new TreeViewItem() { Tag = "all", Header = new BnsCustomLabelWidget() { Text = "UI.Market.Category.All".GetText() } });
-		if (IsNeo) TreeView.Items.Add(new TreeViewItem() { Tag = "WorldBoss", Header = new BnsCustomLabelWidget() { Text = "UI.Market.Category.WorldBoss".GetText(), FontSize = 15 } });
-		TreeView.Items.Add(new TreeViewItem() { Tag = "favorites", Header = new BnsCustomLabelWidget() { Text = "UI.Market.Category.Favorites".GetText() } });
-
-		foreach (var category2 in SequenceExtensions.MarketCategory2Group(IsNeo))
+		var MarketCategory2Group = Globals.GameData.Provider.GetTable<MarketCategory2Group>();
+		if (MarketCategory2Group.IsEmpty())
 		{
-			if (category2.Key == MarketCategory2Seq.None) continue;
+			var IsNeo = Globals.GameData.Provider.Locale.Publisher is EPublisher.ZTx;
 
-			var node = new TreeViewItem() { Tag = category2.Key, Header = category2.Key.GetText() };
-			TreeView.Items.Add(node);
+			TreeView.Items.Add(new TreeViewItem() { Tag = new Favorite(), Header = new BnsCustomLabelWidget() { Text = "UI.Market.Category.Favorites".GetText() } });
+			if (IsNeo) TreeView.Items.Add(new TreeViewItem() { Tag = new WorldBoss(), Header = new BnsCustomLabelWidget() { Text = "UI.Market.Category.WorldBoss".GetText() } });
 
-			foreach (var category3 in category2.Value)
+			foreach (var category2 in SequenceExtensions.MarketCategory2Group(IsNeo))
 			{
-				node.Items.Add(new TreeViewItem()
+				if (category2.Value is null) continue;
+
+				var node = new TreeViewItem() { Tag = new MarketCategory2() { Marketcategory2 = category2.Key }, Header = category2.Key.GetText() };
+				TreeView.Items.Add(node);
+
+				foreach (var category3 in category2.Value)
 				{
-					Tag = category3,
-					Header = category3.GetText(),
-				});
+					node.Items.Add(new TreeViewItem()
+					{
+						Tag = new MarketCategory3Group() { MarketCategory3 = [category3] },
+						Header = category3.GetText(),
+					});
+				}
+			}
+		}
+		else
+		{
+			foreach (var category2 in MarketCategory2Group.OrderBy(x => x.SortNo))
+			{
+				var node = new TreeViewItem() { Tag = category2, Header = new BnsCustomLabelWidget() { Text = category2.Name2.GetText() } };
+				TreeView.Items.Add(node);
+
+				if (category2 is MarketCategory2Group.MarketCategory2 MarketCategory2)
+				{
+					foreach (var category3 in MarketCategory2.MarketCategory3Group.Values())
+					{
+						node.Items.Add(new TreeViewItem()
+						{
+							Tag = category3,
+							Header = new BnsCustomLabelWidget() { Text = category3.Name2.GetText() }
+						});
+					}
+				}
 			}
 		}
 		#endregion
@@ -60,6 +86,9 @@ public partial class LegacyAuctionPanel
 		TooltipHolder = (ToolTip)TryFindResource("TooltipHolder");
 		ItemMenu = (ContextMenu)TryFindResource("ItemMenu");
 
+		var SetFavoriteCommand = new SetFavoriteCommand();
+		SetFavoriteCommand.Executed += UpdateList2;
+		RecordCommand.Bind(SetFavoriteCommand, ItemMenu);
 		RecordCommand.Find("item", (act) => RecordCommand.Bind(act, ItemMenu));
 	}
 
@@ -75,7 +104,7 @@ public partial class LegacyAuctionPanel
 				break;
 			}
 
-			case Key.LeftAlt when TooltipHolder != null:
+			case Key.LeftShift when TooltipHolder != null:
 			{
 #if DEBUG
 				(TooltipHolder.Content as BnsCustomWindowWidget)?.Show();
@@ -105,12 +134,19 @@ public partial class LegacyAuctionPanel
 
 	private void Comapre_Unchecked(object sender, RoutedEventArgs e) => _viewModel.HashList = null;
 
+	private void GradeFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
+	{
+		if (e.AddedItems[0] is not FrameworkElement element) return;
+
+		_viewModel.Grade = element.DataContext.To<sbyte>();
+	}
+
 	private void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
 	{
 		if (e.OldValue == e.NewValue) return;
 		if (e.NewValue is not FrameworkElement item) return;
 
-		_viewModel.ByTag(item.Tag);
+		_viewModel.Category = item.Tag;
 	}
 
 	public void SetFilter(string? name)
@@ -118,58 +154,7 @@ public partial class LegacyAuctionPanel
 		_viewModel.NameFilter = name;
 	}
 
-
-	// TODO: improvement efficiency
-	private bool OnFilter(object obj)
-	{
-		#region Initialize
-		if (obj is Record record) { }
-		else if (obj is ModelElement model) record = model.Source;
-		else return false;
-
-		if (_viewModel.HashList?.CheckFailed(record.PrimaryKey) ?? false) return false;
-
-		var rule = _viewModel.NameFilter!;
-		var IsEmpty = string.IsNullOrEmpty(rule);
-		#endregion
-
-		#region Category
-		if (_viewModel.WorldBoss)
-		{
-			if (!record.Attributes.Get<BnsBoolean>("world-boss-auctionable")) return false;
-		}
-		else if (_viewModel.MarketCategory2 == default && _viewModel.MarketCategory3 == default)  // all
-		{
-			if (_viewModel.HashList is null && IsEmpty) return false;
-		}
-		else
-		{
-			var MarketCategory2 = record.Attributes["market-category-2"].ToEnum<MarketCategory2Seq>();
-			var MarketCategory3 = record.Attributes["market-category-3"].ToEnum<MarketCategory3Seq>();
-
-			if (_viewModel.MarketCategory3 != default && _viewModel.MarketCategory3 != MarketCategory3) return false;
-			else if (_viewModel.MarketCategory2 != default && _viewModel.MarketCategory2 != MarketCategory2) return false;
-		}
-		#endregion
-
-
-		#region Filter
-		// auctionable
-		if (_viewModel.Auctionable &&
-			!record.Attributes.Get<BnsBoolean>("auctionable") &&
-			!record.Attributes.Get<BnsBoolean>("seal-renewal-auctionable")) return false;
-
-		// rule
-		if (IsEmpty) return true;
-		if (int.TryParse(rule, out int id)) return record.PrimaryKey.Id == id;
-		if (record.Attributes.Get<string>("alias")?.Contains(rule, StringComparison.OrdinalIgnoreCase) ?? false) return true;
-		if (record.Attributes.Get<Record>("name2").GetText()?.Contains(rule, StringComparison.OrdinalIgnoreCase) ?? false) return true;
-
-		return false;
-		#endregion
-	}
-
-	private void RefreshList(object? sender, EventArgs e)
+	private void UpdateList(object? sender, EventArgs e)
 	{
 		Dispatcher.BeginInvoke(() =>
 		{
@@ -177,6 +162,11 @@ public partial class LegacyAuctionPanel
 			_viewModel.Source.MoveCurrentToFirst();
 			ItemList.ScrollIntoView(_viewModel.Source.CurrentItem);
 		});
+	}
+
+	private void UpdateList2(object? sender, EventArgs e)
+	{
+		if (_viewModel.Category is Favorite) UpdateList(sender, e);
 	}
 	#endregion
 

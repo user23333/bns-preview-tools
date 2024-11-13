@@ -3,6 +3,7 @@ using CUE4Parse.BNS;
 using CUE4Parse.BNS.Conversion;
 using Serilog;
 using SkiaSharp;
+using Xylia.Preview.Common;
 using Xylia.Preview.Data.Client;
 using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Data.Models;
@@ -17,8 +18,8 @@ public abstract class IconOutBase : IDisposable
 	private readonly char[] _invalidChars = Path.GetInvalidFileNameChars();
 	protected readonly ILogger logger;
 
-	protected BnsDatabase? database;
 	protected GameFileProvider? provider;
+	protected BnsDatabase? database;
 
 	public IconOutBase(string GameFolder, string OutputFolder)
 	{
@@ -45,7 +46,7 @@ public abstract class IconOutBase : IDisposable
 		provider = new GameFileProvider(_gameDirectory, true);
 		cancellationToken.ThrowIfCancellationRequested();
 
-		database = new BnsDatabase(DefaultProvider.Load(_gameDirectory, DatSelectDialog.Instance));
+		database = new BnsDatabase(DefaultProvider.Load(_gameDirectory, DatSelectDialog.Instance), Globals.Definition);
 		_ = database.Provider.GetTable<IconTexture>();
 		cancellationToken.ThrowIfCancellationRequested();
 	}

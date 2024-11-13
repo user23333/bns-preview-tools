@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -176,7 +175,7 @@ public class BnsCustomSourceBaseWidget : BnsCustomBaseWidget
 	[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 	public IEnumerable ItemsSource
 	{
-		get { return Items.ItemsSource; }
+		get => Items.ItemsSource;
 		set
 		{
 			if (value == null)
@@ -202,7 +201,7 @@ public class BnsCustomSourceBaseWidget : BnsCustomBaseWidget
 			// ItemsSource is data-bound.   Always go to ItemsSource mode.
 			// Also, extract the source item, to supply as context to the
 			// CollectionRegistering event
-			//ic.Items.SetItemsSource(newValue, (object x) => beb.GetSourceItem(x));
+			widget.Items.SetItemsSource(newValue/*, (object x) => beb.GetSourceItem(x)*/);
 		}
 		else if (e.NewValue != null)
 		{
@@ -215,6 +214,7 @@ public class BnsCustomSourceBaseWidget : BnsCustomBaseWidget
 			widget.Items.ClearItemsSource();
 		}
 
+		widget.TestMethod();
 		widget.OnItemsSourceChanged(oldValue, newValue);
 	}
 
@@ -880,12 +880,14 @@ public class BnsCustomSourceBaseWidget : BnsCustomBaseWidget
 
 	public void TestMethod()
 	{
+		Children.Clear();
+
 		var panel = (UserWidget)ItemsPanel.LoadContent();
 		Children.Add(panel);
 
-		foreach (var item in ItemsSource)
+		foreach (var item in Items)
 		{
-			var child = (FrameworkElement)this.ItemTemplate.LoadContent();
+			var child = (FrameworkElement)ItemTemplate.LoadContent();
 			child.DataContext = item;
 
 			panel.Children.Add(child);
@@ -3318,7 +3320,7 @@ public sealed class ItemCollection : CollectionView, IList, IEditableCollectionV
 	#region Private Fields
 
 	private CollectionView _internalView;     // direct-mode list and view
-	private IEnumerable _itemsSource;           // BnsCustomSourceBaseWidget.ItemsSource property
+	private IEnumerable? _itemsSource;           // BnsCustomSourceBaseWidget.ItemsSource property
 	private CollectionView _collectionView;        // delegate ICollectionView
 	private int _defaultCapacity = 16;
 

@@ -126,8 +126,8 @@ public class SkillTooltip : ModelElement
 
 	public static string Compare(Ref<SkillTooltip>[] current, Ref<SkillTooltip>[] other)
 	{
-		var ia = other?.SelectNotNull(x => x.Instance) ?? [];
-		var ib = current?.SelectNotNull(x => x.Instance) ?? [];
+		var ia = other?.Values() ?? [];
+		var ib = current?.Values() ?? [];
 
 		var del = ia.Except(ib);
 		var add = ib.Except(ia);

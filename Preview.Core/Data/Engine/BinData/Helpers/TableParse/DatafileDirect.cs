@@ -1,5 +1,4 @@
-﻿using IniParser;
-using Xylia.Preview.Data.Engine.Definitions;
+﻿using Xylia.Preview.Data.Engine.Definitions;
 
 namespace Xylia.Preview.Data.Engine.BinData.Helpers;
 /// <summary>
@@ -15,24 +14,16 @@ public sealed class DatafileDirect : ITypeParser
 	#endregion
 
 	#region Constructors
-	public DatafileDirect(FileInfo path)
-	{
-		var data = new FileIniDataParser().ReadFile(path.FullName);
-
-		foreach (var table in data["table"])
-		{
-			var type = ushort.Parse(table.KeyName);
-			by_name[table.Value] = type;
-		}
-	}
-
 	public DatafileDirect(IEnumerable<TableDefinition> definitions)
 	{
-		ushort type = 1;
+		ushort type = 0;
 
-		foreach (var definition in definitions)
+		foreach (var definition in definitions.OrderBy(x => x.Name.Replace("-", null) + "data"))
 		{
-			by_name[definition.Name] = type++;
+			if (definition.Type == 0) definition.Type = ++type;
+			else type = definition.Type;
+
+			by_name[definition.Name] = definition.Type;
 		}
 	}
 	#endregion

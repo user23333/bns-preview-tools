@@ -1,4 +1,5 @@
-﻿using Xylia.Preview.Data.Models;
+﻿using Xylia.Preview.Common.Exceptions;
+using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.Data.Client;
 /// <summary>
@@ -12,7 +13,7 @@ internal class QueryExecutor(BnsDatabase engine, string collection, Query query,
 
 		IEnumerable<AttributeDocument> RunQuery()
 		{
-			var records = engine.Provider.Tables[collection]?.Records;
+			var table = engine.Provider.Tables[collection] ?? throw BnsDataException.InvalidTable(collection);
 
 			// execute optimization before run query (will fill missing _query properties instance)
 			var optimizer = new QueryOptimization(query, source, Collation.Binary);
@@ -22,7 +23,7 @@ internal class QueryExecutor(BnsDatabase engine, string collection, Query query,
 			var pipe = queryPlan.GetPipe();
 
 			// call safepoint just before return each document
-			foreach (var doc in pipe.Pipe(records, queryPlan))
+			foreach (var doc in pipe.Pipe(table.Records, queryPlan))
 			{
 				yield return doc;
 			}

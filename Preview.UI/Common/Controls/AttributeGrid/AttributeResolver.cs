@@ -24,7 +24,7 @@ internal class AttributeResolver
 
 	public virtual bool ResolveIsBrowsable(AttributeValue attribute) => true;  // should use IsHidden
 
-	public virtual bool ResolveIsReadOnly(AttributeDefinition attribute) => UserService.Instance.Role < UserRole.Advanced;
+	public virtual bool ResolveIsReadOnly(AttributeDefinition attribute) => UserService.Instance is null || UserService.Instance.Role < UserRole.Advanced;
 
 	public virtual object ResolveDefaultValue(AttributeDefinition attribute) => attribute.DefaultValue;
 
@@ -45,7 +45,7 @@ internal class AttributeResolver
 		AttributeType.TSeq16 => new SequenceAttributeEditor(attribute.Sequence),
 		AttributeType.TRef => new ReferenceAttributeEditor(attribute.ReferedTableName, provider),
 		AttributeType.TTRef => new ReferenceAttributeEditor(null, provider),
-		//AttributeType.TSub => new tex(),
+		//AttributeType.TSub => new TextPropertyEditor(),
 		//AttributeType.TSu => new TextPropertyEditor(),
 		//AttributeType.TVector16 => new TextPropertyEditor(),
 		//AttributeType.TVector32 => new TextPropertyEditor(),

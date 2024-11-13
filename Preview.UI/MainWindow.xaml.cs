@@ -38,8 +38,8 @@ public partial class MainWindow
 	{
 		base.OnInitialized(e);
 
+		this.Loaded += OnLoaded;
 		this.GrowlHolder2.ItemsSource = Growl2.Source;
-		this.Loaded += OpenUpdateLog;
 		this.MinWidth = this.Width;
 		this.MinHeight = this.Height;
 
@@ -59,6 +59,12 @@ public partial class MainWindow
 		Application.Current.Shutdown();
 	}
 
+	private void OnLoaded(object? sender, EventArgs e)
+	{
+		if (UpdateService.ShowLog)
+			OpenUpdateLog(sender, e);
+	}
+
 	private void SideMenu_Switch(object sender, RoutedEventArgs e)
 	{
 		SideMenuContainer.IsOpen = false;
@@ -69,6 +75,7 @@ public partial class MainWindow
 		{
 			window.Closed += (s, e) => page.Content = null;
 			window.Show();
+			window.Activate();
 		}
 		else if (content is FrameworkElement element)
 		{
@@ -83,9 +90,6 @@ public partial class MainWindow
 
 	private void OpenUpdateLog(object? sender, EventArgs e)
 	{
-		// OnLoaded
-		if (sender == this && !UpdateService.ShowLog) return;
-
 		HandyControl.Controls.Dialog.Show<UpdateLogDialog>("MainContainer");
 	}
 

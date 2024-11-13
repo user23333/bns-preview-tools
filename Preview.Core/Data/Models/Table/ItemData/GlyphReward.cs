@@ -2,7 +2,7 @@
 using Xylia.Preview.Data.Common.DataStruct;
 
 namespace Xylia.Preview.Data.Models;
-public sealed class GlyphReward : ModelElement
+public sealed class GlyphReward : ModelElement, IReward
 {
 	#region Attributes
 	public short Id { get; set; }
@@ -82,7 +82,7 @@ public sealed class GlyphReward : ModelElement
 	#endregion
 
 	#region Methods
-	public List<GlyphRewardInfo> GetInfo()
+	public IEnumerable<IRewardHelper> GetRewards()
 	{
 		var data = new List<GlyphRewardInfo>();
 
@@ -91,7 +91,7 @@ public sealed class GlyphReward : ModelElement
 		{
 			var group = string.Format("{0}% ", AdditionalGlyphPickProbability) + "UI.GlyphProbability.Title.AcquireAddGlyph".GetText();
 
-			AdditionalGlyph.Select(x => x.Instance).ForEach((glyph, idx) =>
+			AdditionalGlyph.Values().ForEach((glyph, idx) =>
 			{
 				data.Add(new GlyphRewardInfo()
 				{
@@ -106,7 +106,7 @@ public sealed class GlyphReward : ModelElement
 		#region General
 		if (ResultGlyphProbWeightTotal > 0)
 		{
-			ResultGlyph.Select(x => x.Instance).ForEach((glyph, i) =>
+			ResultGlyph.Values().ForEach((glyph, i) =>
 			{
 				data.Add(new GlyphRewardInfo()
 				{
@@ -176,12 +176,15 @@ public sealed class GlyphReward : ModelElement
 		return data;
 	}
 
-	public class GlyphRewardInfo : IReward
+	public class GlyphRewardInfo : IRewardHelper
 	{
-		public Glyph Data;
-		public string Group;
+		internal Glyph Data;
 		internal double Probability;
 
+		object IRewardHelper.Data => Data;
+		public string Text => Data?.GlyphName;
+		public string Group { get; set; }
+		public string GroupText => null;
 		public string ProbabilityInfo => Probability.ToString("P2");
 	}
 	#endregion

@@ -51,6 +51,12 @@ public enum GameCategory2Seq
 	[Text("Name.item.game-category-2.badge")]
 	Badge,
 
+	[Text("Name.item.game-category-2.relic")]
+	Relic,
+
+	[Text("Name.item.game-category-2.skill-train-by-item-extract")]
+	SkillTrainByItemExtract,
+
 	[Text("Name.item.game-category-2.medicine")]
 	Medicine,
 
@@ -716,6 +722,9 @@ public enum GameCategory3Seq
 
 	[Text("Name.item.game-category-3.star-stone")]
 	StarStone,
+
+	[Text("Name.item.game-category-3.skill-train-by-item-extract")]
+	SkillTrainByItemExtract,
 
 	COUNT
 }

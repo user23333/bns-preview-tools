@@ -5,7 +5,7 @@
 	
 	<BnsCustomImageWidget Name="EffectTooltipPanel_dummy" LayoutData.Offsets="7.999756 15 200 0">
 		<BnsCustomImageWidget.VerticalResizeLink>
-			<ResizeLink bEnable="true" Offset1="15" />
+			<BnsCustomResizeLink bEnable="true" Offset1="15" />
 		</BnsCustomImageWidget.VerticalResizeLink>
 		<BnsCustomImageWidget.BaseImageProperty>
 			<ImageProperty Opacity="1" ImageScale="1" />
@@ -13,10 +13,10 @@
 	</BnsCustomImageWidget>
 	<BnsCustomLabelWidget Name="EffectTooltipPanel_Name" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="15 15 15 30.000977">
 		<BnsCustomLabelWidget.HorizontalResizeLink>
-			<ResizeLink bEnable="true" Offset1="15" LinkWidgetName1="EffectTooltipPanel_dummy" />
+			<BnsCustomResizeLink bEnable="true" Offset1="15" LinkWidgetName1="EffectTooltipPanel_dummy" />
 		</BnsCustomLabelWidget.HorizontalResizeLink>
 		<BnsCustomLabelWidget.VerticalResizeLink>
-			<ResizeLink bEnable="true" LinkWidgetName1="EffectTooltipPanel_dummy" />
+			<BnsCustomResizeLink bEnable="true" LinkWidgetName1="EffectTooltipPanel_dummy" />
 		</BnsCustomLabelWidget.VerticalResizeLink>
 		<BnsCustomLabelWidget.String>
 			<StringProperty fontset="bnsr/content/art/ui/gameui_bnsr/resource/gameui_fontset_r/ui/normal_16.normal_16" LabelText="Effect Name" SpaceBetweenLines="3" />
@@ -24,35 +24,35 @@
 	</BnsCustomLabelWidget>
 	<BnsCustomWindowWidget Name="EffectTooltipPanel_Holder" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="15 45.000977 15 72.00346">
 		<BnsCustomWindowWidget.HorizontalResizeLink>
-			<ResizeLink bEnable="true" Offset1="15" />
+			<BnsCustomResizeLink bEnable="true" Offset1="15" />
 		</BnsCustomWindowWidget.HorizontalResizeLink>
 		<BnsCustomWindowWidget.VerticalResizeLink>
-			<ResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="EffectTooltipPanel_Name" />
+			<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="EffectTooltipPanel_Name" />
 		</BnsCustomWindowWidget.VerticalResizeLink>
 		<BnsCustomWindowWidget.BaseImageProperty>
 			<ImageProperty Opacity="1" ImageScale="1" />
 		</BnsCustomWindowWidget.BaseImageProperty>
 		<BnsCustomImageWidget Name="EffectTooltipPanel_Icon" LayoutData.Offsets="3 3 64 64">
 			<BnsCustomImageWidget.HorizontalResizeLink>
-				<ResizeLink bEnable="true" Offset1="3" />
+				<BnsCustomResizeLink bEnable="true" Offset1="3" />
 			</BnsCustomImageWidget.HorizontalResizeLink>
 			<BnsCustomImageWidget.VerticalResizeLink>
-				<ResizeLink bEnable="true" Offset1="3" />
+				<BnsCustomResizeLink bEnable="true" Offset1="3" />
 			</BnsCustomImageWidget.VerticalResizeLink>
 			<BnsCustomImageWidget.BaseImageProperty>
 				<ImageProperty BaseImageTexture="bnsr/content/art/ui/gameui/resource/gameui_window_r/bnsr_uielement.bnsr_uielement" ImageUV="0 66" ImageUVSize="48 48" EnableDrawImage="true" Opacity="0.5" ImageScale="1" />
 			</BnsCustomImageWidget.BaseImageProperty>
 			<BnsCustomImageWidget.ExpansionComponentList>
-				<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="IconImage" MetaData="">
-					<ExpansionComponent.ImageProperty>
+				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="Image" ExpansionName="IconImage" MetaData="">
+					<UBnsCustomExpansionComponent.ImageProperty>
 						<ImageProperty EnableDrawImage="true" EnableMultiImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" />
-					</ExpansionComponent.ImageProperty>
-				</ExpansionComponent>
+					</UBnsCustomExpansionComponent.ImageProperty>
+				</UBnsCustomExpansionComponent>
 			</BnsCustomImageWidget.ExpansionComponentList>
 		</BnsCustomImageWidget>
 		<BnsCustomLabelWidget Name="EffectTooltipPanel_Description" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="82 0 0 24.004417" AutoResizeVertical="True">
 			<BnsCustomLabelWidget.HorizontalResizeLink>
-				<ResizeLink bEnable="true" Offset1="82" LinkWidgetName1="EffectTooltipPanel_Icon" />
+				<BnsCustomResizeLink bEnable="true" Offset1="82" LinkWidgetName1="EffectTooltipPanel_Icon" />
 			</BnsCustomLabelWidget.HorizontalResizeLink>
 			<BnsCustomLabelWidget.String>
 				<StringProperty fontset="bnsr/content/art/ui/gameui_bnsr/resource/gameui_fontset_r/ui/normal_14.normal_14" LabelText="Description" SpaceBetweenLines="3" />
@@ -61,10 +61,10 @@
 	</BnsCustomWindowWidget>
 	<BnsCustomLabelWidget Name="EffectTooltipPanel_Description2" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="15 119.00444 15 12.001022" AutoResizeVertical="True" Visibility="Collapsed">
 		<BnsCustomLabelWidget.HorizontalResizeLink>
-			<ResizeLink bEnable="true" Offset1="15" />
+			<BnsCustomResizeLink bEnable="true" Offset1="15" />
 		</BnsCustomLabelWidget.HorizontalResizeLink>
 		<BnsCustomLabelWidget.VerticalResizeLink>
-			<ResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" Offset1="2" LinkWidgetName1="EffectTooltipPanel_Holder" />
+			<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" Offset1="2" LinkWidgetName1="EffectTooltipPanel_Holder" />
 		</BnsCustomLabelWidget.VerticalResizeLink>
 		<BnsCustomLabelWidget.String>
 			<StringProperty fontset="bnsr/content/art/ui/gameui_bnsr/resource/gameui_fontset_r/ui/normal_out_12.normal_out_12" LabelText="Description2" SpaceBetweenLines="3" />

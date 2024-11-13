@@ -1,24 +1,26 @@
 ﻿using System.Collections.ObjectModel;
 using System.Formats.Tar;
+using System.IO.Compression;
 using System.Reflection;
 using CUE4Parse.Compression;
-using Ionic.Zlib;
+using Xylia.Preview.Common.Exceptions;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Engine.BinData.Definitions;
 using Xylia.Preview.Data.Engine.BinData.Helpers;
 using Xylia.Preview.Data.Engine.BinData.Models;
+using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Properties;
 
 namespace Xylia.Preview.Data.Engine.Definitions;
+/// <summary>
+/// definitions
+/// </summary>
 public abstract class DatafileDefinition : Collection<TableDefinition>
 {
 	#region Properties
 	public string Key { get; set; }
 
-	/// <summary>
-	/// for parse type
-	/// </summary>
-	public FileInfo Header { get; set; }
+	internal abstract EPublisher Publisher { get; }
 	#endregion
 
 	#region Methods
@@ -50,7 +52,7 @@ public abstract class DatafileDefinition : Collection<TableDefinition>
 		if (item is null) return;
 
 		// HACK: is not binary table, it affects GetParser
-		if (item.Name is "filter-set" or "party-battle-field-zone-time-effect") return;
+		if (item.Name is "filter-set") return;
 
 		base.Add(item);
 	}
@@ -65,10 +67,9 @@ public abstract class DatafileDefinition : Collection<TableDefinition>
 
 	internal ITypeParser GetParser(Datafile provider)
 	{
-		var defs = this.Where(x => x.Module != (long)TableModule.Server && x.Module != (long)TableModule.Engine);
-		if (defs.Count() == provider.Tables.Max(x => x.Type)) return new DatafileDirect(defs);
-		else if (Header != null && Header.Exists) return new DatafileDirect(Header);
-		else return new DatafileDetect(provider, defs);
+		var definitions = this.Where(x => x.Module != (long)TableModule.Server && x.Module != (long)TableModule.Engine);
+		if (definitions.Count() == provider.Tables.Max(x => x.Type)) return new DatafileDirect(definitions);
+		else return new DatafileDetect(provider, definitions);
 	}
 	#endregion
 }
@@ -76,14 +77,14 @@ public abstract class DatafileDefinition : Collection<TableDefinition>
 
 internal class DefaultDatafileDefinition : DatafileDefinition
 {
+	internal override EPublisher Publisher => EPublisher.ZNcs;
+
 	public DefaultDatafileDefinition()
 	{
 		if (Settings.Default.UseUserDefinition)
 		{
 			var directory = new DirectoryInfo(Path.Combine(Settings.Default.OutputFolder, "definition"));
 			if (!directory.Exists) throw new DirectoryNotFoundException("Missing definition folder!");
-
-			Header = directory.GetFiles("head").FirstOrDefault();
 
 			var loader = new SequenceDefinitionLoader();
 			foreach (var file in directory.GetFiles("*.xml"))
@@ -109,6 +110,9 @@ internal class DefaultDatafileDefinition : DatafileDefinition
 
 public class CompressDatafileDefinition : DatafileDefinition
 {
+	private EPublisher publisher = EPublisher.None;
+	internal override EPublisher Publisher => publisher;
+
 	public CompressDatafileDefinition(Stream source, CompressionMethod mode)
 	{
 		var loader = new SequenceDefinitionLoader();
@@ -152,10 +156,14 @@ public class CompressDatafileDefinition : DatafileDefinition
 
 	internal static CompressDatafileDefinition Load()
 	{
+		var type = Settings.Default.DefitionType;
 		var key = Settings.Default.DefitionKey;
-		if (key is null) return null;
+		if (string.IsNullOrWhiteSpace(key)) return null;
 
+		// check path
 		var path = Path.Combine(Settings.Default.OutputFolder, ".download", key);
-		return new CompressDatafileDefinition(File.OpenRead(path), CompressionMethod.Gzip) { Key = key };
+		if (!File.Exists(path)) throw new BnsDataException(BnsDataExceptionCode.InvalidDefinition_NotFound);
+
+		return new CompressDatafileDefinition(File.OpenRead(path), CompressionMethod.Gzip) { publisher = type, Key = key };
 	}
 }

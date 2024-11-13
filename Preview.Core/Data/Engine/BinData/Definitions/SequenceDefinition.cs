@@ -1,4 +1,4 @@
-﻿using Xylia.Preview.Data.Common.Exceptions;
+﻿using Xylia.Preview.Common.Exceptions;
 
 namespace Xylia.Preview.Data.Engine.Definitions;
 public class SequenceDefinition(string name) : List<string>

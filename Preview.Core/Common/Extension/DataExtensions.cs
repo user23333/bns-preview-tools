@@ -3,21 +3,20 @@ using System.Runtime.InteropServices;
 using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.Data.Common;
-public static class DataExtensions
+internal static class DataExtensions
 {
 	// Getters
 	[MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
 	public static unsafe T Get<T>(this Record record, int offset) where T : unmanaged
 	{
-		fixed (byte* ptr = record.Data)
-		{
-			return *(T*)(ptr + offset);
-		}
+		return Get<T>(record.Data, offset);
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
 	public static unsafe T Get<T>(this byte[] data, int offset) where T : unmanaged
 	{
+		ArgumentOutOfRangeException.ThrowIfLessThan(data.Length, offset);
+
 		fixed (byte* ptr = data)
 		{
 			return *(T*)(ptr + offset);
@@ -27,6 +26,8 @@ public static class DataExtensions
 	[MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
 	public static unsafe T Get<T>(this Span<byte> data, int offset) where T : unmanaged
 	{
+		ArgumentOutOfRangeException.ThrowIfLessThan(data.Length, offset);
+
 		fixed (byte* ptr = data)
 		{
 			return *(T*)(ptr + offset);
@@ -40,30 +41,12 @@ public static class DataExtensions
 			return new string((char*)(memory + offset));
 	}
 
-
 	// Setters
-	[MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-	public static unsafe void Set<T>(this Record record, int offset, T value) where T : unmanaged
-	{
-		fixed (byte* ptr = record.Data)
-		{
-			*(T*)(ptr + offset) = value;
-		}
-	}
-
-	[MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-	public static unsafe void Set(this Record record, int offset, object value)
-	{
-		fixed (byte* ptr = record.Data)
-		{
-			var ptr2 = new nint(ptr + offset);
-			Marshal.StructureToPtr(value, ptr2, true);
-		}
-	}
-
 	[MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
 	public static unsafe void Set<T>(this byte[] data, int offset, T value) where T : unmanaged
 	{
+		ArgumentOutOfRangeException.ThrowIfLessThan(data.Length, offset);
+
 		fixed (byte* ptr = data)
 		{
 			*(T*)(ptr + offset) = value;
@@ -73,6 +56,11 @@ public static class DataExtensions
 	[MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
 	public static unsafe void Set(this byte[] data, int offset, object value)
 	{
+		ArgumentOutOfRangeException.ThrowIfLessThan(data.Length, offset);
+
+		if (value is null) return;
+		if (value is string) throw new InvalidDataException("String is not expected type.");
+
 		fixed (byte* ptr = data)
 		{
 			var ptr2 = new nint(ptr + offset);

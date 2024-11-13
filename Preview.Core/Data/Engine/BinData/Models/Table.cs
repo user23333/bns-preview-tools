@@ -14,7 +14,6 @@ using Xylia.Preview.Data.Engine.BinData.Helpers;
 using Xylia.Preview.Data.Engine.BinData.Serialization;
 using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Data.Engine.Definitions;
-using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.Data.Engine.BinData.Models;
@@ -191,14 +190,6 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 			build?.Add(new Action(() => record.Attributes.BuildData(record.Definition)));
 		}
 	}
-
-	public void CheckSize()
-	{
-		Records.GroupBy(o => o.SubclassType).OrderBy(o => o.Key).ForEach(type =>
-		{
-			var def = Definition.ElRecord.SubtableByType(type.Key, type.First());
-		});
-	}
 	#endregion
 
 	#region Get Methods
@@ -223,7 +214,7 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 		get
 		{
 			if (string.IsNullOrEmpty(alias)) return null;
-			if (Ref.TryPrase(alias, out var key)) return this[key];
+			if (Ref.TryParse(alias, out var key)) return this[key];
 
 			lock (this)
 			{
@@ -231,8 +222,8 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 				{
 					AliasTable = new();
 
-					var def = Definition.ElRecord["alias"];
-					if (def != null) Records?.ForEach(x => AliasTable.Add(x));
+					var aliasAttrDef = Definition.ElRecord["alias"];
+					if (aliasAttrDef != null) Records?.ForEach(x => AliasTable.Add(x));
 				}
 			}
 
@@ -242,10 +233,9 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 	#endregion
 
 	#region Serialize Methods
-	public List<HashInfo> WriteXml(string folder, TableWriterSettings settings = null)
+	public HashInfo WriteXml(string folder, TableWriterSettings settings = null)
 	{
-		var hash = new List<HashInfo>();
-
+		// single file 
 		var name = Definition.Pattern.Replace("*", null);
 		var path = Path.Combine(folder, name);
 		Directory.CreateDirectory(Path.GetDirectoryName(path));
@@ -255,10 +245,9 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 			ReleaseSide = ReleaseSide.Client,
 			Encoding = name.EndsWith(".x16", StringComparison.OrdinalIgnoreCase) ? Encoding.Unicode : Encoding.UTF8,
 		});
-		File.WriteAllBytes(path, data);
+		File.WriteAllBytes(path, data);	
 
-		hash.Add(new HashInfo(name, XXH64.DigestOf(data)));
-		return hash;
+		return new HashInfo(name, XXH64.DigestOf(data));
 	}
 
 	public byte[] WriteXml(TableWriterSettings settings, params Record[] records)

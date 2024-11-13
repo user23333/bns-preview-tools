@@ -22,15 +22,16 @@ public partial class App : Application
 		// Register base services
 		new ServiceManager() { new LogService(), new JumpListService() }.RegisterAll();
 
-		InitializeArgs(e.Args);
+		InitializeArgs(e.Args);																																											   
+		//Task.Run(() => PreviewWorld.Execute("bnsr/content/neo_art/area/zncs_interserver_001_p.umap"));
+		//return;
 
 #if DEVELOP
-		UpdateSkin(SkinType.Default, true);
-		TestProvider.Set(new DirectoryInfo(@"D:\Tencent\BnsData\GameData_ZTx"));
 
-		//new Xylia.Preview.UI.Content.TestPanel().Show();
-		//var _ = PreviewModel.SnooperViewer;
-		//new GameUI.Scene.Game_Tooltip.Skill3ToolTipPanel_1().Show();
+		UpdateSkin(SkinType.Default, true);
+		TestProvider.Set(@"D:\Tencent\BnsData\GameData_ZTx", EPublisher.ZTx);
+
+		new GameUI.Scene.Game_Tooltip.AttractionMapUnitToolTipPanel().Show();
 #else
 		MainWindow = new MainWindow();
 		MainWindow.Show();
@@ -50,23 +51,29 @@ public partial class App : Application
 		skins1.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri("pack://application:,,,/HandyControl;component/Themes/Theme.xaml") });
 		skins1.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri("pack://application:,,,/Preview.UI;component/Resources/Themes/Theme.xaml") });
 
-		Current.MainWindow?.OnApplyTemplate();
+		MainWindow?.OnApplyTemplate();
 	}
 
 
 	#region Exception	
-	private void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+	private void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs arg)
 	{
-		e.Handled = true;
+		arg.Handled = true;
 
 		// if advanced exception
-		var exception = e.Exception;
-		if (exception is TargetInvocationException or XamlParseException)
-			exception = exception.InnerException;
+		var exception = arg.Exception;
+		if (exception is TargetInvocationException or XamlParseException) exception = exception.InnerException;
 
-		// not to write log
-		if (exception is not WarningException)
-			Log.Error(exception, "OnUnhandledException");
+		switch (exception)
+		{
+			//case BnsDataException e when e.Code is BnsDataExceptionCode.Definition_NotFound:
+			//	new DatabaseManager(MainWindow).ShowDialog();
+			//	return;
+
+			// not to write log
+			case WarningException: break;
+			default: Log.Error(exception, "OnUnhandledException"); break;
+		}
 
 		Growl.Error(exception?.Message);
 	}
@@ -127,7 +134,6 @@ public partial class App : Application
 
 		if (command == "query")
 		{
-			bool pause;
 			switch (type)
 			{
 				case "ue":
@@ -135,23 +141,22 @@ public partial class App : Application
 					if (!args.TryGetValue("path", out var path))
 					{
 						Console.Clear();
-						Console.WriteLine("please enter search rule...");
+						Console.WriteLine("Enter search rule to continue...");
 						path = Console.ReadLine()!;
 					}
 
-					pause = Commands.QueryAsset(path, args.GetValueOrDefault("class"));
+					Commands.QueryAsset(path, args.GetValueOrDefault("class"));
 					break;
 				}
 
 				default: throw new WarningException();
 			}
 
-			if (!pause) Console.WriteLine($"no result!");
 			Console.ReadKey();
 		}
 		else if (command == "output")
 		{
-			new UpdateService().Register();
+			new UpdateService(false).Register();
 
 			switch (type)
 			{
@@ -168,10 +173,12 @@ public partial class App : Application
 						Console.WriteLine("Enter specified number to continue...");
 						sets.ForEach(x => Console.WriteLine("   [{0}] {1}", idx++, x.Name));
 
-						// check
-						if (!int.TryParse(Console.ReadLine()!, out var i) || 
-							(intance = sets.ElementAtOrDefault(i)) is null)
+						// retry
+						if (!int.TryParse(Console.ReadLine()!, out var i) || (intance = sets.ElementAtOrDefault(i)) is null)
+						{
+							Console.WriteLine();
 							goto EnterNumber;
+						}	
 					}
 
 					intance.Execute();

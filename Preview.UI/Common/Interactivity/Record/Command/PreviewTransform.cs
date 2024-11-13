@@ -3,7 +3,7 @@ using Xylia.Preview.Data.Models;
 using Xylia.Preview.UI.GameUI.Scene.Game_Tooltip;
 
 namespace Xylia.Preview.UI.Common.Interactivity;
-public class PreviewTransform : RecordCommand
+internal class PreviewTransform : RecordCommand
 {
 	protected override List<string> Type => ["item"];
 

@@ -7,9 +7,9 @@ using System.Windows.Media;
 using CUE4Parse.BNS.Assets.Exports;
 using CUE4Parse.UE4.Objects.Core.Math;
 using CUE4Parse.UE4.Objects.UObject;
+using Xylia.Preview.Common;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.DataStruct;
-using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models;
 using Xylia.Preview.Data.Models.Sequence;
 using Xylia.Preview.UI.Controls.Primitives;
@@ -26,10 +26,12 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
 	}
 	#endregion
 
-	#region Public Properties
+	#region Events
 	public event EventHandler<MapInfo>? MapChanged;
+	#endregion
 
-	private static readonly System.Type Owner = typeof(BnsCustomMinimapWidget);
+	#region Public Properties
+	private static readonly Type Owner = typeof(BnsCustomMinimapWidget);
 
 	public static readonly DependencyProperty MapInfoProperty = Owner.Register<MapInfo>(nameof(MapInfo), null,
 		FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender, OnMapChanged);
@@ -101,13 +103,6 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
 
 		e.Handled = true;
 	}
-
-	protected override void OnPreviewMouseLeftButtonDown(MouseButtonEventArgs e)
-	{
-		base.OnPreviewMouseLeftButtonDown(e);
-
-		var offset = Mouse.GetPosition(this);
-	}
 	#endregion
 
 	#region Private Methods
@@ -163,7 +158,7 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
 		// children
 		if (MapInfo.Alias != "World")
 		{
-			FileCache.Data.Provider.GetTable<MapInfo>()
+			Globals.GameData.Provider.GetTable<MapInfo>()
 				.Where(o => o.ParentMapinfo == MapInfo)
 				.ForEach(async o => await LoadMapUnit(o, new(MapTree)));
 		}
@@ -172,7 +167,7 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
 	private async Task GetMapUnit(MapInfo MapInfo, List<MapInfo> MapTree)
 	{
 		// skip force position
-		var provider = FileCache.Data.Provider;
+		var provider = Globals.GameData.Provider;
 		if (MapTree.Any(x => x.UsePosInParent)) return;
 
 		// find zone
@@ -230,29 +225,21 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
 			}
 		}
 
-		// unit
+		// unit		 
 		foreach (var mapunit in provider.GetTable<MapUnit>().Where(o => o.Mapid == MapInfo.Id && o.MapDepth <= this.MapDepth))
 		{
 			// ignore quest area guide
 			if (mapunit is MapUnit.Quest or MapUnit.GuildBattleFieldPortal) continue;
 
-			#region Initialize
-			var tooltip = mapunit.Name;
+			#region Initialize	
 			var category = mapunit.Category;
+			object? tooltip = mapunit.Name;
 			var Image = new ImageProperty() { EnableImageSet = true, ImageSet = new MyFPackageIndex(mapunit.Imageset) };
-			var OverImage = string.IsNullOrEmpty(mapunit.OverImageset) ? Image : new ImageProperty() { EnableImageSet = true, ImageSet = new MyFPackageIndex(mapunit.OverImageset) };
+			var OverImage = mapunit.OverImageset.IsValid ? new ImageProperty() { EnableImageSet = true, ImageSet = new MyFPackageIndex(mapunit.OverImageset) } : Image;
 
 			if (mapunit is MapUnit.Attraction)
 			{
-				var obj = new Ref<ModelElement>(mapunit.Attributes.Get<Record>("attraction")).Instance;
-				if (obj is IAttration attraction)
-				{
-					tooltip = attraction.Name + "\n" + attraction.Description;
-				}
-				else if (obj != null)
-				{
-					tooltip = obj.ToString();
-				}
+				tooltip = mapunit.Attributes.Get<ModelElement>("attraction");  //tref
 			}
 			else if (mapunit is MapUnit.Npc)
 			{
@@ -290,7 +277,8 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
 				{
 					BaseImageProperty = Image,
 					Tag = category,
-					ToolTip = tooltip,
+					ToolTip = new BnsTooltipHolder(),
+					DataContext = tooltip,
 				};
 				widget.MouseEnter += new((_, _) => widget.BaseImageProperty = OverImage);
 				widget.MouseLeave += new((_, _) => widget.BaseImageProperty = Image);
@@ -312,14 +300,24 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
 	/// <summary>
 	/// The axis direction is diffrent with the layout direction
 	/// </summary>
-	private FVector2D Parse(FVector position)
+	private Point Parse(FVector position)
 	{
-		if (MapInfo is null) return FVector2D.ZeroVector;
+		ArgumentNullException.ThrowIfNull(MapInfo);
 
 		float posX = (position.X - MapInfo.LocalAxisX) / MapInfo.Scale;
 		float posY = (position.Y - MapInfo.LocalAxisY) / MapInfo.Scale;
 
-		return new FVector2D(posY, MapInfo.ImageSize - posX);
+		return new Point(posY, MapInfo.ImageSize - posX);
+	}
+
+	public FVector Parse(Point point)
+	{
+		ArgumentNullException.ThrowIfNull(MapInfo);
+
+		return new FVector(
+			MapInfo.LocalAxisX + MapInfo.Scale * (MapInfo.ImageSize - point.Y),
+			MapInfo.LocalAxisY + MapInfo.Scale * point.X,
+			0);
 	}
 
 	/// <summary>
@@ -338,32 +336,44 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
 		}
 
 		LayoutData.SetAlignments(widget, new FVector2D(0.5f, 0.5f));
-		LayoutData.SetOffsets(widget, new FLayoutData.Offset(offset.X, offset.Y, size.Value.X, size.Value.Y));
+		LayoutData.SetOffsets(widget, new FLayoutData.Offset((float)offset.X, (float)offset.Y, size.Value.X, size.Value.Y));
 		Children.Add(widget);
 	}
 
 	public void AddChild(FVector position, FVector2D? size, Func<UserWidget> widget) => AddChild(position, size, Dispatcher.Invoke(widget.Invoke));
 
-	public class MapUnitFilterManager : Dictionary<MapUnit.CategorySeq, MapUnitFilterManager.MapUnitFilter>, IEnumerable
+	public class MapUnitFilterManager : IEnumerable
 	{
 		public event EventHandler? OnFilterChanged;
+		private readonly Dictionary<MapUnit.CategorySeq, MapUnitFilter> dict = [];
 
 		public MapUnitFilterManager()
 		{
-			foreach (var seq in Enum.GetValues<MapUnit.CategorySeq>().Where(x => x > MapUnit.CategorySeq.None && x < MapUnit.CategorySeq.COUNT))
-			{
-				var IsChecked = true;
-				if (seq is MapUnit.CategorySeq.Gather or MapUnit.CategorySeq.GatherEnv or MapUnit.CategorySeq.Npc or MapUnit.CategorySeq.Env) IsChecked = false;
-
-				this[seq] = new MapUnitFilter(this, seq) { IsChecked = IsChecked };
-			}
+			Add(new(this, MapUnit.CategorySeq.Quest));
+			Add(new(this, MapUnit.CategorySeq.Teleport));
+			Add(new(this, MapUnit.CategorySeq.Airdash));
+			Add(new(this, MapUnit.CategorySeq.Auction));
+			Add(new(this, MapUnit.CategorySeq.Store));
+			Add(new(this, MapUnit.CategorySeq.Camp));
+			Add(new(this, MapUnit.CategorySeq.PartyCamp));
+			Add(new(this, MapUnit.CategorySeq.Roulette));
+			Add(new(this, MapUnit.CategorySeq.FieldBoss));
+			Add(new(this, MapUnit.CategorySeq.Craft));
+			Add(new(this, MapUnit.CategorySeq.ExpeditionEnv));
+			Add(new(this, MapUnit.CategorySeq.ExpeditionEnv_Collection) { IsChecked = false });
+			Add(new(this, MapUnit.CategorySeq.WanderingNpc));
+			Add(new(this, MapUnit.CategorySeq.Npc) { IsChecked = false });
+			Add(new(this, MapUnit.CategorySeq.Env) { NotUsed = true });
+			Add(new(this, MapUnit.CategorySeq.GatherEnv) { NotUsed = true });
 		}
 
-		public class MapUnitFilter(MapUnitFilterManager manager, MapUnit.CategorySeq category)
+		private class MapUnitFilter(MapUnitFilterManager manager, MapUnit.CategorySeq category)
 		{
+			public MapUnit.CategorySeq Category => category;
 			public string Name => category.GetText();
+			public bool NotUsed { get; set; }
 
-			private bool _isChecked;
+			private bool _isChecked = true;
 			public bool IsChecked
 			{
 				get => _isChecked;
@@ -375,31 +385,11 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
 			}
 		}
 
-		public bool Contains(MapUnit.CategorySeq category) => this.TryGetValue(category, out var filter) && filter.IsChecked;
+		private void Add(MapUnitFilter filter) => dict.Add(filter.Category, filter);
 
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			var category = new List<MapUnit.CategorySeq>()
-			{
-				MapUnit.CategorySeq.Quest,
-				MapUnit.CategorySeq.Teleport,
-				MapUnit.CategorySeq.Airdash,
-				MapUnit.CategorySeq.Auction,
-				MapUnit.CategorySeq.Store,
-				MapUnit.CategorySeq.Camp,
-				MapUnit.CategorySeq.PartyCamp,
-				MapUnit.CategorySeq.Roulette,
-				MapUnit.CategorySeq.FieldBoss,
-				MapUnit.CategorySeq.GatherEnv,
-				MapUnit.CategorySeq.Craft,
-				MapUnit.CategorySeq.ExpeditionEnv,
-				MapUnit.CategorySeq.WanderingNpc,
-				MapUnit.CategorySeq.Npc,
-				MapUnit.CategorySeq.Env,
-			};
+		public bool Contains(MapUnit.CategorySeq category) => !dict.TryGetValue(category, out var filter) || !filter.NotUsed & filter.IsChecked;
 
-			return category.SelectNotNull(x => this.GetValueOrDefault(x)).GetEnumerator();
-		}
+		public IEnumerator GetEnumerator() => dict.Values.Where(x => !x.NotUsed).GetEnumerator();
 	}
 	#endregion
 

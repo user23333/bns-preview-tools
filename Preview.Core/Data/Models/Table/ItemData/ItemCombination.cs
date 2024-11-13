@@ -1,7 +1,7 @@
 ﻿using Xylia.Preview.Common.Extension;
 
 namespace Xylia.Preview.Data.Models;
-public sealed class ItemCombination : ModelElement
+public sealed class ItemCombination : ModelElement, IReward
 {
 	#region Attributes
 	public int Id { get; set; }
@@ -46,7 +46,7 @@ public sealed class ItemCombination : ModelElement
 	#endregion
 
 	#region Methods
-	public List<ItemCombinationInfo> GetInfo()
+	public IEnumerable<IRewardHelper> GetRewards()
 	{
 		var data = new List<ItemCombinationInfo>();
 
@@ -55,9 +55,9 @@ public sealed class ItemCombination : ModelElement
 			if (group is null) return;
 
 			var MemberProb = probability * 0.0001d / group.MemberItemCount;
-			foreach (var item in group.MemberItem.SelectNotNull(x => x.Instance))
+			foreach (var item in group.MemberItem.Values())
 			{
-				data.Add(new()
+				data.Add(new ItemCombinationInfo()
 				{
 					Data = item,
 					Group = name,
@@ -74,12 +74,15 @@ public sealed class ItemCombination : ModelElement
 		return data;
 	}
 
-	public class ItemCombinationInfo : IReward
+	public class ItemCombinationInfo : IRewardHelper
 	{
-		public string Group;
-		public Item Data;
+		internal Item Data;
 		internal double Probability;
 
+		object IRewardHelper.Data => Data;
+		public string Text => Data?.ItemName;
+		public string Group { get; set; }
+		public string GroupText => null;
 		public string ProbabilityInfo => Probability.ToString("P4");
 	}
 	#endregion

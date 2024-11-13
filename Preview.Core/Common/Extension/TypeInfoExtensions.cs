@@ -4,46 +4,68 @@ using System.ComponentModel;
 namespace Xylia.Preview.Common.Extension;
 public static class TypeInfoExtensions
 {
-	public static T As<T>(this object @this) => (T)As(@this, typeof(T));
-
-	internal static object As(this object @this, Type type)
-	{
-		if (@this != null)
-		{
-			Type targetType = type;
-
-			if (@this.GetType() == targetType)
-			{
-				return @this;
-			}
-
-			var converter = TypeDescriptor.GetConverter(@this);
-			if (converter != null)
-			{
-				if (converter.CanConvertTo(targetType))
-				{
-					return converter.ConvertTo(@this, targetType);
-				}
-			}
-
-			converter = TypeDescriptor.GetConverter(targetType);
-			if (converter != null)
-			{
-				if (converter.CanConvertFrom(@this.GetType()))
-				{
-					return converter.ConvertFrom(@this);
-				}
-			}
-		}
-
-		return @this;
-	}
-
-	internal static bool IsEnumerable(this Type type)
+	public static bool IsEnumerable(this Type type)
 	{
 		return
 			type != typeof(string) &&
 			typeof(IEnumerable).IsAssignableFrom(type);
+	}
+
+	/// <summary>
+	///  Converts the given value object to the specified type
+	/// </summary>
+	/// <typeparam name="T">The type to convert the value parameter to</typeparam>
+	/// <param name="value">The object to convert</param>
+	/// <returns></returns>
+	public static T To<T>(this object value)
+	{
+		value = To(value, typeof(T));
+		return value is null ? default : (T)value;
+	}
+
+	internal static object To(this object value, Type type, Func<object> failFunc = null)
+	{
+		if (value != null)
+		{
+			// rewrite
+			if (type == value.GetType())
+			{
+				return value;
+			}
+			else if (type.IsEnum)	
+			{	
+				// system EnumConverter is incomplete
+				value.ToString().TryParseToEnum(type, out value);
+				return value;
+			}
+			else if (type.IsArray && value is Array array)
+			{
+				type = type.GetElementType();
+				var newValue = Array.CreateInstance(type, array.Length);
+
+				int idx = 0;
+				foreach (var x in array) newValue.SetValue(x.To(type), idx++);
+				return newValue;
+			}
+
+			// converter
+			var converter = TypeDescriptor.GetConverter(value);
+			if (converter != null && converter.CanConvertTo(type))
+			{
+				return converter.ConvertTo(value, type);
+			}
+
+			converter = TypeDescriptor.GetConverter(type);
+			if (converter != null && converter.CanConvertFrom(value.GetType()))
+			{
+				return converter.ConvertFrom(value);
+			}
+
+			// fail	invoke
+			if (failFunc != null) value = failFunc?.Invoke();
+		}
+
+		return value;
 	}
 
 	public static Type GetBaseType(this object value, Type stopper = null)

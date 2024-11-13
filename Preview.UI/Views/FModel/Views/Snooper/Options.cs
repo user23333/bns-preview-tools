@@ -1,14 +1,10 @@
 using CUE4Parse.UE4.Assets.Exports.Texture;
 using CUE4Parse.UE4.Objects.Core.Misc;
-
 using CUE4Parse_Conversion.Textures;
-
 using FModel.Views.Snooper.Animations;
 using FModel.Views.Snooper.Lights;
 using FModel.Views.Snooper.Models;
 using FModel.Views.Snooper.Shading;
-
-using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.UI.ViewModels;
 
 namespace FModel.Views.Snooper;
@@ -43,6 +39,12 @@ public class Options
         Icons = new Dictionary<string, Texture>
         {
             ["material"] = new ("materialicon"),
+            ["square"] = new ("square"),
+            ["square_off"] = new ("square_off"),
+            ["cube"] = new ("cube"),
+            ["cube_off"] = new ("cube_off"),
+            ["light"] = new ("light"),
+            ["light_off"] = new ("light_off"),
             ["noimage"] = new ("T_Placeholder_Item_Image"),
             ["checker"] = new ("checker"),
             ["pointlight"] = new ("pointlight"),
@@ -58,7 +60,7 @@ public class Options
             ["tl_next"] = new ("tl_next"),
         };
 
-        _game = FileCache.Provider.InternalGameName.ToUpper();
+        //_game = Services.ApplicationService.ApplicationView.CUE4Parse.Provider.InternalGameName.ToUpper();
 
         SelectModel(Guid.Empty);
     }
@@ -217,10 +219,10 @@ public class Options
 
     public void SwapMaterial(bool value)
     {
-		//Services.ApplicationService.ApplicationView.CUE4Parse.ModelIsOverwritingMaterial = value;
+        //Services.ApplicationService.ApplicationView.CUE4Parse.ModelIsOverwritingMaterial = value;
 	}
 
-	public void AnimateMesh(bool value)
+    public void AnimateMesh(bool value)
     {
         //Services.ApplicationService.ApplicationView.CUE4Parse.ModelIsWaitingAnimation = value;
     }

@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Diagnostics;
 using Newtonsoft.Json;
+using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Client;
+using Xylia.Preview.Data.Common;
 using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Engine.BinData.Helpers;
 using Xylia.Preview.Data.Engine.Definitions;
@@ -9,14 +11,15 @@ using Xylia.Preview.Data.Engine.Definitions;
 namespace Xylia.Preview.Data.Models;
 /// <summary>
 /// Represent a Attribute Value
-/// </summary>
+/// </summary>			  
+[DebuggerDisplay("{RawValue}")]
 [JsonConverter(typeof(AttributeValueConverter))]
 public class AttributeValue : IComparable<AttributeValue>, IEquatable<AttributeValue>
 {
 	/// <summary>
 	/// Represent a NullValue
 	/// </summary>
-	public readonly static AttributeValue Null = new(null);
+	internal readonly static AttributeValue Null = new(null);
 
 	#region Constructor
 	internal AttributeValue(AttributeDefinition definition, object value)
@@ -139,33 +142,35 @@ public class AttributeValue : IComparable<AttributeValue>, IEquatable<AttributeV
 	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 	public AttributeDocument AsDocument => this as AttributeDocument;
 
+	public T As<T>() => this.RawValue.To<T>();
+
 
 	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	public bool AsBoolean => (BnsBoolean?)this.RawValue ?? false;
+	public bool AsBoolean => this.RawValue.To<bool>();
 
 	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	public string AsString => (string)this.RawValue;
+	public string AsString => this.RawValue.To<string>();
 
 	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	public int AsInt8 => Convert.ToSByte(this.RawValue);
+	public int AsInt8 => this.RawValue.To<sbyte>();
 
 	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	public short AsInt16 => Convert.ToInt16(this.RawValue);
+	public short AsInt16 => this.RawValue.To<short>();
 
 	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	public int AsInt32 => Convert.ToInt32(this.RawValue);
+	public int AsInt32 => this.RawValue.To<int>();
 
 	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	public long AsInt64 => Convert.ToInt64(this.RawValue);
+	public long AsInt64 => this.RawValue.To<long>();
 
 	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	public float AsFloat => Convert.ToSingle(this.RawValue);
+	public float AsFloat => this.RawValue.To<float>();
 
 	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	internal decimal AsDecimal => Convert.ToDecimal(this.RawValue);
+	internal decimal AsDecimal => this.RawValue.To<decimal>();
 
 	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	public DateTime AsDateTime => (DateTime)this.RawValue;
+	public DateTime AsDateTime => this.RawValue.To<DateTime>();
 	#endregion
 
 	#region IsTypes
@@ -209,7 +214,7 @@ public class AttributeValue : IComparable<AttributeValue>, IEquatable<AttributeV
 	public bool IsSeq16 => this.Type == AttributeType.TSeq16;
 
 	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	public bool IsRef => this.Type == AttributeType.TRef || this.Type == AttributeType.TTRef;
+	public bool IsRef => this.Type is AttributeType.TRef or AttributeType.TTRef;
 
 	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
 	public bool IsProp_seq => this.Type == AttributeType.TProp_seq;
@@ -221,7 +226,7 @@ public class AttributeValue : IComparable<AttributeValue>, IEquatable<AttributeV
 	public bool IsNative => this.Type == AttributeType.TNative;
 
 	[DebuggerBrowsable(DebuggerBrowsableState.Never)]
-	public bool IsDateTime => this.Type == AttributeType.TXUnknown1;
+	public bool IsDateTime => this.Type is AttributeType.TTime32 or AttributeType.TTime64 or AttributeType.TXUnknown1;
 	#endregion
 
 	#region Implicit Constructors
@@ -316,8 +321,6 @@ public class AttributeValue : IComparable<AttributeValue>, IEquatable<AttributeV
 
 		return left.AsFloat / right.AsFloat;
 	}
-
-	public override string ToString() => this.RawValue?.ToString();
 	#endregion
 
 	#region IComparable, IEquatable		   
@@ -438,6 +441,17 @@ public class AttributeValue : IComparable<AttributeValue>, IEquatable<AttributeV
 		hash = 37 * hash + this.Type.GetHashCode();
 		hash = 37 * hash + (this.RawValue?.GetHashCode() ?? 0);
 		return hash;
+	}
+
+	public override string ToString()
+	{
+		return RawValue switch
+		{
+			float f => f.ToString("0.00"),
+			ITime { Ticks: 0 } => null,
+			Record record when Definition.Type == AttributeType.TTRef => $"{record.OwnerName}:{record}",
+			_ => RawValue?.ToString(),
+		};
 	}
 	#endregion
 }

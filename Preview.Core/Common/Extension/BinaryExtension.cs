@@ -23,7 +23,7 @@ public static class BinaryExtension
 		{
 			fixed (byte* p = &Unsafe.As<T, byte>(ref value))
 			{
-				using UnmanagedMemoryStream ms = new UnmanagedMemoryStream(p, size);
+				using var ms = new UnmanagedMemoryStream(p, size);
 				ms.Read(data, 0, data.Length);
 			}
 		}

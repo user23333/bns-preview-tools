@@ -5,10 +5,9 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using CUE4Parse.BNS.Assets.Exports;
-using CUE4Parse.UE4.Objects.Core.Math;
 using CUE4Parse.UE4.Objects.UObject;
+using Xylia.Preview.Common;
 using Xylia.Preview.Data.Common.DataStruct;
-using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models;
 using Xylia.Preview.UI.Controls;
 
@@ -24,7 +23,7 @@ public partial class Legacy_MapWindowPanel
 		MapWindowPanel_UnitFilterList.ItemsSource = MapWindow_Minimap.UnitFilters;
 
 		// data
-		source = CollectionViewSource.GetDefaultView(FileCache.Data.Provider.GetTable<MapInfo>());
+		source = CollectionViewSource.GetDefaultView(Globals.GameData.Provider.GetTable<MapInfo>());
 		source.Filter += OnFilter;
 		source.GroupDescriptions.Clear();
 		source.GroupDescriptions.Add(new MapGroupDescription());
@@ -44,7 +43,7 @@ public partial class Legacy_MapWindowPanel
 
 	private void SearchStarted(object sender, TextChangedEventArgs e)
 	{
-		_zone = FileCache.Data.Provider.GetTable<Zone>()[SearcherRule.Text];
+		_zone = Globals.GameData.Provider.GetTable<Zone>()[SearcherRule.Text];
 		source.Refresh();
 	}
 
@@ -71,20 +70,26 @@ public partial class Legacy_MapWindowPanel
 	private void MapWindow_Minimap_MapChanged(object? sender, MapInfo MapInfo)
 	{
 		MapInfo.IsSelected = true;
-		//MapWindow_MapHolder.Width = MapWindow_MapHolder.Height = MapInfo.ImageSize;
 	}
 
 	private void MapWindow_Minimap_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
 	{
 		var offset = Mouse.GetPosition(MapWindow_Minimap);
-		offset.Y = MapWindow_Minimap.MapInfo.ImageSize - offset.Y;
+		var vector = (Vector32)MapWindow_Minimap.Parse(offset);
 
-		float posX = (float)(MapWindow_Minimap.MapInfo.Scale * offset.Y) + MapWindow_Minimap.MapInfo.LocalAxisX;
-		float posY = (float)(MapWindow_Minimap.MapInfo.Scale * offset.X) + MapWindow_Minimap.MapInfo.LocalAxisY;
-
-		var vector = (Vector32)new FVector(posX, posY, 0);
 		MapWindowPanel_PositionHolder_X.Text = vector.X.ToString();
 		MapWindowPanel_PositionHolder_Y.Text = vector.Y.ToString();
+	}
+
+	private void MapWindow_Minimap_KeyDown(object sender, KeyEventArgs e)
+	{
+		if (e.KeyboardDevice.Modifiers.HasFlag(ModifierKeys.Control) && e.Key == Key.Add)
+		{
+			switch (e.Key)
+			{
+				case Key.Add: MapWindow_Minimap.Zoom += 0.1; break;
+			}
+		}
 	}
 
 	private void OnPositionChanged(object sender, RoutedEventArgs e)

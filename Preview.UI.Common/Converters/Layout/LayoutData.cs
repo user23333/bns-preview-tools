@@ -42,10 +42,10 @@ public class LayoutData
 	/// <param name="element">The element to which to write the Anchor attached property.</param>
 	/// <param name="value">The Anchor to set</param>
 	/// <seealso cref="Anchor.AnchorProperty" />
-	public static void SetAnchors(UIElement element, Anchor value)
+	public static void SetAnchors(UIElement element, Anchor? value)
 	{
 		ArgumentNullException.ThrowIfNull(element);
-		element.SetValue(AnchorsProperty, value);
+		if (value != null) element.SetValue(AnchorsProperty, value);
 	}
 
 	/// <summary>
@@ -66,10 +66,10 @@ public class LayoutData
 	/// <param name="element">The element to which to write the Offset attached property.</param>
 	/// <param name="value">The offset to set</param>
 	/// <seealso cref="Anchor.OffsetProperty" />
-	public static void SetOffsets(UIElement element, Offset value)
+	public static void SetOffsets(UIElement element, Offset? value)
 	{
 		ArgumentNullException.ThrowIfNull(element);
-		element.SetValue(OffsetsProperty, value);
+		if (value != null) element.SetValue(OffsetsProperty, value);
 	}
 
 	/// <summary>
@@ -97,38 +97,24 @@ public class LayoutData
 	}
 
 
-	internal static Point ComputeOffset(Size clientSize, FVector2D inkSize, HAlignment ha = default, VAlignment va = default, FVector2D Padding = default, FVector2D Offset = default)
+	internal static Point ComputeOffset(Size clientSize, FVector2D inkSize, EHorizontalAlignment ha = default, EVerticalAlignment va = default, FVector2D Padding = default, FVector2D Offset = default)
 	{
-		var offset = new Point();
+		var offset = new Point
+		{
+			X = Padding.X + Offset.X + (ha switch
+			{
+				EHorizontalAlignment.HAlign_Right => clientSize.Width - inkSize.X,
+				EHorizontalAlignment.HAlign_Center => (clientSize.Width - inkSize.X) * 0.5,
+				_ => 0,
+			}),
 
-		if (ha == HAlignment.HAlign_Center)
-		{
-			offset.X = (clientSize.Width - inkSize.X) * 0.5;
-		}
-		else if (ha == HAlignment.HAlign_Right)
-		{
-			offset.X = clientSize.Width - inkSize.X;
-		}
-		else
-		{
-			offset.X = 0;
-		}
-
-		if (va == VAlignment.VAlign_Center)
-		{
-			offset.Y = (clientSize.Height - inkSize.Y) * 0.5;
-		}
-		else if (va == VAlignment.VAlign_Bottom)
-		{
-			offset.Y = clientSize.Height - inkSize.Y;
-		}
-		else
-		{
-			offset.Y = 0;
-		}
-
-		offset.X += Padding.X + Offset.X;
-		offset.Y += Padding.Y + Offset.Y;
+			Y = Padding.Y + Offset.Y + (va switch
+			{
+				EVerticalAlignment.VAlign_Bottom => clientSize.Height - inkSize.Y,
+				EVerticalAlignment.VAlign_Center => (clientSize.Height - inkSize.Y) * 0.5,
+				_ => 0,
+			})
+		};
 
 		return offset;
 	}

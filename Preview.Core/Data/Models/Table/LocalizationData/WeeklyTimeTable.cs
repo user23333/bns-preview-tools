@@ -41,13 +41,13 @@ public sealed class WeeklyTimeTable : ModelElement
 
 	#region Helpers
 	public struct WeeklyTimePeriod
-	{		
+	{
 		public WeeklyTimeTable Data;
 		public DayOfWeekSeq DayOfWeek;
 		public sbyte StartHour;
 		public sbyte StartMinute;
 		public sbyte EndHour;
-		public sbyte EndMinute; 
+		public sbyte EndMinute;
 
 		public readonly override string ToString() => $"[{StartHour}:{StartMinute:00}~{EndHour}:{EndMinute:00}] {Data}";
 	}
@@ -63,15 +63,14 @@ public sealed class WeeklyTimeTable : ModelElement
 				var startHour = startHours[i];
 				if (startHour == -1) continue;
 
-				periods.Add(new WeeklyTimeTable.WeeklyTimePeriod()
+				periods.Add(new WeeklyTimePeriod()
 				{
 					Data = this,
 					DayOfWeek = dayOfWeek,
 					StartHour = startHour,
-					EndHour = endHours[i],
-					//hack: error field
-					//StartMinute = this.StartMinute,
-					//EndMinute = this.EndMinute
+					StartMinute = StartMinute == -1 ? (sbyte)0 : StartMinute,
+					EndHour = EndMinute == -1 ? endHours[i] : startHour, 
+					EndMinute = EndMinute == -1 ? (sbyte)0 : EndMinute,
 				});
 			}
 		}

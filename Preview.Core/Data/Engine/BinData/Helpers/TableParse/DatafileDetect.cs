@@ -1,4 +1,5 @@
-﻿using Xylia.Preview.Common.Extension;
+﻿using System.Diagnostics;
+using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Engine.BinData.Models;
 using Xylia.Preview.Data.Engine.Definitions;
@@ -23,7 +24,7 @@ public sealed class DatafileDetect : ITypeParser
 #if DEVELOP
 		AliasTable.ForEach(t => System.Diagnostics.Debug.WriteLine(t.Name));
 #endif
-		tables.ForEach(table => by_id[table.Type] = "");
+		tables.ForEach(table => by_id[table.Type] = string.Empty);
 		Parallel.ForEach(tables, table =>
 		{
 			// skip check xml table
@@ -136,10 +137,11 @@ public sealed class DatafileDetect : ITypeParser
 	#endregion
 }
 
+
+[DebuggerDisplay("{Name}")]
 internal class AliasTableUnit(string name)
 {
 	public string Name = name;
-	public override string ToString() => Name;
 
 	internal Dictionary<Ref, string> Records { get; } = [];
 
@@ -149,7 +151,6 @@ internal class AliasTableUnit(string name)
 	internal static List<AliasTableUnit> Split(AliasTable aliasTable)
 	{
 		if (aliasTable is null) return null;
-
 		var tables = new Dictionary<string, AliasTableUnit>(StringComparer.OrdinalIgnoreCase);
 
 		foreach (var table in aliasTable.Table)

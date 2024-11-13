@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using CUE4Parse.Utils;
 using Serilog;
+using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Engine.BinData.Helpers;
 using Xylia.Preview.Data.Engine.BinData.Models;
 using Xylia.Preview.Data.Engine.BinData.Serialization;
@@ -14,13 +15,28 @@ public class DefaultProvider : Datafile, IDataProvider
 	public BNSDat XmlData { get; protected set; }
 	protected BNSDat LocalData { get; set; }
 	protected BNSDat ConfigData { get; set; }
-	internal ITypeParser Parser { get; set; }
+
+	internal ITypeParser Parser;
 	#endregion
 
-	#region Methods		
+	#region Constructors
+	protected DefaultProvider()
+	{
+
+	}
+
+	public DefaultProvider(BNSDat xml, BNSDat local, BNSDat config = null)
+	{
+		this.XmlData = xml;
+		this.LocalData = local;
+		this.ConfigData = config;
+	}
+	#endregion
+
+	#region IDataProvider	
 	public virtual string Name { get; protected set; }
 
-	public Locale Locale { get; protected set; }
+	public Locale Locale { get; protected set; } = new();
 
 	public virtual Stream[] GetFiles(string pattern)
 	{
@@ -44,29 +60,25 @@ public class DefaultProvider : Datafile, IDataProvider
 		Tables.Add(new() { Name = "surveyquestions" });
 
 		// binary table
-		ReadFrom(XmlData.SearchFiles(PATH.Datafile(Is64Bit)).FirstOrDefault()?.Data, Is64Bit);
-		ReadFrom(LocalData?.SearchFiles(PATH.Localfile(Is64Bit)).FirstOrDefault()?.Data, Is64Bit);
+		ReadFrom(XmlData.SearchFiles(DataSearch.Datafile(Is64Bit)).FirstOrDefault()?.Data, Is64Bit);
+		ReadFrom(LocalData?.SearchFiles(DataSearch.Localfile(Is64Bit)).FirstOrDefault()?.Data, Is64Bit);
 		#endregion
 
 		Parser = definitions.GetParser(this);
 		Parser.Parse(definitions);
 	}
 
-	public virtual void WriteData(string folder, PublishSettings settings)
+	public virtual void WriteData(string folder, RebuildSettings settings)
 	{
 		#region Rebuild alias map  
 		if (settings.RebuildAliasMap)
 		{
-			// If not complete definition, read the raw AliasMap
-			var units = AliasTableUnit.Split(Tables.Any(x => x.Definition.IsDefault) ? AliasTable : null);
-
-			AliasTable = new AliasTable();
-
 			Log.Information("Rebuilding alias map");
+			var aliasTable = new AliasTable();
 			var haveAlias = new HashSet<string>();
 
-			// get alias
-			foreach (var table in this.Tables)
+			// create alias	map
+			foreach (var table in Tables)
 			{
 				var aliasAttrDef = table.Definition.ElRecord["alias"];
 				if (aliasAttrDef == null || table.Archive != null) continue;
@@ -74,58 +86,49 @@ public class DefaultProvider : Datafile, IDataProvider
 				var tableDefName = table.Name.ToLowerInvariant();
 				haveAlias.Add(tableDefName);
 
-				foreach (var record in table.Records)
-				{
-					var alias = record.Attributes.Get<string>("alias");
-					if (alias == null) continue;
-
-					AliasTable.Add(record.PrimaryKey, AliasTable.MakeKey(tableDefName, alias));
-				}
+				table.Records.ForEach(aliasTable.Add);
 			}
 
-			// If not complete definition, read the raw AliasMap
-			if (units != null)
+			// If incomplete definition, read the raw map
+			if (Tables.Any(x => x.Definition.IsDefault))
 			{
-				foreach (var table in units)
+				foreach (var table in AliasTableUnit.Split(AliasTable))
 				{
 					if (haveAlias.Contains(table.Name)) continue;
 
-					foreach (var record in table.Records)
-						AliasTable.Add(record.Key, AliasTable.MakeKey(table.Name, record.Value));
+					table.Records.ForEach(x => aliasTable.Add(x.Key, AliasTable.MakeKey(table.Name, x.Value)));
 				}
 			}
 
-			var temp = new AliasTableBuilder(AliasTable).EndRebuilding();
-			AliasTable = temp;
-			AliasCount = temp.Entries.Count;
+			// build
+			AliasTable = new AliasTableBuilder(aliasTable).EndRebuilding();
+			AliasCount = AliasTable.Count;
 		}
 		#endregion
 
-
-		// Due to incomplete definition, local may missing table
-		// UserCommand remove at UE4
-		var raw = this.Tables.Where(x => !x.IsBinary);
-		var local = this.Tables.Where(x => x.Name == "petition-faq-list" || x.Name == "survey" || x.Name == "text" || (false && x.Name == "user-command"));
-		var xml = this.Tables.Except(local).Except(raw);
+		// UserCommand move to datafile after UE4
+		var raw = Tables.Where(x => !x.IsBinary);
+		var local = Tables.Where(x => x.Name == "petition-faq-list" || x.Name == "survey" || x.Name == "text" || (false && x.Name == "user-command"));
+		var xml = Tables.Except(local).Except(raw);
 
 		// write mode
 		if (settings.Mode == Mode.Datafile)
 		{
-			File.WriteAllBytes(Path.Combine(folder, PATH.Datafile(Is64Bit)), WriteTo([.. xml], settings.Is64bit));
-			File.WriteAllBytes(Path.Combine(folder, PATH.Localfile(Is64Bit)), WriteTo([.. local], settings.Is64bit));
+			File.WriteAllBytes(Path.Combine(folder, DataSearch.Datafile(Is64Bit)), WriteTo([.. xml], settings.Is64bit));
+			File.WriteAllBytes(Path.Combine(folder, DataSearch.Localfile(Is64Bit)), WriteTo([.. local], settings.Is64bit));
 		}
 		else if (settings.Mode == Mode.Package)
 		{
-			XmlData.Add(PATH.Datafile(Is64Bit), WriteTo([.. xml], settings.Is64bit));
+			XmlData.Add(DataSearch.Datafile(Is64Bit), WriteTo([.. xml], settings.Is64bit));
 			XmlData.Write(settings.Is64bit, CompressionLevel.Normal);
 
-			LocalData.Add(PATH.Localfile(Is64Bit), WriteTo([.. local], settings.Is64bit));
+			LocalData.Add(DataSearch.Localfile(Is64Bit), WriteTo([.. local], settings.Is64bit));
 		}
 		else if (settings.Mode == Mode.PackageThird)
 		{
 			var replaces = new Dictionary<string, byte[]>
 			{
-				{ PATH.Datafile(Is64Bit), WriteTo([.. xml], settings.Is64bit) }
+				{ DataSearch.Datafile(Is64Bit), WriteTo([.. xml], settings.Is64bit) }
 			};
 
 			ThirdSupport.Pack(XmlData.Params, replaces);
@@ -149,43 +152,26 @@ public class DefaultProvider : Datafile, IDataProvider
 	}
 	#endregion
 
-
-	#region Constructors
-	public DefaultProvider()
+	#region Methods
+	public static DefaultProvider Load(string folder, IDatSelect selector = default, string pattern = "*.dat")
 	{
+		var searcher = new DataSearch(folder, pattern);
+		var xmls = searcher.Get(DataSearch.DatType.Xml);
+		var locals = searcher.Get(DataSearch.DatType.Local);
+		var configs = searcher.Get(DataSearch.DatType.Config);
 
-	}
-
-	public DefaultProvider(BNSDat xml, BNSDat local, BNSDat config = null)
-	{
-		this.XmlData = xml;
-		this.LocalData = local;
-		this.ConfigData = config;
-	}
-
-	public static DefaultProvider Load(string GameFolder, IDatSelect selector = default, ResultMode mode = ResultMode.SelectDat)
-	{
-		if (string.IsNullOrWhiteSpace(GameFolder) || !Directory.Exists(GameFolder))
-			throw new WarningException("You must set game folder.");
-
-		// get all
-		var datas = new DataCollection(GameFolder);
-		var xmls = datas.GetFiles(DatType.Xml, mode);
-		var locals = datas.GetFiles(DatType.Local, mode);
-		var configs = datas.GetFiles(DatType.Config, mode);
-
-		Debug.Assert(selector != null || xmls.Count <= 1, "please set a dat selector.");
+		Debug.Assert(selector != null || xmls.Count() <= 1, "Please set a dat selector.");
 
 		// get target
 		DefaultProvider provider;
-		if (xmls.Count == 0) throw new WarningException("invalid game data, maybe specified incorrect directory.");
-		else if (selector is null || (xmls.Count == 1 && locals.Count <= 1)) provider = new DefaultProvider(xmls.FirstOrDefault(), locals.FirstOrDefault());
-		else provider = selector.Show(xmls, locals);
+		if (!xmls.Any()) throw new WarningException("invalid game data, maybe specified incorrect directory.");
+		else if (selector is null || (xmls.Count() == 1 && locals.Count() <= 1)) provider = new DefaultProvider(xmls.FirstOrDefault(), locals.FirstOrDefault());
+		else provider = selector.Show(xmls, locals, searcher.Locale);
 
 		// return information
-		provider.Name = GameFolder.SubstringAfterLast('\\');
+		provider.Name = folder.SubstringAfterLast('\\');
 		provider.Is64Bit = provider.XmlData.Bit64;
-		provider.Locale = Locale.Current = new Locale(GameFolder);
+		provider.Locale = Locale.Current = searcher.Locale;
 		provider.ConfigData = configs.FirstOrDefault();
 
 		return provider;
@@ -195,5 +181,5 @@ public class DefaultProvider : Datafile, IDataProvider
 
 public interface IDatSelect
 {
-	DefaultProvider Show(IEnumerable<FileInfo> Xml, IEnumerable<FileInfo> Local);
+	DefaultProvider Show(IEnumerable<FileInfo> xmls, IEnumerable<FileInfo> locals, Locale locale);
 }

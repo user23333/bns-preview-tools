@@ -3,10 +3,9 @@ using CUE4Parse.UE4.Assets;
 using CUE4Parse.UE4.Assets.Exports;
 using CUE4Parse.UE4.Assets.Exports.Sound;
 using CUE4Parse.UE4.Assets.Exports.Sound.Node;
-using CUE4Parse.UE4.Objects.UObject;
 using CUE4Parse_Conversion.Sounds;
 using CUE4Parse_Conversion.Textures;
-using Xylia.Preview.Data.Helpers;
+using GlobalData = Xylia.Preview.Common.Globals;
 
 namespace CUE4Parse.BNS.Conversion;
 public static class Sounds
@@ -37,7 +36,7 @@ public static class Sounds
 			}
 		}
 		else if (Object is UShowSoundKey ShowSoundKey) return ShowSoundKey.SoundCue?.Load().GetWave();
-		else if (Object is UShowFaceFxKey ShowFaceFxKey) return FileCache.Provider.LoadObject(ShowFaceFxKey.FaceFXAnimSetName).GetWave(ReferenceIdx);
+		else if (Object is UShowFaceFxKey ShowFaceFxKey) return GlobalData.GameProvider.LoadObject(ShowFaceFxKey.FaceFXAnimSetName).GetWave(ReferenceIdx);
 		else if (Object is UShowFaceFxUE4Key ShowFaceFxUE4Key) return ShowFaceFxUE4Key.FaceFXAnimObj.Load().GetWave();
 		else if (Object is UFaceFXAnim FaceFXAnim) return FaceFXAnim.SoundCue.Load().GetWave();
 		else if (Object is ULegacyFaceFXAnimSet) return Object.GetOrDefault<ResolvedObject[]>("ReferencedSoundCues")[ReferenceIdx].Load().GetWave();

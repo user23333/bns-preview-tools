@@ -2,6 +2,7 @@
 using System.Windows.Data;
 using System.Windows.Markup;
 using Xylia.Preview.Common.Extension;
+using Xylia.Preview.Data.Models.Sequence;
 
 namespace Xylia.Preview.UI.Common.Converters;
 public class EnumConverter : MarkupExtension, IValueConverter
@@ -10,10 +11,14 @@ public class EnumConverter : MarkupExtension, IValueConverter
 
 	public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
 	{
-		if (value != null && value is Enum seq)
+		if (value is Enum seq)
 		{
 			if (targetType == typeof(int)) return (int)value;
-			if (targetType == typeof(string)) return seq.GetDescription();
+			if (targetType == typeof(string)) return parameter switch
+			{
+				"TEXT" => seq.GetText(),
+				_ => seq.GetDescription()
+			};
 		}
 
 		return value;

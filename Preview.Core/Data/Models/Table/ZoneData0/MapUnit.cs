@@ -1,6 +1,7 @@
 ﻿using CUE4Parse.UE4.Objects.Core.Math;
 using Xylia.Preview.Common.Attributes;
 using Xylia.Preview.Data.Common.Abstractions;
+using Xylia.Preview.Data.Common.DataStruct;
 
 namespace Xylia.Preview.Data.Models;
 [Side(ReleaseSide.Client)]
@@ -32,7 +33,7 @@ public class MapUnit : ModelElement, IHaveName
 		[Text("Name.mapunit.category.duel-enemy")] DuelEnemy,
 		[Text("Name.mapunit.category.quest")] Quest,
 		[Text("UI.MapInfoOption.NPC")] Npc,
-		[Text("UI.Expedition.Main.Collection")] Env,
+		Env,
 		[Text("Name.mapunit.category.teleport")] Teleport,
 		[Text("Name.mapunit.category.airdash")] Airdash,
 		Link,
@@ -65,6 +66,7 @@ public class MapUnit : ModelElement, IHaveName
 		[Text("Name.mapunit.category.expedition-env")] ExpeditionEnv,
 		[Text("Name.mapunit.category.wandering-npc")] WanderingNpc,
 
+		[Text("UI.Expedition.Main.Collection")] ExpeditionEnv_Collection, //append 
 		COUNT
 	}
 
@@ -105,17 +107,17 @@ public class MapUnit : ModelElement, IHaveName
 
 	public short OufofsightSizeY { get; set; }
 
-	public string Imageset { get; set; }
+	public ObjectPath Imageset { get; set; }
 
-	public string OverImageset { get; set; }
+	public ObjectPath OverImageset { get; set; }
 
-	public string PressedImageset { get; set; }
+	public ObjectPath PressedImageset { get; set; }
 
-	public string OutofsightImageset { get; set; }
+	public ObjectPath OutofsightImageset { get; set; }
 
-	public string OutofsightOverImageset { get; set; }
+	public ObjectPath OutofsightOverImageset { get; set; }
 
-	public string OutofsightPressedImageset { get; set; }
+	public ObjectPath OutofsightPressedImageset { get; set; }
 
 	public float CenterPosX { get; set; }
 

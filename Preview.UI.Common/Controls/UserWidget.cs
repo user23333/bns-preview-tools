@@ -32,7 +32,7 @@ public abstract class UserWidget : FrameworkElement, IUserWidget
 
 	public UserWidget()
 	{
-		Children = new UIElementCollection(this, this);
+		Children = new WidgetCollection(this);
 
 		EventManager.RegisterClassHandler(Owner, UIElement.PreviewMouseLeftButtonDownEvent, new MouseButtonEventHandler(HandleDoubleClick), true);
 		EventManager.RegisterClassHandler(Owner, UIElement.MouseLeftButtonDownEvent, new MouseButtonEventHandler(HandleDoubleClick), true);
@@ -468,8 +468,8 @@ public abstract class UserWidget : FrameworkElement, IUserWidget
 
 
 			// Measure widget if invalid value
-			if (w == 0 || (child is BnsCustomBaseWidget widget1 && widget1.AutoResizeHorizontal)) w = double.PositiveInfinity;
-			if (h == 0 || (child is BnsCustomBaseWidget widget2 && widget2.AutoResizeVertical)) h = double.PositiveInfinity;
+			if (w <= 0 || (child is BnsCustomBaseWidget widget1 && widget1.AutoResizeHorizontal)) w = double.PositiveInfinity;
+			if (h <= 0 || (child is BnsCustomBaseWidget widget2 && widget2.AutoResizeVertical)) h = double.PositiveInfinity;
 
 			child.Measure(new Size(w, h));
 
@@ -494,6 +494,7 @@ public abstract class UserWidget : FrameworkElement, IUserWidget
 		{
 			if (child == null) continue;
 
+			child.InvalidateVisual();  //request BnsCustomBaseWidget to redraw
 			child.Arrange(ArrangeChild(child, constraint));
 		}
 

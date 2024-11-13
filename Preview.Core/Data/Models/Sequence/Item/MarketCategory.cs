@@ -92,6 +92,17 @@ public enum MarketCategory2Seq
 
 	[Text("Name.item.market-category-2.relic")]
 	Relic,
+
+	[Text("Name.item.market-category-2.skill-train-by-item-extract")]
+	SkillTrainByItemExtract,
+
+	[Text("Name.item.market-category-2.gold")]
+	Gold,
+
+	[Text("Name.item.market-category-2.spirit")]
+	Spirit,
+
+	//COUNT
 }
 
 public enum MarketCategory3Seq
@@ -509,6 +520,15 @@ public enum MarketCategory3Seq
 	[Text("Name.item.market-category-3.armlet-2")]
 	Armlet2,
 
+	[Text("Name.item.market-category-3.skill-train-by-item-extract")]
+	SkillTrainByItemExtract,
+
+	[Text("Name.item.market-category-3.gold")]
+	Gold,
+
+	[Text("Name.item.market-category-3.spirit")]
+	Spirit,
+
 	COUNT
 }
 
@@ -517,191 +537,177 @@ public static partial class SequenceExtensions
 {
 	public static Dictionary<MarketCategory2Seq, List<MarketCategory3Seq>> MarketCategory2Group(bool Neo)
 	{
-		var data = new Dictionary<MarketCategory2Seq, List<MarketCategory3Seq>>();
-		Array.ForEach(Enum.GetValues<MarketCategory2Seq>(), seq => data[seq] = []);
-
-		#region Weapon
-		data[MarketCategory2Seq.Weapon].Add(MarketCategory3Seq.Sword);
-		data[MarketCategory2Seq.Weapon].Add(MarketCategory3Seq.Gauntlet);
-		data[MarketCategory2Seq.Weapon].Add(MarketCategory3Seq.Axe);
-		data[MarketCategory2Seq.Weapon].Add(MarketCategory3Seq.Staff);
-		data[MarketCategory2Seq.Weapon].Add(MarketCategory3Seq.AuraBangle);
-		data[MarketCategory2Seq.Weapon].Add(MarketCategory3Seq.Dagger);
-		data[MarketCategory2Seq.Weapon].Add(MarketCategory3Seq.LynSword);
-		data[MarketCategory2Seq.Weapon].Add(MarketCategory3Seq.WarlockDagger);
-		data[MarketCategory2Seq.Weapon].Add(MarketCategory3Seq.SoulFighterGauntlet);
-		data[MarketCategory2Seq.Weapon].Add(MarketCategory3Seq.Gun);
-		data[MarketCategory2Seq.Weapon].Add(MarketCategory3Seq.LongBow);
-		data[MarketCategory2Seq.Weapon].Add(MarketCategory3Seq.GreatSword);
-		data[MarketCategory2Seq.Weapon].Add(MarketCategory3Seq.Orb);
-		data[MarketCategory2Seq.Weapon].Add(MarketCategory3Seq.DualBlade);
-		data[MarketCategory2Seq.Weapon].Add(MarketCategory3Seq.Instrument);
-		data[MarketCategory2Seq.Weapon].Add(MarketCategory3Seq.Spear);
-		#endregion
-
-		#region	EquipGem
-		data[MarketCategory2Seq.EquipGem].Add(MarketCategory3Seq.Gam1);
-		data[MarketCategory2Seq.EquipGem].Add(MarketCategory3Seq.Gan2);
-		data[MarketCategory2Seq.EquipGem].Add(MarketCategory3Seq.Jin3);
-		data[MarketCategory2Seq.EquipGem].Add(MarketCategory3Seq.Son4);
-		data[MarketCategory2Seq.EquipGem].Add(MarketCategory3Seq.Ri5);
-		data[MarketCategory2Seq.EquipGem].Add(MarketCategory3Seq.Gon6);
-		data[MarketCategory2Seq.EquipGem].Add(MarketCategory3Seq.Tae7);
-		data[MarketCategory2Seq.EquipGem].Add(MarketCategory3Seq.Geon8);
-		#endregion
-
-		#region	Accessory
-		data[MarketCategory2Seq.Accessory].Add(MarketCategory3Seq.Ring);
-		data[MarketCategory2Seq.Accessory].Add(MarketCategory3Seq.Earring);
-		data[MarketCategory2Seq.Accessory].Add(MarketCategory3Seq.Necklace);
-		data[MarketCategory2Seq.Accessory].Add(MarketCategory3Seq.Belt);
-		data[MarketCategory2Seq.Accessory].Add(MarketCategory3Seq.Bracelet);
-		data[MarketCategory2Seq.Accessory].Add(MarketCategory3Seq.Soul);
-		data[MarketCategory2Seq.Accessory].Add(MarketCategory3Seq.Soul2);
-		data[MarketCategory2Seq.Accessory].Add(MarketCategory3Seq.Gloves);
-		data[MarketCategory2Seq.Accessory].Add(MarketCategory3Seq.Pet1);
-		data[MarketCategory2Seq.Accessory].Add(MarketCategory3Seq.Nova);
-		data[MarketCategory2Seq.Accessory].Add(MarketCategory3Seq.Rune1);
-		data[MarketCategory2Seq.Accessory].Add(MarketCategory3Seq.Rune2);
-		data[MarketCategory2Seq.Accessory].Add(MarketCategory3Seq.Vehicle);
-		data[MarketCategory2Seq.Accessory].Add(MarketCategory3Seq.NamePlateAppearance);
-		data[MarketCategory2Seq.Accessory].Add(MarketCategory3Seq.SpeechBubbleAppearance);
-		data[MarketCategory2Seq.Accessory].Add(MarketCategory3Seq.NormalStateAppearance);
-		data[MarketCategory2Seq.Accessory].Add(MarketCategory3Seq.IdleStateAppearance);
-		data[MarketCategory2Seq.Accessory].Add(MarketCategory3Seq.ChattingSymbol);
-		data[MarketCategory2Seq.Accessory].Add(MarketCategory3Seq.PortraitAppearance);
-		data[MarketCategory2Seq.Accessory].Add(MarketCategory3Seq.HypermoveAppearance);
-		data[MarketCategory2Seq.Accessory].Add(MarketCategory3Seq.Armlet1);
-		data[MarketCategory2Seq.Accessory].Add(MarketCategory3Seq.Armlet2);
-		#endregion
-
-		#region	Dress
-		data[MarketCategory2Seq.Dress].Add(MarketCategory3Seq.Costume);
-		data[MarketCategory2Seq.Dress].Add(MarketCategory3Seq.HeadAttach);
-		data[MarketCategory2Seq.Dress].Add(MarketCategory3Seq.FaceAttach);
-		data[MarketCategory2Seq.Dress].Add(MarketCategory3Seq.CostumeAttach);
-		data[MarketCategory2Seq.Dress].Add(MarketCategory3Seq.SummonedPetCostume);
-		data[MarketCategory2Seq.Dress].Add(MarketCategory3Seq.SummonedPetHat);
-		data[MarketCategory2Seq.Dress].Add(MarketCategory3Seq.SummonedPetAttach);
-		#endregion
-
-		#region	WeaponGem
-		if (Neo)
+		return new()
 		{
-			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.StarStone);
-			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.WeaponSoulGem);
-			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.WeaponGemEtc);
-		}
-		else
-		{
-			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.Ruby);
-			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.Topaz);
-			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.Sapphire);
-			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.Jade);
-			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.Amethyst);
-			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.Emerald);
-			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.Diamond);
-			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.Obsidian);
-			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.Amber);
-			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.Garnet);
-			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.Aquamarine);
-			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.RubyDiamond);
-			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.TopazDiamond);
-			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.SapphireDiamond);
-			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.JadeDiamond);
-			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.AmethystDiamond);
-			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.EmeraldDiamond);
-			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.AquamarineDiamond);
-			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.AmberDiamond);
-			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.AquamarineAmber);
-			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.ObsidianGarnet);
-			data[MarketCategory2Seq.WeaponGem].Add(MarketCategory3Seq.WeaponGemEtc);
-		}
-		#endregion
-
-		#region	Medicine
-		data[MarketCategory2Seq.Medicine].Add(MarketCategory3Seq.RegeneratePotion);
-		data[MarketCategory2Seq.Medicine].Add(MarketCategory3Seq.HealPotion);
-		data[MarketCategory2Seq.Medicine].Add(MarketCategory3Seq.SecretPotion);
-		data[MarketCategory2Seq.Medicine].Add(MarketCategory3Seq.DetoxPotion);
-		data[MarketCategory2Seq.Medicine].Add(MarketCategory3Seq.MagicPotion);
-		data[MarketCategory2Seq.Medicine].Add(MarketCategory3Seq.HwanDan);
-		#endregion
-
-		#region	Food
-		data[MarketCategory2Seq.Food].Add(MarketCategory3Seq.Cook);
-		data[MarketCategory2Seq.Food].Add(MarketCategory3Seq.Alcohol);
-		data[MarketCategory2Seq.Food].Add(MarketCategory3Seq.ExpCook);
-
-		#endregion
-
-		#region	BuildUpStone
-		if (Neo)
-		{
-			data.Remove(MarketCategory2Seq.BuildUpStone);
-		}
-		else
-		{
-			data[MarketCategory2Seq.BuildUpStone].Add(MarketCategory3Seq.SkillStone1);
-			data[MarketCategory2Seq.BuildUpStone].Add(MarketCategory3Seq.SkillStone2);
-			data[MarketCategory2Seq.BuildUpStone].Add(MarketCategory3Seq.AccessoryStone);
-		}
-		#endregion
-
-		#region	Talisman	   			
-		data[MarketCategory2Seq.Talisman].Add(MarketCategory3Seq.ReviveTalisman);
-		data[MarketCategory2Seq.Talisman].Add(MarketCategory3Seq.EscapeTalisman);
-		data[MarketCategory2Seq.Talisman].Add(MarketCategory3Seq.PartyReviveTalisman);
-		data[MarketCategory2Seq.Talisman].Add(MarketCategory3Seq.ResetTalisman);
-		data[MarketCategory2Seq.Talisman].Add(MarketCategory3Seq.GrowthTalisman);
-		data[MarketCategory2Seq.Talisman].Add(MarketCategory3Seq.BuildUpTalisman);
-		data[MarketCategory2Seq.Talisman].Add(MarketCategory3Seq.SealTalisman);
-		data[MarketCategory2Seq.Talisman].Add(MarketCategory3Seq.UnsealTalisman);
-		#endregion
-
-		#region	Tool
-		data[MarketCategory2Seq.Tool].Add(MarketCategory3Seq.FestivalTool);
-		data[MarketCategory2Seq.Tool].Add(MarketCategory3Seq.NormalRepairTool);
-		data[MarketCategory2Seq.Tool].Add(MarketCategory3Seq.UrgencyRepairTool);
-		data[MarketCategory2Seq.Tool].Add(MarketCategory3Seq.Key);
-		data[MarketCategory2Seq.Tool].Add(MarketCategory3Seq.WeaponGemMake);
-		data[MarketCategory2Seq.Tool].Add(MarketCategory3Seq.FishingGoods);
-		data[MarketCategory2Seq.Tool].Add(MarketCategory3Seq.Card);
-		data[MarketCategory2Seq.Tool].Add(MarketCategory3Seq.Voucher);
-		#endregion
-
-		#region	Material
-		data[MarketCategory2Seq.EquipMaterial].Add(MarketCategory3Seq.Wealth);
-		data[MarketCategory2Seq.EquipMaterial].Add(MarketCategory3Seq.GrowthMaterial);
-		data[MarketCategory2Seq.EquipMaterial].Add(MarketCategory3Seq.HolyMaterial);
-
-		data[MarketCategory2Seq.UnionMaterial].Add(MarketCategory3Seq.ProductionMaterial);
-		data[MarketCategory2Seq.UnionMaterial].Add(MarketCategory3Seq.HypermoveMaterial);
-
-		data[MarketCategory2Seq.DressMaterial].Add(MarketCategory3Seq.ColorMaterial);
-		data[MarketCategory2Seq.DressMaterial].Add(MarketCategory3Seq.Cloth);
-
-		data[MarketCategory2Seq.EtcMaterial].Add(MarketCategory3Seq.SpecialMaterial);
-		data[MarketCategory2Seq.EtcMaterial].Add(MarketCategory3Seq.NormalMaterial);
-		#endregion
-
-		#region	Etc
-		//data[MarketCategory2Seq.Coin].Add(MarketCategory3Seq.None);
-
-		data[MarketCategory2Seq.Deed].Add(MarketCategory3Seq.NormalDeed);
-		data[MarketCategory2Seq.Deed].Add(MarketCategory3Seq.SkillTakeDeed);
-
-		//data[MarketCategory2Seq.Quest].Add(MarketCategory3Seq.None);
-
-		data[MarketCategory2Seq.EtcChange].Add(MarketCategory3Seq.SundryItem);
-		data[MarketCategory2Seq.EtcChange].Add(MarketCategory3Seq.ChackItem);
-
-		data[MarketCategory2Seq.EtcBox].Add(MarketCategory3Seq.NormalEtcBox);
-
-		//data[MarketCategory2Seq.Badge].Add(MarketCategory3Seq.Badge1);
-		//data[MarketCategory2Seq.Relic].Add(MarketCategory3Seq.Relic1);
-		#endregion
-
-		return data;
+			[MarketCategory2Seq.Weapon] =
+			[
+				MarketCategory3Seq.Sword,
+				MarketCategory3Seq.Gauntlet,
+				MarketCategory3Seq.Axe,
+				MarketCategory3Seq.Staff,
+				MarketCategory3Seq.AuraBangle,
+				MarketCategory3Seq.Dagger,
+				MarketCategory3Seq.LynSword,
+				MarketCategory3Seq.WarlockDagger,
+				MarketCategory3Seq.SoulFighterGauntlet,
+				MarketCategory3Seq.Gun,
+				MarketCategory3Seq.LongBow,
+				MarketCategory3Seq.GreatSword,
+				MarketCategory3Seq.Orb,
+				MarketCategory3Seq.DualBlade,
+				MarketCategory3Seq.Instrument,
+				MarketCategory3Seq.Spear,
+			],
+			[MarketCategory2Seq.EquipGem] =
+			[
+				MarketCategory3Seq.Gam1,
+				MarketCategory3Seq.Gan2,
+				MarketCategory3Seq.Jin3,
+				MarketCategory3Seq.Son4,
+				MarketCategory3Seq.Ri5,
+				MarketCategory3Seq.Gon6,
+				MarketCategory3Seq.Tae7,
+				MarketCategory3Seq.Geon8,
+			],
+			[MarketCategory2Seq.Accessory] =
+			[
+				MarketCategory3Seq.Ring,
+				MarketCategory3Seq.Earring,
+				MarketCategory3Seq.Necklace,
+				MarketCategory3Seq.Belt,
+				MarketCategory3Seq.Bracelet,
+				MarketCategory3Seq.Soul,
+				MarketCategory3Seq.Soul2,
+				MarketCategory3Seq.Gloves,
+				MarketCategory3Seq.Pet1,
+				MarketCategory3Seq.Nova,
+				MarketCategory3Seq.Rune1,
+				MarketCategory3Seq.Rune2,
+				MarketCategory3Seq.Vehicle,
+				MarketCategory3Seq.NamePlateAppearance,
+				MarketCategory3Seq.SpeechBubbleAppearance,
+				MarketCategory3Seq.NormalStateAppearance,
+				MarketCategory3Seq.IdleStateAppearance,
+				MarketCategory3Seq.ChattingSymbol,
+				MarketCategory3Seq.PortraitAppearance,
+				MarketCategory3Seq.HypermoveAppearance,
+				MarketCategory3Seq.Armlet1,
+				MarketCategory3Seq.Armlet2,
+			],
+			[MarketCategory2Seq.Dress] =
+			[
+				MarketCategory3Seq.Costume,
+				MarketCategory3Seq.HeadAttach,
+				MarketCategory3Seq.FaceAttach,
+				MarketCategory3Seq.CostumeAttach,
+				MarketCategory3Seq.SummonedPetCostume,
+				MarketCategory3Seq.SummonedPetHat,
+				MarketCategory3Seq.SummonedPetAttach,
+			],
+			[MarketCategory2Seq.WeaponGem] = Neo ? [MarketCategory3Seq.StarStone, MarketCategory3Seq.WeaponSoulGem, MarketCategory3Seq.WeaponGemEtc] :
+			[
+				MarketCategory3Seq.Ruby,
+				MarketCategory3Seq.Topaz,
+				MarketCategory3Seq.Sapphire,
+				MarketCategory3Seq.Jade,
+				MarketCategory3Seq.Amethyst,
+				MarketCategory3Seq.Emerald,
+				MarketCategory3Seq.Diamond,
+				MarketCategory3Seq.Obsidian,
+				MarketCategory3Seq.Amber,
+				MarketCategory3Seq.Garnet,
+				MarketCategory3Seq.Aquamarine,
+				MarketCategory3Seq.RubyDiamond,
+				MarketCategory3Seq.TopazDiamond,
+				MarketCategory3Seq.SapphireDiamond,
+				MarketCategory3Seq.JadeDiamond,
+				MarketCategory3Seq.AmethystDiamond,
+				MarketCategory3Seq.EmeraldDiamond,
+				MarketCategory3Seq.AquamarineDiamond,
+				MarketCategory3Seq.AmberDiamond,
+				MarketCategory3Seq.AquamarineAmber,
+				MarketCategory3Seq.ObsidianGarnet,
+				MarketCategory3Seq.WeaponGemEtc,
+			],
+			[MarketCategory2Seq.Medicine] =
+			[
+				MarketCategory3Seq.RegeneratePotion,
+				MarketCategory3Seq.HealPotion,
+				MarketCategory3Seq.SecretPotion,
+				MarketCategory3Seq.DetoxPotion,
+				MarketCategory3Seq.MagicPotion,
+				MarketCategory3Seq.HwanDan,
+			],
+			[MarketCategory2Seq.Food] =
+			[
+				MarketCategory3Seq.Cook,
+				MarketCategory3Seq.Alcohol,
+				MarketCategory3Seq.ExpCook,
+			],
+			[MarketCategory2Seq.BuildUpStone] = Neo ? null :
+			[
+				MarketCategory3Seq.SkillStone1,
+				MarketCategory3Seq.SkillStone2,
+				MarketCategory3Seq.AccessoryStone,
+			],
+			[MarketCategory2Seq.Talisman] =
+			[
+				MarketCategory3Seq.ReviveTalisman,
+				MarketCategory3Seq.EscapeTalisman,
+				MarketCategory3Seq.PartyReviveTalisman,
+				MarketCategory3Seq.ResetTalisman,
+				MarketCategory3Seq.GrowthTalisman,
+				MarketCategory3Seq.BuildUpTalisman,
+				MarketCategory3Seq.SealTalisman,
+				MarketCategory3Seq.UnsealTalisman,
+			],
+			[MarketCategory2Seq.Tool] =
+			[
+				MarketCategory3Seq.FestivalTool,
+				MarketCategory3Seq.NormalRepairTool,
+				MarketCategory3Seq.UrgencyRepairTool,
+				MarketCategory3Seq.Key,
+				MarketCategory3Seq.WeaponGemMake,
+				MarketCategory3Seq.FishingGoods,
+				MarketCategory3Seq.Card,
+				MarketCategory3Seq.Voucher,
+			],
+			[MarketCategory2Seq.EquipMaterial] =
+			[
+				MarketCategory3Seq.Wealth,
+				MarketCategory3Seq.GrowthMaterial,
+				MarketCategory3Seq.HolyMaterial,
+			],
+			[MarketCategory2Seq.UnionMaterial] =
+			[
+				MarketCategory3Seq.ProductionMaterial,
+				MarketCategory3Seq.HypermoveMaterial,
+			],
+			[MarketCategory2Seq.DressMaterial] =
+			[
+				MarketCategory3Seq.ColorMaterial,
+				MarketCategory3Seq.Cloth,
+			],
+			[MarketCategory2Seq.EtcMaterial] =
+			[
+				MarketCategory3Seq.SpecialMaterial,
+				MarketCategory3Seq.NormalMaterial,
+			],
+			[MarketCategory2Seq.Coin] = null,
+			[MarketCategory2Seq.Deed] =
+			[
+				MarketCategory3Seq.NormalDeed,
+				MarketCategory3Seq.SkillTakeDeed,
+			],
+			[MarketCategory2Seq.Quest] = null,
+			[MarketCategory2Seq.EtcChange] =
+			[
+				MarketCategory3Seq.SundryItem,
+				MarketCategory3Seq.ChackItem,
+			],
+			[MarketCategory2Seq.EtcBox] = [MarketCategory3Seq.NormalEtcBox],
+			[MarketCategory2Seq.Badge] = Neo ? null : [MarketCategory3Seq.Badge1],
+			[MarketCategory2Seq.Relic] = Neo ? null : [MarketCategory3Seq.Relic1],
+		};
 	}
 }

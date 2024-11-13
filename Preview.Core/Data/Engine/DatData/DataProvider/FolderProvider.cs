@@ -7,10 +7,10 @@ namespace Xylia.Preview.Data.Engine.DatData;
 public class FolderProvider(string path, EPublisher publisher = default) : IDataProvider
 {
 	#region Properties
-	public virtual string Name => path.SubstringAfterLast('\\');
-	public virtual Time64 CreatedAt => default;
-	public virtual BnsVersion ClientVersion => default;
-	public Locale Locale => new(publisher);
+	public string Name { get; init; } = path.SubstringAfterLast('\\');
+	public Locale Locale { get; init; } = new(publisher);
+	public Time64 CreatedAt => default;
+	public BnsVersion ClientVersion => default;
 	public TableCollection Tables { get; private set; }
 	#endregion
 

@@ -31,7 +31,7 @@ public sealed class WorldAccountExpedition : ModelElement
 
 		foreach (var record in provider.GetTable<WorldAccountExpedition>())
 		{
-			record.Target.Select(x => x.Instance).ForEach(x => dict[x] = record);
+			record.Target.Values().ForEach(x => dict[x] = record);
 		}
 
 		return dict;

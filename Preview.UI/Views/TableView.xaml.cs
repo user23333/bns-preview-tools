@@ -1,11 +1,13 @@
 ﻿using System.ComponentModel;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 using HandyControl.Data;
 using Xylia.Preview.Data.Engine.BinData.Models;
 using Xylia.Preview.Data.Models;
 using Xylia.Preview.UI.Common.Converters;
 using Xylia.Preview.UI.Common.Interactivity;
+using Xylia.Preview.UI.Controls;
 
 namespace Xylia.Preview.UI.Views;
 public partial class TableView
@@ -16,7 +18,7 @@ public partial class TableView
 		InitializeComponent();
 
 		ItemMenu = (ContextMenu)this.TryFindResource("ItemMenu");
-		NameConverter = new RecordNameConverter();
+		TooltipHolder = (ContentControl)this.TryFindResource("TooltipHolder");
 	}
 	#endregion
 
@@ -60,7 +62,7 @@ public partial class TableView
 		{
 			if (record.ToString().Contains(rule, StringComparison.OrdinalIgnoreCase)) return true;
 			if (record.PrimaryKey.ToString().Contains(rule, StringComparison.OrdinalIgnoreCase)) return true;
-			if (NameConverter.Convert(record).Contains(rule, StringComparison.OrdinalIgnoreCase)) return true;
+			if (RecordNameConverter.Convert(record)?.Contains(rule, StringComparison.OrdinalIgnoreCase) ?? false) return true;
 		}
 
 		return false;
@@ -77,12 +79,25 @@ public partial class TableView
 
 		ColumnList.ScrollIntoView(_source.CurrentItem);
 	}
+
+	protected override void OnPreviewKeyDown(KeyEventArgs e)
+	{
+		switch (e.Key == Key.System ? e.SystemKey : e.Key)
+		{
+			case Key.LeftShift when TooltipHolder != null:
+			{
+				(TooltipHolder.Content as BnsCustomWindowWidget)?.Show();
+				break;
+			}
+		}
+	}
 	#endregion
 
 
 	#region Data
 	private readonly ContextMenu ItemMenu;
-	private readonly RecordNameConverter NameConverter;
+	private readonly ContentControl TooltipHolder;
+
 	private ICollectionView? _source;
 	#endregion
 }

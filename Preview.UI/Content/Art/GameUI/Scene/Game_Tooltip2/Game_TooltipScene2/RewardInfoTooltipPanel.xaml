@@ -6,11 +6,11 @@
 		<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_Window.BNSR_Window" ImageUV="7 7" ImageUVSize="49 49" EnableSkinAlpha="true" StaticPadding="-17 -17" />
 	</BnsCustomWindowWidget.BaseImageProperty>
 	<BnsCustomWindowWidget.ExpansionComponentList>
-		<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Line" MetaData="">
-			<ExpansionComponent.ImageProperty>
+		<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Line" MetaData="">
+			<UBnsCustomExpansionComponent.ImageProperty>
 				<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_Window_Outfocus.BNSR_Window_Outfocus" ImageUV="7 7" ImageUVSize="49 49" EnableBrushOnly="true" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" StaticPadding="-13 -13" Opacity="1" ImageScale="1" />
-			</ExpansionComponent.ImageProperty>
-		</ExpansionComponent>
+			</UBnsCustomExpansionComponent.ImageProperty>
+		</UBnsCustomExpansionComponent>
 	</BnsCustomWindowWidget.ExpansionComponentList>
 	<BnsCustomImageWidget Name="RewardInfoTooltipPanel_Dummy" LayoutData.Offsets="0 8 200.00003 0">
 		<BnsCustomImageWidget.BaseImageProperty>
@@ -32,14 +32,14 @@
 			<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Label_Green03_12_Out.Label_Green03_12_Out" LabelText="999" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="75 0" Padding="0 -50" />
 		</BnsCustomLabelWidget.String>
 		<BnsCustomLabelWidget.ExpansionComponentList>
-			<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Percent" MetaData="">
-				<ExpansionComponent.ImageProperty>
+			<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Percent" MetaData="">
+				<UBnsCustomExpansionComponent.ImageProperty>
 					<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-				</ExpansionComponent.ImageProperty>
-				<ExpansionComponent.StringProperty>
+				</UBnsCustomExpansionComponent.ImageProperty>
+				<UBnsCustomExpansionComponent.StringProperty>
 					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Label_Green03_12_Out.Label_Green03_12_Out" LabelText="9~9999%" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" Padding="0 -10" Opacity="1" TextScale="1" AnimScale="1" />
-				</ExpansionComponent.StringProperty>
-			</ExpansionComponent>
+				</UBnsCustomExpansionComponent.StringProperty>
+			</UBnsCustomExpansionComponent>
 		</BnsCustomLabelWidget.ExpansionComponentList>
 		<BnsCustomLabelWidget Name="RewardInfoTooltipPanel_GradeBonusLabel" LayoutData.Anchors="0 0.5 0 0.5" LayoutData.Offsets="0 0 135 20" MetaData="textref=UI.DuelResult.DuelPoint.GradeBonus.Label">
 			<BnsCustomLabelWidget.String>
@@ -52,14 +52,14 @@
 			<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Label_Green03_12_Out.Label_Green03_12_Out" LabelText="999" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="75 0" Padding="0 -3" />
 		</BnsCustomLabelWidget.String>
 		<BnsCustomLabelWidget.ExpansionComponentList>
-			<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Percent" MetaData="">
-				<ExpansionComponent.ImageProperty>
+			<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Percent" MetaData="">
+				<UBnsCustomExpansionComponent.ImageProperty>
 					<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-				</ExpansionComponent.ImageProperty>
-				<ExpansionComponent.StringProperty>
+				</UBnsCustomExpansionComponent.ImageProperty>
+				<UBnsCustomExpansionComponent.StringProperty>
 					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Label_Green03_12_Out.Label_Green03_12_Out" LabelText="9~9999%" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" Padding="0 -10" Opacity="1" TextScale="1" AnimScale="1" />
-				</ExpansionComponent.StringProperty>
-			</ExpansionComponent>
+				</UBnsCustomExpansionComponent.StringProperty>
+			</UBnsCustomExpansionComponent>
 		</BnsCustomLabelWidget.ExpansionComponentList>
 		<BnsCustomLabelWidget Name="RewardInfoTooltipPanel_FeverTimeBonusLabel" LayoutData.Anchors="0 0.5 0 0.5" LayoutData.Offsets="0 0 135 20" MetaData="textref=UI.DuelResult.DuelPoint.FeverTimeBonus.Label">
 			<BnsCustomLabelWidget.String>
@@ -72,14 +72,14 @@
 			<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Label_Green03_12_Out.Label_Green03_12_Out" LabelText="999" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="75 0" Padding="0 -50" />
 		</BnsCustomLabelWidget.String>
 		<BnsCustomLabelWidget.ExpansionComponentList>
-			<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Percent" MetaData="">
-				<ExpansionComponent.ImageProperty>
+			<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Percent" MetaData="">
+				<UBnsCustomExpansionComponent.ImageProperty>
 					<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-				</ExpansionComponent.ImageProperty>
-				<ExpansionComponent.StringProperty>
+				</UBnsCustomExpansionComponent.ImageProperty>
+				<UBnsCustomExpansionComponent.StringProperty>
 					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Label_Green03_12_Out.Label_Green03_12_Out" LabelText="9~9999%" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" Padding="0 -10" Opacity="1" TextScale="1" AnimScale="1" />
-				</ExpansionComponent.StringProperty>
-			</ExpansionComponent>
+				</UBnsCustomExpansionComponent.StringProperty>
+			</UBnsCustomExpansionComponent>
 		</BnsCustomLabelWidget.ExpansionComponentList>
 		<BnsCustomLabelWidget Name="RewardInfoTooltipPanel_PcCafeBonusLabel" LayoutData.Anchors="0 0.5 0 0.5" LayoutData.Offsets="0 0 135 20" MetaData="textref=UI.DuelResult.DuelPoint.PcCafeBonus.Label">
 			<BnsCustomLabelWidget.String>
@@ -92,14 +92,14 @@
 			<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Label_Green03_12_Out.Label_Green03_12_Out" LabelText="999" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="75 0" Padding="0 -50" />
 		</BnsCustomLabelWidget.String>
 		<BnsCustomLabelWidget.ExpansionComponentList>
-			<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Percent" MetaData="">
-				<ExpansionComponent.ImageProperty>
+			<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Percent" MetaData="">
+				<UBnsCustomExpansionComponent.ImageProperty>
 					<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-				</ExpansionComponent.ImageProperty>
-				<ExpansionComponent.StringProperty>
+				</UBnsCustomExpansionComponent.ImageProperty>
+				<UBnsCustomExpansionComponent.StringProperty>
 					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Label_Green03_12_Out.Label_Green03_12_Out" LabelText="9~9999%" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" Padding="0 -10" Opacity="1" TextScale="1" AnimScale="1" />
-				</ExpansionComponent.StringProperty>
-			</ExpansionComponent>
+				</UBnsCustomExpansionComponent.StringProperty>
+			</UBnsCustomExpansionComponent>
 		</BnsCustomLabelWidget.ExpansionComponentList>
 		<BnsCustomLabelWidget Name="RewardInfoTooltipPanel_GuildRankingBonusLabel" LayoutData.Anchors="0 0.5 0 0.5" LayoutData.Offsets="0 0 135 20" MetaData="textref=UI.DuelResult.DuelPoint.GuildRankingBonus.Label">
 			<BnsCustomLabelWidget.String>
@@ -112,14 +112,14 @@
 			<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Label_Green03_12_Out.Label_Green03_12_Out" LabelText="999" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="75 0" Padding="0 -50" />
 		</BnsCustomLabelWidget.String>
 		<BnsCustomLabelWidget.ExpansionComponentList>
-			<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Percent" MetaData="">
-				<ExpansionComponent.ImageProperty>
+			<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Percent" MetaData="">
+				<UBnsCustomExpansionComponent.ImageProperty>
 					<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-				</ExpansionComponent.ImageProperty>
-				<ExpansionComponent.StringProperty>
+				</UBnsCustomExpansionComponent.ImageProperty>
+				<UBnsCustomExpansionComponent.StringProperty>
 					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Label_Green03_12_Out.Label_Green03_12_Out" LabelText="9~9999%" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" Padding="0 -10" Opacity="1" TextScale="1" AnimScale="1" />
-				</ExpansionComponent.StringProperty>
-			</ExpansionComponent>
+				</UBnsCustomExpansionComponent.StringProperty>
+			</UBnsCustomExpansionComponent>
 		</BnsCustomLabelWidget.ExpansionComponentList>
 		<BnsCustomLabelWidget Name="RewardInfoTooltipPanel_VIPBonusLabel" LayoutData.Anchors="0 0.5 0 0.5" LayoutData.Offsets="0 0 135 20" MetaData="textref=UI.DuelResult.DuelPoint.VIPBonus.Label">
 			<BnsCustomLabelWidget.String>
@@ -132,14 +132,14 @@
 			<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Label_Green03_12_Out.Label_Green03_12_Out" LabelText="999" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" ClippingBound="75 0" Padding="0 -50" />
 		</BnsCustomLabelWidget.String>
 		<BnsCustomLabelWidget.ExpansionComponentList>
-			<ExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Percent" MetaData="">
-				<ExpansionComponent.ImageProperty>
+			<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Percent" MetaData="">
+				<UBnsCustomExpansionComponent.ImageProperty>
 					<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
-				</ExpansionComponent.ImageProperty>
-				<ExpansionComponent.StringProperty>
+				</UBnsCustomExpansionComponent.ImageProperty>
+				<UBnsCustomExpansionComponent.StringProperty>
 					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Label_Green03_12_Out.Label_Green03_12_Out" LabelText="9~9999%" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" Padding="0 -10" Opacity="1" TextScale="1" AnimScale="1" />
-				</ExpansionComponent.StringProperty>
-			</ExpansionComponent>
+				</UBnsCustomExpansionComponent.StringProperty>
+			</UBnsCustomExpansionComponent>
 		</BnsCustomLabelWidget.ExpansionComponentList>
 		<BnsCustomLabelWidget Name="RewardInfoTooltipPanel_EventLoseBonusLabel" LayoutData.Anchors="0 0.5 0 0.5" LayoutData.Offsets="0 0 135 20" MetaData="textref=UI.DuelResult.DuelPoint.EventLose.Label">
 			<BnsCustomLabelWidget.String>

@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-
 using CUE4Parse.UE4.Assets.Readers;
 using CUE4Parse.UE4.Assets.Utils;
 using CUE4Parse.UE4.Objects.UObject;
@@ -13,7 +12,7 @@ public abstract class USerializeObject : UObject
 
 		StructFallbackUtil.ObjectMapper.Map(this, this);
 	}
-
+	
 
 	static USerializeObject()
 	{

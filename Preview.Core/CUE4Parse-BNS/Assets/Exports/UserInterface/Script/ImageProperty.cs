@@ -16,14 +16,14 @@ namespace CUE4Parse.BNS.Assets.Exports;
 public class ImageProperty : IUStruct
 {
 	#region Properties
+	public FStructFallback ResultBrush { get; set; }
 	[TypeConverter(typeof(FPackageIndexTypeConverter))] public FPackageIndex BaseImageTexture { get; set; }
 	[TypeConverter(typeof(FPackageIndexTypeConverter))] public FPackageIndex ImageSet { get; set; }
+	public bool EnableImageSet { get; set; }
+	public bool EnableBrushOnly { get; set; }
 	public FStructFallback ImageBrush { get; set; }
 	public FVector2D ImageUV { get; set; }
 	public FVector2D ImageUVSize { get; set; }
-
-	public bool EnableImageSet { get; set; }
-	public bool EnableBrushOnly { get; set; }
 	public bool EnableDrawImage { get; set; } = true;
 	public bool EnableResourceSize { get; set; }
 	public bool EnableFullImage { get; set; }
@@ -35,24 +35,42 @@ public class ImageProperty : IUStruct
 	public bool EnableAdditiveBlendMode { get; set; }
 	public bool EnableResourceGray { get; set; }
 	public bool EnableDrawColor { get; set; }
-	public bool EnableMultiImage { get; set; }
-	public TintColor TintColor { get; set; }
 	public float GrayWeightValue { get; set; }
+	public float ImageScale { get; set; } = 1.0f;
+	public EHorizontalAlignment HorizontalAlignment { get; set; }
+	public EVerticalAlignment VerticalAlignment { get; set; }
+	public EBNSSperateImageType SperateImageType { get; set; }
+	public FVector2D[] CoordinatesArray { get; set; }
+	public string SperateType { get; set; }
+	public bool EnableMultiImage { get; set; }
+	public FStructFallback MultiImage { get; set; }
+
+
+	public TintColor TintColor { get; set; }
 	public FVector2D StaticPadding { get; set; }
 	public FVector2D Offset { get; set; }
 	public float Opacity { get; set; } = 1;
-	public float ImageScale { get; set; } = 1;
-	public HAlignment HorizontalAlignment { get; set; }
-	public VAlignment VerticalAlignment { get; set; }
-	public string SperateType { get; set; }
-	public string SperateImageType { get; set; }   //BNS_SperateImageType_3Frame
-
-	public FVector2D[] CoordinatesArray;  // ignore output
 	#endregion
 
+	#region Constructor
+	public ImageProperty()
+	{
+
+	}
+
+	public ImageProperty(FPackageIndex imageset)
+	{
+		ImageSet = imageset;
+	}
+	#endregion
 
 	#region Methods
 	public static implicit operator SKBitmap(ImageProperty property) => property.Image;
+
+	public ImageProperty Clone()
+	{
+		return (ImageProperty)this.MemberwiseClone();
+	}
 
 	public string Tag
 	{
@@ -109,11 +127,6 @@ public class ImageProperty : IUStruct
 
 			return bitmap;
 		}
-	}
-
-	public ImageProperty Clone()
-	{
-		return (ImageProperty)this.MemberwiseClone();
 	}
 
 	public FVector2D Measure(FVector2D RenderSize, out SKBitmap image)

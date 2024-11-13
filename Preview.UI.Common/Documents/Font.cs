@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Media;
 using CUE4Parse.BNS.Assets.Exports;
-using Xylia.Preview.Data.Helpers;
+using Xylia.Preview.Common;
 
 namespace Xylia.Preview.UI.Documents;
 public class Font : BaseElement<Data.Models.Document.Font>
@@ -12,10 +12,10 @@ public class Font : BaseElement<Data.Models.Document.Font>
 
 	}
 
-	internal Font(string name, List<BaseElement> elements)
+	internal Font(string name, params BaseElement[] elements)
 	{
 		this.Name = name;
-		this.Children = elements;
+		this.Children = [.. elements];
 	}
 	#endregion
 
@@ -40,7 +40,7 @@ public class Font : BaseElement<Data.Models.Document.Font>
 	#region Override Methods
 	protected override Size MeasureCore(Size availableSize)
 	{
-		GetFont(FileCache.Provider.LoadObject<UFontSet>(Name));
+		GetFont(Globals.GameProvider.LoadObject<UFontSet>(Name));
 		return base.MeasureCore(availableSize);
 	}
 	#endregion

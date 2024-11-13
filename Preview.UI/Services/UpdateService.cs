@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
 using System.Text;
 using System.Windows;
 using AutoUpdaterDotNET;
@@ -12,7 +13,7 @@ using Xylia.Preview.UI.ViewModels;
 using MessageBox = HandyControl.Controls.MessageBox;
 
 namespace Xylia.Preview.UI.Services;
-internal class UpdateService : IService
+internal class UpdateService(bool flag = true) : IService
 {
 	const string APP_NAME = "bns-preview-tools";
 	const int TIMEOUT = 7500;
@@ -49,7 +50,7 @@ internal class UpdateService : IService
 	{
 #if !DEVELOP
 		AutoUpdater.Start($"http://tools.bnszs.com/api/update?app={APP_NAME}&version={VersionHelper.InternalVersion}&mode={UserSettings.Default.UpdateMode}");
-		CheckThread = new Timer(f => CheckForUpdateEvent(UpdateInfoArgs.Timeout), null, TIMEOUT, Timeout.Infinite);
+		CheckThread = flag ? new Timer(f => CheckForUpdateEvent(UpdateInfoArgs.Timeout), null, TIMEOUT, Timeout.Infinite) : null;
 #endif
 		return true;
 	}
@@ -82,6 +83,7 @@ internal class UpdateService : IService
 		}
 		else
 		{
+			Debug.Print("verification successful!");
 			IPlatformFilePak.Signature = Encoding.UTF8.GetBytes(args.Signature);
 
 			if (args.NoticeID < 0 || UserSettings.Default.NoticeId < args.NoticeID)

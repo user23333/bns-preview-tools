@@ -25,4 +25,5 @@
 		</Setter>
 	</Style>
 
+	<Style TargetType="ToolTip" BasedOn="{StaticResource BnsTooltip}" />
 </ResourceDictionary>

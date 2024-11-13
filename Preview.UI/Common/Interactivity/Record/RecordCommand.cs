@@ -21,7 +21,7 @@ public abstract class RecordCommand : MarkupExtension, ICommand
 	public bool CanExecute(object? parameter)
 	{
 		// get available command instances base on table name
-		if (parameter is string name) return Type is null || Type.Contains(name.ToLower());
+		if (parameter is string name) return Type is null || Type.Contains(name, StringComparer.OrdinalIgnoreCase);
 		// process the source element
 		else if (parameter is Record record) return CanExecute(record);
 		else if (parameter is ModelElement model) return CanExecute(model.Source);
@@ -51,10 +51,10 @@ public abstract class RecordCommand : MarkupExtension, ICommand
 	/// <summary>
 	/// Display text
 	/// </summary>
-	public virtual string Name => GetType().Name;
+	public virtual string Name => "Name." + GetType().Name;
 
 	/// <summary>
-	/// Supported table type
+	/// Supported table type, <see langword="Null"/> means all table. 
 	/// </summary>
 	protected abstract List<string>? Type { get; }
 
@@ -72,6 +72,11 @@ public abstract class RecordCommand : MarkupExtension, ICommand
 	#endregion
 
 	#region Static Methods
+	/// <summary>
+	/// Search command by table name.
+	/// </summary>
+	/// <param name="name"></param>
+	/// <param name="action"></param>
 	public static void Find(string name, Action<RecordCommand> action)
 	{
 		var assembly = Assembly.GetExecutingAssembly();
@@ -97,7 +102,6 @@ public abstract class RecordCommand : MarkupExtension, ICommand
 		{
 			Header = StringHelper.Get(command.Name),
 			Command = command,
-			CommandParameter = new Binding("DataContext") { Source = menu }
 		};
 		item.SetBinding(MenuItem.CommandParameterProperty, new Binding("DataContext") { Source = menu });
 

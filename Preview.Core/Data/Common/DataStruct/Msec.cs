@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Text;
 using Xylia.Preview.Common.Extension;
-using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Models;
 using static Xylia.Preview.Data.Common.DataStruct.MsecFormat;
 
@@ -9,7 +8,7 @@ namespace Xylia.Preview.Data.Common.DataStruct;
 /// <summary>
 ///  Represents a time interval.
 /// </summary>
-public struct Msec : IFormattable, IInteger
+public struct Msec : IFormattable
 {
 	#region Const
 	/// <summary>
@@ -27,17 +26,21 @@ public struct Msec : IFormattable, IInteger
 	#endregion
 
 	#region Constructors
-	private readonly int value;
-
-	public Msec(int value) => this.value = value;
-
 	public Msec(int hours, int minutes, int seconds) : this(((hours * 60 + minutes) * 60 + seconds) * 1000) { }
+
+	public Msec(long value)
+	{
+		ArgumentOutOfRangeException.ThrowIfGreaterThan(value, int.MaxValue);
+		this.Value = (int)value;
+	}
 	#endregion
 
 	#region Properties
-	private readonly int AbsValue => Math.Abs(value);
+	public readonly int Value;
 
-	public readonly bool IsPositive => value > 0;
+	private readonly int AbsValue => Math.Abs(Value);
+
+	public readonly bool IsPositive => Value > 0;
 
 	public readonly int Days => AbsValue / TicksPerDay;
 
@@ -58,39 +61,27 @@ public struct Msec : IFormattable, IInteger
 	public readonly double TotalSeconds => (double)AbsValue / TicksPerSecond;
 	#endregion
 
-
-	#region Interface
-	public readonly TypeCode GetTypeCode() => TypeCode.Object;
-
-	readonly double IConvertible.ToDouble(IFormatProvider provider) => TotalSeconds;
-
+	#region Methods	   	
+	public override readonly string ToString() => Value.ToString();
 	public readonly string ToString(string format, IFormatProvider formatProvider) => ToString(format.ToEnum<MsecFormatType>(), formatProvider);
-
 	public readonly string ToString(MsecFormatType format, IFormatProvider formatProvider = null) => MsecFormat.Format(this, format, formatProvider);
 
-	public override readonly string ToString() => value.ToString();
-	#endregion
-
-	#region Methods	   	
-	public readonly bool Equals(Msec other) => value == other.value;
+	public readonly bool Equals(Msec other) => Value == other.Value;
 	public override readonly bool Equals(object obj) => obj is Msec other && Equals(other);
-	public override readonly int GetHashCode() => HashCode.Combine(value);
+	public override readonly int GetHashCode() => HashCode.Combine(Value);
 	#endregion
 
 	#region Operator
-	public static implicit operator Msec(int value) => new(value);
+	public static implicit operator Msec(long value) => new(value);
 
-	public static bool operator ==(Msec a, Msec b) => a.value == b.value;
-
+	public static bool operator ==(Msec a, Msec b) => a.Value == b.Value;
 	public static bool operator !=(Msec a, Msec b) => !(a == b);
+	public static Msec operator +(Msec a, Msec b) => a.Value + b.Value;
+	public static Msec operator -(Msec a, Msec b) => a.Value - b.Value;
+	public static int operator /(Msec a, Msec b) => a.Value / b.Value;
 
-	public static Msec operator +(Msec a, Msec b) => a.value + b.value;
-
-	public static Msec operator -(Msec a, Msec b) => a.value - b.value;
-
-	public static Msec operator *(Msec a, int b) => a.value * b;
-
-	public static Msec operator /(Msec a, int b) => a.value / b;
+	public static Msec operator *(Msec a, int b) => a.Value * b;
+	public static Msec operator /(Msec a, int b) => a.Value / b;
 	#endregion
 }
 

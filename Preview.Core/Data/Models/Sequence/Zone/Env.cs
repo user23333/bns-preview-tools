@@ -6,7 +6,6 @@ public enum EnvOperation
 	Close,
 	Enable,
 	Disable,
-
 	COUNT
 }
 
@@ -23,6 +22,5 @@ public enum EnvState
 	Step5,
 	Step6,
 	Step7,
-
 	COUNT
 }

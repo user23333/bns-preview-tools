@@ -3,13 +3,15 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
+using CUE4Parse.BNS.Assets.Exports;
+using Xylia.Preview.Common;
+using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Engine.DatData;
-using Xylia.Preview.Data.Helpers;
 using Xylia.Preview.Data.Models.Document;
 using Xylia.Preview.Data.Models.Sequence;
 
 namespace Xylia.Preview.Data.Models;
-public sealed class Text : ModelElement
+public sealed class Text : ModelElement, IHaveName
 {
 	#region Constructors
 	public Text()
@@ -31,7 +33,7 @@ public sealed class Text : ModelElement
 	#endregion
 
 	#region Methods
-	public override string ToString() => this.text;
+	string IHaveName.Name => this.text;
 
 	/// <summary>
 	/// Convert XML text to record
@@ -340,33 +342,35 @@ public static class TextExtension
 	public static string GetText(this object obj, IDataProvider provider = null)
 	{
 		if (obj is null) return null;
+		else if (obj is IHaveName instance) return instance.Name;
 		else if (obj is Enum sequence) return SequenceExtensions.GetText(sequence);
-		else if (obj is string alias) return FileCache.TextProvider?[alias] ?? (provider ?? FileCache.Data.Provider)?[alias];
-		else if (obj is Ref<Text> reference) return reference.Instance?.text;
 		else if (obj is Record record && record.OwnerName == "text") return record.Attributes.Get<string>("text");
+		else if (obj is string alias) return (provider ?? Globals.GameData.Provider)?[alias];
 		else throw new NotSupportedException();
 	}
 
 	public static string GetText(this object obj, TextArguments arguments) => GetText(obj).Replace(arguments);
 
-	public static string GetTextIf(this object obj, bool condition, TextArguments arguments) => condition ? GetText(obj).Replace(arguments) : null;
-
-	public static string Replace(this string text, TextArguments arguments)
+	public static string Replace(this string source, TextArguments arguments)
 	{
-		if (text is null) return null;
+		if (source is null) return null;
 
-		foreach (Match m in new Regex("<arg.*?/>").Matches(text).Cast<Match>())
+		foreach (Match m in new Regex("<arg.*?/>").Matches(source).Cast<Match>())
 		{
 			var doc = new HtmlDocument();
 			string html = m.Value;
 			doc.LoadHtml(html);
 
 			// element
-			var arg = doc.DocumentNode.FirstChild as Arg;
-			var result = arg.GetObject(arguments);
-			text = text.Replace(html, result?.ToString());
+			var obj = ((Arg)doc.DocumentNode.FirstChild).GetObject(arguments);
+			source = source.Replace(html, obj switch
+			{
+				Enum seq => SequenceExtensions.GetText(seq),
+				ImageProperty image => image.Tag,
+				_ => obj?.ToString(),
+			});
 		}
 
-		return text;
+		return source;
 	}
 }

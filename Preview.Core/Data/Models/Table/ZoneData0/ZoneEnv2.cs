@@ -196,16 +196,20 @@ public class ZoneEnv2 : ModelElement, IHaveName
 
 		public Ref<WorldAccountExpedition> Expedition { get; set; }
 
-
 		#region Methods
-		public override MapUnit.CategorySeq MapUnitCategory => ExpeditionType == ExpeditionTypeSeq.ViewPoint ? MapUnit.CategorySeq.ExpeditionEnv : MapUnit.CategorySeq.Env;
+		public override MapUnit.CategorySeq MapUnitCategory => ExpeditionType switch
+		{
+			ExpeditionTypeSeq.ViewPoint => MapUnit.CategorySeq.ExpeditionEnv,
+			ExpeditionTypeSeq.Collection => MapUnit.CategorySeq.ExpeditionEnv_Collection,
+			_ => base.MapUnitCategory
+		};
 
 		protected override void LoadHiddenField()
 		{
 			base.LoadHiddenField();
 
 			// append mapunit display
-			if (ExpeditionType != default && string.IsNullOrEmpty(MapunitImageDisableImageset))
+			if (ExpeditionType == ExpeditionTypeSeq.Collection && string.IsNullOrEmpty(MapunitImageDisableImageset))
 			{
 				var alias = this.Attributes.Get<string>("alias");
 				if (alias.EndsWith("_collectA", StringComparison.OrdinalIgnoreCase))

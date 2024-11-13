@@ -1,4 +1,4 @@
-﻿using Xylia.Preview.Data.Helpers;
+﻿using Xylia.Preview.Common;
 using Xylia.Preview.Data.Models.Sequence;
 
 namespace Xylia.Preview.Data.Models;
@@ -13,8 +13,8 @@ public sealed class Job : ModelElement
 	#endregion
 
 	#region Methods
-	public static Job GetJob(JobSeq seq) => FileCache.Data.Provider.GetTable<Job>()[(byte)seq];
+	public static Job GetJob(JobSeq seq) => Globals.GameData.Provider.GetTable<Job>()[(byte)seq];
 
-	public static IEnumerable<JobSeq> GetPcJob() => Enum.GetValues<JobSeq>().Where(x => x > JobSeq.JobNone && x < JobSeq.PcMax);
+	public static IEnumerable<JobSeq> PcJobs => Enum.GetValues<JobSeq>().Where(x => x > JobSeq.JobNone && x < JobSeq.PcMax);
 	#endregion
 }

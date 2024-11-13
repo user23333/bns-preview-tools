@@ -6,9 +6,10 @@ using Xylia.Preview.Common.Attributes;
 using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.Data.Engine.Definitions;
+[DebuggerDisplay("Element: {Name}")]
 public abstract class IElementDefinition
 {
-	#region Properies
+	#region Properties
 	public string Name { get; set; }
 	public ushort Size { get; set; }
 	public bool AutoKey { get; internal set; }
@@ -17,12 +18,11 @@ public abstract class IElementDefinition
 
 	public List<AttributeDefinition> Attributes { get; } = [];
 	public List<AttributeDefinition> ExpandedAttributes { get; private set; } = [];
-	public List<ElementDefinition> Children { get; } = [];
+	public List<ElementDefinition> Children { get; set; } = [];
 	#endregion
 
-	#region Helper
-	public override string ToString() => this.Name;
-
+	#region Helper	   
+	internal List<AttributeDefinition> ExpandedAttributesSorted { get; private set; }
 	private Dictionary<string, AttributeDefinition> _attributesDictionary = [];
 	private Dictionary<string, AttributeDefinition> _expandedAttributesDictionary = [];
 
@@ -33,9 +33,9 @@ public abstract class IElementDefinition
 	{
 		_attributesDictionary = Attributes.ToDictionary(x => x.Name);
 		_expandedAttributesDictionary = ExpandedAttributes.ToDictionary(x => x.Name);
-
-		//sort
-		ExpandedAttributes = [.. ExpandedAttributes.OrderBy(o => !o.IsKey)
+																					  
+		// sort
+		ExpandedAttributesSorted = [.. ExpandedAttributes.OrderBy(o => !o.IsKey)
 			.ThenBy(o => o.Type == AttributeType.TNative)
 			.ThenBy(o => Regex.Replace(o.Name, @"\d+", match => match.Value.PadLeft(4, '0')))];
 	}
@@ -84,10 +84,9 @@ public abstract class IElementDefinition
 	#endregion
 }
 
-
 public class ElementDefinition : IElementDefinition
 {
-	#region Properies
+	#region Properties
 	// always -1 on base table definition
 	public override short SubclassType { get => -1; set => throw new NotSupportedException(); }
 
@@ -114,7 +113,7 @@ public class ElementDefinition : IElementDefinition
 		else if (!IsEmpty && _subtablesDictionary.TryGetValue(name, out var definition)) return definition;
 		else
 		{
-			Log.Warning($"Invalid attribute, table:{this.Name}, name:type, value:{name}");
+			Log.Error($"Invalid attribute, table:{this.Name}, name:type, value:{name}");
 			// throw new ArgumentOutOfRangeException(nameof(name));
 
 			return Subtables.First();
