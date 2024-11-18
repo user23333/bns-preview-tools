@@ -28,7 +28,7 @@ public partial class TableTests
 		foreach (var record in records)
 		{
 			Console.WriteLine(string.Format("{0} {1:P3}  {2} {3}",
-				record.Item.Instance.Name,
+				record.Item.Instance?.Name,
 				(double)record.ItemProbWeight / TotalItemProbWeight,
 				record.CostType,
 				record.ItemCost

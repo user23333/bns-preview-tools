@@ -30,21 +30,16 @@ namespace Xylia.Preview.UI.ViewModels;
 internal partial class GameResourcePageViewModel : ObservableObject
 {
 	#region Asset
-	[ObservableProperty] ObservableCollection<PackageParam>? packages;
+	[ObservableProperty] ObservableCollection<PackageParam> packages = [];
 	[ObservableProperty] PackageParam? selectedPackage;
 	[ObservableProperty] PackageParam.FileParam? selectedFile;
 
 	public void LoadPackage(string path)
 	{
-		Packages ??= [];
+		var p = JsonConvert.DeserializeObject<PackageParam>(File.ReadAllText(path))!;
+		foreach (var f in p.Files) f.Owner = p;
 
-		foreach (var p in JsonConvert.DeserializeObject<PackageParam[]>(File.ReadAllText(path))!)
-		{
-			foreach (var f in p.Files)
-				f.Owner = p;
-
-			Packages.Add(p);
-		}
+		Packages.Add(p);
 	}
 
 	[RelayCommand]
@@ -57,7 +52,7 @@ internal partial class GameResourcePageViewModel : ObservableObject
 		if (dialog.ShowDialog() != true) return;
 
 		LoadPackage(dialog.FileName);
-		SelectedPackage = Packages!.FirstOrDefault();
+		SelectedPackage = Packages.FirstOrDefault();
 	}
 
 	[RelayCommand]
@@ -78,7 +73,6 @@ internal partial class GameResourcePageViewModel : ObservableObject
 	[RelayCommand]
 	private void AddPackageInfo()
 	{
-		Packages ??= [];
 		Packages.Add(new());
 	}
 
@@ -86,7 +80,7 @@ internal partial class GameResourcePageViewModel : ObservableObject
 	private void RemovePackageInfo()
 	{
 		if (SelectedPackage != null)
-			Packages!.Remove(SelectedPackage);
+			Packages.Remove(SelectedPackage);
 	}
 
 
@@ -143,7 +137,7 @@ internal partial class GameResourcePageViewModel : ObservableObject
 		});
 	});
 
-	public static async Task UeRepack(string folder, List<PackageParam> packages) => await Task.Run(() =>
+	public static async Task UeRepack(string folder, IEnumerable<PackageParam> packages) => await Task.Run(() =>
 	{
 		foreach (var package in packages)
 		{
@@ -413,6 +407,6 @@ public class PackageParam
 		[JsonIgnore]
 		internal PackageParam? Owner { get; set; }
 
-		public override string ToString() => System.IO.Path.Combine(Owner.MountPoint, Vfs);
+		public override string ToString() => string.Join('/', Owner!.MountPoint, Vfs);
 	}
 }

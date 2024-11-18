@@ -280,7 +280,7 @@
                                                     <GridViewColumn Header="{DynamicResource DatabaseStudio_Offset}">
 														<GridViewColumn.CellTemplate>
 															<DataTemplate>
-																<TextBlock Text="{Binding Offset}" />
+																<TextBlock Text="{Binding Offset,StringFormat={}0x{0:X}}" />
 															</DataTemplate>
 														</GridViewColumn.CellTemplate>
 													</GridViewColumn>

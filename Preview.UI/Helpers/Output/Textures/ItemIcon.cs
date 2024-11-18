@@ -42,7 +42,7 @@ public sealed class ItemIcon(string GameFolder, string OutputFolder) : IconOutBa
 				var grade = record.Attributes.Get<sbyte>("item-grade");
 				var icon = record.Attributes.Get<Icon>("icon");
 				var name2 = record.Attributes.Get<Record>("name2")?.Attributes["text"]?.ToString();
-				var GroceryType = record.SubclassType == 2 ? record.Attributes.Get<GroceryTypeSeq>("grocery-type") : default;
+				var GroceryType = record.Attributes.Get<GroceryTypeSeq>("grocery-type");
 				#endregion
 
 				#region Compose

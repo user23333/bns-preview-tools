@@ -80,7 +80,7 @@ public partial class GameResourcePage
 			folder = Path.Combine(folder, "Mods");
 
 			Repack.IsEnabled = false;
-			await GameResourcePageViewModel.UeRepack(folder, [.. _viewModel.Packages]);
+			await GameResourcePageViewModel.UeRepack(folder, _viewModel.Packages);
 
 			Growl.Success(StringHelper.Get("Text.TaskCompleted"));
 		}

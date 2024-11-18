@@ -77,7 +77,7 @@ internal class TableArchive
 			throw new Exception("Failed to initialize uncompressed record reader");
 
 		var rowMemory = new RecordMemory();
-		var stringLookup = new StringLookup { IsPerTable = true };
+		var stringLookup = table.GlobalString = new StringLookup { IsPerTable = true };
 
 		while (_recordUncompressedReader.Read(reader, ref rowMemory))
 		{

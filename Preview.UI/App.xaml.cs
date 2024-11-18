@@ -7,6 +7,7 @@ using HandyControl.Controls;
 using Serilog;
 using Vanara.PInvoke;
 using Xylia.Preview.Common.Extension;
+using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.UI.Helpers;
 using Xylia.Preview.UI.Helpers.Output;
 using Xylia.Preview.UI.Resources.Themes;

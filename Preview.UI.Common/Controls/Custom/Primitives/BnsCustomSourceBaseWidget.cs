@@ -10,6 +10,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using Xylia.Preview.UI.Controls.Automation.Peers;
 using Xylia.Preview.UI.Controls.Helpers;
+using Xylia.Preview.UI.Converters;
 
 namespace Xylia.Preview.UI.Controls.Primitives;
 /// <summary>
@@ -883,7 +884,7 @@ public class BnsCustomSourceBaseWidget : BnsCustomBaseWidget
 		Children.Clear();
 
 		var panel = (UserWidget)ItemsPanel.LoadContent();
-		Children.Add(panel);
+		Children.Add(panel, LayoutData.GetAnchors(this));
 
 		foreach (var item in Items)
 		{

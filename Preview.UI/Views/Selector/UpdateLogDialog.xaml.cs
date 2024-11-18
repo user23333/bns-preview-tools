@@ -11,7 +11,7 @@ public partial class UpdateLogDialog
 		InitializeComponent();
 
 		//Holder.SelectedIndex = 0;
-		Holder.ItemsSource = StringHelper.Get("Application_UpdateLog")
+		Holder.ItemsSource = StringHelper.Get("Application_UpdateLog").Trim()
 			.Split("[", StringSplitOptions.RemoveEmptyEntries)
 			.Select(s => new SubLog(s.Split(']', 2, StringSplitOptions.TrimEntries)));
 	}
@@ -49,8 +49,7 @@ public partial class UpdateLogDialog
 		}
 
 		public SubLog(string[] strings) : this(
-			strings.ElementAt(0),
-			strings.ElementAt(1))
-		{ }
+			strings.ElementAt(0), 
+			strings.ElementAt(1)) { }
 	}
 }

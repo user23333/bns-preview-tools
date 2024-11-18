@@ -1,21 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+	<!-- Project -->
 	<PropertyGroup>
+		<RootNamespace>Xylia.Preview.UI</RootNamespace>
 		<TargetFramework>net8.0-windows</TargetFramework>
 		<PlatformTarget>x64</PlatformTarget>
-		<RootNamespace>Xylia.Preview.UI</RootNamespace>
-		<GenerateAssemblyInfo>False</GenerateAssemblyInfo>
-		<ApplicationIcon>Properties\Query.ico</ApplicationIcon>
-		<Nullable>enable</Nullable>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-		<NoWarn>NU1701;NU1702</NoWarn>
-		<UseWPF>True</UseWPF>
-		<NeutralLanguage>en-US</NeutralLanguage>
 		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
 		<OutputType>WinExe</OutputType>
+		<ApplicationIcon>Properties\Query.ico</ApplicationIcon>
+		<GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+		<NeutralLanguage>en-US</NeutralLanguage>
+		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<NoWarn>NU1701;NU1702</NoWarn>
+		<Nullable>enable</Nullable>
+		<UseWPF>True</UseWPF>
 		<SignAssembly>True</SignAssembly>
-		<IncludeSymbols>False</IncludeSymbols>
 		<Configurations>Debug;Release;Develop</Configurations>
+		<TransformOnBuild>True</TransformOnBuild>
+		<TransformOutOfDateOnly>False</TransformOutOfDateOnly>
+		<VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Develop|AnyCPU'">
 		<DefineConstants>$(DefineConstants);DEBUG</DefineConstants>
@@ -24,12 +27,19 @@
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<DebugType>none</DebugType>
 		<IsPublishable>True</IsPublishable>
+		<PublishDir>bin</PublishDir>
+		<SelfContained>False</SelfContained>
+		<PublishSingleFile>True</PublishSingleFile>
+		<IncludeContentInSingleFile>True</IncludeContentInSingleFile>
+		<IncludeNativeLibrariesForSelfExtract>True</IncludeNativeLibrariesForSelfExtract>
 	</PropertyGroup>
+	<Import Condition="$(VsInstallRoot)!=''" Project="$(VSToolsPath)\TextTemplating\Microsoft.TextTemplating.targets" />
 
-	<!-- Project -->
+	<!-- Reference -->
 	<ItemGroup>
 		<ProjectReference Include="..\Preview.Core\Preview.Core.csproj" />
 		<ProjectReference Include="..\Preview.UI.Common\Preview.UI.Common.csproj" />
+		<Using Include="Xylia.Preview.Common" />
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Autoupdater.NET.Official" Version="1.9.2" />
@@ -49,7 +59,7 @@
 		<PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
 		<PackageReference Include="LiveCharts" Version="0.9.7" />
 	</ItemGroup>
-	
+
 	<!-- Asset -->
 	<ItemGroup>
 		<Resource Include="Views\FModel\Resources\*.png" />

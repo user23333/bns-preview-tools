@@ -11,10 +11,9 @@ namespace Xylia.Preview.Data.Models;
 /// <summary>
 /// attributes of data record 
 /// </summary>
-public class AttributeCollection : IReadOnlyList<AttributeValue>
+public class AttributeCollection : IEnumerable<AttributeValue>
 {
 	#region Constructors
-
 	internal AttributeCollection(Record record)
 	{
 		this.record = record;
@@ -53,7 +52,6 @@ public class AttributeCollection : IReadOnlyList<AttributeValue>
 	#endregion
 
 	#region Fields
-
 	internal const string s_autoid = "auto-id";
 	internal const string s_type = "type";
 
@@ -66,7 +64,6 @@ public class AttributeCollection : IReadOnlyList<AttributeValue>
 	/// for xml element
 	/// </summary>
 	protected readonly Dictionary<string, object> attributes = [];
-
 	#endregion
 
 
@@ -86,7 +83,7 @@ public class AttributeCollection : IReadOnlyList<AttributeValue>
 		}
 	}
 
-	internal void BuildData(IElementDefinition definition, bool OnlyKey = false)
+	internal void BuildData(bool OnlyKey = false)
 	{
 		// convert to binary
 		void SetData(AttributeDefinition attribute) => record.Attributes.Set(attribute, record.Attributes.Get(attribute));
@@ -94,12 +91,12 @@ public class AttributeCollection : IReadOnlyList<AttributeValue>
 		// implement IGameDataKeyParser
 		if (OnlyKey)
 		{
-			definition.ExpandedAttributes.Where(attr => attr.IsKey).ForEach(SetData);
+			record.Definition.ExpandedAttributes.Where(attr => attr.IsKey).ForEach(SetData);
 		}
 		else
 		{
 			// create data
-			definition.ExpandedAttributes.ForEach(SetData);
+			record.Definition.ExpandedAttributes.ForEach(SetData);
 			attributes.Clear();
 		}
 	}
@@ -253,7 +250,7 @@ public class AttributeCollection : IReadOnlyList<AttributeValue>
 	}
 	#endregion
 
-	#region IReadOnlyList
+	#region IEnumerable
 	IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
 	public IEnumerator<AttributeValue> GetEnumerator()
@@ -285,10 +282,6 @@ public class AttributeCollection : IReadOnlyList<AttributeValue>
 			}
 		}
 	}
-
-	public int Count => record.Definition.ExpandedAttributes.Count;
-
-	public AttributeValue this[int index] => throw new NotImplementedException();
 
 	public override string ToString() => this.Aggregate($"<{record.Name} ", (sum, now) => sum + $"{now.Name}=\"{now}\" ", result => result + "/>");
 	#endregion

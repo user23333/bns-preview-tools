@@ -18,7 +18,7 @@ public partial class ShowObjectPlayer
 
 #if DEVELOP
 		string path = @"Tuto_45LV_Def_Voice.q_1669_1_icon_msg_1_voice1";
-		_viewModel.ShowObject = Xylia.Preview.Data.Helpers.FileCache.Provider.LoadObject<UShowObject>(path);
+		_viewModel.ShowObject = Globals.GameProvider.LoadObject<UShowObject>(path);
 #endif
 	}
 

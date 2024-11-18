@@ -8,7 +8,6 @@ using Newtonsoft.Json;
 using Serilog;
 using Xylia.Preview.Common.Attributes;
 using Xylia.Preview.Common.Extension;
-using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Engine.BinData.Helpers;
 using Xylia.Preview.Data.Engine.BinData.Serialization;
@@ -45,7 +44,7 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 			definition = value;
 			Name = value.Name;
 
-			this.CheckVersion((definition.MajorVersion, definition.MinorVersion));
+			CheckVersion((definition.MajorVersion, definition.MinorVersion));
 		}
 	}
 
@@ -161,21 +160,11 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 		Parallel.For(0, elements.Length, index =>
 		{
 			var element = elements[index];
-			var definition = Definition.ElRecord.SubtableByName(element.GetAttribute(AttributeCollection.s_type));
-			
-			var record = new Record
-			{
-				Owner = this,
-				Data = new byte[definition.Size],
-				DataSize = definition.Size,
-				ElementType = ElementType.Element,
-				SubclassType = definition.SubclassType,
-				StringLookup = IsCompressed ? new StringLookup() : GlobalString,
-			};
+			var record = new Record(this, element.GetAttribute(AttributeCollection.s_type));
 
 			// create attributes and primary key
 			record.Attributes = new(record, element, Definition.ElRecord, length + index + 1);
-			record.Attributes.BuildData(definition, true);
+			record.Attributes.BuildData(true);
 
 			records.Add(new Tuple<int, Record>(index, record));
 			//Log.Warning($"[game-data-loader], load {Name} error, msg:{0}, fileName:{1}, nodeName:{element.Name}, record:{element.OuterXml}");
@@ -187,7 +176,7 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 			_records.Add(ByRef[record.PrimaryKey] = record);
 
 			// The ref is not determined at this time
-			build?.Add(new Action(() => record.Attributes.BuildData(record.Definition)));
+			build?.Add(new Action(() => record.Attributes.BuildData()));
 		}
 	}
 	#endregion
