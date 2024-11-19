@@ -82,6 +82,8 @@ public partial class DatabaseManager
 			DefinitionList.ItemsSource = commits;
 			DefinitionList.SelectedItem = commits.FirstOrDefault(x => locale.ProductVersion.CompareTo(x.Version) >= 0) ?? throw new Exception("No matched definition version");
 			DefinitionList.ScrollIntoView(DefinitionList.SelectedItem);
+
+			CommandManager.InvalidateRequerySuggested();
 		}
 		catch (Exception ex)
 		{
@@ -91,7 +93,7 @@ public partial class DatabaseManager
 
 	private void CanExecuteConnect(object sender, CanExecuteRoutedEventArgs e)
 	{
-		e.CanExecute = !IsConnecting;
+		e.CanExecute = !IsConnecting && DefinitionList.SelectedItem is Commit commit;
 	}
 
 	private async void ConnectCommand(object sender, RoutedEventArgs e)

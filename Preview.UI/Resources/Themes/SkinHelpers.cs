@@ -1,4 +1,6 @@
 ﻿using System.Windows;
+using System.Windows.Media;
+using ICSharpCode.AvalonEdit.Highlighting;
 
 namespace Xylia.Preview.UI.Resources.Themes;
 internal static class SkinHelpers
@@ -8,10 +10,9 @@ internal static class SkinHelpers
 		// Indeterminate represents automatic
 		night ??= DateTime.Now.Hour < 6 || DateTime.Now.Hour >= 18;
 
-		var uri = new Uri($"pack://application:,,,/Preview.UI;component/Resources/Themes/Skins/Basic/{(night.Value ? "Dark" : "Day")}.xaml");
 		return new ResourceDictionary
 		{
-			Source = uri
+			Source = new Uri($"pack://application:,,,/Preview.UI;component/Resources/Themes/Skins/Basic/{(night.Value ? "Dark" : "Day")}.xaml")
 		};
 	}
 
@@ -19,10 +20,9 @@ internal static class SkinHelpers
 	{
 		try
 		{
-			var uri = new Uri($"pack://application:,,,/Preview.UI;component/Resources/Themes/Skins/{skin}.xaml");
 			return new ResourceDictionary
 			{
-				Source = uri
+				Source = new Uri($"pack://application:,,,/Preview.UI;component/Resources/Themes/Skins/{skin}.xaml")
 			};
 		}
 		catch
@@ -30,6 +30,19 @@ internal static class SkinHelpers
 			if (skin == SkinType.Default) throw;
 
 			return GetSkin(SkinType.Default);
+		}
+	}
+
+	public static void UpdateXshd(string rule)
+	{
+		var highlighting = HighlightingManager.Instance.GetDefinition(rule);
+		if (highlighting is null) return;
+		rule += "_";
+
+		foreach (var color in highlighting.NamedHighlightingColors)
+		{
+			if (Application.Current.TryFindResource(rule + color.Name) is Color c)
+				color.Foreground = new SimpleHighlightingBrush(c);
 		}
 	}
 }

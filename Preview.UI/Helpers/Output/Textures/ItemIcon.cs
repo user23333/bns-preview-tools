@@ -22,7 +22,7 @@ public sealed class ItemIcon(string GameFolder, string OutputFolder) : IconOutBa
 	protected override void Execute(string format, IProgress<float> progress, CancellationToken token)
 	{
 		var lst = new HashList(HashesPath);
-		var Weapon_Lock_04 = provider!.LoadObject<UTexture>("BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_Icon3_R/Weapon_Lock_04")?.Decode();
+		var Weapon_Lock_04 = provider!.LoadObject<UTexture>("BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_Icon3_R/Weapon_Lock_04.Weapon_Lock_04")?.Decode();
 
 		var source = database!.Provider.GetTable(nameof(Item));
 		var counter = new ProgressHelper(progress, source.Count());

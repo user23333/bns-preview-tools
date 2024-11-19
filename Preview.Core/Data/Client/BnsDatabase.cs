@@ -14,7 +14,7 @@ public class BnsDatabase : IEngine, IDisposable
 		_definition = definition ?? new DefaultDatafileDefinition();
 
 		ArgumentNullException.ThrowIfNull(provider);
-		BnsDataException.ThrowIfMismatch(provider.Locale.Publisher, _definition.Publisher);
+		BnsDataException.ThrowIfMismatch(_definition.Publisher, provider.Locale.Publisher);
 	}
 	#endregion
 

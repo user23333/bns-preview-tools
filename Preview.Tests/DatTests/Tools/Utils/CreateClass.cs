@@ -32,7 +32,7 @@ public static class CreateClass
             result.AppendLine($"public sealed class {sub.Name.TitleCase()} : {table.Name.TitleCase()}");
             result.AppendLine("{");
 
-            foreach (var attribute in sub.ExpandedAttributesSubOnly)
+            foreach (var attribute in sub.Attributes.Except(table.ElRecord.Attributes))
             {
                 InstanceAttribute(attribute, result, true);
             }

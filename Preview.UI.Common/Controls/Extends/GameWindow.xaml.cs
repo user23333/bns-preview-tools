@@ -36,7 +36,6 @@ public abstract class GameWindow : Window
 	public GameWindow()
 	{
 		_ = Globals.GameData.Provider;  // check data
-		OnLoading();
 	}
 	#endregion
 
@@ -55,11 +54,6 @@ public abstract class GameWindow : Window
 		if (_MaximizedButton != null) _MaximizedButton.Click += delegate { WindowState = WindowState.Maximized; };
 		if (_NormalButton != null) _NormalButton.Click += delegate { WindowState = WindowState.Normal; };
 		if (_CloseButton != null) _CloseButton.Click += delegate { Close(); };
-	}
-
-	protected virtual void OnLoading()
-	{
-		
 	}
 
 	protected override void OnInitialized(EventArgs e)

@@ -31,9 +31,9 @@ public partial class AssetTest
 	[TestMethod]
 	public void ObjectTest()
 	{
-		using GameFileProvider Provider = new(IniHelper.Instance.GameFolder);
+		using var provider = new GameFileProvider(IniHelper.Instance.GameFolder);
 
-		var package = Provider.LoadPackage(@"BNSR\Content\Art\FX\05_BM\EquipShow/SS_EquipShow_Wolf") as Package;
+		var package = provider.LoadPackage(@"BNSR\Content\Art\FX\05_BM\EquipShow/SS_EquipShow_Wolf") as Package;
 
 		var obj = package.GetExport("SS_EquipShow_Wolf");
 		switch (obj)
@@ -57,5 +57,13 @@ public partial class AssetTest
 			}
 			break;
 		}
+	}
+
+
+	[TestMethod]
+	public void PluginTest()
+	{
+		using var provider = new GameFileProvider(IniHelper.Instance.GameFolder);
+		Console.WriteLine(provider.FixPath("00009499.Minimap_Status_Event"));
 	}
 }

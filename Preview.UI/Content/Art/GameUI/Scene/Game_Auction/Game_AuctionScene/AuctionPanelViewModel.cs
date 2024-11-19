@@ -6,12 +6,12 @@ using Xylia.Preview.Data.Models.Sequence;
 using Xylia.Preview.UI.Common.Interactivity;
 
 namespace Xylia.Preview.UI.GameUI.Scene.Game_Auction;
-internal partial class AuctionPanelViewModel : ObservableObject
+internal class AuctionPanelViewModel : ObservableObject
 {
 	public event EventHandler? Changed;
 
 	#region Fields
-	private ICollectionView _source;
+	private ICollectionView? _source;
 	public ICollectionView Source
 	{
 		get => _source;

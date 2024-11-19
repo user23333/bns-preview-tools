@@ -226,9 +226,9 @@
   <data name="Application_UpdateLog" xml:space="preserve">
     <value>
 [ver=3.2.2,mode=beta]
-数据管理器
-+优化属性定义中的二进制偏移显示为16进制
-    
++优化数据管理器的属性偏移为16进制
++优化文本编辑器在夜间模式下的色彩表现
+
 [ver=3.2.1,time=2024/11/14]
 数据管理器
 +修复查询结果中不显示默认值的问题

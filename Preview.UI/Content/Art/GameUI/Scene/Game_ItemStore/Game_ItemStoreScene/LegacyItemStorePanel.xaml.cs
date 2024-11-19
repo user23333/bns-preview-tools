@@ -1,32 +1,27 @@
-﻿using System.ComponentModel;
-using System.Globalization;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using Xylia.Preview.Common;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Models;
 using Xylia.Preview.UI.Common.Interactivity;
 using Xylia.Preview.UI.Controls;
 using Xylia.Preview.UI.Extensions;
 using Xylia.Preview.UI.GameUI.Scene.Game_Tooltip;
-using Xylia.Preview.UI.Helpers.Output;
-using Xylia.Preview.UI.Helpers.Output.Tables;
 
 namespace Xylia.Preview.UI.GameUI.Scene.Game_ItemStore;
 public partial class LegacyItemStorePanel
 {
+	#region Fields
+	private readonly ItemStorePanelViewModel _viewModel;
+	private ContextMenu? ItemMenu;
+	#endregion
+
 	#region OnInitialize
-	protected override void OnLoading()
+	public LegacyItemStorePanel()
 	{
 		InitializeComponent();
 
-		// data
-		source = CollectionViewSource.GetDefaultView(Globals.GameData.Provider.GetTable<Store2>());
-		source.Filter = OnFilter;
-		source.GroupDescriptions.Clear();
-		source.GroupDescriptions.Add(new StoreGroupDescription());
-		TreeView.ItemsSource = source.Groups;
+		DataContext = _viewModel = new ItemStorePanelViewModel();
+		TreeView.ItemsSource = _viewModel.Source.Groups;
 	}
 
 	protected override void OnInitialized(EventArgs e)
@@ -135,61 +130,7 @@ public partial class LegacyItemStorePanel
 
 	private void SearchStarted(object sender, TextChangedEventArgs e)
 	{
-		source?.Refresh();
-	}
-
-	private bool OnFilter(object obj)
-	{
-		if (obj is not Store2 store2) return false;
-
-		var rule = SearcherRule.Text;
-		return string.IsNullOrEmpty(rule) ||
-			(store2.Alias != null && store2.Alias.Contains(rule, StringComparison.OrdinalIgnoreCase)) ||
-			(store2.Name != null && store2.Name.Contains(rule, StringComparison.OrdinalIgnoreCase));
-	}
-
-
-	private async void ExtractPrice_Click(object sender, RoutedEventArgs e) => await OutSet.Start<ItemBuyPriceOut>();
-
-	private async void ExtractCloset_Click(object sender, RoutedEventArgs e) => await OutSet.Start<ItemCloset>();
-	#endregion
-
-
-	#region Helpers
-	private ICollectionView? source;
-	private ContextMenu? ItemMenu;
-
-	private class StoreGroupDescription : PropertyGroupDescription
-	{
-		private readonly Dictionary<Store2, UnlocatedStore> dict = [];
-
-		public StoreGroupDescription()
-		{
-			var UnlocatedStore = Globals.GameData.Provider.GetTable<UnlocatedStore>();
-			foreach (var record in UnlocatedStore)
-			{
-				var store2 = record.Store2.Instance;
-				if (store2 != null) dict[store2] = record;
-			}
-		}
-
-		public override object? GroupNameFromItem(object item, int level, CultureInfo culture)
-		{
-			if (item is Store2 store2)
-			{
-				if (dict.TryGetValue(store2, out var record))
-				{
-					var UnlocatedStoreUi = Globals.GameData.Provider.GetTable<UnlocatedStoreUi>()[(sbyte)record.UnlocatedStoreType];
-					return UnlocatedStoreUi?.TitleText.GetText();
-				}
-				else
-				{
-					return "UI.ItemStore.Title".GetText();
-				}
-			}
-
-			return base.GroupNameFromItem(item, level, culture);
-		}
+		_viewModel.Source?.Refresh();
 	}
 	#endregion
 }

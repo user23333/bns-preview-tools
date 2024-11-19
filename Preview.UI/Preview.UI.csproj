@@ -39,7 +39,6 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Preview.Core\Preview.Core.csproj" />
 		<ProjectReference Include="..\Preview.UI.Common\Preview.UI.Common.csproj" />
-		<Using Include="Xylia.Preview.Common" />
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Autoupdater.NET.Official" Version="1.9.2" />

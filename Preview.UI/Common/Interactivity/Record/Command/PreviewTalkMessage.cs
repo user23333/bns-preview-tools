@@ -15,6 +15,8 @@ internal class PreviewTalkMessage : RecordCommand
 		{
 			case "npctalkmessage":
 				var message = record.To<NpcTalkMessage>();
+				message.Test();
+
 				var show = message.StepShow[0].LoadObject<UShowObject>();
 				if (show != null) Application.Current.Dispatcher.Invoke(() => new ShowObjectPlayer(show).Show());
 				break;

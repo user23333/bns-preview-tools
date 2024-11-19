@@ -254,40 +254,42 @@ public class Reward : ModelElement, IReward
 			});
 		}
 
+		// For group4 and group5, the integer part affects count, the decimal part affects probability.
+		// WARNING: When the probability of quantity cannot be viewed, the probability is corrected to the quantity is greater than 0.
 		if (Group4ItemTotalCount > 0)
 		{
-			var TotalProbWeight = Group4ItemMax.Sum();
 			Group4Item.Values().ForEach((item, idx) =>
 			{
-				var min = Group4ItemMin[idx];
-				var max = Group4ItemMax[idx];
+				int min = Group4ItemMin[idx], max = Group4ItemMax[idx];
 
 				data.Add(new RewardInfo()
 				{
 					Data = item,
 					Group = "group-4",
 					GroupText = string.Format("{0}% ", Group4Probability) + "UI.RandomBox.Probability.MiddleCategory.GroupReward4".GetText([1]),
-					Probability = max,
-					ProbabilityType = TotalProbWeight,
+					Min = (short)Math.Floor(min * 0.01),
+					Max = (short)Math.Ceiling(max * 0.01),
+					Probability = Math.Min(100d, min) / Group4ItemTotalCount,
+					ProbabilityType = 100,
 				});
 			});
 		}
 
 		if (Group5ItemTotalCount > 0)
 		{
-			var TotalProbWeight = Group5ItemMax.Sum();
 			Group5Item.Values().ForEach((item, idx) =>
 			{
-				var min = Group5ItemMin[idx];
-				var max = Group5ItemMax[idx];
+				int min = Group5ItemMin[idx], max = Group5ItemMax[idx];
 
 				data.Add(new RewardInfo()
 				{
 					Data = item,
 					Group = "group-5",
 					GroupText = string.Format("{0}% ", Group5Probability) + "UI.RandomBox.Probability.MiddleCategory.GroupReward5".GetText([1]),
-					Probability = max,
-					ProbabilityType = TotalProbWeight,
+					Min = (short)Math.Floor(min * 0.01),
+					Max = (short)Math.Ceiling(max * 0.01),
+					Probability = Math.Min(100d, min) / Group5ItemTotalCount,
+					ProbabilityType = 100,
 				});
 			});
 		}
@@ -385,6 +387,8 @@ public class Reward : ModelElement, IReward
 					Data = reward,
 					Group = "smart-group-4-reward",
 					GroupText = string.Format("{0}% ", SmartGroup4Probability) + "UI.RandomBox.Probability.MiddleCategory.SmartDropGroupReward4".GetText([1]),
+					Probability = 1,
+					ProbabilityType = SmartGroup4RewardTotalCount,
 				});
 			});
 		}
@@ -398,6 +402,8 @@ public class Reward : ModelElement, IReward
 					Data = reward,
 					Group = "smart-group-5-reward",
 					GroupText = string.Format("{0}% ", SmartGroup5Probability) + "UI.RandomBox.Probability.MiddleCategory.SmartDropGroupReward5".GetText([1]),
+					Probability = 1,
+					ProbabilityType = SmartGroup5RewardTotalCount,
 				});
 			});
 		}
@@ -426,14 +432,14 @@ public class Reward : ModelElement, IReward
 		public Item Data;
 		public short Min = 1;
 		public short Max = 1;
-		internal int Probability;
+		internal double Probability;
 		internal int ProbabilityType;
 
 		object IRewardHelper.Data => Data;
 		public string Group { get; set; }
 		public string GroupText { get; set; }
 		public string Text => (Min == Max ? "UI.RandomBox.Probability.MiddleCategory.Element.Fixed" : "UI.RandomBox.Probability.MiddleCategory.Element.Range").GetText([Data, Min, Max]);
-		public string ProbabilityInfo => Probability == 0 ? string.Empty : ((double)Probability / ProbabilityType).ToString("P" + ProbabilityType.GetPercentLength());
+		public string ProbabilityInfo => Probability == 0 ? string.Empty : (Probability / ProbabilityType).ToString("P" + ProbabilityType.GetPercentLength());
 	}
 	#endregion
 }

@@ -102,7 +102,7 @@ public partial class Legacy_MapWindowPanel
 		MapWindow_Minimap.AddChild(point, null, new BnsCustomImageWidget()
 		{
 			Tag = MapUnit.CategorySeq.Player,
-			BaseImageProperty = new ImageProperty() { EnableImageSet = true, ImageSet = new MyFPackageIndex("/Game/Art/UI/GameUI/Resource/GameUI_Map_Indicator/teleport_point_current_normal") },
+			BaseImageProperty = new ImageProperty() { EnableImageSet = true, ImageSet = new MyFPackageIndex("00009499.Teleport_point_current_normal") },
 		});
 	}
 	#endregion

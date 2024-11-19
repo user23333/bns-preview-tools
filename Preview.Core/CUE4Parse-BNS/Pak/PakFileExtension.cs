@@ -12,19 +12,17 @@ public static class PakFileExtension
 
 		var ms = new MemoryStream();
 		pak.Write(new BinaryWriter(ms));
-
 		File.WriteAllBytes(path , ms.ToArray());
 	}
 
-
-	public static void AddFolder(this MyPakFileReader pak, DirectoryInfo dir, string DirName = null)
+	public static void AddFolder(this MyPakFileReader pak, DirectoryInfo folder, string mountpoint = null)
 	{
-		DirName ??= dir.FullName;
+		mountpoint ??= folder.FullName;
 
-		foreach (var file in dir.GetFiles())
+		foreach (var file in folder.GetFiles())
 		{
 			var VfsPath = file.FullName
-				.Replace(DirName, null)
+				.Replace(mountpoint, null)
 				.Replace('\\', '/')
 				.SubstringAfter("/");
 
@@ -32,9 +30,9 @@ public static class PakFileExtension
 			else pak.Add(file.FullName, VfsPath);
 		}
 
-		foreach (var sub in dir.GetDirectories())
+		foreach (var sub in folder.GetDirectories())
 		{
-			AddFolder(pak, sub, DirName);
+			AddFolder(pak, sub, mountpoint);
 		}
 	}
 

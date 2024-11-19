@@ -178,8 +178,8 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
 				var teleport = provider.GetTable<Teleport>().FirstOrDefault(x => x.TeleportPosition == record);
 				if (teleport is null) continue;
 
-				var Image = new ImageProperty() { EnableImageSet = true, ImageSet = new MyFPackageIndex("/Game/Art/UI/GameUI/Resource/GameUI_Map_Indicator/teleport_point_possible_normal") };
-				var OverImage = new ImageProperty() { EnableImageSet = true, ImageSet = new MyFPackageIndex("/Game/Art/UI/GameUI/Resource/GameUI_Map_Indicator/teleport_point_possible_over") };
+				var Image = new ImageProperty() { EnableImageSet = true, ImageSet = new MyFPackageIndex("00009499.Teleport_point_possible_normal") };
+				var OverImage = new ImageProperty() { EnableImageSet = true, ImageSet = new MyFPackageIndex("00009499.Teleport_point_possible_over") };
 
 				AddChild(record.Position, null, () =>
 				{

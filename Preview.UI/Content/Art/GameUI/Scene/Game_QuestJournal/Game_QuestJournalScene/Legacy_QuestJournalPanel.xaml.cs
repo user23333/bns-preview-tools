@@ -17,7 +17,7 @@ namespace Xylia.Preview.UI.GameUI.Scene.Game_QuestJournal;
 public partial class Legacy_QuestJournalPanel : IRecordFilter
 {
 	#region Constructors
-	protected override void OnLoading()
+	public Legacy_QuestJournalPanel()
 	{
 		InitializeComponent();
 		QuestJournal_Tab_RadioButton_1.Header = "UI.QuestJournal.ProgressTab".GetText();

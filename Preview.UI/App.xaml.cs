@@ -16,6 +16,7 @@ using Xylia.Preview.UI.Services;
 namespace Xylia.Preview.UI;
 public partial class App : Application
 {
+	#region Application
 	protected override void OnStartup(StartupEventArgs e)
 	{
 		AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
@@ -53,8 +54,9 @@ public partial class App : Application
 		skins1.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri("pack://application:,,,/Preview.UI;component/Resources/Themes/Theme.xaml") });
 
 		MainWindow?.OnApplyTemplate();
+		SkinHelpers.UpdateXshd("XML");
 	}
-
+	#endregion
 
 	#region Exception	
 	private void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs arg)

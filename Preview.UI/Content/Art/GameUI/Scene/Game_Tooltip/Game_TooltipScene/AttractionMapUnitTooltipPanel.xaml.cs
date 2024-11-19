@@ -18,7 +18,7 @@ public partial class AttractionMapUnitToolTipPanel
 	{
 		InitializeComponent();
 #if DEVELOP
-		DataContext = Globals.GameData.Provider.GetTable<Dungeon>()["Dungeon_DongHae_chungkak_A_3"];
+		DataContext = Xylia.Preview.Common.Globals.GameData.Provider.GetTable<Dungeon>()["Dungeon_DongHae_chungkak_A_3"];
 #endif
 	}
 	#endregion

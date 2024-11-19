@@ -50,7 +50,7 @@ public sealed class IconTexture : ModelElement
 	{
 		return new ImageProperty()
 		{
-			BaseImageTexture = new MyFPackageIndex($"BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/ItemIcon_Bg_Grade_{grade}", pak),
+			BaseImageTexture = new MyFPackageIndex($"00070882.ItemIcon_Bg_Grade_{grade}", pak),
 		};
 	}
 	#endregion
