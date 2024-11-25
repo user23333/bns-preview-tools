@@ -12,7 +12,7 @@ internal class DataSearch
 		var directory = new DirectoryInfo(path);
 		if (!directory.Exists) throw new DirectoryNotFoundException(Globals.TextProvider.Get("Exception_InvalidPath"));
 
-		Locale = new Locale(directory);
+		Locale = new Locale(path);
 		files.AddRange(directory.GetFiles(pattern, SearchOption.AllDirectories));
 	}
 

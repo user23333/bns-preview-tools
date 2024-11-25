@@ -226,8 +226,10 @@
   <data name="Application_UpdateLog" xml:space="preserve">
     <value>
 [ver=3.2.2,mode=beta]
-+优化数据管理器的属性偏移为16进制
++优化数据管理器的属性偏移以16进制显示
 +优化文本编辑器在夜间模式下的色彩表现
++优化在使用调试模式时，若物品名称无效会显示其别名
++优化设置游戏目录的流程
 
 [ver=3.2.1,time=2024/11/14]
 数据管理器
@@ -358,6 +360,9 @@
   </data>
   <data name="DatabaseStudio_ConnectMessage2" xml:space="preserve">
     <value>当前是全局数据源，是否确认断开链接？</value>
+  </data>
+  <data name="DatabaseStudio_Definition_NoMatched" xml:space="preserve">
+    <value>无匹配的定义版本</value>
   </data>
   <data name="DatabaseStudio_Definition" xml:space="preserve">
     <value>数据定义版本</value>

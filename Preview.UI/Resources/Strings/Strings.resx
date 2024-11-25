@@ -360,6 +360,9 @@ Expand the response rectange with item preview.</value>
   <data name="DatabaseStudio_Definition_Tooltip" xml:space="preserve">
     <value>Select the default item if you don't know which one is want.</value>
   </data>
+  <data name="DatabaseStudio_Definition_NoMatched" xml:space="preserve">
+    <value>No matched definition version.</value>
+  </data>
   <data name="DatabaseStudio_Disconnect" xml:space="preserve">
     <value>Disconnect</value>
   </data>

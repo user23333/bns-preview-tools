@@ -222,8 +222,8 @@ public class AttributeCollection : IEnumerable<AttributeValue>
 			}
 			case AttributeType.TIcon:
 			{
-				var icon = (Icon)value;
-				value = icon.GetRef();
+				var icon = value as Icon;
+				value = icon?.GetRef() ?? default;
 				break;
 			}
 

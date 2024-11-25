@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.IO;
+﻿using System.IO;
 using System.Text;
 using System.Windows;
 using AutoUpdaterDotNET;
@@ -8,20 +7,15 @@ using HandyControl.Controls;
 using HandyControl.Data;
 using Microsoft.Win32;
 using Newtonsoft.Json;
-using Serilog;
 using Xylia.Preview.UI.ViewModels;
 using MessageBox = HandyControl.Controls.MessageBox;
 
 namespace Xylia.Preview.UI.Services;
-internal class UpdateService(bool flag = true) : IService
+internal class UpdateService : IService
 {
 	const string APP_NAME = "bns-preview-tools";
-	const int TIMEOUT = 7500;
-	internal static bool ShowLog { get; private set; } = false;
 
 	#region IService
-	static Timer? CheckThread;
-
 	static UpdateService()
 	{
 		#region Registry
@@ -32,13 +26,10 @@ internal class UpdateService(bool flag = true) : IService
 		var version = VersionHelper.InternalVersion;
 		ShowLog = softWare.GetValue("Version")?.ToString() != version.ToString();
 
-		softWare.SetValue("ExecutablePath", AppDomain.CurrentDomain.BaseDirectory, RegistryValueKind.String);
+		softWare.SetValue("ExecutablePath", Environment.ProcessPath!, RegistryValueKind.String);
 		softWare.SetValue("Version", version, RegistryValueKind.String);
 		#endregion
 
-#if DEBUG
-		Growl.Info(StringHelper.Get("Application_VersionTip1"));
-#endif
 		AutoUpdater.RemindLaterTimeSpan = 0;
 		AutoUpdater.ReportErrors = true;
 		AutoUpdater.DownloadPath = Path.Combine(Environment.CurrentDirectory, "update");
@@ -46,13 +37,16 @@ internal class UpdateService(bool flag = true) : IService
 		AutoUpdater.CheckForUpdateEvent += CheckForUpdateEvent;
 	}
 
-	public bool Register()
+	bool IService.Register()
 	{
-#if !DEVELOP
-		AutoUpdater.Start($"http://tools.bnszs.com/api/update?app={APP_NAME}&version={VersionHelper.InternalVersion}&mode={UserSettings.Default.UpdateMode}");
-		CheckThread = flag ? new Timer(f => CheckForUpdateEvent(UpdateInfoArgs.Timeout), null, TIMEOUT, Timeout.Infinite) : null;
-#endif
+		Register();
 		return true;
+	}
+
+	public static void Register(int waitTime = 0)
+	{
+		Thread.Sleep(waitTime);
+		AutoUpdater.Start($"http://tools.bnszs.com/api/update?app={APP_NAME}&version={VersionHelper.InternalVersion}&mode={UserSettings.Default.UpdateMode}");
 	}
 
 	private static void ParseUpdateInfoEvent(ParseUpdateInfoEventArgs args)
@@ -65,17 +59,13 @@ internal class UpdateService(bool flag = true) : IService
 
 	private static void CheckForUpdateEvent(UpdateInfoEventArgs args2)
 	{
-		CheckThread?.Dispose();
-
-		if (args2 is not UpdateInfoArgs args || args.CurrentVersion is null)
+		if (args2 is not UpdateInfoArgs args)
 		{
-			Log.Error(args2.Error.Message);
-
-			// retry or exit
 			if (MessageBox.Show(StringHelper.Get("Application_VersionTip3", args2.Error.Message),
 				StringHelper.Get("Message_Tip"), MessageBoxButton.OKCancel, MessageBoxImage.Error) == MessageBoxResult.OK)
 			{
-				new UpdateService().Register();
+				// wait current worker finished. 
+				Task.Run(() => Register(1000));
 				return;
 			}
 
@@ -83,7 +73,6 @@ internal class UpdateService(bool flag = true) : IService
 		}
 		else
 		{
-			Debug.Print("verification successful!");
 			IPlatformFilePak.Signature = Encoding.UTF8.GetBytes(args.Signature);
 
 			if (args.NoticeID < 0 || UserSettings.Default.NoticeId < args.NoticeID)
@@ -100,28 +89,23 @@ internal class UpdateService(bool flag = true) : IService
 				StringHelper.Get("Settings_UpdateMode_" + UserSettings.Default.UpdateMode.ToString()),
 				args.CurrentVersion,
 				args.InstalledVersion), isConfirmed =>
-				{
-					if (isConfirmed && AutoUpdater.DownloadUpdate(args))
-						Application.Current.Shutdown();
+			{
+				if (isConfirmed && AutoUpdater.DownloadUpdate(args))
+					Application.Current.Shutdown();
 
-					return true;
-				});
+				return true;
+			});
 		}
 	}
 	#endregion
 
-	#region Helpers
+	#region Helpers		
 	class UpdateInfoArgs : UpdateInfoEventArgs
 	{
 		public string? Message { get; set; }
 		public int NoticeID { get; set; }
 		public string? Notice { get; set; }
 		public string? Signature { get; set; }
-
-		public static UpdateInfoArgs Timeout => new()
-		{
-			Error = new TimeoutException(),
-		};
 	}
 
 	internal enum UpdateMode
@@ -129,5 +113,7 @@ internal class UpdateService(bool flag = true) : IService
 		Stabble,
 		Beta,
 	}
+
+	internal static bool ShowLog { get; private set; } = false;
 	#endregion
 }

@@ -6,7 +6,7 @@
 		xmlns:hc="https://handyorg.github.io/handycontrol"
 		xmlns:converters="clr-namespace:Xylia.Preview.UI.Common.Converters"
 		xmlns:BNS="https://github.com/xyliaup/bns-preview-tools"
-		Background="{DynamicResource RegionBrush}" Icon="{x:Null}" Title="{DynamicResource Settings_Name}" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" SizeToContent="Height"
+		Background="{DynamicResource RegionBrush}" Icon="{x:Null}" Title="{DynamicResource Settings_Name}" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" SizeToContent="Height"
 		MinHeight="{Binding Source={x:Static SystemParameters.MaximizedPrimaryScreenHeight},Converter={StaticResource RatioConverter},ConverterParameter='0.10'}"
 		Width="{Binding Source={x:Static SystemParameters.MaximizedPrimaryScreenWidth},Converter={StaticResource RatioConverter},ConverterParameter='0.35'}">
 
@@ -69,19 +69,19 @@
 							<Run d:Text="Game Directory" Text="{DynamicResource Settings_GameDirectory}" /> *
 						</TextBlock>
 						<TextBox Grid.Column="1" Text="{Binding GameFolder}" Margin="0 0 3 0" />
-						<Button Grid.Column="2" Content="..." HorizontalAlignment="Right" Click="OnBrowseDirectories" />
+						<Button Grid.Column="2" Content="..." HorizontalAlignment="Right" Click="OnBrowseGameDirectory" />
 					</ItemsControl>
 					<ItemsControl>
 						<TextBlock>
 							<Run d:Text="Output Directory" Text="{DynamicResource Settings_OutputDirectory}" /> *
 						</TextBlock>
 						<TextBox Grid.Column="1" Text="{Binding OutputFolder}" Margin="0 0 3 0" />
-						<Button Grid.Column="2" Content="..." HorizontalAlignment="Right" Click="OnBrowseDirectories2" />
+						<Button Grid.Column="2" Content="..." HorizontalAlignment="Right" Click="OnBrowseOutputDirectory" />
 					</ItemsControl>
 					<ItemsControl>
 						<TextBlock d:Text="Resource Output Directory" Grid.Column="0" Text="{DynamicResource Settings_OutputDirectory2}" />
 						<TextBox Grid.Column="1" Text="{Binding OutputFolderResource}" Margin="0 0 3 0" />
-						<Button Grid.Column="2" Content="..." HorizontalAlignment="Right" Click="OnBrowseDirectories3" />
+						<Button Grid.Column="2" Content="..." HorizontalAlignment="Right" Click="OnBrowseResourceDirectory" />
 					</ItemsControl>
 
 					<!-- Options -->
@@ -171,7 +171,7 @@
 						<TextBlock d:Text="Use User Definition" Text="{DynamicResource Settings_UseUserDefinition}" ToolTip="{DynamicResource Settings_UseUserDefinition_Tooltip}" />
 						<CheckBox Grid.Column="1" IsChecked="{Binding UseUserDefinition}" ToolTip="{DynamicResource Settings_UseUserDefinition_Tooltip}" />
 					</ItemsControl>
-					<ItemsControl x:Name="DebugMode">
+					<ItemsControl>
 						<TextBlock d:Text="Use Debug Mode" Text="{DynamicResource Settings_DebugMode}" />
 						<CheckBox Grid.Column="1" IsChecked="{Binding UseDebugMode}" />
 					</ItemsControl>
@@ -254,7 +254,7 @@
 				</Grid.ColumnDefinitions>
 
 				<Button Grid.Column="1" MinWidth="78" Margin="0 0 12 0" IsDefault="True" IsCancel="False"
-					HorizontalAlignment="Right" VerticalAlignment="Bottom" d:Content="Ok" Content="{DynamicResource Text.Ok}" Click="OnClosing" />
+					HorizontalAlignment="Right" VerticalAlignment="Bottom" d:Content="Ok" Content="{DynamicResource Text.Ok}" Click="OnConfirm" />
 			</Grid>
 		</Border>
 	</Grid>

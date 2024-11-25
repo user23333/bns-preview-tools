@@ -159,7 +159,7 @@ public partial class App : Application
 		}
 		else if (command == "output")
 		{
-			new UpdateService(false).Register();
+			UpdateService.Register();
 
 			switch (type)
 			{

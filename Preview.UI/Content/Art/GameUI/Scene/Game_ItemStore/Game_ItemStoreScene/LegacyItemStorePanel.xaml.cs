@@ -130,6 +130,7 @@ public partial class LegacyItemStorePanel
 
 	private void SearchStarted(object sender, TextChangedEventArgs e)
 	{
+		_viewModel.Filter = SearcherRule.Text;
 		_viewModel.Source?.Refresh();
 	}
 	#endregion

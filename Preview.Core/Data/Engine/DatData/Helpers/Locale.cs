@@ -30,9 +30,9 @@ public struct Locale
 		Current = this;
 	}
 
-	public Locale(DirectoryInfo directory)
+	public Locale(string path)	
 	{
-		if (!directory.Exists) return;
+		var directory = new DirectoryInfo(path);
 
 		#region mode
 		var Win64 = directory.GetDirectories("Win64", SearchOption.AllDirectories).FirstOrDefault();

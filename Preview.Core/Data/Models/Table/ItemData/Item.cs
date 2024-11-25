@@ -6,6 +6,7 @@ using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Models.Sequence;
+using Xylia.Preview.Properties;
 using static Xylia.Preview.Data.Models.Item;
 using static Xylia.Preview.Data.Models.Item.Grocery;
 
@@ -110,7 +111,9 @@ public abstract class Item : ModelElement, IHaveName
 				};
 			}
 
-			var text = Attributes["name2"].GetText() ?? ToString();
+			var text = Attributes["name2"].GetText();
+			if (Settings.Default.UseDebugMode) text ??= ToString();
+
 			return $"<font name='00008130.Program.Fontset_ItemGrade_{ItemGrade}'>{text}</font>" + TagIconGrade?.Tag;
 		}
 	}

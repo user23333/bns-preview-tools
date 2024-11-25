@@ -17,7 +17,6 @@
 		<SignAssembly>True</SignAssembly>
 		<Configurations>Debug;Release;Develop</Configurations>
 		<TransformOnBuild>True</TransformOnBuild>
-		<TransformOutOfDateOnly>False</TransformOutOfDateOnly>
 		<VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Develop|AnyCPU'">
@@ -32,6 +31,7 @@
 		<PublishSingleFile>True</PublishSingleFile>
 		<IncludeContentInSingleFile>True</IncludeContentInSingleFile>
 		<IncludeNativeLibrariesForSelfExtract>True</IncludeNativeLibrariesForSelfExtract>
+		<TransformOutOfDateOnly>False</TransformOutOfDateOnly>
 	</PropertyGroup>
 	<Import Condition="$(VsInstallRoot)!=''" Project="$(VSToolsPath)\TextTemplating\Microsoft.TextTemplating.targets" />
 

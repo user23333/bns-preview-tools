@@ -45,7 +45,7 @@ internal partial class UserSettings : Settings
 		set
 		{
 			SetValue((int)value);
-			new UpdateService().Register();
+			UpdateService.Register();
 		}
 	}
 

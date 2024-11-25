@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.IO;
+using System.Windows;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using HandyControl.Controls;
@@ -8,7 +9,7 @@ using HandyControl.Tools.Extension;
 using Ookii.Dialogs.Wpf;
 using Xylia.Preview.UI.GameUI.Scene.Game_Auction;
 using Xylia.Preview.UI.Helpers.Output.Tables;
-using Xylia.Preview.UI.Views;
+using Xylia.Preview.UI.Views.Editor;
 using Xylia.Preview.UI.Views.Selector;
 
 namespace Xylia.Preview.UI.ViewModels;
@@ -25,7 +26,7 @@ internal partial class ItemPageViewModel : ObservableObject
 	[RelayCommand]
 	public void OpenSettings()
 	{
-		new SettingsView().ShowDialog();
+		new DatabaseManager(Application.Current.MainWindow, true).ShowDialog();
 	}
 
 	[RelayCommand]

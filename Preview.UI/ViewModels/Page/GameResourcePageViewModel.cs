@@ -22,7 +22,7 @@ using SkiaSharp.Views.WPF;
 using Xylia.Preview.UI.Common;
 using Xylia.Preview.UI.Common.Converters;
 using Xylia.Preview.UI.Helpers.Output.Textures;
-using Xylia.Preview.UI.Views;
+using Xylia.Preview.UI.Views.Editor;
 using Xylia.Preview.UI.Views.Selector;
 using MessageBox = HandyControl.Controls.MessageBox;
 
@@ -162,7 +162,7 @@ internal partial class GameResourcePageViewModel : ObservableObject
 	[RelayCommand]
 	public void OpenSettings()
 	{
-		new SettingsView().ShowDialog();
+		new DatabaseManager(Application.Current.MainWindow, true).ShowDialog();
 	}
 
 	[RelayCommand]

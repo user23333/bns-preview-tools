@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Net.Http;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using CUE4Parse.Compression;
 using HandyControl.Controls;
@@ -20,37 +21,49 @@ namespace Xylia.Preview.UI.Views.Editor;
 public partial class DatabaseManager
 {
 	#region Constructor	
-	public DatabaseManager(System.Windows.Window owner)
-	{
-		InitializeComponent();
+	private readonly string? TOKEN;
 
+	public DatabaseManager(System.Windows.Window? owner, bool global = false)
+	{
 		Owner = owner;
-		CommandBindings.Add(new CommandBinding(ApplicationCommands.Open, ConnectCommand, CanExecuteConnect));
+		TOKEN = owner is DatabaseStudio ? DatabaseStudio.TOKEN : null;
+		IsGlobalData = global;
+
+		InitializeComponent();
+		InitializeCommand();
 	}
 	#endregion
 
 	#region Fields
-	public IEngine? Engine { get; private set; }
-
-	internal bool IsGlobalData = false;
 	private bool IsConnecting = false;
+	internal bool IsGlobalData = false;
+
+	public IEngine? Engine { get; private set; }
 	#endregion
 
 	#region Methods
 	protected override void OnInitialized(EventArgs e)
 	{
 		base.OnInitialized(e);
-		ProviderMode_Changed(this, null);
+		Provider_GlobalMode.IsChecked = true;
+
+		if (IsGlobalData)
+		{
+			Provider_ModeHolder.Visibility = Visibility.Collapsed;
+			ProviderSearch.Visibility = Visibility.Visible;
+			ProviderSearch.Text = UserSettings.Default.GameFolder;
+		}
 	}
 
 	private async void ProviderMode_Changed(object sender, RoutedEventArgs? e)
 	{
-		if (!IsInitialized) return;
 		Run_Version.Text = null;
 		DefinitionList.ItemsSource = null;
+		ProviderSearch.Visibility = Visibility.Visible;
 
 		if (Provider_GlobalMode.IsChecked == true)
 		{
+			ProviderSearch.Visibility = Visibility.Collapsed;
 			await Provider_CheckFolder(UserSettings.Default.GameFolder);
 		}
 		else if (Provider_GameMode.IsChecked == true)
@@ -59,41 +72,55 @@ public partial class DatabaseManager
 		}
 	}
 
-	private async void ProviderSearch_SearchStarted(object sender, FunctionEventArgs<string> e)
+	private void ProviderSearch_SearchStarted(object sender, FunctionEventArgs<string> e)
 	{
-		if (!SettingsView.TryBrowseFolder(out var path))
-			return;
+		if (SettingsView.TryBrowseFolder(out var path))
+		{
+			ProviderSearch.Text = path;
+			if (IsGlobalData) UserSettings.Default.GameFolder = path;
+		}
+	}
 
-		await Provider_CheckFolder(ProviderSearch.Text = path);
+	private async void ProviderSearch_TextChanged(object sender, TextChangedEventArgs e)
+	{
+		await Provider_CheckFolder(ProviderSearch.Text);
 	}
 
 	private async Task Provider_CheckFolder(string path)
 	{
-		var directory = new DirectoryInfo(path);
-		if (!directory.Exists) return;
+		if (!Directory.Exists(path)) return;
 
 		try
 		{
-			var locale = new Locale(directory);
+			var locale = new Locale(path);
 			Run_Version.Text = string.Format(" ({0})", locale.ProductVersion);
 
 			// get and update defs
 			var commits = (await GetCommits(locale.Publisher)).OrderByDescending(x => x.Version);
 			DefinitionList.ItemsSource = commits;
-			DefinitionList.SelectedItem = commits.FirstOrDefault(x => locale.ProductVersion.CompareTo(x.Version) >= 0) ?? throw new Exception("No matched definition version");
+			DefinitionList.SelectedItem = commits.FirstOrDefault(x => locale.ProductVersion.CompareTo(x.Version) >= 0) ?? 
+				throw new Exception(StringHelper.Get("DatabaseStudio_Definition_NoMatched"));
 			DefinitionList.ScrollIntoView(DefinitionList.SelectedItem);
-
-			CommandManager.InvalidateRequerySuggested();
 		}
 		catch (Exception ex)
 		{
-			Growl.Error(ex.Message, DatabaseStudio.TOKEN);
+			Growl.Error(ex.Message, TOKEN);
 		}
+		finally
+		{
+			CommandManager.InvalidateRequerySuggested();
+		}
+	}
+
+
+	private void InitializeCommand()
+	{
+		CommandBindings.Add(new CommandBinding(ApplicationCommands.Open, ConnectCommand, CanExecuteConnect));
 	}
 
 	private void CanExecuteConnect(object sender, CanExecuteRoutedEventArgs e)
 	{
-		e.CanExecute = !IsConnecting && DefinitionList.SelectedItem is Commit commit;
+		e.CanExecute = !IsConnecting && DefinitionList.SelectedItem is Commit;
 	}
 
 	private async void ConnectCommand(object sender, RoutedEventArgs e)
@@ -101,14 +128,23 @@ public partial class DatabaseManager
 		try
 		{
 			IsConnecting = true;
-			var definition = DefinitionList.SelectedItem is Commit commit ? await commit.LoadData() : null;
+			var definition = DefinitionList.SelectedItem is Commit commit ? await commit.LoadData() : throw new NotSupportedException();
 
 			if (Provider_GlobalMode.IsChecked == true)
 			{
-				IsGlobalData = true;
-				Globals.Definition = definition;  //set global definition
-				Engine = Globals.GameData;
-				UserSettings.Default.DefitionType = Globals.GameData.Provider.Locale.Publisher;
+				UserSettings.Default.DefitionType = new Locale(UserSettings.Default.GameFolder).Publisher;
+				UserSettings.Default.DefitionKey = definition.Key;
+
+				if (IsGlobalData)
+				{
+					Globals.ClearData();
+				}
+				else
+				{
+					Globals.Definition = definition;
+					Engine = Globals.GameData;
+					IsGlobalData = true;
+				}
 			}
 			else
 			{
@@ -128,7 +164,7 @@ public partial class DatabaseManager
 		}
 		catch (Exception ex)
 		{
-			Growl.Error(ex.Message, DatabaseStudio.TOKEN);
+			Growl.Error(ex.Message, TOKEN);
 		}
 		finally
 		{
@@ -212,7 +248,7 @@ public partial class DatabaseManager
 			ArgumentNullException.ThrowIfNull(SHA);
 
 			Stream stream;
-			string path = Path.Combine(UserSettings.Default.OutputFolder, ".download", SHA);
+			string path = System.IO.Path.Combine(UserSettings.Default.OutputFolder, ".download", SHA);
 			if (File.Exists(path)) stream = File.OpenRead(path);
 			else
 			{
