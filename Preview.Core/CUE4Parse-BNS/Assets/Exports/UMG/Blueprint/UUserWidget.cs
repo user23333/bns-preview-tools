@@ -1,7 +1,7 @@
 ﻿using CUE4Parse.UE4.Objects.UObject;
 
 namespace CUE4Parse.UE4.Assets.Exports;
-public class UUserWidget : USerializeObject
+public class UUserWidget : USerializeObject, INamedSlotInterface
 {
 	[UPROPERTY] public bool bIsVariable;
 	[UPROPERTY] public string Visibility;

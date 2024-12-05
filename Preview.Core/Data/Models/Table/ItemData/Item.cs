@@ -77,7 +77,10 @@ public abstract class Item : ModelElement, IHaveName
 
 	public ItemDecomposeInfo DecomposeInfo => new(this);
 
-	public Ref<SetItem> SetItem { get; set; }
+	public SetItem SetItem => Attributes.Get<SetItem>("set-item");
+	public Faction Faction => Attributes.Get<Faction>("faction");
+	public Faction EquipFaction => Attributes.Get<Faction>("equip-faction");
+
 
 
 	public int RandomOptionGroupId => Attributes.Get<int>("random-option-group-id");
@@ -184,8 +187,19 @@ public abstract class Item : ModelElement, IHaveName
 			RelicMaterial,
 			StarStone,
 			Voucher,
+			CapitalTeleport,
+			SkillTrainByItemExtract,
 			COUNT
 		}
+
+		public sbyte SkillLimitLevel => Attributes.Get<sbyte>("skill-limit-level");
+		public sbyte SkillLimitLevelMax => Attributes.Get<sbyte>("skill-limit-level-max");
+		public sbyte SkillLimitMasteryLevel => Attributes.Get<sbyte>("skill-limit-mastery-level");
+		public sbyte SkillLimitMasteryLevelMax => Attributes.Get<sbyte>("skill-limit-mastery-level-max");
+		public JobSeq SkillLimitJob => Attributes.Get<JobSeq>("skill-limit-job");
+		public Faction SkillLimitFaction => Attributes.Get<Faction>("skill-limit-faction");
+		public short SkillLimitFactionLevel => Attributes.Get<short>("skill-limit-faction-level");
+		public Faction SkillLimitActivatedFaction => Attributes.Get<Faction>("skill-limit-activated-faction");
 	}
 
 	public sealed class Gem : Item

@@ -33,7 +33,7 @@
 			</StackPanel>
 		</GroupBox>
 
-		<GroupBox Grid.Row="1" d:Header="Definition" Margin="0 0 0 10" Visibility="{Binding HasItems,ElementName=DefinitionList,Converter={StaticResource Boolean2VisibilityConverter}}"  >
+		<GroupBox Grid.Row="1" d:Header="Definition" Margin="0 0 0 10" Visibility="{Binding HasItems,ElementName=DefinitionList,Converter={StaticResource Boolean2VisibilityConverter}}">
 			<GroupBox.Header>
 				<TextBlock ToolTip="{DynamicResource DatabaseStudio_Definition_Tooltip}">
 					<Run Text="{DynamicResource DatabaseStudio_Definition}" />

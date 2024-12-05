@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using CUE4Parse.BNS.Assets.Exports;
+using CUE4Parse.UE4.Objects.Core;
 using CUE4Parse.UE4.Objects.Core.Math;
 using CUE4Parse.UE4.Objects.UObject;
 using Xylia.Preview.Common;
@@ -22,6 +23,8 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
 	#region Constructors
 	public BnsCustomMinimapWidget()
 	{
+		Focusable = true;
+		LayoutTransform = Transform = new ScaleTransform() { ScaleX = 1, ScaleY = 1 };
 		UnitFilters.OnFilterChanged += FilterUnit;
 	}
 	#endregion
@@ -58,6 +61,12 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
 
 		var size = MapInfo?.ImageSize ?? 0;
 		return new Size(size, size);
+	}
+
+	protected override void OnMouseEnter(MouseEventArgs e)
+	{
+		this.Focus();
+		base.OnMouseEnter(e);
 	}
 
 	protected override void OnPreviewMouseDown(MouseButtonEventArgs e)
@@ -116,9 +125,7 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
 	private static void SetZoom(DependencyObject d, DependencyPropertyChangedEventArgs e)
 	{
 		var widget = (BnsCustomMinimapWidget)d;
-		var value = (double)e.NewValue;
-
-		widget.LayoutTransform = new ScaleTransform() { ScaleX = value, ScaleY = value };
+		widget.Transform.ScaleX = widget.Transform.ScaleY = (double)e.NewValue;
 	}
 
 
@@ -199,22 +206,20 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
 			foreach (var record in provider.GetTable<ZoneEnv2Spawn>().Where(x => x.Zone == zone.Id))
 			{
 				var env2 = record.Env2.Instance;
-				if (env2 is null || !record.Env2place.HasValue) continue;
+				var env2place = record.Env2place.Instance;
+				if (env2 is null || env2place is null || string.IsNullOrEmpty(env2.MapunitImageDisableImageset)) continue;
 
-				// check imageset
-				if (string.IsNullOrEmpty(env2.MapunitImageDisableImageset)) continue;
-
-				var Category = env2.MapUnitCategory;
+				var point = env2place.Attributes.Get<Vector32>("action-point");
+				var size = new FVector2D(env2.MapunitImageDisableSizeX, env2.MapunitImageDisableSizeY);
 				var Image = new ImageProperty() { EnableImageSet = true, ImageSet = new MyFPackageIndex(env2.MapunitImageDisableImageset) };
 				var OverImage = new ImageProperty() { EnableImageSet = true, ImageSet = new MyFPackageIndex(env2.MapunitImageDisableOverImageset) };
 
-				var point = record.Env2place.Instance.Attributes.Get<Vector32>("action-point");
-				AddChild(point, null, () =>
+				AddChild(point, size, () =>
 				{
 					var widget = new BnsCustomImageWidget()
 					{
 						BaseImageProperty = Image,
-						Tag = Category,
+						Tag = env2.MapUnitCategory,
 						ToolTip = record.Env2.Instance.Name,
 					};
 					widget.MouseEnter += new((_, _) => widget.BaseImageProperty = OverImage);
@@ -336,7 +341,7 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
 		}
 
 		LayoutData.SetAlignments(widget, new FVector2D(0.5f, 0.5f));
-		LayoutData.SetOffsets(widget, new FLayoutData.Offset((float)offset.X, (float)offset.Y, size.Value.X, size.Value.Y));
+		LayoutData.SetOffsets(widget, new FLayout.Offset((float)offset.X, (float)offset.Y, size.Value.X, size.Value.Y));
 		Children.Add(widget);
 	}
 
@@ -394,9 +399,10 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
 	#endregion
 
 	#region Fields
-	MapUnit.MapDepthSeq MapDepth;
 	public MapUnitFilterManager UnitFilters = new();
+	MapUnit.MapDepthSeq MapDepth;
 
+	readonly ScaleTransform Transform;
 	bool _isDragging;
 	Point _mouseOffset;
 	Point _original;

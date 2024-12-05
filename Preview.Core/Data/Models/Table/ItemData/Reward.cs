@@ -266,7 +266,7 @@ public class Reward : ModelElement, IReward
 				{
 					Data = item,
 					Group = "group-4",
-					GroupText = string.Format("{0}% ", Group4Probability) + "UI.RandomBox.Probability.MiddleCategory.GroupReward4".GetText([1]),
+					GroupText = string.Format("{0}% ", Group4Probability) + "UI.RandomBox.Probability.MiddleCategory.GroupReward4".GetText([Group4SelectedCount]),
 					Min = (short)Math.Floor(min * 0.01),
 					Max = (short)Math.Ceiling(max * 0.01),
 					Probability = Math.Min(100d, min) / Group4ItemTotalCount,
@@ -285,7 +285,7 @@ public class Reward : ModelElement, IReward
 				{
 					Data = item,
 					Group = "group-5",
-					GroupText = string.Format("{0}% ", Group5Probability) + "UI.RandomBox.Probability.MiddleCategory.GroupReward5".GetText([1]),
+					GroupText = string.Format("{0}% ", Group5Probability) + "UI.RandomBox.Probability.MiddleCategory.GroupReward5".GetText([Group5SelectedCount]),
 					Min = (short)Math.Floor(min * 0.01),
 					Max = (short)Math.Ceiling(max * 0.01),
 					Probability = Math.Min(100d, min) / Group5ItemTotalCount,
@@ -386,7 +386,7 @@ public class Reward : ModelElement, IReward
 				{
 					Data = reward,
 					Group = "smart-group-4-reward",
-					GroupText = string.Format("{0}% ", SmartGroup4Probability) + "UI.RandomBox.Probability.MiddleCategory.SmartDropGroupReward4".GetText([1]),
+					GroupText = string.Format("{0}% ", SmartGroup4Probability) + "UI.RandomBox.Probability.MiddleCategory.SmartDropGroupReward4".GetText([SmartGroup4SelectedCount]),
 					Probability = 1,
 					ProbabilityType = SmartGroup4RewardTotalCount,
 				});
@@ -401,7 +401,7 @@ public class Reward : ModelElement, IReward
 				{
 					Data = reward,
 					Group = "smart-group-5-reward",
-					GroupText = string.Format("{0}% ", SmartGroup5Probability) + "UI.RandomBox.Probability.MiddleCategory.SmartDropGroupReward5".GetText([1]),
+					GroupText = string.Format("{0}% ", SmartGroup5Probability) + "UI.RandomBox.Probability.MiddleCategory.SmartDropGroupReward5".GetText([SmartGroup5SelectedCount]),
 					Probability = 1,
 					ProbabilityType = SmartGroup5RewardTotalCount,
 				});

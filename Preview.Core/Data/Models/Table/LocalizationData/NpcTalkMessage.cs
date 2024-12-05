@@ -2,8 +2,7 @@ using Xylia.Preview.Common.Attributes;
 using Xylia.Preview.Data.Common.DataStruct;
 
 namespace Xylia.Preview.Data.Models;
-[Side(ReleaseSide.Client)]
-public class NpcTalkMessage : ModelElement
+public abstract class NpcTalkMessage : ModelElement
 {
 	#region Attributes
 	public string Alias { get; set; }
@@ -211,7 +210,11 @@ public class NpcTalkMessage : ModelElement
 			var show = StepShow[s];
 			var camerashow = StepCameraShow[s];
 
+			if (!text.HasValue) break;
+
 			Console.WriteLine($"{s} {text.GetText()}");
+			if (subtext.HasValue) Console.WriteLine($"[sub]  {subtext.GetText()}");
+			if (next.HasValue) Console.WriteLine($"[next]  {next.GetText()}");
 		}
 	}
 	#endregion

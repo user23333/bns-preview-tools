@@ -67,7 +67,7 @@ internal partial class UserSettings : Settings
 		set
 		{
 			SetValue(value);
-			((App)Application.Current).UpdateSkin(SkinType, NightMode);
+			App.UpdateSkin(SkinType, NightMode);
 		}
 	}
 
@@ -80,7 +80,7 @@ internal partial class UserSettings : Settings
 		set
 		{
 			SetValue((int)value);
-			((App)Application.Current).UpdateSkin(value, NightMode);
+			App.UpdateSkin(value, NightMode);
 		}
 	}
 

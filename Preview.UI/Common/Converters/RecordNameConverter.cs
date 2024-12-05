@@ -3,6 +3,7 @@ using System.Windows.Data;
 using System.Windows.Markup;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Models;
+using Xylia.Preview.UI.Controls.Helpers;
 
 namespace Xylia.Preview.UI.Common.Converters;
 /// <summary>
@@ -15,7 +16,7 @@ public class RecordNameConverter : MarkupExtension, IValueConverter
 	public object? Convert(object value, Type targetType, object? parameter, CultureInfo? culture)
 	{
 		// if parameter exists and its value is BooleanBoxes.False means that return Null
-		var str = parameter is false ? null : value?.ToString();
+		var str = parameter is BooleanBoxes.FalseBox ? null : value?.ToString();
 
 		if (value is Record record) return Convert(record) ?? str;
 		return str;

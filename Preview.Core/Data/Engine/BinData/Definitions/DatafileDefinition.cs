@@ -12,9 +12,6 @@ using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Properties;
 
 namespace Xylia.Preview.Data.Engine.Definitions;
-/// <summary>
-/// definitions
-/// </summary>
 public abstract class DatafileDefinition : Collection<TableDefinition>
 {
 	#region Properties
@@ -112,6 +109,8 @@ public class CompressDatafileDefinition : DatafileDefinition
 {
 	private EPublisher publisher = EPublisher.None;
 	internal override EPublisher Publisher => publisher;
+	public override int GetHashCode() => Key.GetHashCode();
+	public override bool Equals(object obj) => obj is CompressDatafileDefinition other && this.Key == other.Key;
 
 	public CompressDatafileDefinition(Stream source, CompressionMethod mode)
 	{

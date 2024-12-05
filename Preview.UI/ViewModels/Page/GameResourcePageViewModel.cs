@@ -22,6 +22,7 @@ using SkiaSharp.Views.WPF;
 using Xylia.Preview.UI.Common;
 using Xylia.Preview.UI.Common.Converters;
 using Xylia.Preview.UI.Helpers.Output.Textures;
+using Xylia.Preview.UI.Views;
 using Xylia.Preview.UI.Views.Editor;
 using Xylia.Preview.UI.Views.Selector;
 using MessageBox = HandyControl.Controls.MessageBox;
@@ -29,6 +30,14 @@ using MessageBox = HandyControl.Controls.MessageBox;
 namespace Xylia.Preview.UI.ViewModels;
 internal partial class GameResourcePageViewModel : ObservableObject
 {
+	#region Common
+	[RelayCommand]
+	public void BrowerOutFolder() => new SettingsView().ShowDialog();
+
+	[RelayCommand]
+	public void BrowerGameFolder() => new DatabaseManager(Application.Current.MainWindow, true).ShowDialog();
+	#endregion
+
 	#region Asset
 	[ObservableProperty] ObservableCollection<PackageParam> packages = [];
 	[ObservableProperty] PackageParam? selectedPackage;
@@ -154,16 +163,9 @@ internal partial class GameResourcePageViewModel : ObservableObject
 	});
 	#endregion
 
-
 	#region Icon
 	[ObservableProperty] string? icon_OutputFolder = Path.Combine(UserSettings.Default.OutputFolderResource, "Extract");
 	[ObservableProperty] string? icon_ItemListPath;
-
-	[RelayCommand]
-	public void OpenSettings()
-	{
-		new DatabaseManager(Application.Current.MainWindow, true).ShowDialog();
-	}
 
 	[RelayCommand]
 	private void Icon_BrowerOutputFolder()
@@ -180,12 +182,12 @@ internal partial class GameResourcePageViewModel : ObservableObject
 	}
 
 
-	readonly CancellationTokenSource?[] Sources = new CancellationTokenSource[20];
+	readonly CancellationTokenSource?[] sources = new CancellationTokenSource[20];
 
 	public void Run(IconOutBase instance, string format, int id) => Task.Run(() =>
 	{
 		#region Token
-		var source = this.Sources[id];
+		var source = this.sources[id];
 		if (source != null)
 		{
 			if (MessageBox.Show(StringHelper.Get("Text.TaskCancel_Ask_Exist"), StringHelper.Get("Message_Tip"), MessageBoxButton.YesNo) == MessageBoxResult.Yes)
@@ -197,7 +199,7 @@ internal partial class GameResourcePageViewModel : ObservableObject
 			return;
 		}
 
-		source = this.Sources[id] = new CancellationTokenSource();
+		source = this.sources[id] = new CancellationTokenSource();
 		#endregion
 
 		#region Action 
@@ -207,7 +209,7 @@ internal partial class GameResourcePageViewModel : ObservableObject
 			Stop = new Action(() =>
 			{
 				source.Dispose();
-				this.Sources[id] = null;
+				this.sources[id] = null;
 			}),
 		});
 		#endregion
@@ -237,7 +239,6 @@ internal partial class GameResourcePageViewModel : ObservableObject
 		}
 	});
 	#endregion
-
 
 	#region Merge
 	SKBitmap _mergeIcon_Source;

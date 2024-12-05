@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using CUE4Parse.BNS.Assets.Exports;
 using CUE4Parse.UE4.Objects.Core.Math;
-using static CUE4Parse.BNS.Assets.Exports.FLayoutData;
+using static CUE4Parse.UE4.Objects.Core.FLayout;
 
 namespace Xylia.Preview.UI.Converters;
 public class LayoutData

@@ -1,5 +1,2 @@
-﻿using Xylia.Preview.Common.Attributes;
-
-namespace Xylia.Preview.Data.Models;
-[Side(ReleaseSide.Client)]
+﻿namespace Xylia.Preview.Data.Models;
 public sealed class TalkSocial : ModelElement { }

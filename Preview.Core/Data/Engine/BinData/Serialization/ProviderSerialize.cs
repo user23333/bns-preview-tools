@@ -57,7 +57,7 @@ public class ProviderSerialize(IDataProvider Provider)
 	{
 		var root = new DirectoryInfo(folder);
 		if (!root.Exists) throw new DirectoryNotFoundException();
-		
+
 		// load cached hash
 		var hashes = new Dictionary<string, ulong>();
 		var modifiedHashes = new ConcurrentBag<HashInfo>();
@@ -150,7 +150,7 @@ public class ProviderSerialize(IDataProvider Provider)
 
 					foreach (XmlElement recordNode in tableNode.SelectNodes("./record"))
 					{
-						var alias = new Regex(recordNode.GetAttribute("alias"));
+						var alias = new Regex(recordNode.GetAttribute("alias"), RegexOptions.IgnoreCase);
 						var attributes =
 							from element in recordNode.SelectNodes("./attribute").OfType<XmlElement>()
 							select (element.GetAttribute("name"), element.GetAttribute("value"));

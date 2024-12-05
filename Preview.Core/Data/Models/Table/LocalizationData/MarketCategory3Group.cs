@@ -1,8 +1,9 @@
 ﻿using Xylia.Preview.Common.Attributes;
+using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Models.Sequence;
 
 namespace Xylia.Preview.Data.Models;
-public class MarketCategory3Group : ModelElement
+public class MarketCategory3Group : ModelElement, IHaveName
 {
 	#region Attributes
 	public string Alias { get; set; }
@@ -30,6 +31,9 @@ public class MarketCategory3Group : ModelElement
 	#endregion
 
 	#region Methods
+	private string _name;
+	public string Name { get => _name ?? Name2.GetText(); set => _name = value; }
+
 	private HashSet<MarketCategory3Seq> _marketCategory3Hash;
 	private HashSet<MarketCategory3Seq> MarketCategory3Hash => _marketCategory3Hash ??= [.. MarketCategory3.Where(x => x > MarketCategory3Seq.None && x < MarketCategory3Seq.COUNT)];
 

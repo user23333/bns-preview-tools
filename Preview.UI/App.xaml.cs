@@ -8,10 +8,12 @@ using Serilog;
 using Vanara.PInvoke;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Engine.DatData;
+using Xylia.Preview.UI.GameUI.Scene.Game_Auction;
 using Xylia.Preview.UI.Helpers;
 using Xylia.Preview.UI.Helpers.Output;
 using Xylia.Preview.UI.Resources.Themes;
 using Xylia.Preview.UI.Services;
+using MessageBox = HandyControl.Controls.MessageBox;
 
 namespace Xylia.Preview.UI;
 public partial class App : Application
@@ -19,47 +21,43 @@ public partial class App : Application
 	#region Application
 	protected override void OnStartup(StartupEventArgs e)
 	{
-		AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-
-		// Register base services
+		AppDomain.CurrentDomain.UnhandledException += OnFatalException;
 		new ServiceManager() { new LogService(), new JumpListService() }.RegisterAll();
 
-		InitializeArgs(e.Args);																																											   
-		//Task.Run(() => PreviewWorld.Execute("bnsr/content/neo_art/area/zncs_interserver_001_p.umap"));
-		//return;
+		InitializeArgs(e.Args);
 
 #if DEVELOP
+		//Task.Run(() => PreviewWorld.Execute("bnsr/content/neo_art/area/zncs_interserver_001_p.umap"));
 
-		UpdateSkin(SkinType.Default, true);
+		App.UpdateSkin(SkinType.Default, true);
 		TestProvider.Set(@"D:\Tencent\BnsData\GameData_ZTx", EPublisher.ZTx);
 
-		new GameUI.Scene.Game_Tooltip.AttractionMapUnitToolTipPanel().Show();
+		new LegacyAuctionPanel().Show();
+		//new GameUI.Scene.Game_Tooltip.AttractionMapUnitToolTipPanel().Show();
 #else
 		MainWindow = new MainWindow();
 		MainWindow.Show();
 #endif
 	}
 
-	internal void UpdateSkin(SkinType skin, bool? night)
+	internal static void UpdateSkin(SkinType skin, bool? night)
 	{
-		var skins0 = Resources.MergedDictionaries[0];
+		var skins0 = Current.Resources.MergedDictionaries[0];
 		skins0.MergedDictionaries.Clear();
 		skins0.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri("pack://application:,,,/HandyControl;component/Themes/SkinDefault.xaml") });
 		skins0.MergedDictionaries.Add(SkinHelpers.GetDayNight(night));
 		skins0.MergedDictionaries.Add(SkinHelpers.GetSkin(skin));
 
-		var skins1 = Resources.MergedDictionaries[1];
+		var skins1 = Current.Resources.MergedDictionaries[1];
 		skins1.MergedDictionaries.Clear();
 		skins1.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri("pack://application:,,,/HandyControl;component/Themes/Theme.xaml") });
 		skins1.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri("pack://application:,,,/Preview.UI;component/Resources/Themes/Theme.xaml") });
 
-		MainWindow?.OnApplyTemplate();
+		Current.MainWindow?.OnApplyTemplate();
 		SkinHelpers.UpdateXshd("XML");
 	}
-	#endregion
 
-	#region Exception	
-	private void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs arg)
+	private void OnUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs arg)
 	{
 		arg.Handled = true;
 
@@ -81,18 +79,13 @@ public partial class App : Application
 		Growl.Error(exception?.Message);
 	}
 
-	private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+	private void OnFatalException(object sender, UnhandledExceptionEventArgs e)
 	{
 		var exception = e.ExceptionObject as Exception;
 		string str = StringHelper.Get("Application_CrashMessage", exception!.Message);
 
 		Log.Fatal(exception, "OnCrash");
-		SendMessage(str, "Crash");
-	}
-
-	internal static void SendMessage(string message, string? title = null)
-	{
-		HandyControl.Controls.MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Stop);
+		MessageBox.Show(str, "Crash", MessageBoxButton.OK, MessageBoxImage.Stop);
 	}
 	#endregion
 
@@ -181,7 +174,7 @@ public partial class App : Application
 						{
 							Console.WriteLine();
 							goto EnterNumber;
-						}	
+						}
 					}
 
 					intance.Execute();

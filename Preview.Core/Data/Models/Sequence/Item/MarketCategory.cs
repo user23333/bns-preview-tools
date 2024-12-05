@@ -198,7 +198,7 @@ public enum MarketCategory3Seq
 
 public static partial class SequenceExtensions
 {
-	public static Dictionary<MarketCategory2Seq, List<MarketCategory3Seq>> MarketCategory2Group(bool Neo) => new()
+	public static Dictionary<MarketCategory2Seq, List<MarketCategory3Seq>> MarketCategory2Group() => new()
 	{
 		[MarketCategory2Seq.Weapon] =
 		[
@@ -217,7 +217,7 @@ public static partial class SequenceExtensions
 			MarketCategory3Seq.Orb,
 			MarketCategory3Seq.DualBlade,
 			MarketCategory3Seq.Instrument,
-			MarketCategory3Seq.Spear,
+			//MarketCategory3Seq.Spear,
 		],
 		[MarketCategory2Seq.EquipGem] =
 		[
@@ -265,7 +265,7 @@ public static partial class SequenceExtensions
 			MarketCategory3Seq.SummonedPetHat,
 			MarketCategory3Seq.SummonedPetAttach,
 		],
-		[MarketCategory2Seq.WeaponGem] = Neo ? [MarketCategory3Seq.StarStone, MarketCategory3Seq.WeaponSoulGem, MarketCategory3Seq.WeaponGemEtc] :
+		[MarketCategory2Seq.WeaponGem] =
 		[
 			MarketCategory3Seq.Ruby,
 			MarketCategory3Seq.Topaz,
@@ -305,7 +305,7 @@ public static partial class SequenceExtensions
 			MarketCategory3Seq.Alcohol,
 			MarketCategory3Seq.ExpCook,
 		],
-		[MarketCategory2Seq.BuildUpStone] = Neo ? null :
+		[MarketCategory2Seq.BuildUpStone] =
 		[
 			MarketCategory3Seq.SkillStone1,
 			MarketCategory3Seq.SkillStone2,
@@ -367,17 +367,7 @@ public static partial class SequenceExtensions
 			MarketCategory3Seq.ChackItem,
 		],
 		[MarketCategory2Seq.EtcBox] = [MarketCategory3Seq.NormalEtcBox],
-		[MarketCategory2Seq.Badge] = Neo ? null : [MarketCategory3Seq.Badge1],
-		[MarketCategory2Seq.Relic] = Neo ? null : [MarketCategory3Seq.Relic1],
-		[MarketCategory2Seq.Spirit] = Neo ? [MarketCategory3Seq.Spirit] : null,
-		[MarketCategory2Seq.SkillTrainByItemExtract] = Neo ?
-		[
-			MarketCategory3Seq.SkillTrainByItemExtractNeck,
-			MarketCategory3Seq.SkillTrainByItemExtractFinger,
-			MarketCategory3Seq.SkillTrainByItemExtractEar,
-			MarketCategory3Seq.SkillTrainByItemExtractWrist,
-			MarketCategory3Seq.SkillTrainByItemExtractWaist,
-			MarketCategory3Seq.SkillTrainByItemExtractGloves,
-		] : null,
+		[MarketCategory2Seq.Badge] = [MarketCategory3Seq.Badge1],
+		[MarketCategory2Seq.Relic] = [MarketCategory3Seq.Relic1],
 	};
 }

@@ -5,7 +5,6 @@ using CUE4Parse.UE4.Assets.Exports.Texture;
 using CUE4Parse.UE4.Assets.Objects;
 using CUE4Parse.UE4.Assets.Utils;
 using CUE4Parse.UE4.Objects.Core.Math;
-using CUE4Parse.UE4.Objects.Core.Serialization;
 using CUE4Parse.UE4.Objects.UObject;
 using CUE4Parse_Conversion.Sounds;
 using CUE4Parse_Conversion.Textures;
@@ -56,11 +55,6 @@ public class ImageProperty : IUStruct
 	public ImageProperty()
 	{
 
-	}
-
-	public ImageProperty(FPackageIndex imageset)
-	{
-		ImageSet = imageset;
 	}
 	#endregion
 

@@ -224,7 +224,10 @@
     <value>Github</value>
   </data>
   <data name="Application_UpdateLog" xml:space="preserve">
-    <value>[ver=3.2.1,time=2024/11/14]
+    <value>
+[ver=3.2.2,mode=beta]
+
+[ver=3.2.1,time=2024/11/14]
 Database Studio
 +Fix issue of query result do not display default value.
 +Fix issue of the expand attribute is not displayed in definition page.
@@ -357,11 +360,11 @@ Expand the response rectange with item preview.</value>
   <data name="DatabaseStudio_Definition" xml:space="preserve">
     <value>Definition Version</value>
   </data>
-  <data name="DatabaseStudio_Definition_Tooltip" xml:space="preserve">
-    <value>Select the default item if you don't know which one is want.</value>
-  </data>
   <data name="DatabaseStudio_Definition_NoMatched" xml:space="preserve">
     <value>No matched definition version.</value>
+  </data>
+  <data name="DatabaseStudio_Definition_Tooltip" xml:space="preserve">
+    <value>Select the default item if you don't know which one is want.</value>
   </data>
   <data name="DatabaseStudio_Disconnect" xml:space="preserve">
     <value>Disconnect</value>
@@ -482,6 +485,9 @@ Expand the response rectange with item preview.</value>
   </data>
   <data name="Exception_InvalidDefinition_NotFound" xml:space="preserve">
     <value>Please go to DatabaseStudio to reconnect firstly and try again.</value>
+  </data>
+  <data name="Exception_InvalidGame" xml:space="preserve">
+    <value>Invalid Game.</value>
   </data>
   <data name="Exception_InvalidModel" xml:space="preserve">
     <value>Missing model resource.</value>
@@ -788,6 +794,9 @@ Continuing to read may cause read exceptions, should we still continue?</value>
   <data name="Text.Edit" xml:space="preserve">
     <value>Edit</value>
   </data>
+  <data name="Text.Excel" xml:space="preserve">
+    <value>Excel File</value>
+  </data>
   <data name="Text.Export" xml:space="preserve">
     <value>Export</value>
   </data>
@@ -799,12 +808,6 @@ Continuing to read may cause read exceptions, should we still continue?</value>
   </data>
   <data name="Text.FileSize" xml:space="preserve">
     <value>Length</value>
-  </data>
-  <data name="Text.Excel" xml:space="preserve">
-    <value>Excel File</value>
-  </data>
-  <data name="Text.PlainText" xml:space="preserve">
-    <value>Text File</value>
   </data>
   <data name="Text.Group" xml:space="preserve">
     <value>Group</value>
@@ -853,6 +856,9 @@ Continuing to read may cause read exceptions, should we still continue?</value>
   </data>
   <data name="Text.Path" xml:space="preserve">
     <value>Path</value>
+  </data>
+  <data name="Text.PlainText" xml:space="preserve">
+    <value>Text File</value>
   </data>
   <data name="Text.Preview" xml:space="preserve">
     <value>Preview</value>
@@ -1013,8 +1019,5 @@ Please note that do not modify the order of nodes</value>
   </data>
   <data name="UI.Tooltip.Skill.damage-percent-min-max" xml:space="preserve">
     <value>{0}~{1}xAP</value>
-  </data>
-  <data name="Exception_InvalidGame" xml:space="preserve">
-    <value>Invalid Game.</value>
   </data>
 </root>

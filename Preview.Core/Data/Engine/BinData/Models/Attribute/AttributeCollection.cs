@@ -83,13 +83,13 @@ public class AttributeCollection : IEnumerable<AttributeValue>
 		}
 	}
 
-	internal void BuildData(bool OnlyKey = false)
+	internal void BuildData(bool isKey = false)
 	{
 		// convert to binary
 		void SetData(AttributeDefinition attribute) => record.Attributes.Set(attribute, record.Attributes.Get(attribute));
 
 		// implement IGameDataKeyParser
-		if (OnlyKey)
+		if (isKey)
 		{
 			record.Definition.ExpandedAttributes.Where(attr => attr.IsKey).ForEach(SetData);
 		}

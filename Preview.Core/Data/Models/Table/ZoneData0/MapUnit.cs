@@ -4,7 +4,6 @@ using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Common.DataStruct;
 
 namespace Xylia.Preview.Data.Models;
-[Side(ReleaseSide.Client)]
 public class MapUnit : ModelElement, IHaveName
 {
 	#region Attributes

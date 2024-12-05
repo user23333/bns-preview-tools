@@ -12,6 +12,9 @@ public interface IService
 
 public class ServiceManager	: Collection<IService>
 {
+	/// <summary>
+	/// Register services
+	/// </summary>
 	public void RegisterAll()
 	{
 		foreach (var s in this)

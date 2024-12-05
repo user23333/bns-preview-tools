@@ -19,7 +19,19 @@
 			</Grid.RowDefinitions>
 
 			<TextBox Grid.Row="0" Text="{Binding NameFilter, UpdateSourceTrigger=PropertyChanged}" />
-			<TreeView Grid.Row="1" x:Name="TreeView" SelectedItemChanged="TreeView_SelectedItemChanged" />
+			<TreeView Grid.Row="1" ItemsSource="{Binding MarketCategory}" SelectedItemChanged="TreeView_SelectedItemChanged">
+				<TreeView.ItemTemplate>
+					<HierarchicalDataTemplate ItemsSource="{Binding }">
+						<BNS:BnsCustomLabelWidget Text="{Binding Name}" />
+
+						<HierarchicalDataTemplate.ItemTemplate>
+							<DataTemplate>
+								<BNS:BnsCustomLabelWidget Text="{Binding Name}" />
+							</DataTemplate>
+						</HierarchicalDataTemplate.ItemTemplate>
+					</HierarchicalDataTemplate>
+				</TreeView.ItemTemplate>
+			</TreeView>
 		</Grid>
 		
 		<Grid>

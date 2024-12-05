@@ -5,10 +5,10 @@ namespace Xylia.Preview.Tests.DatTests;
 public partial class TableTests
 {
 	[TestMethod]
-	[DataRow("q_801_1")]
-	public void NpctTalkMessageTest(string alias)
+	[DataRow("qrsp_2276_1")]
+	public void NpcResponseTest(string alias)
 	{
-		var record = Database.Provider.GetTable<NpcTalkMessage>()[alias];
-		record.Test();
+		var record = Database.Provider.GetTable<NpcResponse>()[alias];
+		record.TalkMessage.Instance?.Test();
 	}
 }

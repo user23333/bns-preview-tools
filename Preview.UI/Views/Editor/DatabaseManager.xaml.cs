@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Net.Http;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -25,9 +26,9 @@ public partial class DatabaseManager
 
 	public DatabaseManager(System.Windows.Window? owner, bool global = false)
 	{
+		IsGlobalData = global;
 		Owner = owner;
 		TOKEN = owner is DatabaseStudio ? DatabaseStudio.TOKEN : null;
-		IsGlobalData = global;
 
 		InitializeComponent();
 		InitializeCommand();
@@ -35,8 +36,9 @@ public partial class DatabaseManager
 	#endregion
 
 	#region Fields
-	private bool IsConnecting = false;
 	internal bool IsGlobalData = false;
+	private bool IsConnecting = false;
+	private string LastPath;
 
 	public IEngine? Engine { get; private set; }
 	#endregion
@@ -45,7 +47,6 @@ public partial class DatabaseManager
 	protected override void OnInitialized(EventArgs e)
 	{
 		base.OnInitialized(e);
-		Provider_GlobalMode.IsChecked = true;
 
 		if (IsGlobalData)
 		{
@@ -53,13 +54,15 @@ public partial class DatabaseManager
 			ProviderSearch.Visibility = Visibility.Visible;
 			ProviderSearch.Text = UserSettings.Default.GameFolder;
 		}
+		else
+		{
+			Provider_GlobalMode.IsChecked = true;
+		}
 	}
 
 	private async void ProviderMode_Changed(object sender, RoutedEventArgs? e)
 	{
 		Run_Version.Text = null;
-		DefinitionList.ItemsSource = null;
-		ProviderSearch.Visibility = Visibility.Visible;
 
 		if (Provider_GlobalMode.IsChecked == true)
 		{
@@ -68,7 +71,12 @@ public partial class DatabaseManager
 		}
 		else if (Provider_GameMode.IsChecked == true)
 		{
+			ProviderSearch.Visibility = Visibility.Visible;
 			await Provider_CheckFolder(ProviderSearch.Text);
+		}
+		else if (Provider_FolderMode.IsChecked == true)
+		{
+			ProviderSearch.Visibility = Visibility.Visible;
 		}
 	}
 
@@ -88,17 +96,20 @@ public partial class DatabaseManager
 
 	private async Task Provider_CheckFolder(string path)
 	{
-		if (!Directory.Exists(path)) return;
-
 		try
 		{
-			var locale = new Locale(path);
-			Run_Version.Text = string.Format(" ({0})", locale.ProductVersion);
+			// check path
+			if (path == LastPath) return;
+			DefinitionList.ItemsSource = null;
 
-			// get and update defs
+			if (!Directory.Exists(path)) return;
+			var locale = new Locale(LastPath = path);
+			Run_Version.Text = string.Format(" ({0}_{1})", locale.Publisher, locale.ProductVersion);
+
+			// update definitions
 			var commits = (await GetCommits(locale.Publisher)).OrderByDescending(x => x.Version);
 			DefinitionList.ItemsSource = commits;
-			DefinitionList.SelectedItem = commits.FirstOrDefault(x => locale.ProductVersion.CompareTo(x.Version) >= 0) ?? 
+			DefinitionList.SelectedItem = commits.FirstOrDefault(x => locale.ProductVersion.CompareTo(x.Version) >= 0) ??
 				throw new Exception(StringHelper.Get("DatabaseStudio_Definition_NoMatched"));
 			DefinitionList.ScrollIntoView(DefinitionList.SelectedItem);
 		}
@@ -130,21 +141,19 @@ public partial class DatabaseManager
 			IsConnecting = true;
 			var definition = DefinitionList.SelectedItem is Commit commit ? await commit.LoadData() : throw new NotSupportedException();
 
-			if (Provider_GlobalMode.IsChecked == true)
+			if (IsGlobalData)
 			{
 				UserSettings.Default.DefitionType = new Locale(UserSettings.Default.GameFolder).Publisher;
 				UserSettings.Default.DefitionKey = definition.Key;
-
-				if (IsGlobalData)
-				{
-					Globals.ClearData();
-				}
-				else
-				{
-					Globals.Definition = definition;
-					Engine = Globals.GameData;
-					IsGlobalData = true;
-				}
+				Globals.ClearData();
+			}
+			else if (Provider_GlobalMode.IsChecked == true)
+			{
+				UserSettings.Default.DefitionType = new Locale(UserSettings.Default.GameFolder).Publisher;
+				UserSettings.Default.DefitionKey = definition.Key;
+				Globals.Definition = definition;
+				Engine = Globals.GameData;
+				IsGlobalData = true;
 			}
 			else
 			{
@@ -176,43 +185,39 @@ public partial class DatabaseManager
 	#region Helpers
 	const string owner = "xyliaup";
 	const string repo = "bns-definition";
+	const string auth = "Z2l0aHViX3BhdF8xMUFLTDdCSkEwSmF4WEV2ejZuNEcyX0R4MHoxdkNlcWw5WUNOa0RXakJoZVIxQUVkbms3b2I2Vk9UcTJjeE1xdE9FVzJRT09FUEhRMDdzOEpO";
 
-	public static async Task<IEnumerable<Branch>> GetBranches()
+	private static async Task<IEnumerable<Branch>> GetBranches()
 	{
 		var client = new HttpClient();
 		client.DefaultRequestHeaders.Add("user-agent", "Mozilla/5.0");
+		client.DefaultRequestHeaders.Add("authorization", Encoding.UTF8.GetString(Convert.FromBase64String(auth)));
 
 		var response = await client.GetAsync($"https://api.github.com/repos/{owner}/{repo}/branches");
-		if (!response.IsSuccessStatusCode) throw new HttpRequestException();
+		response.EnsureSuccessStatusCode();
 
 		return JsonConvert.DeserializeObject<List<Branch>>(await response.Content.ReadAsStringAsync())!;
 	}
 
-	public static async Task<IEnumerable<Commit>> GetCommits(string branch)
+	private static async Task<IEnumerable<Commit>> GetCommits(string branch)
 	{
 		var client = new HttpClient();
 		client.DefaultRequestHeaders.Add("user-agent", "Mozilla/5.0");
+		client.DefaultRequestHeaders.Add("authorization", Encoding.UTF8.GetString(Convert.FromBase64String(auth)));
 
-		var commits = new List<Commit>();
 		var response = await client.GetAsync($"https://api.github.com/repos/{owner}/{repo}/commits?sha={branch}");
-		if (response.IsSuccessStatusCode)
-		{
-			foreach (var token in (JArray)JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync())!)
-			{
-				commits.Add(new()
-				{
-					Branch = branch,
-					SHA = token.Value<string>("sha"),
-					Time = token["commit"]!["author"]!.Value<DateTime>("date"),
-					Message = token["commit"]!.Value<string>("message"),
-				});
-			}
-		}
+		response.EnsureSuccessStatusCode();
 
-		return commits;
+		return JsonConvert.DeserializeObject<JArray>(await response.Content.ReadAsStringAsync())!.Select(token => new Commit()
+		{
+			Branch = branch,
+			SHA = token.Value<string>("sha"),
+			Time = token["commit"]!["author"]!.Value<DateTime>("date"),
+			Message = token["commit"]!.Value<string>("message"),
+		}).ToArray();
 	}
 
-	public static async Task<IEnumerable<Commit>> GetCommits(EPublisher publisher) => await GetCommits(publisher switch
+	private static async Task<IEnumerable<Commit>> GetCommits(EPublisher publisher) => await GetCommits(publisher switch
 	{
 		EPublisher.ZTx => "ZTX",
 		EPublisher.ZNcs => "ZNCS",
@@ -248,7 +253,7 @@ public partial class DatabaseManager
 			ArgumentNullException.ThrowIfNull(SHA);
 
 			Stream stream;
-			string path = System.IO.Path.Combine(UserSettings.Default.OutputFolder, ".download", SHA);
+			string path = Path.Combine(UserSettings.Default.OutputFolder, ".download", SHA);
 			if (File.Exists(path)) stream = File.OpenRead(path);
 			else
 			{

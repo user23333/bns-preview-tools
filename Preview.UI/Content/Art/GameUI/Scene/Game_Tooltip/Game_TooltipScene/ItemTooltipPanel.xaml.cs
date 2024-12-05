@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using CUE4Parse.BNS.Assets.Exports;
+using CUE4Parse.UE4.Objects.Core;
 using Xylia.Preview.Common;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.DataStruct;
@@ -30,18 +31,16 @@ public partial class ItemTooltipPanel
 	#region Methods
 	protected override void OnDataChanged(DependencyPropertyChangedEventArgs e)
 	{
+		#region Data		
 		if (e.NewValue is not Item record) return;
 
-		#region Data
-		// get job
-		var jobs = record.EquipJobCheck.Where(x => x != JobSeq.JobNone);
+		var jobs = record.EquipJobCheck.Where(x => x != JobSeq.JobNone);  // get job
 		var jobfilter = !jobs.Any() && record.RandomOptionGroupId != 0;
 		if (jobfilter) jobs = [UserSettings.Default.Job];
 		#endregion
 
-		#region Common
+		#region Common	
 		TextArguments arguments = [null, record];
-
 		ItemName.String.LabelText = record.ItemName;
 		ItemIcon.ExpansionComponentList["BackgroundImage"]?.SetValue(record.BackgroundImage);
 		ItemIcon.ExpansionComponentList["IconImage"]?.SetValue(record.FrontIcon);
@@ -134,13 +133,12 @@ public partial class ItemTooltipPanel
 
 
 		// Effect
-		var SetItem = record.SetItem.Instance;
-		if (SetItem is null) SetItemEffect.Visibility = Visibility.Collapsed;
-		else
+		SetItemEffect.Visibility = Visibility.Collapsed;
+		if (record.SetItem != null) 
 		{
 			SetItemEffect.Visibility = Visibility.Visible;
-			SetItemEffect_Name.String.LabelText = SetItem.Name;
-			SetItemEffect_Effect.String.LabelText = SetItem.Description;
+			SetItemEffect_Name.String.LabelText = record.SetItem.Name;
+			SetItemEffect_Effect.String.LabelText = record.SetItem.Description;
 		}
 
 		// Decompose
@@ -149,7 +147,7 @@ public partial class ItemTooltipPanel
 		DecomposeDescription.Children.Clear();
 		if (pages.Count > 0)
 		{
-			DecomposeDescription_Title.String.LabelText = (record is Grocery grocery && grocery.GroceryType == Grocery.GroceryTypeSeq.RandomBox ?
+			DecomposeDescription_Title.String.LabelText = (record is Grocery grocery2 && grocery2.GroceryType == Grocery.GroceryTypeSeq.RandomBox ?
 				"UI.ItemTooltip.RandomboxPreview.Title" : "UI.ItemTooltip.Decompose.Title").GetText();
 
 			var page = pages[0];
@@ -189,15 +187,18 @@ public partial class ItemTooltipPanel
 		#region Required
 		var required = new List<string?>
 		{
-			"Name.Item.Required.Level".GetText(arguments),
+			"Name.Item.Required.Level".GetTextIf(record.Attributes.Get<sbyte>("equip-level") > 1, arguments),
+			"Name.Item.Required.Result".GetTextIf(record.Attributes["equip-faction"] != null, ["Name.Item.Required.Faction".GetText(arguments)]),
+			"Name.Item.Required.Result".GetTextIf(record.EquipRace != null || record.EquipSex != SexSeq2.All, ["Name.Item.Required.Race".GetText(arguments) + "Name.Item.Required.Sex".GetText(arguments)]),
+
+			(record.Attributes.Get<sbyte>("skill-limit-level") > 0 ? record.Attributes.Get<sbyte>("skill-limit-level-max") > 0 ? "Name.Item.SkillLimitLevel" : "Name.Item.SkillLimitLevel.OnlyMin" : null) .GetText(arguments),
+			"Name.Item.SkillLimitMasteryLevel".GetTextIf(record.Attributes.Get<sbyte>("skill-limit-mastery-level") > 0, arguments),
 		};
-		AddRequired(required, "Name.Item.Required.Faction".GetText(arguments));
-		AddRequired(required, "Name.Item.Required.Race".GetText(arguments) + "Name.Item.Required.Sex".GetText(arguments));
 
 		if (jobfilter) required.Add("UI.ItemRandomOption.EquipFilter.Warning".GetText());
-		AddRequired(required, string.Join("", jobs.Select(x => "Name.Item.Required.Job2".GetText([.. arguments, Job.GetJob(x)]))));
+		if (jobs.Any()) required.Add("Name.Item.Required.Result".GetText([string.Join("", jobs.Select(x => "Name.Item.Required.Job2".GetText([.. arguments, Job.GetJob(x)])))]));
 
-		if (record.AccountUsed) required.Add("UI.ItemTooltip.AccountUsed".GetText());
+		required.Add("UI.ItemTooltip.AccountUsed".GetTextIf(record.AccountUsed));
 		required.Add(LinqExtensions.Join("Name.Item.Cannot.Comma".GetText(),
 			record.CannotTrade && !record.Auctionable ? "Name.Item.Cannot.Trade.All.Global".GetText() :
 			record.CannotTrade && record.Auctionable ? "Name.Item.Cannot.Trade.Player.Global".GetText() :
@@ -237,7 +238,7 @@ public partial class ItemTooltipPanel
 							var box = Combat_Holder.Children.Add(new HorizontalBox()
 							{
 								Margin = new Thickness(0, 0, 0, 3)
-							}, FLayoutData.Anchor.Full);
+							}, FLayout.Anchor.Full);
 
 							// icon
 							if (SkillTrainByItem.Icon != null)
@@ -273,7 +274,7 @@ public partial class ItemTooltipPanel
 				var box = Combat_Holder.Children.Add(new HorizontalBox()
 				{
 					Margin = new Thickness(0, 0, 0, 3)
-				}, FLayoutData.Anchor.Full);
+				}, FLayout.Anchor.Full);
 
 				// icon
 				box.Children.Add(new BnsCustomImageWidget
@@ -316,7 +317,7 @@ public partial class ItemTooltipPanel
 					description.String.LabelText = "UI.ItemGrowth.SkillByEquipment.Skill".GetText([null, Skill3, SkillByEquipment.GetTooltipText(i)]);
 
 					var box = new HorizontalBox() { Margin = new Thickness(7, 0, 0, 3) };
-					LayoutData.SetAnchors(box, FLayoutData.Anchor.Full);
+					LayoutData.SetAnchors(box, FLayout.Anchor.Full);
 					Combat_Holder.Children.Add(box);
 
 					box.Children.Add(icon);
@@ -326,15 +327,7 @@ public partial class ItemTooltipPanel
 		}
 		#endregion
 
-
 		//record.Attributes.Get<ItemEvent>("event-info")?.IsExpiration;
-	}
-
-	private static void AddRequired(List<string?> strings, string? str)
-	{
-		if (string.IsNullOrWhiteSpace(str)) return;
-		if (str == "All") strings.Add("Name.Item.Required.Everyone".GetText([]));
-		else strings.Add("Name.Item.Required.Result".GetText([str]));
 	}
 	#endregion
 

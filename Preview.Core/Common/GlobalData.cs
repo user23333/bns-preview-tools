@@ -29,7 +29,7 @@ public static partial class Globals
 		get => _definition ??= CompressDatafileDefinition.Load();
 		set
 		{
-			if (_definition != value)
+			if (!value.Equals(_definition))
 			{
 				GameData?.Dispose();
 				GameData = null;

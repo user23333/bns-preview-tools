@@ -77,8 +77,6 @@
 
 	<!-- Trim -->
 	<ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<Page Remove="Content\Art\GameUI\Scene\Game_Map\**" />
-		<Compile Remove="Content\Art\GameUI\Scene\Game_Map\**" />
 		<Page Remove="Content\Art\GameUI\Scene\Game_QuestJournal\Game_QuestJournalScene\QuestJournalPanel.xaml" />
 		<Compile Remove="Content\Art\GameUI\Scene\Game_QuestJournal\Game_QuestJournalScene\QuestJournalPanel.xaml.cs" />
 	</ItemGroup>

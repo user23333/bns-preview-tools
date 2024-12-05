@@ -1,10 +1,12 @@
 ﻿using System.Reflection;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Markup;
 using Xylia.Preview.Data.Models;
 using Xylia.Preview.UI.Views;
+using MessageBox = HandyControl.Controls.MessageBox;
 
 namespace Xylia.Preview.UI.Common.Interactivity;
 /// <summary>
@@ -37,7 +39,7 @@ public abstract class RecordCommand : MarkupExtension, ICommand
 		}
 		catch (Exception ex)
 		{
-			App.SendMessage(ex.Message);
+			MessageBox.Show(ex.Message, null, MessageBoxButton.OK, MessageBoxImage.Stop);
 		}
 	});
 

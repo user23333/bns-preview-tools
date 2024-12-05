@@ -20,7 +20,7 @@ public partial class MainForm : Form
 	{
 		InitializeComponent();
 
-		_ = new StrWriter(richOut);
+		_ = new LogHelper(richOut);
 		CheckForIllegalCrossThreadCalls = false;
 
 		ReadConfig(this);

@@ -18,6 +18,4 @@ public enum ReleaseSide
 	None,
 	Client,
 	Server,
-	Achievement = Server + 1,
-	Rank = Server + 2,
 }

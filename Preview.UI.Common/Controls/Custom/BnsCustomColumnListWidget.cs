@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using CUE4Parse.BNS.Assets.Exports;
+using CUE4Parse.UE4.Objects.Core;
 using CUE4Parse.UE4.Objects.Core.Math;
 using Xylia.Preview.UI.Controls.Helpers;
 using Xylia.Preview.UI.Controls.Primitives;
@@ -151,7 +151,7 @@ public class BnsCustomColumnListWidget : BnsCustomBaseWidget
 				var r1 = offsetV.ElementAtOrDefault(row);
 				var r2 = offsetV.ElementAtOrDefault(row + rowspan - 1);
 
-				LayoutData.SetOffsets(child, new FLayoutData.Offset(
+				LayoutData.SetOffsets(child, new FLayout.Offset(
 					c1.X, r1.X,
 					c2.X + c2.Y - c1.X,
 					r2.X + r2.Y - r1.X));

@@ -342,12 +342,14 @@ public static class TextExtension
 	public static string GetText(this object obj, IDataProvider provider = null)
 	{
 		if (obj is null) return null;
-		else if (obj is IHaveName instance) return instance.Name;
+		else if (obj is string alias) return (provider ?? Globals.GameData.Provider)?[alias];
 		else if (obj is Enum sequence) return SequenceExtensions.GetText(sequence);
 		else if (obj is Record record && record.OwnerName == "text") return record.Attributes.Get<string>("text");
-		else if (obj is string alias) return (provider ?? Globals.GameData.Provider)?[alias];
+		else if (obj is Ref<Text> @text) return @text.Instance?.text;
 		else throw new NotSupportedException();
 	}
+
+	public static string GetTextIf(this object obj, bool flag, TextArguments arguments = null) => flag ? GetText(obj, arguments) : null;
 
 	public static string GetText(this object obj, TextArguments arguments) => GetText(obj).Replace(arguments);
 

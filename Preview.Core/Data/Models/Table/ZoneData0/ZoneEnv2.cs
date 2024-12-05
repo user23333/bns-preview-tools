@@ -237,6 +237,8 @@ public class ZoneEnv2 : ModelElement, IHaveName
 					MapunitImageDisableImageset		= "00009499.conflict_soulstone";
 					MapunitImageDisableOverImageset = "00009499.conflict_soulstone_over";
 				}
+
+				MapunitImageDisableSizeX = MapunitImageDisableSizeY = 25;
 			}
 		}
 		#endregion
@@ -445,12 +447,14 @@ public class ZoneEnv2 : ModelElement, IHaveName
 
 	protected override void LoadHiddenField()
 	{
-		if (this.Attributes["script"] is null)
+		if (Attributes["script"] is null)
 		{
-			var type = this.Attributes.Get<string>("type");
+			var alias = Attributes.Get<string>("alias");
+			var type = Attributes.Get<string>("type");
+
 			if (!(type is "portal" or "oceanic-region" or "fall-death" or "attraction-popup" or "enter-arena-dungeonlobby"))
 			{
-				this.Attributes["script"] = this.Attributes["alias"] + "_ai";
+				Attributes["script"] = alias + "_ai";
 			}
 		}
 	}

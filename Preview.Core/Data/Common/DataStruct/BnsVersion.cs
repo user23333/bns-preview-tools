@@ -1,11 +1,12 @@
 ﻿namespace Xylia.Preview.Data.Common.DataStruct;
 public readonly struct BnsVersion(ushort major, ushort minor, ushort build, ushort revision) : IComparable<BnsVersion>
 {
+	#region Fields
 	public ushort Major { get; } = major;
 	public ushort Minor { get; } = minor;
 	public ushort Build { get; } = build;
 	public ushort Revision { get; } = revision;
-
+	#endregion
 
 	#region Methods
 	public readonly override string ToString() => $"{Major}.{Minor}.{Build}.{Revision}";
