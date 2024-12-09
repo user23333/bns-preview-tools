@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using HandyControl.Controls;
 using Xylia.Preview.UI.Resources.Themes;
 using Xylia.Preview.UI.Services;
 using Xylia.Preview.UI.ViewModels;
@@ -71,7 +72,7 @@ public partial class MainWindow
 		var page = (IPageController)SideMenu.SelectedItem;
 
 		var content = page.Content;
-		if (content is Window window)
+		if (content is System.Windows.Window window)
 		{
 			window.Closed += (s, e) => page.Content = null;
 			window.Show();
@@ -90,7 +91,7 @@ public partial class MainWindow
 
 	private void OpenUpdateLog(object? sender, EventArgs e)
 	{
-		HandyControl.Controls.Dialog.Show<UpdateLogDialog>("MainContainer");
+		Dialog.Show<UpdateLogDialog>("MainContainer");
 	}
 
 	private void OpenPopupSkin(object sender, RoutedEventArgs e) => PopupSkin.IsOpen = true;

@@ -42,6 +42,14 @@ public static class XmlExtension
 	}
 
 
+	public static void Write(this XElement parent, IUStruct[] strus, string name)
+	{
+		if (strus is null) return;
+
+		var element = parent.AddElement($"{parent.Name}.{name}");
+		strus.ForEach(e => element.Write(e, null));
+	}
+
 	public static void Write(this XElement parent, IUStruct stru, string typeName = null)
 	{
 		if (stru is null) return;

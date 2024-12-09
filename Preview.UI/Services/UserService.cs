@@ -10,7 +10,7 @@ internal class UserService : IService
 	#region Methods
 	public static UserService? Instance { get; private set; }
 
-	public bool Register() => throw new NotImplementedException();
+	public void Register() => throw new NotImplementedException();
 	#endregion
 }
 

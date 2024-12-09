@@ -4,19 +4,19 @@
 		xmlns:converters="clr-namespace:Xylia.Preview.UI.Common.Converters"
 		xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
 		xmlns:hc="https://handyorg.github.io/handycontrol"
-        Title="{DynamicResource ShowObjectPlayer_Name}"
+        Title="{DynamicResource ShowObjectPlayer_Name}" Background="{StaticResource BorderBrush}"
 		Height="{Binding Source={x:Static SystemParameters.MaximizedPrimaryScreenHeight}, Converter={converters:RatioConverter}, ConverterParameter='0.50'}"
         Width="{Binding Source={x:Static SystemParameters.MaximizedPrimaryScreenWidth}, Converter={converters:RatioConverter}, ConverterParameter='0.48'}">
-	<Grid Margin="5">
+	<Grid>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="300" />
+			<ColumnDefinition Width="220" />
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
 		
 		<DockPanel>
 			<hc:SearchBar DockPanel.Dock="Top" Margin="0 0 0 5" IsRealTime="True" SearchStarted="OnSearchStarted" Visibility="Collapsed" />
-			<ListBox x:Name="ObjectList" DockPanel.Dock="Top" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-		        SelectionChanged="OnSelectedItem" MouseDoubleClick="OnDoubleClick" ItemsSource="{Binding Source,IsAsync=True}">
+			<ListBox ItemsSource="{Binding EventKeys,IsAsync=True}" SelectedItem="{Binding SelectedKey}" SelectionChanged="OnSelectedItem" MouseDoubleClick="OnDoubleClick"
+				DockPanel.Dock="Top" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 				<ListBox.ContextMenu>
 					<ContextMenu>
 						
@@ -26,8 +26,8 @@
 					<DataTemplate>
 						<Grid>
 							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="2*" />
 								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="Auto" />
 							</Grid.ColumnDefinitions>
 
 							<TextBlock Grid.Column="0" Text="{Binding Name}" ToolTip="{Binding Name}" TextTrimming="CharacterEllipsis" />
@@ -37,8 +37,8 @@
 				</ListBox.ItemTemplate>
 			</ListBox>
 		</DockPanel>
-		<Grid Grid.Column="1" Margin="5 0 0 0">
-			<avalonEdit:TextEditor Name="TextEditor" FontFamily="Consolas" FontSize="14" SyntaxHighlighting="Json" WordWrap="False" />
+		<Grid Grid.Column="1">
+			<avalonEdit:TextEditor Name="TextEditor" FontFamily="Consolas" FontSize="13" SyntaxHighlighting="Json" WordWrap="False" />
 
 		</Grid>
 	</Grid>

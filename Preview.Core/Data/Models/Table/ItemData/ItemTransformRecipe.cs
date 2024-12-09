@@ -10,6 +10,8 @@ namespace Xylia.Preview.Data.Models;
 public sealed class ItemTransformRecipe : ModelElement
 {
 	#region Attributes
+	public string Alias { get; set; }
+
 	public Ref<ItemTransformUpgradeItem> UpgradeGrocery { get; set; }
 
 	public sbyte RequiredInvenCapacity { get; set; }
@@ -68,9 +70,9 @@ public sealed class ItemTransformRecipe : ModelElement
 
 	public sbyte RareItemTotalCount { get; set; }
 
-	public sbyte[] RareItemSelectCount { get; set; }
+	public sbyte RareItemSelectCount { get; set; }
 
-	public sbyte[] RareItemStackCount { get; set; }
+	public short[] RareItemStackCount { get; set; }
 
 	public short NormalItemSuccessProbability { get; set; }
 
@@ -78,17 +80,17 @@ public sealed class ItemTransformRecipe : ModelElement
 
 	public sbyte NormalItemTotalCount { get; set; }
 
-	public sbyte[] NormalItemSelectCount { get; set; }
+	public sbyte NormalItemSelectCount { get; set; }
 
-	public sbyte[] NormalItemStackCount { get; set; }
+	public short[] NormalItemStackCount { get; set; }
 
 	public Ref<ModelElement>[] PremiumItem { get; set; }
 
 	public sbyte PremiumItemTotalCount { get; set; }
 
-	public sbyte[] PremiumItemSelectCount { get; set; }
+	public sbyte PremiumItemSelectCount { get; set; }
 
-	public sbyte[] PremiumItemStackCount { get; set; }
+	public short[] PremiumItemStackCount { get; set; }
 
 	public short RandomItemSuccessProbability { get; set; }
 
@@ -100,21 +102,78 @@ public sealed class ItemTransformRecipe : ModelElement
 
 	public bool RandomFailureMileageSave { get; set; }
 
+	public Ref<RandomDistribution> RandomFailureMileageDistributionType { get; set; }
+
 	public Ref<ItemTransformRecipe>[] RandomFailureMileageInfluenceRecipe { get; set; }
 
 	public Ref<ItemTransformRetryCost> RandomRetryCost { get; set; }
 
-	//public WeaponGemType MainIngredientWeaponGemType { get; set; }
+	public WeaponGemTypeSeq MainIngredientWeaponGemType { get; set; }
+
+	public enum WeaponGemTypeSeq
+	{
+		None,
+		Ruby,
+		Topaz,
+		Sapphire,
+		Jade,
+		Amethyst,
+		Emerald,
+		Diamond,
+		Obsidian,
+		Amber,
+		Garnet,
+		Aquamarine,
+		RubyTopaz,
+		RubySapphire,
+		RubyJade,
+		RubyAmethyst,
+		RubyEmerald,
+		RubyDiamond,
+		TopazSapphire,
+		TopazJade,
+		TopazAmethyst,
+		TopazEmerald,
+		TopazDiamond,
+		SapphireJade,
+		SapphireAmethyst,
+		SapphireEmerald,
+		SapphireDiamond,
+		JadeAmethyst,
+		JadeEmerald,
+		JadeDiamond,
+		AmethystEmerald,
+		AmethystDiamond,
+		EmeraldDiamond,
+		AquamarineDiamond,
+		AmberDiamond,
+		ObsidianGarnet,
+		CorundumWhite,
+		CorundumBlack,
+		CorundumPink,
+		CorundumYellow,
+		CorundumBluegreen,
+		CorundumBlue,
+		CorundumAquamarine,
+		CorundumAmber,
+		CorundumRuby,
+		CorundumAmethyst,
+		CorundumJade,
+		AquamarineAmber,
+		COUNT
+	}
 
 	public short MainIngredientWeaponGemLevel { get; set; }
 
 	public sbyte MainIngredientWeaponGemGrade { get; set; }
 
-	//public WeaponGemType[] SubIngredientWeaponGemType { get; set; }
+	public WeaponGemTypeSeq[] SubIngredientWeaponGemType { get; set; }
 
 	public short[] SubIngredientWeaponGemLevel { get; set; }
 
 	public sbyte[] SubIngredientWeaponGemGrade { get; set; }
+
+	public short WeaponGemTransformFailProbability { get; set; }
 
 	public Ref<Item> TitleItem { get; set; }
 
@@ -122,12 +181,71 @@ public sealed class ItemTransformRecipe : ModelElement
 
 	public Ref<RandomboxPreview> TitleReward { get; set; }
 
+	public UpperCategorySeq UpperCategory { get; set; }
+
+	public enum UpperCategorySeq
+	{
+		None,
+		General,
+		WeaponGem,
+		PetGem,
+		Event,
+		COUNT
+	}
+
+	public CategorySeq Category { get; set; }
+
+	public enum CategorySeq
+	{
+		None,
+		Event,
+		Material,
+		Costume,
+		Weapon,
+		LegendaryWeapon,
+		Accessory,
+		WeaponGemAdder,
+		WeaponGem2,
+		Piece,
+		Purification,
+		Special,
+		Pet,
+		PetLegend,
+		PetChange,
+		TaijiGem,
+		Division,
+		WeaponEnchantGem,
+		Sewing,
+		WeaponTransform,
+		AccessoryTransform,
+		EquipGem,
+		Card,
+		Spirit,
+		Etc,
+		PetGem,
+		[Name("common-1")]
+		Common1,
+		[Name("common-2")]
+		Common2,
+		[Name("common-3")]
+		Common3,
+		[Name("common-4")]
+		Common4,
+		[Name("common-5")]
+		Common5,
+		COUNT
+	}
+
 	public bool UseRandom { get; set; }
 
-	public WarningSeq Warning { get; set; }
-	#endregion
+	public Ref<Effect> FailEffect { get; set; }
 
-	#region Sequence
+	public Ref<Quest> Quest { get; set; }
+
+	public bool BmIngredientRecipe { get; set; }
+
+	public WarningSeq Warning { get; set; }
+
 	public enum WarningSeq
 	{
 		None,
@@ -197,6 +315,96 @@ public sealed class ItemTransformRecipe : ModelElement
 
 		COUNT
 	}
+
+	public sbyte EventIndex { get; set; }
+
+	public int RecipeScore { get; set; }
+
+	public RecipeSeriesSeq RecipeSeries { get; set; }
+
+	public enum RecipeSeriesSeq
+	{
+		None,
+		[Name("normal-1")]
+		Normal1,
+		[Name("normal-2")]
+		Normal2,
+		[Name("normal-3")]
+		Normal3,
+		[Name("normal-4")]
+		Normal4,
+		[Name("normal-5")]
+		Normal5,
+		[Name("normal-6")]
+		Normal6,
+		[Name("normal-7")]
+		Normal7,
+		[Name("normal-8")]
+		Normal8,
+		[Name("normal-9")]
+		Normal9,
+		[Name("normal-11")]
+		Normal11,
+		[Name("normal-12")]
+		Normal12,
+		[Name("normal-13")]
+		Normal13,
+		[Name("normal-14")]
+		Normal14,
+		[Name("normal-15")]
+		Normal15,
+		[Name("normal-16")]
+		Normal16,
+		[Name("normal-17")]
+		Normal17,
+		[Name("normal-18")]
+		Normal18,
+		[Name("normal-19")]
+		Normal19,
+		[Name("normal-20")]
+		Normal20,
+		[Name("bm-1")]
+		Bm1,
+		[Name("bm-2")]
+		Bm2,
+		[Name("bm-3")]
+		Bm3,
+		[Name("bm-4")]
+		Bm4,
+		[Name("bm-5")]
+		Bm5,
+		[Name("bm-6")]
+		Bm6,
+		[Name("bm-7")]
+		Bm7,
+		[Name("bm-8")]
+		Bm8,
+		[Name("bm-9")]
+		Bm9,
+		[Name("bm-11")]
+		Bm11,
+		[Name("bm-12")]
+		Bm12,
+		[Name("bm-13")]
+		Bm13,
+		[Name("bm-14")]
+		Bm14,
+		[Name("bm-15")]
+		Bm15,
+		[Name("bm-16")]
+		Bm16,
+		[Name("bm-17")]
+		Bm17,
+		[Name("bm-18")]
+		Bm18,
+		[Name("bm-19")]
+		Bm19,
+		[Name("bm-20")]
+		Bm20,
+		COUNT
+	}
+
+	public sbyte DefiniteDiscountMinimumValue { get; set; }
 	#endregion
 
 	#region Methods

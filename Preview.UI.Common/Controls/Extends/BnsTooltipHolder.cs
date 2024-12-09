@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using Xylia.Preview.Common.Extension;
+using Xylia.Preview.Data.Engine.BinData.Helpers;
 using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.UI.Controls;
@@ -58,13 +59,12 @@ public sealed class BnsTooltipHolder : ContentControl
 	#endregion
 
 	#region Data
-	static readonly Dictionary<string, Func<FrameworkElement>> RecordTemplate = new(StringComparer.OrdinalIgnoreCase);
+	static readonly Dictionary<string, Func<FrameworkElement>> RecordTemplate = new(TableNameComparer.Instance);
 	static readonly Dictionary<Type, Func<FrameworkElement>> ModelTemplate = [];
 
-	public static void RegisterTemplate<T>(Type type, string? name = null) where T : FrameworkElement, new()
+	public static void RegisterTemplate<T>(Type type) where T : FrameworkElement, new()
 	{
-		name ??= type.Name.TitleLowerCase();
-		ModelTemplate[type] = RecordTemplate[name] = new(() => new T());
+		ModelTemplate[type] = RecordTemplate[type.Name] = new(() => new T());
 	}
 	#endregion
 }

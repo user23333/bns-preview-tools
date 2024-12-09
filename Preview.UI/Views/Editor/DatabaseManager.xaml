@@ -23,17 +23,17 @@
 			</GroupBox.Header>
 			
 			<StackPanel>
-				<hc:UniformSpacingPanel Height="40" Spacing="15" RadioButton.Checked="ProviderMode_Changed">
-					<RadioButton Name="Provider_GlobalMode" d:Content="Global" Content="{DynamicResource DatabaseStudio_Mode_Global}" IsChecked="True" />
+				<hc:UniformSpacingPanel Name="Provider_ModeHolder" Height="40" Spacing="15" RadioButton.Checked="ProviderMode_Changed">
+					<RadioButton Name="Provider_GlobalMode" d:Content="Global" Content="{DynamicResource DatabaseStudio_Mode_Global}" />
 					<RadioButton Name="Provider_GameMode"   d:Content="Game"   Content="{DynamicResource DatabaseStudio_Mode_Game}" />
 					<RadioButton Name="Provider_FolderMode" d:Content="Folder" Content="{DynamicResource DatabaseStudio_Mode_Folder}" />
 				</hc:UniformSpacingPanel>
-				<hc:SearchBar Name="ProviderSearch" Style="{StaticResource SearchBarExtend}" SearchStarted="ProviderSearch_SearchStarted" 
-					Visibility="{Binding IsChecked,ElementName=Provider_GlobalMode,Converter={StaticResource Boolean2VisibilityReConverter}}" />
+				<hc:SearchBar Name="ProviderSearch" Style="{StaticResource SearchBarExtend}" IsReadOnly="True" 
+					SearchStarted="ProviderSearch_SearchStarted" TextChanged="ProviderSearch_TextChanged" />
 			</StackPanel>
 		</GroupBox>
 
-		<GroupBox Grid.Row="1" d:Header="Definition" Margin="0 0 0 10" Visibility="{Binding HasItems,ElementName=DefinitionList,Converter={StaticResource Boolean2VisibilityConverter}}"  >
+		<GroupBox Grid.Row="1" d:Header="Definition" Margin="0 0 0 10" Visibility="{Binding HasItems,ElementName=DefinitionList,Converter={StaticResource Boolean2VisibilityConverter}}">
 			<GroupBox.Header>
 				<TextBlock ToolTip="{DynamicResource DatabaseStudio_Definition_Tooltip}">
 					<Run Text="{DynamicResource DatabaseStudio_Definition}" />

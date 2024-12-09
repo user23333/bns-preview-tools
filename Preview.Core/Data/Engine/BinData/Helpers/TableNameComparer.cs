@@ -4,7 +4,7 @@ namespace Xylia.Preview.Data.Engine.BinData.Helpers;
 /// <summary>
 /// Defines methods to support the comparison of camel hump naming convention
 /// </summary>
-internal sealed class TableNameComparer : IEqualityComparer<string>
+public sealed class TableNameComparer : IEqualityComparer<string>
 {
 	public static TableNameComparer Instance => new();
 

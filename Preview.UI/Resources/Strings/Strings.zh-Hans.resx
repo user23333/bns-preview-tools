@@ -224,7 +224,15 @@
     <value>Github</value>
   </data>
   <data name="Application_UpdateLog" xml:space="preserve">
-    <value>[ver=3.2.1,time=2024/11/14]
+    <value>
+[ver=3.2.2,time=2024/12/9]
++优化游戏目录的设置流程
++优化数据管理器的属性偏移以16进制显示
++优化文本编辑器在夜间模式下的色彩表现
++优化在使用调试模式时，若物品名称无效会显示其别名
++修复物品不显示使用条件的问题
+
+[ver=3.2.1,time=2024/11/14]
 数据管理器
 +修复查询结果中不显示默认值的问题
 +修复定义页面中不显示扩展属性的问题
@@ -357,6 +365,9 @@
   <data name="DatabaseStudio_Definition" xml:space="preserve">
     <value>数据定义版本</value>
   </data>
+  <data name="DatabaseStudio_Definition_NoMatched" xml:space="preserve">
+    <value>无匹配的定义版本</value>
+  </data>
   <data name="DatabaseStudio_Definition_Tooltip" xml:space="preserve">
     <value>不知道选择哪个时，选择默认项</value>
   </data>
@@ -479,6 +490,9 @@
   </data>
   <data name="Exception_InvalidDefinition_NotFound" xml:space="preserve">
     <value>请先到数据管理器中重新链接后再试！</value>
+  </data>
+  <data name="Exception_InvalidGame" xml:space="preserve">
+    <value>无效游戏</value>
   </data>
   <data name="Exception_InvalidModel" xml:space="preserve">
     <value>缺失模型资源</value>
@@ -764,7 +778,7 @@
     <value>显示对象播放器</value>
   </data>
   <data name="TableView_Name" xml:space="preserve">
-    <value>查看表</value>
+    <value>数据表 {0}</value>
   </data>
   <data name="Text.Add" xml:space="preserve">
     <value>增加</value>
@@ -782,6 +796,9 @@
   <data name="Text.Edit" xml:space="preserve">
     <value>编辑</value>
   </data>
+  <data name="Text.Excel" xml:space="preserve">
+    <value>表格文件</value>
+  </data>
   <data name="Text.Export" xml:space="preserve">
     <value>导出</value>
   </data>
@@ -794,12 +811,6 @@
   </data>
   <data name="Text.FileSize" xml:space="preserve">
     <value>文件大小</value>
-  </data>
-  <data name="Text.Excel" xml:space="preserve">
-    <value>表格文件</value>
-  </data>
-  <data name="Text.PlainText" xml:space="preserve">
-    <value>文本文件</value>
   </data>
   <data name="Text.Group" xml:space="preserve">
     <value>分组</value>
@@ -850,6 +861,9 @@
   </data>
   <data name="Text.Path" xml:space="preserve">
     <value>路径</value>
+  </data>
+  <data name="Text.PlainText" xml:space="preserve">
+    <value>文本文件</value>
   </data>
   <data name="Text.Preview" xml:space="preserve">
     <value>预览</value>
@@ -1010,8 +1024,5 @@
   </data>
   <data name="UI.Tooltip.Skill.damage-percent-min-max" xml:space="preserve">
     <value>攻击力{0}~{1}%的</value>
-  </data>
-  <data name="Exception_InvalidGame" xml:space="preserve">
-    <value>无效游戏</value>
   </data>
 </root>

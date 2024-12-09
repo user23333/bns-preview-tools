@@ -26,12 +26,12 @@ public abstract class ModelElement : IElement, IArgument
 	#endregion
 
 	#region Methods
-	public override string ToString() => Source.ToString();
+	public override string ToString() => Source?.ToString();
 
 	internal void Initialize(Record source)
-	{
+	{																												        
 		// initialize data
-		this.Source = source;
+		this.Source = source;																          
 		this.Attributes = source.Attributes;
 
 		// initialize property
@@ -40,7 +40,7 @@ public abstract class ModelElement : IElement, IArgument
 			if (!prop.CanWrite) continue;
 
 			var type = prop.PropertyType;
-			var name = (prop.GetAttribute<NameAttribute>()?.Name ?? prop.Name).TitleLowerCase();
+			var name = prop.GetAttribute<NameAttribute>()?.Name ?? prop.Name.TitleLowerCase();
 			if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(LazyList<>))
 			{
 				var toType = typeof(List<>).MakeGenericType(type.GetGenericArguments()[0]);
@@ -141,7 +141,7 @@ public abstract class ModelElement : IElement, IArgument
 	#endregion
 }
 
-public struct Ref<TElement> : IHaveName where TElement : ModelElement
+public struct Ref<TElement> where TElement : ModelElement
 {
 	#region Constructors
 	public Ref(Record value)
@@ -170,7 +170,6 @@ public struct Ref<TElement> : IHaveName where TElement : ModelElement
 	}
 	#endregion
 
-
 	#region Fields
 	private readonly Record source;
 
@@ -190,7 +189,7 @@ public struct Ref<TElement> : IHaveName where TElement : ModelElement
 	public override readonly bool Equals(object obj) => obj is Ref<TElement> other && this.source == other.source;
 
 	public readonly bool HasValue => source != null;
-	string IHaveName.Name => Instance is IHaveName iName ? iName.Name : null;
+
 	public override string ToString() => Instance?.ToString();
 	#endregion
 }

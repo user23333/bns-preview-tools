@@ -157,16 +157,6 @@
 										</Style>
 									</Control.Style>
 								</avalonEdit:TextEditor>
-<!--
-								<TextBox Text="{Binding Text}" AcceptsReturn="True">
-									<TextBox.Style>
-										<Style TargetType="TextBox">
-											<Setter Property="FontSize" Value="14" />
-											<Setter Property="ContextMenu" Value="{StaticResource EditorMenu}" />
-										</Style>
-									</TextBox.Style>
-								</TextBox>
--->
 							</DataTemplate>
 						</TabControl.ContentTemplate>
 					</hc:TabControl>
@@ -249,6 +239,7 @@
 														</GridViewColumn.CellTemplate>
 													</GridViewColumn>
 
+													<!--
                                                     <GridViewColumn Header="{DynamicResource DatabaseStudio_IsDeprecated}">
                                                         <GridViewColumn.CellTemplate>
 															<DataTemplate>
@@ -256,6 +247,8 @@
 															</DataTemplate>
 														</GridViewColumn.CellTemplate>
 													</GridViewColumn>
+													-->													
+													
                                                     <GridViewColumn Header="{DynamicResource DatabaseStudio_IsKey}">
                                                         <GridViewColumn.CellTemplate>
 															<DataTemplate>
@@ -280,7 +273,7 @@
                                                     <GridViewColumn Header="{DynamicResource DatabaseStudio_Offset}">
 														<GridViewColumn.CellTemplate>
 															<DataTemplate>
-																<TextBlock Text="{Binding Offset}" />
+																<TextBlock Text="{Binding Offset,StringFormat={}0x{0:X}}" />
 															</DataTemplate>
 														</GridViewColumn.CellTemplate>
 													</GridViewColumn>

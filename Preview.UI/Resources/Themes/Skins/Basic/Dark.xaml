@@ -3,9 +3,7 @@
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
 
 	<Color x:Key="LightPrimaryColor">#044289</Color>
-	<Color x:Key="PrimaryColor">#326cf3</Color>
-	<Color x:Key="DarkPrimaryColor">#326cf3</Color>
-
+	
 	<Color x:Key="LightDangerColor">#450c0f</Color>
 	<Color x:Key="DangerColor">#db3340</Color>
 	<Color x:Key="DarkDangerColor">#db3340</Color>
@@ -48,7 +46,7 @@
 	<system:UInt32 x:Key="BlurGradientValue">0x99000000</system:UInt32>
 
 
-	<!--region AvalonEdit-->
+	<!-- AvalonEdit -->
 	<Color x:Key="ControlAccentColorKey">#1ba1e2</Color>
 	<Color x:Key="EditorBackgroundColor">#FF181818</Color>
 	<Color x:Key="EditorForegroundColor">#FFFFFFFF</Color>
@@ -56,6 +54,11 @@
 	<Color x:Key="EditorNonPrintableCharacterColor">#2FFFFFFF</Color>
 	<Color x:Key="EditorLinkTextForegroundColor">#FFAAAAFF</Color>
 	<Color x:Key="EditorLinkTextBackgroundColor">Transparent</Color>
-	<!--endregion-->
-	
+
+	<Color x:Key="XML_XmlDeclaration">#569CD6</Color>
+	<Color x:Key="XML_XmlTag">#569CD6</Color>
+	<Color x:Key="XML_AttributeName">#9CDCFE</Color>
+	<Color x:Key="XML_AttributeValue">#CE9178</Color>
+	<!-- AvalonEdit -->
+
 </ResourceDictionary>

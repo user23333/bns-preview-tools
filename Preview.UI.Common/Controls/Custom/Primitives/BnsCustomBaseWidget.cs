@@ -47,7 +47,7 @@ public abstract class BnsCustomBaseWidget : UserWidget
 	public static readonly DependencyProperty VerticalResizeLinkProperty = Owner.Register<BnsCustomResizeLink>(nameof(VerticalResizeLink), default, FrameworkPropertyMetadataOptions.AffectsParentArrange);
 
 
-	public ImageProperty BaseImageProperty
+	public ImageProperty? BaseImageProperty
 	{
 		get { return (ImageProperty)GetValue(BaseImagePropertyProperty); }
 		set { SetValue(BaseImagePropertyProperty, value); }

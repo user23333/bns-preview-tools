@@ -28,8 +28,6 @@ public class SmartDropReward : ModelElement
 
 	public Item GetItem(params JobSeq[] job)
 	{
-		if (job.Length == 0) job = [JobSeq.JobNone];
-
 		// No need to deal with drop-rate in our project.
 		var items = Item.Values().Where(x =>
 		{
@@ -42,6 +40,7 @@ public class SmartDropReward : ModelElement
 		});
 
 		// Only get one of the items.
+		// Warning: if no item for the job, a random item will be selected.
 		return items.FirstOrDefault();
 	}
 	#endregion

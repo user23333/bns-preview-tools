@@ -102,17 +102,9 @@ public class BnsCustomWindowWidget : BnsCustomBaseWidget
 	/// <summary>
 	/// Opens a <see langword="PresentationFramework."/><see cref="Window"/> to display the widget
 	/// </summary>
-	public void Show(bool ShowBorder = true)
+	public void Show()
 	{
-		Host = new HostWindow
-		{
-			Content = this,
-			ResizeMode = ResizeMode.NoResize,
-			SizeToContent = SizeToContent.WidthAndHeight,
-			Title = this.Name,
-			WindowStyle = ShowBorder ? WindowStyle.SingleBorderWindow : WindowStyle.None,
-		};
-		Host.Closing += (s, e) => OnClosing(e);
+		Host ??= new HostWindow(this);
 		Host.Show();
 	}
 	#endregion
@@ -120,25 +112,35 @@ public class BnsCustomWindowWidget : BnsCustomBaseWidget
 
 	#region Private Helpers
 	private Window? Host;
-	public readonly static Color BackgroundColor = Color.FromArgb(255, 30, 79, 122);
+	public static implicit operator Window(BnsCustomWindowWidget w) => w.Host ??= new HostWindow(w);
 
 	private class HostWindow : Window
 	{
+		public HostWindow(BnsCustomWindowWidget content)
+		{
+			Content = content;
+			Title = content.Name;
+			ResizeMode = ResizeMode.NoResize;
+			SizeToContent = SizeToContent.WidthAndHeight;
+			WindowStyle = WindowStyle.SingleBorderWindow;
+
+			// event
+			Closing += (s, e) => content.OnClosing(e);
+		}
+
 		protected override Size MeasureOverride(Size availableSize)
 		{
-			//boarder size
+			if (Content is not UIElement child) return Size.Empty;
+
+			// boarder size
 			User32.GetWindowRect(new WindowInteropHelper(this).Handle, out var windowRect);
 			User32.GetClientRect(new WindowInteropHelper(this).Handle, out var clientRect);
 
-			if (Content is UIElement child)
-			{
-				child.Measure(availableSize);
-				return new Size(
-					child.DesiredSize.Width + windowRect.Width - clientRect.Width,
-					child.DesiredSize.Height + windowRect.Height - clientRect.Height);
-			}
-
-			return Size.Empty;
+			// content size
+			child.Measure(availableSize);
+			return new Size(
+				child.DesiredSize.Width + windowRect.Width - clientRect.Width,
+				child.DesiredSize.Height + windowRect.Height - clientRect.Height);
 		}
 	}
 

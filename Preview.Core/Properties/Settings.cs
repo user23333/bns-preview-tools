@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using IniParser;
 using IniParser.Model;
-using Xylia.Preview.Common;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Data.Models.Sequence;
@@ -110,7 +109,6 @@ public class Settings : INotifyPropertyChanged
 			if (!Directory.Exists(value)) return;
 
 			SetValue(value);
-			Globals.ClearData(); 
 		}
 	}
 
@@ -132,7 +130,7 @@ public class Settings : INotifyPropertyChanged
 
 	public bool UseUserDefinition { get => GetValue<bool>(); set => SetValue(value); }
 	public EPublisher DefitionType { get => GetValue<EPublisher>(); set => SetValue(value); }
-	internal string DefitionKey { get => GetValue<string>(); set => SetValue(value); }
+	public string DefitionKey { get => GetValue<string>(); set => SetValue(value); }
 	#endregion
 
 	#region Preview

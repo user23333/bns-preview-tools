@@ -10,9 +10,7 @@
 		<UseWindowsForms>true</UseWindowsForms>
 		<UseWPF>True</UseWPF>
 		<Configurations>Debug;Release;Develop</Configurations>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Develop|AnyCPU'">
-	  <DefineConstants>$(DefineConstants);DEBUG</DefineConstants>
+		<XamlDebuggingInformation>True</XamlDebuggingInformation>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
@@ -23,5 +21,6 @@
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Preview.Core\Preview.Core.csproj" />
+		<ProjectReference Include="..\Preview.UI.Common\Preview.UI.Common.csproj" />
 	</ItemGroup>
 </Project>

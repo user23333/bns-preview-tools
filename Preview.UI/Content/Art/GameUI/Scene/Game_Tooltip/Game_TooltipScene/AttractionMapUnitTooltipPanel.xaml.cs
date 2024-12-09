@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using System.Windows;
 using CUE4Parse.BNS.Assets.Exports;
+using CUE4Parse.UE4.Objects.Core;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Models;
 using Xylia.Preview.Data.Models.Document;
@@ -18,7 +19,7 @@ public partial class AttractionMapUnitToolTipPanel
 	{
 		InitializeComponent();
 #if DEVELOP
-		DataContext = Globals.GameData.Provider.GetTable<Dungeon>()["Dungeon_DongHae_chungkak_A_3"];
+		DataContext = Xylia.Preview.Common.Globals.GameData.Provider.GetTable<Dungeon>()["Dungeon_DongHae_chungkak_A_3"];
 #endif
 	}
 	#endregion
@@ -37,7 +38,7 @@ public partial class AttractionMapUnitToolTipPanel
 		var reward = attraction.RewardSummary.Instance;
 		if (reward != null)
 		{
-			var vertical = AttractionMapUnitToolTipPanel_Reward.Children.Add(new VerticalBox(), FLayoutData.Anchor.Full);
+			var vertical = AttractionMapUnitToolTipPanel_Reward.Children.Add(new VerticalBox(), FLayout.Anchor.Full);
 
 			void BuildText(string title, Ref<ModelElement>[] items, ItemCategorySeq[] categorys, ItemConditionType[] types)
 			{

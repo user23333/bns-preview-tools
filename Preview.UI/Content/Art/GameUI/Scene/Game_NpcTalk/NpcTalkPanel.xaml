@@ -1,0 +1,20 @@
+﻿<BnsCustomWindowWidget x:Class="Xylia.Preview.UI.GameUI.Scene.Game_NpcTalk.NpcTalkPanel"
+	xmlns="https://github.com/xyliaup/bns-preview-tools"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:s="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+
+	<s:TextBox x:Name="Searcher" TextChanged="Searcher_TextChanged" Height="25" Width="200" Visibility="Collapsed" />
+	<s:ListBox x:Name="TestList" LayoutData.Offsets="0 28 500 600">
+		<s:ListBox.ItemTemplate>
+			<s:DataTemplate>
+				<VerticalBox>
+					<BnsCustomLabelWidget String="{Binding Path=Text.Instance.text}" />
+					<BnsCustomLabelWidget String="{Binding Path=Subtext.Instance.text}" FontWeight="Light" />
+					<BnsCustomLabelWidget String="{Binding Path=Next.Instance.text}" FontWeight="Bold" />
+					<BnsCustomLabelButtonWidget String="SHOW" Height="20" Click="TestButton_Click" Visibility="{Binding Path=Show.IsValid, Converter={s:StaticResource Boolean2VisibilityConverter}}" />
+				</VerticalBox>
+			</s:DataTemplate>
+		</s:ListBox.ItemTemplate>
+	</s:ListBox>
+
+</BnsCustomWindowWidget>

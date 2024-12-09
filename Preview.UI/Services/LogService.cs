@@ -9,41 +9,32 @@ namespace Xylia.Preview.UI.Services;
 internal class LogService : TextWriter, IService
 {
 	#region IService
-	public bool Register()
+	public void Register()
 	{
-		try
+		var folder = UserSettings.Default.OutputFolder;
+		if (!Directory.Exists(folder)) return;
+
+		var logs = Path.Combine(folder, "Logs");
+
+		// clear logs
+		var days = UserSettings.Default.KeepLogTime;
+		if (days > 0 && Directory.Exists(logs))
 		{
-			var folder = UserSettings.Default.OutputFolder;
-			if (!Directory.Exists(folder)) return false;
+			var today = DateTime.Now;
 
-			var logs = Path.Combine(folder, "Logs");
-
-			// clear logs
-			var days = UserSettings.Default.KeepLogTime;
-			if (days > 0 && Directory.Exists(logs))
+			foreach (var file in Directory.GetFiles(logs, "*.log"))
 			{
-				var today = DateTime.Now;
-
-				foreach (var file in Directory.GetFiles(logs, "*.log"))
-				{
-					var name = Path.GetFileNameWithoutExtension(file);
-					if (DateTime.TryParse(name, out var time) && (today - time).Days > days) File.Delete(file);
-				}
+				var name = Path.GetFileNameWithoutExtension(file);
+				if (DateTime.TryParse(name, out var time) && (today - time).Days > days) File.Delete(file);
 			}
-
-			// If output directory exists, register the service
-			string template = "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level}] {Message:lj}{NewLine}{Exception}";
-			Log.Logger = new LoggerConfiguration()
-				.WriteTo.Debug(LogEventLevel.Warning, outputTemplate: template)
-				.WriteTo.File(Path.Combine(logs, $"{DateTime.Now:yyyy-MM-dd}.log"), outputTemplate: template)
-				.CreateLogger();
-
-			return true;
 		}
-		catch
-		{
-			return false;
-		}
+
+		// If output directory exists, register the service
+		string template = "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level}] {Message:lj}{NewLine}{Exception}";
+		Log.Logger = new LoggerConfiguration()
+			.WriteTo.Debug(LogEventLevel.Warning, outputTemplate: template)
+			.WriteTo.File(Path.Combine(logs, $"{DateTime.Now:yyyy-MM-dd}.log"), outputTemplate: template)
+			.CreateLogger();
 	}
 	#endregion
 

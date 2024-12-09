@@ -27,7 +27,7 @@ public partial class TableView
 	{
 		set
 		{
-			this.Title = string.Format("{0} {1}", StringHelper.Get("TableView_Name"), value.Name);
+			this.Title = StringHelper.Get("TableView_Name", value.Name);
 			this.ColumnList.ItemsSource = _source = CollectionViewSource.GetDefaultView(value.Records);
 
 			CreateItemMenu(value.Name);

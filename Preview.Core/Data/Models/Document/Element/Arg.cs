@@ -33,6 +33,8 @@ public class Arg : HtmlElementNode
 					switch (p)
 					{
 						case "id":
+							// Prevent designer request to load data
+							//if (!Settings.Default.Text_LoadData && !Globals.GameData.IsInitialized) return;
 							obj = new Ref<ModelElement>(Id).Instance;
 							break;
 

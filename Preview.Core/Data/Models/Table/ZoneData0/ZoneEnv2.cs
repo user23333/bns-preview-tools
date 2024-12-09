@@ -214,29 +214,31 @@ public class ZoneEnv2 : ModelElement, IHaveName
 				var alias = this.Attributes.Get<string>("alias");
 				if (alias.EndsWith("_collectA", StringComparison.OrdinalIgnoreCase))
 				{
-					MapunitImageDisableImageset		= "/Game/Art/UI/GameUI/Resource/GameUI_Map_Indicator/field_wantedflag";
-					MapunitImageDisableOverImageset = "/Game/Art/UI/GameUI/Resource/GameUI_Map_Indicator/field_wantedflag_over";
+					MapunitImageDisableImageset		= "00009499.field_wantedflag";
+					MapunitImageDisableOverImageset = "00009499.field_wantedflag_over";
 				}
 				else if (alias.EndsWith("_collectB", StringComparison.OrdinalIgnoreCase))
 				{
-					MapunitImageDisableImageset		= "/Game/Art/UI/GameUI/Resource/GameUI_Map_Indicator/dungeon_cheonmugungsoulball_active";
-					MapunitImageDisableOverImageset = "/Game/Art/UI/GameUI/Resource/GameUI_Map_Indicator/dungeon_cheonmugungsoulball_active_over";
+					MapunitImageDisableImageset		= "00009499.dungeon_cheonmugungsoulball_active";
+					MapunitImageDisableOverImageset = "00009499.dungeon_cheonmugungsoulball_active_over";
 				}
 				else if (alias.EndsWith("_collectC", StringComparison.OrdinalIgnoreCase))
 				{
-					MapunitImageDisableImageset		= "/Game/Art/UI/GameUI/Resource/GameUI_Map_Indicator/dungeon_frozenark_pylon";
-					MapunitImageDisableOverImageset = "/Game/Art/UI/GameUI/Resource/GameUI_Map_Indicator/dungeon_frozenark_pylon_over";
+					MapunitImageDisableImageset		= "00009499.dungeon_frozenark_pylon";
+					MapunitImageDisableOverImageset = "00009499.dungeon_frozenark_pylon_over";
 				}
 				else if (alias.EndsWith("_collectD", StringComparison.OrdinalIgnoreCase))
 				{
-					MapunitImageDisableImageset		= "/Game/Art/UI/GameUI/Resource/GameUI_Map_Indicator/dungeon_ancientmechamonk_spawnblock";
-					MapunitImageDisableOverImageset = "/Game/Art/UI/GameUI/Resource/GameUI_Map_Indicator/dungeon_ancientmechamonk_spawnblock_over";
+					MapunitImageDisableImageset		= "00009499.dungeon_ancientmechamonk_spawnblock";
+					MapunitImageDisableOverImageset = "00009499.dungeon_ancientmechamonk_spawnblock_over";
 				}
 				else
 				{
-					MapunitImageDisableImageset		= "/Game/Art/UI/GameUI/Resource/GameUI_Map_Indicator/conflict_soulstone";
-					MapunitImageDisableOverImageset = "/Game/Art/UI/GameUI/Resource/GameUI_Map_Indicator/conflict_soulstone_over";
+					MapunitImageDisableImageset		= "00009499.conflict_soulstone";
+					MapunitImageDisableOverImageset = "00009499.conflict_soulstone_over";
 				}
+
+				MapunitImageDisableSizeX = MapunitImageDisableSizeY = 25;
 			}
 		}
 		#endregion
@@ -445,12 +447,14 @@ public class ZoneEnv2 : ModelElement, IHaveName
 
 	protected override void LoadHiddenField()
 	{
-		if (false && this.Attributes["script"] is null)
+		if (Attributes["script"] is null)
 		{
-			var type = this.Attributes.Get<string>("type");
+			var alias = Attributes.Get<string>("alias");
+			var type = Attributes.Get<string>("type");
+
 			if (!(type is "portal" or "oceanic-region" or "fall-death" or "attraction-popup" or "enter-arena-dungeonlobby"))
 			{
-				this.Attributes["script"] = this.Attributes["alias"] + "_ai";
+				Attributes["script"] = alias + "_ai";
 			}
 		}
 	}

@@ -146,10 +146,8 @@ public sealed class Quest : ModelElement, IHaveName
 			default: throw new NotImplementedException();
 		}
 
-
 		if (over) name += "_over";
-
-		return new MyFPackageIndex($"BNSR/Content/Art/UI/GameUI/Resource/GameUI_Map_Indicator/{name}");
+		return new MyFPackageIndex($"00009499.{name}");
 	}
 
 
@@ -167,7 +165,7 @@ public sealed class Quest : ModelElement, IHaveName
 		return null;
 	}
 
-	public IEnumerable<QuestReward> GetRewards() => MissionStep.SelectMany(step => step.Mission.SelectMany(mission => mission.Reward)).SelectNotNull(reward => reward.Instance);
+	public IEnumerable<QuestReward> GetRewards() => MissionStep.SelectMany(step => step.Mission.SelectMany(mission => mission.Reward)).Values();
 	#endregion
 }
 
@@ -840,7 +838,7 @@ public abstract class TutorialCase : ModelElement
 
 	public sealed class WeaponStarstone : TutorialCase
 	{
-		
+
 	}
 
 	public sealed class WeaponStarwords : TutorialCase

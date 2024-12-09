@@ -10,7 +10,6 @@ using Xylia.Preview.UI.Common.Interactivity;
 using Xylia.Preview.UI.Controls;
 using Xylia.Preview.UI.Extensions;
 using Xylia.Preview.UI.GameUI.Scene.Game_Tooltip;
-using Xylia.Preview.UI.Helpers.Output;
 using Xylia.Preview.UI.Helpers.Output.Tables;
 using static Xylia.Preview.Data.Models.Quest;
 
@@ -18,7 +17,7 @@ namespace Xylia.Preview.UI.GameUI.Scene.Game_QuestJournal;
 public partial class Legacy_QuestJournalPanel : IRecordFilter
 {
 	#region Constructors
-	protected override void OnLoading()
+	public Legacy_QuestJournalPanel()
 	{
 		InitializeComponent();
 		QuestJournal_Tab_RadioButton_1.Header = "UI.QuestJournal.ProgressTab".GetText();
@@ -261,19 +260,7 @@ public partial class Legacy_QuestJournalPanel : IRecordFilter
 
 		QuestJournal_CompletedQuestDesc.String.LabelText = quest.Attributes["completed-desc"].GetText();
 	}
-
-
-
-	// ------------------------------------------------------------------
-	// 
-	//  Extract
-	// 
-	// ------------------------------------------------------------------
-	private async void Extract_QuestList_Click(object sender, RoutedEventArgs e) => await OutSet.Start<QuestOut>();
-
-	private async void Extract_EpicQuestList_Click(object sender, RoutedEventArgs e) => await OutSet.Start<QuestEpic>();
 	#endregion
-
 
 	#region Private Fields
 	private ICollectionView? source;
@@ -284,5 +271,4 @@ public partial class Legacy_QuestJournalPanel : IRecordFilter
 	private const int MASK_ContentType = 16; //short (flags gather than 255)
 	private const int MASK_ResetType = 32;   //byte
 	#endregion
-
 }

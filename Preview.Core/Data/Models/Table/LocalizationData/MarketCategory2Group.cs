@@ -1,10 +1,12 @@
-﻿using Xylia.Preview.Common.Attributes;
+﻿using System.Collections;
+using Xylia.Preview.Common.Attributes;
+using Xylia.Preview.Common.Extension;
+using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Models.Sequence;
 using Xylia.Preview.Properties;
-using REF = Xylia.Preview.Data.Common.DataStruct.Ref;
 
 namespace Xylia.Preview.Data.Models;
-public class MarketCategory2Group : ModelElement
+public abstract class MarketCategory2Group : ModelElement, IHaveName
 {
 	#region Attributes
 	public int Id { get; set; }
@@ -15,12 +17,10 @@ public class MarketCategory2Group : ModelElement
 
 	public Ref<Text> Name2 { get; set; }
 
-	public virtual bool Filter(Record record) => true;
-
 	public sealed class Favorite : MarketCategory2Group
 	{
-		private static HashSet<REF> _favorites;
-		public static HashSet<REF> Favorites
+		private static HashSet<Common.DataStruct.Ref> _favorites;
+		public static HashSet<Common.DataStruct.Ref> Favorites
 		{
 			get => Settings.Default.GetValue(ref _favorites, "Preview", "FavoriteItems") ?? [];
 			set => Settings.Default.SetValue(_favorites = value, "Preview", "FavoriteItems");
@@ -37,13 +37,10 @@ public class MarketCategory2Group : ModelElement
 		}
 	}
 
-	public sealed class MarketCategory2 : MarketCategory2Group
+	public sealed class MarketCategory2 : MarketCategory2Group, IEnumerable
 	{
-		[Name("market-category-2")]
-		public MarketCategory2Seq Marketcategory2 { get; set; }
-
-		[Name("market-category-3-group")]
-		public Ref<MarketCategory3Group>[] MarketCategory3Group { get; set; }
+		[Name("market-category-2")] public MarketCategory2Seq Marketcategory2 { get; set; }
+		[Name("market-category-3-group")] public Ref<MarketCategory3Group>[] MarketCategory3Group { get; set; }
 
 		public override bool Filter(Record record)
 		{
@@ -51,6 +48,20 @@ public class MarketCategory2Group : ModelElement
 
 			return true;
 		}
+
+		IEnumerator IEnumerable.GetEnumerator() => MarketCategory3Group.Values().GetEnumerator();
 	}
+
+	public sealed class All : MarketCategory2Group
+	{
+
+	}
+	#endregion
+
+	#region Methods
+	private string _name;
+	public string Name { get => _name ?? Name2.GetText(); set => _name = value; }
+
+	public virtual bool Filter(Record record) => true;
 	#endregion
 }

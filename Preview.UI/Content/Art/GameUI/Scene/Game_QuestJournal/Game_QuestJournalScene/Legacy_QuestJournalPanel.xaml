@@ -10,7 +10,7 @@
 		<s:ContextMenu x:Key="ItemMenu">
 			<s:MenuItem Header="{s:DynamicResource Name.PreviewBasic}" Command="{i:PreviewBasic}" CommandParameter="{Binding Path=.}"/>
 		</s:ContextMenu>
-		
+
 		<s:Style x:Key="FilterOption" TargetType="s:ItemsControl">
 			<s:Setter Property="HorizontalAlignment" Value="Left"/>
 			<s:Setter Property="ItemsPanel">
@@ -32,7 +32,7 @@
 
 	<s:TabControl x:Name="QuestJournal_Tab" >
 		<s:TabItem x:Name="QuestJournal_Tab_RadioButton_1" Header="ProgressTab">
-			
+
 			<s:Grid x:Name="QuestJournal_ProgressQuest" Background="{s:DynamicResource RegionBrush}">
 				<s:Grid.ColumnDefinitions>
 					<s:ColumnDefinition Width="*" MinWidth="270"/>
@@ -2119,7 +2119,7 @@
 					</BnsCustomWindowWidget>
 				</s:ScrollViewer>
 			</s:Grid>
-			
+
 		</s:TabItem>
 
 		<s:TabItem x:Name="QuestJournal_Tab_RadioButton_4" Header="LetterQuestTab" />

@@ -26,7 +26,7 @@ public sealed class ItemSpirit : ModelElement
 
 	public short[] FixedIngredientStackCount { get; set; }
 
-	public AttachAbilitySeq[] AttachAbility { get; set; }
+	public MainAbilitySeq[] AttachAbility { get; set; }
 
 	public int[] AbilityMin { get; set; }
 

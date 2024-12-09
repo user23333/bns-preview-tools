@@ -1,7 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Text;
 
-[assembly: InternalsVisibleTo("Preview.Tests")]
 namespace Xylia.Preview.Data.Engine;
 internal class DataArchiveWriter(bool is64Bit) : MemoryStream
 {

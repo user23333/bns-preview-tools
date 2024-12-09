@@ -52,10 +52,8 @@ public class AttributeDefinition
 		try
 		{
 			var Name = node.GetAttribute<string>("name").Trim();
-			var Type = byte.TryParse(node.GetAttribute("type"), out var b) ? (AttributeType)b :
-				Enum.TryParse("T" + node.GetAttribute("type"), true, out AttributeType t) ? t :
+			var Type = Enum.TryParse("T" + node.GetAttribute("type"), true, out AttributeType t) ? t :
 				throw new Exception($"Failed to determine attribute type: {Name}");
-
 			var Required = node.GetAttribute<bool>("required");
 			var Hidden = node.GetAttribute<bool>("hidden");
 			var DefaultValue = node.GetAttribute<string>("default");
@@ -140,11 +138,8 @@ public class AttributeDefinition
 				case AttributeType.TProp_seq:
 				case AttributeType.TProp_field:
 				{
-					if (DefaultValue is null && seq != null)
-					{
-						// Ignore unnecessary attribute output
-						if (Required || Hidden) DefaultValue ??= seq.FirstOrDefault();
-					}
+					// Ignore unnecessary attribute output
+					if (DefaultValue is null && Hidden) DefaultValue = seq?.FirstOrDefault();
 					break;
 				}
 

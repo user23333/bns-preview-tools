@@ -24,7 +24,7 @@
 
 
 				<hc:SearchBar Grid.Row="0" Style="{StaticResource SearchBarExtend}" hc:InfoElement.Title="{DynamicResource Settings_OutputDirectory}" hc:InfoElement.Necessary="True" 
-					Text="{Binding OutputFolderResource, Source={x:Static VM:UserSettings.Default}, Mode=OneWay}" Command="{Binding OpenSettingsCommand}"/>
+					Text="{Binding OutputFolderResource, Source={x:Static VM:UserSettings.Default}, Mode=OneWay}" Command="{Binding BrowerOutFolderCommand}"/>
 				<hc:ComboBox Grid.Row="1" x:Name="Selector" hc:InfoElement.Title="{DynamicResource Asset_FilterPah}" hc:InfoElement.Necessary="True" IsEditable="True" IsTextSearchEnabled="True" >
 					<ComboBoxItem Content="Game/Art/UI/GameUI/Resource/GameUI_Icon/" />
 					<ComboBoxItem Content="Game/Art/UI/GameUI/Resource/GameUI_Icon2nd" />
@@ -101,7 +101,7 @@
 
 				<hc:SearchBar Grid.Row="0"
 					Style="{StaticResource SearchBarExtend}" hc:InfoElement.Title="{DynamicResource Settings_GameDirectory}" hc:InfoElement.Necessary="True"
-					Text="{Binding GameFolder, Source={x:Static VM:UserSettings.Default}, Mode=OneWay}" Command="{Binding OpenSettingsCommand}" />
+					Text="{Binding GameFolder, Source={x:Static VM:UserSettings.Default}, Mode=OneWay}" Command="{Binding BrowerGameFolderCommand}" />
 				<hc:SearchBar Grid.Row="1"
 					Style="{StaticResource SearchBarExtend}" hc:InfoElement.Title="{DynamicResource Settings_OutputDirectory}" hc:InfoElement.Necessary="True"
 					Text="{Binding Icon_OutputFolder}" Command="{Binding Icon_BrowerOutputFolderCommand}" />

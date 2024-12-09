@@ -41,8 +41,8 @@ Global
 		{8ED67E4B-C0DF-4C7D-B295-9EAAA43B1D32}.Debug|x64.Build.0 = Debug|Any CPU
 		{8ED67E4B-C0DF-4C7D-B295-9EAAA43B1D32}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{8ED67E4B-C0DF-4C7D-B295-9EAAA43B1D32}.Debug|x86.Build.0 = Debug|Any CPU
-		{8ED67E4B-C0DF-4C7D-B295-9EAAA43B1D32}.Develop|Any CPU.ActiveCfg = Debug|Any CPU
-		{8ED67E4B-C0DF-4C7D-B295-9EAAA43B1D32}.Develop|Any CPU.Build.0 = Debug|Any CPU
+		{8ED67E4B-C0DF-4C7D-B295-9EAAA43B1D32}.Develop|Any CPU.ActiveCfg = Develop|Any CPU
+		{8ED67E4B-C0DF-4C7D-B295-9EAAA43B1D32}.Develop|Any CPU.Build.0 = Develop|Any CPU
 		{8ED67E4B-C0DF-4C7D-B295-9EAAA43B1D32}.Develop|x64.ActiveCfg = Develop|Any CPU
 		{8ED67E4B-C0DF-4C7D-B295-9EAAA43B1D32}.Develop|x64.Build.0 = Develop|Any CPU
 		{8ED67E4B-C0DF-4C7D-B295-9EAAA43B1D32}.Develop|x86.ActiveCfg = Develop|Any CPU
@@ -130,12 +130,12 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		RESX_Rules = {"EnabledRules":["StringFormat"]}
-		RESX_ShowErrorsInErrorList = True
-		RESX_TaskErrorCategory = Warning
-		RESX_ResXSortingComparison = OrdinalIgnoreCase
-		RESX_SortFileContentOnSave = True
-		SolutionGuid = {E692D4CD-1B89-448D-BED5-A4E1CFDEEB06}
 		RESX_SaveFilesImmediatelyUponChange = False
+		SolutionGuid = {E692D4CD-1B89-448D-BED5-A4E1CFDEEB06}
+		RESX_SortFileContentOnSave = True
+		RESX_ResXSortingComparison = OrdinalIgnoreCase
+		RESX_TaskErrorCategory = Warning
+		RESX_ShowErrorsInErrorList = True
+		RESX_Rules = {"EnabledRules":["StringFormat"]}
 	EndGlobalSection
 EndGlobal

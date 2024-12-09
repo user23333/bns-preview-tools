@@ -17,14 +17,13 @@ public partial class ShowObjectPlayer
 		InitializeComponent();
 
 #if DEVELOP
-		string path = @"Tuto_45LV_Def_Voice.q_1669_1_icon_msg_1_voice1";
-		_viewModel.ShowObject = Xylia.Preview.Data.Helpers.FileCache.Provider.LoadObject<UShowObject>(path);
+		//_viewModel.Source = Xylia.Preview.Common.Globals.GameProvider.LoadObject<UShowObject>(path);
 #endif
 	}
 
 	public ShowObjectPlayer(UShowObject Source) : this()
 	{
-		_viewModel.ShowObject = Source;
+		_viewModel.Source = Source;
 	}
 	#endregion
 
@@ -36,16 +35,12 @@ public partial class ShowObjectPlayer
 
 	private void OnSelectedItem(object sender, SelectionChangedEventArgs e)
 	{
-		if (ObjectList.SelectedItem is not ShowKeyBase value) return;
-
-		TextEditor.Text = JsonConvert.SerializeObject(value, Formatting.Indented);
+		TextEditor.Text = JsonConvert.SerializeObject(_viewModel.SelectedKey, Formatting.Indented);
 	}
 
 	private void OnDoubleClick(object sender, MouseButtonEventArgs e)
 	{
-		if (ObjectList.SelectedItem is not ShowKeyBase value) return;
-
-		var wave = value.GetWave();
+		var wave = _viewModel.SelectedKey.GetWave();
 		if (wave != null)
 		{
 			if (audioPlayer is null)
@@ -57,7 +52,7 @@ public partial class ShowObjectPlayer
 
 			audioPlayer.Load(new AudioFile(wave, "ogg")
 			{
-				Name = value.Name,
+				Name = _viewModel.SelectedKey!.Name,
 			});
 		}
 	}

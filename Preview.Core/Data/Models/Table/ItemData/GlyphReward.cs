@@ -89,7 +89,7 @@ public sealed class GlyphReward : ModelElement, IReward
 		#region Additional
 		if (AdditionalGlyphPickProbability > 0)
 		{
-			var group = string.Format("{0}% ", AdditionalGlyphPickProbability) + "UI.GlyphProbability.Title.AcquireAddGlyph".GetText();
+			var group = "UI.GlyphProbability.Title.AcquireAddGlyph".GetText();
 
 			AdditionalGlyph.Values().ForEach((glyph, idx) =>
 			{
@@ -97,7 +97,7 @@ public sealed class GlyphReward : ModelElement, IReward
 				{
 					Data = glyph,
 					Group = group,
-					Probability = (double)AdditionalGlyphProbWeight[idx] / AdditionalGlyphProbWeightTotal
+					Probability = AdditionalGlyphPickProbability * 0.01 * AdditionalGlyphProbWeight[idx] / AdditionalGlyphProbWeightTotal
 				});
 			});
 		}

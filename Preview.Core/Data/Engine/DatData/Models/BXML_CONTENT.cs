@@ -260,13 +260,12 @@ internal class BXML_CONTENT(byte[] XorKey)
 	/// <returns></returns>
 	public byte[] ConvertToString()
 	{
-		using var oStream = new MemoryStream();
-		using var sw = new StreamWriter(oStream, new UTF8Encoding(false));
+		using var stream = new MemoryStream();
+		using var writer = new StreamWriter(stream, new UTF8Encoding(false));
+		Nodes.Save(writer);
+		writer.Close();
 
-		Nodes.Save(sw);
-		sw.Close();
-
-		return oStream.ToArray();
+		return stream.ToArray();
 	}
 
 	/// <summary>

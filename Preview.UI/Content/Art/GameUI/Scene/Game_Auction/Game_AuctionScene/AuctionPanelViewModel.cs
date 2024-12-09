@@ -1,17 +1,19 @@
 ﻿using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Xylia.Preview.Common;
+using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Engine.BinData.Helpers;
 using Xylia.Preview.Data.Models;
 using Xylia.Preview.Data.Models.Sequence;
 using Xylia.Preview.UI.Common.Interactivity;
 
 namespace Xylia.Preview.UI.GameUI.Scene.Game_Auction;
-internal partial class AuctionPanelViewModel : ObservableObject
+internal class AuctionPanelViewModel : ObservableObject
 {
 	public event EventHandler? Changed;
 
-	#region Fields
-	private ICollectionView _source;
+	#region Properties
+	private ICollectionView? _source;
 	public ICollectionView Source
 	{
 		get => _source;
@@ -95,7 +97,37 @@ internal partial class AuctionPanelViewModel : ObservableObject
 	// TODO: NEO
 	public IEnumerable<JobSeq> Jobs => [JobSeq.JobNone, .. Data.Models.Job.PcJobs];
 
-	// TODO: improvement efficiency
+	public IEnumerable<MarketCategory2Group> MarketCategory
+	{
+		get
+		{
+			var MarketCategory2Group = Globals.GameData.Provider.GetTable<MarketCategory2Group>()?.ToList();
+			if (MarketCategory2Group.IsEmpty())
+			{
+				MarketCategory2Group =
+				[
+					new MarketCategory2Group.Favorite() { Visible = true, Name = "UI.Market.Category.Favorites".GetText() },
+					.. SequenceExtensions.MarketCategory2Group().Select(group => new MarketCategory2Group.MarketCategory2()
+					{
+						SortNo = 100,
+						Visible = true,
+						Name = group.Key.GetText(),
+						Marketcategory2 = group.Key,
+						MarketCategory3Group = group.Value?.Select(x => new Ref<MarketCategory3Group>(new MarketCategory3Group()
+						{
+							Visible = true,
+							Name = x.GetText(),
+							MarketCategory3 = [x]
+						})).ToArray(),
+					}),
+				];
+			}
+
+			MarketCategory2Group!.Add(new MarketCategory2Group.All() { Visible = true, Name = "UI.Market.Category.All".GetText() });
+			return MarketCategory2Group.Where(x => x.Visible).OrderBy(x => x.SortNo);
+		}
+	}
+
 	private bool OnFilter(object obj)
 	{
 		#region Initialize
@@ -108,7 +140,7 @@ internal partial class AuctionPanelViewModel : ObservableObject
 
 		#region Filter
 		// category
-		if (Category is null)  // all
+		if (Category is MarketCategory2Group.All or null)
 		{
 			if (HashList is null && string.IsNullOrEmpty(NameFilter)) return false;
 		}
@@ -123,7 +155,7 @@ internal partial class AuctionPanelViewModel : ObservableObject
 		// grade
 		if (Grade > 0 && record.Attributes.Get<sbyte>("item-grade") != Grade) return false;
 		if (Job != default && !record.Attributes.Get<JobSeq[]>("equip-job-check").CheckSeq(Job)) return false;
-		
+
 		// rule
 		// skip compare alias if integer
 		if (string.IsNullOrEmpty(NameFilter)) return true;
@@ -132,7 +164,7 @@ internal partial class AuctionPanelViewModel : ObservableObject
 			if (record.PrimaryKey.Id == id) return true;
 		}
 		else if (record.Attributes.Get<string>("alias")?.Contains(NameFilter, StringComparison.OrdinalIgnoreCase) ?? false) return true;
-		
+
 		if (record.Attributes.Get<Record>("name2").GetText()?.Contains(NameFilter, StringComparison.OrdinalIgnoreCase) ?? false) return true;
 		return false;
 		#endregion

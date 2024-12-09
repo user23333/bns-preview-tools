@@ -1,10 +1,11 @@
 ﻿using Xylia.Preview.Common.Attributes;
+using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Models.Sequence;
 using static Xylia.Preview.Data.Models.Item;
 
 namespace Xylia.Preview.Data.Models;
-public sealed class ItemBrandTooltip : ModelElement
+public sealed class ItemBrandTooltip : ModelElement, IHaveName
 {
 	#region Attributes
 	public int BrandId { get; set; }
@@ -63,6 +64,8 @@ public sealed class ItemBrandTooltip : ModelElement
 
 	#region Properties
 	public string BrandName => $"<link id='item-brand:{ToString()}'>{BrandNameOnly}</link>";
-	public string BrandNameOnly => $"<font name='00008130.Program.Fontset_ItemGrade_{ItemGrade}'>{Name2.GetText()}</font>";
+	public string BrandNameOnly => $"<font name='00008130.Program.Fontset_ItemGrade_{ItemGrade}'>{Name2.GetText() ?? ToString()}</font>";	
+
+	public string Name => Name2.GetText() ?? ToString();
 	#endregion
 }

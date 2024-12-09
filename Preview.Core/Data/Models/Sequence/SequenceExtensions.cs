@@ -59,10 +59,6 @@ public static partial class SequenceExtensions
 		var text = value.GetAttribute<TextAttribute>()?.Alias.GetText();
 		if (text != null) return text;
 
-		//// get description
-		//var description = value.GetAttribute<DescriptionAttribute>()?.Description;
-		//if (description != null) return description;
-
 		// don't return default
 		return value is 0 ? null : value.ToString();
 	}

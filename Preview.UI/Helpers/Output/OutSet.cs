@@ -23,7 +23,7 @@ internal abstract class OutSet
 	#region Properties
 	public virtual string Name => GetType().Name.SubstringBefore("Out", StringComparison.OrdinalIgnoreCase);
 
-	protected virtual BnsDatabase? Source { get; set; } = Globals.GameData;
+	protected virtual BnsDatabase Source { get; set; } = Globals.GameData;
 	#endregion
 
 	#region Methods

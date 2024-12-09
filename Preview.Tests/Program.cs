@@ -1,5 +1,4 @@
 ﻿using Xylia.Preview.Tests.DatTests.Tools;
-using Xylia.Preview.Tests.PakTests;
 
 namespace Xylia.Preview.Tests;
 internal class Program
@@ -7,6 +6,10 @@ internal class Program
 	[STAThread]
 	static void Main()
 	{
+#if DEVELOP
+		new System.Windows.Application().Run(new TestPanel());
+		return;
+#endif
 		Application.EnableVisualStyles();
 		Application.SetCompatibleTextRenderingDefault(false);
 		Application.Run(new MainForm());

@@ -1,5 +1,4 @@
 ﻿using OfficeOpenXml;
-using Xylia.Preview.Common;
 using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.UI.Helpers.Output.Tables;
@@ -41,23 +40,15 @@ internal sealed class ItemBuyPriceOut : OutSet
 
 			sheet.Cells[row, column++].SetValue(record);
 			sheet.Cells[row, column++].SetValue(record.Money);
-
-			#region brand & item
-			ItemBrandTooltip ItemBrandTooltip = null;
-			var ItemBrand = record.RequiredItembrand.Instance;
-			if (ItemBrand != null) ItemBrandTooltip = ItemBrandTooltiptTable.FirstOrDefault(x => x.BrandId == ItemBrand.Id && x.ItemConditionType == record.RequiredItembrandConditionType);
-			sheet.Cells[row, column++].SetValue(ItemBrandTooltip?.Name2.GetText() ?? ItemBrand?.ToString());
+			sheet.Cells[row, column++].SetValue(record.RequiredItemBrand?.Name);
 
 			for (int i = 0; i < 4; i++)
 			{
 				var item = record.RequiredItem[i].Instance;
 				var count = record.RequiredItemCount[i];
 
-				if (item is null) sheet.Cells[row, column++].SetValue("");
-				else sheet.Cells[row, column++].SetValue(item.Name + " " + count);
+				sheet.Cells[row, column++].SetValue(item is null ? "" : (item.Name + " " + count));
 			}
-			#endregion
-
 
 			sheet.Cells[row, column++].SetValue(record.RequiredFactionScore);
 			sheet.Cells[row, column++].SetValue(record.RequiredDuelPoint);
@@ -65,12 +56,7 @@ internal sealed class ItemBuyPriceOut : OutSet
 			sheet.Cells[row, column++].SetValue(record.RequiredFieldPlayPoint);
 			sheet.Cells[row, column++].SetValue(record.RequiredLifeContentsPoint);
 			sheet.Cells[row, column++].SetValue(record.RequiredAchievementScore);
-
-			#region achievemen
-			string AchievementName = record.RequiredAchievementId == 0 ? null :
-				Globals.GameData.Provider.GetTable<Achievement>().FirstOrDefault(o => o.Id == record.RequiredAchievementId && o.Step == record.RequiredAchievementStepMin)?.Name;
-			sheet.Cells[row, column++].SetValue(AchievementName);
-			#endregion
+			sheet.Cells[row, column++].SetValue(record.RequiredAchievement?.Name2.GetText());
 
 			sheet.Cells[row, column++].SetValue(record.FactionLevel);
 			sheet.Cells[row, column++].SetValue(record.CheckSoloDuelGrade);

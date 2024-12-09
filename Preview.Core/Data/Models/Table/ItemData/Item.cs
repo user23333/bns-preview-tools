@@ -6,6 +6,7 @@ using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Models.Sequence;
+using Xylia.Preview.Properties;
 using static Xylia.Preview.Data.Models.Item;
 using static Xylia.Preview.Data.Models.Item.Grocery;
 
@@ -74,9 +75,9 @@ public abstract class Item : ModelElement, IHaveName
 		COUNT
 	}
 
-	public ItemDecomposeInfo DecomposeInfo => new(this);
-
-	public Ref<SetItem> SetItem { get; set; }
+	public SetItem SetItem => Attributes.Get<SetItem>("set-item");
+	public Faction Faction => Attributes.Get<Faction>("faction");
+	public Faction EquipFaction => Attributes.Get<Faction>("equip-faction");
 
 
 	public int RandomOptionGroupId => Attributes.Get<int>("random-option-group-id");
@@ -110,15 +111,15 @@ public abstract class Item : ModelElement, IHaveName
 				};
 			}
 
-			var text = Attributes["name2"].GetText() ?? ToString();
+			var text = Attributes["name2"].GetText();
+			if (Settings.Default.UseDebugMode) text ??= ToString();
+
 			return $"<font name='00008130.Program.Fontset_ItemGrade_{ItemGrade}'>{text}</font>" + TagIconGrade?.Tag;
 		}
 	}
 
 	public int ClosetGroupId => Attributes.Get<int>("closet-group-id");
-	#endregion
 
-	#region Sub
 	public sealed class Weapon : Item
 	{
 		public WeaponTypeSeq WeaponType => Attributes.Get<WeaponTypeSeq>("weapon-type");
@@ -181,8 +182,19 @@ public abstract class Item : ModelElement, IHaveName
 			RelicMaterial,
 			StarStone,
 			Voucher,
+			CapitalTeleport,
+			SkillTrainByItemExtract,
 			COUNT
 		}
+
+		public sbyte SkillLimitLevel => Attributes.Get<sbyte>("skill-limit-level");
+		public sbyte SkillLimitLevelMax => Attributes.Get<sbyte>("skill-limit-level-max");
+		public sbyte SkillLimitMasteryLevel => Attributes.Get<sbyte>("skill-limit-mastery-level");
+		public sbyte SkillLimitMasteryLevelMax => Attributes.Get<sbyte>("skill-limit-mastery-level-max");
+		public JobSeq SkillLimitJob => Attributes.Get<JobSeq>("skill-limit-job");
+		public Faction SkillLimitFaction => Attributes.Get<Faction>("skill-limit-faction");
+		public short SkillLimitFactionLevel => Attributes.Get<short>("skill-limit-faction-level");
+		public Faction SkillLimitActivatedFaction => Attributes.Get<Faction>("skill-limit-activated-faction");
 	}
 
 	public sealed class Gem : Item
@@ -254,8 +266,9 @@ public abstract class Item : ModelElement, IHaveName
 	}
 	#endregion
 
+	#region Properties
+	public ItemDecomposeInfo DecomposeInfo => new(this);
 
-	#region Methods
 	public string Name => Attributes["name2"].GetText() ?? ToString();
 
 	public Icon FrontIcon => Attributes.Get<Icon>("icon");

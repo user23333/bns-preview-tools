@@ -148,9 +148,11 @@ public class TableDefinition : TableHeader
 					Name = AttributeCollection.s_autoid,
 					Type = AttributeType.TInt64,
 					Offset = 8,
-					Repeat = 1,
+					Repeat = 1,	  
 					IsKey = true,
 					IsHidden = true,
+					Min = long.MinValue,
+					Max = long.MaxValue,  
 					Writeable = false,
 				};
 

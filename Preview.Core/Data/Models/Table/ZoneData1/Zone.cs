@@ -34,8 +34,9 @@ public interface IAttraction : IHaveName
 	#region Methods
 	public string GetName() => (this switch
 	{
-		JackpotBossZone zone => "UI.AttractionTooltip.Name.JackpotBossZone." + zone.UiTextGrade,
 		FieldZone zone		=> "UI.AttractionTooltip.Name.FieldZone." + zone.UiTextGrade,
+		ClassicFieldZone zone => "UI.AttractionTooltip.Name.FieldZone." + zone.UiTextGrade,
+		JackpotBossZone zone => "UI.AttractionTooltip.Name.JackpotBossZone." + zone.UiTextGrade,
 		TendencyField zone  => "UI.AttractionTooltip.Name.TendencyField." + zone.UiTextGrade,
 		Cave2 zone			=> "UI.AttractionTooltip.Name.Dungeon." + zone.UiTextGrade,
 		Dungeon zone		=> "UI.AttractionTooltip.Name.Dungeon." + zone.UiTextGrade,

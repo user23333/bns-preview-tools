@@ -1,8 +1,2 @@
-﻿using Xylia.Preview.Common.Attributes;
-
-namespace Xylia.Preview.Data.Models;
-[Side(ReleaseSide.Client)]
-public sealed class TutorialSkillSequence : ModelElement
-{
-	
-}
+﻿namespace Xylia.Preview.Data.Models;
+public sealed class TutorialSkillSequence : ModelElement { }

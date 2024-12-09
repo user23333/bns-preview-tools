@@ -20,7 +20,7 @@ public partial class MainForm : Form
 	{
 		InitializeComponent();
 
-		_ = new StrWriter(richOut);
+		_ = new LogHelper(richOut);
 		CheckForIllegalCrossThreadCalls = false;
 
 		ReadConfig(this);
@@ -151,34 +151,27 @@ public partial class MainForm : Form
 
 	private void button3_Click(object sender, EventArgs e)
 	{
-		OpenFileDialog openFile = new()
-		{
-			Filter = "XML 文件|*.xml"
-		};
+		var openFile = new OpenFileDialog() { Filter = "XML 文件|*.xml" };
+		if (openFile.ShowDialog() != DialogResult.OK) return;
 
-		if (openFile.ShowDialog() == DialogResult.OK)
+		Task.Run(() =>
 		{
-			new Thread(() =>
+			XmlDocument patchDoc = new();
+			patchDoc.Load(openFile.FileName);
+
+			foreach (XmlNode patchNode in patchDoc.SelectNodes("//patch"))
 			{
-				XmlDocument xmlDocument = new();
-				xmlDocument.Load(openFile.FileName);
-
-				foreach (XmlNode patchNode in xmlDocument.SelectNodes("//patch"))
+				string path = txbRpFolder.Text + "\\" + patchNode?.Attributes["file"]?.Value;
+				if (File.Exists(path))
 				{
-					string RelaPath = patchNode?.Attributes["file"]?.Value;
-					string FilePath = txbRpFolder.Text + "\\" + RelaPath;
-					if (File.Exists(FilePath))
-					{
-						XmlDocument FileDoc = new();
-						FileDoc.Load(FilePath);
+					XmlDocument fileDoc = new() { PreserveWhitespace = true };
+					fileDoc.Load(path);
 
-						ModifyNodes(patchNode, FileDoc.DocumentElement);
-						FileDoc.Save(FilePath);
-					}
+					ModifyNodes(patchNode, fileDoc.DocumentElement);
+					fileDoc.Save(path);
 				}
-
-			}).Start();
-		}
+			}
+		});
 	}
 
 	public static void ModifyNodes(XmlNode config, XmlNode file)
@@ -327,9 +320,9 @@ public partial class MainForm : Form
 	{
 		Task.Run(() =>
 		{
+			set ??= new DatabaseTests(DefaultProvider.Load(Txt_Bin_Data.Text), textBox3.Text);
 			try
 			{
-				set ??= new DatabaseTests(DefaultProvider.Load(Txt_Bin_Data.Text), textBox3.Text);
 				set.Output(textBox1.Text.Split('|'));
 			}
 			catch (Exception ex)
@@ -354,9 +347,9 @@ public partial class MainForm : Form
 			}
 			else
 			{
-				CommonConvert CC = new(text.ToBytes());
-				Convert_Decimal.Text = CC.MainValue?.ToString();
-				Convert_Warning.Text = $"Short {CC.Short1},{CC.Short2}\nFloat {CC.Float}";
+				var c = new CommonConvert(text.ToBytes());
+				Convert_Decimal.Text = c.MainValue?.ToString();
+				Convert_Warning.Text = $"Short {c.Short1},{c.Short2}\nFloat {c.Float}";
 			}
 		}
 		catch (Exception ee)
@@ -385,8 +378,6 @@ public partial class MainForm : Form
 			Console.WriteLine(ee.Message);
 		}
 	}
-
-
 
 	private void button12_Click(object sender, EventArgs e) => richTextBox1.Text = CreateClass.Instance(richTextBox1.Text);
 
@@ -448,9 +439,7 @@ public partial class MainForm : Form
 				.Replace("\r\n", null)
 				.Replace(" ", null)
 				.Replace("-", null)
-				.UnCompress()
 				.ToBytes();
-
 
 			StringBuilder output = new();
 			for (int idx = 0; idx < data.Length; idx += 4)

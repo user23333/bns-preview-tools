@@ -10,7 +10,6 @@ using Xylia.Preview.UI.Controls.Primitives;
 using Xylia.Preview.UI.Extensions;
 
 namespace Xylia.Preview.UI.Controls;
-
 [DefaultEvent("Click")]
 public class BnsCustomLabelButtonWidget : BnsCustomBaseWidget, ICommandSource
 {
@@ -28,11 +27,6 @@ public class BnsCustomLabelButtonWidget : BnsCustomBaseWidget, ICommandSource
 
 		//IsMouseOverProperty.OverrideMetadata(typeof(BnsCustomLabelButtonWidget), new UIPropertyMetadata(new PropertyChangedCallback(OnVisualStatePropertyChanged)));
 		IsEnabledProperty.OverrideMetadata(typeof(BnsCustomLabelButtonWidget), new UIPropertyMetadata(new PropertyChangedCallback(OnVisualStatePropertyChanged)));
-	}
-
-	public BnsCustomLabelButtonWidget()
-	{
-
 	}
 	#endregion
 
@@ -55,7 +49,7 @@ public class BnsCustomLabelButtonWidget : BnsCustomBaseWidget, ICommandSource
 	/// <param name="e">DependencyPropertyChangedEventArgs.</param>
 	protected virtual void OnIsPressedChanged(DependencyPropertyChangedEventArgs e)
 	{
-		//OnVisualStatePropertyChanged(this, e);
+		OnVisualStatePropertyChanged(this, e);
 	}
 	#endregion
 

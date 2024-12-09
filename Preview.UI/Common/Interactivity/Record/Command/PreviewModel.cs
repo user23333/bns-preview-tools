@@ -19,8 +19,9 @@ internal class PreviewModel : RecordCommand
 	protected override List<string> Type =>
 	[
 		"creatureappearance",
-		"npc",
+		"fielditem",
 		"item",
+		"npc",
 		"pet",
 		"vehicle-appearance",
 	];
@@ -65,6 +66,17 @@ internal class PreviewModel : RecordCommand
 					Export = appearance.Attributes.Get<ObjectPath>("body-mesh-name").LoadObject(),
 					Cols = [appearance.Attributes.Get<ObjectPath>("body-material-name")],
 					AnimSet = record.Attributes.Get<ObjectPath>("animset").LoadObject<UAnimSet>()
+				});
+			}
+			break;
+
+			case "fielditem":
+			{
+				models.Add(new()
+				{
+					Export = record.Attributes.Get<ObjectPath>("mesh-id").LoadObject(),
+					Cols = [record.Attributes.Get<ObjectPath>("mesh-col")],
+					AnimSet = record.Attributes.Get<ObjectPath>("animset-name").LoadObject<UAnimSet>()
 				});
 			}
 			break;

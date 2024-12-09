@@ -58,7 +58,9 @@ public class ItemBuyPrice : ModelElement
 	#endregion
 
 	#region Properties
-	public ItemBrandTooltip ItemBrand => RequiredItembrand.Instance?.GetTooltip(RequiredItembrandConditionType);
+	public ItemBrandTooltip RequiredItemBrand => RequiredItembrand.Instance?.GetTooltip(RequiredItembrandConditionType);
+
+	public Achievement RequiredAchievement => Provider.GetTable<Achievement>()[RequiredAchievementId + ((long)RequiredAchievementStepMin << 16)];
 
 	public string Coin
 	{

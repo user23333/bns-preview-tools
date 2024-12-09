@@ -1,14 +1,12 @@
 ﻿using System.ComponentModel;
 using System.Globalization;
 using Xylia.Preview.Common;
-using Xylia.Preview.Common.Attributes;
 using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Models.Sequence;
 using static Xylia.Preview.Data.Models.Item;
 
 namespace Xylia.Preview.Data.Models;
-[Side(ReleaseSide.Client)]
 [TypeConverter(typeof(RaceConverter))]
 public sealed class Race : ModelElement, IHaveName
 {
@@ -49,7 +47,6 @@ public sealed class Race : ModelElement, IHaveName
 			return value switch
 			{
 				RaceSeq seq => Get(seq),
-				RaceSeq2.RaceNone => Get(RaceSeq.RaceNone),
 				RaceSeq2.Kun => Get(RaceSeq.건),
 				RaceSeq2.Gon => Get(RaceSeq.곤),
 				RaceSeq2.Lyn => Get(RaceSeq.린),

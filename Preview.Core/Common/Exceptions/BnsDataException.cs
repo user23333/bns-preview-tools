@@ -85,7 +85,6 @@ public enum BnsDataExceptionCode
 	None,
 	InvalidGame,
 	InvalidPublisher,
-
-	InvalidDefinition = 100,
-	InvalidDefinition_NotFound = InvalidDefinition + 1,
+	InvalidDefinition,
+	InvalidDefinition_NotFound,
 }

@@ -1,7 +1,6 @@
 ﻿using System.Security.Cryptography;
 using CUE4Parse.Compression;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Engine.DatData;
 
 namespace Xylia.Preview.Tests.DatTests;
@@ -32,8 +31,5 @@ public partial class DatTests
 
 		Console.WriteLine(PrivateKey);
 		Console.WriteLine(PublicKey);
-
-		Console.WriteLine(TimeUniversal.Parse("2024/8/20 7:59:00").Ticks);
-		Console.WriteLine(TimeUniversal.Parse("2024/9/25 8:00:00").Ticks);
 	}
 }

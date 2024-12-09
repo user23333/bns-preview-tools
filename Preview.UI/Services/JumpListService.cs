@@ -4,46 +4,31 @@ using System.Windows.Shell;
 namespace Xylia.Preview.UI.Services;
 internal class JumpListService : IService
 {
-	public bool Register()
+	public void Register()
 	{
-		CreateAsync();
-		return true;
-	}
-
-	public static async void CreateAsync()
-	{
-		// Create a jump-list and assign it to the current application
-		var jumpList = new JumpList();
-		JumpList.SetJumpList(Application.Current, jumpList);
-
-		await Task.Run(() =>
+		#region Items
+		var items = new List<JumpItem>
 		{
-			if (jumpList != null)
+			new JumpTask
 			{
-				jumpList.JumpItems.Clear();
-				jumpList.ShowFrequentCategory = false;
-				jumpList.ShowRecentCategory = false;
-
-				#region Items
-				jumpList.JumpItems.Add(new JumpTask
-				{
-					Title = StringHelper.Get("Command_QueryAsset"),
-					ApplicationPath = Environment.ProcessPath,
-					Arguments = "-command=query -type=ue",
-					IconResourcePath = null,
-				});
-
-				jumpList.JumpItems.Add(new JumpTask
-				{
-					Title = StringHelper.Get("Command_Output"),
-					ApplicationPath = Environment.ProcessPath,
-					Arguments = "-command=output",
-					IconResourcePath = null,
-				});
-				#endregion
+				ApplicationPath = Environment.ProcessPath,
+				Arguments = "-command=query -type=ue",
+				Title = StringHelper.Get("Command_QueryAsset"),
+				IconResourcePath = null,
+			},
+			new JumpTask
+			{
+				ApplicationPath = Environment.ProcessPath,
+				Arguments = "-command=output",
+				Title = StringHelper.Get("Command_Output"),
+				IconResourcePath = null,
 			}
-		});
+		};
+		#endregion
 
+		// Create a jump-list and assign it to the current application
+		var jumpList = new JumpList(items, true, false);
+		JumpList.SetJumpList(Application.Current, jumpList);
 		jumpList.Apply();
 	}
 }

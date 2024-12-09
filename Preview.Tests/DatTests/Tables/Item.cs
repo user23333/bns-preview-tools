@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Models;
 using Xylia.Preview.Data.Models.Sequence;
 
@@ -6,29 +7,33 @@ namespace Xylia.Preview.Tests.DatTests;
 public partial class TableTests
 {
 	[TestMethod]
-	[DataRow("ItemSpirit_0180")]
+	[DataRow("ItemSpirit_0215")]
 	public void DistributionTest(string alias)
 	{
 		var record = Database.Provider.GetTable<ItemSpirit>()[alias];
+
 		var array1 = record.DistributionType.Instance.Do(record.AbilityMin[0], record.AbilityMax[0]);
 		var array2 = record.DistributionType.Instance.Do(record.AbilityMin[1], record.AbilityMax[1]);
 
-		for (int i = 0; i < array1.Length; i++) Console.WriteLine($"{array1[i].Item1} {array1[i].Item2:P5}");
+		//Console.WriteLine(record.AttachAbility[0].GetText());
+		//for (int i = 0; i < array1.Length; i++) Console.WriteLine($"{array1[i].Item1} {array1[i].Item2:P5}");
+
+		Console.WriteLine(record.AttachAbility[1].GetText());
 		for (int i = 0; i < array2.Length; i++) Console.WriteLine($"{array2[i].Item1} {array2[i].Item2:P5}");
 	}
 
 	[TestMethod]
-	[DataRow(80)]
-	public void RacoonStoreTest(int group)
+	[DataRow("RacoonStoreTest_03", 1)]
+	public void RacoonStoreTest(string alias, int slot)
 	{
-		var table = Database.Provider.GetTable<RacoonStoreItem>();
-		var records = table.Where(x => x.SlotGroup == group);
-		var TotalItemProbWeight = records.Sum(x => x.ItemProbWeight);
+		var group = Database.Provider.GetTable<RacoonStore>()[alias].Attributes.Get<int>("slot-group-" + slot);
+		var items = Database.Provider.GetTable<RacoonStoreItem>().Where(x => x.SlotGroup == group);
+		var TotalItemProbWeight = items.Sum(x => x.ItemProbWeight);
 
-		foreach (var record in records)
+		foreach (var record in items)
 		{
 			Console.WriteLine(string.Format("{0} {1:P3}  {2} {3}",
-				record.Item.Instance.Name,
+				record.Item.Instance?.Name,
 				(double)record.ItemProbWeight / TotalItemProbWeight,
 				record.CostType,
 				record.ItemCost
@@ -46,18 +51,16 @@ public partial class TableTests
 	}
 
 	[TestMethod]
-	[DataRow("SoulBoost_Season_0014")]
+	[DataRow("SoulBoost_Season_0017")]
 	public void SoulBoostTest(string alias)
 	{
-		var record = Database.Provider.GetTable<SoulBoostSeason>()[alias];
-		record.TestMethod();
+		Console.WriteLine(TimeUniversal.Parse("2024/8/20 7:59:00").Ticks);
+		Console.WriteLine(TimeUniversal.Parse("2024/9/25 8:00:00").Ticks);
+
+		Database.Provider.GetTable<SoulBoostSeason>()[alias].TestMethod();
 	}
 
 	[TestMethod]
-	[DataRow(180000, 183, 76)]
-	[DataRow(180000, 90, 107)]
-	[DataRow(240000, 1, 285)]
-	[DataRow(600000, 1, 714)]
 	public void WorldBossRewardTest(int total, int rank, double arg3)
 	{
 		var record = Database.Provider.GetTable<WorldBossReward>()["ME_BC_DesertDragon_0001_reward"];

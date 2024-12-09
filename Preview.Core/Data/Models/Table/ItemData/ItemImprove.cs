@@ -16,7 +16,6 @@ public sealed class ItemImprove : ModelElement, IRecipeHelper
 	#region Methods
 	public string ImproveOptionAcquireLevel => SuccessOptionListId > 0 ? "UI.EquipmentGuide.ItemInfo.ImproveOptionAcquireLevel.Desc".GetText([Level]) : null;
 
-
 	internal static Item GetResultItem(Item item, sbyte improvelevel)
 	{
 		ArgumentNullException.ThrowIfNull(item);

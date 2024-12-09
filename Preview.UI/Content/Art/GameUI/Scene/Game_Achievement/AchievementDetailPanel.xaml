@@ -1,0 +1,1311 @@
+﻿<BnsCustomWindowWidget x:Class="Xylia.Preview.UI.GameUI.Scene.Game_Achievement.AchievementDetailPanel"
+	xmlns="https://github.com/xyliaup/bns-preview-tools"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:s="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<BnsCustomImageWidget Name="AchievementPanel_Information_DetailList_Column_1_1" LayoutData.Offsets="0 0 532 580">
+		<BnsCustomImageWidget.BaseImageProperty>
+			<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="20 116" ImageUVSize="18 18" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" SperateImageType="BNS_SperateImageType_9Frame" Opacity="0.1" />
+		</BnsCustomImageWidget.BaseImageProperty>
+		<BnsCustomImageWidget.ExpansionComponentList>
+			<UBnsCustomExpansionComponent bShow="true" ExpansionName="Completed" MetaData="">
+				<UBnsCustomExpansionComponent.ImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/V2/Resource/NEO_UI_Common_Resource/Img_Info_Frame.Img_Info_Frame" EnableBrushOnly="true" ImageUVSize="40 40" EnableDrawImage="true" EnableDrawColor="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" TintColor="FFFFFF" Opacity="1" />
+				</UBnsCustomExpansionComponent.ImageProperty>
+			</UBnsCustomExpansionComponent>
+			<UBnsCustomExpansionComponent bShow="true" ExpansionName="Completed" MetaData="">
+				<UBnsCustomExpansionComponent.ImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/V2/Resource/NEO_UI_Common_Resource/Img_Info_Frame.Img_Info_Frame" EnableBrushOnly="true" ImageUVSize="40 40" EnableDrawImage="true" EnableDrawColor="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" TintColor="FFFFFF" Opacity="1" />
+				</UBnsCustomExpansionComponent.ImageProperty>
+			</UBnsCustomExpansionComponent>
+			<UBnsCustomExpansionComponent bShow="true" ExpansionName="NotProgress" MetaData="">
+				<UBnsCustomExpansionComponent.ImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/V2/Resource/NEO_UI_Common_Resource/Img_Info_Frame_Dis.Img_Info_Frame_Dis" EnableBrushOnly="true" ImageUVSize="40 40" EnableDrawImage="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" TintColor="FFFFFF" Opacity="0.5" />
+				</UBnsCustomExpansionComponent.ImageProperty>
+			</UBnsCustomExpansionComponent>
+		</BnsCustomImageWidget.ExpansionComponentList>
+
+		<BnsCustomImageWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Info" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="0 0 0 140">
+			<BnsCustomImageWidget.HorizontalResizeLink>
+				<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_RIGHT_AND_LEFT" />
+			</BnsCustomImageWidget.HorizontalResizeLink>
+			<BnsCustomImageWidget.VerticalResizeLink>
+				<BnsCustomResizeLink bEnable="true" />
+			</BnsCustomImageWidget.VerticalResizeLink>
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty EnableDrawImage="true" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" Opacity="1" />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Info_BottomGuide" LayoutData.Offsets="15.999756 96 200 0">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty EnableDrawImage="true" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" Opacity="1" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomImageWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Info_Set" LayoutData.Offsets="65.99988 92 320 48">
+				<BnsCustomImageWidget.VerticalResizeLink>
+					<BnsCustomResizeLink Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="0" Offset1="3" />
+				</BnsCustomImageWidget.VerticalResizeLink>
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty EnableDrawImage="true" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" Opacity="1" />
+				</BnsCustomImageWidget.BaseImageProperty>
+				<BnsCustomToggleButtonWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Info_Set_Title" LayoutData.Offsets="0 0 320 24" MetaData="tooltip=UI.Tooltip.TitleSelect">
+					<BnsCustomToggleButtonWidget.VerticalResizeLink>
+						<BnsCustomResizeLink bEnable="true" />
+					</BnsCustomToggleButtonWidget.VerticalResizeLink>
+					<BnsCustomToggleButtonWidget.String>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="별호: xxx" SpaceBetweenLines="3" VerticalAlignment="VAlign_Center" ClippingBound="65 0" Padding="0 -3" LastRenderWidth="255" LastRenderHeight="130" />
+					</BnsCustomToggleButtonWidget.String>
+					<BnsCustomToggleButtonWidget.NormalImageProperty>
+						<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIButtonIcon.BNSR_UIButtonIcon" ImageUV="231 296" ImageUVSize="18 17" EnableDrawImage="true" EnableResourceSize="true" ImageScale="1" HorizontalAlignment="HAlign_Left" Offset="35 0" Opacity="0.7" />
+					</BnsCustomToggleButtonWidget.NormalImageProperty>
+					<BnsCustomToggleButtonWidget.ExpansionComponentList>
+						<UBnsCustomExpansionComponent bEnableSubState="true" bShow="true" ExpansionName="C_back" MetaData="" WidgetSubState="Expansion_WidgetSubState_Checked">
+							<UBnsCustomExpansionComponent.ImageProperty>
+								<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="886 395" ImageUVSize="138 21" EnableDrawImage="true" GrayWeightValue="0.15" ImageScale="0.8" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Top" SperateImageType="BNS_SperateImageType_9Frame" TintColor="FFFFFF" Opacity="0.7" />
+							</UBnsCustomExpansionComponent.ImageProperty>
+						</UBnsCustomExpansionComponent>
+						<UBnsCustomExpansionComponent bShow="true" ExpansionName="Over_back" MetaData="" WidgetState="BNSCustomWidgetState_Active">
+							<UBnsCustomExpansionComponent.ImageProperty>
+								<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="560 282" ImageUVSize="69 23" EnableDrawImage="true" GrayWeightValue="0.15" ImageScale="0.8" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Top" SperateImageType="BNS_SperateImageType_9Frame" TintColor="FFFFFF" Opacity="0.6" />
+							</UBnsCustomExpansionComponent.ImageProperty>
+						</UBnsCustomExpansionComponent>
+						<UBnsCustomExpansionComponent bShow="true" ExpansionName="Pressed_back" MetaData="" WidgetState="BNSCustomWidgetState_Pressed">
+							<UBnsCustomExpansionComponent.ImageProperty>
+								<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_00.GameUI_New_Scene_00" ImageUV="560 282" ImageUVSize="69 23" EnableDrawImage="true" GrayWeightValue="0.15" ImageScale="0.8" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Top" SperateImageType="BNS_SperateImageType_9Frame" TintColor="FFFFFF" Opacity="0.6" />
+							</UBnsCustomExpansionComponent.ImageProperty>
+						</UBnsCustomExpansionComponent>
+					</BnsCustomToggleButtonWidget.ExpansionComponentList>
+				</BnsCustomToggleButtonWidget>
+				<BnsCustomLabelWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Info_Set_Ability" LayoutData.Offsets="0 24 310 20.002014">
+					<BnsCustomLabelWidget.VerticalResizeLink>
+						<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AchievementPanel_Information_DetailList_Column_1_1_Info_Set_Title" Offset1="-3" />
+					</BnsCustomLabelWidget.VerticalResizeLink>
+					<BnsCustomLabelWidget.String>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="능력치 99999" SpaceBetweenLines="3" VerticalAlignment="VAlign_Center" ClippingBound="65 0" LastRenderWidth="235" LastRenderHeight="40" />
+					</BnsCustomLabelWidget.String>
+					<BnsCustomLabelWidget.ExpansionComponentList>
+						<UBnsCustomExpansionComponent bShow="true" ExpansionName="Icon" MetaData="">
+							<UBnsCustomExpansionComponent.ImageProperty>
+								<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement_01.BNSR_UIElement_01" ImageUV="707 341" ImageUVSize="37 20" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="0.8" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Center" TintColor="FFFFFF" Offset="30 0" Opacity="1" />
+							</UBnsCustomExpansionComponent.ImageProperty>
+						</UBnsCustomExpansionComponent>
+					</BnsCustomLabelWidget.ExpansionComponentList>
+				</BnsCustomLabelWidget>
+			</BnsCustomImageWidget>
+			<BnsCustomLabelWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Info_Name" LayoutData.Offsets="94 15 288.00098 37.001007">
+				<BnsCustomLabelWidget.HorizontalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Offset1="94" />
+				</BnsCustomLabelWidget.HorizontalResizeLink>
+				<BnsCustomLabelWidget.VerticalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Offset1="15" />
+				</BnsCustomLabelWidget.VerticalResizeLink>
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Label_Green03_18.Label_Green03_18" LabelText="업적이름업적이름업적이름업적이름업적이름업적이름" />
+				</BnsCustomLabelWidget.String>
+			</BnsCustomLabelWidget>
+			<BnsCustomLabelWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Info_Description" LayoutData.Anchors="0 0 0 1" LayoutData.Offsets="95 53.001007 300 55">
+				<BnsCustomLabelWidget.VerticalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINKNRESIZE_RIGHT" LinkWidgetName1="AchievementPanel_Information_DetailList_Column_1_1_Info_Name" Offset1="3" />
+				</BnsCustomLabelWidget.VerticalResizeLink>
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="description업적설명dedescriptdescription업적설명dedescriptdescription업적설명dedescriptdescription업적설명dedescript" SpaceBetweenLines="3" LastRenderWidth="293" LastRenderHeight="31.998993" />
+				</BnsCustomLabelWidget.String>
+			</BnsCustomLabelWidget>
+			<BnsCustomImageWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Info_Icon" LayoutData.Offsets="16 19 64 64.00006">
+				<BnsCustomImageWidget.HorizontalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Offset1="16" />
+				</BnsCustomImageWidget.HorizontalResizeLink>
+				<BnsCustomImageWidget.VerticalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Offset1="19" />
+				</BnsCustomImageWidget.VerticalResizeLink>
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="0 66" ImageUVSize="48 48" EnableDrawImage="true" ImageScale="1" SperateImageType="BNS_SperateImageType_9Frame" Opacity="0.5" />
+				</BnsCustomImageWidget.BaseImageProperty>
+				<BnsCustomImageWidget.ExpansionComponentList>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="Deco" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement_01.BNSR_UIElement_01" ImageUV="603 344" ImageUVSize="63 58" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" TintColor="FFFFFF" Opacity="0.07" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="Back" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/ItemIcon_Bg_Grade_1.ItemIcon_Bg_Grade_1" ImageUVSize="64 64" EnableDrawImage="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="IconImage" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" EnableMultiImage="true" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="false" ExpansionName="NewImage" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Tag/SlotItem_New.SlotItem_New" ImageUVSize="40 40" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" TintColor="FFFFFF" Offset="1 1" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="CompletedMarkBackground" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/V2/Resource/Neo/Notification/Img_Achievement_Icon_01.Img_Achievement_Icon_01" ImageUVSize="64 64" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="false" ExpansionName="MouseOverImage" MetaData="" WidgetState="BNSCustomWidgetState_Active">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="51 66" ImageUVSize="50 50" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" SperateImageType="BNS_SperateImageType_9Frame" TintColor="FFFFFF" StaticPadding="-1.5 -1.5" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="false" ExpansionName="MousePressImage" MetaData="" WidgetState="BNSCustomWidgetState_Pressed">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="51 66" ImageUVSize="50 50" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" SperateImageType="BNS_SperateImageType_9Frame" TintColor="FFFFFF" StaticPadding="-1.5 -1.5" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="ComplatedMark" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement_01.BNSR_UIElement_01" ImageUV="700 444" ImageUVSize="90 26" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="0.96" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Bottom" TintColor="FFFFFF" Offset="0 12" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+				</BnsCustomImageWidget.ExpansionComponentList>
+			</BnsCustomImageWidget>
+			<BnsCustomLabelWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Info_Score" LayoutData.Anchors="1 0 1 0" LayoutData.Offsets="-55 10 58 44">
+				<BnsCustomLabelWidget.HorizontalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_RIGHT" Offset1="55" />
+				</BnsCustomLabelWidget.HorizontalResizeLink>
+				<BnsCustomLabelWidget.VerticalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Offset1="10" />
+				</BnsCustomLabelWidget.VerticalResizeLink>
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Label_Cream_22.Label_Cream_22" LabelText="99" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" ClippingBound="0 -3" />
+				</BnsCustomLabelWidget.String>
+				<BnsCustomLabelWidget.ExpansionComponentList>
+					<UBnsCustomExpansionComponent bShow="true" ExpansionName="back" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIOnly_02.BNSR_UIOnly_02" ImageUV="431 925" ImageUVSize="58 44" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+				</BnsCustomLabelWidget.ExpansionComponentList>
+			</BnsCustomLabelWidget>
+			<BnsCustomLabelWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Info_CompletedDate" LayoutData.Anchors="1 0 1 0" LayoutData.Offsets="-32 49 105 12.010742">
+				<BnsCustomLabelWidget.HorizontalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_RIGHT" Offset1="32" />
+				</BnsCustomLabelWidget.HorizontalResizeLink>
+				<BnsCustomLabelWidget.VerticalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AchievementPanel_Information_DetailList_Column_1_1_Info_Score" Offset1="-5" />
+				</BnsCustomLabelWidget.VerticalResizeLink>
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Label_Cream_12_out.Label_Cream_12_out" LabelText="1900.12.12" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" ClippingBound="3 0" />
+				</BnsCustomLabelWidget.String>
+				<BnsCustomLabelWidget.ExpansionComponentList>
+					<UBnsCustomExpansionComponent bShow="true" ExpansionName="textback" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_New_Scene_04.GameUI_New_Scene_04" ImageUV="860 565" ImageUVSize="123 36" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" TintColor="FFFFFF" Offset="0 -5" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+				</BnsCustomLabelWidget.ExpansionComponentList>
+			</BnsCustomLabelWidget>
+			<BnsCustomLabelButtonWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Info_Share_Button" LayoutData.Offsets="387.00098 10.0000305 27 27" MetaData="tooltip=UI.AchievementTooltip.Boast">
+				<BnsCustomLabelButtonWidget.HorizontalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AchievementPanel_Information_DetailList_Column_1_1_Info_Name" Offset1="5" />
+				</BnsCustomLabelButtonWidget.HorizontalResizeLink>
+				<BnsCustomLabelButtonWidget.NormalImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIButtonIcon.BNSR_UIButtonIcon" ImageUV="134 295" ImageUVSize="24 19" EnableDrawImage="true" EnableResourceSize="true" ImageScale="0.8" Opacity="1" />
+				</BnsCustomLabelButtonWidget.NormalImageProperty>
+			</BnsCustomLabelButtonWidget>
+			<BnsCustomLabelWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Info_GoodsStone_Disable" LayoutData.Anchors="1 0 1 0" LayoutData.Offsets="-20 71.01074 115 34.002014">
+				<BnsCustomLabelWidget.HorizontalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_RIGHT" Offset1="20" />
+				</BnsCustomLabelWidget.HorizontalResizeLink>
+				<BnsCustomLabelWidget.VerticalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AchievementPanel_Information_DetailList_Column_1_1_Info_CompletedDate" Offset1="10" />
+				</BnsCustomLabelWidget.VerticalResizeLink>
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Disable_Out_14.Disable_Out_14" LabelText="9999 &lt;image enablescale='true' imagesetpath='00009076.GuildBank_Coin_GoodsStone' scalerate='1.2'/&gt;&lt;image enablescale='true' imagesetpath='00010047.Achievement_RewardComplete' scalerate='1.2'/&gt;" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+				</BnsCustomLabelWidget.String>
+			</BnsCustomLabelWidget>
+			<BnsCustomLabelButtonWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Info_GoodsStone_Btn" LayoutData.Anchors="1 0 1 0" LayoutData.Offsets="-32 71.01074 0 34.00003">
+				<BnsCustomLabelButtonWidget.HorizontalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_RIGHT" Offset1="32" />
+				</BnsCustomLabelButtonWidget.HorizontalResizeLink>
+				<BnsCustomLabelButtonWidget.VerticalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AchievementPanel_Information_DetailList_Column_1_1_Info_CompletedDate" Offset1="10" />
+				</BnsCustomLabelButtonWidget.VerticalResizeLink>
+				<BnsCustomLabelButtonWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_Out_14.Normal_Out_14" LabelText="9999 &lt;image enablescale='true' imagesetpath='00009076.GuildBank_Coin_GoodsStone' scalerate='1.6'/&gt;" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+				</BnsCustomLabelButtonWidget.String>
+				<BnsCustomLabelButtonWidget.NormalImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUVSize="15 40" EnableDrawImage="true" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" SperateImageType="BNS_SperateImageType_9Frame" Opacity="1" />
+				</BnsCustomLabelButtonWidget.NormalImageProperty>
+			</BnsCustomLabelButtonWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomWindowWidget Name="AchievementPanel_Information_DetailList_Column_1_1_IconHolder" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="92 115 30 56">
+			<BnsCustomWindowWidget.HorizontalResizeLink>
+				<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_RIGHT_AND_LEFT" Offset1="92" Offset2="30" />
+			</BnsCustomWindowWidget.HorizontalResizeLink>
+			<BnsCustomWindowWidget.VerticalResizeLink>
+				<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AchievementPanel_Information_DetailList_Column_1_1_Info" />
+			</BnsCustomWindowWidget.VerticalResizeLink>
+			<BnsCustomWindowWidget.BaseImageProperty>
+				<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="0 136" ImageUVSize="139 28" EnableDrawImage="true" EnableSkinColor="true" EnableDrawColor="true" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" SperateImageType="BNS_SperateImageType_3Frame" TintColor="000000" Opacity="0.2" />
+			</BnsCustomWindowWidget.BaseImageProperty>
+			<BnsCustomLabelWidget Name="AchievementPanel_Information_DetailList_Column_1_1_IconHolder_Reward_Label" LayoutData.Offsets="8 8 42 40.001984" MetaData="textref=UI.QuestJournal.Reward">
+				<BnsCustomLabelWidget.HorizontalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Offset1="8" />
+				</BnsCustomLabelWidget.HorizontalResizeLink>
+				<BnsCustomLabelWidget.VerticalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Offset1="8" />
+				</BnsCustomLabelWidget.VerticalResizeLink>
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="보상#" SpaceBetweenLines="3" />
+				</BnsCustomLabelWidget.String>
+			</BnsCustomLabelWidget>
+			<BnsCustomImageWidget Name="AchievementPanel_Information_DetailList_Column_1_1_IconHolder_Reward_Icon_5" LayoutData.Offsets="247.00012 8 40.000244 40">
+				<BnsCustomImageWidget.HorizontalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AchievementPanel_Information_DetailList_Column_1_1_IconHolder_Reward_Icon_4" Offset1="8" />
+				</BnsCustomImageWidget.HorizontalResizeLink>
+				<BnsCustomImageWidget.VerticalResizeLink>
+					<BnsCustomResizeLink bEnable="true" LinkWidgetName1="AchievementPanel_Information_DetailList_Column_1_1_IconHolder_Reward_Label" Offset1="8" />
+				</BnsCustomImageWidget.VerticalResizeLink>
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="0 66" ImageUVSize="48 48" EnableDrawImage="true" SperateImageType="BNS_SperateImageType_9Frame" Opacity="0.5" />
+				</BnsCustomImageWidget.BaseImageProperty>
+				<BnsCustomImageWidget.ExpansionComponentList>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="IconImage" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty EnableDrawImage="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" EnableMultiImage="true" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Count" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+						<UBnsCustomExpansionComponent.StringProperty>
+							<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Stackable.Stackable" LabelText="0" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Bottom" ClippingBoundFace_Vertical="WidgetFaceFace_Top" Padding="3 3" Opacity="1" TextScale="1" AnimScale="1" />
+						</UBnsCustomExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="CanSaleItem" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Icon/SlotItem_marketBusiness.SlotItem_marketBusiness" ImageUVSize="64 64" EnableDrawImage="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Top" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="SymbolImage" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_MenuIcon.GameUI_MenuIcon" ImageUV="96 448" ImageUVSize="32 32" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" TintColor="FFFFFF" StaticPadding="5 5" Offset="-7 -8" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="SymbolImage_Chacked" MetaData="" WidgetSubState="Expansion_WidgetSubState_Checked">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_MenuIcon.GameUI_MenuIcon" ImageUV="96 416" ImageUVSize="32 32" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" TintColor="FFFFFF" StaticPadding="5 5" Offset="-7 -8" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="MouseOverImage" MetaData="" WidgetState="BNSCustomWidgetState_Active">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="51 66" ImageUVSize="50 50" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" SperateImageType="BNS_SperateImageType_9Frame" TintColor="FFFFFF" StaticPadding="-1.5 -1.5" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="MousePressImage" MetaData="" WidgetState="BNSCustomWidgetState_Pressed">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="51 66" ImageUVSize="50 50" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" SperateImageType="BNS_SperateImageType_9Frame" TintColor="FFFFFF" StaticPadding="-1.5 -1.5" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="Selected" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="51 66" ImageUVSize="50 50" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" SperateImageType="BNS_SperateImageType_9Frame" TintColor="FFFFFF" StaticPadding="-1.5 -1.5" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+				</BnsCustomImageWidget.ExpansionComponentList>
+			</BnsCustomImageWidget>
+			<BnsCustomImageWidget Name="AchievementPanel_Information_DetailList_Column_1_1_IconHolder_Reward_Icon_3" LayoutData.Offsets="151.00012 8 39.999756 39.999756">
+				<BnsCustomImageWidget.HorizontalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AchievementPanel_Information_DetailList_Column_1_1_IconHolder_Reward_Icon_2" Offset1="8" />
+				</BnsCustomImageWidget.HorizontalResizeLink>
+				<BnsCustomImageWidget.VerticalResizeLink>
+					<BnsCustomResizeLink bEnable="true" LinkWidgetName1="AchievementPanel_Information_DetailList_Column_1_1_IconHolder_Reward_Label" Offset1="8" />
+				</BnsCustomImageWidget.VerticalResizeLink>
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="0 66" ImageUVSize="48 48" EnableDrawImage="true" SperateImageType="BNS_SperateImageType_9Frame" Opacity="0.5" />
+				</BnsCustomImageWidget.BaseImageProperty>
+				<BnsCustomImageWidget.ExpansionComponentList>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="IconImage" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty EnableDrawImage="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" EnableMultiImage="true" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Count" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+						<UBnsCustomExpansionComponent.StringProperty>
+							<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Stackable.Stackable" LabelText="0" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Bottom" ClippingBoundFace_Vertical="WidgetFaceFace_Top" Padding="3 3" Opacity="1" TextScale="1" AnimScale="1" />
+						</UBnsCustomExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="CanSaleItem" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Icon/SlotItem_marketBusiness.SlotItem_marketBusiness" ImageUVSize="64 64" EnableDrawImage="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Top" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="SymbolImage" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_MenuIcon.GameUI_MenuIcon" ImageUV="96 448" ImageUVSize="32 32" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" TintColor="FFFFFF" StaticPadding="5 5" Offset="-7 -8" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="SymbolImage_Chacked" MetaData="" WidgetSubState="Expansion_WidgetSubState_Checked">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_MenuIcon.GameUI_MenuIcon" ImageUV="96 416" ImageUVSize="32 32" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" TintColor="FFFFFF" StaticPadding="5 5" Offset="-7 -8" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="MouseOverImage" MetaData="" WidgetState="BNSCustomWidgetState_Active">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="51 66" ImageUVSize="50 50" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" SperateImageType="BNS_SperateImageType_9Frame" TintColor="FFFFFF" StaticPadding="-1.5 -1.5" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="MousePressImage" MetaData="" WidgetState="BNSCustomWidgetState_Pressed">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="51 66" ImageUVSize="50 50" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" SperateImageType="BNS_SperateImageType_9Frame" TintColor="FFFFFF" StaticPadding="-1.5 -1.5" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="Selected" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="51 66" ImageUVSize="50 50" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" SperateImageType="BNS_SperateImageType_9Frame" TintColor="FFFFFF" StaticPadding="-1.5 -1.5" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+				</BnsCustomImageWidget.ExpansionComponentList>
+			</BnsCustomImageWidget>
+			<BnsCustomImageWidget Name="AchievementPanel_Information_DetailList_Column_1_1_IconHolder_Reward_Icon_2" LayoutData.Offsets="103.00037 8 39.999756 40">
+				<BnsCustomImageWidget.HorizontalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AchievementPanel_Information_DetailList_Column_1_1_IconHolder_Reward_Icon_1" Offset1="8" />
+				</BnsCustomImageWidget.HorizontalResizeLink>
+				<BnsCustomImageWidget.VerticalResizeLink>
+					<BnsCustomResizeLink bEnable="true" LinkWidgetName1="AchievementPanel_Information_DetailList_Column_1_1_IconHolder_Reward_Label" Offset1="8" />
+				</BnsCustomImageWidget.VerticalResizeLink>
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="0 66" ImageUVSize="48 48" EnableDrawImage="true" SperateImageType="BNS_SperateImageType_9Frame" Opacity="0.5" />
+				</BnsCustomImageWidget.BaseImageProperty>
+				<BnsCustomImageWidget.ExpansionComponentList>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="IconImage" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty EnableDrawImage="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" EnableMultiImage="true" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Count" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+						<UBnsCustomExpansionComponent.StringProperty>
+							<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Stackable.Stackable" LabelText="0" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Bottom" ClippingBoundFace_Vertical="WidgetFaceFace_Top" Padding="3 3" Opacity="1" TextScale="1" AnimScale="1" />
+						</UBnsCustomExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="CanSaleItem" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Icon/SlotItem_marketBusiness.SlotItem_marketBusiness" ImageUVSize="64 64" EnableDrawImage="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Top" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="SymbolImage" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_MenuIcon.GameUI_MenuIcon" ImageUV="96 448" ImageUVSize="32 32" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" TintColor="FFFFFF" StaticPadding="5 5" Offset="-7 -8" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="SymbolImage_Chacked" MetaData="" WidgetSubState="Expansion_WidgetSubState_Checked">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_MenuIcon.GameUI_MenuIcon" ImageUV="96 416" ImageUVSize="32 32" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" TintColor="FFFFFF" StaticPadding="5 5" Offset="-7 -8" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="MouseOverImage" MetaData="" WidgetState="BNSCustomWidgetState_Active">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="51 66" ImageUVSize="50 50" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" SperateImageType="BNS_SperateImageType_9Frame" TintColor="FFFFFF" StaticPadding="-1.5 -1.5" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="MousePressImage" MetaData="" WidgetState="BNSCustomWidgetState_Pressed">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="51 66" ImageUVSize="50 50" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" SperateImageType="BNS_SperateImageType_9Frame" TintColor="FFFFFF" StaticPadding="-1.5 -1.5" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="Selected" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="51 66" ImageUVSize="50 50" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" SperateImageType="BNS_SperateImageType_9Frame" TintColor="FFFFFF" StaticPadding="-1.5 -1.5" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+				</BnsCustomImageWidget.ExpansionComponentList>
+			</BnsCustomImageWidget>
+			<BnsCustomImageWidget Name="AchievementPanel_Information_DetailList_Column_1_1_IconHolder_Reward_Icon_1" LayoutData.Offsets="55 8 40.000366 40">
+				<BnsCustomImageWidget.HorizontalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Offset1="55" />
+				</BnsCustomImageWidget.HorizontalResizeLink>
+				<BnsCustomImageWidget.VerticalResizeLink>
+					<BnsCustomResizeLink bEnable="true" LinkWidgetName1="AchievementPanel_Information_DetailList_Column_1_1_IconHolder_Reward_Label" Offset1="8" />
+				</BnsCustomImageWidget.VerticalResizeLink>
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="0 66" ImageUVSize="48 48" EnableDrawImage="true" SperateImageType="BNS_SperateImageType_9Frame" Opacity="0.5" />
+				</BnsCustomImageWidget.BaseImageProperty>
+				<BnsCustomImageWidget.ExpansionComponentList>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="IconImage" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty EnableDrawImage="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" EnableMultiImage="true" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Count" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+						<UBnsCustomExpansionComponent.StringProperty>
+							<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Stackable.Stackable" LabelText="0" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Bottom" ClippingBoundFace_Vertical="WidgetFaceFace_Top" Padding="3 3" Opacity="1" TextScale="1" AnimScale="1" />
+						</UBnsCustomExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="CanSaleItem" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Icon/SlotItem_marketBusiness.SlotItem_marketBusiness" ImageUVSize="64 64" EnableDrawImage="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Top" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="SymbolImage" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_MenuIcon.GameUI_MenuIcon" ImageUV="96 448" ImageUVSize="32 32" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" TintColor="FFFFFF" StaticPadding="5 5" Offset="-7 -8" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="SymbolImage_Chacked" MetaData="" WidgetSubState="Expansion_WidgetSubState_Checked">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_MenuIcon.GameUI_MenuIcon" ImageUV="96 416" ImageUVSize="32 32" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" TintColor="FFFFFF" StaticPadding="5 5" Offset="-7 -8" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="MouseOverImage" MetaData="" WidgetState="BNSCustomWidgetState_Active">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="51 66" ImageUVSize="50 50" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" SperateImageType="BNS_SperateImageType_9Frame" TintColor="FFFFFF" StaticPadding="-1.5 -1.5" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="MousePressImage" MetaData="" WidgetState="BNSCustomWidgetState_Pressed">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="51 66" ImageUVSize="50 50" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" SperateImageType="BNS_SperateImageType_9Frame" TintColor="FFFFFF" StaticPadding="-1.5 -1.5" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="Selected" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="51 66" ImageUVSize="50 50" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" SperateImageType="BNS_SperateImageType_9Frame" TintColor="FFFFFF" StaticPadding="-1.5 -1.5" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+				</BnsCustomImageWidget.ExpansionComponentList>
+			</BnsCustomImageWidget>
+			<BnsCustomImageWidget Name="AchievementPanel_Information_DetailList_Column_1_1_IconHolder_Reward_Icon_4" LayoutData.Offsets="198.99988 8 40.000244 40">
+				<BnsCustomImageWidget.HorizontalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AchievementPanel_Information_DetailList_Column_1_1_IconHolder_Reward_Icon_3" Offset1="8" />
+				</BnsCustomImageWidget.HorizontalResizeLink>
+				<BnsCustomImageWidget.VerticalResizeLink>
+					<BnsCustomResizeLink bEnable="true" LinkWidgetName1="AchievementPanel_Information_DetailList_Column_1_1_IconHolder_Reward_Label" Offset1="8" />
+				</BnsCustomImageWidget.VerticalResizeLink>
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="0 66" ImageUVSize="48 48" EnableDrawImage="true" SperateImageType="BNS_SperateImageType_9Frame" Opacity="0.5" />
+				</BnsCustomImageWidget.BaseImageProperty>
+				<BnsCustomImageWidget.ExpansionComponentList>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="IconImage" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty EnableDrawImage="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" EnableMultiImage="true" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Count" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+						<UBnsCustomExpansionComponent.StringProperty>
+							<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Stackable.Stackable" LabelText="0" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Bottom" ClippingBoundFace_Vertical="WidgetFaceFace_Top" Padding="3 3" Opacity="1" TextScale="1" AnimScale="1" />
+						</UBnsCustomExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="CanSaleItem" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Icon/SlotItem_marketBusiness.SlotItem_marketBusiness" ImageUVSize="64 64" EnableDrawImage="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Top" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="SymbolImage" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_MenuIcon.GameUI_MenuIcon" ImageUV="96 448" ImageUVSize="32 32" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" TintColor="FFFFFF" StaticPadding="5 5" Offset="-7 -8" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="SymbolImage_Chacked" MetaData="" WidgetSubState="Expansion_WidgetSubState_Checked">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/GameUI_MenuIcon.GameUI_MenuIcon" ImageUV="96 416" ImageUVSize="32 32" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" TintColor="FFFFFF" StaticPadding="5 5" Offset="-7 -8" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="MouseOverImage" MetaData="" WidgetState="BNSCustomWidgetState_Active">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="51 66" ImageUVSize="50 50" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" SperateImageType="BNS_SperateImageType_9Frame" TintColor="FFFFFF" StaticPadding="-1.5 -1.5" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="MousePressImage" MetaData="" WidgetState="BNSCustomWidgetState_Pressed">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="51 66" ImageUVSize="50 50" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" SperateImageType="BNS_SperateImageType_9Frame" TintColor="FFFFFF" StaticPadding="-1.5 -1.5" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="Selected" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="51 66" ImageUVSize="50 50" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" SperateImageType="BNS_SperateImageType_9Frame" TintColor="FFFFFF" StaticPadding="-1.5 -1.5" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+				</BnsCustomImageWidget.ExpansionComponentList>
+			</BnsCustomImageWidget>
+			<BnsCustomLabelButtonWidget Name="AchievementPanel_Information_DetailList_Column_1_1_IconHolder_Reward_Btn" LayoutData.Anchors="1 0 1 0" LayoutData.Offsets="-2 -44 0 34.00003" MetaData="textref=UI.DuelBotTrainingReward.ReciveReward">
+				<BnsCustomLabelButtonWidget.HorizontalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_RIGHT" Offset1="2" />
+				</BnsCustomLabelButtonWidget.HorizontalResizeLink>
+				<BnsCustomLabelButtonWidget.VerticalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Offset1="-44" />
+				</BnsCustomLabelButtonWidget.VerticalResizeLink>
+				<BnsCustomLabelButtonWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_Out_14.Normal_Out_14" LabelText="보상 받기" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
+				</BnsCustomLabelButtonWidget.String>
+				<BnsCustomLabelButtonWidget.NormalImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUVSize="15 40" EnableDrawImage="true" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" SperateImageType="BNS_SperateImageType_9Frame" Opacity="1" />
+				</BnsCustomLabelButtonWidget.NormalImageProperty>
+			</BnsCustomLabelButtonWidget>
+			<BnsCustomImageWidget Name="AchievementPanel_Information_DetailList_Column_1_1_IconHolder_Reward_box" LayoutData.Offsets="-159.99994 -128 528.0001 120">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty EnableDrawImage="true" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" Opacity="1" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomImageWidget Name="AchievementPanel_Information_DetailList_Column_1_1_IconHolder_Reward_Complete" LayoutData.Anchors="1 0 1 0" LayoutData.Offsets="10 -41 93.99988 0">
+				<BnsCustomImageWidget.HorizontalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_RIGHT" Offset1="-10" />
+				</BnsCustomImageWidget.HorizontalResizeLink>
+				<BnsCustomImageWidget.VerticalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Offset1="-41" />
+				</BnsCustomImageWidget.VerticalResizeLink>
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty EnableDrawImage="true" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" Opacity="1" />
+				</BnsCustomImageWidget.BaseImageProperty>
+				<BnsCustomImageWidget.ExpansionComponentList>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="Completed" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement_01.BNSR_UIElement_01" ImageUV="332 46" ImageUVSize="17 14" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" TintColor="FFFFFF" Offset="-50 0" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="State" MetaData="textref=UI.Achievement.RewardComplete">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+						<UBnsCustomExpansionComponent.StringProperty>
+							<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_Out_14.Normal_Out_14" LabelText="보상완료" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Center" ClippingBound="20 0" ClippingBoundFace_Vertical="WidgetFaceFace_Top" Opacity="1" TextScale="1" AnimScale="1" />
+						</UBnsCustomExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent>
+				</BnsCustomImageWidget.ExpansionComponentList>
+			</BnsCustomImageWidget>
+		</BnsCustomWindowWidget>
+		<BnsCustomImageWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Register_1" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="0 176 0 57.00293">
+			<BnsCustomImageWidget.HorizontalResizeLink>
+				<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_RIGHT_AND_LEFT" />
+			</BnsCustomImageWidget.HorizontalResizeLink>
+			<BnsCustomImageWidget.VerticalResizeLink>
+				<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AchievementPanel_Information_DetailList_Column_1_1_IconHolder" Offset1="5" />
+			</BnsCustomImageWidget.VerticalResizeLink>
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty EnableDrawImage="true" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" Opacity="1" />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Register_1_Dummy" LayoutData.Offsets="0 6.1035156E-05 200 0">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty EnableDrawImage="true" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" Opacity="1" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomLabelWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Register_1_Name" LayoutData.Offsets="95 6.1035156E-05 368 22.001068">
+				<BnsCustomLabelWidget.HorizontalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Offset1="95" />
+				</BnsCustomLabelWidget.HorizontalResizeLink>
+				<BnsCustomLabelWidget.VerticalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AchievementPanel_Information_DetailList_Column_1_1_Register_1_Dummy" />
+				</BnsCustomLabelWidget.VerticalResizeLink>
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="Register Name" SpaceBetweenLines="3" ClippingBound="0 -10" Padding="0 10" />
+				</BnsCustomLabelWidget.String>
+			</BnsCustomLabelWidget>
+			<BnsCustomLabelWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Register_1_Slot_Name" LayoutData.Offsets="95 22.00113 400 22.003998">
+				<BnsCustomLabelWidget.HorizontalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Offset1="95" />
+				</BnsCustomLabelWidget.HorizontalResizeLink>
+				<BnsCustomLabelWidget.VerticalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AchievementPanel_Information_DetailList_Column_1_1_Register_1_Name" />
+				</BnsCustomLabelWidget.VerticalResizeLink>
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="Register Slot Column 1 Column 1" SpaceBetweenLines="3" ClippingBound="-205 -10" Padding="205 10" />
+				</BnsCustomLabelWidget.String>
+				<BnsCustomLabelWidget.ExpansionComponentList>
+					<UBnsCustomExpansionComponent bShow="true" ExpansionType="STRING" ExpansionName="Right_Column_Name" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+						<UBnsCustomExpansionComponent.StringProperty>
+							<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="Register Slot Column 2" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" ClippingBound="196 0" ClippingBoundFace_Vertical="WidgetFaceFace_Top" Opacity="1" TextScale="1" AnimScale="1" />
+						</UBnsCustomExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent>
+				</BnsCustomLabelWidget.ExpansionComponentList>
+			</BnsCustomLabelWidget>
+			<BnsCustomProgressBarWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Register_1_Progress_Bar" LayoutData.Offsets="95 44.005127 402 5.999878">
+				<BnsCustomProgressBarWidget.HorizontalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Offset1="95" />
+				</BnsCustomProgressBarWidget.HorizontalResizeLink>
+				<BnsCustomProgressBarWidget.VerticalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AchievementPanel_Information_DetailList_Column_1_1_Register_1_Slot_Name" />
+				</BnsCustomProgressBarWidget.VerticalResizeLink>
+				<BnsCustomLabelWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Register_1_Progress_Bar_Value" LayoutData.Anchors="1 0.5 1 0.5" LayoutData.Offsets="-5 0 223.99988 12.000977">
+					<BnsCustomLabelWidget.HorizontalResizeLink>
+						<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_RIGHT" Offset1="5" />
+					</BnsCustomLabelWidget.HorizontalResizeLink>
+					<BnsCustomLabelWidget.VerticalResizeLink>
+						<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_CENTER" />
+					</BnsCustomLabelWidget.VerticalResizeLink>
+					<BnsCustomLabelWidget.String>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="99.99%" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" Padding="0 -50" />
+					</BnsCustomLabelWidget.String>
+				</BnsCustomLabelWidget>
+			</BnsCustomProgressBarWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Register_2" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="0 233.00293 0 57.001953">
+			<BnsCustomImageWidget.HorizontalResizeLink>
+				<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_RIGHT_AND_LEFT" />
+			</BnsCustomImageWidget.HorizontalResizeLink>
+			<BnsCustomImageWidget.VerticalResizeLink>
+				<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AchievementPanel_Information_DetailList_Column_1_1_Register_1" />
+			</BnsCustomImageWidget.VerticalResizeLink>
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty EnableDrawImage="true" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" Opacity="1" />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Register_2_Dummy" LayoutData.Offsets="0 0.00012207031 200 0">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty EnableDrawImage="true" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" Opacity="1" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomLabelWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Register_2_Name" LayoutData.Offsets="95 0.00012207031 420 22.001953">
+				<BnsCustomLabelWidget.HorizontalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Offset1="95" />
+				</BnsCustomLabelWidget.HorizontalResizeLink>
+				<BnsCustomLabelWidget.VerticalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AchievementPanel_Information_DetailList_Column_1_1_Register_2_Dummy" />
+				</BnsCustomLabelWidget.VerticalResizeLink>
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="Register Name" SpaceBetweenLines="3" ClippingBound="0 -10" Padding="0 10" />
+				</BnsCustomLabelWidget.String>
+			</BnsCustomLabelWidget>
+			<BnsCustomLabelWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Register_2_Slot_Name" LayoutData.Offsets="95 22.002075 400 22.001953">
+				<BnsCustomLabelWidget.HorizontalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Offset1="95" />
+				</BnsCustomLabelWidget.HorizontalResizeLink>
+				<BnsCustomLabelWidget.VerticalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AchievementPanel_Information_DetailList_Column_1_1_Register_2_Name" />
+				</BnsCustomLabelWidget.VerticalResizeLink>
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="Register Slot Column 1 Column 1" SpaceBetweenLines="3" ClippingBound="-205 -10" Padding="205 10" />
+				</BnsCustomLabelWidget.String>
+				<BnsCustomLabelWidget.ExpansionComponentList>
+					<UBnsCustomExpansionComponent bShow="true" ExpansionType="STRING" ExpansionName="Right_Column_Name" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+						<UBnsCustomExpansionComponent.StringProperty>
+							<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="Register Slot Column 2" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" ClippingBound="196 0" ClippingBoundFace_Vertical="WidgetFaceFace_Top" Opacity="1" TextScale="1" AnimScale="1" />
+						</UBnsCustomExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent>
+				</BnsCustomLabelWidget.ExpansionComponentList>
+			</BnsCustomLabelWidget>
+			<BnsCustomProgressBarWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Register_2_Progress_Bar" LayoutData.Offsets="95 44.00403 402 6">
+				<BnsCustomProgressBarWidget.HorizontalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Offset1="95" />
+				</BnsCustomProgressBarWidget.HorizontalResizeLink>
+				<BnsCustomProgressBarWidget.VerticalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AchievementPanel_Information_DetailList_Column_1_1_Register_2_Slot_Name" />
+				</BnsCustomProgressBarWidget.VerticalResizeLink>
+				<BnsCustomLabelWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Register_2_Progress_Bar_Value" LayoutData.Anchors="1 0.5 1 0.5" LayoutData.Offsets="-5 0 223.99988 12.000977">
+					<BnsCustomLabelWidget.HorizontalResizeLink>
+						<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_RIGHT" Offset1="5" />
+					</BnsCustomLabelWidget.HorizontalResizeLink>
+					<BnsCustomLabelWidget.VerticalResizeLink>
+						<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_CENTER" />
+					</BnsCustomLabelWidget.VerticalResizeLink>
+					<BnsCustomLabelWidget.String>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="99.99%" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" Padding="0 -50" />
+					</BnsCustomLabelWidget.String>
+				</BnsCustomLabelWidget>
+			</BnsCustomProgressBarWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Register_3" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="0 290.00488 0 57.001953">
+			<BnsCustomImageWidget.HorizontalResizeLink>
+				<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_RIGHT_AND_LEFT" />
+			</BnsCustomImageWidget.HorizontalResizeLink>
+			<BnsCustomImageWidget.VerticalResizeLink>
+				<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AchievementPanel_Information_DetailList_Column_1_1_Register_2" />
+			</BnsCustomImageWidget.VerticalResizeLink>
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty EnableDrawImage="true" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" Opacity="1" />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Register_3_Dummy" LayoutData.Offsets="0 0.00012207031 200 0">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty EnableDrawImage="true" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" Opacity="1" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomLabelWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Register_3_Name" LayoutData.Offsets="95 0.00012207031 420 22.001953">
+				<BnsCustomLabelWidget.HorizontalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Offset1="95" />
+				</BnsCustomLabelWidget.HorizontalResizeLink>
+				<BnsCustomLabelWidget.VerticalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AchievementPanel_Information_DetailList_Column_1_1_Register_3_Dummy" />
+				</BnsCustomLabelWidget.VerticalResizeLink>
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="Register Name" SpaceBetweenLines="3" ClippingBound="0 -10" Padding="0 10" />
+				</BnsCustomLabelWidget.String>
+			</BnsCustomLabelWidget>
+			<BnsCustomLabelWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Register_3_Slot_Name" LayoutData.Offsets="95 22.002075 400 22.001953">
+				<BnsCustomLabelWidget.HorizontalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Offset1="95" />
+				</BnsCustomLabelWidget.HorizontalResizeLink>
+				<BnsCustomLabelWidget.VerticalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AchievementPanel_Information_DetailList_Column_1_1_Register_3_Name" />
+				</BnsCustomLabelWidget.VerticalResizeLink>
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="Register Slot Column 1 Column 1" SpaceBetweenLines="3" ClippingBound="-205 -10" Padding="205 10" />
+				</BnsCustomLabelWidget.String>
+				<BnsCustomLabelWidget.ExpansionComponentList>
+					<UBnsCustomExpansionComponent bShow="true" ExpansionType="STRING" ExpansionName="Right_Column_Name" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+						<UBnsCustomExpansionComponent.StringProperty>
+							<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="Register Slot Column 2" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" ClippingBound="196 0" ClippingBoundFace_Vertical="WidgetFaceFace_Top" Opacity="1" TextScale="1" AnimScale="1" />
+						</UBnsCustomExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent>
+				</BnsCustomLabelWidget.ExpansionComponentList>
+			</BnsCustomLabelWidget>
+			<BnsCustomProgressBarWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Register_3_Progress_Bar" LayoutData.Offsets="95 44.00403 402 6">
+				<BnsCustomProgressBarWidget.HorizontalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Offset1="95" />
+				</BnsCustomProgressBarWidget.HorizontalResizeLink>
+				<BnsCustomProgressBarWidget.VerticalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AchievementPanel_Information_DetailList_Column_1_1_Register_3_Slot_Name" />
+				</BnsCustomProgressBarWidget.VerticalResizeLink>
+				<BnsCustomLabelWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Register_3_Progress_Bar_Value" LayoutData.Anchors="1 0.5 1 0.5" LayoutData.Offsets="-5 0 223.99988 12.000977">
+					<BnsCustomLabelWidget.HorizontalResizeLink>
+						<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_RIGHT" Offset1="5" />
+					</BnsCustomLabelWidget.HorizontalResizeLink>
+					<BnsCustomLabelWidget.VerticalResizeLink>
+						<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_CENTER" />
+					</BnsCustomLabelWidget.VerticalResizeLink>
+					<BnsCustomLabelWidget.String>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="99.99%" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" Padding="0 -50" />
+					</BnsCustomLabelWidget.String>
+				</BnsCustomLabelWidget>
+			</BnsCustomProgressBarWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Register_4" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="0 347.00684 0 57.001953">
+			<BnsCustomImageWidget.HorizontalResizeLink>
+				<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_RIGHT_AND_LEFT" />
+			</BnsCustomImageWidget.HorizontalResizeLink>
+			<BnsCustomImageWidget.VerticalResizeLink>
+				<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AchievementPanel_Information_DetailList_Column_1_1_Register_3" />
+			</BnsCustomImageWidget.VerticalResizeLink>
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty EnableDrawImage="true" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" Opacity="1" />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Register_4_Dummy" LayoutData.Offsets="0 0.00024414062 200 0">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty EnableDrawImage="true" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" Opacity="1" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomLabelWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Register_4_Name" LayoutData.Offsets="95 0.00024414062 420 22.001953">
+				<BnsCustomLabelWidget.HorizontalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Offset1="95" />
+				</BnsCustomLabelWidget.HorizontalResizeLink>
+				<BnsCustomLabelWidget.VerticalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AchievementPanel_Information_DetailList_Column_1_1_Register_4_Dummy" />
+				</BnsCustomLabelWidget.VerticalResizeLink>
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="Register Name" SpaceBetweenLines="3" ClippingBound="0 -10" Padding="0 10" />
+				</BnsCustomLabelWidget.String>
+			</BnsCustomLabelWidget>
+			<BnsCustomLabelWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Register_4_Slot_Name" LayoutData.Offsets="95 22.002197 400 22.001953">
+				<BnsCustomLabelWidget.HorizontalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Offset1="95" />
+				</BnsCustomLabelWidget.HorizontalResizeLink>
+				<BnsCustomLabelWidget.VerticalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AchievementPanel_Information_DetailList_Column_1_1_Register_4_Name" />
+				</BnsCustomLabelWidget.VerticalResizeLink>
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="Register Slot Column 1 Column 1" SpaceBetweenLines="3" ClippingBound="-205 -10" Padding="205 10" />
+				</BnsCustomLabelWidget.String>
+				<BnsCustomLabelWidget.ExpansionComponentList>
+					<UBnsCustomExpansionComponent bShow="true" ExpansionType="STRING" ExpansionName="Right_Column_Name" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+						<UBnsCustomExpansionComponent.StringProperty>
+							<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="Register Slot Column 2" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" ClippingBound="196 0" ClippingBoundFace_Vertical="WidgetFaceFace_Top" Opacity="1" TextScale="1" AnimScale="1" />
+						</UBnsCustomExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent>
+				</BnsCustomLabelWidget.ExpansionComponentList>
+			</BnsCustomLabelWidget>
+			<BnsCustomProgressBarWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Register_4_Progress_Bar" LayoutData.Offsets="95 44.00415 402 6">
+				<BnsCustomProgressBarWidget.HorizontalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Offset1="95" />
+				</BnsCustomProgressBarWidget.HorizontalResizeLink>
+				<BnsCustomProgressBarWidget.VerticalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AchievementPanel_Information_DetailList_Column_1_1_Register_4_Slot_Name" />
+				</BnsCustomProgressBarWidget.VerticalResizeLink>
+				<BnsCustomLabelWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Register_4_Progress_Bar_Value" LayoutData.Anchors="1 0.5 1 0.5" LayoutData.Offsets="-5 0 223.99988 12.000977">
+					<BnsCustomLabelWidget.HorizontalResizeLink>
+						<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_RIGHT" Offset1="5" />
+					</BnsCustomLabelWidget.HorizontalResizeLink>
+					<BnsCustomLabelWidget.VerticalResizeLink>
+						<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_CENTER" />
+					</BnsCustomLabelWidget.VerticalResizeLink>
+					<BnsCustomLabelWidget.String>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="99.99%" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" Padding="0 -50" />
+					</BnsCustomLabelWidget.String>
+				</BnsCustomLabelWidget>
+			</BnsCustomProgressBarWidget>
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Register_5" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="0 404.0088 0 57.001953">
+			<BnsCustomImageWidget.HorizontalResizeLink>
+				<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_RIGHT_AND_LEFT" />
+			</BnsCustomImageWidget.HorizontalResizeLink>
+			<BnsCustomImageWidget.VerticalResizeLink>
+				<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AchievementPanel_Information_DetailList_Column_1_1_Register_4" />
+			</BnsCustomImageWidget.VerticalResizeLink>
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty EnableDrawImage="true" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" Opacity="1" />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Register_5_Dummy" LayoutData.Offsets="0 0.00024414062 200 0">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty EnableDrawImage="true" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" Opacity="1" />
+				</BnsCustomImageWidget.BaseImageProperty>
+			</BnsCustomImageWidget>
+			<BnsCustomLabelWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Register_5_Name" LayoutData.Offsets="95 0.00024414062 420 22.001953">
+				<BnsCustomLabelWidget.HorizontalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Offset1="95" />
+				</BnsCustomLabelWidget.HorizontalResizeLink>
+				<BnsCustomLabelWidget.VerticalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AchievementPanel_Information_DetailList_Column_1_1_Register_5_Dummy" />
+				</BnsCustomLabelWidget.VerticalResizeLink>
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="Register Name" SpaceBetweenLines="3" ClippingBound="0 -10" Padding="0 10" />
+				</BnsCustomLabelWidget.String>
+			</BnsCustomLabelWidget>
+			<BnsCustomLabelWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Register_5_Slot_Name" LayoutData.Offsets="95 22.002197 400 22.001953">
+				<BnsCustomLabelWidget.HorizontalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Offset1="95" />
+				</BnsCustomLabelWidget.HorizontalResizeLink>
+				<BnsCustomLabelWidget.VerticalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AchievementPanel_Information_DetailList_Column_1_1_Register_5_Name" />
+				</BnsCustomLabelWidget.VerticalResizeLink>
+				<BnsCustomLabelWidget.String>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="Register Slot Column 1 Column 1" SpaceBetweenLines="3" ClippingBound="-205 -10" Padding="205 10" />
+				</BnsCustomLabelWidget.String>
+				<BnsCustomLabelWidget.ExpansionComponentList>
+					<UBnsCustomExpansionComponent bShow="true" ExpansionType="STRING" ExpansionName="Right_Column_Name" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+						<UBnsCustomExpansionComponent.StringProperty>
+							<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="Register Slot Column 2" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" ClippingBound="196 0" ClippingBoundFace_Vertical="WidgetFaceFace_Top" Opacity="1" TextScale="1" AnimScale="1" />
+						</UBnsCustomExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent>
+				</BnsCustomLabelWidget.ExpansionComponentList>
+			</BnsCustomLabelWidget>
+			<BnsCustomProgressBarWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Register_5_Progress_Bar" LayoutData.Offsets="95 44.00415 402 6">
+				<BnsCustomProgressBarWidget.HorizontalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Offset1="95" />
+				</BnsCustomProgressBarWidget.HorizontalResizeLink>
+				<BnsCustomProgressBarWidget.VerticalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AchievementPanel_Information_DetailList_Column_1_1_Register_5_Slot_Name" />
+				</BnsCustomProgressBarWidget.VerticalResizeLink>
+				<BnsCustomLabelWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Register_5_Progress_Bar_Value" LayoutData.Anchors="1 0.5 1 0.5" LayoutData.Offsets="-5 0 223.99988 12.000977">
+					<BnsCustomLabelWidget.HorizontalResizeLink>
+						<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_RIGHT" Offset1="5" />
+					</BnsCustomLabelWidget.HorizontalResizeLink>
+					<BnsCustomLabelWidget.VerticalResizeLink>
+						<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_CENTER" />
+					</BnsCustomLabelWidget.VerticalResizeLink>
+					<BnsCustomLabelWidget.String>
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="99.99%" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Center" Padding="0 -50" />
+					</BnsCustomLabelWidget.String>
+				</BnsCustomLabelWidget>
+			</BnsCustomProgressBarWidget>
+
+		</BnsCustomImageWidget>
+		<BnsCustomImageWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Step" LayoutData.Offsets="97 461.01074 403 63">
+			<BnsCustomImageWidget.HorizontalResizeLink>
+				<BnsCustomResizeLink bEnable="true" Offset1="97" />
+			</BnsCustomImageWidget.HorizontalResizeLink>
+			<BnsCustomImageWidget.VerticalResizeLink>
+				<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AchievementPanel_Information_DetailList_Column_1_1_Register_5" />
+			</BnsCustomImageWidget.VerticalResizeLink>
+			<BnsCustomImageWidget.BaseImageProperty>
+				<ImageProperty EnableDrawImage="true" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" Opacity="1" />
+			</BnsCustomImageWidget.BaseImageProperty>
+			<BnsCustomImageWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Step_Icon_1" LayoutData.Offsets="-0.00012207031 2.000061 48 48">
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="0 66" ImageUVSize="48 48" EnableDrawImage="true" ImageScale="1" SperateImageType="BNS_SperateImageType_9Frame" Opacity="0.5" />
+				</BnsCustomImageWidget.BaseImageProperty>
+				<BnsCustomImageWidget.ExpansionComponentList>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="CurrentStep" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/HUD_Icon_Menu_Test_nocomp.HUD_Icon_Menu_Test_nocomp" ImageUV="734 372" ImageUVSize="48 47" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" TintColor="FFFFFF" StaticPadding="2 2" Offset="-0.5 0" Opacity="0.5" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="Back" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/ItemIcon_Bg_Grade_1.ItemIcon_Bg_Grade_1" ImageUVSize="64 64" EnableDrawImage="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="IconImage" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" EnableMultiImage="true" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="RegisterCount" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+						<UBnsCustomExpansionComponent.StringProperty>
+							<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_8.Normal_8" LabelText="0" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Bottom" ClippingBound="2 2" ClippingBoundFace_Horizontal="WidgetFaceFace_Right" ClippingBoundFace_Vertical="WidgetFaceFace_Bottom" Opacity="1" TextScale="1" AnimScale="1" />
+						</UBnsCustomExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="NewImage" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Tag/SlotItem_New.SlotItem_New" ImageUVSize="40 40" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="0.8" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="MouseOverImage" MetaData="" WidgetState="BNSCustomWidgetState_Active">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="51 66" ImageUVSize="50 50" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" SperateImageType="BNS_SperateImageType_9Frame" TintColor="FFFFFF" StaticPadding="-1.5 -1.5" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="MousePressImage" MetaData="" WidgetState="BNSCustomWidgetState_Pressed">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="51 66" ImageUVSize="50 50" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" SperateImageType="BNS_SperateImageType_9Frame" TintColor="FFFFFF" StaticPadding="-1.5 -1.5" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+				</BnsCustomImageWidget.ExpansionComponentList>
+			</BnsCustomImageWidget>
+			<BnsCustomImageWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Step_Icon_2" LayoutData.Offsets="49.999878 2.000061 48 48">
+				<BnsCustomImageWidget.HorizontalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AchievementPanel_Information_DetailList_Column_1_1_Step_Icon_1" Offset1="2" />
+				</BnsCustomImageWidget.HorizontalResizeLink>
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="0 66" ImageUVSize="48 48" EnableDrawImage="true" ImageScale="1" SperateImageType="BNS_SperateImageType_9Frame" Opacity="0.5" />
+				</BnsCustomImageWidget.BaseImageProperty>
+				<BnsCustomImageWidget.ExpansionComponentList>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="CurrentStep" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/HUD_Icon_Menu_Test_nocomp.HUD_Icon_Menu_Test_nocomp" ImageUV="734 372" ImageUVSize="48 47" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" TintColor="FFFFFF" StaticPadding="2 2" Offset="-0.5 0" Opacity="0.5" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="Back" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/ItemIcon_Bg_Grade_1.ItemIcon_Bg_Grade_1" ImageUVSize="64 64" EnableDrawImage="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="IconImage" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" EnableMultiImage="true" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="RegisterCount" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+						<UBnsCustomExpansionComponent.StringProperty>
+							<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_8.Normal_8" LabelText="0" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Bottom" ClippingBound="2 2" ClippingBoundFace_Horizontal="WidgetFaceFace_Right" ClippingBoundFace_Vertical="WidgetFaceFace_Bottom" Opacity="1" TextScale="1" AnimScale="1" />
+						</UBnsCustomExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="NewImage" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Tag/SlotItem_New.SlotItem_New" ImageUVSize="40 40" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="0.8" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="MouseOverImage" MetaData="" WidgetState="BNSCustomWidgetState_Active">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="51 66" ImageUVSize="50 50" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" SperateImageType="BNS_SperateImageType_9Frame" TintColor="FFFFFF" StaticPadding="-1.5 -1.5" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="MousePressImage" MetaData="" WidgetState="BNSCustomWidgetState_Pressed">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="51 66" ImageUVSize="50 50" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" SperateImageType="BNS_SperateImageType_9Frame" TintColor="FFFFFF" StaticPadding="-1.5 -1.5" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+				</BnsCustomImageWidget.ExpansionComponentList>
+			</BnsCustomImageWidget>
+			<BnsCustomImageWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Step_Icon_3" LayoutData.Offsets="99.99988 2.000061 48 48">
+				<BnsCustomImageWidget.HorizontalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AchievementPanel_Information_DetailList_Column_1_1_Step_Icon_2" Offset1="2" />
+				</BnsCustomImageWidget.HorizontalResizeLink>
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="0 66" ImageUVSize="48 48" EnableDrawImage="true" ImageScale="1" SperateImageType="BNS_SperateImageType_9Frame" Opacity="0.5" />
+				</BnsCustomImageWidget.BaseImageProperty>
+				<BnsCustomImageWidget.ExpansionComponentList>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="CurrentStep" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/HUD_Icon_Menu_Test_nocomp.HUD_Icon_Menu_Test_nocomp" ImageUV="734 372" ImageUVSize="48 47" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" TintColor="FFFFFF" StaticPadding="2 2" Offset="-0.5 0" Opacity="0.5" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="Back" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/ItemIcon_Bg_Grade_1.ItemIcon_Bg_Grade_1" ImageUVSize="64 64" EnableDrawImage="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="IconImage" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" EnableMultiImage="true" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="RegisterCount" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+						<UBnsCustomExpansionComponent.StringProperty>
+							<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_8.Normal_8" LabelText="0" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Bottom" ClippingBound="2 2" ClippingBoundFace_Horizontal="WidgetFaceFace_Right" ClippingBoundFace_Vertical="WidgetFaceFace_Bottom" Opacity="1" TextScale="1" AnimScale="1" />
+						</UBnsCustomExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="NewImage" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Tag/SlotItem_New.SlotItem_New" ImageUVSize="40 40" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="0.8" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="MouseOverImage" MetaData="" WidgetState="BNSCustomWidgetState_Active">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="51 66" ImageUVSize="50 50" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" SperateImageType="BNS_SperateImageType_9Frame" TintColor="FFFFFF" StaticPadding="-1.5 -1.5" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="MousePressImage" MetaData="" WidgetState="BNSCustomWidgetState_Pressed">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="51 66" ImageUVSize="50 50" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" SperateImageType="BNS_SperateImageType_9Frame" TintColor="FFFFFF" StaticPadding="-1.5 -1.5" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+				</BnsCustomImageWidget.ExpansionComponentList>
+			</BnsCustomImageWidget>
+			<BnsCustomImageWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Step_Icon_4" LayoutData.Offsets="149.99988 2.000061 48 48">
+				<BnsCustomImageWidget.HorizontalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AchievementPanel_Information_DetailList_Column_1_1_Step_Icon_3" Offset1="2" />
+				</BnsCustomImageWidget.HorizontalResizeLink>
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="0 66" ImageUVSize="48 48" EnableDrawImage="true" ImageScale="1" SperateImageType="BNS_SperateImageType_9Frame" Opacity="0.5" />
+				</BnsCustomImageWidget.BaseImageProperty>
+				<BnsCustomImageWidget.ExpansionComponentList>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="CurrentStep" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/HUD_Icon_Menu_Test_nocomp.HUD_Icon_Menu_Test_nocomp" ImageUV="734 372" ImageUVSize="48 47" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" TintColor="FFFFFF" StaticPadding="2 2" Offset="-0.5 0" Opacity="0.5" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="Back" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/ItemIcon_Bg_Grade_1.ItemIcon_Bg_Grade_1" ImageUVSize="64 64" EnableDrawImage="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="IconImage" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" EnableMultiImage="true" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="RegisterCount" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+						<UBnsCustomExpansionComponent.StringProperty>
+							<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_8.Normal_8" LabelText="0" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Bottom" ClippingBound="2 2" ClippingBoundFace_Horizontal="WidgetFaceFace_Right" ClippingBoundFace_Vertical="WidgetFaceFace_Bottom" Opacity="1" TextScale="1" AnimScale="1" />
+						</UBnsCustomExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="NewImage" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Tag/SlotItem_New.SlotItem_New" ImageUVSize="40 40" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="0.8" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="MouseOverImage" MetaData="" WidgetState="BNSCustomWidgetState_Active">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="51 66" ImageUVSize="50 50" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" SperateImageType="BNS_SperateImageType_9Frame" TintColor="FFFFFF" StaticPadding="-1.5 -1.5" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="MousePressImage" MetaData="" WidgetState="BNSCustomWidgetState_Pressed">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="51 66" ImageUVSize="50 50" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" SperateImageType="BNS_SperateImageType_9Frame" TintColor="FFFFFF" StaticPadding="-1.5 -1.5" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+				</BnsCustomImageWidget.ExpansionComponentList>
+			</BnsCustomImageWidget>
+			<BnsCustomImageWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Step_Icon_5" LayoutData.Offsets="199.99988 2.000061 48 48">
+				<BnsCustomImageWidget.HorizontalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AchievementPanel_Information_DetailList_Column_1_1_Step_Icon_4" Offset1="2" />
+				</BnsCustomImageWidget.HorizontalResizeLink>
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="0 66" ImageUVSize="48 48" EnableDrawImage="true" ImageScale="1" SperateImageType="BNS_SperateImageType_9Frame" Opacity="0.5" />
+				</BnsCustomImageWidget.BaseImageProperty>
+				<BnsCustomImageWidget.ExpansionComponentList>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="CurrentStep" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/HUD_Icon_Menu_Test_nocomp.HUD_Icon_Menu_Test_nocomp" ImageUV="734 372" ImageUVSize="48 47" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" TintColor="FFFFFF" StaticPadding="2 2" Offset="-0.5 0" Opacity="0.5" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="Back" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/ItemIcon_Bg_Grade_1.ItemIcon_Bg_Grade_1" ImageUVSize="64 64" EnableDrawImage="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="IconImage" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" EnableMultiImage="true" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="RegisterCount" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+						<UBnsCustomExpansionComponent.StringProperty>
+							<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_8.Normal_8" LabelText="0" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Bottom" ClippingBound="2 2" ClippingBoundFace_Horizontal="WidgetFaceFace_Right" ClippingBoundFace_Vertical="WidgetFaceFace_Bottom" Opacity="1" TextScale="1" AnimScale="1" />
+						</UBnsCustomExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="NewImage" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Tag/SlotItem_New.SlotItem_New" ImageUVSize="40 40" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="0.8" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="MouseOverImage" MetaData="" WidgetState="BNSCustomWidgetState_Active">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="51 66" ImageUVSize="50 50" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" SperateImageType="BNS_SperateImageType_9Frame" TintColor="FFFFFF" StaticPadding="-1.5 -1.5" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="MousePressImage" MetaData="" WidgetState="BNSCustomWidgetState_Pressed">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="51 66" ImageUVSize="50 50" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" SperateImageType="BNS_SperateImageType_9Frame" TintColor="FFFFFF" StaticPadding="-1.5 -1.5" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+				</BnsCustomImageWidget.ExpansionComponentList>
+			</BnsCustomImageWidget>
+			<BnsCustomImageWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Step_Icon_6" LayoutData.Offsets="249.99988 2.000061 48 48">
+				<BnsCustomImageWidget.HorizontalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AchievementPanel_Information_DetailList_Column_1_1_Step_Icon_5" Offset1="2" />
+				</BnsCustomImageWidget.HorizontalResizeLink>
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="0 66" ImageUVSize="48 48" EnableDrawImage="true" ImageScale="1" SperateImageType="BNS_SperateImageType_9Frame" Opacity="0.5" />
+				</BnsCustomImageWidget.BaseImageProperty>
+				<BnsCustomImageWidget.ExpansionComponentList>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="CurrentStep" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/HUD_Icon_Menu_Test_nocomp.HUD_Icon_Menu_Test_nocomp" ImageUV="734 372" ImageUVSize="48 47" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" TintColor="FFFFFF" StaticPadding="2 2" Offset="-0.5 0" Opacity="0.5" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="Back" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/ItemIcon_Bg_Grade_1.ItemIcon_Bg_Grade_1" ImageUVSize="64 64" EnableDrawImage="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="IconImage" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" EnableMultiImage="true" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="RegisterCount" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+						<UBnsCustomExpansionComponent.StringProperty>
+							<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_8.Normal_8" LabelText="0" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Bottom" ClippingBound="2 2" ClippingBoundFace_Horizontal="WidgetFaceFace_Right" ClippingBoundFace_Vertical="WidgetFaceFace_Bottom" Opacity="1" TextScale="1" AnimScale="1" />
+						</UBnsCustomExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="NewImage" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Tag/SlotItem_New.SlotItem_New" ImageUVSize="40 40" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="0.8" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="MouseOverImage" MetaData="" WidgetState="BNSCustomWidgetState_Active">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="51 66" ImageUVSize="50 50" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" SperateImageType="BNS_SperateImageType_9Frame" TintColor="FFFFFF" StaticPadding="-1.5 -1.5" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="MousePressImage" MetaData="" WidgetState="BNSCustomWidgetState_Pressed">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="51 66" ImageUVSize="50 50" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" SperateImageType="BNS_SperateImageType_9Frame" TintColor="FFFFFF" StaticPadding="-1.5 -1.5" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+				</BnsCustomImageWidget.ExpansionComponentList>
+			</BnsCustomImageWidget>
+			<BnsCustomImageWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Step_Icon_7" LayoutData.Offsets="299.99988 2.000061 48 48">
+				<BnsCustomImageWidget.HorizontalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AchievementPanel_Information_DetailList_Column_1_1_Step_Icon_6" Offset1="2" />
+				</BnsCustomImageWidget.HorizontalResizeLink>
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="0 66" ImageUVSize="48 48" EnableDrawImage="true" ImageScale="1" SperateImageType="BNS_SperateImageType_9Frame" Opacity="0.5" />
+				</BnsCustomImageWidget.BaseImageProperty>
+				<BnsCustomImageWidget.ExpansionComponentList>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="CurrentStep" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/HUD_Icon_Menu_Test_nocomp.HUD_Icon_Menu_Test_nocomp" ImageUV="734 372" ImageUVSize="48 47" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" TintColor="FFFFFF" StaticPadding="2 2" Offset="-0.5 0" Opacity="0.5" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="Back" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/ItemIcon_Bg_Grade_1.ItemIcon_Bg_Grade_1" ImageUVSize="64 64" EnableDrawImage="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="IconImage" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" EnableMultiImage="true" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="RegisterCount" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+						<UBnsCustomExpansionComponent.StringProperty>
+							<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_8.Normal_8" LabelText="0" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Bottom" ClippingBound="2 2" ClippingBoundFace_Horizontal="WidgetFaceFace_Right" ClippingBoundFace_Vertical="WidgetFaceFace_Bottom" Opacity="1" TextScale="1" AnimScale="1" />
+						</UBnsCustomExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="NewImage" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Tag/SlotItem_New.SlotItem_New" ImageUVSize="40 40" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="0.8" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="MouseOverImage" MetaData="" WidgetState="BNSCustomWidgetState_Active">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="51 66" ImageUVSize="50 50" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" SperateImageType="BNS_SperateImageType_9Frame" TintColor="FFFFFF" StaticPadding="-1.5 -1.5" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="MousePressImage" MetaData="" WidgetState="BNSCustomWidgetState_Pressed">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="51 66" ImageUVSize="50 50" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" SperateImageType="BNS_SperateImageType_9Frame" TintColor="FFFFFF" StaticPadding="-1.5 -1.5" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+				</BnsCustomImageWidget.ExpansionComponentList>
+			</BnsCustomImageWidget>
+			<BnsCustomImageWidget Name="AchievementPanel_Information_DetailList_Column_1_1_Step_Icon_8" LayoutData.Offsets="349.99988 2.000061 48 48">
+				<BnsCustomImageWidget.HorizontalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AchievementPanel_Information_DetailList_Column_1_1_Step_Icon_7" Offset1="2" />
+				</BnsCustomImageWidget.HorizontalResizeLink>
+				<BnsCustomImageWidget.BaseImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="0 66" ImageUVSize="48 48" EnableDrawImage="true" ImageScale="1" SperateImageType="BNS_SperateImageType_9Frame" Opacity="0.5" />
+				</BnsCustomImageWidget.BaseImageProperty>
+				<BnsCustomImageWidget.ExpansionComponentList>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="CurrentStep" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window/HUD_Icon_Menu_Test_nocomp.HUD_Icon_Menu_Test_nocomp" ImageUV="734 372" ImageUVSize="48 47" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" TintColor="FFFFFF" StaticPadding="2 2" Offset="-0.5 0" Opacity="0.5" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="Back" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/ItemIcon_Bg_Grade_1.ItemIcon_Bg_Grade_1" ImageUVSize="64 64" EnableDrawImage="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="IconImage" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" EnableMultiImage="true" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="RegisterCount" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+						<UBnsCustomExpansionComponent.StringProperty>
+							<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_8.Normal_8" LabelText="0" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Bottom" ClippingBound="2 2" ClippingBoundFace_Horizontal="WidgetFaceFace_Right" ClippingBoundFace_Vertical="WidgetFaceFace_Bottom" Opacity="1" TextScale="1" AnimScale="1" />
+						</UBnsCustomExpansionComponent.StringProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="NewImage" MetaData="">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Tag/SlotItem_New.SlotItem_New" ImageUVSize="40 40" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="0.8" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" TintColor="FFFFFF" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="MouseOverImage" MetaData="" WidgetState="BNSCustomWidgetState_Active">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="51 66" ImageUVSize="50 50" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" SperateImageType="BNS_SperateImageType_9Frame" TintColor="FFFFFF" StaticPadding="-1.5 -1.5" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+					<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="MousePressImage" MetaData="" WidgetState="BNSCustomWidgetState_Pressed">
+						<UBnsCustomExpansionComponent.ImageProperty>
+							<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_UIElement.BNSR_UIElement" ImageUV="51 66" ImageUVSize="50 50" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" SperateImageType="BNS_SperateImageType_9Frame" TintColor="FFFFFF" StaticPadding="-1.5 -1.5" Opacity="1" />
+						</UBnsCustomExpansionComponent.ImageProperty>
+					</UBnsCustomExpansionComponent>
+				</BnsCustomImageWidget.ExpansionComponentList>
+			</BnsCustomImageWidget>
+		</BnsCustomImageWidget>
+	</BnsCustomImageWidget>
+</BnsCustomWindowWidget>

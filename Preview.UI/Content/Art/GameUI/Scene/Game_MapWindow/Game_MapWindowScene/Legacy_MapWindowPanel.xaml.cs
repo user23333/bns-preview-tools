@@ -31,10 +31,13 @@ public partial class Legacy_MapWindowPanel
 	}
 	#endregion
 
+	#region Private Fields
+	private readonly ICollectionView source;
+	private Zone? _zone;
+	#endregion
+
 	#region Private Methods	  
 	// Search
-	private Zone? _zone;
-
 	private void SelectedMapChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
 	{
 		if (e.NewValue is MapInfo record)
@@ -83,11 +86,12 @@ public partial class Legacy_MapWindowPanel
 
 	private void MapWindow_Minimap_KeyDown(object sender, KeyEventArgs e)
 	{
-		if (e.KeyboardDevice.Modifiers.HasFlag(ModifierKeys.Control) && e.Key == Key.Add)
+		if (e.KeyboardDevice.Modifiers.HasFlag(ModifierKeys.Control))
 		{
 			switch (e.Key)
 			{
 				case Key.Add: MapWindow_Minimap.Zoom += 0.1; break;
+				case Key.Subtract: MapWindow_Minimap.Zoom -= 0.1; break;
 			}
 		}
 	}
@@ -102,13 +106,9 @@ public partial class Legacy_MapWindowPanel
 		MapWindow_Minimap.AddChild(point, null, new BnsCustomImageWidget()
 		{
 			Tag = MapUnit.CategorySeq.Player,
-			BaseImageProperty = new ImageProperty() { EnableImageSet = true, ImageSet = new MyFPackageIndex("/Game/Art/UI/GameUI/Resource/GameUI_Map_Indicator/teleport_point_current_normal") },
+			BaseImageProperty = new ImageProperty() { EnableImageSet = true, ImageSet = new MyFPackageIndex("00009499.Teleport_point_current_normal") },
 		});
 	}
-	#endregion
-
-	#region Private Fields
-	private readonly ICollectionView source;
 	#endregion
 
 	#region Helpers

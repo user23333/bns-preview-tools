@@ -18,6 +18,18 @@ public sealed unsafe class Record : IElement, IDisposable
 	{
 		Attributes = new(this);
 	}
+
+	public Record(Table owner, string type) : this()
+	{
+		var definition = owner.Definition.ElRecord.SubtableByName(type);
+
+		Owner = owner;
+		Data = new byte[definition.Size];
+		DataSize = definition.Size;
+		ElementType = ElementType.Element;
+		SubclassType = definition.SubclassType;
+		StringLookup = owner.IsCompressed ? new StringLookup() : owner.GlobalString;
+	}
 	#endregion
 
 	#region Fields
@@ -33,7 +45,7 @@ public sealed unsafe class Record : IElement, IDisposable
 		}
 	}
 
-	public short SubclassType
+	internal short SubclassType
 	{
 		get
 		{
@@ -45,7 +57,7 @@ public sealed unsafe class Record : IElement, IDisposable
 		}
 	}
 
-	public ushort DataSize
+	internal ushort DataSize
 	{
 		get
 		{
@@ -68,6 +80,7 @@ public sealed unsafe class Record : IElement, IDisposable
 			fixed (byte* ptr = Data) ((Ref*)(ptr + 8))[0] = value;
 		}
 	}
+
 
 	public byte[] Data { get; internal set; }
 
