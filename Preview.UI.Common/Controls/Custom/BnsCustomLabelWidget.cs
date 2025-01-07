@@ -2,7 +2,6 @@
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using CUE4Parse.BNS.Assets.Exports;
 using Xylia.Preview.Data.Models;
 using Xylia.Preview.UI.Controls.Primitives;
 using Xylia.Preview.UI.Documents;
@@ -35,19 +34,14 @@ public class BnsCustomLabelWidget : BnsCustomBaseWidget, IContentHost
 		set { SetValue(TextProperty, value); }
 	}
 
-	public EHorizontalAlignment TextAlignment
-	{
-		get => String.HorizontalAlignment;
-		set => String.HorizontalAlignment = value;
-	}
 
 	public static readonly DependencyProperty ArgumentsProperty = Owner.Register("Arguments", new TextArguments(),
 		 FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.Inherits, OnArgumentsChanged);
 
 	public TextArguments Arguments
 	{
-		get { return (TextArguments)GetValue(ArgumentsProperty); }
-		set { SetValue(ArgumentsProperty, _container.Arguments = value); }
+		get => (TextArguments)GetValue(ArgumentsProperty);
+		set => SetValue(ArgumentsProperty, value);
 	}
 	#endregion
 
@@ -91,7 +85,7 @@ public class BnsCustomLabelWidget : BnsCustomBaseWidget, IContentHost
 	private static void OnArgumentsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 	{
 		var widget = (BnsCustomBaseWidget)d;
-		widget.OnContainerChanged(EventArgs.Empty);
+		widget.OnContainerChanged();
 	}
 
 	private static void OnTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

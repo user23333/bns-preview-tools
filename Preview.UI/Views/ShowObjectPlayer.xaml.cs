@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using CUE4Parse.BNS.Assets.Exports;
 using CUE4Parse.BNS.Conversion;
+using CUE4Parse.UE4.Assets.Exports;
 using HandyControl.Data;
 using Newtonsoft.Json;
 using Xylia.Preview.UI.Audio;
@@ -11,6 +12,8 @@ namespace Xylia.Preview.UI.Views;
 public partial class ShowObjectPlayer
 {
 	#region Constructors
+	readonly ShowObjectPlayerViewModel _viewModel;
+
 	public ShowObjectPlayer()
 	{
 		DataContext = _viewModel = new ShowObjectPlayerViewModel();
@@ -40,26 +43,25 @@ public partial class ShowObjectPlayer
 
 	private void OnDoubleClick(object sender, MouseButtonEventArgs e)
 	{
-		var wave = _viewModel.SelectedKey.GetWave();
+		PlaySound(_viewModel.SelectedKey!);
+	}
+
+	internal static void PlaySound(UObject obj)
+	{
+		var wave = obj.GetWave();
 		if (wave != null)
 		{
-			if (audioPlayer is null)
-			{
-				audioPlayer = new();
-				audioPlayer.Closed += (_, _) => audioPlayer = null;
-				audioPlayer.Show();
-			}
+			var file = new AudioFile(wave, "ogg")
+			{	
+				Path = obj.GetFullName(),
+				Name = obj.Name,
+			};
 
-			audioPlayer.Load(new AudioFile(wave, "ogg")
-			{
-				Name = _viewModel.SelectedKey!.Name,
-			});
+			var player = AudioPlayer.Instance;
+			player.Load(file);
+			player.Play(file);
+			player.Show();
 		}
 	}
-	#endregion
-
-	#region Fields
-	ShowObjectPlayerViewModel _viewModel;
-	AudioPlayer? audioPlayer;
 	#endregion
 }

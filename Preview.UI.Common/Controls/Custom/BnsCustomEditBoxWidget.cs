@@ -15,11 +15,10 @@ public class BnsCustomEditBoxWidget : TextBox, IUserWidget
 	public BnsCustomEditBoxWidget()
 	{
 		Children = new(this, this);
-		ExpansionComponentList = [];
+		//ExpansionComponentList = new ExpansionCollection(this);
 
 		// default style
 		this.Background = Brushes.Transparent;
-		this.Foreground = Brushes.White;
 		this.BorderThickness = new Thickness(0);
 	}
 	#endregion

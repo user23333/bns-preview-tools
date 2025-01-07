@@ -1,9 +1,0 @@
-<BnsCustomUISceneWidget x:Class="Xylia.Preview.UI.GameUI.Scene.Game_ItemStore.Game_ItemStoreScene"
-	xmlns="https://github.com/xyliaup/bns-preview-tools"
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:l="clr-namespace:Xylia.Preview.UI.GameUI.Scene.Game_ItemStore">
-	
-	<l:ItemStore_PossessionPanel x:Name="ItemStore_PossessionPanel_C" />
-	<l:ItemStorePanel x:Name="ItemStorePanel_C" />
-	<l:LegacyItemStorePanel x:Name="LegacyItemStorePanel_C" />
-</BnsCustomUISceneWidget>

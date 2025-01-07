@@ -17,14 +17,14 @@ public sealed class DatabaseTests(IDataProvider provider, string outputPath) : B
 
         Parallel.ForEach(defs, definition =>
         {
-            var table = Provider.Tables[definition.Type];
+			if (definition is null) return;
+
+			var table = Provider.Tables[definition.Type];
             if (table is null)
             {
                 Console.WriteLine("detect failed: " + definition.Name);
                 return;
             }
-
-            if (definition is null || definition.IsEmpty) return;
 
             table.Definition = definition;
             table.WriteXml(outputPath);

@@ -1,6 +1,4 @@
-﻿using Xylia.Preview.Common.Extension;
-
-namespace Xylia.Preview.Data.Models;
+﻿namespace Xylia.Preview.Data.Models;
 public sealed class ItemImprove : ModelElement, IRecipeHelper
 {
 	#region Attributes
@@ -45,8 +43,8 @@ public sealed class ItemImprove : ModelElement, IRecipeHelper
 			if (CostMainItem is null) continue;
 
 			var CostMainItemCount = Attributes.Get<short>("cost-main-item-count-" + i);
-			var CostSubItem = LinqExtensions.For(8, (id) => Attributes.Get<Item>($"cost-sub-item-{i}-{id}"));
-			var CostSubItemCount = LinqExtensions.For(8, (id) => Attributes.Get<short>($"cost-sub-item-count-{i}-{id}"));
+			var CostSubItem = Attributes.Get<Item[]>("cost-sub-item-" + i);
+			var CostSubItemCount = Attributes.Get<short[]>("cost-sub-item-count-" + i);
 			var SuccessProbability = Attributes.Get<short>("success-probability-" + i);
 			var UseSuccessProbability = Attributes.Get<bool>("use-success-probability-" + i);
 			var FailLevelDiff = Attributes.Get<sbyte>("fail-level-diff-" + i);

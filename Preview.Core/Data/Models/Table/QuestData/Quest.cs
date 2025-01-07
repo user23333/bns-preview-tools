@@ -1,4 +1,5 @@
-﻿using CUE4Parse.BNS.Assets.Exports;
+﻿using System.Text;
+using CUE4Parse.BNS.Assets.Exports;
 using CUE4Parse.UE4.Objects.UObject;
 using Xylia.Preview.Common.Attributes;
 using Xylia.Preview.Common.Extension;
@@ -38,6 +39,7 @@ public sealed class Quest : ModelElement, IHaveName
 	[Side(ReleaseSide.Server)]
 	public Ref<Cinematic> ReplayEpicZoneLeaveCinematic { get; set; }
 
+	public CategorySeq Category => Attributes.Get<CategorySeq>("category");
 
 	public enum CategorySeq
 	{
@@ -52,6 +54,30 @@ public sealed class Quest : ModelElement, IHaveName
 		Hunting,
 		COUNT
 	}
+
+	public DayOfWeekSeq DayOfWeek => Attributes.Get<DayOfWeekSeq>("day-of-week");
+
+	public enum DayOfWeekSeq
+	{
+		None,
+		Daily,
+		Weekly,
+		Monthly,
+		Mon,
+		Tue,
+		Wed,
+		The,
+		Fri,
+		Sat,
+		Sun,
+		SatSun,
+		FriSatSun,
+		COUNT
+	}
+
+	public ResetTypeSeq ResetType => Attributes.Get<ResetTypeSeq>("reset-type");
+
+	public ContentTypeSeq ContentType => Attributes.Get<ContentTypeSeq>("content-type");
 
 	public enum ContentTypeSeq
 	{
@@ -90,17 +116,25 @@ public sealed class Quest : ModelElement, IHaveName
 		[Name("except-completion-and-logout-save")]
 		ExceptCompletionAndLogoutSave,
 	}
-
-	public CategorySeq Category => Attributes.Get<CategorySeq>("category");
-	public ContentTypeSeq ContentType => Attributes.Get<ContentTypeSeq>("content-type");
-	public ResetType ResetType => Attributes.Get<ResetType>("reset-type");
 	#endregion
-
 
 	#region Methods
 	public string Name => Attributes["name2"]?.GetText();
 
-	public string Title => Attributes["group2"]?.GetText();
+	public string Group => Attributes["group2"]?.GetText();
+
+	public string Tag
+	{
+		get
+		{
+			var s = new StringBuilder();
+			s.Append($"Name.Quest.Tutorial".GetTextIf(Attributes.Get<bool>("tutorial")));
+			s.Append($"Name.Quest.day-of-week.{Attributes["day-of-week"]}".GetText());
+			s.Append($"Name.Quest.Grade.{Attributes["grade"]}".GetText());
+
+			return s.ToString();
+		}
+	}
 
 	public ImageProperty FrontIcon => new() { BaseImageTexture = GetImageTexture() };
 
@@ -110,7 +144,7 @@ public sealed class Quest : ModelElement, IHaveName
 	{
 		string name;
 
-		bool repeat = ResetType != ResetType.None;
+		bool repeat = ResetType != 0;
 		switch (Category)
 		{
 			case CategorySeq.Epic: name = "Map_Epic_Start"; break;
@@ -150,6 +184,7 @@ public sealed class Quest : ModelElement, IHaveName
 		return new MyFPackageIndex($"00009499.{name}");
 	}
 
+	public IEnumerable<QuestReward> GetRewards() => MissionStep.SelectMany(step => step.Mission.SelectMany(mission => mission.Reward)).Values();
 
 	public Quest GetNextQuest(JobSeq job = JobSeq.검사)
 	{
@@ -159,13 +194,11 @@ public sealed class Quest : ModelElement, IHaveName
 		foreach (var NextQuest in completion.NextQuest)
 		{
 			var jobs = NextQuest.Job;
-			if (jobs is null || jobs.CheckSeq(job)) return NextQuest.Quest.Instance;
+			if (jobs is null || jobs.CheckSeq(job)) return NextQuest.Quest.Value;
 		}
 
 		return null;
 	}
-
-	public IEnumerable<QuestReward> GetRewards() => MissionStep.SelectMany(step => step.Mission.SelectMany(mission => mission.Reward)).Values();
 	#endregion
 }
 
@@ -250,7 +283,7 @@ public abstract class Case : ModelElement
 	{
 		public Ref<Item> Item { get; set; }
 
-		public override List<Record> Attractions => new() { Item.Instance?.Source };
+		public override List<Record> Attractions => new() { Item.Value?.Source };
 	}
 
 	public sealed class TalkToSelf : Case
@@ -269,8 +302,8 @@ public abstract class Case : ModelElement
 			get
 			{
 				var result = new List<Record>();
-				result.Add(Object2.Instance?.Source);
-				MultiObject.ForEach(x => result.Add(x.Instance?.Source));
+				result.Add(Object2.Value?.Source);
+				MultiObject.ForEach(x => result.Add(x.Value?.Source));
 
 				return result;
 			}
@@ -287,7 +320,7 @@ public abstract class Case : ModelElement
 			get
 			{
 				var result = new List<Record>();
-				MultiObject.ForEach(x => result.Add(x.Instance?.Source));
+				MultiObject.ForEach(x => result.Add(x.Value?.Source));
 
 				return result;
 			}
@@ -323,8 +356,8 @@ public abstract class Case : ModelElement
 			get
 			{
 				var result = new List<Record>();
-				result.Add(Object2.Instance?.Source);
-				MultiObject.ForEach(x => result.Add(x.Instance?.Source));
+				result.Add(Object2.Value?.Source);
+				MultiObject.ForEach(x => result.Add(x.Value?.Source));
 
 				return result;
 			}
@@ -342,8 +375,8 @@ public abstract class Case : ModelElement
 			get
 			{
 				var result = new List<Record>();
-				result.Add(Object2.Instance?.Source);
-				MultiObject.ForEach(x => result.Add(x.Instance?.Source));
+				result.Add(Object2.Value?.Source);
+				MultiObject.ForEach(x => result.Add(x.Value?.Source));
 
 				return result;
 			}
@@ -354,7 +387,7 @@ public abstract class Case : ModelElement
 	{
 		public Ref<Npc> Npc { get; set; }
 
-		public override List<Record> Attractions => new() { Npc.Instance?.Source };
+		public override List<Record> Attractions => new() { Npc.Value?.Source };
 	}
 
 	public sealed class EnvEntered : Case
@@ -364,14 +397,14 @@ public abstract class Case : ModelElement
 		public Ref<EnvResponse> EnvResponse { get; set; }
 
 
-		public override List<Record> Attractions => new() { Object2.Instance?.Source };
+		public override List<Record> Attractions => new() { Object2.Value?.Source };
 	}
 
 	public sealed class EnterZone : Case
 	{
 		public Ref<ModelElement> Object { get; set; }
 
-		public override List<Record> Attractions => [Object.Instance?.Source];
+		public override List<Record> Attractions => [Object.Value?.Source];
 	}
 
 	public sealed class ConvoyArrived : Case
@@ -381,7 +414,7 @@ public abstract class Case : ModelElement
 		[Side(ReleaseSide.Server)]
 		public Ref<ZoneConvoy> Convoy { get; set; }
 
-		public override List<Record> Attractions => [Object.Instance?.Source];
+		public override List<Record> Attractions => [Object.Value?.Source];
 	}
 
 	public sealed class ConvoyFailed : Case
@@ -390,7 +423,7 @@ public abstract class Case : ModelElement
 
 		public Ref<ZoneConvoy> Convoy { get; set; }
 
-		public override List<Record> Attractions => [Object.Instance?.Source];
+		public override List<Record> Attractions => [Object.Value?.Source];
 	}
 
 	public sealed class NpcBleedingOccured : Case
@@ -400,14 +433,14 @@ public abstract class Case : ModelElement
 		[Side(ReleaseSide.Server)]
 		public sbyte idx { get; set; }
 
-		public override List<Record> Attractions => [Object.Instance?.Source];
+		public override List<Record> Attractions => [Object.Value?.Source];
 	}
 
 	public sealed class EnterPortal : Case
 	{
 		public Ref<ModelElement> Object2 { get; set; }
 
-		public override List<Record> Attractions => [Object2.Instance?.Source];
+		public override List<Record> Attractions => [Object2.Value?.Source];
 	}
 
 	public sealed class AcquireSummoned : Case
@@ -422,7 +455,7 @@ public abstract class Case : ModelElement
 
 		public Ref<Text> ButtonTextCancel { get; set; }
 
-		public override List<Record> Attractions => [Object.Instance?.Source];
+		public override List<Record> Attractions => [Object.Value?.Source];
 	}
 
 	public sealed class PcSocial : Case
@@ -439,7 +472,7 @@ public abstract class Case : ModelElement
 		public Ref<NpcResponse> NpcResponse { get; set; }
 
 
-		public override List<Record> Attractions => [Object2.Instance?.Source];
+		public override List<Record> Attractions => [Object2.Value?.Source];
 	}
 
 	public sealed class JoinFaction : Case
@@ -461,7 +494,7 @@ public abstract class Case : ModelElement
 		public bool RemoveGrocery { get; set; }
 
 
-		public override List<Record> Attractions => [Object.Instance?.Source];
+		public override List<Record> Attractions => [Object.Value?.Source];
 	}
 
 	public sealed class DuelFinish : Case
@@ -787,7 +820,7 @@ public abstract class TutorialCase : ModelElement
 		public Ref<EnvResponse> EnvResponse { get; set; }
 
 
-		public override List<Record> Attractions => [Object2.Instance?.Source];
+		public override List<Record> Attractions => [Object2.Value?.Source];
 	}
 
 	public sealed class EnlargeMiniMap : TutorialCase

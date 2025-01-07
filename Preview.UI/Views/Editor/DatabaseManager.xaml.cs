@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Data;
+using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Windows;
@@ -16,7 +17,7 @@ using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Data.Engine.Definitions;
 using Xylia.Preview.UI.ViewModels;
-using Xylia.Preview.UI.Views.Selector;
+using Xylia.Preview.UI.Views.Dialogs;
 
 namespace Xylia.Preview.UI.Views.Editor;
 public partial class DatabaseManager
@@ -26,9 +27,9 @@ public partial class DatabaseManager
 
 	public DatabaseManager(System.Windows.Window? owner, bool global = false)
 	{
-		IsGlobalData = global;
 		Owner = owner;
 		TOKEN = owner is DatabaseStudio ? DatabaseStudio.TOKEN : null;
+		IsGlobalData = global;
 
 		InitializeComponent();
 		InitializeCommand();
@@ -38,7 +39,7 @@ public partial class DatabaseManager
 	#region Fields
 	internal bool IsGlobalData = false;
 	private bool IsConnecting = false;
-	private string LastPath;
+	private string? LastPath;
 
 	public IEngine? Engine { get; private set; }
 	#endregion
@@ -75,6 +76,7 @@ public partial class DatabaseManager
 		else if (Provider_FolderMode.IsChecked == true)
 		{
 			ProviderSearch.Visibility = Visibility.Visible;
+			await Provider_CheckFolder(ProviderSearch.Text);
 		}
 	}
 
@@ -95,21 +97,21 @@ public partial class DatabaseManager
 	private async Task Provider_CheckFolder(string path)
 	{
 		try
-		{  	
-			if (path == LastPath) return;  
+		{
+			if (path == LastPath) return;
 			DefinitionList.ItemsSource = null;
 			Run_Version.Text = null;
-			
+
 			// check path
-			if (!Directory.Exists(path)) return;
-			var locale = new Locale(LastPath = path);
-			Run_Version.Text = string.Format(" ({0}_{1})", locale.Publisher, locale.ProductVersion);
+			if (!Directory.Exists(LastPath = path)) return;
+			var locale = new Locale(path);
+			Run_Version.Text = string.Format(" ({0}_{1})", locale.Publisher, locale.ClientVersion);
 
 			// update definitions
 			var commits = (await GetCommits(locale.Publisher)).OrderByDescending(x => x.Version);
 			DefinitionList.ItemsSource = commits;
-			DefinitionList.SelectedItem = commits.FirstOrDefault(x => locale.ProductVersion.CompareTo(x.Version) >= 0) ??
-				throw new Exception(StringHelper.Get("DatabaseStudio_Definition_NoMatched"));
+			DefinitionList.SelectedItem = commits.FirstOrDefault(x => locale.ClientVersion.CompareTo(x.Version) >= 0) ??
+				throw new VersionNotFoundException(StringHelper.Get("DatabaseStudio_Definition_NoMatched"));
 			DefinitionList.ScrollIntoView(DefinitionList.SelectedItem);
 		}
 		catch (Exception ex)
@@ -212,15 +214,16 @@ public partial class DatabaseManager
 			Branch = branch,
 			SHA = token.Value<string>("sha"),
 			Time = token["commit"]!["author"]!.Value<DateTime>("date"),
-			Message = token["commit"]!.Value<string>("message"),
+			Message = token["commit"]!.Value<string>("message")!,
 		}).ToArray();
 	}
 
 	private static async Task<IEnumerable<Commit>> GetCommits(EPublisher publisher) => await GetCommits(publisher switch
 	{
-		EPublisher.ZTx => "ZTX",
+		EPublisher.Tencent => "TENCENT",
 		EPublisher.ZNcs => "ZNCS",
-		_ => "LIVE",
+		EPublisher.ZTx => "ZTX",
+		_ => "NCSOFT",
 	});
 
 	public class Branch
@@ -235,15 +238,18 @@ public partial class DatabaseManager
 		public string? SHA { get; set; }
 		public DateTime Time { get; set; }
 		public BnsVersion Version { get; set; }
+		public string? Text { get; set; }
 
-		private string? _message;
-		public string? Message
+		public string Message
 		{
-			get => _message;
 			set
 			{
-				_message = value;
-				Version = BnsVersion.TryParse(value, out var version) ? version : default;
+				var strings = value.Split(',')
+					.Where(x => x.Contains('='))
+					.ToDictionary(x => x[..x.IndexOf('=')], x => x[(x.IndexOf('=') + 1)..], StringComparer.OrdinalIgnoreCase);
+
+				Version = BnsVersion.Parse(strings.GetValueOrDefault("version", value));
+				Text = strings.GetValueOrDefault("text", Version.ToString());
 			}
 		}
 
@@ -264,6 +270,7 @@ public partial class DatabaseManager
 
 				stream = await response.Content.ReadAsStreamAsync();
 				await stream.SaveAsync(path); // write local cache
+				stream.Seek(0, SeekOrigin.Begin);
 			}
 
 			return new CompressDatafileDefinition(stream, CompressionMethod.Gzip) { Key = SHA };

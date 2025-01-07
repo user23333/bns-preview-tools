@@ -1,7 +1,7 @@
 ﻿namespace Xylia.Preview.Data.Engine.DatData;
 public enum EPublisher
 {
-	None = -1,
+	Invalid,
 	NcSoft,
 	Tencent,
 	Innova,
@@ -9,8 +9,6 @@ public enum EPublisher
 	Garena,
 	NcTaiwan,
 	NcWest,
-	RNcs,
-	RTx,
 	ZNcs,
 	ZTx,
 }

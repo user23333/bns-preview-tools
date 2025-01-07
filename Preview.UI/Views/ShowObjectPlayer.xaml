@@ -4,7 +4,7 @@
 		xmlns:converters="clr-namespace:Xylia.Preview.UI.Common.Converters"
 		xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
 		xmlns:hc="https://handyorg.github.io/handycontrol"
-        Title="{DynamicResource ShowObjectPlayer_Name}" Background="{StaticResource BorderBrush}"
+        Title="{DynamicResource ShowObjectPlayer_Name}" Background="{DynamicResource BorderBrush}"
 		Height="{Binding Source={x:Static SystemParameters.MaximizedPrimaryScreenHeight}, Converter={converters:RatioConverter}, ConverterParameter='0.50'}"
         Width="{Binding Source={x:Static SystemParameters.MaximizedPrimaryScreenWidth}, Converter={converters:RatioConverter}, ConverterParameter='0.48'}">
 	<Grid>

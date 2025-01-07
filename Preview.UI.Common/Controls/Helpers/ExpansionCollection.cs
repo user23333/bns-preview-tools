@@ -1,16 +1,18 @@
 ﻿using System.Collections.ObjectModel;
 using CUE4Parse.BNS.Assets.Exports;
+using Xylia.Preview.UI.Controls.Primitives;
 
 namespace Xylia.Preview.UI.Controls.Helpers;
-public class ExpansionCollection : Collection<UBnsCustomExpansionComponent>
+public class ExpansionCollection : ObservableCollection<UBnsCustomExpansionComponent>
 {
 	#region Constructors
-	public ExpansionCollection()
+	public ExpansionCollection(BnsCustomBaseWidget owner)
 	{
-
+		Owner = owner;
+		CollectionChanged += (s, e) => owner.InvalidateVisual();
 	}
 
-	internal ExpansionCollection(IEnumerable<UBnsCustomExpansionComponent> collections)
+	internal ExpansionCollection(BnsCustomBaseWidget owner, IEnumerable<UBnsCustomExpansionComponent> collections) : this(owner)
 	{
 		// use cloned instead of themselves
 		foreach (var component in collections)
@@ -25,6 +27,7 @@ public class ExpansionCollection : Collection<UBnsCustomExpansionComponent>
 	{
 		base.InsertItem(index, item);
 		dic[item.ExpansionName.Text] = item;
+		Owner.InvalidateVisual();
 	}
 
 	protected override void RemoveItem(int index)
@@ -33,6 +36,7 @@ public class ExpansionCollection : Collection<UBnsCustomExpansionComponent>
 
 		base.RemoveItem(index);
 		dic.Remove(removedItem.ExpansionName.Text);
+		Owner.InvalidateVisual();
 	}
 
 	protected override void SetItem(int index, UBnsCustomExpansionComponent item)
@@ -42,18 +46,21 @@ public class ExpansionCollection : Collection<UBnsCustomExpansionComponent>
 
 		dic.Remove(originalItem.ExpansionName.Text);
 		dic[item.ExpansionName.Text] = item;
+		Owner.InvalidateVisual();
 	}
 
 	protected override void ClearItems()
 	{
 		base.ClearItems();
 		dic.Clear();
+		Owner.InvalidateVisual();
 	}
 
 	public UBnsCustomExpansionComponent? this[string name] => dic!.GetValueOrDefault(name);
 	#endregion
 
 	#region Private Fields
+	private readonly BnsCustomBaseWidget Owner;
 	private readonly Dictionary<string, UBnsCustomExpansionComponent> dic = [];
 	#endregion
 }

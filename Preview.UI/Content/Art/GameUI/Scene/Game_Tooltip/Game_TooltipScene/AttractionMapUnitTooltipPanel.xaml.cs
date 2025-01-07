@@ -35,7 +35,7 @@ public partial class AttractionMapUnitToolTipPanel
 		AttractionMapUnitToolTipPanel_Newbie_Title.SetVisiable(false);
 		AttractionMapUnitToolTipPanel_Newbie.SetVisiable(false);
 
-		var reward = attraction.RewardSummary.Instance;
+		var reward = attraction.RewardSummary.Value;
 		if (reward != null)
 		{
 			var vertical = AttractionMapUnitToolTipPanel_Reward.Children.Add(new VerticalBox(), FLayout.Anchor.Full);
@@ -50,7 +50,7 @@ public partial class AttractionMapUnitToolTipPanel
 
 					foreach (var (element, category, type) in group)
 					{
-						switch (element.Instance)
+						switch (element.Value)
 						{
 							case Item item: builder.Append("UI.AttractionTooltip.Reward.Item".GetText([null, item])); break;
 							case ItemBrand brand: builder.Append("UI.AttractionTooltip.Reward.Brand".GetText([null, brand.GetTooltip(type)])); break;

@@ -1,7 +1,7 @@
 ﻿using Xylia.Preview.Data.Common.Abstractions;
 
 namespace Xylia.Preview.Data.Models;
-public class Zone : ModelElement
+public sealed class Zone : ModelElement, IHaveName
 {
 	#region Attributes
 	public int Id { get; set; }
@@ -21,6 +21,10 @@ public class Zone : ModelElement
 	public Ref<MapInfo> Map { get; set; }
 
 	public Ref<MapArea> Area { get; set; }
+	#endregion
+
+	#region Methods
+	public string Name => Area.Value?.Name;
 	#endregion
 }
 

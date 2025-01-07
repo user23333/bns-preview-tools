@@ -19,7 +19,7 @@ namespace Xylia.Preview.Data.Engine.BinData.Models;
 /// <summary>
 /// bns data table
 /// </summary>
-[JsonConverter(typeof(TableConverter))]
+[JsonConverter(typeof(TableJsonConverter))]
 public class Table : TableHeader, IDisposable, IEnumerable<Record>
 {
 	#region Data
@@ -44,12 +44,12 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 			definition = value;
 			Name = value.Name;
 
-			CheckVersion((definition.MajorVersion, definition.MinorVersion));
+			CheckVersion(value.MajorVersion, value.MinorVersion);
 		}
 	}
 
 
-	public bool IsBinary { get; internal set; }
+	internal bool IsBinary { get; set; }
 
 	internal TableArchive Archive { get; set; }
 
@@ -123,20 +123,18 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 			xml.Load(stream);
 			stream.Close();
 
-			var documentElement = xml.DocumentElement;
-			string type = documentElement.Attributes["type"]?.Value;
-			string version = documentElement.Attributes["version"]?.Value;
+			XmlElement document = xml.DocumentElement;
+			string type = document.Attributes["type"]?.Value;
+			string version = document.Attributes["version"]?.Value;
 
-			CheckVersion(ParseVersion(version));
+			CheckVersion(version);
 
-			// ignore step data
-			// TutorialSkillSequenceLoader ?
 			if (type != null && string.Compare(type, Name, true) != 0)
 			{
 				Log.Error($"[game-data-loader], load error. invalid type, fileName:{Name}, type:{type}");
 			}
 
-			LoadElement(documentElement, actions);
+			LoadElement(document, actions);
 		}
 
 		return actions;
@@ -152,19 +150,18 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 		_records ??= [];
 
 		var length = _records.Count;
+		var definition = Definition.DocumentElement.Children[0];
 		var elements = parent.ChildNodes.OfType<XmlElement>()
-			.Where(element => element.Name.Equals(Definition.ElRecord.Name, StringComparison.OrdinalIgnoreCase)).ToArray();
+			.Where(element => element.Name.Equals(definition.Name, StringComparison.OrdinalIgnoreCase)).ToArray();
 
 		// load data
 		ConcurrentBag<Tuple<int, Record>> records = [];
 		Parallel.For(0, elements.Length, index =>
 		{
 			var element = elements[index];
-			var record = new Record(this, element.GetAttribute(AttributeCollection.s_type));
-
-			// create attributes and primary key
-			record.Attributes = new(record, element, Definition.ElRecord, length + index + 1);
-			record.Attributes.BuildData(true);
+			var sub = definition.SubtableByName(element.GetAttribute(AttributeCollection.s_type));
+			var record = new Record(this, sub);
+			record.Attributes = new(record, element, sub, length + index + 1);
 
 			records.Add(new Tuple<int, Record>(index, record));
 			//Log.Warning($"[game-data-loader], load {Name} error, msg:{0}, fileName:{1}, nodeName:{element.Name}, record:{element.OuterXml}");
@@ -211,7 +208,7 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 				{
 					AliasTable = new();
 
-					var aliasAttrDef = Definition.ElRecord["alias"];
+					var aliasAttrDef = Definition.DocumentElement.Children[0]["alias"];
 					if (aliasAttrDef != null) Records?.ForEach(x => AliasTable.Add(x));
 				}
 			}
@@ -234,7 +231,7 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 			ReleaseSide = ReleaseSide.Client,
 			Encoding = name.EndsWith(".x16", StringComparison.OrdinalIgnoreCase) ? Encoding.Unicode : Encoding.UTF8,
 		});
-		File.WriteAllBytes(path, data);	
+		File.WriteAllBytes(path, data);
 
 		return new HashInfo(name, XXH64.DigestOf(data));
 	}
@@ -246,23 +243,22 @@ public class Table : TableHeader, IDisposable, IEnumerable<Record>
 		using var ms = new MemoryStream();
 		using var writer = XmlWriter.Create(ms, new XmlWriterSettings() { Indent = true, IndentChars = "\t", Encoding = settings.Encoding });
 
-		// document
+		var element = Definition.Elements[0];
 		writer.WriteStartDocument();
-		writer.WriteStartElement(Definition.ElRoot.Name);
+		writer.WriteStartElement(element.Name);
 		writer.WriteAttributeString("release-module", "LocalizationData");
 		writer.WriteAttributeString("release-side", settings.ReleaseSide.ToString().ToLower());
 		writer.WriteAttributeString("type", Definition.Name);
-		writer.WriteAttributeString("version", MajorVersion + "." + MinorVersion);
+		writer.WriteAttributeString("version", Version.ToString());
 		// write version when mismatch
-		if (!MatchVersion(Definition.MajorVersion, Definition.MinorVersion))
-			writer.WriteAttributeString("def-version", Definition.MajorVersion + "." + Definition.MinorVersion);
+		if (!Equals(Version, Definition.Version)) writer.WriteAttributeString("def-version", Definition.Version.ToString());
 
 		// write file path
 		writer.WriteComment($" {Name}.xml ");
 
 		// records
 		if (records.Length == 0) records = [.. Records];
-		records.ForEach(record => record.WriteXml(writer, Definition.ElRecord));
+		records.ForEach(record => record.WriteXml(writer, Definition.DocumentElement.Children[0]));
 
 		// finish
 		writer.WriteEndElement();

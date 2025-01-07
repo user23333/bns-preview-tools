@@ -6,9 +6,9 @@ using Xylia.Preview.UI.Resources.Themes;
 using Xylia.Preview.UI.Services;
 using Xylia.Preview.UI.ViewModels;
 using Xylia.Preview.UI.Views;
+using Xylia.Preview.UI.Views.Dialogs;
 using Xylia.Preview.UI.Views.Editor;
 using Xylia.Preview.UI.Views.Pages;
-using Xylia.Preview.UI.Views.Selector;
 using MessageBox = HandyControl.Controls.MessageBox;
 
 namespace Xylia.Preview.UI;
@@ -58,6 +58,11 @@ public partial class MainWindow
 		}
 
 		Application.Current.Shutdown();
+	}
+
+	protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
+	{
+		UserSettings.Default.ContainerSize = sizeInfo.NewSize;
 	}
 
 	private void OnLoaded(object? sender, EventArgs e)

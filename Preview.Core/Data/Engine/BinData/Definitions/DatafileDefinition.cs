@@ -47,17 +47,13 @@ public abstract class DatafileDefinition : Collection<TableDefinition>
 	protected new void Add(TableDefinition item)
 	{
 		if (item is null) return;
-
-		// HACK: is not binary table, it affects GetParser
-		if (item.Name is "filter-set") return;
+		if (item.Module == (long)TableModule.Server || item.Module == (long)TableModule.Engine) return;
 
 		base.Add(item);
 	}
 
 	internal void CreateMap()
 	{
-		// this.DistinctBy(def => def.Name, new TableNameComparer());
-
 		_definitionsByType = this.ToDistinctDictionary(x => x.Type, null);
 		_definitionsByName = this.ToDistinctDictionary(x => x.Name, new TableNameComparer());
 	}
@@ -107,7 +103,7 @@ internal class DefaultDatafileDefinition : DatafileDefinition
 
 public class CompressDatafileDefinition : DatafileDefinition
 {
-	private EPublisher publisher = EPublisher.None;
+	private EPublisher publisher = EPublisher.Invalid;
 	internal override EPublisher Publisher => publisher;
 	public override int GetHashCode() => Key.GetHashCode();
 	public override bool Equals(object obj) => obj is CompressDatafileDefinition other && this.Key == other.Key;
@@ -161,7 +157,7 @@ public class CompressDatafileDefinition : DatafileDefinition
 
 		// check path
 		var path = Path.Combine(Settings.Default.OutputFolder, ".download", key);
-		if (!File.Exists(path)) throw new BnsDataException(BnsDataExceptionCode.InvalidDefinition_NotFound);
+		if (!File.Exists(path)) throw new BnsDataException(BnsDataExceptionCode.InvalidDefinition);
 
 		return new CompressDatafileDefinition(File.OpenRead(path), CompressionMethod.Gzip) { publisher = type, Key = key };
 	}

@@ -12,8 +12,8 @@ public partial class TableTests
 	{
 		var record = Database.Provider.GetTable<ItemSpirit>()[alias];
 
-		var array1 = record.DistributionType.Instance.Do(record.AbilityMin[0], record.AbilityMax[0]);
-		var array2 = record.DistributionType.Instance.Do(record.AbilityMin[1], record.AbilityMax[1]);
+		var array1 = record.DistributionType.Value.Do(record.AbilityMin[0], record.AbilityMax[0]);
+		var array2 = record.DistributionType.Value.Do(record.AbilityMin[1], record.AbilityMax[1]);
 
 		//Console.WriteLine(record.AttachAbility[0].GetText());
 		//for (int i = 0; i < array1.Length; i++) Console.WriteLine($"{array1[i].Item1} {array1[i].Item2:P5}");
@@ -33,7 +33,7 @@ public partial class TableTests
 		foreach (var record in items)
 		{
 			Console.WriteLine(string.Format("{0} {1:P3}  {2} {3}",
-				record.Item.Instance?.Name,
+				record.Item.Value?.Name,
 				(double)record.ItemProbWeight / TotalItemProbWeight,
 				record.CostType,
 				record.ItemCost
@@ -51,11 +51,10 @@ public partial class TableTests
 	}
 
 	[TestMethod]
-	[DataRow("SoulBoost_Season_0017")]
+	[DataRow("SoulBoost_Season_0018")]
 	public void SoulBoostTest(string alias)
 	{
-		Console.WriteLine(TimeUniversal.Parse("2024/8/20 7:59:00").Ticks);
-		Console.WriteLine(TimeUniversal.Parse("2024/9/25 8:00:00").Ticks);
+		Console.WriteLine(TimeUniversal.Parse("2024/12/25 8:00:00").Ticks);
 
 		Database.Provider.GetTable<SoulBoostSeason>()[alias].TestMethod();
 	}

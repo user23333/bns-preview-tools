@@ -1,17 +1,19 @@
 ﻿using System.Windows.Data;
+using CUE4Parse.UE4.Objects.Core;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.Wpf;
+using Xylia.Preview.UI.Controls.Helpers;
 using Xylia.Preview.UI.Controls.Primitives;
 
 namespace Xylia.Preview.UI.Controls;
 public class BnsWebBrowser : BnsCustomBaseWidget
 {
-	#region Constructorss
+	#region Constructors
 	public BnsWebBrowser()
 	{
 		_webView = new WebView2();
 		_webView.CoreWebView2InitializationCompleted += InitializationCompleted;
-		this.Children.Add(_webView);
+		Children.Add(_webView, FLayout.Anchor.Full);
 
 		BindingOperations.SetBinding(_webView, HeightProperty, new Binding("Height") { Source = this });
 		BindingOperations.SetBinding(_webView, WidthProperty, new Binding("Width") { Source = this });

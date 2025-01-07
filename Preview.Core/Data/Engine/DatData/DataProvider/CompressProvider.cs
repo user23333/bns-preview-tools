@@ -5,12 +5,11 @@ public class CompressProvider : FolderProvider
 {
 	private readonly BNSDat Package;
 
-	public CompressProvider(string filepath) : base(filepath)
+	public CompressProvider(string path, Locale locale = default) : base(path, locale)
 	{
-		if (!File.Exists(filepath)) 
-			throw new FileNotFoundException();
+		if (!File.Exists(path)) throw new FileNotFoundException();
 
-		Package = new BNSDat(new PackageParam(filepath)
+		Package = new BNSDat(new PackageParam(path)
 		{
 			BinaryXmlVersion = BinaryXmlVersion.None,
 			CompressionMethod = CompressionMethod.Oodle,

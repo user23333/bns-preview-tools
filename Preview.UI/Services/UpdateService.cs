@@ -32,7 +32,7 @@ internal class UpdateService : IService
 
 		AutoUpdater.RemindLaterTimeSpan = 0;
 		AutoUpdater.ReportErrors = true;
-		AutoUpdater.DownloadPath = Path.Combine(Environment.CurrentDirectory, "update");
+		AutoUpdater.DownloadPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "update");
 		AutoUpdater.ParseUpdateInfoEvent += ParseUpdateInfoEvent;
 		AutoUpdater.CheckForUpdateEvent += CheckForUpdateEvent;
 	}

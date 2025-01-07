@@ -73,14 +73,11 @@ public class Icon(Record record, short index)
 		throw new NotSupportedException();
 	}
 
+	public override string ToString() => $"{record},{index}";
+
 	public IconRef GetRef() => new(record?.PrimaryKey ?? default, index);
 
-	public ImageProperty GetImage(IFileProvider pak = null)
-	{
-		return record.To<IconTexture>()?.GetImage(index, pak);
-	}
-
-	public override string ToString() => $"{record},{index}";
+	public ImageProperty GetImage(IFileProvider pak = null) => record.To<IconTexture>()?.GetImage(index, pak);
 
 	public class IconConvert : TypeConverter
 	{

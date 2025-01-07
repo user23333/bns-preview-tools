@@ -20,26 +20,16 @@ public class SequenceDefinitionLoader
 			if (_duplicateSequences.ContainsKey(name))
 				throw BnsDataException.InvalidSequence($"has existed", name);
 
-			var seq = this.Load(record);
+			var seq = this.Load(record, AttributeType.TSeq);
 			if (seq != null) _duplicateSequences[name] = [seq];
 		}
 	}
 
-	internal SequenceDefinition Load(XmlElement element)
+	internal SequenceDefinition Load(XmlElement element, AttributeType type)
 	{
 		var seqName = element.Attributes["seq"]?.Value;
-		var sequence = new SequenceDefinition(seqName ?? element.Attributes["name"]?.Value);
-
-		var nodes = element.ChildNodes.OfType<XmlElement>();
-		if (nodes.Any())
+		if (seqName != null)
 		{
-			sequence.AddRange(nodes.Select(x => x.GetAttribute("name")));
-			return sequence;
-		}
-		else
-		{
-			if (string.IsNullOrWhiteSpace(seqName)) return null;
-
 			if (!_duplicateSequences.TryGetValue(seqName, out var seq))
 			{
 				Trace.WriteLine($"seq `{seqName}` not defined");
@@ -47,6 +37,16 @@ public class SequenceDefinitionLoader
 			}
 
 			return seq.First();
+		}
+		else
+		{
+			var elements = element.ChildNodes.OfType<XmlElement>();
+			if (!elements.Any()) return null;
+
+			return new SequenceDefinition(elements.Select(x => x.GetAttribute("name")), type)
+			{
+				 Name = element.GetAttribute("name"),
+			};
 		}
 	}
 
@@ -57,11 +57,14 @@ public class SequenceDefinitionLoader
 
 		foreach (var tableDef in tableDefs)
 		{
-			LoadForTable(tableDef.ElRecord, allSequenceDefinitions, mergeDuplicated);
-
-			foreach (var subtableDef in tableDef.ElRecord.Subtables)
+			foreach (var elementDef in tableDef.Elements)
 			{
-				LoadForTable(subtableDef, allSequenceDefinitions, mergeDuplicated);
+				LoadForTable(elementDef, allSequenceDefinitions, mergeDuplicated);
+
+				foreach (var subtableDef in elementDef.Subtables)
+				{
+					LoadForTable(subtableDef, allSequenceDefinitions, mergeDuplicated);
+				}
 			}
 		}
 
@@ -74,8 +77,7 @@ public class SequenceDefinitionLoader
 
 		foreach (var attrDef in tableDef.Attributes)
 		{
-			if (attrDef.Sequence.Count == 0)
-				continue;
+			if (attrDef.Sequence.Count == 0) continue;
 
 			var first = attrDef.Sequence[0];
 
@@ -111,8 +113,10 @@ public class SequenceDefinitionLoader
 			}
 
 			// Create new one if we didn't find existing one
-			var newSequenceDef = new SequenceDefinition(attrDef.Name); // Use attribute name as sequence name
-			newSequenceDef.AddRange(attrDef.Sequence);
+			var newSequenceDef = new SequenceDefinition(attrDef.Sequence)
+			{
+				Name = attrDef.Name  // Use attribute name as sequence name
+			};
 
 			if (mergeDuplicated)
 				sequenceDefList.Add(newSequenceDef);

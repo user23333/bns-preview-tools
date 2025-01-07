@@ -23,17 +23,10 @@ namespace Xylia.Preview.UI.ViewModels;
 internal partial class DatabaseStudioViewModel(Action<string> Message) : ObservableObject
 {
 	#region Common
-	[ObservableProperty]
-	private int _selectedPage;
+	[ObservableProperty] private int _selectedPage;
+	[ObservableProperty] private bool? _connectStatus;
 
-	[ObservableProperty]
-	private bool? _connectStatus;
-
-#if DEBUG
-	public bool UseImport => true;
-#else
-	public bool UseImport => this != null && UserService.Instance?.Role >= UserRole.Advanced;
-#endif
+	public bool UseImport => UserService.Instance?.Role >= UserRole.Advanced;
 
 	[RelayCommand]
 	private void SwitchPage(object param)
@@ -47,7 +40,7 @@ internal partial class DatabaseStudioViewModel(Action<string> Message) : Observa
 	public bool IsGlobalData = false;
 	private ProviderSerialize? serialize;
 
-	public string? SaveDataPath => Path.Combine(UserSettings.Default.OutputFolder, "GameData_" + Database?.Desc);
+	private string SaveDataPath => Path.Combine(UserSettings.Default.OutputFolder, Database!.Desc, Database!.CreatedAt.ToString("yyMMdd"));
 
 	[RelayCommand]
 	private async Task Export()
@@ -60,7 +53,9 @@ internal partial class DatabaseStudioViewModel(Action<string> Message) : Observa
 	private async Task ExportAll()
 	{
 		if (Database is not BnsDatabase database) return;
+
 		await ExportAsync([.. database.Provider.Tables]);
+		database.Provider.Locale.Save(SaveDataPath);
 	}
 
 	private async Task ExportAsync(params Table[] tables)
@@ -275,7 +270,7 @@ internal partial class SQL(string text, string? title = null) : ObservableObject
 		if (Text is null) return;
 
 		// save
-		var dialog = new VistaSaveFileDialog()
+		var dialog = new SaveFileDialog()
 		{
 			Filter = "|*.sql",
 			FileName = "Query.sql",

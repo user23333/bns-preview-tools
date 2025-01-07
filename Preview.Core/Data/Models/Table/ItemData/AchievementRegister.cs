@@ -159,7 +159,7 @@ public class AchievementRegister : ModelElement, IHaveName
 
 		public Ref<Npc> Npc { get; set; }
 
-		protected override IEnumerable<object> Object => [Gadget.Instance, Npc.Instance];
+		protected override IEnumerable<object> Object => [Gadget.Value, Npc.Value];
 	}
 
 	public sealed class QuestComplete : AchievementRegister
@@ -169,7 +169,7 @@ public class AchievementRegister : ModelElement, IHaveName
 
 	public sealed class QuestCompleteCount : AchievementRegister
 	{
-		public ResetType ResetType { get; set; }
+		public ResetTypeSeq ResetType { get; set; }
 
 		public ResetByAcquireTimeSeq ResetByAcquireTime { get; set; }
 

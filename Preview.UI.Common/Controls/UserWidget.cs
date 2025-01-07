@@ -134,7 +134,8 @@ public abstract class UserWidget : FrameworkElement, IUserWidget
 	///     The DependencyProperty for the Foreground property.
 	/// </summary>
 	public static readonly DependencyProperty ForegroundProperty = TextElement.ForegroundProperty.AddOwner(Owner,
-		new FrameworkPropertyMetadata(SystemColors.ControlTextBrush, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.Inherits));
+		new FrameworkPropertyMetadata(SystemColors.ControlBrush, 
+			FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.Inherits));
 
 	/// <summary>
 	///     An brush that describes the foreground color.
@@ -273,22 +274,6 @@ public abstract class UserWidget : FrameworkElement, IUserWidget
 	{
 		get { return (bool)GetValue(IsTabStopProperty); }
 		set { SetValue(IsTabStopProperty, BooleanBoxes.Box(value)); }
-	}
-
-	/// <summary>
-	/// PaddingProperty
-	/// </summary>
-	public static readonly DependencyProperty PaddingProperty = DependencyProperty.Register("Padding", typeof(Thickness), Owner,
-		new FrameworkPropertyMetadata(new Thickness(), FrameworkPropertyMetadataOptions.AffectsParentMeasure));
-
-	/// <summary>
-	/// Padding Property
-	/// </summary>
-	[Bindable(true), Category("Layout")]
-	public Thickness Padding
-	{
-		get { return (Thickness)GetValue(PaddingProperty); }
-		set { SetValue(PaddingProperty, value); }
 	}
 
 	internal Vector ScrollOffset { get; set; }
@@ -518,6 +503,13 @@ public abstract class UserWidget : FrameworkElement, IUserWidget
 		var y = anchor.Minimum.Y * (constraint.Height - child.DesiredSize.Height) - (alignments.Y * child.DesiredSize.Height) + offset.Top;
 
 		return new Rect(new Point(x, y), child.DesiredSize);
+	}
+
+	protected override void OnRender(DrawingContext dc)
+	{
+		// Using the Background brush, draw a rectangle that fills the render bounds of the widget.
+		var background = Background;
+		if (background != null) dc.DrawRectangle(background, null, new Rect(RenderSize));
 	}
 
 	#endregion Methods

@@ -1,11 +1,9 @@
 ﻿using System.Data;
-using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Xml.Serialization;
 using CUE4Parse.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Models;
 using Xylia.Preview.Data.Models.Configuration;
 using Xylia.Preview.Data.Models.Sequence;

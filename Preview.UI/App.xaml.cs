@@ -6,10 +6,7 @@ using System.Windows.Threading;
 using HandyControl.Controls;
 using Serilog;
 using Vanara.PInvoke;
-using Xylia.Preview.Common.Extension;
-using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.UI.Helpers;
-using Xylia.Preview.UI.Helpers.Output;
 using Xylia.Preview.UI.Resources.Themes;
 using Xylia.Preview.UI.Services;
 using MessageBox = HandyControl.Controls.MessageBox;
@@ -26,11 +23,16 @@ public partial class App : Application
 
 #if DEVELOP
 		UpdateSkin(SkinType.Default, true);
-		TestProvider.Set(@"D:\Tencent\BnsData\GameData_ZTx", EPublisher.ZTx);
+		TestProvider.Set(@"D:\Tencent\BnsData\GameData_ZTx", new Locale()
+		{ 
+			Publisher = EPublisher.ZTx,
+			AdditionalPublisher = EPublisher.Tencent,
+			Language = ELanguage.ChineseS
+		});
 
 		//new GameUI.Scene.Game_Tooltip.AttractionMapUnitToolTipPanel().Show();
 		//new GameUI.Scene.Game_NpcTalk.NpcTalkPanel().Show();
-		new GameUI.Scene.Game_Achievement.AchievementDetailPanel().Show();
+		//new GameUI.Scene.Game_Achievement.AchievementDetailPanel().Show();
 #else
 		MainWindow = new MainWindow();
 		MainWindow.Show();
@@ -149,29 +151,7 @@ public partial class App : Application
 			switch (type)
 			{
 				case "soundwave": Commands.Soundwave_output(); break;
-
-				default:
-				{
-					var sets = OutSet.Find();
-					var intance = sets.FirstOrDefault(x => x.Name.Equals(type, StringComparison.OrdinalIgnoreCase));
-					if (intance is null)
-					{
-						EnterNumber:
-						int idx = 0;
-						Console.WriteLine("Enter specified number to continue...");
-						sets.ForEach(x => Console.WriteLine("   [{0}] {1}", idx++, x.Name));
-
-						// retry
-						if (!int.TryParse(Console.ReadLine()!, out var i) || (intance = sets.ElementAtOrDefault(i)) is null)
-						{
-							Console.WriteLine();
-							goto EnterNumber;
-						}
-					}
-
-					intance.Execute();
-				}
-				break;
+				default: Commands.TableOutput(type); break;
 			}
 		}
 		else throw new WarningException("bad params: " + command);

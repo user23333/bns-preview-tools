@@ -1,78 +1,76 @@
-﻿using IniParser;
-using Xylia.Preview.Common.Exceptions;
+﻿using System.Diagnostics;
+using IniParser;
+using IniParser.Model;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common.DataStruct;
 
 namespace Xylia.Preview.Data.Engine.DatData;
 public struct Locale
 {
-	#region Fields	   
+	#region Fields	 
+	public BnsVersion ClientVersion;
 	public BnsVersion ProductVersion;
-	public EPublisher Publisher = EPublisher.None;
+	public EPublisher Publisher;
 	public ELanguage Language;
 	public EPublisher AdditionalPublisher;
 	public int Universe;
 	#endregion
 
-	#region Properties
+	#region Constructor
+	public Locale(EPublisher publisher)
+	{
+		Publisher = publisher;
+	}
+
+	public Locale(string path)
+	{
+		var root = new DirectoryInfo(path);
+		var win64 = root.GetDirectories("Win64", SearchOption.AllDirectories).FirstOrDefault() ?? root;
+
+		var local = win64?.GetFiles("local.ini").FirstOrDefault();
+		if (local is not null)
+		{
+			var locale = new FileIniDataParser().ReadFile(local.FullName)["Locale"];
+			Publisher = locale["Publisher"].ToEnum<EPublisher>();
+			Language = locale["Language"].ToEnum<ELanguage>();
+			Universe = locale["Universe"].To<int>();
+			AdditionalPublisher = locale["AdditionalPublisher"].ToEnum<EPublisher>();
+		}
+
+		var version = win64?.GetFiles("version.ini").FirstOrDefault();
+		if (version is not null)
+		{
+			var config = new FileIniDataParser().ReadFile(version.FullName);
+			ProductVersion = BnsVersion.Parse(config["Version"]["ProductVersion"]);
+			ClientVersion = BnsVersion.Parse(config["Version"]["ClientVersion"]);   // custom config
+		}
+
+		// read from client if exist
+		var client = win64?.GetFiles("BNSR.exe").FirstOrDefault();
+		if (client is not null)
+		{
+			var info = FileVersionInfo.GetVersionInfo(client.FullName);
+			ClientVersion = BnsVersion.Parse(info.FileVersion);
+			Publisher = (EPublisher)info.FileMinorPart;
+		}
+	}
+
 	internal static Locale Current { get; set; }
 	#endregion
 
 	#region Methods
-	public Locale()
+	public readonly void Save(string folder)
 	{
+		var locale = new SectionData("Locale");
+		locale.Keys["Publisher"] = Publisher.ToString();
+		locale.Keys["Language"] = Language.ToString();
+		if (AdditionalPublisher != default) locale.Keys["AdditionalPublisher"] = AdditionalPublisher.ToString();
+		new FileIniDataParser().WriteFile(Path.Combine(folder, "local.ini"), new IniData([locale]));
 
-	}
-
-	public Locale(EPublisher publisher)
-	{
-		Publisher = publisher;
-		Current = this;
-	}
-
-	public Locale(string path)	
-	{
-		var directory = new DirectoryInfo(path);
-
-		#region mode
-		var Win64 = directory.GetDirectories("Win64", SearchOption.AllDirectories).FirstOrDefault();
-		if (Win64 is not null)
-		{
-			var version = Win64?.GetFiles("version.ini").FirstOrDefault();
-			if (version is not null)
-			{
-				var config = new FileIniDataParser().ReadFile(version.FullName);
-				ProductVersion = BnsVersion.Parse(config["Version"]["ProductVersion"]);
-			}
-
-			var local = Win64?.GetFiles("local.ini").FirstOrDefault();
-			if (local is not null)
-			{
-				var config = new FileIniDataParser().ReadFile(local.FullName);
-
-				Publisher = config["Locale"]["Publisher"].ToEnum<EPublisher>();
-				Language = config["Locale"]["Language"].ToEnum<ELanguage>();
-				Universe = config["Locale"]["Universe"].To<int>();
-				AdditionalPublisher = config["Locale"]["AdditionalPublisher"].ToEnum<EPublisher>();
-				return;
-			}
-		}
-		#endregion
-
-		#region mode2
-		var data = (directory.GetDirectories("Content", SearchOption.AllDirectories).FirstOrDefault() ?? directory)
-			.GetDirectories("local").FirstOrDefault()?
-			.GetDirectories().FirstOrDefault();
-		if (data is null) throw new BnsDataException(BnsDataExceptionCode.InvalidGame);
-		else
-		{
-			Publisher = data.Name.ToEnum<EPublisher>();
-			Language = (data.GetDirectories().Where(o => o.Name != "data").FirstOrDefault()?.Name).ToEnum<ELanguage>();
-
-			if (Publisher is EPublisher.RTx or EPublisher.ZTx) AdditionalPublisher = EPublisher.Tencent;
-			return;
-		}
-		#endregion
+		var version = new SectionData("Version");
+		version.Keys["ClientVersion"] = ClientVersion.ToString();
+		version.Keys["ProductVersion"] = ProductVersion.ToString();
+		new FileIniDataParser().WriteFile(Path.Combine(folder, "version.ini"), new IniData([version]));
 	}
 	#endregion
 }

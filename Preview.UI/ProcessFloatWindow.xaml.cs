@@ -9,7 +9,9 @@ using Xylia.Preview.Common.Extension;
 namespace Xylia.Preview.UI;
 public partial class ProcessFloatWindow
 {
-	#region Constructor
+	#region Constructor	 
+	static ProcessFloatWindow? _instance;
+
 	private ProcessFloatWindow()
 	{
 		InitializeComponent();
@@ -27,10 +29,7 @@ public partial class ProcessFloatWindow
 			UsedMemory.Text = BinaryExtension.GetReadableSize(size);
 		}, Dispatcher);
 	}
-	#endregion
 
-	#region Properties
-	static ProcessFloatWindow? _instance;
 	public static ProcessFloatWindow Instance
 	{
 		get
@@ -42,12 +41,11 @@ public partial class ProcessFloatWindow
 			return _instance;
 		}
 	}
-
-	readonly DispatcherTimer timer;
 	#endregion
 
-
 	#region Methods
+	readonly DispatcherTimer timer;
+
 	private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 	{
 		this.DragMove();

@@ -90,7 +90,7 @@ public class ElementDefinition : IElementDefinition
 	// always -1 on base table definition
 	public override short SubclassType { get => -1; set => throw new NotSupportedException(); }
 
-	public List<ElementSubDefinition> Subtables { get; } = [];
+	internal List<ElementSubDefinition> Subtables { get; } = [];
 	#endregion
 
 	#region Helper
@@ -98,7 +98,7 @@ public class ElementDefinition : IElementDefinition
 
 	internal void CreateSubtableMap() => _subtablesDictionary = Subtables.ToDictionary(x => x.Name);
 
-	internal IElementDefinition SubtableByName(string name)
+	public IElementDefinition SubtableByName(string name)
 	{
 		// There are some special of Step
 		// HACK: we will directly return to the main table now
@@ -120,7 +120,7 @@ public class ElementDefinition : IElementDefinition
 		}
 	}
 
-	internal IElementDefinition SubtableByType(short type, Record record = null)
+	public IElementDefinition SubtableByType(short type, Record record = null)
 	{
 		lock (this)
 		{
@@ -140,10 +140,10 @@ public class ElementDefinition : IElementDefinition
 
 					subtable.Name = subIndex.ToString();
 					subtable.SubclassType = subIndex;
-
-					// Add parent expanded attributes
-					subtable.ExpandedAttributes.AddRange(this.ExpandedAttributes);
 					subtable.Size = this.Size;
+					subtable.Children = this.Children;
+					subtable.Attributes.AddRange(this.Attributes);
+					subtable.ExpandedAttributes.AddRange(this.ExpandedAttributes);
 					subtable.CreateAttributeMap();
 				}
 
@@ -156,7 +156,6 @@ public class ElementDefinition : IElementDefinition
 			return definition;
 		}
 	}
-
 
 	private static void CheckSize(IElementDefinition definition, Record record)
 	{

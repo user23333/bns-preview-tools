@@ -7,7 +7,7 @@ using Xylia.Preview.Common;
 using Xylia.Preview.Data.Client;
 using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Data.Models;
-using Xylia.Preview.UI.Views.Selector;
+using Xylia.Preview.UI.Views.Dialogs;
 
 namespace Xylia.Preview.UI.Helpers.Output.Textures;
 public abstract class IconOutBase : IDisposable

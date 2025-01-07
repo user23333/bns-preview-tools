@@ -5,8 +5,7 @@ using Xylia.Preview.Data.Engine.Definitions;
 using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.Data.Engine.BinData.Helpers;
-
-public class TableConverter : JsonConverter<Table>
+public class TableJsonConverter : JsonConverter<Table>
 {
 	public override void WriteJson(JsonWriter writer, Table value, JsonSerializer serializer)
 	{
@@ -36,17 +35,14 @@ public class TableConverter : JsonConverter<Table>
 	}
 }
 
-public class RecordConverter : JsonConverter<Record>
+public class ElementJsonConverter : JsonConverter<Record>
 {
 	public override void WriteJson(JsonWriter writer, Record value, JsonSerializer serializer)
 	{
 		writer.WriteStartObject();
 
-		writer.WritePropertyName("id");
-		serializer.Serialize(writer, value.PrimaryKey.Id);
-
-		writer.WritePropertyName("variation");
-		serializer.Serialize(writer, value.PrimaryKey.Variant);
+		writer.WritePropertyName("key");
+		serializer.Serialize(writer, value.PrimaryKey);
 
 		if (value.SubclassType != -1)
 		{

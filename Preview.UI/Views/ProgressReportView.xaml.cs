@@ -1,7 +1,5 @@
-﻿using System.Windows;
-
-namespace Xylia.Preview.UI.Views;
-public partial class ProgressReportView : Window
+﻿namespace Xylia.Preview.UI.Views;
+public partial class ProgressReportView 
 {
 	public ProgressReportView()
 	{

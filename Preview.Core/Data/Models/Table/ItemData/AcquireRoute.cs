@@ -9,6 +9,6 @@ public sealed class AcquireRoute : ModelElement
 
 	public override string ToString()
 	{
-		return string.Join("<br/>", RouteText.SelectNotNull(element => element.Instance));
+		return string.Join("<br/>", RouteText.SelectNotNull(element => element.Value));
 	}
 }

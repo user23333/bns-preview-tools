@@ -79,6 +79,6 @@ public sealed class Glyph : ModelElement
 
 	public string GlyphDescription => LinqExtensions.Join(BR.Tag, LinqExtensions.Tuple(Ability, AbilityValue).Select(x => x.Item1.GetText(x.Item2)).ToArray());
 
-	public string Description => GlyphType == GlyphTypeSeq.Material ? "UI.GlyphToolTip.Desc.Material".GetText() : ConditionEvent.Instance?.GetTooltipText1();
+	public string Description => GlyphType == GlyphTypeSeq.Material ? "UI.GlyphToolTip.Desc.Material".GetText() : ConditionEvent.Value?.GetTooltipText1();
 	#endregion
 }

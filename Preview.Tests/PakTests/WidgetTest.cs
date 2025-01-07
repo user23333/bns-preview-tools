@@ -12,10 +12,10 @@ namespace Xylia.Preview.Tests;
 public partial class PakTest
 {
 	[TestMethod]
-	[DataRow("bnsr/content/art/ui/gameui/scene/game_achievement/game_achievement_scene/achievementpanel.uasset")]
+	[DataRow("BNSR/Content/Art/UI/GameUI/Scene/Game_ItemMap/Game_ItemMapScene/ItemMapPanel.uasset")]
 	public void WidgetTest(string AssetPath)
 	{
-		using var provider = new GameFileProvider("D:\\Tencent\\BNS_LIVE" /*IniHelper.Instance.GameFolder*/);
+		using var provider = new GameFileProvider("D:\\Tencent\\BNS_LIVE" /*IniHelper.Value.GameFolder*/);
 		var blueprint = provider.LoadAllObjects(AssetPath).OfType<UWidgetBlueprintGeneratedClass>().First();
 
 		var root = new XElement("temp");
@@ -38,7 +38,7 @@ public partial class PakTest
 	}
 }
 
-public class WidgetDump
+internal class WidgetDump
 {
 	public void LoadBlueprint(UWidgetBlueprintGeneratedClass blueprint, XElement parent)
 	{

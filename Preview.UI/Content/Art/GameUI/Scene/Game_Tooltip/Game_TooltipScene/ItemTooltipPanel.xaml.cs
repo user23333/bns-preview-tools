@@ -103,7 +103,7 @@ public partial class ItemTooltipPanel
 			var MainAbilitySeqFixed = record.Attributes.Get<ItemRandomAbilitySlot>("main-ability-fixed");
 			var SubAbilityFixed = record.Attributes.Get<ItemRandomAbilitySlot>("sub-ability-fixed");
 			var SubAbilityRandomCount = record.Attributes.Get<sbyte>("sub-ability-random-count");
-			var SubAbilityRandom = LinqExtensions.For(8, (id) => record.Attributes.Get<ItemRandomAbilitySlot>("sub-ability-random-" + id));
+			var SubAbilityRandom = record.Attributes.Get<ItemRandomAbilitySlot[]>("sub-ability-random");
 
 			if (MainAbilitySeqFixed != null) Substitute1.Add(MainAbilitySeqFixed.Description);
 			if (SubAbilityFixed != null) Substitute2.Add(SubAbilityFixed.Description);
@@ -150,8 +150,7 @@ public partial class ItemTooltipPanel
 			DecomposeDescription_Title.String.LabelText = (record is Grocery grocery2 && grocery2.GroceryType == Grocery.GroceryTypeSeq.RandomBox ?
 				"UI.ItemTooltip.RandomboxPreview.Title" : "UI.ItemTooltip.Decompose.Title").GetText();
 
-			var page = pages[0];
-			page.Update(DecomposeDescription.Children);
+			pages[0].Update(DecomposeDescription.Children);
 		}
 
 		// Description
@@ -164,7 +163,7 @@ public partial class ItemTooltipPanel
 		ItemDescription_6.String.LabelText = record.Attributes["description6"].GetText(arguments);
 		ItemDescription7.String.LabelText = LinqExtensions.Join(BR.Tag,
 			record.Attributes["description7"].GetText(),
-			string.Join(BR.Tag, record.ItemCombat.SelectNotNull(x => x.Instance?.Description)),
+			string.Join(BR.Tag, record.ItemCombat.SelectNotNull(x => x.Value?.Description)),
 			record.Attributes.Get<Record>("skill3")?.Attributes["description-weapon-soul-gem"]?.GetText());
 
 		// Seal
@@ -250,7 +249,7 @@ public partial class ItemTooltipPanel
 									Height = 32,
 									Margin = new Thickness(0, 0, 10, 0),
 									VerticalAlignment = System.Windows.VerticalAlignment.Top,
-									//DataContext = SkillTrainByItem.ChangeSkill[0].Instance,
+									//DataContext = SkillTrainByItem.ChangeSkill[0].Value,
 									//ToolTip = new Skill3ToolTipPanel_1()
 								});
 							}

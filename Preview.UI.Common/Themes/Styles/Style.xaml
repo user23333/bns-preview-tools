@@ -2,14 +2,10 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:c="clr-namespace:Xylia.Preview.UI.Controls">
-
+	
 	<ResourceDictionary.MergedDictionaries>
-		<ResourceDictionary Source="Tooltip.xaml"/>
+		<ResourceDictionary Source="Tooltip.xaml" />
+		<ResourceDictionary Source="Widget.xaml" />
 	</ResourceDictionary.MergedDictionaries>
-
-	<Style TargetType="c:BnsCustomWindowWidget">
-		<Setter Property="Background" Value="{DynamicResource RegionBrush}" />
-		<Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
-	</Style>
 
 </ResourceDictionary>

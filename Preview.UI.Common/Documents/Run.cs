@@ -32,9 +32,9 @@ public class Run : BaseElement
 	#endregion
 
 	#region Properties
-	public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(Run),
-		  new FrameworkPropertyMetadata(string.Empty,
-			   FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender));
+	public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text",
+		typeof(string), typeof(Run), new FrameworkPropertyMetadata(string.Empty,
+			FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender));
 
 	public string Text
 	{
@@ -42,15 +42,34 @@ public class Run : BaseElement
 		set { SetValue(TextProperty, value); }
 	}
 
-
-	internal static readonly DependencyProperty TextDecorationsProperty = Font.TextDecorationsProperty.AddOwner(typeof(Run),
+	/// <summary>
+	/// DependencyProperty for <see cref="TextDecorations" /> property.
+	/// </summary>
+	public static readonly DependencyProperty TextDecorationsProperty = Font.TextDecorationsProperty.AddOwner(typeof(Run),
 		   new FrameworkPropertyMetadata(new TextDecorationCollection(),
 			   FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.Inherits));
 
-	internal TextDecorationCollection TextDecorations
+	/// <summary>
+	/// The TextDecorations property specifies decorations that are added to the text of an element.
+	/// </summary>
+	public TextDecorationCollection TextDecorations
 	{
-		get => (TextDecorationCollection)GetValue(TextDecorationsProperty);
-		set => SetValue(TextDecorationsProperty, value);
+		get { return (TextDecorationCollection)GetValue(TextDecorationsProperty); }
+		set { SetValue(TextDecorationsProperty, value); }
+	}
+
+	/// <summary>
+	/// DependencyProperty for <see cref="FlowDirection" /> property.
+	/// </summary>
+	public static readonly DependencyProperty FlowDirectionProperty = FrameworkElement.FlowDirectionProperty.AddOwner(typeof(Run));
+
+	/// <summary>
+	/// The FlowDirection property specifies the flow direction of the element.
+	/// </summary>
+	public FlowDirection FlowDirection
+	{
+		get { return (FlowDirection)GetValue(FlowDirectionProperty); }
+		set { SetValue(FlowDirectionProperty, value); }
 	}
 	#endregion
 
@@ -73,7 +92,6 @@ public class Run : BaseElement
 			//	_ => TextAlignment.Left,
 			//}
 		};
-
 		_format.SetTextDecorations(TextDecorations);
 
 		return new Size(_format.WidthIncludingTrailingWhitespace, _format.Height);

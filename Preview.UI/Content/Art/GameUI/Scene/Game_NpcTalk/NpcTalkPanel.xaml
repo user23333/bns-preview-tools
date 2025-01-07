@@ -3,18 +3,42 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:s="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 
-	<s:TextBox x:Name="Searcher" TextChanged="Searcher_TextChanged" Height="25" Width="200" Visibility="Collapsed" />
-	<s:ListBox x:Name="TestList" LayoutData.Offsets="0 28 500 600">
-		<s:ListBox.ItemTemplate>
-			<s:DataTemplate>
-				<VerticalBox>
-					<BnsCustomLabelWidget String="{Binding Path=Text.Instance.text}" />
-					<BnsCustomLabelWidget String="{Binding Path=Subtext.Instance.text}" FontWeight="Light" />
-					<BnsCustomLabelWidget String="{Binding Path=Next.Instance.text}" FontWeight="Bold" />
-					<BnsCustomLabelButtonWidget String="SHOW" Height="20" Click="TestButton_Click" Visibility="{Binding Path=Show.IsValid, Converter={s:StaticResource Boolean2VisibilityConverter}}" />
-				</VerticalBox>
-			</s:DataTemplate>
-		</s:ListBox.ItemTemplate>
-	</s:ListBox>
+	<s:TextBox x:Name="NpcTalkPanel_Searcher" TextChanged="Searcher_TextChanged" Height="25" Width="200" Visibility="Collapsed" />
+	<BnsCustomListBoxWidget x:Name="TestList" LayoutData.Offsets="0 0 500 0">
+		<BnsCustomListBoxWidget.VerticalResizeLink>
+			<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" Offset1="5" LinkWidgetName1="NpcTalkPanel_Searcher" />
+		</BnsCustomListBoxWidget.VerticalResizeLink>
+		<BnsCustomListBoxWidget.ItemTemplate>
+			<WidgetTemplate>
+				<BnsCustomImageWidget Margin="5 3">
+					<BnsCustomLabelWidget x:Name="NpcTalkPanel_Text" String="{Binding Path=Text.Value.text}" />
+					<BnsCustomLabelWidget x:Name="NpcTalkPanel_SubText" String="{Binding Path=Subtext.Value.text}" FontWeight="Light">
+						<BnsCustomLabelWidget.VerticalResizeLink>
+							<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" Offset1="0" LinkWidgetName1="NpcTalkPanel_Text" />
+						</BnsCustomLabelWidget.VerticalResizeLink>
+					</BnsCustomLabelWidget>
+					<BnsCustomLabelWidget x:Name="NpcTalkPanel_Next" String="{Binding Path=Next.Value.text}" FontWeight="Bold">
+						<BnsCustomLabelWidget.VerticalResizeLink>
+							<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" Offset1="0" LinkWidgetName1="NpcTalkPanel_SubText" />
+						</BnsCustomLabelWidget.VerticalResizeLink>
+					</BnsCustomLabelWidget>
+
+					<BnsCustomToggleButtonWidget Click="OnPlayStepShow" FontFamily="{s:StaticResource SegoeAssets}" FontSize="14" LayoutData.Offsets="0 0 15 15"
+											 Visibility="{Binding Path=Show.IsValid,Converter={s:StaticResource Boolean2VisibilityConverter}}">
+						<BnsCustomToggleButtonWidget.VerticalResizeLink>
+							<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_CENTER" Offset1="0" />
+						</BnsCustomToggleButtonWidget.VerticalResizeLink>
+						<BnsCustomToggleButtonWidget.HorizontalResizeLink>
+							<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_RIGHT" Offset1="0" />
+						</BnsCustomToggleButtonWidget.HorizontalResizeLink>
+						<BnsCustomToggleButtonWidget.ExpansionComponentList>
+							<UBnsCustomExpansionComponent bShow="True" ExpansionType="STRING" ExpansionName="checked" StringProperty="&#xE768;" />
+							<UBnsCustomExpansionComponent bShow="False" ExpansionType="STRING" ExpansionName="unchecked" StringProperty="&#xE769;" />
+						</BnsCustomToggleButtonWidget.ExpansionComponentList>
+					</BnsCustomToggleButtonWidget>
+				</BnsCustomImageWidget>
+			</WidgetTemplate>
+		</BnsCustomListBoxWidget.ItemTemplate>
+	</BnsCustomListBoxWidget>
 
 </BnsCustomWindowWidget>

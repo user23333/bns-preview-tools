@@ -43,7 +43,7 @@ public abstract class Item : ModelElement, IHaveName
 	public enum SexSeq2
 	{
 		SexNone,
-		All,
+		[Text(null)] All,
 		[Text("Name.sex.male")] Male,
 		[Text("Name.sex.female")] Female,
 	}

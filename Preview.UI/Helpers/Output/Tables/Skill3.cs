@@ -21,7 +21,7 @@ internal class Skill3Out : OutSet
 		#endregion
 
 		#region Data
-		foreach (var record in Source!.Provider.GetTable<Skill3>())
+		foreach (var record in Source.Provider.GetTable<Skill3>())
 		{
 			row++;
 			column = 1;

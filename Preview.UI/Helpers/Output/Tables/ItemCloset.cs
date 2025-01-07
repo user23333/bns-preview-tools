@@ -21,7 +21,8 @@ internal sealed class ItemCloset : OutSet
 		sheet.SetColumn(column++, "closet-group-id", 20);
 		#endregion
 
-		foreach (var item in Source!.Provider.GetTable<Item>())
+		#region Data
+		foreach (var item in Source.Provider.GetTable<Item>())
 		{
 			#region Check
 			bool flag = false;
@@ -45,5 +46,6 @@ internal sealed class ItemCloset : OutSet
 			sheet.Cells[row, column++].SetValue(item.EquipRace.GetText());
 			sheet.Cells[row, column++].SetValue(item.ClosetGroupId);
 		}
+		#endregion
 	}
 }

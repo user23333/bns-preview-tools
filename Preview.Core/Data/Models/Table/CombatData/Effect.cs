@@ -274,7 +274,7 @@ public sealed class Effect : ModelElement, IHaveName
 	#region Methods
 	public string Name => Name2.GetText();
 
-	public ImageProperty FrontIcon => IconTexture.Instance?.GetImage(IconIndex);
+	public ImageProperty FrontIcon => IconTexture.Value?.GetImage(IconIndex);
 
 	protected override void LoadHiddenField()
 	{

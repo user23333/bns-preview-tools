@@ -74,7 +74,7 @@ public readonly struct Integer(long value) : IFormattable
 	//date-gmtime	
 	//public readonly string DateGmtime => $"#{Value} DateGmtime";
 	//public readonly string DateGmtime24 => $"#{Value} DateGmtime";
-	//date-ymd
+	public readonly string DateYmd => new Time64(Value).ToString("yyyy.MM.dd");
 	//date-ymd-gmtime
 
 	//public readonly string Time => $"#{Value}Time";
@@ -105,7 +105,7 @@ internal class IntegerConverter : TypeConverter
 	public override bool CanConvertFrom(ITypeDescriptorContext context, Type type)
 	{
 		if (type == typeof(sbyte) || type == typeof(short) || type == typeof(int) || type == typeof(long) ||
-			type == typeof(Msec) || type == typeof(Distance) || type == typeof(Velocity) ||
+			type == typeof(Distance) || type == typeof(Velocity) || type == typeof(Msec) || type == typeof(Time64) ||
 			type == typeof(double)) return true;  // Double is not used at game
 
 		return base.CanConvertFrom(context, type);
@@ -113,10 +113,11 @@ internal class IntegerConverter : TypeConverter
 
 	public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value) => value switch
 	{
-		Msec m => new Integer(m.Value),
+		double d => new Integer(double.IsNaN(d) ? -1 : (int)(d * 100000)),
 		Distance d => new Integer((int)(d.Value * 8 * 0.01)),
 		Velocity v => new Integer((int)(v.Value * 8 * 0.01)),
-		double d => new Integer(double.IsNaN(d) ? -1 : (int)(d * 100000)),
+		Msec m => new Integer(m.Value),
+		Time64 time64 => new Integer((long)time64.Ticks),
 		_ => new Integer(Convert.ToInt64(value)),
 	};
 }

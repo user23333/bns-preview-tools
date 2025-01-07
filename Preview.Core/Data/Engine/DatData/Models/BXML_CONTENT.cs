@@ -18,12 +18,12 @@ internal class BXML_CONTENT(byte[] XorKey)
 	#endregion
 
 	#region XOR	  
-	void Xor(byte[] buffer, int size, bool Encrypt = false)
+	void Xor(byte[] buffer, int size, bool encrypt = false)
 	{
+		ArgumentNullException.ThrowIfNull(XorKey);
+
 		if (Version == 3)
 		{
-			XorKey ??= Constants.XOR_KEY_2014;
-
 			for (int i = 0; i < size; i++)
 			{
 				buffer[i] = (byte)(buffer[i] ^ XorKey[i % XorKey.Length]);
@@ -31,18 +31,13 @@ internal class BXML_CONTENT(byte[] XorKey)
 		}
 		else if (Version == 4)
 		{
-			XorKey ??= Constants.XOR_KEY_2021;
-
 			for (int i = 0; i < size; i++)
 			{
-				if (Encrypt) buffer[i] = Transform((byte)(buffer[i] ^ XorKey[i % XorKey.Length]));
+				if (encrypt) buffer[i] = Transform((byte)(buffer[i] ^ XorKey[i % XorKey.Length]));
 				else buffer[i] = (byte)(Transform(buffer[i]) ^ XorKey[i % XorKey.Length]);
 			}
 		}
-		else
-		{
-			throw new Exception($"Unsupported version: {Version}");
-		}
+		else throw new Exception($"Unsupported version: {Version}");
 	}
 
 	static byte Transform(byte c)

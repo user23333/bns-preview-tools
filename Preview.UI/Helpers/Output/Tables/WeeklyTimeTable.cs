@@ -7,7 +7,7 @@ internal class WeeklyTimeTableOut : OutSet
 {
 	protected override void CreateData(ExcelPackage package)
 	{
-		var periods = Source!.Provider.GetTable<WeeklyTimeTable>().Where(x => x.Enable).SelectMany(x => x.GetPeriods());
+		var periods = Source.Provider.GetTable<WeeklyTimeTable>().Where(x => x.Enable).SelectMany(x => x.GetPeriods());
 
 		#region Output
 		var sheet = CreateSheet(package);

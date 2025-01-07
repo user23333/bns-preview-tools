@@ -1,4 +1,6 @@
-﻿namespace Xylia.Preview.Data.Common.DataStruct;
+﻿using Xylia.Preview.Common.Extension;
+
+namespace Xylia.Preview.Data.Common.DataStruct;
 public readonly struct BnsVersion(ushort major, ushort minor, ushort build, ushort revision) : IComparable<BnsVersion>
 {
 	#region Fields
@@ -23,27 +25,14 @@ public readonly struct BnsVersion(ushort major, ushort minor, ushort build, usho
 
 	public static BnsVersion Parse(string s)
 	{
-		var strs = s.Split('.', 4);
+		if (string.IsNullOrEmpty(s)) return default;
 
+		var strs = s.Split('.', ',');
 		return new BnsVersion(
-			ushort.Parse(strs[0]),
-			ushort.Parse(strs[1]),
-			ushort.Parse(strs[2]),
-			ushort.Parse(strs[3]));
-	}
-
-	public static bool TryParse(string s, out BnsVersion result)
-	{
-		try
-		{
-			result = Parse(s);
-			return true;
-		}
-		catch
-		{
-			result = default;
-			return false;
-		}
+			strs.ElementAtOrDefault(0).To<ushort>(),
+			strs.ElementAtOrDefault(1).To<ushort>(),
+			strs.ElementAtOrDefault(2).To<ushort>(),
+			strs.ElementAtOrDefault(3).To<ushort>());
 	}
 	#endregion
 }

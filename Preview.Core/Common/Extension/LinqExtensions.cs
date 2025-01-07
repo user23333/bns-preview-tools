@@ -120,7 +120,7 @@ public static class LinqExtensions
 	#region Expand
 	public static IEnumerable<T> Values<T>(this IEnumerable<Ref<T>> source) where T : ModelElement
 	{
-		return source?.Select(x => x.Instance).Where(x => x != null) ?? [];
+		return source?.Select(x => x.Value).Where(x => x != null) ?? [];
 	}
 	#endregion
 }

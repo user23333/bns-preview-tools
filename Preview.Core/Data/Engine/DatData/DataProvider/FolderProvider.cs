@@ -4,11 +4,11 @@ using Xylia.Preview.Data.Engine.BinData.Helpers;
 using Xylia.Preview.Data.Engine.Definitions;
 
 namespace Xylia.Preview.Data.Engine.DatData;
-public class FolderProvider(string path, EPublisher publisher = default) : IDataProvider
+public class FolderProvider(string path, Locale locale = default) : IDataProvider
 {
 	#region Properties
 	public string Name { get; init; } = path.SubstringAfterLast('\\');
-	public Locale Locale { get; init; } = new(publisher);
+	public Locale Locale { get; init; } = Locale.Current = locale;
 	public Time64 CreatedAt => default;
 	public BnsVersion ClientVersion => default;
 	public TableCollection Tables { get; private set; }
@@ -19,9 +19,8 @@ public class FolderProvider(string path, EPublisher publisher = default) : IData
 
 	public void LoadData(DatafileDefinition definitions)
 	{
-		this.Tables = [];
+		Tables = [];
 
-		// TODO: ignore server table
 		foreach (var definition in definitions.OrderBy(x => x.Name))
 		{
 			Tables.Add(new() { Owner = this, Name = definition.Name });

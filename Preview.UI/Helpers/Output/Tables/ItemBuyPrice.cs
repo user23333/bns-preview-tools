@@ -32,7 +32,7 @@ internal sealed class ItemBuyPriceOut : OutSet
 		sheet.SetColumn(column++, "限购设置");
 		#endregion
 
-		var ItemBrandTooltiptTable = Source.Provider.GetTable<ItemBrandTooltip>();
+		#region Data
 		foreach (var record in Source.Provider.GetTable<ItemBuyPrice>())
 		{
 			row++;
@@ -44,7 +44,7 @@ internal sealed class ItemBuyPriceOut : OutSet
 
 			for (int i = 0; i < 4; i++)
 			{
-				var item = record.RequiredItem[i].Instance;
+				var item = record.RequiredItem[i].Value;
 				var count = record.RequiredItemCount[i];
 
 				sheet.Cells[row, column++].SetValue(item is null ? "" : (item.Name + " " + count));
@@ -64,7 +64,8 @@ internal sealed class ItemBuyPriceOut : OutSet
 			sheet.Cells[row, column++].SetValue(record.CheckBattleFieldGradeOccupationWar);
 			sheet.Cells[row, column++].SetValue(record.CheckBattleFieldGradeCaptureTheFlag);
 			sheet.Cells[row, column++].SetValue(record.CheckBattleFieldGradeLeadTheBall);
-			sheet.Cells[row, column++].SetValue(record.CheckContentQuota.Instance);
+			sheet.Cells[row, column++].SetValue(record.CheckContentQuota.Value);
 		}
+		#endregion
 	}
 }

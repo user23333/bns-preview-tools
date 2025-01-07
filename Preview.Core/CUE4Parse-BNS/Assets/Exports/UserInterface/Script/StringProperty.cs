@@ -10,7 +10,7 @@ using CUE4Parse.UE4.Objects.UObject;
 namespace CUE4Parse.BNS.Assets.Exports;
 [StructFallback]
 [TypeConverter(typeof(StringPropertyConverter))]
-public class StringProperty : IUStruct, INotifyPropertyChanged
+public record StringProperty : IUStruct, INotifyPropertyChanged
 {
 	#region Properties
 	private FPackageIndex _fontset;
@@ -23,11 +23,14 @@ public class StringProperty : IUStruct, INotifyPropertyChanged
 	}
 
 	private FText _labelText;
-
 	public FText LabelText
 	{
 		get => _labelText;
-		set => SetProperty(ref _labelText, value);
+		set
+		{
+			Cache = null;
+			SetProperty(ref _labelText, value);
+		}
 	}
 
 	public float SpaceBetweenLines { get; set; }
@@ -67,7 +70,7 @@ public class StringProperty : IUStruct, INotifyPropertyChanged
 	}
 	#endregion
 
-	#region Methods
+	#region INotifyPropertyChanged
 	public event PropertyChangedEventHandler PropertyChanged;
 
 	internal bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
@@ -79,11 +82,10 @@ public class StringProperty : IUStruct, INotifyPropertyChanged
 		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		return true;
 	}
+	#endregion
 
-	public StringProperty Clone()
-	{
-		return (StringProperty)this.MemberwiseClone();
-	}
+	#region Fields
+	public object Cache;
 	#endregion
 }
 

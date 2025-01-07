@@ -1,9 +1,8 @@
 ﻿using System.IO;
-using System.Reflection;
 using CUE4Parse.Utils;
 using HandyControl.Controls;
+using Microsoft.Win32;
 using OfficeOpenXml;
-using Ookii.Dialogs.Wpf;
 using Xylia.Preview.Common;
 using Xylia.Preview.Data.Client;
 using Xylia.Preview.UI.Common.Converters;
@@ -20,8 +19,10 @@ internal abstract class OutSet
 
 	#endregion
 
-	#region Properties
+	#region Properties		
 	public virtual string Name => GetType().Name.SubstringBefore("Out", StringComparison.OrdinalIgnoreCase);
+
+	public virtual bool Visible => true;
 
 	protected virtual BnsDatabase Source { get; set; } = Globals.GameData;
 	#endregion
@@ -54,7 +55,7 @@ internal abstract class OutSet
 
 	public void Execute()
 	{
-		var save = new VistaSaveFileDialog
+		var save = new SaveFileDialog
 		{
 			Filter = "Excel Files|*.xlsx",
 			FileName = $"{Name} ({DateTime.Now:yyyyMMdd}).xlsx",
@@ -76,24 +77,8 @@ internal abstract class OutSet
 	}
 
 
-	public static IEnumerable<OutSet> Find()
-	{
-		var assembly = Assembly.GetExecutingAssembly();
-		var baseType = typeof(OutSet);
-
-		foreach (var definedType in assembly.DefinedTypes)
-		{
-			if (definedType.IsAbstract || definedType.IsInterface || !baseType.IsAssignableFrom(definedType)) continue;
-
-			if (Activator.CreateInstance(definedType) is OutSet instance)
-				yield return instance;
-		}
-
-		yield break;
-	}
-
 	/// <summary>
-	/// entry method for output
+	/// Entry method for output
 	/// </summary>
 	internal static async Task Start<T>() where T : OutSet, new()
 	{

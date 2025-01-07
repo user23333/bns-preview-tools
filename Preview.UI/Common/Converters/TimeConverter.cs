@@ -2,13 +2,22 @@
 using System.Text;
 using System.Windows.Data;
 using System.Windows.Markup;
-using Xylia.Preview.Data.Models.Sequence;
 
 namespace Xylia.Preview.UI.Common.Converters;
 public class TimeConverter : MarkupExtension, IValueConverter
 {
 	#region Properties
-	public ResetType Type { get; set; }
+	public IntervalSeq Type { get; set; }
+
+	public enum IntervalSeq
+	{
+		None,
+		Hourly,
+		Daily,
+		Weekly,
+		Monthly,
+		COUNT
+	}
 	#endregion
 
 	#region Methods
@@ -20,10 +29,10 @@ public class TimeConverter : MarkupExtension, IValueConverter
 		{
 			return Convert(new TimeSpan(parameter switch
 			{
-				ResetType.Hourly => TimeSpan.TicksPerHour * integer,
-				ResetType.Daily => TimeSpan.TicksPerDay * integer,
-				ResetType.Weekly => TimeSpan.TicksPerDay * integer * 7,
-				ResetType.Monthly => TimeSpan.TicksPerDay * integer * 30,
+				IntervalSeq.Hourly => TimeSpan.TicksPerHour * integer,
+				IntervalSeq.Daily => TimeSpan.TicksPerDay * integer,
+				IntervalSeq.Weekly => TimeSpan.TicksPerDay * integer * 7,
+				IntervalSeq.Monthly => TimeSpan.TicksPerDay * integer * 30,
 				_ => TimeSpan.TicksPerMillisecond * integer
 			}), null);
 		}

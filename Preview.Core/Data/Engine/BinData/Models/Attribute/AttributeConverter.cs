@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Globalization;
+using System.Reflection;
 using Xylia.Preview.Common.Attributes;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Common;
@@ -47,34 +48,47 @@ internal class AttributeConverter
 	};
 
 	/// <summary>
-	///  Converts the attribute value to an object.
+	/// Converts the attribute value to an object.
 	/// </summary>
-	/// <param name="name"></param>
-	/// <param name="value"></param>
-	/// <param name="type"></param>
-	/// <returns></returns>
-	public static object ConvertTo(object value, Type type, string name = null)
+	public static object Convert(Record record, string name, Type type)
 	{
-		return value.To(type, () =>
+		if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(List<>))
 		{
-			if (type.IsGenericType)
-			{
-				var item = type.GetGenericTypeDefinition();
-				if (item == typeof(Ref<>)) return Activator.CreateInstance(type, value);
-			}
+			// valid
+			var recordType = type.GetGenericArguments()[0];
+			if (!record.Children.TryGetValue(name, out var children)) throw new InvalidDataException($"No `{name}` child element in definition");
+			if (!typeof(ModelElement).IsAssignableFrom(recordType)) throw new InvalidCastException($"{recordType} unable cast to {typeof(ModelElement)}");
 
-			Debug.WriteLine($"convert type failed: {value} ({name}) -> {type.Name}");
+			// create instance
+			var records = Activator.CreateInstance(type);
+			var add = records.GetType().GetMethod("Add", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+			children.ForEach(child => add.Invoke(records, [child.To(recordType)]));
+
+			return records;
+		}
+
+		// value
+		var value = record.Attributes.Get(name, out _);
+		return value.To(type, (v, t) =>
+		{
+			if (t.IsGenericType)
+			{
+				var item = t.GetGenericTypeDefinition();
+				if (item == typeof(Ref<>)) return Activator.CreateInstance(t, v);
+			}
+			else if (t.IsArray && v is not Array)
+			{
+				Debug.Assert(false, $"Repeatable object must to use array type: {record.Name} -> {name}");
+			}
+				
+			Debug.WriteLine($"convert type failed: {v} ({name}) -> {t.Name}");
 			return null;
 		});
 	}
 
 	/// <summary>
-	/// Gets the specified attribute from record
+	/// Gets the specified attribute from record.
 	/// </summary>
-	/// <param name="record"></param>
-	/// <param name="attribute"></param>
-	/// <param name="provider"></param>
-	/// <returns></returns>
 	public static object ConvertTo(Record record, AttributeDefinition attribute, IDataProvider provider, bool _noValidate = true)
 	{
 		// check attribute
@@ -111,9 +125,9 @@ internal class AttributeConverter
 				else return idx.ToString();
 			}
 
-			case AttributeType.TRef: return record.Get<Ref>(attribute.Offset).GetRecord(provider, attribute.ReferedTable);
+			case AttributeType.TRef: return record.Get<Ref>(attribute.Offset).GetRecord(provider, attribute.ReferedTable, attribute.ReferedEl);
 			case AttributeType.TTRef: return record.Get<TRef>(attribute.Offset).GetRecord(provider);
-			case AttributeType.TSub: return record.Get<Sub>(attribute.Offset).GetName(provider, attribute.ReferedTable);
+			case AttributeType.TSub: return record.Get<Sub>(attribute.Offset).GetName(provider, attribute.ReferedTable, attribute.ReferedEl);
 			case AttributeType.TSu: return record.Get<Su>(attribute.Offset);
 			case AttributeType.TVector16: throw new NotSupportedException();
 			case AttributeType.TVector32: return record.Get<Vector32>(attribute.Offset);
@@ -151,11 +165,6 @@ internal class AttributeConverter
 	/// <summary>
 	/// Converts the specified attribute text into a value.
 	/// </summary>
-	/// <param name="value"></param>
-	/// <param name="attribute"></param>
-	/// <param name="provider"></param>
-	/// <returns></returns>
-	/// <exception cref="Exception"></exception>
 	public static object ConvertBack(string value, AttributeDefinition attribute, IDataProvider provider) => attribute.Type switch
 	{
 		AttributeType.TNone => null,

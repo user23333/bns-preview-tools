@@ -3,19 +3,18 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<OutputType>Library</OutputType>
 		<RootNamespace>Xylia.Preview</RootNamespace>
+		<Configurations>Debug;Release;Develop</Configurations>
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<FileVersion>1.2.1</FileVersion>
-		<AssemblyVersion>1.2.1</AssemblyVersion>
-		<Lisence>MIT</Lisence>
-		<SignAssembly>True</SignAssembly>
+		<AssemblyVersion>1.3.0</AssemblyVersion>
 		<DelaySign>True</DelaySign>
-		<Configurations>Debug;Release;Develop</Configurations>
-		<PackageLicenseFile>LICENSE</PackageLicenseFile>
-		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+		<SignAssembly>True</SignAssembly>
 		<IncludeSymbols>False</IncludeSymbols>
 		<IsTrimmable>False</IsTrimmable>
-		<Authors>Xylia</Authors>
+		<Lisence>MIT</Lisence>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+		<Copyright>All rights reserved for Xylia.</Copyright>
 	</PropertyGroup>
 	
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">

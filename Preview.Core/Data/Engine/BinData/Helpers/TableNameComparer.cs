@@ -4,17 +4,19 @@ namespace Xylia.Preview.Data.Engine.BinData.Helpers;
 /// <summary>
 /// Defines methods to support the comparison of camel hump naming convention
 /// </summary>
-public sealed class TableNameComparer : IEqualityComparer<string>
+public sealed class TableNameComparer : IComparer<string>, IEqualityComparer<string>
 {
 	public static TableNameComparer Instance => new();
 
-	public bool Equals(string x, string y)
+	public int Compare(string x, string y)
 	{
-		return string.Equals(
-			x.Replace("-", null),
-			y.Replace("-", null),
+		return string.Compare(
+			x.Replace("-", null) + "data",
+			y.Replace("-", null) + "data",
 			StringComparison.OrdinalIgnoreCase);
 	}
+
+	public bool Equals(string x, string y) => Compare(x, y) == 0;
 
 	public int GetHashCode([DisallowNull] string obj)
 	{

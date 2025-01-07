@@ -12,7 +12,7 @@ using Xylia.Preview.UI.Controls;
 namespace Xylia.Preview.UI.Views;
 public partial class TableView
 {
-	#region Constructorss
+	#region Constructors
 	public TableView()
 	{
 		InitializeComponent();

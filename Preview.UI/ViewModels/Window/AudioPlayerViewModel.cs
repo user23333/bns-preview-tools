@@ -1,35 +1,32 @@
 ﻿using System.ComponentModel;
+using System.IO;
 using System.Windows;
 using System.Windows.Data;
-using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Win32;
 using Xylia.Preview.UI.Audio;
 
 namespace Xylia.Preview.UI.ViewModels;
 internal partial class AudioPlayerViewModel : ObservableObject, IDisposable
 {
 	#region Fields
-	private PlaybackService playbackService;
+	private readonly PlaybackService service;
 
-	[ObservableProperty]
-	private bool showPause;
+	[ObservableProperty] private bool showPause;
+	[ObservableProperty] private bool isLoadingTrack;
+	public bool ShowLoopNone => service.LoopMode == LoopMode.None;
+	public bool ShowLoopOne => service.LoopMode == LoopMode.One;
+	public bool ShowLoopAll => service.LoopMode == LoopMode.All;
+	public bool IsShuffle { get => service.Shuffle; set => service.Shuffle = value; }
 
-	[ObservableProperty]
-	private bool isLoadingTrack;
+	public TimeSpan CurrentTime => service.GetCurrentTime;
+	public TimeSpan TotalTime => service.GetTotalTime;
+	public double Progress { get => service.Progress; set => service.SkipProgress(value); }
+	public bool CanReportProgress => !service.IsStopped;
 
-	public bool ShowLoopNone => this.playbackService.LoopMode == LoopMode.None;
-	public bool ShowLoopOne => this.playbackService.LoopMode == LoopMode.One;
-	public bool ShowLoopAll => this.playbackService.LoopMode == LoopMode.All;
-	public bool Shuffle => this.playbackService.Shuffle;
-
-	public TimeSpan CurrentTime => this.playbackService.GetCurrentTime;
-	public TimeSpan TotalTime => this.playbackService.GetTotalTime;
-	public double Progress { get => playbackService.Progress; set => playbackService.SkipProgress(value); }
-	public bool CanReportProgress => !this.playbackService.IsStopped;
-
-	public float Volume { get => this.playbackService.Volume; set => this.playbackService.Volume = value; }
-	public bool Mute { get => this.playbackService.Mute || Volume == 0; set => this.playbackService.Mute = value; }
+	public float Volume { get => service.Volume; set => service.Volume = value; }
+	public bool IsMute { get => service.Mute || Volume == 0; set => service.Mute = value; }
 
 
 	public ICollectionView AudioFilesView { get; set; }
@@ -38,69 +35,105 @@ internal partial class AudioPlayerViewModel : ObservableObject, IDisposable
 
 	public AudioFile Selected
 	{
-		get => this.playbackService.CurrentTrack;
-		set => this.playbackService.CurrentTrack = value;
+		get => service.CurrentTrack;
+		set => service.CurrentTrack = value;
 	}
 
 	public AudioDevice SelectedAudioDevice
 	{
-		get => this.playbackService.audioDevice;
+		get => service.audioDevice;
 		set
 		{
 			// Due to two-way binding, this can be null when the list is being filled.
 			if (value != null)
 			{
-				this.playbackService.SwitchAudioDevice(value);
+				service.SwitchAudioDevice(value);
 			}
 
 			OnPropertyChanged();
 		}
 	}
-
-	public RelayCommand PlayPauseCommand { get; set; }
-	public RelayCommand PlayNewCommand { get; set; }
-	public RelayCommand PreviousCommand { get; set; }
-	public RelayCommand NextCommand { get; set; }
-	public RelayCommand LoopCommand { get; set; }
-	public RelayCommand ShuffleCommand { get; set; }
-	public RelayCommand MuteCommand { get; set; }
 	#endregion
 
-	#region Constructorss
+	#region Constructors
 	public AudioPlayerViewModel()
 	{
-		this.playbackService = new();
-
-		// Commands
-		this.PlayPauseCommand = new(async () => await this.playbackService.PlayOrPauseAsync());
-		this.PlayNewCommand = new(async () => await this.playbackService.PlaySelectedAsync(Selected));
-		this.PreviousCommand = new(async () => await this.playbackService.PlayPreviousAsync());
-		this.NextCommand = new(async () => await this.playbackService.PlayNextAsync());
-		this.LoopCommand = new(() => this.SetPlayBackServiceLoop());
-		//this.ShuffleCommand = new(() => this.SetPlayBackServiceShuffle(!this.shuffle));
+		service = new();
 
 		// Event handlers
-		this.playbackService.PlaybackFailed += (_, __) => this.ShowPause = false;
-		this.playbackService.PlaybackPaused += (_, __) => this.ShowPause = false;
-		this.playbackService.PlaybackResumed += (_, __) => this.ShowPause = true;
-		this.playbackService.PlaybackStopped += (_, __) => this.ShowPause = false;
-		this.playbackService.PlaybackSuccess += (_, __) => { this.ShowPause = true; OnPropertyChanged(nameof(Selected)); };
-		this.playbackService.PlaybackProgressChanged += (_, __) => this.UpdateTime();
-		this.playbackService.PlaybackLoopChanged += (_, __) => this.UpdateLoop();
-		this.playbackService.PlaybackShuffleChanged += (_, __) => OnPropertyChanged(nameof(Shuffle));
-
-		this.playbackService.LoadingTrack += (isLoadingTrack) => this.IsLoadingTrack = isLoadingTrack;
+		service.PlaybackFailed += (_, __) => this.ShowPause = false;
+		service.PlaybackPaused += (_, __) => this.ShowPause = false;
+		service.PlaybackResumed += (_, __) => this.ShowPause = true;
+		service.PlaybackStopped += (_, __) => this.ShowPause = false;
+		service.PlaybackSuccess += (_, __) => { this.ShowPause = true; OnPropertyChanged(nameof(Selected)); };
+		service.PlaybackProgressChanged += (_, __) => this.UpdateTime();
+		service.PlaybackLoopChanged += (_, __) => this.UpdateLoop();
+		service.PlaybackShuffleChanged += (_, __) => OnPropertyChanged(nameof(IsShuffle));
+		service.LoadingTrack += (isLoadingTrack) => this.IsLoadingTrack = isLoadingTrack;
 
 		// Volume
-		this.playbackService.PlaybackVolumeChanged += (_, __) => UpdateVolume();
-		this.playbackService.PlaybackMuteChanged += (_, __) => OnPropertyChanged(nameof(Mute));
-
+		service.PlaybackVolumeChanged += (_, __) => UpdateVolume();
+		service.PlaybackMuteChanged += (_, __) => OnPropertyChanged(nameof(IsMute));
 
 		// Initial status
-		this.AudioFilesView = CollectionViewSource.GetDefaultView(this.playbackService.Queue);
-		this.AudioDevicesView = CollectionViewSource.GetDefaultView(this.playbackService.GetAllAudioDevicesAsync());
+		this.AudioFilesView = CollectionViewSource.GetDefaultView(service.Queue);
+		this.AudioDevicesView = CollectionViewSource.GetDefaultView(service.GetAllAudioDevicesAsync());
 
-		playbackService.Volume = 1;
+		service.Volume = 1;
+	}
+	#endregion
+
+	#region Commands
+	[RelayCommand] async Task PlayPause() => await service.PlayOrPauseAsync();
+	[RelayCommand] async Task PlayNew(AudioFile file) => await service.PlaySelectedAsync(file ?? Selected);
+	[RelayCommand] async Task Previous() => await service.PlayPreviousAsync();
+	[RelayCommand] async Task Next() => await service.PlayNextAsync();
+
+	[RelayCommand] void Loop() => service.LoopMode = service.LoopMode switch
+	{
+		LoopMode.None => LoopMode.All,
+		LoopMode.All => LoopMode.One,
+		LoopMode.One => LoopMode.None,
+		_ => LoopMode.None,
+	};
+	[RelayCommand] void Shuffle() => IsShuffle = !IsShuffle;
+	[RelayCommand] void Mute() => IsMute = !IsMute;
+
+
+	[RelayCommand]
+	public void Remove(AudioFile file)
+	{
+		service.Queue.Remove(file ?? Selected);
+	}
+
+	[RelayCommand]
+	public void Save(AudioFile file)
+	{
+		file ??= Selected;
+		var saveFileDialog = new SaveFileDialog
+		{
+			Title = "Save Audio",
+			FileName = file.Name,
+			Filter = "ogg file|*.ogg",
+			//InitialDirectory = UserSettings.Default.AudioDirectory
+		};
+		if (saveFileDialog.ShowDialog() != true) return;
+		var path = saveFileDialog.FileName;
+
+		using var stream = new FileStream(path, FileMode.Create, FileAccess.Write);
+		using var writer = new BinaryWriter(stream);
+		writer.Write(file.Data);
+		writer.Flush();
+	}
+
+	[RelayCommand]
+	public void SavePlaylist()
+	{
+		Application.Current.Dispatcher.Invoke(() =>
+		{
+			foreach (var a in service.Queue)
+				Save(a);
+		});
 	}
 	#endregion
 
@@ -123,95 +156,17 @@ internal partial class AudioPlayerViewModel : ObservableObject, IDisposable
 	private void UpdateVolume()
 	{
 		OnPropertyChanged(nameof(Volume));
-		OnPropertyChanged(nameof(Mute));
-	}
-
-	private void SetPlayBackServiceLoop()
-	{
-		this.playbackService.LoopMode = this.playbackService.LoopMode switch
-		{
-			LoopMode.None => LoopMode.All,
-			LoopMode.All => LoopMode.One,
-			LoopMode.One => LoopMode.None,
-			_ => LoopMode.None,
-		};
+		OnPropertyChanged(nameof(IsMute));
 	}
 
 	public void AddToPlaylist(AudioFile file)
 	{
-		this.playbackService.Queue.Add(file);
-	}
-
-
-
-
-	[RelayCommand]
-	public void Remove()
-	{
-		this.playbackService.Queue.Remove(Selected);
-	}
-
-	[RelayCommand]
-	public void SavePlaylist()
-	{
-		Application.Current.Dispatcher.Invoke(() =>
-		{
-			foreach (var a in this.playbackService.Queue)
-				Save(a, true);
-		});
-	}
-
-	public ICommand SaveCommand => new RelayCommand<AudioFile>((x) => Save(x));
-
-	public void Save(AudioFile? file, bool auto = false)
-	{
-		var fileToSave = file ?? Selected;
-		//if (_audioFiles.Count < 1 || fileToSave?.Data == null) return;
-		//var path = fileToSave.Path;
-
-		//if (!auto)
-		//{
-		//	var saveFileDialog = new SaveFileDialog
-		//	{
-		//		Title = "Save Audio",
-		//		FileName = fileToSave.Name,
-		//		//InitialDirectory = UserSettings.Default.AudioDirectory
-		//	};
-		//	if (!saveFileDialog.ShowDialog().GetValueOrDefault()) return;
-		//	path = saveFileDialog.FileName;
-		//}
-		//else
-		//{
-		//	Directory.CreateDirectory(path.SubstringBeforeLast('/'));
-		//}
-
-		//using (var stream = new FileStream(path, FileMode.Create, FileAccess.Write))
-		//using (var writer = new BinaryWriter(stream))
-		//{
-		//	writer.Write(fileToSave.Data);
-		//	writer.Flush();
-		//}
-
-		//if (File.Exists(path))
-		//{
-		//	Log.Information("{FileName} successfully saved", fileToSave.FileName);
-		//	FLogger.Append(ELog.Information, () =>
-		//	{
-		//		FLogger.Text("Successfully saved ", Constants.WHITE);
-		//		FLogger.Link(fileToSave.FileName, path, true);
-		//	});
-		//}
-		//else
-		//{
-		//	Log.Error("{FileName} could not be saved", fileToSave.FileName);
-		//	FLogger.Append(ELog.Error, () => FLogger.Text($"Could not save '{fileToSave.FileName}'", Constants.WHITE, true));
-		//}
+		service.Queue.Add(file);
 	}
 
 	public void Dispose()
 	{
-		this.playbackService.Stop();
-		this.playbackService = null;
+		service.Stop();
 	}
 	#endregion
 }

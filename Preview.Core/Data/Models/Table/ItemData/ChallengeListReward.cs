@@ -20,7 +20,7 @@ public class ChallengeListReward : ModelElement
 
 		for (int i = 0; i < RewardItem.Length; i++)
 		{
-			var item = RewardItem[i].Instance;
+			var item = RewardItem[i].Value;
 			if (item is null) continue;
 
 			builder.AppendLine($"{item.Name} x{RewardItemCount[i]}");

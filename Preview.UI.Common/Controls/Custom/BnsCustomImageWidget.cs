@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using CUE4Parse.BNS.Conversion;
@@ -7,6 +8,7 @@ using SkiaSharp;
 using SkiaSharp.Views.WPF;
 using Xylia.Preview.UI.Controls.Primitives;
 using Xylia.Preview.UI.Converters;
+using Xylia.Preview.UI.Extensions;
 
 namespace Xylia.Preview.UI.Controls;
 public class BnsCustomImageWidget : BnsCustomBaseWidget
@@ -101,9 +103,45 @@ public class BnsCustomImageWidget : BnsCustomBaseWidget
 		LayoutData.SetAlignments(widget, LayoutData.GetAlignments(this));
 
 		// clone properties from template
-		widget.ExpansionComponentList = new(ExpansionComponentList);
+		widget.ExpansionComponentList = new(widget, ExpansionComponentList);
 
 		return widget;
 	}
 	#endregion
+
+
+	public readonly Dictionary<Dock, double> Pins = [];		
+	private readonly Dictionary<Dock, int> PinCount = [];
+
+	/// <summary>
+	/// Get next point
+	/// </summary>
+	public Point PinPoint(Dock dock)
+	{
+		// Register pin
+		PinCount.TryAdd(dock, 0);
+		var count = PinCount[dock]++;
+
+		// Get node pos
+		var pos = this.GetFinalRect();
+
+		// Compute offset, avoid overlap
+		// Move the central axis to align content
+		var offset = count * 2;
+		if (dock == Dock.Left || dock == Dock.Right) pos.Y += offset - Pins.GetValueOrDefault(dock) / 2;
+		if (dock == Dock.Top || dock == Dock.Bottom) pos.X += offset - Pins.GetValueOrDefault(dock) / 2;
+		if (dock == (Dock)4) pos.X -= offset;
+
+		return dock switch
+		{
+			// Center
+			(Dock)4 => new Point(pos.X + RenderSize.Width / 2, pos.Y + RenderSize.Height / 2),
+			Dock.Top => new Point(pos.X + RenderSize.Width / 2, pos.Y),
+			Dock.Bottom => new Point(pos.X + RenderSize.Width / 2, pos.Y + RenderSize.Height),
+			Dock.Left => new Point(pos.X + (RenderSize.Width - 64) / 2, pos.Y + RenderSize.Height / 2),
+			Dock.Right => new Point(pos.X + (RenderSize.Width + 64) / 2, pos.Y + RenderSize.Height / 2),
+
+			_ => throw new Exception(),
+		};
+	}
 }

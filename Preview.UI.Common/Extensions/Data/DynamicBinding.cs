@@ -40,7 +40,7 @@ public class DynamicBinding : MarkupExtension
     }
     #endregion
 
-    #region Constructorss
+    #region Constructors
     public DynamicBinding()
     {
 
@@ -200,7 +200,7 @@ public class DynamicBinding : MarkupExtension
 
 public class Binding : System.Windows.Data.Binding
 {
-	#region Constructorss
+	#region Constructors
 	public Binding() : base()
 	{
 

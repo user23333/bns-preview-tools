@@ -38,22 +38,17 @@ internal class PreviewProbability : RecordCommand
 
 	protected override void Execute(Record record)
 	{
-		var dispatcher = Application.Current.Dispatcher;
-
 		switch (record.OwnerName)
 		{
 			case "item":
 			{
+				object? reward = null;
+
 				var pages = ItemTooltipPanel.DecomposePage.LoadFrom(record.To<Item>().DecomposeInfo);
-				if (pages.Count > 0)
-				{
-					var reward = pages[0].DecomposeReward;
-					dispatcher.Invoke(() => new RewardTooltipPanel() { DataContext = reward }.Show());
-				}
+				if (pages.Count > 0) reward = pages[0].DecomposeReward;
+				else reward ??= record.Attributes.Get<GlyphReward>("glyph-reward");
 
-				var GlyphReward = record.Attributes.Get<GlyphReward>("glyph-reward");
-				if (GlyphReward != null) dispatcher.Invoke(() => new RewardTooltipPanel() { DataContext = GlyphReward }.Show());
-
+				Application.Current.Dispatcher.Invoke(() => new RewardTooltipPanel() { DataContext = reward }.Show());
 				break;
 			}
 
@@ -72,30 +67,28 @@ internal class PreviewProbability : RecordCommand
 				var RewardDifficultyType3 = record.Attributes.Get<Reward>("reward-difficulty-type-3") ?? RewardTable[FixAlias(PersonalDroppedPouchRewardDifficultyType3)];
 
 				// display
-				var rewards = new List<NameObject<object>>()
+				Application.Current.Dispatcher.Invoke(() => new ItemGrowth2TooltipPanel { DataContext = new List<NameObject<object>>()
 				{
-					new(RewardDefault, StringHelper.Get("UI.RandomBox.Probability.CommonDroppedPouch")) { Flag = true },
-					new(PersonalDroppedPouchReward, StringHelper.Get("UI.RandomBox.Probability.PersonalDroppedPouch")),
-					new(RewardDifficultyType1, StringHelper.Get("UI.RandomBox.Probability.CommonDroppedPouch.Difficulty1")),
-					new(PersonalDroppedPouchRewardDifficultyType1, StringHelper.Get("UI.RandomBox.Probability.PersonalDroppedPouch.Difficulty1")),
-					new(RewardDifficultyType2, StringHelper.Get("UI.RandomBox.Probability.CommonDroppedPouch.Difficulty2")),
-					new(PersonalDroppedPouchRewardDifficultyType2, StringHelper.Get("UI.RandomBox.Probability.PersonalDroppedPouch.Difficulty2")),
-					new(RewardDifficultyType3, StringHelper.Get("UI.RandomBox.Probability.CommonDroppedPouch.Difficulty3")),
-					new(PersonalDroppedPouchRewardDifficultyType3, StringHelper.Get("UI.RandomBox.Probability.PersonalDroppedPouch.Difficulty3")),
-				};
-				dispatcher.Invoke(() => new ItemGrowth2TooltipPanel { DataContext = rewards }.Show());
+					new(StringHelper.Get("UI.RandomBox.Probability.CommonDroppedPouch"), RewardDefault) { Flag = true },
+					new(StringHelper.Get("UI.RandomBox.Probability.PersonalDroppedPouch"), PersonalDroppedPouchReward),
+					new(StringHelper.Get("UI.RandomBox.Probability.CommonDroppedPouch.Difficulty1"), RewardDifficultyType1),
+					new(StringHelper.Get("UI.RandomBox.Probability.PersonalDroppedPouch.Difficulty1"), PersonalDroppedPouchRewardDifficultyType1),
+					new(StringHelper.Get("UI.RandomBox.Probability.CommonDroppedPouch.Difficulty2"), RewardDifficultyType2),
+					new(StringHelper.Get("UI.RandomBox.Probability.PersonalDroppedPouch.Difficulty2"), PersonalDroppedPouchRewardDifficultyType2),
+					new(StringHelper.Get("UI.RandomBox.Probability.CommonDroppedPouch.Difficulty3"), RewardDifficultyType3),
+					new(StringHelper.Get("UI.RandomBox.Probability.PersonalDroppedPouch.Difficulty3"), PersonalDroppedPouchRewardDifficultyType3),
+				}}.Show());
 				break;
 			}
 
 			case "zoneenv2":
 			{
-				var Reward = record.Attributes.Get<Record>("reward");
+				var reward = record.Attributes.Get<Reward>("reward");
 
-				var rewards = new List<NameObject<object>>()
+				Application.Current.Dispatcher.Invoke(() => new ItemGrowth2TooltipPanel { DataContext = new List<NameObject<object>>()
 				{
-					new(Reward?.To<Reward>(), "UI.RandomBox.Probability.PersonalDroppedPouch".GetText()) { Flag = true },
-				};
-				dispatcher.Invoke(() => new ItemGrowth2TooltipPanel { DataContext = rewards }.Show());
+					new("UI.RandomBox.Probability.PersonalDroppedPouch".GetText(), reward) { Flag = true },
+				}}.Show());
 				break;
 			}
 

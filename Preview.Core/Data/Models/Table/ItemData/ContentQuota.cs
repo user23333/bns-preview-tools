@@ -14,6 +14,7 @@ public class ContentQuota : ModelElement
 	public short Version { get; set; }
 
 	public TargetTypeSeq TargetType { get; set; }
+
 	public enum TargetTypeSeq
 	{
 		Character,
@@ -24,6 +25,7 @@ public class ContentQuota : ModelElement
 	public Time64 ExpirationTime { get; set; }
 
 	public ChargeIntervalSeq ChargeInterval { get; set; }
+
 	public enum ChargeIntervalSeq
 	{
 		None,
@@ -50,17 +52,11 @@ public class ContentQuota : ModelElement
 		get
 		{
 			var builder = new StringBuilder();
-			builder.Append(TargetType switch
-			{
-				TargetTypeSeq.Character => "UI.ItemStore.ContentQuota.Character".GetText() + " ",
-				TargetTypeSeq.Account => "UI.ItemStore.ContentQuota.Account".GetText() + " ",
-				_ => null
-			});
-
-			if (ExpirationTime != default) builder.Append("UI.ItemStore.ContentQuota.ExpirationTime".GetText([ExpirationTime]));
+			builder.Append($"UI.ItemStore.ContentQuota.{TargetType}".GetText() + " ");
 			if (ChargeInterval != ChargeIntervalSeq.None) builder.Append(ChargeInterval.ToString());
 
 			builder.Append("UI.ItemStore.ContentQuota.ItemBuyCount".GetText([ChargeAmountPerInterval, MaxValue]));
+			if (ExpirationTime != default) builder.Append("UI.ItemStore.ContentQuota.ExpirationTime".GetText([ExpirationTime]));
 
 			return builder.ToString();
 		}

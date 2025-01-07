@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using CUE4Parse.BNS.Assets.Exports;
 using Xylia.Preview.Common;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Models;
@@ -21,31 +22,86 @@ public class BnsCustomGraphMapWidget : BnsCustomBaseWidget
 	#region Constructors
 	static BnsCustomGraphMapWidget()
 	{
-		// Initialize Commands
 		InitializeCommands();
 	}
 
 	public BnsCustomGraphMapWidget()
 	{
-		this.Background = Brushes.Transparent;
-		this.ClipToBounds = true;
+		Background = Brushes.Transparent;
+		ClipToBounds = true;
+		LayoutTransform = Transform = new TranslateTransform();
 	}
 	#endregion
 
 	#region Commands
+	public static RoutedCommand ViewDetail { get; private set; }
 	public static RoutedCommand ChangeSubGroup { get; private set; }
 	public static RoutedCommand SetStartingPoint { get; private set; }
 	public static RoutedCommand SetDestination { get; private set; }
 
 	static void InitializeCommands()
 	{
+		ViewDetail = new RoutedCommand("ViewDetail", Owner);
 		ChangeSubGroup = new RoutedCommand("SetStartingPoint", Owner);
 		SetStartingPoint = new RoutedCommand("SetStartingPoint", Owner);
 		SetDestination = new RoutedCommand("SetDestination", Owner);
 
+		Owner.RegisterCommandHandler(ViewDetail, OnViewDetail);
 		Owner.RegisterCommandHandler(ChangeSubGroup, OnChangeSubGroup, CanChangeSubGroup);
 		Owner.RegisterCommandHandler(SetStartingPoint, OnSetStartingPoint);
 		Owner.RegisterCommandHandler(SetDestination, OnSetDestination);
+	}
+
+	private void SetCommandTarget(DependencyObject target, ContextMenu parent)
+	{
+		System.Windows.Data.BindingOperations.SetBinding(target, MenuItem.CommandTargetProperty, new Binding(parent, "PlacementTarget"));
+	}
+
+	private static void CanChangeSubGroup(object sender, CanExecuteRoutedEventArgs e)
+	{
+		if (e.Source is not BnsCustomImageWidget node) return;
+
+		// check if exist sub-group
+		//e.CanExecute = !inloading && source != null && source.CanSave;
+	}
+
+	private static void OnChangeSubGroup(object sender, ExecutedRoutedEventArgs e)
+	{
+		if (sender is not BnsCustomGraphMapWidget widget) return;
+	}
+
+	private static void OnSetStartingPoint(object sender, ExecutedRoutedEventArgs e)
+	{
+		if (sender is not BnsCustomGraphMapWidget widget) return;
+
+		widget.Starting?.ExpansionComponentList["Node_StartImage"]?.SetExpansionShow(false);
+		widget.Starting?.InvalidateVisual();
+		widget.Starting = e.Source as BnsCustomImageWidget;
+		widget.Starting!.ExpansionComponentList["Node_StartImage"]?.SetExpansionShow(true);
+		widget.Starting!.InvalidateVisual();
+
+		widget.FindPath();
+	}
+
+	private static void OnSetDestination(object sender, ExecutedRoutedEventArgs e)
+	{
+		if (sender is not BnsCustomGraphMapWidget widget) return;
+
+		widget.Destination?.ExpansionComponentList["Node_PurposeImage"]?.SetExpansionShow(false);
+		widget.Destination?.InvalidateVisual();
+		widget.Destination = e.Source as BnsCustomImageWidget;
+		widget.Destination!.ExpansionComponentList["Node_PurposeImage"]?.SetExpansionShow(true);
+		widget.Destination!.InvalidateVisual();
+
+		widget.FindPath();
+	}
+
+	private static void OnViewDetail(object sender, ExecutedRoutedEventArgs e)
+	{
+		if (sender is not BnsCustomGraphMapWidget widget) return;
+		if (e.Source is not BnsCustomImageWidget node) return;
+
+		widget.ViewDetailed?.Invoke(node, node.DataContext);
 	}
 	#endregion
 
@@ -53,8 +109,9 @@ public class BnsCustomGraphMapWidget : BnsCustomBaseWidget
 	public event EventHandler<IEnumerable<ItemGraphRouteHelper>>? RoutesChanged;
 
 	public event EventHandler<Edge>? SetRouteThrough;
-	#endregion
 
+	public event EventHandler<object> ViewDetailed;
+	#endregion
 
 	#region Public Properties
 	private static readonly Type Owner = typeof(BnsCustomGraphMapWidget);
@@ -83,81 +140,6 @@ public class BnsCustomGraphMapWidget : BnsCustomBaseWidget
 	}
 	#endregion
 
-	#region Public Methods
-	public void Update(string? type, JobSeq job = JobSeq.JobNone)
-	{
-		Starting = Destination = null;
-		this.Children.Clear();
-
-		#region Data
-		var table = Globals.GameData.Provider.GetTable<ItemGraph>();
-		var seeds = table.Where(record => record is ItemGraph.Seed seed).Cast<ItemGraph.Seed>();
-
-		var seq = type.ToEnum<EquipType>();
-		if (seq != EquipType.None) seeds = seeds.Where(x => x.ItemEquipType == seq);
-		else if (type == "EnchantGem1") seeds = seeds.Where(x => x.SeedItem.FirstOrDefault().Instance is Item.Gem gem && gem.WeaponEnchantGemSlotType == WeaponEnchantGemSlotTypeSeq.First);
-		else if (type == "EnchantGem2") seeds = seeds.Where(x => x.SeedItem.FirstOrDefault().Instance is Item.Gem gem && gem.WeaponEnchantGemSlotType == WeaponEnchantGemSlotTypeSeq.Second);
-		else if (type == "AccessoryGem") seeds = seeds.Where(x => x.SeedItem.FirstOrDefault().Instance is Item.Gem gem && gem.AccessoryEnchantGemEquipAccessoryType != AccessoryEnchantGemEquipAccessoryTypeSeq.None);
-		else return;
-
-		if (!seeds.Any()) return;
-		#endregion
-
-		#region Node	
-		var groups = seeds.Select(record => record.SeedItemGroup.Instance).Where(x => x != null).Reverse().Distinct();
-		var items = new Dictionary<Item, BnsCustomImageWidget>();
-
-		foreach (var seed in seeds)
-		{
-			// valid data
-			var SeedItems = seed.SeedItem.Select(x => x.Instance).Where(x => x != null).ToArray();
-			var item = SeedItems.FirstOrDefault(x => x.EquipJobCheck.CheckSeq(job)) ?? SeedItems.FirstOrDefault();
-			if (item is null) continue;
-
-			#region Widget
-			var widget = this.NodeTemplate.Clone();
-			widget.DataContext = item;
-			widget.ContextMenu = NodeMenu;
-
-			BnsCustomColumnListWidget.SetRow(widget, seed.Row);
-			BnsCustomColumnListWidget.SetColumn(widget, seed.Column);
-			#endregion
-
-			#region Expansion
-			//widget.ExpansionComponentList["Node_Icon"]?.SetValue(item.Icon);
-			widget.ExpansionComponentList["Node_ItemName"]?.SetValue(item.ItemName);
-
-			if (SeedItems.Length > 1) widget.ExpansionComponentList["Node_SubGroupImage"]?.SetExpansionShow(true);
-			#endregion
-
-			this.Children.Add(items[item] = widget);
-		}
-		#endregion
-
-		#region line
-		foreach (var edge in table.OfType<ItemGraph.Edge>())
-		{
-			if (!items.TryGetValue(edge.StartItem, out var StartItem)) continue;
-			if (!items.TryGetValue(edge.EndItem, out var EndItem)) continue;
-
-			// valid main ingredient
-			var MainIngredient = edge.FeedRecipe.Instance?.MainIngredient.Instance;
-			if (MainIngredient is Item item && !item.EquipJobCheck.CheckSeq(job)) continue;
-
-			this.Children.Add(new Edge(edge, StartItem, EndItem));
-		}
-		#endregion
-	}
-
-	/// <summary>
-	/// Search for the specified item and move to it if exist
-	/// </summary>
-	public void Search(Item item)
-	{
-
-	}
-	#endregion
-
 
 	#region Protected Methods
 	protected override void OnInitialized(EventArgs e)
@@ -166,19 +148,17 @@ public class BnsCustomGraphMapWidget : BnsCustomBaseWidget
 
 		// Template
 		NodeTemplate = GetChild<BnsCustomImageWidget>("NodeTemplate");
-		//NodeTemplate.Expansion = ["Node_Icon", "Node_ItemName"];
 		HorizontalRulerItemTemplate = GetChild<BnsCustomImageWidget>("HorizontalRulerItemTemplate");
 		VerticalRulerItemTemplate = GetChild<BnsCustomImageWidget>("VerticalRulerItemTemplate");
 
 		// ContextMenu
-		NodeMenu = new ContextMenu();
+		var NodeMenu = new ContextMenu();
+		NodeMenu.Items.Add(new MenuItem() { Header = "详细信息", Command = ViewDetail });
 		NodeMenu.Items.Add(new MenuItem() { Header = "切换", Command = ChangeSubGroup });
 		NodeMenu.Items.Add(new MenuItem() { Header = "设为起始物品", Command = SetStartingPoint });
 		NodeMenu.Items.Add(new MenuItem() { Header = "设为结束物品", Command = SetDestination });
-		NodeMenu.Items.Cast<DependencyObject>().ForEach(item => SetCommandTarget(item , NodeMenu));
-
-		//NodeTemplate.ExpansionComponentList["Node_Icon"].ImageProperty =
-		//	Globals.GameData.Provider.GetTable<Item>()[new Ref(2080002, 1)]?.Icon;
+		NodeMenu.Items.Cast<DependencyObject>().ForEach(item => SetCommandTarget(item, NodeMenu));
+		NodeTemplate.ContextMenu = NodeMenu;
 	}
 
 	protected override void OnPreviewMouseWheel(MouseWheelEventArgs e)
@@ -241,11 +221,6 @@ public class BnsCustomGraphMapWidget : BnsCustomBaseWidget
 			double y = row * size.Height + ((size.Height - child.DesiredSize.Height) / 2) - ScrollOffset.Y;
 			return new Rect(new Point(x, y), child.DesiredSize);
 		}
-		else if (child is Edge)
-		{
-			Panel.SetZIndex(child, -1);
-			return new Rect();
-		}
 
 		return base.ArrangeChild(child, constraint);
 	}
@@ -277,7 +252,6 @@ public class BnsCustomGraphMapWidget : BnsCustomBaseWidget
 
 					var rect = new Rect(x, y, size.Width, size.Height);
 					dc.DrawRectangle(new SolidColorBrush(), pen: new Pen(new SolidColorBrush(DefaultBorder), 1), rect);
-
 					dc.DrawText(new FormattedText($"{row}-{column}",
 						CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface("Arial"), 10, Brushes.Black, 96),
 						new Point(x, y));
@@ -287,59 +261,107 @@ public class BnsCustomGraphMapWidget : BnsCustomBaseWidget
 	}
 	#endregion
 
-	#region Private Helpers
+	#region Public Methods
+	public void Update(string? type, JobSeq job = JobSeq.JobNone)
+	{
+		ArgumentNullException.ThrowIfNull(NodeTemplate);
 
-	#region	Widget
+		Starting = Destination = null;
+		this.Children.Clear();
+
+		#region Data
+		var table = Globals.GameData.Provider.GetTable<ItemGraph>();
+		var seeds = table.Where(record => record is ItemGraph.Seed seed).Cast<ItemGraph.Seed>();
+
+		var seq = type.ToEnum<EquipType>();
+		if (seq != EquipType.None) seeds = seeds.Where(x => x.ItemEquipType == seq);
+		else if (type == "EnchantGem1") seeds = seeds.Where(x => x.SeedItem.FirstOrDefault().Value is Item.Gem gem && gem.WeaponEnchantGemSlotType == WeaponEnchantGemSlotTypeSeq.First);
+		else if (type == "EnchantGem2") seeds = seeds.Where(x => x.SeedItem.FirstOrDefault().Value is Item.Gem gem && gem.WeaponEnchantGemSlotType == WeaponEnchantGemSlotTypeSeq.Second);
+		else if (type == "AccessoryGem") seeds = seeds.Where(x => x.SeedItem.FirstOrDefault().Value is Item.Gem gem && gem.AccessoryEnchantGemEquipAccessoryType != AccessoryEnchantGemEquipAccessoryTypeSeq.None);
+		else return;
+
+		if (!seeds.Any()) return;
+		#endregion
+
+		#region Node	
+		var groups = seeds.Select(record => record.SeedItemGroup.Value).Where(x => x != null).Reverse().Distinct();
+		var items = new Dictionary<Item, BnsCustomImageWidget>();
+
+		foreach (var seed in seeds)
+		{
+			// valid data
+			var SeedItems = seed.SeedItem.Select(x => x.Value).Where(x => x != null).ToArray();
+			var item = SeedItems.FirstOrDefault(x => x.EquipJobCheck.CheckSeq(job)) ?? SeedItems.FirstOrDefault();
+			if (item is null) continue;
+
+			#region Widget
+			var widget = NodeTemplate.Clone();
+			widget.DataContext = item;
+			widget.ContextMenu = NodeTemplate.ContextMenu;
+			widget.ToolTip = new BnsTooltipHolder();
+
+			BnsCustomColumnListWidget.SetRow(widget, seed.Row);
+			BnsCustomColumnListWidget.SetColumn(widget, seed.Column);
+			#endregion
+
+			#region Expansion
+			widget.ExpansionComponentList["Node_SubGroupImage"]!.SetExpansionShow(SeedItems.Length > 1);
+			widget.ExpansionComponentList["Node_Icon"]!.SetValue(item.FrontIcon?.GetImage() with
+			{
+				HorizontalAlignment = EHorizontalAlignment.HAlign_Center,
+				VerticalAlignment = EVerticalAlignment.VAlign_Top,
+				EnableResourceSize = true,
+				ImageScale = 0.625f,
+				Offset = new(0, 5),
+			});
+			widget.ExpansionComponentList["Node_ItemName"]!.SetValue(item.ItemName);
+			widget.ExpansionComponentList["Node_ViaImage"]!.SetExpansionShow(false);
+			widget.ExpansionComponentList["Node_PurposeImage"]!.SetExpansionShow(false);
+			widget.ExpansionComponentList["Node_StartImage"]!.SetExpansionShow(false);
+			widget.ExpansionComponentList["Node_EquipedImage"]!.SetExpansionShow(false);
+			widget.ExpansionComponentList["Node_OverImage"]!.SetExpansionShow(false);
+			widget.ExpansionComponentList["Node_OverImage2"]!.SetExpansionShow(false);
+			widget.ExpansionComponentList["Node_PressedImage"]!.SetExpansionShow(false);
+			widget.ExpansionComponentList["Node_SearchedImage"]!.SetExpansionShow(false);
+			widget.ExpansionComponentList["Node_PossessionImage"]!.SetExpansionShow(false);
+			#endregion
+
+			this.Children.Add(items[item] = widget);
+		}
+		#endregion
+
+		#region Edge
+		foreach (var edge in table.OfType<ItemGraph.Edge>())
+		{
+			if (!edge.StartItem.HasValue || !items.TryGetValue(edge.StartItem, out var StartItem)) continue;
+			if (!edge.EndItem.HasValue || !items.TryGetValue(edge.EndItem, out var EndItem)) continue;
+
+			// valid main ingredient
+			var MainIngredient = edge.FeedRecipe.Value?.MainIngredient.Value;
+			if (MainIngredient is Item item && !item.EquipJobCheck.CheckSeq(job)) continue;
+
+			this.Children.Add(new Edge(edge, StartItem, EndItem));
+		}
+		#endregion
+	}
+
+	/// <summary>
+	/// Search for the specified item and move to it if exist
+	/// </summary>
+	public void Search(Item item)
+	{
+
+	}
+	#endregion
+
+	#region Private Helpers
+	// Widget
 	private static void SetRatio(DependencyObject d, DependencyPropertyChangedEventArgs e)
 	{
 		// get final scale 
 		var widget = (BnsCustomGraphMapWidget)d;
 		widget.Ratio = Math.Max(widget.MinZoomRatio, Math.Min(widget.MaxZoomRatio, widget.Ratio));
 		widget.LayoutTransform = new ScaleTransform() { ScaleX = widget.Ratio, ScaleY = widget.Ratio };
-	}
-	#endregion
-
-	#region NodeTemplate
-	private void SetCommandTarget(DependencyObject target, ContextMenu parent)
-	{
-		System.Windows.Data.BindingOperations.SetBinding(target, MenuItem.CommandTargetProperty, new Binding(parent, "PlacementTarget"));
-	}
-
-	private static void CanChangeSubGroup(object sender, CanExecuteRoutedEventArgs e)
-	{
-		if (e.Source is not BnsCustomImageWidget node) return;
-
-		// check if exist sub-group
-		//e.CanExecute = !inloading && source != null && source.CanSave;
-	}
-
-	private static void OnChangeSubGroup(object sender, ExecutedRoutedEventArgs e)
-	{
-		if (sender is not BnsCustomGraphMapWidget widget) return;
-	}
-
-	private static void OnSetStartingPoint(object sender, ExecutedRoutedEventArgs e)
-	{
-		if (sender is not BnsCustomGraphMapWidget widget) return;
-
-		widget.Starting?.ExpansionComponentList["Node_StartImage"]?.SetExpansionShow(false);
-		widget.Starting = e.Source as BnsCustomImageWidget;
-		widget.Starting!.ExpansionComponentList["Node_StartImage"]?.SetExpansionShow(true);
-
-		//Globals.GameData.Provider.GetTable<GameMessage>()["Msg.ItemGraph.SetStartingPoint"]?.Instant();
-		widget.FindPath();
-	}
-
-	private static void OnSetDestination(object sender, ExecutedRoutedEventArgs e)
-	{
-		if (sender is not BnsCustomGraphMapWidget widget) return;
-
-		widget.Destination?.ExpansionComponentList["Node_PurposeImage"]?.SetExpansionShow(false);
-		widget.Destination = e.Source as BnsCustomImageWidget;
-		widget.Destination!.ExpansionComponentList["Node_PurposeImage"]?.SetExpansionShow(true);
-
-		//Globals.GameData.Provider.GetTable<GameMessage>()["Msg.ItemGraph.SetDestination"]?.Instant();
-		widget.FindPath();
 	}
 
 	private void FindPath()
@@ -348,7 +370,7 @@ public class BnsCustomGraphMapWidget : BnsCustomBaseWidget
 		 Destination?.DataContext is not Item dest) return;
 
 		// Create lookup
-		var edges = Children.OfType<Edge>().ToLookup(seed => seed.Data.EndItem.Instance);
+		var edges = Children.OfType<Edge>().ToLookup(seed => seed.Data.EndItem.Value);
 
 		ConcurrentBag<Edge[]> routes = [];
 		Test(start, dest, 0, []);
@@ -380,7 +402,7 @@ public class BnsCustomGraphMapWidget : BnsCustomBaseWidget
 				_route[^1] = edge;
 
 				// find next step
-				var _dest = edge.Data.StartItem.Instance;
+				var _dest = edge.Data.StartItem.Value;
 				if (start.Equals(_dest)) routes.Add(_route);
 				else Test(start, _dest, mode, _route);
 			}
@@ -388,9 +410,8 @@ public class BnsCustomGraphMapWidget : BnsCustomBaseWidget
 
 		RoutesChanged?.Invoke(this, routes.Select(x => new ItemGraphRouteHelper(x)));
 	}
-	#endregion
 
-	#region Edge
+	// Edge
 	public sealed class Edge : Shape
 	{
 		#region Fields
@@ -426,54 +447,47 @@ public class BnsCustomGraphMapWidget : BnsCustomBaseWidget
 		#endregion
 
 		#region Methods
-		public Edge(ItemGraph.Edge Edge, BnsCustomImageWidget StartItem, BnsCustomImageWidget EndItem)
+		public Edge(ItemGraph.Edge edge, BnsCustomImageWidget start, BnsCustomImageWidget end)
 		{
-			DataContext = Data = Edge;
+			ToolTip = new BnsTooltipHolder();
+			DataContext = Data = edge;
 			StrokeThickness = 2.5;
-			Stroke = Edge.SuccessProbability == SuccessProbabilitySeq.Definite ? DefiniteBrush : StochasticBrush;
+			Stroke = edge.SuccessProbability == SuccessProbabilitySeq.Definite ? DefiniteBrush : StochasticBrush;
 
-			// Set direction 
-			var dock1 = Edge.StartOrientation == OrientationSeq.Horizontal ? Dock.Right : Dock.Top;
-			if (Edge.EdgeType == EdgeTypeSeq.JumpTransform) dock1 = (Dock)4;
+			// Set direction
+			var dock1 = edge.StartOrientation == OrientationSeq.Horizontal ? Dock.Right : Dock.Top;
+			if (edge.EdgeType == EdgeTypeSeq.JumpTransform) dock1 = (Dock)4;
+			var dock2 = edge.EndOrientation == OrientationSeq.Horizontal ? Dock.Left : Dock.Bottom;
 
-			var dock2 = Edge.EndOrientation == OrientationSeq.Horizontal ? Dock.Left : Dock.Bottom;
-
-			//// Compute total size, ensure keep alignment
-			//StartItem.Pins.TryAdd(dock1, -PinOffset);
-			//EndItem.Pins.TryAdd(dock2, -PinOffset);
-			//StartItem.Pins[dock1] += PinOffset;
-			//EndItem.Pins[dock2] += PinOffset;
-
-			// exec after loaded
-			StartItem.Loaded += (_, _) => OnLoaded(StartItem, EndItem, dock1, dock2);
+			start.Loaded += (_, _) => OnLoaded(start, end, dock1, dock2);
 		}
 
 		private void OnLoaded(BnsCustomImageWidget node1, BnsCustomImageWidget node2, Dock dock1, Dock dock2)
 		{
-			//// Compute pos
-			//var sour = node1.PinPoint(dock1);
-			//var dest = node2.PinPoint(dock2);
+			// Compute pos
+			var sour = node1.PinPoint(dock1);
+			var dest = node2.PinPoint(dock2);
 
-			//// Create path point
-			//var points = new List<Point>();
-			//var current = sour;
+			// Create path point
+			var points = new List<Point>();
+			var current = sour;
 
-			//if (dock1 == (Dock)4)
-			//{
-			//	points.Add(new Point(sour.X - 50, sour.Y));
-			//	points.Add(new Point(sour.X - 50, dest.Y));
-			//}
-			//else if (dock1 == Dock.Left || dock1 == Dock.Right) points.Add(current = current with { X = (sour.X + dest.X) / 2 });
-			//else points.Add(current = current with { Y = (sour.Y + dest.Y) / 2 });
+			if (dock1 == (Dock)4)
+			{
+				points.Add(new Point(sour.X - 50, sour.Y));
+				points.Add(new Point(sour.X - 50, dest.Y));
+			}
+			else if (dock1 == Dock.Left || dock1 == Dock.Right) points.Add(current = current with { X = (sour.X + dest.X) / 2 });
+			else points.Add(current = current with { Y = (sour.Y + dest.Y) / 2 });
 
-			//if (dock2 == Dock.Left || dock2 == Dock.Right) points.Add(current = current with { Y = dest.Y });
-			//else points.Add(current = current with { X = dest.X });
+			if (dock2 == Dock.Left || dock2 == Dock.Right) points.Add(current = current with { Y = dest.Y });
+			else points.Add(current = current with { X = dest.X });
 
-			//points.Add(dest);
+			points.Add(dest);
 
-			//// Update data
-			//var figure = new PathFigure(sour, points.Select(x => new LineSegment(x, true)), false);
-			//Path = new PathGeometry([figure]);
+			// Update data
+			var figure = new PathFigure(sour, points.Select(x => new LineSegment(x, true)), false);
+			Path = new PathGeometry([figure]);
 		}
 		#endregion
 	}
@@ -487,74 +501,21 @@ public class BnsCustomGraphMapWidget : BnsCustomBaseWidget
 	}
 	#endregion
 
-	#endregion
-
 	#region Private Fields
 	bool _isDragging;
 	Point _mouseOffset;
 	Point _original;
+	readonly TranslateTransform Transform;
 
 	private BnsCustomImageWidget? NodeTemplate;
 	private BnsCustomImageWidget? HorizontalRulerItemTemplate;
 	private BnsCustomImageWidget? VerticalRulerItemTemplate;
 
-	private ContextMenu? NodeMenu;
 	private BnsCustomImageWidget? Starting;
 	private BnsCustomImageWidget? Destination;
 	#endregion
 }
 
-
-#region Template
-//public sealed class NodeTemplate : Control
-//{
-//	public NodeTemplate()
-//	{
-//		//this.Template = XamlReader.Parse();
-//	}
-
-//	private Size ImageSize = new Size(64, 64);
-
-
-//	public readonly Dictionary<Dock, double> Pins = [];
-
-//	private readonly Dictionary<Dock, int> PinCount = [];
-
-
-//	/// <summary>
-//	/// Get next point
-//	/// </summary>
-//	public Point PinPoint(Dock dock)
-//	{
-//		// Register pin
-//		PinCount.TryAdd(dock, 0);
-//		var count = PinCount[dock]++;
-
-//		// Get node pos
-//		var parent = VisualTreeHelper.GetParent(this) as UIElement;
-//		var pos = this.TranslatePoint(new Point(), parent);
-
-//		// Compute offset, avoid overlap
-//		// Move the central axis to align content
-//		var offset = count * EdgeTemplate.PinOffset;
-//		if (dock == Dock.Left || dock == Dock.Right) pos.Y += offset - Pins[dock] / 2;
-//		if (dock == Dock.Top || dock == Dock.Bottom) pos.X += offset - Pins[dock] / 2;
-//		if (dock == (Dock)4) pos.X -= offset;
-
-//		return dock switch
-//		{
-//			// Center
-//			(Dock)4 => new Point(pos.X + RenderSize.Width / 2, pos.Y + RenderSize.Height / 2),
-//			Dock.Top => new Point(pos.X + RenderSize.Width / 2, pos.Y),
-//			Dock.Bottom => new Point(pos.X + RenderSize.Width / 2, pos.Y + RenderSize.Height),
-//			Dock.Left => new Point(pos.X + (RenderSize.Width - ImageSize.Width) / 2, pos.Y + RenderSize.Height / 2),
-//			Dock.Right => new Point(pos.X + (RenderSize.Width + ImageSize.Width) / 2, pos.Y + RenderSize.Height / 2),
-
-//			_ => throw new Exception(),
-//		};
-//	}
-//}
-#endregion
 
 #region Helper
 public class ItemGraphRouteHelper(BnsCustomGraphMapWidget.Edge[] route)
@@ -569,7 +530,7 @@ public class ItemGraphRouteHelper(BnsCustomGraphMapWidget.Edge[] route)
 		});
 	}
 
-	public override string ToString() => Edges.Aggregate("", (a, n) => n.Data.StartItem.Instance.Name + " -> ") +	Edges.LastOrDefault()?.Data.EndItem.Instance.Name;
+	public override string ToString() => Edges.Aggregate("", (a, n) => n.Data.StartItem.Value.Name + " -> ") + Edges.FirstOrDefault()?.Data.EndItem.Value.Name;
 
 	public IReadOnlyDictionary<Item, int> Ingredients
 	{

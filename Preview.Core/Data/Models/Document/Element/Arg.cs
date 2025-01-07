@@ -35,7 +35,7 @@ public class Arg : HtmlElementNode
 						case "id":
 							// Prevent designer request to load data
 							//if (!Settings.Default.Text_LoadData && !Globals.GameData.IsInitialized) return;
-							obj = new Ref<ModelElement>(Id).Instance;
+							obj = new Ref<ModelElement>(Id).Value;
 							break;
 
 						case "seq":

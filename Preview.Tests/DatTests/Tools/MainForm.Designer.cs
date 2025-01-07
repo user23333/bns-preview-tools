@@ -34,6 +34,9 @@
 			button39 = new Button();
 			ModifyBin = new TabPage();
 			groupBox5 = new GroupBox();
+			textBox2 = new TextBox();
+			label3 = new Label();
+			button1 = new Button();
 			textBox3 = new TextBox();
 			label2 = new Label();
 			button4 = new Button();
@@ -42,17 +45,9 @@
 			textBox1 = new TextBox();
 			label1 = new Label();
 			button8 = new Button();
-			groupBox4 = new GroupBox();
-			label3 = new Label();
-			checkBox13 = new CheckBox();
-			button2 = new Button();
-			Txt_Bin_Data = new TextBox();
-			button1 = new Button();
 			ModifyData = new TabPage();
 			checkBox1 = new CheckBox();
 			button3 = new Button();
-			label6 = new Label();
-			trackBar1 = new TrackBar();
 			lbDat = new Label();
 			bntSearchDat = new Button();
 			txbDatFile = new TextBox();
@@ -82,9 +77,7 @@
 			groupBox2.SuspendLayout();
 			ModifyBin.SuspendLayout();
 			groupBox5.SuspendLayout();
-			groupBox4.SuspendLayout();
 			ModifyData.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)trackBar1).BeginInit();
 			tabControl1.SuspendLayout();
 			tabPage2.SuspendLayout();
 			tabPage3.SuspendLayout();
@@ -136,7 +129,6 @@
 			// ModifyBin
 			// 
 			ModifyBin.Controls.Add(groupBox5);
-			ModifyBin.Controls.Add(groupBox4);
 			ModifyBin.Location = new Point(4, 26);
 			ModifyBin.Margin = new Padding(4);
 			ModifyBin.Name = "ModifyBin";
@@ -148,6 +140,9 @@
 			// 
 			// groupBox5
 			// 
+			groupBox5.Controls.Add(textBox2);
+			groupBox5.Controls.Add(label3);
+			groupBox5.Controls.Add(button1);
 			groupBox5.Controls.Add(textBox3);
 			groupBox5.Controls.Add(label2);
 			groupBox5.Controls.Add(button4);
@@ -156,39 +151,69 @@
 			groupBox5.Controls.Add(textBox1);
 			groupBox5.Controls.Add(label1);
 			groupBox5.Controls.Add(button8);
-			groupBox5.Dock = DockStyle.Bottom;
-			groupBox5.Location = new Point(4, 135);
+			groupBox5.Dock = DockStyle.Fill;
+			groupBox5.Location = new Point(4, 4);
 			groupBox5.Margin = new Padding(4);
 			groupBox5.Name = "groupBox5";
 			groupBox5.Padding = new Padding(4);
-			groupBox5.Size = new Size(865, 131);
+			groupBox5.Size = new Size(865, 262);
 			groupBox5.TabIndex = 95;
 			groupBox5.TabStop = false;
 			groupBox5.Text = "反序列";
 			// 
+			// textBox2
+			// 
+			textBox2.Location = new Point(90, 23);
+			textBox2.Margin = new Padding(4);
+			textBox2.Name = "textBox2";
+			textBox2.Size = new Size(530, 23);
+			textBox2.TabIndex = 106;
+			textBox2.Text = "D:\\Tencent\\bns_test\\Game\\BNSNEO";
+			// 
+			// label3
+			// 
+			label3.AutoSize = true;
+			label3.Font = new Font("微软雅黑", 10F);
+			label3.Location = new Point(8, 25);
+			label3.Margin = new Padding(4, 0, 4, 0);
+			label3.Name = "label3";
+			label3.Size = new Size(51, 20);
+			label3.TabIndex = 105;
+			label3.Text = "Folder";
+			// 
+			// button1
+			// 
+			button1.Location = new Point(648, 20);
+			button1.Margin = new Padding(4);
+			button1.Name = "button1";
+			button1.Size = new Size(75, 30);
+			button1.TabIndex = 104;
+			button1.Text = "浏览";
+			button1.UseVisualStyleBackColor = true;
+			button1.Click += button1_Click;
+			// 
 			// textBox3
 			// 
-			textBox3.Location = new Point(89, 73);
+			textBox3.Location = new Point(90, 105);
 			textBox3.Margin = new Padding(4);
 			textBox3.Name = "textBox3";
 			textBox3.Size = new Size(530, 23);
 			textBox3.TabIndex = 103;
-			textBox3.Text = "D:\\资源\\客户端相关\\Auto\\data";
 			// 
 			// label2
 			// 
 			label2.AutoSize = true;
 			label2.Font = new Font("微软雅黑", 10F);
-			label2.Location = new Point(7, 73);
+			label2.Location = new Point(8, 105);
 			label2.Margin = new Padding(4, 0, 4, 0);
 			label2.Name = "label2";
-			label2.Size = new Size(65, 20);
+			label2.Size = new Size(57, 20);
 			label2.TabIndex = 102;
-			label2.Text = "输出目录";
+			label2.Text = "Output";
 			// 
 			// button4
 			// 
-			button4.Location = new Point(648, 73);
+			button4.Location = new Point(649, 104);
 			button4.Margin = new Padding(4);
 			button4.Name = "button4";
 			button4.Size = new Size(75, 30);
@@ -221,7 +246,7 @@
 			// 
 			// textBox1
 			// 
-			textBox1.Location = new Point(89, 28);
+			textBox1.Location = new Point(90, 64);
 			textBox1.Margin = new Padding(4);
 			textBox1.Name = "textBox1";
 			textBox1.Size = new Size(530, 23);
@@ -232,16 +257,16 @@
 			// 
 			label1.AutoSize = true;
 			label1.Font = new Font("微软雅黑", 10F);
-			label1.Location = new Point(7, 30);
+			label1.Location = new Point(8, 65);
 			label1.Margin = new Padding(4, 0, 4, 0);
 			label1.Name = "label1";
-			label1.Size = new Size(51, 20);
+			label1.Size = new Size(70, 20);
 			label1.TabIndex = 90;
-			label1.Text = "表定义";
+			label1.Text = "TableDef";
 			// 
 			// button8
 			// 
-			button8.Location = new Point(647, 25);
+			button8.Location = new Point(648, 61);
 			button8.Margin = new Padding(4);
 			button8.Name = "button8";
 			button8.Size = new Size(75, 30);
@@ -250,79 +275,10 @@
 			button8.UseVisualStyleBackColor = true;
 			button8.Click += button8_Click;
 			// 
-			// groupBox4
-			// 
-			groupBox4.Controls.Add(label3);
-			groupBox4.Controls.Add(checkBox13);
-			groupBox4.Controls.Add(button2);
-			groupBox4.Controls.Add(Txt_Bin_Data);
-			groupBox4.Controls.Add(button1);
-			groupBox4.Dock = DockStyle.Top;
-			groupBox4.Location = new Point(4, 4);
-			groupBox4.Name = "groupBox4";
-			groupBox4.Size = new Size(865, 117);
-			groupBox4.TabIndex = 94;
-			groupBox4.TabStop = false;
-			// 
-			// label3
-			// 
-			label3.AutoSize = true;
-			label3.Font = new Font("微软雅黑", 10F);
-			label3.Location = new Point(6, 24);
-			label3.Margin = new Padding(4, 0, 4, 0);
-			label3.Name = "label3";
-			label3.Size = new Size(65, 20);
-			label3.TabIndex = 63;
-			label3.Text = "游戏目录";
-			// 
-			// checkBox13
-			// 
-			checkBox13.AutoSize = true;
-			checkBox13.Location = new Point(16, 71);
-			checkBox13.Margin = new Padding(4);
-			checkBox13.Name = "checkBox13";
-			checkBox13.Size = new Size(117, 21);
-			checkBox13.TabIndex = 93;
-			checkBox13.Text = "直接处理bin文件";
-			checkBox13.UseVisualStyleBackColor = true;
-			// 
-			// button2
-			// 
-			button2.Location = new Point(647, 17);
-			button2.Margin = new Padding(4);
-			button2.Name = "button2";
-			button2.Size = new Size(75, 34);
-			button2.TabIndex = 62;
-			button2.Text = "浏览";
-			button2.UseVisualStyleBackColor = true;
-			button2.Click += button2_Click;
-			// 
-			// Txt_Bin_Data
-			// 
-			Txt_Bin_Data.Location = new Point(89, 23);
-			Txt_Bin_Data.Margin = new Padding(4);
-			Txt_Bin_Data.Name = "Txt_Bin_Data";
-			Txt_Bin_Data.Size = new Size(530, 23);
-			Txt_Bin_Data.TabIndex = 64;
-			Txt_Bin_Data.DoubleClick += DoubleClickPath;
-			// 
-			// button1
-			// 
-			button1.Location = new Point(757, 17);
-			button1.Margin = new Padding(4);
-			button1.Name = "button1";
-			button1.Size = new Size(75, 34);
-			button1.TabIndex = 65;
-			button1.Text = "提取";
-			button1.UseVisualStyleBackColor = true;
-			button1.Click += Button1_Click;
-			// 
 			// ModifyData
 			// 
 			ModifyData.Controls.Add(checkBox1);
 			ModifyData.Controls.Add(button3);
-			ModifyData.Controls.Add(label6);
-			ModifyData.Controls.Add(trackBar1);
 			ModifyData.Controls.Add(lbDat);
 			ModifyData.Controls.Add(bntSearchDat);
 			ModifyData.Controls.Add(txbDatFile);
@@ -366,29 +322,6 @@
 			button3.Text = "patch";
 			button3.UseVisualStyleBackColor = true;
 			button3.Click += button3_Click;
-			// 
-			// label6
-			// 
-			label6.AutoSize = true;
-			label6.Font = new Font("微软雅黑", 12F);
-			label6.Location = new Point(486, 203);
-			label6.Margin = new Padding(4, 0, 4, 0);
-			label6.Name = "label6";
-			label6.Size = new Size(256, 21);
-			label6.TabIndex = 23;
-			label6.Text = "->       处理速度变慢，压缩率提高";
-			// 
-			// trackBar1
-			// 
-			trackBar1.BackColor = SystemColors.Window;
-			trackBar1.Location = new Point(486, 179);
-			trackBar1.Margin = new Padding(4);
-			trackBar1.Maximum = 3;
-			trackBar1.Name = "trackBar1";
-			trackBar1.Size = new Size(376, 45);
-			trackBar1.TabIndex = 22;
-			trackBar1.Value = 1;
-			trackBar1.ValueChanged += trackBar1_ValueChanged;
 			// 
 			// lbDat
 			// 
@@ -636,7 +569,6 @@
 			Btn_Split.TabIndex = 47;
 			Btn_Split.Text = "4字节拆分";
 			Btn_Split.UseVisualStyleBackColor = true;
-			Btn_Split.Click += Btn_Split_Click;
 			// 
 			// button5
 			// 
@@ -714,11 +646,8 @@
 			ModifyBin.ResumeLayout(false);
 			groupBox5.ResumeLayout(false);
 			groupBox5.PerformLayout();
-			groupBox4.ResumeLayout(false);
-			groupBox4.PerformLayout();
 			ModifyData.ResumeLayout(false);
 			ModifyData.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)trackBar1).EndInit();
 			tabControl1.ResumeLayout(false);
 			tabPage2.ResumeLayout(false);
 			tabPage2.PerformLayout();
@@ -733,14 +662,8 @@
 		private TabPage ModifyBin;
 		private Button button38;
 		private Button HeadDump;
-		private TextBox Txt_Bin_Data;
-		private Button button1;
-		private Label label3;
-		private Button button2;
 		private CheckBox Chk_Backup;
 		private TabPage ModifyData;
-		private Label label6;
-		private TrackBar trackBar1;
 		private Label lbDat;
 		private Button bntSearchDat;
 		private TextBox txbDatFile;
@@ -755,9 +678,7 @@
 		private Button button3;
 		private CheckBox checkBox1;
 		private Button button7;
-		private CheckBox checkBox13;
 		private Button button16;
-		private GroupBox groupBox4;
 		private GroupBox groupBox5;
 		private Button button6;
 		private TextBox textBox1;
@@ -780,5 +701,8 @@
 		private Button button15;
 		private RichTextBox richTextBox1;
 		private Button Btn_Split;
+		private TextBox textBox2;
+		private Label label3;
+		private Button button1;
 	}
 }

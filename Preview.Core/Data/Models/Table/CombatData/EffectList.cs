@@ -20,7 +20,7 @@ public class EffectList : ModelElement , IEnumerable
 	{
 		for (int i = 0; i < EffectTotalCount; i++)
 		{
-			var s = Effect[i].Instance?.Attributes["description-item-random-option"].GetText();
+			var s = Effect[i].Value?.Attributes["description-item-random-option"].GetText();
 			var w = (double)EffectWeight[i] / EffectTotalWeight;
 
 			yield return new Tuple<string, double>(s, w);

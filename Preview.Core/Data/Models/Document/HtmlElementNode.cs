@@ -28,24 +28,22 @@ public abstract class HtmlElementNode : HtmlNode
     #endregion
 
     #region Methods
-
     internal static HtmlNode CreateNode(string name, HtmlDocument ownerdocument, int index)
     {
-        if (!_classes.TryGetValue(name, out var type))
+        if (_classes.TryGetValue(name, out var type))
         {
-            Debug.WriteLine("unknown tag: " + name);
-            return new HtmlNode(HtmlNodeType.Element, ownerdocument, index);
-        }
-        else
-        {
-            var node = (HtmlNode)Activator.CreateInstance(type);
-            node._ownerdocument = ownerdocument;
-            node._outerstartindex = index;
+			var node = (HtmlNode)Activator.CreateInstance(type);
+			node._ownerdocument = ownerdocument;
+			node._outerstartindex = index;
 
 			return node;
+		}
+        else
+        {
+			Debug.WriteLine("unknown tag: " + name);
+			return new HtmlNode(HtmlNodeType.Element, ownerdocument, index);
         }
     }
-
 
     protected T GetAttributeValue<T>(T def = default, [CallerMemberName] string name = null)
     {
@@ -56,6 +54,5 @@ public abstract class HtmlElementNode : HtmlNode
     {
         return SetAttributeValue(name, value);
     }
-
     #endregion
 }

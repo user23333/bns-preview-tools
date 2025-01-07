@@ -8,9 +8,9 @@ using System.Windows.Automation.Peers;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using CUE4Parse.UE4.Objects.Core;
 using Xylia.Preview.UI.Controls.Automation.Peers;
 using Xylia.Preview.UI.Controls.Helpers;
-using Xylia.Preview.UI.Converters;
 
 namespace Xylia.Preview.UI.Controls.Primitives;
 /// <summary>
@@ -174,7 +174,7 @@ public class BnsCustomSourceBaseWidget : BnsCustomBaseWidget
 	/// setting it to null has no effect.
 	/// </remarks>
 	[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-	public IEnumerable ItemsSource
+	public IEnumerable? ItemsSource
 	{
 		get => Items.ItemsSource;
 		set
@@ -556,14 +556,13 @@ public class BnsCustomSourceBaseWidget : BnsCustomBaseWidget
 	///     Flags:              none
 	///     Default Value:      null
 	/// </summary>
-	public static readonly DependencyProperty ItemsPanelProperty
-		= DependencyProperty.Register("ItemsPanel", typeof(WidgetTemplate), typeof(BnsCustomSourceBaseWidget),
-			   new FrameworkPropertyMetadata(GetDefaultWidgetTemplate(),
-				   new PropertyChangedCallback(OnItemsPanelChanged)));
+	public static readonly DependencyProperty ItemsPanelProperty =
+		DependencyProperty.Register("ItemsPanel", typeof(WidgetTemplate), typeof(BnsCustomSourceBaseWidget),
+			new FrameworkPropertyMetadata(GetDefaultWidgetTemplate(), OnItemsPanelChanged));
 
 	private static FrameworkTemplate GetDefaultWidgetTemplate()
 	{
-		var template = new WidgetTemplate(new FrameworkElementFactory(typeof(VerticalBox)));
+		var template = new WidgetTemplate(new FrameworkElementFactory(typeof(VerticalBox)));	
 		template.Seal();
 		return template;
 	}
@@ -706,29 +705,6 @@ public class BnsCustomSourceBaseWidget : BnsCustomBaseWidget
 	}
 
 	/// <summary>
-	///     Called when a KeyDown event is received.
-	/// </summary>
-	/// <param name="e"></param>
-	protected override void OnKeyDown(KeyEventArgs e)
-	{
-		base.OnKeyDown(e);
-		//if (IsTextSearchEnabled)
-		//{
-		//	// If the pressed the backspace key, delete the last character
-		//	// in the TextSearch current prefix.
-		//	if (e.Key == Key.Back)
-		//	{
-		//		TextSearch instance = TextSearch.EnsureInstance(this);
-
-		//		if (instance != null)
-		//		{
-		//			instance.DeleteLastCharacter();
-		//		}
-		//	}
-		//}
-	}
-
-	/// <summary>
 	/// Determine whether the ItemContainerStyle/StyleSelector should apply to the container
 	/// </summary>
 	/// <returns>true if the ItemContainerStyle should apply to the item</returns>
@@ -764,31 +740,16 @@ public class BnsCustomSourceBaseWidget : BnsCustomBaseWidget
 			{
 				SetValue(ItemTemplateSelectorProperty, itemTemplateSelector);
 			}
-			//if (itemStringFormat != null &&
-			//	Helper.HasDefaultValue(this, ItemStringFormatProperty))
-			//{
-			//	SetValue(ItemStringFormatProperty, itemStringFormat);
-			//}
-			//if (itemContainerStyle != null &&
-			//	Helper.HasDefaultValue(this, ItemContainerStyleProperty))
-			//{
-			//	SetValue(ItemContainerStyleProperty, itemContainerStyle);
-			//}
-			//if (itemContainerStyleSelector != null &&
-			//	Helper.HasDefaultValue(this, ItemContainerStyleSelectorProperty))
-			//{
-			//	SetValue(ItemContainerStyleSelectorProperty, itemContainerStyleSelector);
-			//}
-			//if (alternationCount != 0 &&
-			//	Helper.HasDefaultValue(this, AlternationCountProperty))
-			//{
-			//	SetValue(AlternationCountProperty, alternationCount);
-			//}
-			//if (itemBindingGroup != null &&
-			//	Helper.HasDefaultValue(this, ItemBindingGroupProperty))
-			//{
-			//	SetValue(ItemBindingGroupProperty, itemBindingGroup);
-			//}
+			if (itemContainerStyle != null &&
+				WidgetHelpers.HasDefaultValue(this, ItemContainerStyleProperty))
+			{
+				SetValue(ItemContainerStyleProperty, itemContainerStyle);
+			}
+			if (itemContainerStyleSelector != null &&
+				WidgetHelpers.HasDefaultValue(this, ItemContainerStyleSelectorProperty))
+			{
+				SetValue(ItemContainerStyleSelectorProperty, itemContainerStyleSelector);
+			}
 		}
 	}
 
@@ -806,6 +767,21 @@ public class BnsCustomSourceBaseWidget : BnsCustomBaseWidget
 	#endregion
 
 	#region Private Methods
+
+	private void TestMethod()
+	{
+		Children.Clear();
+
+		var panel = (UserWidget)ItemsPanel.LoadContent();
+		Children.Add(panel, FLayout.Anchor.Full);
+
+		foreach (var item in Items)
+		{
+			var widget = new BnsCustomListBoxItemWidget() { DataContext = item };
+			widget.Children.Add((FrameworkElement)ItemTemplate.LoadContent(), FLayout.Anchor.Full);
+			panel.Children.Add(widget);
+		}
+	}
 
 	private void ApplyItemContainerStyle(DependencyObject container, object item)
 	{
@@ -858,42 +834,26 @@ public class BnsCustomSourceBaseWidget : BnsCustomBaseWidget
 		//}
 	}
 
-	//internal object GetItemOrContainerFromContainer(DependencyObject container)
-	//{
-	//	//object item = ItemContainerGenerator.ItemFromContainer(container);
+	internal object GetItemOrContainerFromContainer(DependencyObject container)
+	{
+		//object item = ItemContainerGenerator.ItemFromContainer(container);
 
-	//	//if (item == DependencyProperty.UnsetValue
-	//	//	&& BnsCustomSourceBaseWidgetFromItemContainer(container) == this
-	//	//	&& this.IsItemItsOwnContainer(container))
-	//	//{
-	//	//	item = container;
-	//	//}
+		//if (item == DependencyProperty.UnsetValue
+		//	&& BnsCustomSourceBaseWidgetFromItemContainer(container) == this
+		//	&& this.IsItemItsOwnContainer(container))
+		//{
+		//	item = container;
+		//}
 
-	//	//return item;
-	//}
+		//return item;
+		return null;
+	}
 
 	#endregion
 
 	#region Data
 	private ItemCollection _items;                      // Cache for Items property
 	#endregion
-
-
-	public void TestMethod()
-	{
-		Children.Clear();
-
-		var panel = (UserWidget)ItemsPanel.LoadContent();
-		Children.Add(panel, LayoutData.GetAnchors(this));
-
-		foreach (var item in Items)
-		{
-			var child = (FrameworkElement)ItemTemplate.LoadContent();
-			child.DataContext = item;
-
-			panel.Children.Add(child);
-		}
-	}
 }
 
 /// <summary>

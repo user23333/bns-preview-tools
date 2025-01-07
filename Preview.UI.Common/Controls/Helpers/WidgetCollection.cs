@@ -17,12 +17,14 @@ public class WidgetCollection(UserWidget parent) : UIElementCollection(parent, p
 		itor.Reset();
 		while (itor.MoveNext())
 		{
-			if (itor.Current is BnsCustomBaseWidget bwidget)
+			if (itor.Current is BnsCustomBaseWidget widget)
 			{
-				var index = elements.IndexOf(bwidget);
+				var index = elements.IndexOf(widget);
 
-				ChangeIndex(elements, index, parent.GetChild<UIElement>(bwidget.HorizontalResizeLink?.LinkWidgetName1, true));
-				ChangeIndex(elements, index, parent.GetChild<UIElement>(bwidget.VerticalResizeLink?.LinkWidgetName1, true));
+				ChangeIndex(elements, index, parent.GetChild<UIElement>(widget.HorizontalResizeLink?.LinkWidgetName1, true));
+				ChangeIndex(elements, index, parent.GetChild<UIElement>(widget.HorizontalResizeLink?.LinkWidgetName2, true));
+				ChangeIndex(elements, index, parent.GetChild<UIElement>(widget.VerticalResizeLink?.LinkWidgetName1, true));
+				ChangeIndex(elements, index, parent.GetChild<UIElement>(widget.VerticalResizeLink?.LinkWidgetName2, true));
 			}
 		}
 

@@ -240,7 +240,7 @@ public class BnsCustomSliderBarWidget : BnsCustomRangeBaseWidget
 	{
 		base.OnInitialized(e);
 
-		Marker = this.GetChild<BnsCustomLabelButtonWidget>("Marker");
+		Marker = this.GetChild<BnsCustomLabelButtonWidget>("Marker")!;
 		Marker.PreviewMouseLeftButtonDown += Marker_OnMouseLeftButtonDown;
 		Marker.PreviewMouseLeftButtonUp += Marker_OnMouseLeftButtonUp;
 		Marker.PreviewMouseMove += Marker_OnMouseMove;

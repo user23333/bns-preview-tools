@@ -119,7 +119,10 @@ public class P : BaseElement<Data.Models.Document.P>
 		var doc = new HtmlDocument();
 		doc.LoadHtml(text);
 
-		if (property.fontset is null) this.LoadChildren(doc.DocumentNode);
+		if (property.fontset is null)
+		{
+			this.LoadChildren(doc.DocumentNode);
+		}
 		else
 		{
 			var font = new Font() { Name = property.fontset.GetPathName() };

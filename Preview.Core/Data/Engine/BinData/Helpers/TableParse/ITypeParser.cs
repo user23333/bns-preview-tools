@@ -31,22 +31,25 @@ public interface ITypeParser
             if (def.Type == 0 && TryGetKey(def.Name, out var _type))
                 def.Type = _type;
 
-            foreach (var attribute in def.ElRecord.ExpandedAttributes)
+            foreach (var element in def.Elements)
             {
-                var TypeName = attribute.ReferedTableName;
-                if (TypeName != null && TryGetKey(TypeName, out var type))
-                    attribute.ReferedTable = type;
-            }
+				foreach (var attribute in element.ExpandedAttributes)
+				{
+					var TypeName = attribute.ReferedTableName;
+					if (TypeName != null && TryGetKey(TypeName, out var type))
+						attribute.ReferedTable = type;
+				}
 
-            foreach (var subtable in def.ElRecord.Subtables)
-            {
-                foreach (var attribute in subtable.ExpandedAttributes)
-                {
-                    var TypeName = attribute.ReferedTableName;
-                    if (TypeName != null && TryGetKey(TypeName, out var type))
-                        attribute.ReferedTable = type;
-                }
-            }
+				foreach (var subtable in element.Subtables)
+				{
+					foreach (var attribute in subtable.ExpandedAttributes)
+					{
+						var TypeName = attribute.ReferedTableName;
+						if (TypeName != null && TryGetKey(TypeName, out var type))
+							attribute.ReferedTable = type;
+					}
+				}
+			}
         }
     }
 }

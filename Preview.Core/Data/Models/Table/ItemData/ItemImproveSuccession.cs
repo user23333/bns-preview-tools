@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Engine.DatData;
 
 namespace Xylia.Preview.Data.Models;
@@ -73,10 +72,9 @@ public sealed class ItemImproveSuccession : ModelElement
 		// Otherwise , use the feed-item as the MainItem 
 		var FeedMainIngredient = Attributes.Get<Item>("feed-main-ingredient");
 		var FeedMainIngredientCount = Attributes.Get<short>("feed-main-ingredient-count");
-		var FeedSubIngredient = LinqExtensions.For(8, (id) => Attributes.Get<Item>($"feed-sub-ingredient-{id}"));
-		var FeedSubIngredientCount = LinqExtensions.For(8, (id) => Attributes.Get<short>($"feed-sub-ingredient-count-{id}"));
+		var FeedSubIngredient = Attributes.Get<Item[]>($"feed-sub-ingredient");
+		var FeedSubIngredientCount = Attributes.Get<short[]>($"feed-sub-ingredient-count");
 		var CostMoney = Attributes.Get<int>("cost-money");
-
 
 		var recipe = new RecipeHelper
 		{

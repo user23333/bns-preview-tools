@@ -54,13 +54,7 @@ internal class TableArchive
 			Marshal.Copy((nint)rowMemory.DataBegin, buffer, 0, rowMemory.DataSize);
 			Marshal.Copy((nint)rowMemory.StringBufferBegin, stringBuffer, 0, rowMemory.StringBufferSize);
 
-			var row = new Record
-			{
-				Owner = table,
-				Data = buffer,
-				StringLookup = new StringLookup { IsPerTable = false, Data = stringBuffer },
-			};
-
+			var row = new Record(table, buffer, new StringLookup { IsPerTable = false, Data = stringBuffer });
 			records.Add(row);
 		}
 
@@ -85,15 +79,9 @@ internal class TableArchive
 			// XmlNodeType = -1	 SubclassType = -1	DataSize=6
 			if (rowMemory.DataSize == 6) continue;
 
-			var row = new Record
-			{
-				Owner = table,
-				Data = new byte[rowMemory.DataSize],
-				StringLookup = stringLookup
-			};
-
-			Marshal.Copy((nint)rowMemory.DataBegin, row.Data, 0, rowMemory.DataSize);
-			records.Add(row);
+			var buffer = new byte[rowMemory.DataSize];
+			Marshal.Copy((nint)rowMemory.DataBegin, buffer, 0, rowMemory.DataSize);
+			records.Add(new Record(table, buffer, stringLookup));
 		}
 
 		table.Records = records;

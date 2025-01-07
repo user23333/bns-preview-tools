@@ -18,7 +18,7 @@ public sealed class DatafileDirect : ITypeParser
 	{
 		ushort type = 0;
 
-		foreach (var definition in definitions.OrderBy(x => x.Name.Replace("-", null) + "data"))
+		foreach (var definition in definitions.OrderBy(x => x.Name, TableNameComparer.Instance))
 		{
 			if (definition.Type == 0) definition.Type = ++type;
 			else type = definition.Type;

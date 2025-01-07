@@ -1,16 +1,17 @@
 ﻿using System.Collections.Concurrent;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using OfficeOpenXml;
-using Xylia.Preview.Common.Extension;
+using Xylia.Preview.Data.Client;
 using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Engine.BinData.Helpers;
 using Xylia.Preview.Data.Models;
 using Xylia.Preview.Data.Models.Document;
 using Xylia.Preview.Data.Models.Sequence;
 using Xylia.Preview.UI.ViewModels;
-using Xylia.Preview.UI.Views.Selector;
+using Xylia.Preview.UI.Views.Dialogs;
 
 namespace Xylia.Preview.UI.Helpers.Output.Tables;
 internal sealed class ItemOut : OutSet, IDisposable
@@ -34,32 +35,24 @@ internal sealed class ItemOut : OutSet, IDisposable
 		refs.AddRange(Data.Select(item => item.PrimaryKey));
 		#endregion
 
-		#region Init
-		var createdAt = Source!.Provider.CreatedAt;
-		var outdir = Path.Combine(
-			UserSettings.Default.OutputFolder, "output", "item",
-			createdAt.ToString("yyyyMM"),
-			createdAt.ToString("dd hhmm"));
+		#region Output  
+		var source = (IEngine)Source;
+		var path = Path.Combine(UserSettings.Default.OutputFolder, source.Desc, "Extract",
+			"item_" + source.CreatedAt.ToString("yyyy-MM-dd hh-mm"));
+		var parent = Directory.CreateDirectory(Path.GetDirectoryName(path)!);
 
-		Directory.CreateDirectory(outdir);
-		var Path_Hash = Path.Combine(outdir, $@"{createdAt:yyyy-MM-dd hh-mm}.chv");
-		var Path_Failure = Path.Combine(outdir, @"no_text.txt");
-		var Path_MainFile = Path.Combine(outdir, @"output." + mode.ToString().ToLower());
-		#endregion
-
-		#region Output
 		switch (mode)
 		{
 			case FileModeDialog.FileMode.Xlsx:
 			{
 				var package = new ExcelPackage();
 				CreateData(package);
-				package.SaveAs(Path_MainFile);
+				package.SaveAs(path + ".xlsx");
 				break;
 			}
 			case FileModeDialog.FileMode.Txt:
 			{
-				using var writer = new StreamWriter(new FileStream(Path_MainFile, FileMode.Create));
+				using var writer = new StreamWriter(new FileStream(path + ".txt", FileMode.Create));
 				CreateText(writer);
 				break;
 			}
@@ -67,15 +60,8 @@ internal sealed class ItemOut : OutSet, IDisposable
 			default: throw new NotSupportedException();
 		}
 
-		// extra
-		new HashList(refs).Save(Path_Hash);
-
-		var failures = Data.Where(o => o.Name2 is null);
-		if (failures.Any())
-		{
-			using StreamWriter Out_Failure = new(Path_Failure);
-			failures.OrderBy(o => o.PrimaryKey).ForEach(item => Out_Failure.WriteLine($"{item.PrimaryKey,-15} {item.Alias}"));
-		}
+		new HashList(refs).Save(path + ".chv");
+		Process.Start("explorer.exe", "/e,/root," + parent.FullName);
 		#endregion
 
 		return Data.Count();
@@ -131,6 +117,7 @@ internal sealed class ItemOut : OutSet, IDisposable
 
 	#region Data
 	private HashList? HashList = null;
+
 	private IEnumerable<ItemSimple>? _data = null;
 	private IEnumerable<ItemSimple> Data
 	{
@@ -138,14 +125,14 @@ internal sealed class ItemOut : OutSet, IDisposable
 		{
 			if (_data is null)
 			{
-				var text = TextDiff.BuildPieceHashes(Source!.Provider.GetTable("text"));
 				var items = new BlockingCollection<ItemSimple>();
+				var text = TextDiff.BuildPieceHashes(Source!.Provider.GetTable("text"));
+
 				Parallel.ForEach(Source.Provider.GetTable("item"), record =>
 				{
 					if (HashList != null && HashList.CheckFailed(record.PrimaryKey)) return;
 
-					var data = new ItemSimple(record, text);
-					items.Add(data);
+					items.Add(new ItemSimple(record, text));
 				});
 
 				// final

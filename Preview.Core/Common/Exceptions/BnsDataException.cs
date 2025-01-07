@@ -27,7 +27,7 @@ public class BnsDataException : BnsException
 	#region	Definition
 	internal static void ThrowIfMismatch(EPublisher expected, EPublisher code)
 	{
-		if (expected == EPublisher.None || code == EPublisher.None || expected == code) return;
+		if (expected == EPublisher.Invalid || code == EPublisher.Invalid || expected == code) return;
 
 		if (!Globals.MessageBox?.Show(Globals.TextProvider.Get("Exception_InvalidPublisher_Ask", expected)) ?? true)
 			throw new BnsDataException(BnsDataExceptionCode.InvalidPublisher, code);
@@ -86,5 +86,4 @@ public enum BnsDataExceptionCode
 	InvalidGame,
 	InvalidPublisher,
 	InvalidDefinition,
-	InvalidDefinition_NotFound,
 }

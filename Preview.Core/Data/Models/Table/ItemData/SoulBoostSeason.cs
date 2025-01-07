@@ -69,19 +69,19 @@ public sealed class SoulBoostSeason : ModelElement
 		for (int i = 0; i < Event.GradePoint.Length; i++)
 		{
 			var GradePoint = Event.GradePoint[i];
-			var GradeReward = Event.GradeReward[i].Instance;
-			var BmGradeReward = Event.BmGradeReward[i].Instance;
+			var GradeReward = Event.GradeReward[i].Value;
+			var BmGradeReward = Event.BmGradeReward[i].Value;
 			if (GradePoint == 0) break;
 
 			Debug.WriteLine($"grade {i + 1}");
 			LinqExtensions.Tuple(GradeReward?.Item, GradeReward?.ItemCount)
 				.Where(x => x.Item1.HasValue)
-				.ForEach(x => Debug.WriteLine($" {x.Item1.Instance.Name} {x.Item2}"));
+				.ForEach(x => Debug.WriteLine($" {x.Item1.Value.Name} {x.Item2}"));
 
 			Debug.WriteLine($"grade {i + 1} BM");
 			LinqExtensions.Tuple(BmGradeReward?.Item, BmGradeReward?.ItemCount)
 				.Where(x => x.Item1.HasValue)
-				.ForEach(x => Debug.WriteLine($" {x.Item1.Instance.Name} {x.Item2}"));
+				.ForEach(x => Debug.WriteLine($" {x.Item1.Value.Name} {x.Item2}"));
 		}
 	}
 	#endregion

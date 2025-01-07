@@ -82,9 +82,9 @@ public class SkillTooltip : ModelElement
 		#endregion
 
 		#region ECT
-		var EffectAttributeText = EffectAttribute.Instance?.ToString([Skill.Instance, .. EffectArg], SkillAttackAttributeCoefficientPercent);
-		var ConditionAttributeText = ConditionAttribute.Instance?.ToString([Skill.Instance, .. ConditionArg], SkillAttackAttributeCoefficientPercent);
-		var TargetAttributeText = TargetAttribute.Instance?.ToString();
+		var EffectAttributeText = EffectAttribute.Value?.ToString([Skill.Value, .. EffectArg], SkillAttackAttributeCoefficientPercent);
+		var ConditionAttributeText = ConditionAttribute.Value?.ToString([Skill.Value, .. ConditionArg], SkillAttackAttributeCoefficientPercent);
+		var TargetAttributeText = TargetAttribute.Value?.ToString();
 
 		builder.Append(string.Join(string.Empty, EctOrder switch
 		{
@@ -101,8 +101,8 @@ public class SkillTooltip : ModelElement
 		#region Stance
 		if (AfterStanceAttribute.HasValue)
 		{
-			var AfterStanceAttributeText = AfterStanceAttribute.Instance?.ToString();
-			var BeforeStanceAttributeText = BeforeStanceAttribute.Instance?.ToString();
+			var AfterStanceAttributeText = AfterStanceAttribute.Value?.ToString();
+			var BeforeStanceAttributeText = BeforeStanceAttribute.Value?.ToString();
 
 			builder.Append(BeforeStanceAttribute.HasValue ?
 				"SkillTooltipAttr.stance.before-after".GetText([BeforeStanceAttributeText, AfterStanceAttributeText]) :

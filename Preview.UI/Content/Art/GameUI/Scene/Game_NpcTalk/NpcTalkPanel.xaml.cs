@@ -13,8 +13,8 @@ public partial class NpcTalkPanel
 	{
 		InitializeComponent();
 #if DEVELOP
-		Searcher.Visibility = Visibility.Visible;
-		Searcher.Text = "q_2343_5N";
+		NpcTalkPanel_Searcher.Visibility = Visibility.Visible;
+		NpcTalkPanel_Searcher.Text = "q_2343_5N";
 #endif
 	}
 	#endregion
@@ -24,21 +24,21 @@ public partial class NpcTalkPanel
 	{
 		if (e.NewValue is not NpcTalkMessage record) return;
 
-		TestList.ItemsSource = record?.GetSteps().Where(x => x.IsValid);
-		InvalidateVisual();
+		TestList.ItemsSource = record.GetSteps().Where(x => x.IsValid);
+		this.InvalidateMeasure();
 	}
 
-	private void TestButton_Click(object sender, RoutedEventArgs e)
+	private void OnPlayStepShow(object sender, RoutedEventArgs e)
 	{
 		if (sender is not FrameworkElement fe || fe.DataContext is not NpcTalkMessage.NpcTalkMessageStep step) return;
 
 		var show = step.Show.LoadObject<UShowObject>();
-		if (show != null) Application.Current.Dispatcher.Invoke(() => new ShowObjectPlayer(show).Show());
+		if (show != null) ShowObjectPlayer.PlaySound(show);
 	}
 
 	private void Searcher_TextChanged(object sender, TextChangedEventArgs e)
 	{
-		DataContext = Globals.GameData.Provider.GetTable<NpcTalkMessage>()[Searcher.Text];
+		DataContext = Globals.GameData.Provider.GetTable<NpcTalkMessage>()[NpcTalkPanel_Searcher.Text];
 	}
 	#endregion
 }

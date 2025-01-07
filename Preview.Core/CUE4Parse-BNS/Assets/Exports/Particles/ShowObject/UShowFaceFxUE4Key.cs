@@ -3,6 +3,7 @@
 namespace CUE4Parse.BNS.Assets.Exports;
 public sealed class UShowFaceFxUE4Key : ShowKeyBase
 {
-	[UPROPERTY]
-	public FSoftObjectPath FaceFXAnimObj;
+	[UPROPERTY] public FSoftObjectPath FaceFXActorObj;
+	[UPROPERTY] public FSoftObjectPath FaceFXAnimObj;
+	[UPROPERTY] public FPackageIndex FaceFXAnimBlueprintClass;
 }

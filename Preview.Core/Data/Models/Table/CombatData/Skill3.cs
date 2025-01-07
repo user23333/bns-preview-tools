@@ -88,7 +88,7 @@ public abstract class Skill3 : ModelElement, IHaveName
 	#region Methods
 	public string Name => Name2.GetText();
 
-	public ImageProperty FrontIcon => IconTexture.Instance?.GetImage(IconIndex);
+	public ImageProperty FrontIcon => IconTexture.Value?.GetImage(IconIndex);
 
 	public KeyCommand CurrentShortCutKey => KeyCommand.Cast(this.ShortCutKey);
 
@@ -99,7 +99,7 @@ public abstract class Skill3 : ModelElement, IHaveName
 			if (this is ActiveSkill activeSkill)
 			{
 				// NOTE: the method has been modified
-				var CastCondition = activeSkill.GatherRange.Instance;
+				var CastCondition = activeSkill.GatherRange.Value;
 				if (CastCondition is null) return null;
 
 				var RangeMin = CastCondition.RangeCastMin;

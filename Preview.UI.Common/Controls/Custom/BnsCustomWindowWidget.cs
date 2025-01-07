@@ -47,12 +47,6 @@ public class BnsCustomWindowWidget : BnsCustomBaseWidget
 		get => (string)GetValue(TitleProperty);
 		set => SetValue(TitleProperty, value);
 	}
-
-	private static void OnDataChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-	{
-		var widget = (BnsCustomWindowWidget)d;
-		widget.OnDataChanged(e);
-	}
 	#endregion
 
 
@@ -81,11 +75,6 @@ public class BnsCustomWindowWidget : BnsCustomBaseWidget
 		if (background != null) dc.DrawRectangle(background, null, new Rect(RenderSize));
 	}
 
-	protected virtual void OnDataChanged(DependencyPropertyChangedEventArgs e)
-	{
-
-	}
-
 	protected virtual void OnClosing(CancelEventArgs e)
 	{
 		Host = null;
@@ -96,22 +85,34 @@ public class BnsCustomWindowWidget : BnsCustomBaseWidget
 		base.OnKeyUp(e);
 		if (e.Key == Key.Escape) OnCloseClick();
 	}
+
+	private static void OnDataChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+	{
+		var widget = (BnsCustomWindowWidget)d;
+		widget.OnDataChanged(e);
+	}
+
+	protected virtual void OnDataChanged(DependencyPropertyChangedEventArgs e)
+	{
+
+	}
 	#endregion
 
 	#region Public Methods
 	/// <summary>
-	/// Opens a <see langword="PresentationFramework."/><see cref="Window"/> to display the widget
+	/// Opens a <see langword="PresentationFramework."/><see cref="Window"/> to display the widget.
 	/// </summary>
-	public void Show()
+	public void Show(Window? owner = null)
 	{
 		Host ??= new HostWindow(this);
+		Host.SetOwner(owner);
 		Host.Show();
 	}
 	#endregion
 
 
 	#region Private Helpers
-	private Window? Host;
+	private HostWindow? Host;
 	public static implicit operator Window(BnsCustomWindowWidget w) => w.Host ??= new HostWindow(w);
 
 	private class HostWindow : Window
@@ -126,6 +127,7 @@ public class BnsCustomWindowWidget : BnsCustomBaseWidget
 
 			// event
 			Closing += (s, e) => content.OnClosing(e);
+			content.SizeChanged += (s, e) => this.InvalidateMeasure();
 		}
 
 		protected override Size MeasureOverride(Size availableSize)
@@ -141,6 +143,14 @@ public class BnsCustomWindowWidget : BnsCustomBaseWidget
 			return new Size(
 				child.DesiredSize.Width + windowRect.Width - clientRect.Width,
 				child.DesiredSize.Height + windowRect.Height - clientRect.Height);
+		}
+
+		public void SetOwner(Window? owner)
+		{
+			if (owner is null) return;
+
+			Owner = owner;
+			WindowStartupLocation = WindowStartupLocation.CenterOwner;
 		}
 	}
 

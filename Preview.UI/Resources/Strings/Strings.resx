@@ -225,12 +225,19 @@
   </data>
   <data name="Application_UpdateLog" xml:space="preserve">
     <value>
+[ver=3.2.3,time=2025/1/8]
+Optimize the way to get client version.
+Optimize the efficiency of control redraw.
+Optimizing map preview will expand the result when enter filter rule.
+Add preview talk message when click mission in QuestJournal.
+Add preview talk message in `npctalkmessage`.
+
 [ver=3.2.2,time=2024/12/9]
-+Optimize the flow of setting game folder.
-+Optimize the attribute offset in DatabaseStudio to display in hexadecimal format.
-+Optimize the color performance of the text editor in night mode.
-+Optimize item name will display its alias when the name is invalid in debug mode.
-+Fix the issue of items not displaying use condition.
+Optimize the flow of setting game folder.
+Optimize the attribute offset in DatabaseStudio to display in hexadecimal format.
+Optimize the color performance of the text editor in night mode.
+Optimize item name will display its alias when the name is invalid in debug mode.
+Fix the issue of items not displaying use condition.
 
 [ver=3.2.1,time=2024/11/14]
 Database Studio
@@ -240,11 +247,11 @@ Database Studio
 +Add preview world in `terrain` table. (experimental)
 
 Other
-+Optimize text viewer can switch to editable when blank document.
-+Optimize item viewer support filter by grade and job.
-+Fix issue of LIVE server cannot preview item.
-+Fix issue of job reward of item not displayed.
-+Fix issue of incorrect end time of WeeklyTimeTable.
+Optimize text viewer can switch to editable when blank document.
+Optimize item viewer support filter by grade and job.
+Fix issue of LIVE server cannot preview item.
+Fix issue of job reward of item not displayed.
+Fix issue of incorrect end time of WeeklyTimeTable.
 
 [ver=3.2.0,time=2024/9/1]
 Database Studio
@@ -461,6 +468,9 @@ Expand the response rectange with item preview.</value>
   <data name="DatabaseStudio_Text" xml:space="preserve">
     <value>Text</value>
   </data>
+  <data name="DatabaseStudio_ValueRange" xml:space="preserve">
+    <value>Range</value>
+  </data>
   <data name="DatabaseStudio_ViewDefinition" xml:space="preserve">
     <value>View Definition</value>
   </data>
@@ -506,6 +516,9 @@ Expand the response rectange with item preview.</value>
   <data name="Exception_InvalidPublisher_Ask" xml:space="preserve">
     <value>Publisher mismatch! Please go to DatabaseStudio to reconnect firstly.
 Continuing to read may cause read exceptions, should we still continue?</value>
+  </data>
+  <data name="Exception_InvalidTalkMessage" xml:space="preserve">
+    <value>Missing message.</value>
   </data>
   <data name="IconOut_CreateList" xml:space="preserve">
     <value>Output List</value>

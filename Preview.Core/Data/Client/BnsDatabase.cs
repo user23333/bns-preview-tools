@@ -1,5 +1,6 @@
 ﻿using CUE4Parse.UE4.Pak;
 using Xylia.Preview.Common.Exceptions;
+using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Data.Engine.Definitions;
 using Xylia.Preview.Data.Models;
@@ -163,9 +164,8 @@ public class BnsDatabase : IEngine, IDisposable
 
 	#region Interface
 	string IEngine.Name => Provider.Name;
-	string IEngine.Desc => Path.Combine(
-		Provider.Locale.Publisher.ToString(),
-		Provider.CreatedAt.ToString("yyMMdd", null));
+	string IEngine.Desc => "GameData_" + Provider.Locale.Publisher.ToString();
+	Time64 IEngine.CreatedAt => Provider.CreatedAt;
 
 	public void Dispose()
 	{

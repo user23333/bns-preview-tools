@@ -24,7 +24,7 @@ public sealed class SkillBuildUpGroup : ModelElement, IEnumerable<string>
 
 		for (int i = 0; i < SkillBuildUpSkillTotalCount; i++)
 		{
-			var build = SkillBuildUpSkill[i].Instance;
+			var build = SkillBuildUpSkill[i].Value;
 			if (build is null) continue;
 
 			var min = SkillBuildUpSkillLevelMin[i];

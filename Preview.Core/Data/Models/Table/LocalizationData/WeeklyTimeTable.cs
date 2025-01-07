@@ -1,4 +1,5 @@
-﻿using Xylia.Preview.Data.Models.Sequence;
+﻿using Xylia.Preview.Data.Common.Abstractions;
+using Xylia.Preview.Data.Models.Sequence;
 
 namespace Xylia.Preview.Data.Models;
 public sealed class WeeklyTimeTable : ModelElement
@@ -41,15 +42,15 @@ public sealed class WeeklyTimeTable : ModelElement
 
 	#region Helpers
 	public struct WeeklyTimePeriod
-	{
-		public WeeklyTimeTable Data;
+	{		
+		public ModelElement Data;
 		public DayOfWeekSeq DayOfWeek;
 		public sbyte StartHour;
 		public sbyte StartMinute;
 		public sbyte EndHour;
 		public sbyte EndMinute;
 
-		public readonly override string ToString() => $"[{StartHour}:{StartMinute:00}~{EndHour}:{EndMinute:00}] {Data}";
+		public readonly override string ToString() => $"[{StartHour}:{StartMinute:00}~{EndHour}:{EndMinute:00}] {Data.GetName()}";
 	}
 
 	public List<WeeklyTimePeriod> GetPeriods()

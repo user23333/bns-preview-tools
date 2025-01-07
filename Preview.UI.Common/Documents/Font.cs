@@ -2,6 +2,7 @@
 using System.Windows.Media;
 using CUE4Parse.BNS.Assets.Exports;
 using Xylia.Preview.Common;
+using Xylia.Preview.Data.Models.Document;
 
 namespace Xylia.Preview.UI.Documents;
 public class Font : BaseElement<Data.Models.Document.Font>
@@ -20,33 +21,44 @@ public class Font : BaseElement<Data.Models.Document.Font>
 	#endregion
 
 	#region Public Properties
-	/// <summary>
-	/// fontset path
-	/// </summary>
-	public string? Name;
+	public static readonly DependencyProperty NameProperty = DependencyProperty.Register("Name",
+		typeof(string), typeof(Font), new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.AffectsRender, OnFontChanged));
 
-	public static readonly DependencyProperty TextDecorationsProperty = DependencyProperty.Register("TextDecorations",
+	public string Name
+	{
+		get => (string)GetValue(NameProperty);
+		set => SetValue(NameProperty, value);
+	}
+
+	internal static readonly DependencyProperty TextDecorationsProperty = DependencyProperty.Register("TextDecorations",
 		typeof(TextDecorationCollection), typeof(Font), new FrameworkPropertyMetadata(new TextDecorationCollection(),
 			FrameworkPropertyMetadataOptions.AffectsRender));
 
-	public TextDecorationCollection TextDecorations
+	internal TextDecorationCollection TextDecorations
 	{
 		get => (TextDecorationCollection)GetValue(TextDecorationsProperty);
 		set => SetValue(TextDecorationsProperty, value);
 	}
 	#endregion
 
-
 	#region Override Methods
-	protected override Size MeasureCore(Size availableSize)
+	protected internal override void Load(HtmlNode node)
 	{
-		GetFont(Globals.GameProvider.LoadObject<UFontSet>(Name));
-		return base.MeasureCore(availableSize);
+		Name = node.GetAttributeValue<string>("name");
+		LoadChildren(node);
 	}
 	#endregion
 
 	#region Private Methods
-	private void GetFont(UFontSet fontset)
+	private static void OnFontChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+	{
+		if (e.OldValue == e.NewValue) return;
+
+		var font = (Font)d;
+		font.OnFontChanged(Globals.GameProvider.LoadObject<UFontSet>((string)e.NewValue));
+	}
+
+	private void OnFontChanged(UFontSet fontset)
 	{
 		if (fontset is null) return;
 

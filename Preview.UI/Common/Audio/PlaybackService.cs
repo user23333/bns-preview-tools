@@ -93,7 +93,8 @@ public class PlaybackService
 
 	public bool Shuffle
 	{
-		get { return this.shuffle; }
+		get => this.shuffle;
+		set => this.SetShuffle(value);
 	}
 
 	public bool Mute
@@ -181,7 +182,7 @@ public class PlaybackService
 	}
 	#endregion
 
-	#region Constructorss
+	#region Constructors
 	public PlaybackService()
 	{
 		this.context = SynchronizationContext.Current;

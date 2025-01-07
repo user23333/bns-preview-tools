@@ -65,7 +65,7 @@ public struct Ref(int id, int variant = 0) : IComparable<Ref>
 			this.Id - other.Id;
 	}
 
-	public readonly Record GetRecord(IDataProvider provider, ushort type)
+	public readonly Record GetRecord(IDataProvider provider, ushort type, ushort element)
 	{
 		if (this == default) return null;
 

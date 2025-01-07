@@ -12,9 +12,9 @@ public static class CreateEnum
         var xml = new XmlDocument();
         xml.LoadXml($"<?xml version=\"1.0\"?>\n<table>{text}</table>");
 
-        foreach (XmlElement attribute in xml.SelectNodes("table/attribute"))
+		foreach (XmlElement attribute in xml.SelectNodes("table/attribute"))
         {
-            var sequence = new SequenceDefinitionLoader().Load(attribute);
+			var sequence = new SequenceDefinitionLoader().Load(attribute, AttributeType.TSeq);
             return Instance(sequence);
         }
 

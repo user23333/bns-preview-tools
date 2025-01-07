@@ -24,7 +24,8 @@ public sealed class BossNpc : ModelElement
 
 	public sbyte GpSectionCnt { get; set; }
 
-	public UiStyleSeq UiStyle { get; set; }
+	public UiStyleSeq UiStyle { get; set; }	   
+
 	public enum UiStyleSeq
 	{
 		None,

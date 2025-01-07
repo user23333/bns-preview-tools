@@ -5,7 +5,7 @@ using Xylia.Preview.UI.Controls;
 using Xylia.Preview.UI.GameUI.Scene.Game_Achievement;
 using Xylia.Preview.UI.GameUI.Scene.Game_Tooltip;
 using Xylia.Preview.UI.GameUI.Scene.Game_Tooltip2;
-using Xylia.Preview.UI.Views.Selector;
+using Xylia.Preview.UI.Views.Dialogs;
 using MessageBox = HandyControl.Controls.MessageBox;
 
 namespace Xylia.Preview.UI.Services;
@@ -31,8 +31,8 @@ internal class InitializeService : IService
 		BnsTooltipHolder.RegisterTemplate<RewardTooltipPanel>(typeof(GlyphReward));
 		BnsTooltipHolder.RegisterTemplate<ItemTooltipPanel>(typeof(Item));
 		BnsTooltipHolder.RegisterTemplate<RewardTooltipPanel>(typeof(ItemCombination));
+		BnsTooltipHolder.RegisterTemplate<ItemGraphReceipeTooltipPanel>(typeof(ItemGraph));
 		BnsTooltipHolder.RegisterTemplate<NpcTooltipPanel>(typeof(Npc));
-		//BnsTooltipHolder.RegisterTemplate<NpcTalkPanel>(typeof(NpcTalkMessage));
 		BnsTooltipHolder.RegisterTemplate<RewardTooltipPanel>(typeof(Reward));
 		BnsTooltipHolder.RegisterTemplate<Skill3ToolTipPanel_1>(typeof(Skill3));
 		BnsTooltipHolder.RegisterTemplate<RewardTooltipPanel>(typeof(WorldAccountCombination));

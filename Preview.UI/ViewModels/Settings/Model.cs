@@ -1,4 +1,5 @@
-﻿using CUE4Parse.UE4.Assets.Exports.Material;
+﻿using System.Collections;
+using CUE4Parse.UE4.Assets.Exports.Material;
 using CUE4Parse_Conversion;
 using CUE4Parse_Conversion.Meshes;
 using CUE4Parse_Conversion.Textures;
@@ -7,6 +8,13 @@ using FModel.Views.Snooper;
 namespace Xylia.Preview.UI.ViewModels;
 internal partial class UserSettings
 {
+	public IEnumerable MeshExportFormats => Enum.GetValues<EMeshFormat>();
+	public IEnumerable SocketExportFormats => Enum.GetValues<ESocketFormat>();
+	public IEnumerable LodExportFormats => Enum.GetValues<ELodFormat>();
+	public IEnumerable MaterialExportFormats => Enum.GetValues<EMaterialFormat>();
+	public IEnumerable TextureExportFormats => Enum.GetValues<ETextureFormat>();
+
+
 	private string? _modelDirectory;
 	public string? ModelDirectory
 	{

@@ -18,9 +18,6 @@ public partial class ItemGrowth2TooltipPanel
 	{
 		InitializeComponent();
 		DataContextChanged += OnDataChanged;
-#if DEVELOP
-		DataContext = Globals.GameData.Provider.GetTable<Item>()["Test_N-ShopAccountShippingItem"].Source;
-#endif
 	}
 	#endregion
 
@@ -73,7 +70,7 @@ public partial class ItemGrowth2TooltipPanel
 	#endregion
 
 
-	#region DrawImproveOption
+	#region ImproveOption
 	private sbyte ImproveLevel = 0;
 
 	private void DrawImproveOption_Level_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -108,26 +105,26 @@ public partial class ItemGrowth2TooltipPanel
 		{
 			if (group.EffectList.HasValue)
 			{
-				source.Add(new(group.EffectList.Instance, "UI.ItemRandomOption.EffectOption.Title".GetText()));
+				source.Add(new("UI.ItemRandomOption.EffectOption.Title".GetText(), group.EffectList.Value));
 			}
 
 			if (group.AbilityListTotalCount > 0)
 			{
 				int index = 0;
-				group.AbilityList.Values().ForEach(x => source.Add(new(x, "UI.ItemRandomOption.SubAbility.Title".GetText([++index]))));
+				group.AbilityList.Values().ForEach(x => source.Add(new("UI.ItemRandomOption.SubAbility.Title".GetText([++index]), x.GetImprove(ImproveLevel))));
 			}
 
 			if (group.SkillTrainByItemListTotalCount > 0)
 			{
 				var min = group.SkillTrainByItemListSelectMin;
 				var max = group.SkillTrainByItemListSelectMax;
-				source.Add(new(RandomDistribution.Equal(min, max), "UI.RandomOption.Probability.SkillOptionSlot.1DepthTitle".GetText([min, max])));
+				source.Add(new("UI.RandomOption.Probability.SkillOptionSlot.1DepthTitle".GetText([min, max]), RandomDistribution.Equal(min, max)));
 			}
 
 			if (group.SkillBuildUpGroupListTotalCount > 0)
 			{
 				int index = 0;
-				group.SkillBuildUpGroupList.Values().ForEach(x => source.Add(new(x, "UI.ItemRandomOption.SkillEnhancement.Title".GetText([++index]))));
+				group.SkillBuildUpGroupList.Values().ForEach(x => source.Add(new("UI.ItemRandomOption.SkillEnhancement.Title".GetText([++index]), x)));
 			}
 		}
 

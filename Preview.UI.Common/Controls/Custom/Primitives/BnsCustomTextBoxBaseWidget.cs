@@ -1587,7 +1587,7 @@ public abstract class BnsCustomTextBoxBaseWidget : BnsCustomBaseWidget
 
 			OnScrollViewerPropertyChanged(this, new DependencyPropertyChangedEventArgs(ScrollViewer.HorizontalScrollBarVisibilityProperty, null /* old value */, this.GetValue(HorizontalScrollBarVisibilityProperty)));
 			OnScrollViewerPropertyChanged(this, new DependencyPropertyChangedEventArgs(ScrollViewer.VerticalScrollBarVisibilityProperty, null /* old value */, this.GetValue(VerticalScrollBarVisibilityProperty)));
-			OnScrollViewerPropertyChanged(this, new DependencyPropertyChangedEventArgs(ScrollViewer.PaddingProperty, null /* old value */, this.GetValue(PaddingProperty)));
+			//OnScrollViewerPropertyChanged(this, new DependencyPropertyChangedEventArgs(ScrollViewer.PaddingProperty, null /* old value */, this.GetValue(PaddingProperty)));
 		}
 		else
 		{

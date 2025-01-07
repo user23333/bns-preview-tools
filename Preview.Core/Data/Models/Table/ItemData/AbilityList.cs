@@ -5,8 +5,8 @@ namespace Xylia.Preview.Data.Models;
 public sealed class AbilityList : ModelElement, IEnumerable
 {
 	#region Attributes
-	public int Id { get; set; }	
-	
+	public int Id { get; set; }
+
 	public sbyte ImproveLevel { get; set; }
 
 	public string Alias { get; set; }
@@ -28,7 +28,9 @@ public sealed class AbilityList : ModelElement, IEnumerable
 	public bool DrawEnable { get; set; }
 	#endregion
 
-	#region Methods
+	#region Methods	
+	public AbilityList GetImprove(sbyte ImproveLevel) => Provider.GetTable<AbilityList>()[Id + ((long)ImproveLevel << 32)];
+	
 	public IEnumerator GetEnumerator()
 	{
 		for (int i = 0; i < AbilityTotalCount; i++)
@@ -38,7 +40,6 @@ public sealed class AbilityList : ModelElement, IEnumerable
 
 			yield return new Tuple<string, double>(s, w);
 		}
-
 		yield break;
 	}
 	#endregion

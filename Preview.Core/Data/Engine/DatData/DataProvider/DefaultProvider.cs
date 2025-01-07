@@ -36,7 +36,7 @@ public class DefaultProvider : Datafile, IDataProvider
 	#region IDataProvider	
 	public virtual string Name { get; protected set; }
 
-	public Locale Locale { get; protected set; } = new();
+	public virtual Locale Locale { get; protected set; }
 
 	public virtual Stream[] GetFiles(string pattern)
 	{
@@ -80,7 +80,7 @@ public class DefaultProvider : Datafile, IDataProvider
 			// create alias	map
 			foreach (var table in Tables)
 			{
-				var aliasAttrDef = table.Definition.ElRecord["alias"];
+				var aliasAttrDef = table.Definition.DocumentElement.Children[0]["alias"];
 				if (aliasAttrDef == null || table.Archive != null) continue;
 
 				var tableDefName = table.Name.ToLowerInvariant();

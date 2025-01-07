@@ -12,7 +12,7 @@ using SkiaSharp;
 
 namespace CUE4Parse.BNS.Assets.Exports;
 [StructFallback]
-public class ImageProperty : IUStruct
+public record ImageProperty : IUStruct
 {
 	#region Properties
 	public FStructFallback ResultBrush { get; set; }
@@ -51,36 +51,15 @@ public class ImageProperty : IUStruct
 	public float Opacity { get; set; } = 1;
 	#endregion
 
-	#region Constructor
-	public ImageProperty()
-	{
-
-	}
-	#endregion
-
-	#region Methods
+	#region Methods		
 	public static implicit operator SKBitmap(ImageProperty property) => property.Image;
-
-	public ImageProperty Clone()
-	{
-		return (ImageProperty)this.MemberwiseClone();
-	}
-
-	public string Tag
-	{
-		get
-		{
-			var c = TintColor.SpecifiedColor.ToFColor(true);
-
-			return $"<image path='{BaseImageTexture.GetPathName()}' u='{ImageUV.X}' v='{ImageUV.Y}' ul='{ImageUVSize.X}' vl='{ImageUVSize.Y}' red='{c.R}' green='{c.G}' blue='{c.B}' enablescale='true' scalerate='{ImageScale}'/>";
-		}
-
-	}
 
 	public SKBitmap Image
 	{
 		get
 		{
+			if (cached != null) return cached;
+
 			#region Raw
 			SKBitmap bitmap = null;
 
@@ -109,7 +88,7 @@ public class ImageProperty : IUStruct
 					var p = bitmap.GetPixel(i, j);
 
 					// TODO: not working perfectly
-					if (EnableDrawColor && p.Alpha > 64) p = tint;
+					if (EnableDrawColor && tint != default && p.Alpha > 64) p = tint;
 
 					// set alpha channel
 					p = p.WithAlpha((byte)(p.Alpha * Opacity));
@@ -119,8 +98,19 @@ public class ImageProperty : IUStruct
 			}
 			#endregion
 
-			return bitmap;
+			return cached = bitmap;
 		}
+	}
+
+	public string Tag
+	{
+		get
+		{
+			var c = TintColor.SpecifiedColor.ToFColor(true);
+
+			return $"<image path='{BaseImageTexture.GetPathName()}' u='{ImageUV.X}' v='{ImageUV.Y}' ul='{ImageUVSize.X}' vl='{ImageUVSize.Y}' red='{c.R}' green='{c.G}' blue='{c.B}' enablescale='true' scalerate='{ImageScale}'/>";
+		}
+
 	}
 
 	public FVector2D Measure(FVector2D RenderSize, out SKBitmap image)
@@ -135,5 +125,9 @@ public class ImageProperty : IUStruct
 
 		return new FVector2D(ImageScale * w, ImageScale * h);
 	}
+	#endregion
+
+	#region Fields
+	private SKBitmap cached;
 	#endregion
 }

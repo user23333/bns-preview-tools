@@ -1,4 +1,6 @@
-﻿using Xylia.Preview.Common.Attributes;
+﻿using System.Runtime.InteropServices;
+using Xylia.Preview.Common.Attributes;
+using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Models.Sequence;
 
@@ -91,7 +93,7 @@ public sealed class Achievement : ModelElement
 
 	public Ref<Effect> CompletedEffect { get; set; }
 
-	//public CompletedEffectCategorySeq CompletedEffectCategory { get; set; }
+	public string CompletedEffectCategory { get; set; }
 
 	public short CompletedEffectOrder { get; set; }
 
@@ -172,5 +174,15 @@ public sealed class Achievement : ModelElement
 	public sbyte TitleGrade { get; set; }
 
 	public sbyte TitleInfieldUiBorderEffect { get; set; }
+	#endregion
+
+	#region Key
+	[StructLayout(LayoutKind.Explicit, Size = 64)]
+	public struct AchievementKey(short id, short step, JobSeq job) : IGameDataKey
+	{
+		[FieldOffset(0)] public short Id = id;
+		[FieldOffset(2)] public short Step = step;
+		[FieldOffset(4)] public JobSeq Job = job;
+	}
 	#endregion
 }

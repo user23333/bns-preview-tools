@@ -15,6 +15,6 @@ public class Bool2VisibilityReConverter : MarkupExtension, IValueConverter
 
 	public object? ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
 	{
-		return value is Visibility.Visible ? false : true;
+		return value is not Visibility.Visible;
 	}
 }

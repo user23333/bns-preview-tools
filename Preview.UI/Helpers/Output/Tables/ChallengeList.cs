@@ -18,8 +18,9 @@ internal sealed class ChallengeListOut : OutSet
 		sheet.SetColumn(column++, "Sat", 40);
 		#endregion
 
+		#region Data
 		column = 0;
-		foreach (var record in Source!.Provider.GetTable<ChallengeList>().Where(x =>
+		foreach (var record in Source.Provider.GetTable<ChallengeList>().Where(x =>
 			x.ChallengeType > ChallengeList.ChallengeTypeSeq.None && 
 			x.ChallengeType <= ChallengeList.ChallengeTypeSeq.Sat))
 		{
@@ -29,12 +30,12 @@ internal sealed class ChallengeListOut : OutSet
 			// ChallengeQuestBasic
 			for (int i = 0; i < record.ChallengeQuestBasic.Length; i++)
 			{
-				var quest = record.ChallengeQuestBasic[i].Instance;
+				var quest = record.ChallengeQuestBasic[i].Value;
 				if (quest is null) continue;
 
 				var grade = record.ChallengeQuestGrade[i];
-				var attraction = record.ChallengeQuestAttraction[i].Instance;
-				var expansion = record.ChallengeQuestExpansion[i].Instance;
+				var attraction = record.ChallengeQuestAttraction[i].Value;
+				var expansion = record.ChallengeQuestExpansion[i].Value;
 
 				sheet.Cells[row++, column].SetValue(GradeText(grade) + quest.Name);
 			}
@@ -42,12 +43,12 @@ internal sealed class ChallengeListOut : OutSet
 			// ChallengeNpcKill
 			for (int i = 0; i < record.ChallengeNpcKill.Length; i++)
 			{
-				var npc = record.ChallengeNpcKill[i].Instance;
+				var npc = record.ChallengeNpcKill[i].Value;
 				if (npc is null) continue;
 
 				var grade = record.ChallengeNpcGrade[i];
 				var difficulty = record.ChallengeNpcDifficulty[i];
-				var attraction = record.ChallengeNpcAttraction[i].Instance;
+				var attraction = record.ChallengeNpcAttraction[i].Value;
 				var quest = record.ChallengeNpcQuest[i];
 
 				sheet.Cells[row++, column].SetValue(GradeText(grade) + $"{difficulty} {npc.Name2.GetText()}");
@@ -56,7 +57,7 @@ internal sealed class ChallengeListOut : OutSet
 			// Reward
 			for (int i = 0; i < record.Reward.Length; i++)
 			{
-				var reward = record.Reward[i].Instance;
+				var reward = record.Reward[i].Value;
 				if (reward is null) continue;
 
 				sheet.Cells[row++, column].SetValue(
@@ -64,6 +65,7 @@ internal sealed class ChallengeListOut : OutSet
 					reward);
 			}
 		}
+		#endregion
 	}
 
 	private static string GradeText(ChallengeList.Grade grade) => grade switch

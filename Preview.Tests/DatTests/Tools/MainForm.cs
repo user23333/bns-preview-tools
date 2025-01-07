@@ -3,7 +3,6 @@ using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
-using Newtonsoft.Json;
 using Serilog;
 using Serilog.Events;
 using Xylia.Preview.Common.Extension;
@@ -34,6 +33,9 @@ public partial class MainForm : Form
 	#endregion
 
 	#region Helpers
+
+	private static DateTime m_LastTime = DateTime.MinValue;
+
 	public void ReadConfig(Control container)
 	{
 		string SECTION = "Test";
@@ -56,30 +58,21 @@ public partial class MainForm : Form
 		}
 	}
 
-
-	private static DateTime m_LastTime = DateTime.MinValue;
-
-	private static void DoubleClickPath(object sender, EventArgs e)
+	private void DoubleClickPath(object sender, EventArgs e)
 	{
 		if (DateTime.Now.Subtract(m_LastTime).TotalSeconds <= 2) return;
 		m_LastTime = DateTime.Now;
 
-
 		var selected = (sender as Control).Text?.Trim();
 		if (selected.Contains('|'))
 		{
-			var FilePathes = selected.Split('|');
-			selected = FilePathes[0];
+			selected = selected.Split('|')[0];
 		}
 
-		if (Directory.Exists(selected))
+		Process.Start(new ProcessStartInfo("Explorer.exe")
 		{
-			Process.Start("Explorer.exe", selected);
-			return;
-		}
-
-		ProcessStartInfo psi = new("Explorer.exe") { Arguments = "/e,/select," + selected };
-		Process.Start(psi);
+			Arguments = Directory.Exists(selected) ? selected : ("/e,/select," + selected)
+		});
 	}
 
 	public static IEnumerable<string> OpenPath(Control link, string Filter = null, bool Multiselect = false)
@@ -164,7 +157,7 @@ public partial class MainForm : Form
 				string path = txbRpFolder.Text + "\\" + patchNode?.Attributes["file"]?.Value;
 				if (File.Exists(path))
 				{
-					XmlDocument fileDoc = new() { PreserveWhitespace = true };
+					XmlDocument fileDoc = new() { PreserveWhitespace = false };
 					fileDoc.Load(path);
 
 					ModifyNodes(patchNode, fileDoc.DocumentElement);
@@ -230,7 +223,7 @@ public partial class MainForm : Form
 				var param = new PackageParam(txbDatFile.Text)
 				{
 					FolderPath = outdir,
-					CompressionLevel = (CompressionLevel)this.trackBar1.Value,
+					CompressionLevel = CompressionLevel.Fast,
 				};
 
 				if (checkBox1.Checked) ThirdSupport.Pack(param);
@@ -240,57 +233,15 @@ public partial class MainForm : Form
 			}
 			catch (Exception ee)
 			{
-				throw;
 				MessageBox.Show(ee.ToString());
 			}
 
 		}).Start();
 	}
-
-	private void trackBar1_ValueChanged(object sender, EventArgs e) => this.label6.Text = $"->       处理速度变慢，压缩率提高 ({this.trackBar1.Value}级)";
 	#endregion
 
 	#region Bin
-	private void button2_Click(object sender, EventArgs e) => OpenFolder(Txt_Bin_Data);
-
-	private void Button1_Click(object sender, EventArgs e)
-	{
-		Task.Run(() =>
-		{
-			if (MessageBox.Show("即将开始提取数据，是否确认?", "确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) != DialogResult.OK)
-				return;
-
-			try
-			{
-				using var provider = DefaultProvider.Load(Txt_Bin_Data.Text, null, this.checkBox13.Checked ? "*.bin" : "*.dat");
-				provider.LoadData(null);
-
-				var folder = string.Concat(Path.GetDirectoryName(provider.XmlData.Path), @"\Export\json\");
-				if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
-				else foreach (string f in Directory.GetFiles(folder, "*.json")) File.Delete(f);
-
-				int Count = 1;
-				Parallel.ForEach(provider.Tables, table =>
-				{
-					Console.WriteLine($"输出配置文件: {Count++,-3}/{provider.Tables.Count}...{Count * 100 / provider.Tables.Count,3}%  (ListId: {table.Type})");
-					if (!table.IsBinary) return;
-
-					using StreamWriter outfile = new($@"{folder}\{table.Type} ({table.Name}).json");
-					outfile.WriteLine(JsonConvert.SerializeObject(table, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore }));
-
-					table.Dispose();
-				});
-			}
-			catch (Exception ee)
-			{
-				MessageBox.Show("输出配置文件时发生异常。\n\n" + ee, "发生系统错误");
-			}
-
-			Console.WriteLine("输出已完成!!");
-			GC.Collect();
-		});
-	}
-
+	private void button1_Click(object sender, EventArgs e) => OpenFolder(textBox2);
 
 	private void button8_Click(object sender, EventArgs e) => OpenPath(textBox1);
 
@@ -298,18 +249,21 @@ public partial class MainForm : Form
 
 	private void button7_Click(object sender, EventArgs e)
 	{
-		var def = TableDefinition.LoadFrom(new(), File.OpenRead(textBox1.Text));
+		var definition = TableDefinition.LoadFrom(new(), File.OpenRead(textBox1.Text));
 
-		foreach (var attribute in def.ElRecord.ExpandedAttributes.OrderBy(x => x.Offset))
+		foreach (var element in definition.DocumentElement.Children)
 		{
-			Console.WriteLine($"#notime#{attribute.Offset:X}  -  {attribute.Name}");
-		}
-
-		foreach (var sub in def.ElRecord.Subtables)
-		{
-			foreach (var attribute in sub.ExpandedAttributesSubOnly.OrderBy(x => x.Offset))
+			foreach (var attribute in element.ExpandedAttributes.OrderBy(x => x.Offset))
 			{
-				Console.WriteLine($"#notime#[{sub.Name}] {attribute.Offset:X}  -  {attribute.Name}");
+				Console.WriteLine($"{attribute.Offset:X}  -  {attribute.Name}");
+			}
+
+			foreach (var sub in element.Subtables)
+			{
+				foreach (var attribute in sub.ExpandedAttributesSubOnly.OrderBy(x => x.Offset))
+				{
+					Console.WriteLine($"[{sub.Name}] {attribute.Offset:X}  -  {attribute.Name}");
+				}
 			}
 		}
 	}
@@ -320,7 +274,7 @@ public partial class MainForm : Form
 	{
 		Task.Run(() =>
 		{
-			set ??= new DatabaseTests(DefaultProvider.Load(Txt_Bin_Data.Text), textBox3.Text);
+			set ??= new DatabaseTests(DefaultProvider.Load(textBox2.Text), textBox3.Text);
 			try
 			{
 				set.Output(textBox1.Text.Split('|'));
@@ -429,35 +383,6 @@ public partial class MainForm : Form
 		foreach (var t in txt) result += "\\u" + (int)t + "  ";
 
 		return result;
-	}
-
-	private void Btn_Split_Click(object sender, EventArgs e)
-	{
-		try
-		{
-			var data = richTextBox1.Text
-				.Replace("\r\n", null)
-				.Replace(" ", null)
-				.Replace("-", null)
-				.ToBytes();
-
-			StringBuilder output = new();
-			for (int idx = 0; idx < data.Length; idx += 4)
-			{
-				output.Append(idx);
-				output.Append("    |   ");
-				output.Append(BitConverter.ToString(data, idx, 4));
-				output.Append("    |   ");
-				output.Append(BitConverter.ToInt32(data, idx));
-				output.Append('\n');
-			}
-
-			richTextBox1.Text = output.ToString();
-		}
-		catch (Exception ee)
-		{
-			Console.WriteLine(ee.Message);
-		}
 	}
 	#endregion
 }

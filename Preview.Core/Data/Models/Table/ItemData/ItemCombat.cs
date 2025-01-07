@@ -23,7 +23,7 @@ public sealed class ItemCombat : ModelElement
 		{
 			Ref<ItemSkill>[] ItemSkills = [.. ItemSkill, .. ItemSkillSecond, .. ItemSkillThird];
 
-			return SkillModifyInfoGroup.Instance?.Description + string.Join("<br/>", ItemSkills.SelectNotNull(x => x.Instance?.Description));
+			return SkillModifyInfoGroup.Value?.Description + string.Join("<br/>", ItemSkills.SelectNotNull(x => x.Value?.Description));
 		}
 	}
 	#endregion

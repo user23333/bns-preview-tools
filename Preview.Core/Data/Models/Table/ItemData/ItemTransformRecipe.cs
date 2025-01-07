@@ -426,11 +426,11 @@ public sealed class ItemTransformRecipe : ModelElement
 
 	public static IEnumerable<ItemTransformRecipe> QueryRecipe(IDataProvider provider, Item Item) => provider.GetTable<ItemTransformRecipe>().Where(o =>
 	{
-		var MainIngredient = o.MainIngredient.Instance;
+		var MainIngredient = o.MainIngredient.Value;
 		if (MainIngredient is Item item) return item == Item;
 		else if (MainIngredient is ItemBrand itembrand)
 		{
-			if (itembrand != Item.Brand.Instance) return false;
+			if (itembrand != Item.Brand.Value) return false;
 
 			var type = o.MainIngredientConditionType;
 			if (type == ItemConditionType.All || type == ItemConditionType.None) return true;

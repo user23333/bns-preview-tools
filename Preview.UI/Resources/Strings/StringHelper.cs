@@ -73,9 +73,9 @@ public partial class StringHelper : ResourceDictionary, ITextProvider
 	/// <returns></returns>
 	public static string Get(string key, params object?[] args)
 	{
-		ArgumentNullException.ThrowIfNull(Current);
+		// ArgumentNullException.ThrowIfNull(Current);
 
-		if (Current![key] is string s)
+		if (Current?[key] is string s)
 		{
 			return string.Format(s, args);
 		}

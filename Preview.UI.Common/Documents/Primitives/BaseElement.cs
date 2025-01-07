@@ -25,9 +25,9 @@ public abstract class BaseElement : ContentElement
 	/// </summary>
 	protected internal List<BaseElement> Children { get; set; } = [];
 
-	public Size DesiredSize { get; protected set; }
+	internal Size DesiredSize { get; private set; }
 
-	public Rect FinalRect { get; private set; }
+	internal Rect FinalRect { get; private set; }
 	#endregion
 
 	#region Dependency Properties
@@ -107,7 +107,6 @@ public abstract class BaseElement : ContentElement
 	/// The FontSize property specifies the size of the font.
 	/// </summary>
 	[TypeConverter(typeof(FontSizeConverter))]
-	[Localizability(LocalizationCategory.None)]
 	public double FontSize
 	{
 		get { return (double)GetValue(FontSizeProperty); }
@@ -380,18 +379,31 @@ public abstract class BaseElement : ContentElement
 	/// </summary>
 	internal static void InheritDependency(DependencyObject parent, DependencyObject current)
 	{
-		current.SetValue(StringProperty, parent.GetValue(StringProperty));
-		current.SetValue(FontFamilyProperty, parent.GetValue(FontFamilyProperty));
-		current.SetValue(FontStyleProperty, parent.GetValue(FontStyleProperty));
-		current.SetValue(FontWeightProperty, parent.GetValue(FontWeightProperty));
-		current.SetValue(FontStretchProperty, parent.GetValue(FontStretchProperty));
-		current.SetValue(FontSizeProperty, parent.GetValue(FontSizeProperty));
-		current.SetValue(ForegroundProperty, parent.GetValue(ForegroundProperty));
-		current.SetValue(FontFamilyProperty, parent.GetValue(FontFamilyProperty));
-		current.SetValue(ArgumentsProperty, parent.GetValue(ArgumentsProperty));
-		current.SetValue(TimersProperty, parent.GetValue(TimersProperty));
-		current.SetValue(Font.TextDecorationsProperty, parent.GetValue(Font.TextDecorationsProperty));
+		InheritDependency(parent, current, StringProperty);
+		InheritDependency(parent, current, FontFamilyProperty);
+		InheritDependency(parent, current, FontStyleProperty);
+		InheritDependency(parent, current, FontWeightProperty);
+		InheritDependency(parent, current, FontStretchProperty);
+		InheritDependency(parent, current, FontSizeProperty);
+		InheritDependency(parent, current, ForegroundProperty);
+		InheritDependency(parent, current, FontFamilyProperty);
+		InheritDependency(parent, current, ArgumentsProperty);
+		InheritDependency(parent, current, TimersProperty);
+		InheritDependency(parent, current, Font.TextDecorationsProperty);
 	}
+
+	internal static void InheritDependency(DependencyObject parent, DependencyObject current, DependencyProperty property)
+	{
+		if (property.GetMetadata(current) is FrameworkPropertyMetadata fmetadata && fmetadata.Inherits)
+		{
+			var value = current.GetValue(property);
+			if (value == fmetadata.DefaultValue)
+			{
+				current.SetValue(property, parent.GetValue(property));
+			}
+		}
+	}
+
 
 	internal virtual IInputElement? InputHitTest(Point point)
 	{

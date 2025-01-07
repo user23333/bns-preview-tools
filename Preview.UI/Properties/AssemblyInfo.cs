@@ -5,4 +5,4 @@ using System.Windows;
 [assembly: AssemblyTitle("Blade & Soul Preview Tool")]
 [assembly: AssemblyProduct("bns-preview-tools")]
 [assembly: AssemblyCompany("Xylia")]
-[assembly: AssemblyCopyright("©2018-2024 Xylia, all rights reserved.")]
+[assembly: AssemblyCopyright("©2018-2025 Xylia, all rights reserved.")]

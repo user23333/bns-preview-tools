@@ -10,11 +10,10 @@ public class RatioTimeConverter : MarkupExtension, IMultiValueConverter
 
 	public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
 	{
-		if (values.Length < 2) return null;
-		if (values.Any(e => e == DependencyProperty.UnsetValue)) return DependencyProperty.UnsetValue;
+		if (values.Length < 2 || values.Any(e => e == DependencyProperty.UnsetValue)) return DependencyProperty.UnsetValue;
 
-		TimeSpan time = (TimeSpan)values[0];
-		double percent = (double)values[1];
+		var time = (TimeSpan)values[0];
+		var percent = (double)values[1];
 		return time * percent;
 	}
 

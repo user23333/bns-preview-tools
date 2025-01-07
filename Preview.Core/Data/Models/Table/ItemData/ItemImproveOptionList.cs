@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using Xylia.Preview.Common.Attributes;
-using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Models.Sequence;
 
 namespace Xylia.Preview.Data.Models;
@@ -59,7 +58,7 @@ public sealed class ItemImproveOptionList : ModelElement, IRecipeHelper
 
 		for (int i = 0; i < Option.Length; i++)
 		{
-			var option = Option[i].Instance;
+			var option = Option[i].Value;
 			if (option is null) continue;
 
 			option = this.Provider.GetTable<ItemImproveOption>()[option.Id + ((long)level << 32)];
@@ -80,8 +79,8 @@ public sealed class ItemImproveOptionList : ModelElement, IRecipeHelper
 			if (CostMainItem is null) continue;
 
 			var CostMainItemCount = Attributes.Get<short>("draw-cost-main-item-count-" + i);
-			var CostSubItem = LinqExtensions.For(6, (id) => Attributes.Get<Item>($"draw-cost-sub-item-{i}-{id}"));
-			var CostSubItemCount = LinqExtensions.For(6, (id) => Attributes.Get<short>($"draw-cost-sub-item-count-{i}-{id}"));
+			var CostSubItem = Attributes.Get<Item[]>("draw-cost-sub-item-" + i);
+			var CostSubItemCount = Attributes.Get<short[]>("draw-cost-sub-item-count-" + i);
 
 			recipes.Add(new RecipeHelper()
 			{

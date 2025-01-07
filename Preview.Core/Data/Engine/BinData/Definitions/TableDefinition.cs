@@ -2,6 +2,7 @@
 using System.Xml;
 using Xylia.Preview.Common.Exceptions;
 using Xylia.Preview.Common.Extension;
+using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Engine.BinData.Models;
 using Xylia.Preview.Data.Models;
 
@@ -10,36 +11,21 @@ namespace Xylia.Preview.Data.Engine.Definitions;
 public class TableDefinition : TableHeader
 {
 	#region Fields
-	public int MaxId;
-	public bool AutoKey;
-	public long Module;
-
-	/// <summary>
-	/// table search patterns 
-	/// </summary>
-	public string Pattern;
+	public int MaxId { get; set; }
+	public bool AutoKey { get; set; }
+	public long Module { get; set; }
 
 	/// <summary>
 	/// element definitions
 	/// </summary>
-	public List<ElementDefinition> Els { get; internal set; } = [];
-	#endregion
+	public List<ElementDefinition> Elements { get; internal set; } = [];
 
-	#region Properties
-	/// <summary>
-	/// root element
-	/// </summary>
-	internal ElementDefinition ElRoot => Els.FirstOrDefault();
+	public ElementDefinition DocumentElement => Elements[0];
 
 	/// <summary>
-	/// main element
+	/// table search patterns 
 	/// </summary>
-	public ElementDefinition ElRecord { get; internal set; }
-
-	/// <summary>
-	/// Has record element
-	/// </summary>
-	public bool IsEmpty => ElRecord is null;
+	internal string Pattern { get; set; }
 
 	/// <summary>
 	/// Is default definition 
@@ -60,16 +46,15 @@ public class TableDefinition : TableHeader
 			IsDefault = true,
 			Type = type,
 			Name = type.ToString(),
-			Pattern = type + "Data.xml"
+			Pattern = type + "Data.xml",
 		};
 
-		var elRoot = new ElementDefinition() { Name = "table" };
-		var elRecord = new ElementDefinition { Name = "record", Size = 8 };
+		var element0 = new ElementDefinition() { Name = "table" };
+		var element1 = new ElementDefinition { Name = "record", Size = 8 };
+		element0.Children.Add(element1);
 
-		elRoot.Children.Add(elRecord);
-		definition.Els.Add(elRoot);
-		definition.Els.Add(definition.ElRecord = elRecord);
-
+		definition.Elements.Add(element0);
+		definition.Elements.Add(element1);
 		return definition;
 	}
 
@@ -87,31 +72,23 @@ public class TableDefinition : TableHeader
 		var type = tableNode.GetAttribute<ushort>("type");
 		var name = tableNode.GetAttribute<string>("name");
 		if (type == 0 && string.IsNullOrWhiteSpace(name))
-			throw BnsDataException.InvalidDefinition("`type` or `name` field is required in table!");
+			throw BnsDataException.InvalidDefinition("field `type` or `name` is required!");
 
 		var autokey = tableNode.GetAttribute<bool>("autokey");
 		var maxid = tableNode.GetAttribute<int>("maxid");
-		var version = ParseVersion(tableNode.GetAttribute("version"));
+		var version = BnsVersion.Parse(tableNode.GetAttribute("version"));
 		var module = tableNode.GetAttribute<long>("module");
 		var pattern = tableNode.Attributes["pattern"]?.Value ?? $"{name.TitleCase()}Data*.xml";
 		#endregion
 
-		#region els
-		List<ElementDefinition> els = [];
-		foreach (var source in tableNode.SelectNodes("./el").OfType<XmlElement>())
+		#region elements
+		List<ElementDefinition> elements = [];
+		foreach (var el in tableNode.SelectNodes("./el").OfType<XmlElement>())
 		{
-			var el = new ElementDefinition { Name = source.GetAttribute("name") };
-			els.Add(el);
-
-			// HACK: is record element
-			if (els.Count == 2)
-			{
-				// el.AutoKey = autokey;
-				el.MaxId = maxid;
-			}
+			elements.Add(new ElementDefinition { Name = el.GetAttribute("name") });
 		}
 
-		foreach (var el in els)
+		foreach (var el in elements)
 		{
 			var source = (XmlElement)tableNode.SelectSingleNode($"./el[@name='{el.Name}']");
 
@@ -148,12 +125,11 @@ public class TableDefinition : TableHeader
 					Name = AttributeCollection.s_autoid,
 					Type = AttributeType.TInt64,
 					Offset = 8,
-					Repeat = 1,	  
+					Repeat = 1,
 					IsKey = true,
 					IsHidden = true,
-					Min = long.MinValue,
-					Max = long.MaxValue,  
-					Writeable = false,
+					Min = 0,
+					Max = long.MaxValue,
 				};
 
 				el.AutoKey = true;
@@ -170,11 +146,12 @@ public class TableDefinition : TableHeader
 					Name = AttributeCollection.s_type,
 					Type = AttributeType.TSub,
 					Offset = 2,
-					Repeat = 1,
+					Repeat = 1,	  
+					Sequence = [.. subs.Select(x => x.GetAttribute("name"))],
 					ReferedTableName = name,
+					ReferedEl = 1,
 					ReferedElement = el.Name,
 					IsHidden = true,
-					Writeable = false,
 				};
 
 				el.Attributes.Insert(0, typeAttr);
@@ -192,14 +169,12 @@ public class TableDefinition : TableHeader
 				var subtable = new ElementSubDefinition();
 				el.Subtables.Add(subtable);
 
-				subtable.Name = sub.Attributes["name"].Value;
+				subtable.Name = sub.GetAttribute("name");
 				subtable.SubclassType = subIndex++;
-
-				// Add parent attributes
+				subtable.Children = el.Children;
 				subtable.Attributes.AddRange(el.Attributes);
 				subtable.ExpandedAttributes.AddRange(el.ExpandedAttributes);
-				subtable.Children.AddRange(el.Children);
-
+	
 				foreach (var attrDef in sub.ChildNodes.OfType<XmlElement>()
 					.Select(e => AttributeDefinition.LoadFrom(e, loader)))
 				{
@@ -239,17 +214,16 @@ public class TableDefinition : TableHeader
 			#endregion
 
 			#region children
-			var children = source.Attributes["child"]?.Value.Split(',').Select(o => o.Trim());
+			var children = source.GetAttribute("child").Split(',').Select(o => o.Trim());
 			if (children != null)
 			{
 				foreach (var child in children)
 				{
 					ElementDefinition child_el = ushort.TryParse(child, out var index) ?
-						els.ElementAtOrDefault(index) :
-						els.FirstOrDefault(el => el.Name == child);
+						elements.ElementAtOrDefault(index) :
+						elements.FirstOrDefault(el => el.Name == child);
 
-					if (child_el != null)
-						el.Children.Add(child_el);
+					if (child_el != null) el.Children.Add(child_el);
 				}
 			}
 			#endregion
@@ -262,11 +236,9 @@ public class TableDefinition : TableHeader
 			Type = type,
 			Pattern = pattern,
 			Module = module,
-			MajorVersion = version.Item1,
-			MinorVersion = version.Item2,
-
-			Els = els,
-			ElRecord = els.FirstOrDefault().Children.FirstOrDefault(),
+			MajorVersion = version.Major,
+			MinorVersion = version.Minor,
+			Elements = elements,
 		};
 	}
 	#endregion

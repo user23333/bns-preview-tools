@@ -23,6 +23,8 @@ public class LocalProvider(string source) : DefaultProvider
 	#region Override Methods
 	public override string Name => Path.GetFileName(source);
 
+	public override Locale Locale => new(EPublisher.Invalid);
+
 	public override Stream[] GetFiles(string pattern) => [File.OpenRead(pattern)];
 
 	public override void LoadData(DatafileDefinition definitions)
@@ -75,7 +77,7 @@ public class LocalProvider(string source) : DefaultProvider
 			XmlDocument xml = new() { PreserveWhitespace = true };
 			xml.Load(file.FullName);
 
-			foreach (XmlElement element in xml.DocumentElement!.SelectNodes($"./" + table.Definition.ElRecord.Name)!)
+			foreach (XmlElement element in xml.DocumentElement!.SelectNodes($"./" + table.Definition.DocumentElement.Children[0].Name)!)
 			{
 				var alias = element.Attributes["alias"]?.Value;
 				var text = element.InnerXml;

@@ -19,7 +19,7 @@ using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Data.Models;
 using Xylia.Preview.UI.Helpers;
 using Xylia.Preview.UI.ViewModels;
-using Xylia.Preview.UI.Views.Selector;
+using Xylia.Preview.UI.Views.Dialogs;
 using MessageBox = HandyControl.Controls.MessageBox;
 
 namespace Xylia.Preview.UI.Views;

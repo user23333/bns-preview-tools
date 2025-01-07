@@ -25,9 +25,9 @@ public abstract class BnsCustomBaseWidget : UserWidget
 
 		// Create TextContainer associated with it
 		_container = new TextContainer(this);
-		_container.ChangedHandler += (s, e) => OnContainerChanged(e);
+		_container.ChangedHandler += (s, e) => OnContainerChanged();
 
-		SetCurrentValue(ExpansionComponentListProperty, new ExpansionCollection());
+		SetCurrentValue(ExpansionComponentListProperty, new ExpansionCollection(this));
 		SetCurrentValue(StringProperty, new StringProperty());
 		SetCurrentValue(TimersProperty, new Dictionary<int, Time64>());
 	}
@@ -110,11 +110,13 @@ public abstract class BnsCustomBaseWidget : UserWidget
 	#region StringProperty
 	internal readonly TextContainer _container;
 
-	internal void OnContainerChanged(EventArgs e)
+	internal void OnContainerChanged()
 	{
+		if (String is null) return;
+
+		String.Cache = null;
 		InvalidateMeasure();
 		InvalidateArrange();
-		InvalidateVisual();
 	}
 
 	public static async void OnMetaChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -159,7 +161,7 @@ public abstract class BnsCustomBaseWidget : UserWidget
 	protected void OnStringChanged(StringProperty p)
 	{
 		// TODO: raise event
-		OnContainerChanged(EventArgs.Empty);
+		OnContainerChanged();
 	}
 
 	protected void UpdateString(string text)
@@ -170,7 +172,7 @@ public abstract class BnsCustomBaseWidget : UserWidget
 
 	protected void UpdateTooltip(string text)
 	{
-		this.ToolTip = text;
+		Dispatcher.Invoke(() => this.ToolTip = text);
 	}
 	#endregion
 
@@ -225,18 +227,15 @@ public abstract class BnsCustomBaseWidget : UserWidget
 
 	protected override void OnRender(DrawingContext dc)
 	{
-		// Using the Background brush, draw a rectangle that fills the render bounds of the widget.
-		var background = Background;
-		if (background != null) dc.DrawRectangle(background, null, new Rect(RenderSize));
+		base.OnRender(dc);
 
 		// Draw BaseImage & String 
 		DrawImage(dc, BaseImageProperty);
-		DrawString(dc, String);
+		DrawString(dc, String, _container);
 
 		#region ExpansionComponent
 		if (!ExpansionComponentList.IsEmpty())
 		{
-			// render
 			foreach (var e in ExpansionComponentList)
 			{
 				if (!e.bShow) continue;
@@ -257,7 +256,7 @@ public abstract class BnsCustomBaseWidget : UserWidget
 	}
 
 
-	protected void DrawImage(DrawingContext ctx, ImageProperty p)
+	protected void DrawImage(DrawingContext ctx, ImageProperty? p)
 	{
 		if (p is null) return;
 
@@ -270,15 +269,18 @@ public abstract class BnsCustomBaseWidget : UserWidget
 		}
 	}
 
-	protected Size DrawString(DrawingContext? ctx, StringProperty p, TextContainer? container = null)
+	protected Size DrawString(DrawingContext? ctx, StringProperty? p, TextContainer? container = null)
 	{
 		if (p is null) return default;
 
 		// data
-		var document = container != null ? _container.Document : new P();
-		document.UpdateString(p);
-		BaseElement.InheritDependency(this, document);
-			  
+		if (p.Cache is not P document)
+		{
+			p.Cache = document = new P();
+			BaseElement.InheritDependency(this, document);
+			document.UpdateString(p);
+		}
+
 		// layout
 		var size = document.Measure(RenderSize);
 		var pos = LayoutData.ComputeOffset(RenderSize, size.Parse(), p.HorizontalAlignment, p.VerticalAlignment, p.Padding, p.ClippingBound);
@@ -297,43 +299,61 @@ public abstract class BnsCustomBaseWidget : UserWidget
 		if (link is null || !link.bEnable) return;
 
 		#region Rect 
-		Rect rect = new(constraint);
-		float offset = link.Offset1;
+		Rect rect1 = new(constraint), rect2;
+		float offset1 = link.Offset1, offset2 = offset1;
 
-		var l = this.GetChild<UserWidget>(link.LinkWidgetName1, true);
-		if (l != null)
+		if (link.Type >= EBnsCustomResizeLinkType.BNS_CUSTOM_WIDGET_LINK_LEFT)
 		{
-			rect = l.GetFinalRect();
-			offset = l.Visibility == Visibility.Visible ? link.Offset1 : 0f;
+			var widget1 = this.GetChild<UIElement>(link.LinkWidgetName1, true);
+			if (widget1 != null)
+			{
+				rect1 = widget1.GetFinalRect();
+				offset1 = widget1.Visibility == Visibility.Visible ? link.Offset1 : 0f;
+			}
+
+			var widget2 = this.GetChild<UIElement>(link.LinkWidgetName2, true);
+			if (widget2 != null)
+			{
+				rect2 = widget2.GetFinalRect();
+				offset2 = widget2.Visibility == Visibility.Visible ? link.Offset2 : 0f;
+			}
+			else
+			{
+				rect2 = rect1;
+				offset2 = offset1;
+			}
 		}
 
-		var size = horizontal ? rc.Width : rc.Height;
-		var left = horizontal ? rect.Left : rect.Top;
-		var right = horizontal ? rect.Right : rect.Bottom;
+		var left1 = horizontal ? rect1.Left : rect1.Top;
+		var left2 = horizontal ? rect2.Left : rect2.Top;
+		var right1 = horizontal ? rect1.Right : rect1.Bottom;
+		var right2 = horizontal ? rect2.Right : rect2.Bottom;
 		#endregion
 
 		#region Final
+		var size = horizontal ? rc.Width : rc.Height;
 		double final;
+
 		switch (link.Type)
 		{
 			case EBnsCustomResizeLinkType.BNS_CUSTOM_BORDER_LINK_LEFT:
-				final = left + offset;
+				final = offset1;
 				break;
 
 			case EBnsCustomResizeLinkType.BNS_CUSTOM_BORDER_LINK_RIGHT:
-				final = right - offset - size;
+				final = right1 - offset1 - size;
 				break;
 
 			case EBnsCustomResizeLinkType.BNS_CUSTOM_BORDER_LINK_CENTER:
-				final = (right - left - offset - size) / 2;
+				final = (right1 - left1 - offset1 - size) / 2;
 				break;
 
 			case EBnsCustomResizeLinkType.BNS_CUSTOM_WIDGET_LINK_LEFT:
-				final = left - offset - size;
+				final = Math.Min(left1 - offset1, left2 - offset2) - size;
 				break;
 
 			case EBnsCustomResizeLinkType.BNS_CUSTOM_WIDGET_LINK_RIGHT:
-				final = right + offset;
+				final = Math.Max(right1 + offset1, right2 + offset2);
 				break;
 
 			default: return;

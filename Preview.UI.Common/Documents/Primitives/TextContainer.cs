@@ -2,7 +2,6 @@
 using System.Text.RegularExpressions;
 using System.Windows;
 using CUE4Parse.BNS.Assets.Exports;
-using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.UI.Documents.Primitives;
 /// <summary>
@@ -26,19 +25,6 @@ public class TextContainer
 	internal TextContainer(DependencyObject parent)
 	{
 
-	}
-	#endregion
-
-
-	#region Internal Properties
-	public TextArguments Arguments
-	{
-		get => _arguments;
-		set
-		{
-			_arguments = value;
-			//ChangedHandler?.Invoke(this, EventArgs.Empty);
-		}
 	}
 	#endregion
 
@@ -78,8 +64,6 @@ public class TextContainer
 	internal P Document = new();
 
 	internal StringProperty StringProperty;
-
-	private TextArguments _arguments;
 	#endregion
 
 

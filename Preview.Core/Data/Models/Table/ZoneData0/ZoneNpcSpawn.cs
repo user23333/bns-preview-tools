@@ -14,6 +14,18 @@ public sealed class ZoneNpcSpawn : ModelElement
 	public bool Respawn { get; set; }
 	public Msec RespawnDelayMin { get; set; }
 	public Msec RespawnDelayMax { get; set; }
+
+	public enum ZoneDetect
+	{
+		None,
+		Both182,
+		Both360,
+		Npc180,
+		Npc360,
+		Pc180,
+		Pc360,
+		COUNT
+	}
 	#endregion
 
 	#region Helpers

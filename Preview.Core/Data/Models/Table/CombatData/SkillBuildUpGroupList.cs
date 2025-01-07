@@ -22,7 +22,7 @@ public sealed class SkillBuildUpGroupList : ModelElement, IEnumerable
 	{
 		for (int i = 0; i < SkillBuildUpGroupTotalCount; i++)
 		{
-			var group = SkillBuildUpGroup[i].Instance;
+			var group = SkillBuildUpGroup[i].Value;
 			var weight = SkillBuildUpGroupWeight[i];
 
 			if (group is null) continue;

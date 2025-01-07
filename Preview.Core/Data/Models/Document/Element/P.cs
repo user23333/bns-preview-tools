@@ -12,7 +12,6 @@ public class P : HtmlElementNode
 	public float BottomMargin { get => GetAttributeValue<float>(); set => SetAttributeValue(value); }
 
 
-
 	//idt
 	//spacebetweenlines
 	//BackgroundImagePaddingX

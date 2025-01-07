@@ -1,19 +1,28 @@
 ﻿using Xylia.Preview.Common.Exceptions;
 
 namespace Xylia.Preview.Data.Engine.Definitions;
-public class SequenceDefinition(string name) : List<string>
+public class SequenceDefinition : List<string>
 {
-	public string Name { get; set; } = name;
+	#region Constructor
+	public SequenceDefinition() { }
+
+	public SequenceDefinition(IEnumerable<string> seqs, AttributeType type = AttributeType.TSeq) : base(seqs)
+	{
+		Check(type);
+	}
+	#endregion
+
+	#region Properties
+	public string Name { get; set; }
+	#endregion
 
 	#region Methods
-	public SequenceDefinition Clone() => MemberwiseClone() as SequenceDefinition;
-
 	/// <summary>
 	/// Check count of the sequence
 	/// </summary>
 	/// <param name="type"></param>
 	/// <exception cref="BnsDataException"></exception>
-	public void Check(AttributeType type)
+	private void Check(AttributeType type)
 	{
 		switch (type)
 		{

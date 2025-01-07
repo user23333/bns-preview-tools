@@ -341,11 +341,11 @@ public static class TextExtension
 {
 	public static string GetText(this object obj, IDataProvider provider = null)
 	{
-		if (obj is null) return null;
+		if (obj is null) return string.Empty;
 		else if (obj is string alias) return (provider ?? Globals.GameData.Provider)?[alias];
 		else if (obj is Enum sequence) return SequenceExtensions.GetText(sequence);
 		else if (obj is Record record && record.OwnerName == "text") return record.Attributes.Get<string>("text");
-		else if (obj is Ref<Text> @text) return @text.Instance?.text;
+		else if (obj is Ref<Text> @text) return @text.Value?.text;
 		else throw new NotSupportedException();
 	}
 

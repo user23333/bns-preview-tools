@@ -82,7 +82,7 @@ public partial class Skill3ToolTipPanel_1
 
 		if (record is ActiveSkill activeskill)
 		{
-			var GatherRange = activeskill.GatherRange.Instance;
+			var GatherRange = activeskill.GatherRange.Value;
 			if (GatherRange != null)
 			{
 				var ExecGatherType = activeskill.Attributes.Get<GatherType>("exec-gather-type-1");

@@ -6,7 +6,7 @@
 	xmlns:BNS="https://github.com/xyliaup/bns-preview-tools"
     xmlns:VM="clr-namespace:Xylia.Preview.UI.ViewModels"
 	xmlns:themes="clr-namespace:Xylia.Preview.UI.Resources.Themes"
-	Title="{DynamicResource ProductName}" Background="{DynamicResource RegionBrush}" ResizeMode="CanResize" hc:Dialog.Token="MainContainer" 
+	Title="{DynamicResource ProductName}" Background="{DynamicResource RegionBrush}" ResizeMode="CanResize" hc:Dialog.Token="MainContainer"
 	Height="{Binding ContainerSize.Height,Source={x:Static VM:UserSettings.Default}}" 
 	Width="{Binding ContainerSize.Width,Source={x:Static VM:UserSettings.Default}}">
 	<hc:Window.NonClientAreaContent>
@@ -98,7 +98,7 @@
 									<Setter Property="Background" Value="Transparent" />
 									<Setter Property="BorderThickness" Value="0" />
 									<Setter Property="Padding" Value="0" />
-									<Setter Property="Cursor" Value="Hand"></Setter>
+									<Setter Property="Cursor" Value="Hand" />
 								</Style>
 							</ListBox.Resources>
 							<ListBox.ItemTemplate>
@@ -143,7 +143,7 @@
 						<Run Text="Version" />
 						<Run Text="{Binding Source={x:Static VM:VersionHelper.Version},Mode=OneWay}"/>
 						<LineBreak />
-						<Run Text="Powered by Xylia" Foreground="{StaticResource DarkPrimaryBrush}"/>
+						<Run Text="Powered by Xylia" Foreground="{DynamicResource DarkPrimaryBrush}"/>
 					</TextBlock>
 					</Grid>
 				</Border>

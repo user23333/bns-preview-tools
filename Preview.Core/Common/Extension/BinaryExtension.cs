@@ -37,11 +37,9 @@ public static class BinaryExtension
 		Directory.CreateDirectory(Path.GetDirectoryName(path)!);
 
 		await using var fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+		stream.Seek(0, SeekOrigin.Begin);
 		await stream.CopyToAsync(fs);
 		await fs.FlushAsync();
-
-		// return position
-		stream.Seek(0, SeekOrigin.Begin);
 	}
 
 

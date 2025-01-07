@@ -31,6 +31,7 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
 
 	#region Events
 	public event EventHandler<MapInfo>? MapChanged;
+	public event EventHandler<Vector32>? OnClick;
 	#endregion
 
 	#region Public Properties
@@ -76,6 +77,12 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
 			_original = new Point(ScrollOffset.X, ScrollOffset.Y);
 			_mouseOffset = e.GetPosition(this);
 		}
+
+		if (e.RightButton == MouseButtonState.Pressed)
+		{
+			var offset = Mouse.GetPosition(this);
+			OnClick?.Invoke(this, (Vector32)Parse(offset));
+		}
 	}
 
 	//protected override void OnPreviewMouseMove(MouseEventArgs e)
@@ -112,32 +119,35 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
 
 		e.Handled = true;
 	}
+
+	protected override void OnPreviewKeyDown(KeyEventArgs e)
+	{
+		base.OnPreviewKeyDown(e);
+
+		if (e.KeyboardDevice.Modifiers.HasFlag(ModifierKeys.Control))
+		{
+			switch (e.Key)
+			{
+				case Key.Add: Zoom += 0.1; break;
+				case Key.Subtract: Zoom -= 0.1; break;
+				case Key.NumPad0: Zoom = 1.0; break;
+			}
+		}
+	}
 	#endregion
 
 	#region Private Methods
-	private static async void OnMapChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-	{
-		var widget = (BnsCustomMinimapWidget)d;
-		var value = (MapInfo)e.NewValue;
-		await widget.OnMapChanged(value);
-	}
-
 	private static void SetZoom(DependencyObject d, DependencyPropertyChangedEventArgs e)
 	{
 		var widget = (BnsCustomMinimapWidget)d;
 		widget.Transform.ScaleX = widget.Transform.ScaleY = (double)e.NewValue;
 	}
 
-
-	private void FilterUnit(object? sender, EventArgs args)
+	private static async void OnMapChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 	{
-		foreach (FrameworkElement element in this.Children)
-		{
-			if (element.Tag is MapUnit.CategorySeq category)
-			{
-				element.SetVisiable(UnitFilters.Contains(category));
-			}
-		}
+		var widget = (BnsCustomMinimapWidget)d;
+		var value = (MapInfo)e.NewValue;
+		await widget.OnMapChanged(value);
 	}
 
 	private async Task OnMapChanged(MapInfo value)
@@ -205,8 +215,8 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
 
 			foreach (var record in provider.GetTable<ZoneEnv2Spawn>().Where(x => x.Zone == zone.Id))
 			{
-				var env2 = record.Env2.Instance;
-				var env2place = record.Env2place.Instance;
+				var env2 = record.Env2.Value;
+				var env2place = record.Env2place.Value;
 				if (env2 is null || env2place is null || string.IsNullOrEmpty(env2.MapunitImageDisableImageset)) continue;
 
 				var point = env2place.Attributes.Get<Vector32>("action-point");
@@ -220,7 +230,7 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
 					{
 						BaseImageProperty = Image,
 						Tag = env2.MapUnitCategory,
-						ToolTip = record.Env2.Instance.Name,
+						ToolTip = record.Env2.Value.Name,
 					};
 					widget.MouseEnter += new((_, _) => widget.BaseImageProperty = OverImage);
 					widget.MouseLeave += new((_, _) => widget.BaseImageProperty = Image);
@@ -262,8 +272,8 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
 							category = MapUnit.CategorySeq.Quest;
 							tooltip += $"<br/><arg id=\"quest:{quest}\" p=\"id:quest.front-icon.scale.150\"/> <arg id=\"quest:{quest}\" p=\"id:quest.name2\"/>";
 
-							Image = quest.Instance?.FrontIcon;
-							OverImage = quest.Instance?.FrontIconOver;
+							Image = quest.Value?.FrontIcon;
+							OverImage = quest.Value?.FrontIconOver;
 						}
 					}
 				}
@@ -296,6 +306,17 @@ public class BnsCustomMinimapWidget : BnsCustomBaseWidget
 				return widget;
 			});
 			#endregion
+		}
+	}
+
+	private void FilterUnit(object? sender, EventArgs args)
+	{
+		foreach (FrameworkElement element in this.Children)
+		{
+			if (element.Tag is MapUnit.CategorySeq category)
+			{
+				element.SetVisiable(UnitFilters.Contains(category));
+			}
 		}
 	}
 	#endregion

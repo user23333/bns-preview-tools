@@ -9,26 +9,28 @@ using Xylia.Preview.Data.Engine.BinData.Models;
 using Xylia.Preview.Data.Engine.Definitions;
 
 namespace Xylia.Preview.Data.Models;
-[JsonConverter(typeof(RecordConverter))]
 [TypeConverter(typeof(ElementConverter))]
+[JsonConverter(typeof(ElementJsonConverter))]
 public sealed unsafe class Record : IElement, IDisposable
 {
 	#region Constructors
-	internal Record()
+	internal Record(Table owner, byte[] buffer, StringLookup stringLookup)
 	{
+		Owner = owner;
+		Data = buffer;
+		StringLookup = stringLookup;
 		Attributes = new(this);
 	}
 
-	public Record(Table owner, string type) : this()
+	public Record(Table owner, IElementDefinition definition)
 	{
-		var definition = owner.Definition.ElRecord.SubtableByName(type);
-
 		Owner = owner;
 		Data = new byte[definition.Size];
 		DataSize = definition.Size;
 		ElementType = ElementType.Element;
 		SubclassType = definition.SubclassType;
 		StringLookup = owner.IsCompressed ? new StringLookup() : owner.GlobalString;
+		_definition = definition;
 	}
 	#endregion
 
@@ -81,7 +83,6 @@ public sealed unsafe class Record : IElement, IDisposable
 		}
 	}
 
-
 	public byte[] Data { get; internal set; }
 
 	public StringLookup StringLookup { get; internal set; }
@@ -94,7 +95,8 @@ public sealed unsafe class Record : IElement, IDisposable
 	#endregion
 
 	#region Properties
-	internal IElementDefinition Definition => Owner.Definition.ElRecord.SubtableByType(SubclassType, this);
+	private IElementDefinition _definition;
+	internal IElementDefinition Definition => _definition ??= Owner.Definition.DocumentElement.Children[0].SubtableByType(SubclassType, this);
 
 	public string OwnerName => Owner.Name.ToLower();
 

@@ -1,8 +1,7 @@
 ﻿namespace Xylia.Preview.Data.Models.Sequence;
-public enum ResetType
+public enum ResetTypeSeq
 {
 	None,
-	Hourly,
 	Daily,
 	Weekly,
 	Monthly,

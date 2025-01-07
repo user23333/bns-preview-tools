@@ -12,18 +12,14 @@ namespace Xylia.Preview.UI.Views;
 public partial class AudioPlayer
 {
 	#region Constructors
-	AudioPlayerViewModel _viewModel;
+	static AudioPlayer? _instance;
+	readonly AudioPlayerViewModel _viewModel;
 
 	public AudioPlayer()
 	{
-		_instance ??= this;
 		DataContext = _viewModel = new AudioPlayerViewModel();
 		InitializeComponent();
 	}
-	#endregion
-
-	#region Properties
-	static AudioPlayer? _instance;
 
 	public static AudioPlayer Instance
 	{
@@ -38,9 +34,9 @@ public partial class AudioPlayer
 	}
 	#endregion
 
-
 	#region Methods
 	public void Load(AudioFile file) => _viewModel.AddToPlaylist(file);
+	public void Play(AudioFile file) => _viewModel.PlayNewCommand.Execute(file);
 
 	private void OnDeviceSwap(object sender, SelectionChangedEventArgs e)
 	{
@@ -53,14 +49,14 @@ public partial class AudioPlayer
 
 	private void OnAudioFileMouseDoubleClick(object sender, MouseButtonEventArgs e)
 	{
-		if (_viewModel.PlayNewCommand.CanExecute(null))
-			_viewModel.PlayNewCommand?.Execute(null);
+		Play(_viewModel.Selected);
 	}
 
 	private void OnSearchStarted(object sender, FunctionEventArgs<string> e)
 	{
 		var filters = e.Info.Trim().Split(' ');
 		_viewModel.AudioFilesView.Filter = o => { return o is AudioFile audio && filters.All(x => audio.Name.Contains(x, StringComparison.OrdinalIgnoreCase)); };
+		_viewModel.AudioFilesView.Refresh();
 	}
 
 	// Drop
@@ -69,8 +65,7 @@ public partial class AudioPlayer
 		if (e.Data.GetDataPresent(DataFormats.FileDrop))
 		{
 			var files = (string[])e.Data.GetData(DataFormats.FileDrop);
-			foreach (var file in files)
-				_viewModel.AddToPlaylist(new AudioFile(new FileInfo(file)));
+			foreach (var file in files) Load(new AudioFile(new FileInfo(file)));
 		}
 	}
 
@@ -96,11 +91,6 @@ public partial class AudioPlayer
 
 		var StepValue = (float)1 / 100;
 		this._viewModel.Volume += StepValue * Math.Sign(e.Delta);
-	}
-
-	private void VolumeButton_Click(object sender, RoutedEventArgs e)
-	{
-		_viewModel.Mute = !_viewModel.Mute;
 	}
 
 	private void VolumeButton_MouseEnter(object sender, MouseEventArgs e)

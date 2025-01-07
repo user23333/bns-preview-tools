@@ -10,23 +10,26 @@ public abstract class TableHeader
 	/// </summary>
 	public string Name { get; set; }
 
+	/// <summary>
+	/// element count of table
+	/// </summary>
 	public byte ElementCount { get; set; }
 
 	/// <summary>
 	/// Identifier of table
 	/// </summary>
-	/// <remarks>generated automatically according to the sorting of the table name</remarks>
+	/// <remarks>Generated automatically according to the sorting of the table name.</remarks>
 	public ushort Type { get; set; }
 
 	/// <summary>
 	/// major version of table
 	/// </summary>
-	public ushort MajorVersion { get; set; }
+	internal ushort MajorVersion { get; set; }
 
 	/// <summary>
 	/// minor version of table
 	/// </summary>
-	public ushort MinorVersion { get; set; }
+	internal ushort MinorVersion { get; set; }
 
 	internal int Size { get; set; }
 
@@ -54,40 +57,35 @@ public abstract class TableHeader
 
 
 	/// <summary>
-	/// compare config version with game real version
+	/// Compare config version with data version
 	/// </summary>
-	internal void CheckVersion((ushort, ushort) version)
+	internal void CheckVersion(string version)
+	{
+		var strs = version.Split('.' , 2);
+
+		CheckVersion(
+			strs.ElementAtOrDefault(0).To<ushort>(),
+			strs.ElementAtOrDefault(1).To<ushort>());
+	}
+
+	/// <summary>
+	/// Compare config version with data version
+	/// </summary>
+	internal void CheckVersion(ushort major, ushort minor)
 	{
 		// set version for xml table
-		if (this.MajorVersion == 0 && this.MinorVersion == 0)
+		if (MajorVersion == 0 && MinorVersion == 0)
 		{
-			MajorVersion = version.Item1;
-			MinorVersion = version.Item2;
+			MajorVersion = major;
+			MinorVersion = minor;
 		}
 		// check definition matches the data
-		else if (!MatchVersion(version.Item1 , version.Item2))
+		else if (MajorVersion != major || MinorVersion != minor)
 		{
-			Log.Warning($"check table `{this.Name}` version: {version.Item1}.{version.Item2} <> {this.MajorVersion}.{this.MinorVersion}", "Warning");
+			Log.Warning($"check table `{this.Name}` version: {this.Version} <> {major}.{minor}", "Warning");
 		}
 	}
 
-	/// <summary>
-	/// compare config version with game real version
-	/// </summary>
-	/// <returns></returns>
-	internal bool MatchVersion(ushort major, ushort minor) => this.MajorVersion == major && this.MinorVersion == minor;
-
-	/// <summary>
-	/// parse text version
-	/// </summary>
-	/// <returns></returns>
-	public static (ushort, ushort) ParseVersion(string value)
-	{
-		var version = value.Split('.');
-		var major = (ushort)version.ElementAtOrDefault(0).To<short>();
-		var minor = (ushort)version.ElementAtOrDefault(1).To<short>();
-
-		return (major, minor);
-	}
+	public string Version => string.Format("{0}.{1}", MajorVersion, MinorVersion);
 	#endregion
 }

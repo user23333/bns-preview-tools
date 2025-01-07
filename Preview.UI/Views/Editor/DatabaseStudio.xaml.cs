@@ -6,14 +6,18 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using HandyControl.Controls;
+using Microsoft.Win32;
 using OfficeOpenXml;
-using Ookii.Dialogs.Wpf;
 using Xylia.Preview.Common;
+using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Client;
 using Xylia.Preview.Data.Engine.BinData.Models;
+using Xylia.Preview.Data.Engine.Definitions;
 using Xylia.Preview.UI.Controls;
+using Xylia.Preview.UI.Extensions;
 using Xylia.Preview.UI.Helpers.Output;
 using Xylia.Preview.UI.ViewModels;
+using Selector = System.Windows.Controls.Primitives.Selector;
 
 namespace Xylia.Preview.UI.Views.Editor;
 public partial class DatabaseStudio
@@ -232,7 +236,7 @@ public partial class DatabaseStudio
 
 	private void OutputExcel_Click(object sender, RoutedEventArgs e)
 	{
-		var save = new VistaSaveFileDialog
+		var save = new SaveFileDialog
 		{
 			Filter = "Excel Files|*.xlsx",
 			FileName = $"query.xlsx",
@@ -277,7 +281,7 @@ public partial class DatabaseStudio
 
 	private void OutputText_Click(object sender, RoutedEventArgs e)
 	{
-		var save = new VistaSaveFileDialog
+		var save = new SaveFileDialog
 		{
 			Filter = "Text Files|*.txt",
 			FileName = $"query.txt",
@@ -295,9 +299,32 @@ public partial class DatabaseStudio
 	private void AttributeName_MouseDown(object sender, MouseButtonEventArgs e)
 	{
 		// copy attribute name
-		if (sender is TextBlock textBlock && e.ClickCount == 2)
+		if (sender is TextBlock textBlock && e.ClickCount == 2) Clipboard.SetText(textBlock.Text);
+	}
+
+	private void AttributeSequence_Initialized(object sender, EventArgs e)
+	{
+		if (sender is not Selector selector || selector.DataContext is not AttributeDefinition attribute) return;
+
+		// subclass
+		if (attribute.Name == "type")
 		{
-			Clipboard.SetText(textBlock.Text);
+			var view = ControlHelpers.GetParent<ListView>(selector)!;
+			var element = (view.DataContext as ElementDefinition)!;
+
+			selector.SelectedIndex = view.Tag.To<short>();
+			selector.SelectionChanged += (_, _) =>
+			{
+				var type = (short)selector.SelectedIndex;
+				view.ItemsSource = element.SubtableByType(type).ExpandedAttributes;	  
+				view.Tag = type;
+			};
+		}
+		else
+		{
+			// readonly
+			var init = selector.SelectedIndex;
+			selector.SelectionChanged += (_, _) => selector.SelectedIndex = init;
 		}
 	}
 	#endregion

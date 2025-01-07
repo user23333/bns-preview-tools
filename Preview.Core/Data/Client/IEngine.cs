@@ -1,4 +1,5 @@
-﻿using Xylia.Preview.Data.Models;
+﻿using Xylia.Preview.Data.Common.DataStruct;
+using Xylia.Preview.Data.Models;
 
 namespace Xylia.Preview.Data.Client;
 public interface IEngine : IDisposable
@@ -7,6 +8,9 @@ public interface IEngine : IDisposable
 
 	string Desc { get; }
 
+	Time64 CreatedAt { get; }
+
+	#region Methods
 	void Initialize();
 
 	/// <summary>
@@ -36,4 +40,5 @@ public interface IEngine : IDisposable
 	int Delete(string collection, IEnumerable<AttributeValue> ids);
 
 	int DeleteMany(string collection, BsonExpression predicate);
+	#endregion
 }

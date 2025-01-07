@@ -153,8 +153,18 @@ public class UBnsCustomProgressBarWidget : UBnsCustomBaseWidget
 	//ProgressOrientation
 	//ChildValueMarkerImage
 	[UPROPERTY] public bool bTextPercentageValue;
-	//MaxProgressValue
-	//InitProgressValue
+	[UPROPERTY] public int MaxProgressValue;
+	[UPROPERTY] public int InitProgressValue;
+
+
+	// progressimageproperty
+	// backgroundimageproperty
+	// XY incrementscale
+	// XY incrementlifetimescale
+	// XY decrementscale
+	// canassignwidgetid
+	// scalehorizontalalignment
+	// scaleverticalalignment
 }
 
 public class UBnsCustomScrollBarWidget : UBnsCustomBaseWidget

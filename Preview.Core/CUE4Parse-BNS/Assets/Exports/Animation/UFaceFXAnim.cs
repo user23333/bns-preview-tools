@@ -4,8 +4,7 @@ using CUE4Parse.UE4.Objects.UObject;
 namespace CUE4Parse.BNS.Assets.Exports;
 public class UFaceFXAnim : USerializeObject
 {
-	#region Property
-	[UPROPERTY]
-	public FSoftObjectPath SoundCue;
-	#endregion
+	[UPROPERTY] public object AnimData;
+	[UPROPERTY] public object Id;
+	[UPROPERTY] public FSoftObjectPath SoundCue;
 }

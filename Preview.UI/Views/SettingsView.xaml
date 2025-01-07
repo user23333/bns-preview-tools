@@ -9,7 +9,12 @@
 		Background="{DynamicResource RegionBrush}" Icon="{x:Null}" Title="{DynamicResource Settings_Name}" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" SizeToContent="Height"
 		MinHeight="{Binding Source={x:Static SystemParameters.MaximizedPrimaryScreenHeight},Converter={StaticResource RatioConverter},ConverterParameter='0.10'}"
 		Width="{Binding Source={x:Static SystemParameters.MaximizedPrimaryScreenWidth},Converter={StaticResource RatioConverter},ConverterParameter='0.35'}">
-
+	<Window.Resources>
+		<DataTemplate x:Key="EnumTemplate">
+			<TextBlock Text="{Binding Converter={converters:EnumConverter}}" />
+		</DataTemplate>
+	</Window.Resources>
+	
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" />
@@ -53,8 +58,8 @@
 					<StackPanel Orientation="Horizontal">
 						<Viewbox Width="16" Height="16" Margin="0 0 7.5 0">
 							<Canvas Width="24" Height="24">
-								<Path Fill="{StaticResource PrimaryTextBrush}" Data="M17,11c0.34,0,0.67,0.04,1,0.09V7.58c0-0.8-0.47-1.52-1.2-1.83l-5.5-2.4c-0.51-0.22-1.09-0.22-1.6,0l-5.5,2.4 C3.47,6.07,3,6.79,3,7.58v3.6c0,4.54,3.2,8.79,7.5,9.82c0.55-0.13,1.08-0.32,1.6-0.55C11.41,19.47,11,18.28,11,17 C11,13.69,13.69,11,17,11z" />
-								<Path Fill="{StaticResource PrimaryTextBrush}" Data="M17,13c-2.21,0-4,1.79-4,4c0,2.21,1.79,4,4,4s4-1.79,4-4C21,14.79,19.21,13,17,13z M17,14.38c0.62,0,1.12,0.51,1.12,1.12 s-0.51,1.12-1.12,1.12s-1.12-0.51-1.12-1.12S16.38,14.38,17,14.38z M17,19.75c-0.93,0-1.74-0.46-2.24-1.17 c0.05-0.72,1.51-1.08,2.24-1.08s2.19,0.36,2.24,1.08C18.74,19.29,17.93,19.75,17,19.75z" />
+								<Path Fill="{DynamicResource PrimaryTextBrush}" Data="M17,11c0.34,0,0.67,0.04,1,0.09V7.58c0-0.8-0.47-1.52-1.2-1.83l-5.5-2.4c-0.51-0.22-1.09-0.22-1.6,0l-5.5,2.4 C3.47,6.07,3,6.79,3,7.58v3.6c0,4.54,3.2,8.79,7.5,9.82c0.55-0.13,1.08-0.32,1.6-0.55C11.41,19.47,11,18.28,11,17 C11,13.69,13.69,11,17,11z" />
+								<Path Fill="{DynamicResource PrimaryTextBrush}" Data="M17,13c-2.21,0-4,1.79-4,4c0,2.21,1.79,4,4,4s4-1.79,4-4C21,14.79,19.21,13,17,13z M17,14.38c0.62,0,1.12,0.51,1.12,1.12 s-0.51,1.12-1.12,1.12s-1.12-0.51-1.12-1.12S16.38,14.38,17,14.38z M17,19.75c-0.93,0-1.74-0.46-2.24-1.17 c0.05-0.72,1.51-1.08,2.24-1.08s2.19,0.36,2.24,1.08C18.74,19.29,17.93,19.75,17,19.75z" />
 							</Canvas>
 						</Viewbox>
 						<TextBlock d:Text="General" Text="{DynamicResource Settings_Tab_General}" VerticalAlignment="Center" />
@@ -88,13 +93,7 @@
 					<hc:Divider Grid.ColumnSpan="10" Margin="0 5" d:Content="Options" Content="{DynamicResource Text.Option}" />
 					<ItemsControl>
 						<TextBlock d:Text="Language" Text="{DynamicResource Settings_Language}" />
-						<ComboBox Grid.Column="1" ItemsSource="{Binding Languages,Mode=OneTime}" SelectedItem="{Binding Language}">
-							<ComboBox.ItemTemplate>
-								<DataTemplate>
-									<TextBlock Text="{Binding Converter={converters:EnumConverter}}" />
-								</DataTemplate>
-							</ComboBox.ItemTemplate>
-						</ComboBox>
+						<ComboBox Grid.Column="1" ItemsSource="{Binding Languages,Mode=OneTime}" SelectedItem="{Binding Language}" ItemTemplate="{StaticResource EnumTemplate}" />
 					</ItemsControl>
 					<ItemsControl Visibility="Collapsed">
 						<TextBlock d:Text="Night Mode" Text="{DynamicResource Settings_NightMode}" />
@@ -143,7 +142,7 @@
 				<TabItem.Header>
 					<StackPanel Orientation="Horizontal">
 						<Viewbox Width="16" Height="16" Margin="0 0 7.5 0">
-							<Path Fill="{StaticResource PrimaryTextBrush}" Data="M64 464c-8.8 0-16-7.2-16-16V64c0-8.8 7.2-16 16-16H224v80c0 17.7 14.3 32 32 32h80V448c0 8.8-7.2 16-16 16H64zM64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V154.5c0-17-6.7-33.3-18.7-45.3L274.7 18.7C262.7 6.7 246.5 0 229.5 0H64zm97 289c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0L79 303c-9.4 9.4-9.4 24.6 0 33.9l48 48c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-31-31 31-31zM257 255c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l31 31-31 31c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l48-48c9.4-9.4 9.4-24.6 0-33.9l-48-48z" />
+							<Path Fill="{DynamicResource PrimaryTextBrush}" Data="M64 464c-8.8 0-16-7.2-16-16V64c0-8.8 7.2-16 16-16H224v80c0 17.7 14.3 32 32 32h80V448c0 8.8-7.2 16-16 16H64zM64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V154.5c0-17-6.7-33.3-18.7-45.3L274.7 18.7C262.7 6.7 246.5 0 229.5 0H64zm97 289c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0L79 303c-9.4 9.4-9.4 24.6 0 33.9l48 48c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-31-31 31-31zM257 255c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l31 31-31 31c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l48-48c9.4-9.4 9.4-24.6 0-33.9l-48-48z" />
 						</Viewbox>
 						<TextBlock d:Text="Data" Text="{DynamicResource Settings_Tab_Data}" VerticalAlignment="Center" />
 					</StackPanel>
@@ -182,35 +181,19 @@
 			<!-- Models -->
 			<TabItem Name="Models" d:Header="Models" Header="{DynamicResource Settings_Tab_Models}">
 				<hc:UniformSpacingPanel Orientation="Vertical" Spacing="5" Grid.IsSharedSizeScope="True">
+					<!-- Options -->
+					<hc:Divider Grid.ColumnSpan="10" Margin="0 5" d:Content="Options" Content="{DynamicResource Text.Option}" />
 					<ItemsControl>
 						<TextBlock Grid.Column="0" Text="Mesh Format" />
-						<ComboBox Grid.Column="1" ItemsSource="{Binding MeshExportFormats}" SelectedItem="{Binding MeshExportFormat, Mode=TwoWay}">
-							<ComboBox.ItemTemplate>
-								<DataTemplate>
-
-								</DataTemplate>
-							</ComboBox.ItemTemplate>
-						</ComboBox>
+						<ComboBox Grid.Column="1" ItemsSource="{Binding MeshExportFormats}" SelectedItem="{Binding MeshExportFormat}" ItemTemplate="{StaticResource EnumTemplate}" />
 					</ItemsControl>
 					<ItemsControl>
 						<TextBlock Grid.Column="0" Text="Socket Format" />
-						<ComboBox Grid.Column="1" ItemsSource="{Binding SocketExportFormats}" SelectedItem="{Binding SocketExportFormat, Mode=TwoWay}">
-							<ComboBox.ItemTemplate>
-								<DataTemplate>
-
-								</DataTemplate>
-							</ComboBox.ItemTemplate>
-						</ComboBox>
+						<ComboBox Grid.Column="1" ItemsSource="{Binding SocketExportFormats}" SelectedItem="{Binding SocketExportFormat}" ItemTemplate="{StaticResource EnumTemplate}" />
 					</ItemsControl>
 					<ItemsControl>
 						<TextBlock Grid.Column="0" Text="Level Of Detail Format" />
-						<ComboBox Grid.Column="1" ItemsSource="{Binding LodExportFormats}" SelectedItem="{Binding LodExportFormat, Mode=TwoWay}">
-							<ComboBox.ItemTemplate>
-								<DataTemplate>
-
-								</DataTemplate>
-							</ComboBox.ItemTemplate>
-						</ComboBox>
+						<ComboBox Grid.Column="1" ItemsSource="{Binding LodExportFormats}" SelectedItem="{Binding LodExportFormat}" ItemTemplate="{StaticResource EnumTemplate}" />
 					</ItemsControl>
 
 					<hc:Divider Grid.ColumnSpan="10" Margin="0 5" />
@@ -223,24 +206,11 @@
 					<hc:Divider Grid.ColumnSpan="10" Margin="0 5" />
 					<ItemsControl>
 						<TextBlock Grid.Column="0" Text="Material Format" />
-						<ComboBox Grid.Column="1" ItemsSource="{Binding MaterialExportFormats}" SelectedItem="{Binding MaterialExportFormat, Mode=TwoWay}">
-							<ComboBox.ItemTemplate>
-								<DataTemplate>
-
-								</DataTemplate>
-							</ComboBox.ItemTemplate>
-						</ComboBox>
-
+						<ComboBox Grid.Column="1" ItemsSource="{Binding MaterialExportFormats}" SelectedItem="{Binding MaterialExportFormat}" ItemTemplate="{StaticResource EnumTemplate}" />
 					</ItemsControl>
 					<ItemsControl>
 						<TextBlock Grid.Column="0" Text="Texture Format" />
-						<ComboBox Grid.Column="1" ItemsSource="{Binding TextureExportFormats}" SelectedItem="{Binding TextureExportFormat, Mode=TwoWay}">
-							<ComboBox.ItemTemplate>
-								<DataTemplate>
-
-								</DataTemplate>
-							</ComboBox.ItemTemplate>
-						</ComboBox>
+						<ComboBox Grid.Column="1" ItemsSource="{Binding TextureExportFormats}" SelectedItem="{Binding TextureExportFormat}" ItemTemplate="{StaticResource EnumTemplate}" />
 					</ItemsControl>
 				</hc:UniformSpacingPanel>
 			</TabItem>

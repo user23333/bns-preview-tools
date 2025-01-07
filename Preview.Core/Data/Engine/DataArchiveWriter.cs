@@ -2,7 +2,7 @@
 using System.Text;
 
 namespace Xylia.Preview.Data.Engine;
-internal class DataArchiveWriter(bool is64Bit) : MemoryStream
+internal class DataArchiveWriter(bool? is64Bit = false) : MemoryStream
 {
 	#region Methods
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -41,7 +41,8 @@ internal class DataArchiveWriter(bool is64Bit) : MemoryStream
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public void WriteLongInt(long value)
 	{
-		if (is64Bit) this.Write((long)value);
+		if (!is64Bit.HasValue) throw new Exception("Undetermined Flag");
+		else if (is64Bit.Value) this.Write((long)value);
 		else this.Write((int)value);
 	}
 	#endregion

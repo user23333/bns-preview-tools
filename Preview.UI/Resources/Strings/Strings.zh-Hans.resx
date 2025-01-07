@@ -225,12 +225,19 @@
   </data>
   <data name="Application_UpdateLog" xml:space="preserve">
     <value>
+[ver=3.2.3,time=2025/1/8]
+优化客户端版本获取规则
+优化控件重绘效率，缓解渲染卡顿问题
+优化地图预览在有筛选条件时，会自动展开结果
+新增点击任务预览中的对话课题时可预览对话
+新增查看 npctalkmessage 表可预览对话
+
 [ver=3.2.2,time=2024/12/9]
-+优化游戏目录的设置流程
-+优化数据管理器的属性偏移以16进制显示
-+优化文本编辑器在夜间模式下的色彩表现
-+优化在使用调试模式时，若物品名称无效会显示其别名
-+修复物品不显示使用条件的问题
+优化游戏目录的设置流程
+优化数据管理器的属性偏移以16进制显示
+优化文本编辑器在夜间模式下的色彩表现
+优化在使用调试模式时，若物品名称无效会显示其别名
+修复物品不显示使用条件的问题
 
 [ver=3.2.1,time=2024/11/14]
 数据管理器
@@ -438,7 +445,7 @@
     <value>Database Studio</value>
   </data>
   <data name="DatabaseStudio_Offset" xml:space="preserve">
-    <value>二进制偏移</value>
+    <value>偏移</value>
   </data>
   <data name="DatabaseStudio_Paramters" xml:space="preserve">
     <value>参数</value>
@@ -460,6 +467,9 @@
   </data>
   <data name="DatabaseStudio_Text" xml:space="preserve">
     <value>文本</value>
+  </data>
+  <data name="DatabaseStudio_ValueRange" xml:space="preserve">
+    <value>范围</value>
   </data>
   <data name="DatabaseStudio_ViewDefinition" xml:space="preserve">
     <value>查看定义</value>
@@ -506,6 +516,9 @@
   <data name="Exception_InvalidPublisher_Ask" xml:space="preserve">
     <value>发布商不一致，请先到数据管理器中重新链接！
 继续读取可能会造成读取异常，仍然继续吗?</value>
+  </data>
+  <data name="Exception_InvalidTalkMessage" xml:space="preserve">
+    <value>缺失对话</value>
   </data>
   <data name="IconOut_CreateList" xml:space="preserve">
     <value>输出列表</value>

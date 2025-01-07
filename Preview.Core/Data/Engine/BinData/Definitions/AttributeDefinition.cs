@@ -27,18 +27,26 @@ public class AttributeDefinition
 	public long Max { get; set; }
 	public float FMin { get; set; }
 	public float FMax { get; set; }
+	public bool IsDynamic { get; set; }
 	#endregion
 
 	#region Expand
 	public ReleaseSide Side { get; set; } = ReleaseSide.Client | ReleaseSide.Server;
 	public string ReferedTableName { get; set; }
 	public string ReferedElement { get; set; }
-	public bool Writeable { get; internal set; } = true;
-
 	internal List<AttributeDefinition> Expands { get; private set; } = [];
 	#endregion
 
 	#region Methods
+	public string Range => Type switch
+	{
+		AttributeType.TBool => null,
+		AttributeType.TFloat32 => $"{FMin} ~ {FMax}",
+		AttributeType.TRef => $"ref ({ReferedTableName})",
+		AttributeType.TTRef => $"ref",
+		_ => $"{Min} ~ {Max}"
+	};
+
 	internal AttributeDefinition Clone()
 	{
 		var newAttrDef = (AttributeDefinition)MemberwiseClone();
@@ -69,8 +77,7 @@ public class AttributeDefinition
 			if (node.GetAttribute("server", true)) side |= ReleaseSide.Server;
 
 			//seq
-			var seq = loader.Load(node);
-			seq?.Check(Type);
+			var seq = loader.Load(node, Type);
 
 			// fix default value
 			switch (Type)
@@ -182,6 +189,7 @@ public class AttributeDefinition
 				Min = MinValue,
 				FMin = node.GetAttribute<float>("fmin", float.MinValue),
 				FMax = node.GetAttribute<float>("fmax", float.MaxValue),
+				IsDynamic = node.GetAttribute<bool>("dynamic"),
 				Side = side,
 			};
 		}
@@ -192,7 +200,7 @@ public class AttributeDefinition
 		}
 	}
 
-	public static ushort GetSize(AttributeType attributeType, bool is64 = false) => attributeType switch
+	internal static ushort GetSize(AttributeType attributeType, bool is64 = false) => attributeType switch
 	{
 		AttributeType.TInt8 or
 		AttributeType.TBool or

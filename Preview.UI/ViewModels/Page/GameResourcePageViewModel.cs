@@ -14,6 +14,7 @@ using CUE4Parse.Utils;
 using HandyControl.Controls;
 using HandyControl.Data;
 using HandyControl.Tools.Extension;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 using Ookii.Dialogs.Wpf;
 using Serilog;
@@ -23,8 +24,8 @@ using Xylia.Preview.UI.Common;
 using Xylia.Preview.UI.Common.Converters;
 using Xylia.Preview.UI.Helpers.Output.Textures;
 using Xylia.Preview.UI.Views;
+using Xylia.Preview.UI.Views.Dialogs;
 using Xylia.Preview.UI.Views.Editor;
-using Xylia.Preview.UI.Views.Selector;
 using MessageBox = HandyControl.Controls.MessageBox;
 
 namespace Xylia.Preview.UI.ViewModels;
@@ -69,7 +70,7 @@ internal partial class GameResourcePageViewModel : ObservableObject
 	{
 		if (SelectedPackage is null) return;
 
-		var dialog = new VistaSaveFileDialog()
+		var dialog = new SaveFileDialog()
 		{
 			Filter = "configuration file|*.json",
 			FileName = $"RepackInfo_{SelectedPackage.Name}.json",
@@ -276,15 +277,15 @@ internal partial class GameResourcePageViewModel : ObservableObject
 	}
 	public List<NameObject<sbyte>> GradeList => new()
 	{
-		{ new(1, StringHelper.Get("MergeIcon_Grade1")) },
-		{ new(2, StringHelper.Get("MergeIcon_Grade2")) },
-		{ new(3, StringHelper.Get("MergeIcon_Grade3")) },
-		{ new(4, StringHelper.Get("MergeIcon_Grade4")) },
-		{ new(5, StringHelper.Get("MergeIcon_Grade5")) },
-		{ new(6, StringHelper.Get("MergeIcon_Grade6")) },
-		{ new(7, StringHelper.Get("MergeIcon_Grade7")) },
-		{ new(8, StringHelper.Get("MergeIcon_Grade8")) },
-		{ new(9, StringHelper.Get("MergeIcon_Grade9")) },
+		{ new(StringHelper.Get("MergeIcon_Grade1"),1) },
+		{ new(StringHelper.Get("MergeIcon_Grade2"),2) },
+		{ new(StringHelper.Get("MergeIcon_Grade3"),3) },
+		{ new(StringHelper.Get("MergeIcon_Grade4"),4) },
+		{ new(StringHelper.Get("MergeIcon_Grade5"),5) },
+		{ new(StringHelper.Get("MergeIcon_Grade6"),6) },
+		{ new(StringHelper.Get("MergeIcon_Grade7"),7) },
+		{ new(StringHelper.Get("MergeIcon_Grade8"),8) },
+		{ new(StringHelper.Get("MergeIcon_Grade9"),9) },
 	};
 
 
@@ -308,9 +309,21 @@ internal partial class GameResourcePageViewModel : ObservableObject
 		GetImage("Art/GameUI/Resource/GameUI_Icon3_R/Weapon_Lock_04"),
 		GetImage("Art/GameUI/Resource/GameUI_Icon3_R/Weapon_Lock_05"),
 		GetImage("Art/GameUI/Resource/GameUI_Icon3_R/Weapon_Lock_06"),
-		GetImage("Art/GameUI/Resource/GameUI_Icon3_R/Weapon_Lock_06"),
 		GetImage("Art/GameUI/Resource/GameUI_Icon3_R/unuseable_lock"),
 		GetImage("Art/GameUI/Resource/GameUI_Icon3_R/unuseable_lock_2"),
+		GetImage("Art/GameUI/Resource/GameUI_Icon3_R/unuseable_KeyLock"),
+		GetImage("Art/GameUI/Resource/GameUI_Icon3_R/unuseable_AccountContents"),
+		GetImage("Art/GameUI/Resource/GameUI_Icon3_R/unuseable_Achievement"),
+		GetImage("Art/GameUI/Resource/GameUI_Icon3_R/unuseable_Area"),
+		GetImage("Art/GameUI/Resource/GameUI_Icon3_R/unuseable_Awaken"),
+		GetImage("Art/GameUI/Resource/GameUI_Icon3_R/unuseable_DuelRating"),
+		GetImage("Art/GameUI/Resource/GameUI_Icon3_R/unuseable_expired"),
+		GetImage("Art/GameUI/Resource/GameUI_Icon3_R/unuseable_olditem_1"),
+		GetImage("Art/GameUI/Resource/GameUI_Icon3_R/unuseable_olditem_2"),
+		GetImage("Art/GameUI/Resource/GameUI_Icon3_R/unuseable_olditem_3"),
+		GetImage("Art/GameUI/Resource/GameUI_Icon3_R/unuseable_package"),
+		GetImage("Art/GameUI/Resource/GameUI_Icon3_R/unuseable_PcRoomOnly"),
+		GetImage("Art/GameUI/Resource/GameUI_Icon3_R/useable_PcRoomOnly"),
 	];
 
 
@@ -357,7 +370,7 @@ internal partial class GameResourcePageViewModel : ObservableObject
 	[RelayCommand]
 	public void MergeIcon_Save()
 	{
-		var dialog = new Microsoft.Win32.SaveFileDialog()
+		var dialog = new SaveFileDialog()
 		{
 			FileName = "item",
 			Filter = "png file|*.png",
@@ -376,11 +389,11 @@ internal partial class GameResourcePageViewModel : ObservableObject
 
 	public static NameObject<SKBitmap> GetImage(string path)
 	{
-		if (path == "None") return new(null, StringHelper.Get("Text.None"));
+		if (path == "None") return new(StringHelper.Get("Text.None"), null);
 
 		var resource = new Uri($"/Preview.UI;component/Content/{path}.png", UriKind.Relative);
 		using var stream = Application.GetResourceStream(resource).Stream;
-		return new(SKBitmap.Decode(stream), StringHelper.Get(path.SubstringAfterLast('/')));
+		return new(StringHelper.Get(path.SubstringAfterLast('/')), SKBitmap.Decode(stream));
 	}
 	#endregion
 }

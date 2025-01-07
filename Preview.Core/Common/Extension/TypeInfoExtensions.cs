@@ -23,7 +23,7 @@ public static class TypeInfoExtensions
 		return value is null ? default : (T)value;
 	}
 
-	internal static object To(this object value, Type type, Func<object> failFunc = null)
+	internal static object To(this object value, Type type, Func<object, Type, object> failFunc = null)
 	{
 		if (value != null)
 		{
@@ -32,8 +32,8 @@ public static class TypeInfoExtensions
 			{
 				return value;
 			}
-			else if (type.IsEnum)	
-			{	
+			else if (type.IsEnum)
+			{
 				// system EnumConverter is incomplete
 				value.ToString().TryParseToEnum(type, out value);
 				return value;
@@ -44,7 +44,7 @@ public static class TypeInfoExtensions
 				var newValue = Array.CreateInstance(type, array.Length);
 
 				int idx = 0;
-				foreach (var x in array) newValue.SetValue(x.To(type), idx++);
+				foreach (var x in array) newValue.SetValue(x.To(type, failFunc), idx++);
 				return newValue;
 			}
 
@@ -62,7 +62,8 @@ public static class TypeInfoExtensions
 			}
 
 			// fail	invoke
-			if (failFunc != null) value = failFunc?.Invoke();
+			if (failFunc != null) return failFunc?.Invoke(value, type);
+			throw new InvalidCastException();
 		}
 
 		return value;

@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.Windows;
+﻿using System.Windows;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Properties;
@@ -19,9 +18,14 @@ internal partial class UserSettings : Settings
 	#endregion
 
 	#region Common 
-	public Size ContainerSize { get; set; } = new Size(900, 600);
+	private Size containerSize = new(900, 600);
+	public Size ContainerSize
+	{
+		get => containerSize;
+		set => SetProperty(ref containerSize, value);
+	}
 
-	public ObservableCollection<ELanguage> Languages => new(StringHelper.EnumerateLanguages());
+	public IEnumerable<ELanguage> Languages => StringHelper.EnumerateLanguages();
 
 	/// <summary>
 	/// Gets or sets public language

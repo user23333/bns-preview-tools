@@ -12,6 +12,6 @@ public class SkillModifyInfoGroup : ModelElement
 
 	#region Methods
 	public string Description => """<font name="00008130.UI.Label_Green03_12"><arg p="1:string"/></font>"""
-		.GetText([string.Join("<br/>", SkillModifyInfo.SelectNotNull(o => o.Instance?.Describe))]);
+		.GetText([string.Join("<br/>", SkillModifyInfo.SelectNotNull(o => o.Value?.Describe))]);
 	#endregion
 }

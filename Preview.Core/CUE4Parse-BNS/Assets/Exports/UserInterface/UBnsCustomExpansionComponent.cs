@@ -1,4 +1,6 @@
-﻿using CUE4Parse.UE4;
+﻿using System.Diagnostics;
+using CUE4Parse.UE4;
+using CUE4Parse.UE4.Assets.Exports;
 using CUE4Parse.UE4.Assets.Objects;
 using CUE4Parse.UE4.Assets.Utils;
 using CUE4Parse.UE4.Objects.Core.i18N;
@@ -7,12 +9,10 @@ using Xylia.Preview.Data.Common.DataStruct;
 
 namespace CUE4Parse.BNS.Assets.Exports;
 [StructFallback]
+[DebuggerDisplay("{ExpansionName}")]
 public class UBnsCustomExpansionComponent : IUStruct
 {
-	//GetOwnerWidget
-	//PlayAlphaAnimation
-	//ResetAlphaAnimation
-
+	#region Properties
 	public bool bEnableSubState { get; set; }
 	public bool bPostExpansitonRender { get; set; }
 	public bool bShow { get; set; }
@@ -26,16 +26,32 @@ public class UBnsCustomExpansionComponent : IUStruct
 	public FStructFallback MetaDataByPublisher { get; set; }
 	public ImageProperty ImageProperty { get; set; }
 	public StringProperty StringProperty { get; set; }
-
+	#endregion
 
 	#region Methods
+	//GetOwnerWidget
+	//PlayAlphaAnimation
+	//ResetAlphaAnimation
+
 	public UBnsCustomExpansionComponent Clone()
 	{
 		var component = (UBnsCustomExpansionComponent)this.MemberwiseClone();
-		component.ImageProperty = ImageProperty?.Clone();
-		component.StringProperty = StringProperty?.Clone();
+		if (ImageProperty != null) component.ImageProperty = ImageProperty with { };
+		if (StringProperty != null) component.StringProperty = StringProperty with { };
 
 		return component;
+	}
+
+	public void SetEnableGray() { }
+
+	public void SetExpansionShow(bool value)
+	{
+		this.bShow = value;
+	}
+
+	public void SetVisibleFlag(ESlateVisibility flag)
+	{
+
 	}
 
 	public void SetValue(object value)
@@ -64,14 +80,5 @@ public class UBnsCustomExpansionComponent : IUStruct
 		}
 		else throw new NotSupportedException();
 	}
-
-	public void SetEnableGray() { }
-
-	public void SetExpansionShow(bool value)
-	{
-		this.bShow = value;
-	}
-
-	public void SetVisibleFlag() { }
 	#endregion
 }

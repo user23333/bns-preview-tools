@@ -22,12 +22,13 @@ public static class ControlHelpers
 		PreviousArrangeRect.SetValue(element, value);
 	}
 
-	public static void SetVisiable(this FrameworkElement element, bool visible)
+	public static bool SetVisiable(this UIElement element, bool visible)
 	{
 		element.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
+		return visible;
 	}
 
-	public static byte[] Snapshot(this FrameworkElement element)
+	public static byte[] Snapshot(this UIElement element)
 	{
 		var bounds = new Rect(element.DesiredSize);
 		element.Arrange(bounds);
@@ -38,6 +39,21 @@ public static class ControlHelpers
 		bmp.Render(element);
 
 		return bmp.AsData();
+	}
+
+
+	public static T? GetParent<T>(DependencyObject obj, string? name = null) where T : FrameworkElement
+	{
+		DependencyObject parent = VisualTreeHelper.GetParent(obj);
+
+		while (parent != null)
+		{
+			if (parent is T t && (string.IsNullOrEmpty(name) | t.Name == name)) return t;
+
+			parent = VisualTreeHelper.GetParent(parent);
+		}
+
+		return null;
 	}
 	#endregion
 

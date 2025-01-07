@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using CUE4Parse.FileProvider.Objects;
 using CUE4Parse.UE4.Objects.Core.Math;
 using CUE4Parse.UE4.Objects.Engine;
 using CUE4Parse.UE4.Objects.UObject;
@@ -14,12 +15,17 @@ internal class PreviewWorld : RecordCommand
 	{
 		if (record.OwnerName == "terrain")
 		{
-			Execute("bnsr/content/neo_art/area/" + record.Attributes.Get<string>("umap-name"));
+			var umap = record.Attributes.Get<string>("umap-name");
+			if (!Globals.GameProvider.TryFindGameFile("bnsr/content/bns/package/world/area/" + umap, out var file) &&
+				!Globals.GameProvider.TryFindGameFile("bnsr/content/neo_art/area/" + umap, out file))
+				throw new Exception(StringHelper.Get("Exception_InvalidTerrain"));
+
+			Execute(file);
 		}
 	}
 
-	public static void Execute(string umap)
-	{
+	private static void Execute(GameFile umap)
+	{	
 		var viewer = PreviewModel.SnooperViewer;
 
 		var World = Globals.GameProvider.LoadPackage(umap).GetExports().OfType<UWorld>().First();
@@ -27,7 +33,7 @@ internal class PreviewWorld : RecordCommand
 
 		foreach (var index in World.StreamingLevels)
 		{
-			var StreamingLevel = index.Load();
+			var StreamingLevel = index.Load()!;
 			var WorldAsset = StreamingLevel.Get<FSoftObjectPath>("WorldAsset").Load<UWorld>();
 			StreamingLevel.TryGetValue(out FColor LevelColor, "LevelColor");
 

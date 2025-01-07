@@ -19,7 +19,7 @@ public class AttributeCollection : IEnumerable<AttributeValue>
 		this.record = record;
 	}
 
-	internal AttributeCollection(Record record, XmlElement element, ElementDefinition definition, int index = -1) : this(record)
+	internal AttributeCollection(Record record, XmlElement element, IElementDefinition definition, int index = -1) : this(record)
 	{
 		#region attribute
 		foreach (XmlAttribute item in element.Attributes)
@@ -34,15 +34,25 @@ public class AttributeCollection : IEnumerable<AttributeValue>
 			var attr = definition.Attributes.FirstOrDefault(a => a.Type == AttributeType.TNative);
 			if (attr != null) attributes[attr.Name] = element.InnerXml;
 		}
-
+		
+		// create primary key
 		attributes[s_autoid] = index;
+		BuildData(true);
 		#endregion
 
 		#region children
 		var provider = record.Owner.Owner;
 		foreach (var child in definition.Children)
 		{
-			var table = new Table() { Owner = provider, Definition = new TableDefinition() { ElRecord = child, Name = child.Name } };
+			var table = new Table() 
+			{ 
+				Owner = provider, 
+				Definition = new TableDefinition()
+				{
+					Name = child.Name,
+					Elements = [new ElementDefinition() { Children = [child] }]
+				}
+			};
 			table.LoadElement(element, null);
 
 			record.Children[child.Name] = [.. table.Records];
@@ -86,7 +96,7 @@ public class AttributeCollection : IEnumerable<AttributeValue>
 	internal void BuildData(bool isKey = false)
 	{
 		// convert to binary
-		void SetData(AttributeDefinition attribute) => record.Attributes.Set(attribute, record.Attributes.Get(attribute));
+		void SetData(AttributeDefinition attribute) => this.Set(attribute, this.Get(attribute));
 
 		// implement IGameDataKeyParser
 		if (isKey)

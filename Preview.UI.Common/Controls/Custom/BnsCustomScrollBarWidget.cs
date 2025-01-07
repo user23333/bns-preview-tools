@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using CUE4Parse.BNS.Assets.Exports;
 using Xylia.Preview.UI.Controls.Primitives;
 
@@ -9,14 +8,12 @@ public class BnsCustomScrollBarWidget : BnsCustomBaseWidget
 	#region Constructors
 	static BnsCustomScrollBarWidget()
 	{
-		// Register Event Handler
+		// Register Event
 		EventManager.RegisterClassHandler(typeof(BnsCustomScrollBarWidget), BnsCustomSliderBarWidget.ValueChangedEvent, new RoutedPropertyChangedEventHandler<double>(OnValueChanged));
 	}
 	#endregion
 
 	#region Override Methods
-	//internal override Vector ScrollOffset => default;
-
 	protected override void OnInitialized(EventArgs e)
 	{
 		base.OnInitialized(e);

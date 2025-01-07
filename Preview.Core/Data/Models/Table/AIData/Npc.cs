@@ -1,9 +1,10 @@
 ﻿using Xylia.Preview.Common.Attributes;
+using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Models.Sequence;
 
 namespace Xylia.Preview.Data.Models;
-public sealed class Npc : ModelElement
+public sealed class Npc : ModelElement, IHaveName
 {
 	#region Attributes
 	public string Alias { get; set; }
@@ -595,6 +596,8 @@ public sealed class Npc : ModelElement
 	#endregion
 
 	#region Properties
+	string IHaveName.Name => Name2.GetText();
+
 	public string Map
 	{
 		get

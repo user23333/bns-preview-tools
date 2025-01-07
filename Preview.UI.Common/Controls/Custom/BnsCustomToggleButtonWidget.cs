@@ -17,17 +17,14 @@ public class BnsCustomToggleButtonWidget : BnsCustomLabelButtonWidget
 	///     Default Value:      false
 	/// </summary>
 	public static readonly DependencyProperty bIsCheckedProperty = DependencyProperty.Register("bIsChecked",
-		typeof(bool), typeof(BnsCustomToggleButtonWidget),
-		new FrameworkPropertyMetadata(BooleanBoxes.FalseBox,
-			FrameworkPropertyMetadataOptions.BindsTwoWayByDefault | FrameworkPropertyMetadataOptions.Journal,
-			new PropertyChangedCallback(OnIsCheckedChanged)));
+		typeof(bool), typeof(BnsCustomToggleButtonWidget), new FrameworkPropertyMetadata(BooleanBoxes.FalseBox,
+			FrameworkPropertyMetadataOptions.BindsTwoWayByDefault | FrameworkPropertyMetadataOptions.Journal, OnIsCheckedChanged));
 
 	/// <summary>
 	///     Indicates whether the BnsCustomToggleButtonWidget is checked
 	/// </summary>
 	[Category("Appearance")]
 	[TypeConverter(typeof(NullableBoolConverter))]
-	[Localizability(LocalizationCategory.None, Readability = Readability.Unreadable)]
 	public bool bIsChecked
 	{
 		get { return (bool)GetValue(bIsCheckedProperty); }
@@ -120,7 +117,8 @@ public class BnsCustomToggleButtonWidget : BnsCustomLabelButtonWidget
 		// If RadioButton is checked we should uncheck the others in the same group
 		UpdateRadioButtonGroup();
 
-		ExpansionComponentList["checked"]?.SetExpansionShow(false);
+		ExpansionComponentList["checked"]?.SetExpansionShow(true);
+		ExpansionComponentList["unchecked"]?.SetExpansionShow(false);
 		RaiseEvent(e);
 	}
 
@@ -130,7 +128,8 @@ public class BnsCustomToggleButtonWidget : BnsCustomLabelButtonWidget
 	/// <param name="e">Event arguments for the routed event that is raised by the default implementation of this method.</param>
 	private void OnUnchecked(RoutedEventArgs e)
 	{
-		ExpansionComponentList["checked"]?.SetExpansionShow(true);
+		ExpansionComponentList["checked"]?.SetExpansionShow(false);
+		ExpansionComponentList["unchecked"]?.SetExpansionShow(true);
 		RaiseEvent(e);
 	}
 	#endregion

@@ -1,56 +1,35 @@
-﻿using System.IO;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Diagnostics;
+using System.IO;
 using CSCore;
 
 namespace Xylia.Preview.UI.Audio;
-public partial class AudioFile : ObservableObject
+[DebuggerDisplay("{Name}")]
+public class AudioFile(byte[] data, string extension)
 {
 	#region Fields
-	[ObservableProperty]
-	string? path;
+	public byte[] Data { get; } = data;
+	public string Extension { get; } = extension;
 
-	[ObservableProperty]
-	string? name;
-
-	[ObservableProperty]
-	private long length;
-
-	[ObservableProperty]
-	private AudioEncoding encoding = AudioEncoding.Unknown;
-
-	[ObservableProperty]
-	private int bytesPerSecond;
-
-	public byte[] Data { get; set; }
-	public string Extension { get; }
+	public long Length => Data.Length;
+	public string Path { get; set; }
+	public string Name { get; set; }
 	#endregion
 
 	#region Constructors
-	public AudioFile(byte[] data, string extension)
-	{
-		Extension = extension;
-		Length = data.Length;
-		Data = data;
-	}
-
-	public AudioFile(FileInfo fileInfo)
+	public AudioFile(FileInfo fileInfo) : this(
+		File.ReadAllBytes(fileInfo.FullName),
+		fileInfo.Extension[1..])
 	{
 		Path = fileInfo.FullName.Replace('\\', '/');
 		Name = fileInfo.Name;
-		Length = fileInfo.Length;
-		Extension = fileInfo.Extension[1..];
-		Data = File.ReadAllBytes(fileInfo.FullName);
 	}
 
-	public AudioFile(AudioFile audioFile, IAudioSource wave)
+	public AudioFile(AudioFile file, IAudioSource wave) : this(file.Data, file.Extension)
 	{
-		Path = audioFile.Path;
-		Name = audioFile.Name;
-		Length = audioFile.Length;
-		Encoding = wave.WaveFormat.WaveFormatTag;
-		BytesPerSecond = wave.WaveFormat.BytesPerSecond;
-		Extension = audioFile.Extension;
-		Data = audioFile.Data;
+		Path = file.Path;
+		Name = file.Name;
+		//Encoding = wave.WaveFormat.WaveFormatTag;
+		//BytesPerSecond = wave.WaveFormat.BytesPerSecond;
 	}
 	#endregion
 }

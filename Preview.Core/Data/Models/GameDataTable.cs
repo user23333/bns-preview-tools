@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Diagnostics;
 using Xylia.Preview.Common.Extension;
+using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Common.DataStruct;
 using Xylia.Preview.Data.Engine.BinData.Helpers;
 using Xylia.Preview.Data.Engine.BinData.Models;
@@ -36,9 +37,12 @@ public class GameDataTable<T> : IEnumerable<T>, IEnumerable, IDisposable where T
 			return elements;
 		}
 	}
+
 	#endregion
 
 	#region Methods
+	public T this[IGameDataKey key]	=> this[key.Key()];
+
 	public T this[Ref Ref]
 	{
 		get => LoadElement(Source[Ref]);

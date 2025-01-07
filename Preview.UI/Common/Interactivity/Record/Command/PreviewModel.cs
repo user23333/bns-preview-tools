@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.Windows;
+﻿using System.Windows;
 using CUE4Parse.BNS.Assets.Exports;
 using FModel.Framework;
 using FModel.Views.Snooper;
@@ -36,7 +35,7 @@ internal class PreviewModel : RecordCommand
 		{
 			view.Models = [.. models];
 			if (view.TryLoadExport(default)) view.Run();
-			else throw new WarningException(StringHelper.Get("Exception_InvalidModel"));
+			else throw new Exception(StringHelper.Get("Exception_InvalidModel"));
 		}
 	}
 
