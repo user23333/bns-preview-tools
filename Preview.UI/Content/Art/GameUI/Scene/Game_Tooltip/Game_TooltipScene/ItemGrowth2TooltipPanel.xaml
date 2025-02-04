@@ -37,25 +37,23 @@
 
 		<TabItem Name="ItemGrowth2TooltipPanel_RandomOption" Header="RandomOption">
 			<ScrollViewer>
-				<StackPanel>
-					<ItemsControl Name="RandomOption_Groups">
-						<ItemsControl.ItemTemplate>
+				<ItemsControl Name="RandomOption_Groups">
+					<ItemsControl.ItemTemplate>
 
-							<DataTemplate>
-								<StackPanel>
-									<CheckBox Name="GroupName" Content="{Binding Name}" IsChecked="{Binding Flag,Mode=OneTime}" />
+						<DataTemplate>
+							<StackPanel>
+								<CheckBox Name="GroupName" Content="{Binding Name}" IsChecked="{Binding Flag,Mode=OneTime}" />
 
-									<StackPanel Initialized="RandomOption_Initialized" DataContext="{Binding Value}" 
+								<StackPanel Initialized="RandomOption_Initialized" DataContext="{Binding Value}" 
 												Visibility="{Binding IsChecked,ElementName=GroupName, Converter={StaticResource Boolean2VisibilityConverter}}">
-										<ListBox x:Name="RandomOption_CommonContent" ItemsSource="{Binding}" ItemTemplate="{StaticResource TwoColumn}" HorizontalContentAlignment="Stretch" />
-										<Tooltip:RewardTooltipPanel x:Name="RandomOption_RewardContent" Margin="5"/>
-									</StackPanel>
+									<ListBox x:Name="RandomOption_CommonContent" ItemsSource="{Binding}" ItemTemplate="{StaticResource TwoColumn}" HorizontalContentAlignment="Stretch" />
+									<Tooltip:RewardTooltipPanel x:Name="RandomOption_RewardContent" Margin="5"  />
 								</StackPanel>
-							</DataTemplate>
-							
-						</ItemsControl.ItemTemplate>
-					</ItemsControl>
-				</StackPanel>
+							</StackPanel>
+						</DataTemplate>
+
+					</ItemsControl.ItemTemplate>
+				</ItemsControl>
 			</ScrollViewer>
 		</TabItem>
 	</TabControl>

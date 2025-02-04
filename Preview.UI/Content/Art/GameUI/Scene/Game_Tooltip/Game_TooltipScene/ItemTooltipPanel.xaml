@@ -5,21 +5,15 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
 	MetaData="2" Width="400">
-	<BnsCustomWindowWidget.BaseImageProperty>
-		<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_Window.BNSR_Window" ImageUV="7 7" ImageUVSize="49 49" EnableSkinAlpha="true" StaticPadding="-17 -17" />
-	</BnsCustomWindowWidget.BaseImageProperty>
-	<BnsCustomWindowWidget.ExpansionComponentList>
-		<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Line" MetaData="">
-			<UBnsCustomExpansionComponent.ImageProperty>
-				<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_Window_Outfocus.BNSR_Window_Outfocus" ImageUV="7 7" ImageUVSize="49 49" EnableBrushOnly="true" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" StaticPadding="-13 -13" Opacity="1" ImageScale="1" />
-			</UBnsCustomExpansionComponent.ImageProperty>
-		</UBnsCustomExpansionComponent>
-	</BnsCustomWindowWidget.ExpansionComponentList>
 
-	<Overlay Width="400" HorizontalAlignment="Left">
+	<Overlay LayoutData.Anchors="0 0 1 1">
 		<BnsCustomWindowWidget>
-			<BnsCustomLabelWidget Name="ItemName" String="Item Name Item Name" FontSize="18" />
-			<BnsCustomLabelWidget Name="Category" String="{Binding GameCategory3, Converter={TextResource}}" d:String="카테고리카테" LayoutData.Anchors="1 0 1 0" />
+			<BnsCustomLabelWidget Name="ItemName" String="Item Name Item Name" FontSize="18" LayoutData.Anchors="0 0 .8 0" />
+			<BnsCustomLabelWidget Name="Category" String="{Binding GameCategory3, Converter={TextResource}}" d:String="카테고리카테">
+				<BnsCustomLabelWidget.HorizontalResizeLink>
+					<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_RIGHT" Offset1="0" />
+				</BnsCustomLabelWidget.HorizontalResizeLink>
+			</BnsCustomLabelWidget>
 			<BnsCustomImageWidget Name="ItemIcon" LayoutData.Offsets="0 0 80 80">
 				<BnsCustomImageWidget.VerticalResizeLink>
 					<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" Offset1="3" LinkWidgetName1="ItemName" />
@@ -55,7 +49,7 @@
 					</UBnsCustomExpansionComponent>
 				</BnsCustomImageWidget.ExpansionComponentList>
 			</BnsCustomImageWidget>
-			<BnsCustomLabelWidget Name="CollectionSubstituteText" String="만으로도 완료 할 수 있습니다." FontSize="15">
+			<BnsCustomLabelWidget Name="CollectionSubstituteText" String="만으로도 완료 할 수 있습니다." FontSize="15" LayoutData.Anchors="0 0 1 1">
 				<BnsCustomLabelWidget.HorizontalResizeLink>
 					<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" Offset1="7" LinkWidgetName1="ItemIcon" />
 				</BnsCustomLabelWidget.HorizontalResizeLink>
@@ -63,7 +57,7 @@
 					<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" Offset1="3" LinkWidgetName1="ItemName" />
 				</BnsCustomLabelWidget.VerticalResizeLink>
 			</BnsCustomLabelWidget>
-			<BnsCustomLabelWidget Name="CollectionSubstitute2Text" String="만으로도 완료 할 수 있습니다.">
+			<BnsCustomLabelWidget Name="CollectionSubstitute2Text" String="만으로도 완료 할 수 있습니다." LayoutData.Anchors="0 0 1 1">
 				<BnsCustomLabelWidget.HorizontalResizeLink>
 					<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" Offset1="7" LinkWidgetName1="ItemIcon" />
 				</BnsCustomLabelWidget.HorizontalResizeLink>
@@ -71,7 +65,7 @@
 					<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" Offset1="0" LinkWidgetName1="CollectionSubstituteText" />
 				</BnsCustomLabelWidget.VerticalResizeLink>
 			</BnsCustomLabelWidget>
-			<BnsCustomLabelWidget Name="ProbabilityText">
+			<BnsCustomLabelWidget Name="ProbabilityText" LayoutData.Anchors="0 0 1 1">
 				<BnsCustomLabelWidget.HorizontalResizeLink>
 					<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" Offset1="7" LinkWidgetName1="ItemIcon" />
 				</BnsCustomLabelWidget.HorizontalResizeLink>

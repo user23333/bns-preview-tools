@@ -47,6 +47,8 @@ public class BnsCustomWindowWidget : BnsCustomBaseWidget
 		get => (string)GetValue(TitleProperty);
 		set => SetValue(TitleProperty, value);
 	}
+
+	protected bool WindowDisplayAffinity { get; set; }
 	#endregion
 
 
@@ -116,10 +118,12 @@ public class BnsCustomWindowWidget : BnsCustomBaseWidget
 	public static implicit operator Window(BnsCustomWindowWidget w) => w.Host ??= new HostWindow(w);
 
 	private class HostWindow : Window
-	{
-		public HostWindow(BnsCustomWindowWidget content)
+	{			 
+		private readonly BnsCustomWindowWidget _content;
+
+		public HostWindow(BnsCustomWindowWidget content, bool capture = true)
 		{
-			Content = content;
+			Content = _content = content;
 			Title = content.Name;
 			ResizeMode = ResizeMode.NoResize;
 			SizeToContent = SizeToContent.WidthAndHeight;
@@ -143,6 +147,13 @@ public class BnsCustomWindowWidget : BnsCustomBaseWidget
 			return new Size(
 				child.DesiredSize.Width + windowRect.Width - clientRect.Width,
 				child.DesiredSize.Height + windowRect.Height - clientRect.Height);
+		}
+
+		protected override void OnSourceInitialized(EventArgs e)
+		{
+			base.OnSourceInitialized(e);
+			User32.SetWindowDisplayAffinity(new WindowInteropHelper(this).Handle,
+				_content.WindowDisplayAffinity ? User32.WindowDisplayAffinity.WDA_MONITOR : User32.WindowDisplayAffinity.WDA_NONE);
 		}
 
 		public void SetOwner(Window? owner)

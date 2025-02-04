@@ -36,6 +36,7 @@ public enum KeyCommandSeq
 	ItemSlot4,
 	ExtraSkillSlot5,
 	SkillDuelTag,
+	SkillDuelNpcChallenge,
 	ToggleHelp,
 	ToggleDungeonGuide,
 	ToggleInventory,
@@ -171,6 +172,7 @@ public enum KeyCommandSeq
 	TogglePvpEnable,
 	NovaEquipSkillQuickSlot,
 	ToggleAccountContents,
+	[Name("toggle-contents-journal-2")]
 	ToggleContentsJournal2,
 	ToggleFishCollecting,
 	ToggleSlate,
@@ -192,6 +194,11 @@ public enum KeyCommandSeq
 	ToggleGameInformation,
 	ToggleMarkMode,
 	ToggleRelicInventory,
-
+	ZoneExit,
+	ToggleNeopass,
+	ToggleNotificationCenter,
+	ToggleJoypadLockOn,
+	JoypadDashBackward,
+	ClassicControlModeLockOn,
 	COUNT
 }

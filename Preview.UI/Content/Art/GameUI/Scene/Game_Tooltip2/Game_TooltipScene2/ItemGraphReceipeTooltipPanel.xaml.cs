@@ -33,7 +33,7 @@ public partial class ItemGraphReceipeTooltipPanel
 		ItemGraphReceipeTooltipPanel_1_ItemIcon.ExpansionComponentList["SymbolImage"]!.SetExpansionShow(false);
 		ItemGraphReceipeTooltipPanel_1_ItemIcon.ExpansionComponentList["SymbolImage_Chacked"]!.SetExpansionShow(false);
 		ItemGraphReceipeTooltipPanel_1_ItemIcon.ExpansionComponentList["StackableLabel"]!.SetValue(edge.Recipe.MainItemCount);
-		ItemGraphReceipeTooltipPanel_1_ItemIcon_Name.String.LabelText = edge.Recipe.MainItem.ItemName;
+		ItemGraphReceipeTooltipPanel_1_ItemIcon_Name.String.LabelText = edge.Recipe.MainItem.ItemNameOnly;
 		ItemGraphReceipeTooltipPanel_1_ItemIcon_Desc.String.LabelText = null;
 
 		ItemGraphReceipeTooltipPanel_1_Price.String.LabelText = edge.Recipe.Price;

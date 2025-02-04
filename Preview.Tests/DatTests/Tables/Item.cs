@@ -46,8 +46,6 @@ public partial class TableTests
 	{
 		var record = Database.Provider.GetTable<SmartDropReward>()[alias];
 
-		var item = record.GetItem(JobSeq.소환사);
-		Console.WriteLine(item.ItemName);
 	}
 
 	[TestMethod]

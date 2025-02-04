@@ -20,7 +20,7 @@ public partial class MainWindow
 		InitializeComponent();
 
 		#region page
-		SideMenu.ItemsSource = new List<object>()
+		SideMenu.ItemsSource = new List<IPageController>()
 		{
 			new PageController<ItemPage>(),
 			new PageController<DatabaseStudio>("DatabaseStudio_Name"),
@@ -29,7 +29,6 @@ public partial class MainWindow
 			new PageController<AbilityPage>(),
 		};
 		SideMenu.SelectedIndex = 0;
-		SideMenu_Switch(SideMenu, new RoutedEventArgs());
 		#endregion
 	}
 	#endregion
@@ -41,8 +40,6 @@ public partial class MainWindow
 
 		this.Loaded += OnLoaded;
 		this.GrowlHolder2.ItemsSource = Growl2.Source;
-		this.MinWidth = this.Width;
-		this.MinHeight = this.Height;
 
 		// service
 		new ServiceManager() { new UpdateService(), new RegisterService() }.RegisterAll();
@@ -67,15 +64,15 @@ public partial class MainWindow
 
 	private void OnLoaded(object? sender, EventArgs e)
 	{
-		if (UpdateService.ShowLog)
+		if ((bool?)Application.Current.Properties["ShowLog"] == true)
 			OpenUpdateLog(sender, e);
 	}
 
-	private void SideMenu_Switch(object sender, RoutedEventArgs e)
+	private void SideMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)
 	{
 		SideMenuContainer.IsOpen = false;
-		var page = (IPageController)SideMenu.SelectedItem;
 
+		var page = (IPageController)SideMenu.SelectedItem;
 		var content = page.Content;
 		if (content is System.Windows.Window window)
 		{
@@ -113,13 +110,13 @@ public partial class MainWindow
 	private void SwitchNight_OnClick(object sender, RoutedEventArgs e)
 	{
 		var current = UserSettings.Default.NightMode;
-		if (current == null && MessageBox.Show(StringHelper.Get("Settings_NightMode_Ask"), StringHelper.Get("Message_Tip"), MessageBoxButton.YesNo) != MessageBoxResult.Yes) return;
+		if (current == 0 && MessageBox.Show(StringHelper.Get("Settings_NightMode_Ask"), StringHelper.Get("Message_Tip"), MessageBoxButton.YesNo) != MessageBoxResult.Yes) return;
 
 		UserSettings.Default.NightMode = current switch
 		{
-			null => false,
-			false => true,
-			_ => null,
+			0 => 1,
+			1 => 2,
+			_ => 0,
 		};
 	}
 	#endregion

@@ -327,101 +327,96 @@ public class Reward : ModelElement, IReward
 		}
 		#endregion
 
-		#region SmartDrop
-		SmartFixedReward.Values().ForEach(reward =>
+		#region Smart
+		SmartFixedReward.Values().ForEach((reward, idx) =>
 		{
-			data.Add(new RewardInfo()
-			{
-				Data = reward,
-				Group = "smart-fixed-reward",
-				GroupText = "UI.RandomBox.Probability.MiddleCategory.SmartDropFixedReward".GetText(),
-			});
+			data.AddRange(reward.GetRewards("smart-fixed-reward-" + (idx + 1), "UI.RandomBox.Probability.MiddleCategory.SmartDropFixedReward".GetText()));
 		});
 
-		if (SmartGroup12Probability > 0)
-		{
-			var probability = (double)SmartGroup12Probability / SmartGroup12TotalProbWeight;
+		//if (SmartGroup12Probability > 0)
+		//{
+		//	var probability = (double)SmartGroup12Probability / SmartGroup12TotalProbWeight;
 
-			SmartGroup1Reward.Values().ForEach(reward =>
-			{
-				data.Add(new RewardInfo()
-				{
-					Data = reward,
-					Group = "smart-group-1-reward",
-					GroupText = string.Format("{0}% ", SmartGroup1ProbWeight * probability) + "UI.RandomBox.Probability.MiddleCategory.SmartDropGroupReward1".GetText([SmartGroup1AssuredCount]),
-				});
-			});
+		//	SmartGroup1Reward.Values().ForEach(reward =>
+		//	{
+		//		data.Add(new RewardInfo()
+		//		{
+		//			Data = reward,
+		//			Group = "smart-group-1-reward",
+		//			GroupText = string.Format("{0}% ", SmartGroup1ProbWeight * probability) + "UI.RandomBox.Probability.MiddleCategory.SmartDropGroupReward1".GetText([SmartGroup1AssuredCount]),
+		//		});
+		//	});
 
-			SmartGroup2Reward.Values().ForEach(reward =>
-			{
-				data.Add(new RewardInfo()
-				{
-					Data = reward,
-					Group = "smart-group-2-reward",
-					GroupText = string.Format("{0}% ", SmartGroup2ProbWeight * probability) + "UI.RandomBox.Probability.MiddleCategory.SmartDropGroupReward2".GetText([SmartGroup2AssuredCount]),
-				});
-			});
-		}
+		//	SmartGroup2Reward.Values().ForEach(reward =>
+		//	{
+		//		data.Add(new RewardInfo()
+		//		{
+		//			Data = reward,
+		//			Group = "smart-group-2-reward",
+		//			GroupText = string.Format("{0}% ", SmartGroup2ProbWeight * probability) + "UI.RandomBox.Probability.MiddleCategory.SmartDropGroupReward2".GetText([SmartGroup2AssuredCount]),
+		//		});
+		//	});
+		//}
 
-		if (SmartGroup3RewardTotalCount > 0)
-		{
-			SmartGroup3Reward.Values().ForEach((reward, idx) =>
-			{
-				data.Add(new RewardInfo()
-				{
-					Data = reward,
-					Group = "smart-group-3-reward",
-					GroupText = string.Format("{0}% ", SmartGroup3Probability) + "UI.RandomBox.Probability.MiddleCategory.SmartDropGroupReward3".GetText([1]),
-					Probability = SmartGroup3RewardProbWeight[idx],
-					ProbabilityType = SmartGroup3RewardTotalProbWeight,
-				});
-			});
-		}
+		//if (SmartGroup3RewardTotalCount > 0)
+		//{
+		//	SmartGroup3Reward.Values().ForEach((reward, idx) =>
+		//	{
+		//		data.Add(new RewardInfo()
+		//		{
+		//			Data = reward,
+		//			Group = "smart-group-3-reward",
+		//			GroupText = string.Format("{0}% ", SmartGroup3Probability) + "UI.RandomBox.Probability.MiddleCategory.SmartDropGroupReward3".GetText([1]),
+		//			Probability = SmartGroup3RewardProbWeight[idx],
+		//			ProbabilityType = SmartGroup3RewardTotalProbWeight,
+		//		});
+		//	});
+		//}
 
-		if (SmartGroup4RewardTotalCount > 0)
-		{
-			SmartGroup4Reward.Values().ForEach((reward, idx) =>
-			{
-				data.Add(new RewardInfo()
-				{
-					Data = reward,
-					Group = "smart-group-4-reward",
-					GroupText = string.Format("{0}% ", SmartGroup4Probability) + "UI.RandomBox.Probability.MiddleCategory.SmartDropGroupReward4".GetText([SmartGroup4SelectedCount]),
-					Probability = 1,
-					ProbabilityType = SmartGroup4RewardTotalCount,
-				});
-			});
-		}
+		//if (SmartGroup4RewardTotalCount > 0)
+		//{
+		//	SmartGroup4Reward.Values().ForEach((reward, idx) =>
+		//	{
+		//		data.Add(new RewardInfo()
+		//		{
+		//			Data = reward,
+		//			Group = "smart-group-4-reward",
+		//			GroupText = string.Format("{0}% ", SmartGroup4Probability) + "UI.RandomBox.Probability.MiddleCategory.SmartDropGroupReward4".GetText([SmartGroup4SelectedCount]),
+		//			Probability = 1,
+		//			ProbabilityType = SmartGroup4RewardTotalCount,
+		//		});
+		//	});
+		//}
 
-		if (SmartGroup5RewardTotalCount > 0)
-		{
-			SmartGroup5Reward.Values().ForEach((reward, idx) =>
-			{
-				data.Add(new RewardInfo()
-				{
-					Data = reward,
-					Group = "smart-group-5-reward",
-					GroupText = string.Format("{0}% ", SmartGroup5Probability) + "UI.RandomBox.Probability.MiddleCategory.SmartDropGroupReward5".GetText([SmartGroup5SelectedCount]),
-					Probability = 1,
-					ProbabilityType = SmartGroup5RewardTotalCount,
-				});
-			});
-		}
+		//if (SmartGroup5RewardTotalCount > 0)
+		//{
+		//	SmartGroup5Reward.Values().ForEach((reward, idx) =>
+		//	{
+		//		data.Add(new RewardInfo()
+		//		{
+		//			Data = reward,
+		//			Group = "smart-group-5-reward",
+		//			GroupText = string.Format("{0}% ", SmartGroup5Probability) + "UI.RandomBox.Probability.MiddleCategory.SmartDropGroupReward5".GetText([SmartGroup5SelectedCount]),
+		//			Probability = 1,
+		//			ProbabilityType = SmartGroup5RewardTotalCount,
+		//		});
+		//	});
+		//}
 
-		if (SmartRareRewardTotalCount > 0)
-		{
-			SmartRareReward.Values().ForEach((reward, idx) =>
-			{
-				data.Add(new RewardInfo()
-				{
-					Data = reward,
-					Group = "smart-rare-reward",
-					GroupText = "UI.RandomBox.Probability.MiddleCategory.SmartDropRareReward".GetText([1]),
-					Probability = SmartRareRewardProbWeight[idx],
-					ProbabilityType = SmartRareRewardProbWeightType,
-				});
-			});
-		}
+		//if (SmartRareRewardTotalCount > 0)
+		//{
+		//	SmartRareReward.Values().ForEach((reward, idx) =>
+		//	{
+		//		data.Add(new RewardInfo()
+		//		{
+		//			Data = reward,
+		//			Group = "smart-rare-reward",
+		//			GroupText = "UI.RandomBox.Probability.MiddleCategory.SmartDropRareReward".GetText([1]),
+		//			Probability = SmartRareRewardProbWeight[idx],
+		//			ProbabilityType = SmartRareRewardProbWeightType,
+		//		});
+		//	});
+		//}
 		#endregion
 
 		return data;

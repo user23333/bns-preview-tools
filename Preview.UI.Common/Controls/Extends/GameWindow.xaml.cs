@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Xylia.Preview.Common;
 
 namespace Xylia.Preview.UI.Controls;
 /// <summary>
@@ -30,6 +31,11 @@ public abstract class GameWindow : Window
 	static GameWindow()
 	{
 		DefaultStyleKeyProperty.OverrideMetadata(typeof(GameWindow), new FrameworkPropertyMetadata(typeof(GameWindow)));
+	}
+
+	public GameWindow()
+	{
+		_ = Globals.GameData.Provider;  // dont remove
 	}
 	#endregion
 

@@ -5,10 +5,9 @@ using static Xylia.Preview.Data.Common.DataStruct.MsecFormat;
 namespace Xylia.Preview.Data.Models.Document;
 public class Timer : HtmlElementNode
 {
-    #region Fields
-    public int Id { get => GetAttributeValue<int>(); set => SetAttributeValue(value); }
-
-    public MsecFormatType Type { get => GetAttributeValue<MsecFormatType>(); set => SetAttributeValue(value); }
+	#region Fields
+	public int Id;
+	public MsecFormatType Type;
 	#endregion
 
 	#region Methods

@@ -26,7 +26,7 @@ internal partial class DatabaseStudioViewModel(Action<string> Message) : Observa
 	[ObservableProperty] private int _selectedPage;
 	[ObservableProperty] private bool? _connectStatus;
 
-	public bool UseImport => UserService.Instance?.Role >= UserRole.Advanced;
+	public bool UseImport => UserService.Instance.IsAdmin;
 
 	[RelayCommand]
 	private void SwitchPage(object param)

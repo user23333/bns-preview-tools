@@ -13,6 +13,7 @@ public partial class PakTest
 {
 	[TestMethod]
 	[DataRow("BNSR/Content/Art/UI/GameUI/Scene/Game_ItemMap/Game_ItemMapScene/ItemMapPanel.uasset")]
+	[DataRow("BNSR/Content/Art/UI/GameUI/Scene/Game_Tooltip2/Game_TooltipScene2/MuseumCardTooltipPanel.uasset")]
 	public void WidgetTest(string AssetPath)
 	{
 		using var provider = new GameFileProvider("D:\\Tencent\\BNS_LIVE" /*IniHelper.Value.GameFolder*/);

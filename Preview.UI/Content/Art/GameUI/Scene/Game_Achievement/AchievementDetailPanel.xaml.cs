@@ -44,7 +44,7 @@ public partial class AchievementDetailPanel
 
 			// Name
 			var Name = holder.GetChild<BnsCustomLabelWidget>("Name")!;
-			Name.String.LabelText = register.Name;
+			Name.String.LabelText = register!.Name;
 
 			// SlotName
 			var SlotName = holder.GetChild<BnsCustomLabelWidget>("Slot_Name")!;
@@ -55,7 +55,7 @@ public partial class AchievementDetailPanel
 				int half = (int)Math.Ceiling(slot.Count() / 2M);
 				SlotName.SetVisiable(true);
 				SlotName.String.LabelText = string.Join(BR.Tag, slot.Take(half));
-				SlotName.ExpansionComponentList["Right_Column_Name"].SetValue(string.Join(BR.Tag, slot.Skip(half)));
+				SlotName.ExpansionComponentList["Right_Column_Name"]!.SetValue(string.Join(BR.Tag, slot.Skip(half)));
 			}
 
 			// ProgressBar

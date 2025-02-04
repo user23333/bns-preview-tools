@@ -20,8 +20,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Preview.UI.Common", "Previe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Preview.Core", "Preview.Core\Preview.Core.csproj", "{276DA7CA-ED0C-40F4-9F64-887A5F470946}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bns-equipguide", "..\bns-equipguide\bns-equipguide.csproj", "{02691782-18EC-40E5-B814-1F9140B58DD6}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -107,35 +105,17 @@ Global
 		{276DA7CA-ED0C-40F4-9F64-887A5F470946}.Release|x64.Build.0 = Release|Any CPU
 		{276DA7CA-ED0C-40F4-9F64-887A5F470946}.Release|x86.ActiveCfg = Release|Any CPU
 		{276DA7CA-ED0C-40F4-9F64-887A5F470946}.Release|x86.Build.0 = Release|Any CPU
-		{02691782-18EC-40E5-B814-1F9140B58DD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{02691782-18EC-40E5-B814-1F9140B58DD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{02691782-18EC-40E5-B814-1F9140B58DD6}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{02691782-18EC-40E5-B814-1F9140B58DD6}.Debug|x64.Build.0 = Debug|Any CPU
-		{02691782-18EC-40E5-B814-1F9140B58DD6}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{02691782-18EC-40E5-B814-1F9140B58DD6}.Debug|x86.Build.0 = Debug|Any CPU
-		{02691782-18EC-40E5-B814-1F9140B58DD6}.Develop|Any CPU.ActiveCfg = Debug|Any CPU
-		{02691782-18EC-40E5-B814-1F9140B58DD6}.Develop|Any CPU.Build.0 = Debug|Any CPU
-		{02691782-18EC-40E5-B814-1F9140B58DD6}.Develop|x64.ActiveCfg = Debug|Any CPU
-		{02691782-18EC-40E5-B814-1F9140B58DD6}.Develop|x64.Build.0 = Debug|Any CPU
-		{02691782-18EC-40E5-B814-1F9140B58DD6}.Develop|x86.ActiveCfg = Debug|Any CPU
-		{02691782-18EC-40E5-B814-1F9140B58DD6}.Develop|x86.Build.0 = Debug|Any CPU
-		{02691782-18EC-40E5-B814-1F9140B58DD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{02691782-18EC-40E5-B814-1F9140B58DD6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{02691782-18EC-40E5-B814-1F9140B58DD6}.Release|x64.ActiveCfg = Release|Any CPU
-		{02691782-18EC-40E5-B814-1F9140B58DD6}.Release|x64.Build.0 = Release|Any CPU
-		{02691782-18EC-40E5-B814-1F9140B58DD6}.Release|x86.ActiveCfg = Release|Any CPU
-		{02691782-18EC-40E5-B814-1F9140B58DD6}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		RESX_SaveFilesImmediatelyUponChange = False
-		SolutionGuid = {E692D4CD-1B89-448D-BED5-A4E1CFDEEB06}
-		RESX_SortFileContentOnSave = True
-		RESX_ResXSortingComparison = OrdinalIgnoreCase
-		RESX_TaskErrorCategory = Warning
-		RESX_ShowErrorsInErrorList = True
 		RESX_Rules = {"EnabledRules":["StringFormat"]}
+		RESX_ShowErrorsInErrorList = True
+		RESX_TaskErrorCategory = Warning
+		RESX_ResXSortingComparison = OrdinalIgnoreCase
+		RESX_SortFileContentOnSave = True
+		SolutionGuid = {E692D4CD-1B89-448D-BED5-A4E1CFDEEB06}
+		RESX_SaveFilesImmediatelyUponChange = False
 	EndGlobalSection
 EndGlobal

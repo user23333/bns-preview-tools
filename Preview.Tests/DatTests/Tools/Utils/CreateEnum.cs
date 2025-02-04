@@ -13,8 +13,10 @@ public static class CreateEnum
         xml.LoadXml($"<?xml version=\"1.0\"?>\n<table>{text}</table>");
 
 		foreach (XmlElement attribute in xml.SelectNodes("table/attribute"))
-        {
-			var sequence = new SequenceDefinitionLoader().Load(attribute, AttributeType.TSeq);
+		{
+            var type = Enum.Parse<AttributeType>("T" + attribute.GetAttribute("type"));
+			var sequence = new SequenceDefinitionLoader().Load(attribute, type);
+
             return Instance(sequence);
         }
 

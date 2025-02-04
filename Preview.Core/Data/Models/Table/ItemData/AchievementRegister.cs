@@ -169,7 +169,7 @@ public class AchievementRegister : ModelElement, IHaveName
 
 	public sealed class QuestCompleteCount : AchievementRegister
 	{
-		public ResetTypeSeq ResetType { get; set; }
+		public Quest.ResetTypeSeq ResetType { get; set; }
 
 		public ResetByAcquireTimeSeq ResetByAcquireTime { get; set; }
 

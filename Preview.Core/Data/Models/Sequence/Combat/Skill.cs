@@ -1,5 +1,5 @@
 ﻿namespace Xylia.Preview.Data.Models.Sequence;
-public enum ConsumeType
+public enum ConsumeTypeSeq
 {
 	Point,
 	PointBelow,
@@ -10,7 +10,7 @@ public enum ConsumeType
 	COUNT
 }
 
-public enum SkillResult
+public enum SkillResultSeq
 {
 	None,
 	Hit,
@@ -34,10 +34,29 @@ public enum SkillResult
 	COUNT
 }
 
-public enum SkillEventType
+public enum SkillEventTypeSeq
 {
 	None,
 	Attack,
 	Attacked,
+	COUNT
+}
+
+public enum SkillTypeSeq
+{
+	Caster,
+	Target,
+	Ground,
+	Chain,
+	NoneTarget,
+	Summon,
+	BossRush,
+	BossMultiground,
+	BossLinklaser,
+	MakeCampfire,
+	Succession,
+	GroundSuccession,
+	DuelTag,
+	DuelInterference,
 	COUNT
 }

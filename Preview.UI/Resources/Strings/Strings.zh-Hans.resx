@@ -225,6 +225,12 @@
   </data>
   <data name="Application_UpdateLog" xml:space="preserve">
     <value>
+[ver=3.2.4]
+修复首次使用时无法设置目录的问题
+修复智能奖励显示逻辑错误问题
+调整固定提示工具的快捷键为 LeftCtrl
+优化查看 world-account-card 表时显示的文本与提示工具
+
 [ver=3.2.3,time=2025/1/8]
 优化客户端版本获取规则
 优化控件重绘效率，缓解渲染卡顿问题
@@ -1037,5 +1043,11 @@
   </data>
   <data name="UI.Tooltip.Skill.damage-percent-min-max" xml:space="preserve">
     <value>攻击力{0}~{1}%的</value>
+  </data>
+  <data name="TableView_ShowKey" xml:space="preserve">
+    <value>显示编号</value>
+  </data>
+  <data name="Name.SendMessage" xml:space="preserve">
+    <value>发送链接到游戏</value>
   </data>
 </root>

@@ -22,8 +22,8 @@ public abstract class MarketCategory2Group : ModelElement, IHaveName
 		private static HashSet<Common.DataStruct.Ref> _favorites;
 		public static HashSet<Common.DataStruct.Ref> Favorites
 		{
-			get => Settings.Default.GetValue(ref _favorites, "Preview", "FavoriteItems") ?? [];
-			set => Settings.Default.SetValue(_favorites = value, "Preview", "FavoriteItems");
+			get => Settings.Default.GetValue(ref _favorites, "Preview_FavoriteItems") ?? [];
+			set => Settings.Default.SetValue(_favorites = value, "Preview_FavoriteItems");
 		}
 
 		public override bool Filter(Record record) => Favorites.Contains(record.PrimaryKey);

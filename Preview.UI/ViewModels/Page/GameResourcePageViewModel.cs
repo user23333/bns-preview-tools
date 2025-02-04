@@ -125,7 +125,7 @@ internal partial class GameResourcePageViewModel : ObservableObject
 	}
 
 
-	public static async Task UeExporter(string filter, bool ContainType) => await Task.Run(() =>
+	public static async Task ExtractPackage(string filter, bool ContainType) => await Task.Run(() =>
 	{
 		using var provider = new GameFileProvider(UserSettings.Default.GameFolder);
 		filter = provider.FixPath(filter) ?? filter;
@@ -147,11 +147,14 @@ internal partial class GameResourcePageViewModel : ObservableObject
 		});
 	});
 
-	public static async Task UeRepack(string folder, IEnumerable<PackageParam> packages) => await Task.Run(() =>
+	public static async Task RepackPackage(string folder, IEnumerable<PackageParam> packages) => await Task.Run(() =>
 	{
+		Directory.CreateDirectory(folder);
+
 		foreach (var package in packages)
 		{
 			var reader = new MyPakFileReader(package.MountPoint);
+
 			foreach (var file in package.Files)
 			{
 				if (!file.IsValid) continue;
@@ -159,14 +162,16 @@ internal partial class GameResourcePageViewModel : ObservableObject
 				reader.Add(file.Path, file.Vfs, file.Compression);
 			}
 
-			reader.WriteToDir(folder, package.Name + ".pak");
+			reader.Save(Path.Combine(folder, package.Name));
 		}
 	});
 	#endregion
 
 	#region Icon
-	[ObservableProperty] string? icon_OutputFolder = Path.Combine(UserSettings.Default.OutputFolderResource, "Extract");
 	[ObservableProperty] string? icon_ItemListPath;
+	[ObservableProperty]
+	string? icon_OutputFolder = !string.IsNullOrEmpty(UserSettings.Default.OutputFolderResource) ?
+		Path.Combine(UserSettings.Default.OutputFolderResource, "Extract") : string.Empty;
 
 	[RelayCommand]
 	private void Icon_BrowerOutputFolder()
@@ -414,12 +419,9 @@ public class PackageParam
 
 		public CompressionMethod Compression { get; set; }
 
+		[JsonIgnore] internal PackageParam? Owner { get; set; }
 
-		[JsonIgnore]
-		public bool IsValid => File.Exists(Path);
-
-		[JsonIgnore]
-		internal PackageParam? Owner { get; set; }
+		[JsonIgnore] public bool IsValid => File.Exists(Path);
 
 		public override string ToString() => string.Join('/', Owner!.MountPoint, Vfs);
 	}

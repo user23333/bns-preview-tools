@@ -176,7 +176,7 @@
 									<StringProperty LabelText="보상" SpaceBetweenLines="3" />
 								</BnsCustomLabelWidget.String>
 							</BnsCustomLabelWidget>
-							<BnsCustomImageWidget Name="QuestJournal_RewardInfo_AdditionalReward" LayoutData.Offsets="35 104.00195 383.99994 210.00006">
+							<BnsCustomImageWidget Name="QuestJournal_RewardInfo_AdditionalReward" LayoutData.Offsets="35 104.00195 383.99994 0">
 								<BnsCustomImageWidget.HorizontalResizeLink>
 									<BnsCustomResizeLink bEnable="true" Offset1="35" />
 								</BnsCustomImageWidget.HorizontalResizeLink>
@@ -186,6 +186,17 @@
 								<BnsCustomImageWidget.BaseImageProperty>
 									<ImageProperty EnableDrawImage="true" Opacity="1" />
 								</BnsCustomImageWidget.BaseImageProperty>
+								<BnsCustomLabelWidget Name="QuestJournal_AdditionalReward_Dungeons" LayoutData.Offsets="0 38.00293 59.000977 20">
+									<BnsCustomLabelWidget.HorizontalResizeLink>
+										<BnsCustomResizeLink bEnable="true" />
+									</BnsCustomLabelWidget.HorizontalResizeLink>
+									<BnsCustomLabelWidget.VerticalResizeLink>
+										<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" Offset1="8" LinkWidgetName1="QuestJournal_AdditionalReward_Title" />
+									</BnsCustomLabelWidget.VerticalResizeLink>
+									<BnsCustomLabelWidget.String>
+										<StringProperty fontset="BNSR/Content/Art/UI/GameUI/Resource/GameUI_FontSet/UI/ChatInput_ExtremDungeon_14.ChatInput_ExtremDungeon_14" LabelText="Dungeon" SpaceBetweenLines="3" VerticalAlignment="VAlign_Center" />
+									</BnsCustomLabelWidget.String>
+								</BnsCustomLabelWidget>
 								<BnsCustomImageWidget Name="QuestJournal_AdditionalReward_Dungeons_level" LayoutData.Offsets="64.00098 38.00293 45 20">
 									<BnsCustomImageWidget.HorizontalResizeLink>
 										<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" Offset1="5" LinkWidgetName1="QuestJournal_AdditionalReward_Dungeons" />
@@ -212,17 +223,6 @@
 										</UBnsCustomExpansionComponent>
 									</BnsCustomImageWidget.ExpansionComponentList>
 								</BnsCustomImageWidget>
-								<BnsCustomLabelWidget Name="QuestJournal_AdditionalReward_Dungeons" LayoutData.Offsets="0 38.00293 59.000977 20">
-									<BnsCustomLabelWidget.HorizontalResizeLink>
-										<BnsCustomResizeLink bEnable="true" />
-									</BnsCustomLabelWidget.HorizontalResizeLink>
-									<BnsCustomLabelWidget.VerticalResizeLink>
-										<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" Offset1="8" LinkWidgetName1="QuestJournal_AdditionalReward_Title" />
-									</BnsCustomLabelWidget.VerticalResizeLink>
-									<BnsCustomLabelWidget.String>
-										<StringProperty fontset="BNSR/Content/Art/UI/GameUI/Resource/GameUI_FontSet/UI/ChatInput_ExtremDungeon_14.ChatInput_ExtremDungeon_14" LabelText="Dungeon" SpaceBetweenLines="3" VerticalAlignment="VAlign_Center" />
-									</BnsCustomLabelWidget.String>
-								</BnsCustomLabelWidget>
 								<BnsCustomWindowWidget Name="QuestJournal_AdditionalReward_Chance" LayoutData.Offsets="0 68.00293 280.00006 20">
 									<BnsCustomWindowWidget.HorizontalResizeLink>
 										<BnsCustomResizeLink bEnable="true" />
@@ -2131,7 +2131,7 @@
 				<s:TreeView x:Name="QuestJournal_CompletedQuestList" Width="270">
 					<s:TreeView.ItemTemplate>
 						<s:HierarchicalDataTemplate ItemsSource="{Binding }">
-							<BnsCustomLabelWidget Text="{Binding Path=Title}" />
+							<BnsCustomLabelWidget Text="{Binding Path=Group}" />
 
 							<s:HierarchicalDataTemplate.ItemTemplate>
 								<s:DataTemplate>

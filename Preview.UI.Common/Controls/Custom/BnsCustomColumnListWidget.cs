@@ -155,6 +155,10 @@ public class BnsCustomColumnListWidget : BnsCustomBaseWidget
 					c1.X, r1.X,
 					c2.X + c2.Y - c1.X,
 					r2.X + r2.Y - r1.X));
+
+				// use arrange size
+				if (child is BnsCustomLabelWidget widget)
+					widget.AutoResizeHorizontal = widget.AutoResizeVertical = false;
 			}
 		}
 

@@ -8,6 +8,6 @@ public sealed class FeedbackSkillScore : ModelElement
 
 	public Ref<Skill3> Skill { get; set; }
 
-	public SkillResult[] SkillResult { get; set; }
+	public SkillResultSeq[] SkillResult { get; set; }
 	#endregion
 }

@@ -1,18 +1,16 @@
 ﻿using CUE4Parse.Compression;
-using CUE4Parse.FileProvider.Objects;
 using CUE4Parse.Utils;
 
 namespace CUE4Parse.UE4.Pak;
 public static class PakFileExtension
 {
-	public static void WriteToDir(this MyPakFileReader pak, string folder, string name)
+	public static void Save(this MyPakFileReader pak, string path, string sigpath = null)
 	{
-		var path = Path.Combine(folder, name);
-		Directory.CreateDirectory(folder);
-
 		var ms = new MemoryStream();
 		pak.Write(new BinaryWriter(ms));
-		File.WriteAllBytes(path , ms.ToArray());
+
+		File.WriteAllBytes(path + ".pak", ms.ToArray());
+		if (sigpath != null) File.Copy(sigpath, path + ".sig", true);
 	}
 
 	public static void AddFolder(this MyPakFileReader pak, DirectoryInfo folder, string mountpoint = null)
@@ -35,22 +33,4 @@ public static class PakFileExtension
 			AddFolder(pak, sub, mountpoint);
 		}
 	}
-
-	public static List<MyPakFileReader> Split(this MyPakFileReader pak, int capacity = 5000)
-	{
-		List<MyPakFileReader> paks = new();
-
-		int takeCount = 0;
-		while (takeCount < pak.FileCount)
-		{
-			var sub = new MyPakFileReader(pak.MountPoint);
-			var files = (Dictionary<string, GameFile>)sub.Files;
-			foreach (var gameFile in pak.Files.Skip(takeCount).Take(takeCount += capacity))
-				files.Add(gameFile.Key, gameFile.Value);
-
-			paks.Add(sub);
-		}
-
-		return paks;
-	}
-}						    
+}

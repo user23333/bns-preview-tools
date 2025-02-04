@@ -24,7 +24,7 @@ internal class AttributeResolver
 
 	public virtual bool ResolveIsBrowsable(AttributeValue attribute) => true;  // should use IsHidden
 
-	public virtual bool ResolveIsReadOnly(AttributeDefinition attribute) => UserService.Instance is null || UserService.Instance.Role < UserRole.Advanced;
+	public virtual bool ResolveIsReadOnly(AttributeDefinition attribute) => !UserService.Instance.IsAdmin;
 
 	public virtual object ResolveDefaultValue(AttributeDefinition attribute) => attribute.DefaultValue;
 

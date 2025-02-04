@@ -9,10 +9,10 @@ namespace Xylia.Preview.Data.Models.Document;
 public class Arg : HtmlElementNode
 {
 	#region Fields
-	public string P { get => GetAttributeValue<string>(); set => SetAttributeValue(value); }
-	public string Id { get => GetAttributeValue<string>(); set => SetAttributeValue(value); }
-	public string Seq { get => GetAttributeValue<string>(); set => SetAttributeValue(value); }
-	public bool Link { get => GetAttributeValue<bool>(); set => SetAttributeValue(value); }
+	public string P;
+	public string Id;
+	public string Seq;
+	public bool Link;
 	#endregion
 
 	#region Methods

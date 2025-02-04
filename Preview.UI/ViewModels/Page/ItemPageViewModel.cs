@@ -17,13 +17,9 @@ using Window = System.Windows.Window;
 namespace Xylia.Preview.UI.ViewModels;
 internal partial class ItemPageViewModel : ObservableObject
 {
-	#region Item
-	[ObservableProperty]
-	bool onlyUpdate;
-
-	[ObservableProperty]
-	string hashPath;
-
+	#region Item   	
+	[ObservableProperty] bool onlyUpdate;
+	[ObservableProperty] string? hashPath;
 
 	[RelayCommand]
 	public void OpenSettings()

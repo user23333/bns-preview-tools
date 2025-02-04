@@ -82,7 +82,33 @@ public sealed class Effect : ModelElement, IHaveName
 
 	public sbyte DetachCount { get; set; }
 
-	//public DetachSlot[] DetachSlot { get; set; }
+	public DetachSlotSeq[] DetachSlot { get; set; }
+	public enum DetachSlotSeq
+	{
+		None,
+		Other,
+		AttackHit,
+		AttackMiss,
+		AttackDodge,
+		AttackParry,
+		AttackPerfectParry,
+		AttackBounce,
+		AttackCritical,
+		AttackCounter,
+		AttackedHit,
+		AttackedMiss,
+		AttackedDodge,
+		AttackedParry,
+		AttackedPerfectParry,
+		AttackedBounce,
+		AttackedCritical,
+		AttackedCounter,
+		CastingStart,
+		CastingEnd,
+		AttackPerfectDodge,
+		AttackedPerfectDodge,
+		COUNT
+	}
 
 	public bool ApplyDurationFormula { get; set; }
 
@@ -94,23 +120,31 @@ public sealed class Effect : ModelElement, IHaveName
 
 	public short AttackAttributeCoefficientPercent { get; set; }
 
+	public enum EventEffectTargetSeq
+	{
+		None,
+		EffectOwner,
+		EffectEventer,
+		EffectGiver,
+		SkillTarget,
+		COUNT
+	}
 
+	public EventEffectTargetSeq[] EventEffectTarget { get; set; }
 
-	//public [] EventEffectTarget { get; set; }
+	public Ref<Effect>[] EventEffect { get; set; }
 
-	//public Ref<Effect>[] EventEffect { get; set; }
+	public EventEffectTargetSeq[] SecondSlotEventEffectTarget { get; set; }
 
-	//public [] SecondSlotEventEffectTarget { get; set; }
+	public Ref<Effect>[] SecondSlotEventEffect { get; set; }
 
-	//public Ref<Effect>[] SecondSlotEventEffect { get; set; }
+	public EventEffectTargetSeq[] ThirdSlotEventEffectTarget { get; set; }
 
-	//public [] ThirdSlotEventEffectTarget { get; set; }
+	public Ref<Effect>[] ThirdSlotEventEffect { get; set; }
 
-	//public Ref<Effect>[] ThirdSlotEventEffect { get; set; }
+	public EventEffectTargetSeq[] FourthSlotEventEffectTarget { get; set; }
 
-	//public [] FourthSlotEventEffectTarget { get; set; }
-
-	//public Ref<Effect>[] FourthSlotEventEffect { get; set; }
+	public Ref<Effect>[] FourthSlotEventEffect { get; set; }
 
 	public CreatureField[] ModifyAbility { get; set; }
 
@@ -130,13 +164,33 @@ public sealed class Effect : ModelElement, IHaveName
 
 	public bool PartyBroadcast { get; set; }
 
-	//public UiSlot { get; set; }
+	public UiSlotSeq UiSlot { get; set; }
+	public enum UiSlotSeq
+	{
+		None,
+		Buff,
+		Debuff,
+		System,
+		LongTerm,
+		BuffDisable,
+		COUNT
+	}
 
-	//public UiCategory { get; set; }
+	public UiCategorySeq UiCategory { get; set; }
+	public enum UiCategorySeq
+	{
+		None,
+		Attraction,
+		ItemEvent,
+		CombatCommon,
+		CombatClass,
+		Skill,
+		COUNT
+	}
 
-	//public bool UseExtraSkillStackCount { get; set; }
+	public bool UseExtraSkillStackCount { get; set; }
 
-	//public [] CombatJob { get; set; }
+	public JobSeq[] CombatJob { get; set; }
 
 	public bool UiDifficult { get; set; }
 
@@ -234,7 +288,19 @@ public sealed class Effect : ModelElement, IHaveName
 
 	public bool CameraBlock { get; set; }
 
-	//public BattleMessageType { get; set; }
+	public BattleMessageTypeSeq BattleMessageType { get; set; }
+	public enum BattleMessageTypeSeq
+	{
+		NoAllMessage,
+		Attach,
+		Interval,
+		AttachInterval,
+		Detach,
+		AttachDetach,
+		IntervalDetach,
+		AllMessage,
+		COUNT
+	}
 
 	public string FlashSoundMode { get; set; }
 

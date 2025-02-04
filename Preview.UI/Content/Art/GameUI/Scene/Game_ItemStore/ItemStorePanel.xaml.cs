@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Data;
+using System.Windows;
 using System.Windows.Controls;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Models;
@@ -50,7 +51,7 @@ public partial class ItemStorePanel
 		widget.ToolTip = new ItemTooltipPanel() { DataContext = item };
 
 		var Name = widget.GetChild<BnsCustomLabelWidget>("Name");
-		if (Name != null) Name.String.LabelText = item.ItemName;
+		if (Name != null) Name.String.LabelText = item.ItemNameOnly;
 
 		var IconImage = widget.GetChild<BnsCustomImageWidget>("IconImage");
 		if (IconImage != null)

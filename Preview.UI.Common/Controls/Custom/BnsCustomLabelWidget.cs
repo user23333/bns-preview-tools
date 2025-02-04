@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using Xylia.Preview.Data.Models;
+using Xylia.Preview.UI.Controls.Helpers;
 using Xylia.Preview.UI.Controls.Primitives;
 using Xylia.Preview.UI.Documents;
 using Xylia.Preview.UI.Documents.Primitives;
@@ -14,8 +15,16 @@ namespace Xylia.Preview.UI.Controls;
 /// </summary>
 public class BnsCustomLabelWidget : BnsCustomBaseWidget, IContentHost
 {
-	#region Dependency Properties
+	#region Constructor
 	private static readonly Type Owner = typeof(BnsCustomLabelWidget);
+
+	static BnsCustomLabelWidget()
+	{
+		AutoResizeVerticalProperty.OverrideMetadata(Owner, new FrameworkPropertyMetadata(BooleanBoxes.TrueBox));
+	}
+	#endregion
+
+	#region Dependency Properties
 	public static CopyMode CopyMode { get; set; } = CopyMode.Original;
 
 	/// <summary>
@@ -61,7 +70,7 @@ public class BnsCustomLabelWidget : BnsCustomBaseWidget, IContentHost
 			_ => throw new NotSupportedException(),
 		};
 
-		if (!string.IsNullOrWhiteSpace(text)) 
+		if (!string.IsNullOrWhiteSpace(text))
 			Clipboard.SetDataObject(text);
 	}
 

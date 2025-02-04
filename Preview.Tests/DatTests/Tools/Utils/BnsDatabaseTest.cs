@@ -4,7 +4,7 @@ using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.Data.Engine.Definitions;
 
 namespace Xylia.Preview.Tests.DatTests.Tools.Utils;
-public sealed class DatabaseTests(IDataProvider provider, string outputPath) : BnsDatabase(provider)
+public sealed class BnsDatabaseTest(IDataProvider provider, string outputPath) : BnsDatabase(provider)
 {
     /// <summary>
     /// from external files

@@ -28,7 +28,8 @@ public partial class TableView
 		set
 		{
 			this.Title = StringHelper.Get("TableView_Name", value.Name);
-			this.ColumnList.ItemsSource = _source = CollectionViewSource.GetDefaultView(value.Records);
+			this.DataList.ItemsSource = _source = CollectionViewSource.GetDefaultView(value.Records);
+			_source.Filter = null;
 
 			CreateItemMenu(value.Name);
 		}
@@ -47,7 +48,7 @@ public partial class TableView
 				Header = StringHelper.Get(command.Name),
 				Command = command,
 			};
-			item.SetBinding(MenuItem.CommandParameterProperty, new Binding("SelectedItem") { Source = ColumnList });
+			item.SetBinding(MenuItem.CommandParameterProperty, new Binding("SelectedItem") { Source = DataList });
 
 			ItemMenu.Items.Add(item);
 		});
@@ -77,14 +78,16 @@ public partial class TableView
 		_source.Refresh();
 		_source.MoveCurrentToFirst();
 
-		ColumnList.ScrollIntoView(_source.CurrentItem);
+		DataList.ScrollIntoView(_source.CurrentItem);
 	}
 
 	protected override void OnPreviewKeyDown(KeyEventArgs e)
 	{
 		switch (e.Key == Key.System ? e.SystemKey : e.Key)
 		{
-			case Key.LeftShift when TooltipHolder != null:
+			// Do not use left shift if exist inputable control
+			// open last tooltip as window
+			case Key.LeftCtrl when TooltipHolder != null:
 			{
 				(TooltipHolder.Content as BnsCustomWindowWidget)?.Show();
 				break;

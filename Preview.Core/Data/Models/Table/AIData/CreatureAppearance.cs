@@ -61,7 +61,7 @@ public sealed class CreatureAppearance : ModelElement
 	#endregion
 }
 
-public class Param8
+public struct Param8
 {
 	#region Constructor
 	const int SIZE = 96;

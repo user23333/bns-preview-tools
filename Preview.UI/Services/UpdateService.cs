@@ -24,7 +24,7 @@ internal class UpdateService : IService
 
 		// check version
 		var version = VersionHelper.InternalVersion;
-		ShowLog = softWare.GetValue("Version")?.ToString() != version.ToString();
+		Application.Current.Properties["ShowLog"] = softWare.GetValue("Version")?.ToString() != version.ToString();
 
 		softWare.SetValue("ExecutablePath", Environment.ProcessPath!, RegistryValueKind.String);
 		softWare.SetValue("Version", version, RegistryValueKind.String);
@@ -39,13 +39,14 @@ internal class UpdateService : IService
 
 	void IService.Register()
 	{
-		Register();	  
+		Register();
 	}
 
 	public static void Register(int waitTime = 0)
 	{
 		Thread.Sleep(waitTime);
-		AutoUpdater.Start($"http://tools.bnszs.com/api/update?app={APP_NAME}&version={VersionHelper.InternalVersion}&mode={UserSettings.Default.UpdateMode}");
+		AutoUpdater.Start($"http://tools.bnszs.com/api/update?app={APP_NAME}" +
+			$"&version={VersionHelper.InternalVersion}&mode={UserSettings.Default.UpdateMode}&lang={UserSettings.Default.Language}");
 	}
 
 	private static void ParseUpdateInfoEvent(ParseUpdateInfoEventArgs args)
@@ -112,7 +113,5 @@ internal class UpdateService : IService
 		Stabble,
 		Beta,
 	}
-
-	internal static bool ShowLog { get; private set; } = false;
 	#endregion
 }

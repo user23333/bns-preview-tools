@@ -5,14 +5,13 @@ using ICSharpCode.AvalonEdit.Highlighting;
 namespace Xylia.Preview.UI.Resources.Themes;
 internal static class SkinHelpers
 {
-	public static ResourceDictionary GetDayNight(bool? night)
+	public static ResourceDictionary GetDayNight(int status)
 	{
-		// Indeterminate represents automatic
-		night ??= DateTime.Now.Hour < 6 || DateTime.Now.Hour >= 18;
+		var night = status != 1 && (status == 2 || DateTime.Now.Hour < 6 || DateTime.Now.Hour >= 18);
 
 		return new ResourceDictionary
 		{
-			Source = new Uri($"pack://application:,,,/Preview.UI;component/Resources/Themes/Skins/Basic/{(night.Value ? "Dark" : "Day")}.xaml")
+			Source = new Uri($"pack://application:,,,/Preview.UI;component/Resources/Themes/Skins/Basic/{(night ? "Dark" : "Day")}.xaml")
 		};
 	}
 

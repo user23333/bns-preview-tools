@@ -36,7 +36,8 @@ public partial class Skill3ToolTipPanel_1
 		if (e.NewValue is not Skill3 record) return;
 
 		#region Common
-		Skill3ToolTipPanel_1_Name.Arguments = [record, record];
+		TextArguments argument = [null, record];
+		Skill3ToolTipPanel_1_Name.Arguments = argument;
 		Skill3ToolTipPanel_1_Main_Icon.ExpansionComponentList["IconImage"]?.SetValue(record.FrontIcon);
 		Skill3ToolTipPanel_1_Main_Icon.ExpansionComponentList["KEYCOMMAND"]?.SetValue(record.CurrentShortCutKey);
 		Skill3ToolTipPanel_1_Main_Icon.ExpansionComponentList["SkillSkin"]?.SetExpansionShow(false);
@@ -60,7 +61,7 @@ public partial class Skill3ToolTipPanel_1
 
 		Skill3ToolTipPanel_1_ConditionTitle.SetVisiable(record.ConditionTooltip.Any(x => x.HasValue));
 		Skill3ToolTipPanel_1_ConditionText.String.LabelText = string.Join(BR.Tag, SkillTooltip.Compare(record.ConditionTooltip, OldSkill?.ConditionTooltip));
-		
+
 		Skill3ToolTipPanel_1_StanceTitle.SetVisiable(record.StanceTooltip.Any(x => x.HasValue));
 		Skill3ToolTipPanel_1_StanceText.String.LabelText = string.Join(BR.Tag, SkillTooltip.Compare(record.StanceTooltip, OldSkill?.StanceTooltip));
 
@@ -146,20 +147,13 @@ public partial class Skill3ToolTipPanel_1
 				//Skill3ToolTipPanel_1_ScaleType.ExpansionComponentList["Multi"]?.SetValue();
 			}
 
-
-			//	<record alias="Name.Skill.ConsumeValue"><arg p="2:skill.ui-stance.secondgauge-name"/> 消耗 <arg p="3:integer"/></record>
-			//	<record alias="Name.Skill.SpHeal.Zero"><arg p="2:skill.ui-stance.secondgauge-name"/> 恢复0</record>
-			//	<record alias="Name.Skill.SpHeal.ZeroPercent">恢复当前<arg p="2:skill.ui-stance.secondgauge-name"/>的0%</record>
-			//	<record alias="Name.Skill.HpConsumeValue">生命消耗 <arg p="3:integer"/></record>
-			//	<record alias="Name.Skill.ConsumeValue.CurrentPercent">消耗当前 <arg p="2:skill.ui-stance.secondgauge-name"/>的<arg p="3:integer"/>%</record>
-			//	<record alias="Name.Skill.SpHeal"><arg p="2:skill.ui-stance.secondgauge-name"/> 恢复<arg p="2:skill.ui-sp-heal-value"/></record>
-
 			Skill3ToolTipPanel_1_ConsumeInfo.String.LabelText =
-				activeskill.ConsumeHpValue > 0 ? $"hp: {activeskill.ConsumeHpValue}" :
-				activeskill.ConsumeSpValue[0] > 0 ? $"sp: {activeskill.ConsumeSpValue[0]}" :
-				activeskill.ConsumeSpValue[1] > 0 ? $"sp2: {activeskill.ConsumeSpValue[1]}" :
-				activeskill.ConsumeSummonedHpValue > 0 ? $"shp: {activeskill.ConsumeSummonedHpValue}" :
-				null;
+				activeskill.ConsumeSpValue[0] > 0 ? "Name.Skill.ConsumeValue".GetText([.. argument, activeskill.ConsumeSpValue[0]]) :
+				activeskill.ConsumeSpValue[1] > 0 ? "Name.Skill.ConsumeValue".GetText([.. argument, activeskill.ConsumeSpValue[1]]) :
+				activeskill.ConsumeHpValue > 0 ? "Name.Skill.HpConsumeValue".GetText([.. argument, activeskill.ConsumeHpValue]) :
+				activeskill.ConsumeSummonedHpValue > 0 ? "Name.Skill.HpConsumeValue".GetText([.. argument, activeskill.ConsumeSummonedHpValue]) :
+				activeskill.UiSpHealValue > 0 ? "Name.Skill.SpHeal".GetText([.. argument, activeskill.UiSpHealValue]) :
+				string.Empty;
 		}
 		#endregion
 	}

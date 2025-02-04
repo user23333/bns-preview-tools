@@ -10,10 +10,15 @@ public partial class RewardTooltipPanel
 	public RewardTooltipPanel()
 	{
 		InitializeComponent();
+		WindowDisplayAffinity = true;
 
 		Column1.String.LabelText = StringHelper.Get("Text.Name");
 		Column2.String.LabelText = StringHelper.Get("Text.Group");
 		Column3.String.LabelText = StringHelper.Get("Text.Info");
+
+#if DEVELOP
+		DataContext = Xylia.Preview.Common.Globals.GameData.Provider.GetTable<Reward>()["ZTX_General_Grocery_Box_0128"];
+#endif
 	}
 	#endregion
 
@@ -34,7 +39,7 @@ public partial class RewardTooltipPanel
 				row++;
 
 				ColumnList.AddChild(new BnsCustomLabelWidget()
-				{
+				{		
 					DataContext = info.Data,
 					String = new StringProperty(info.Text),
 					ToolTip = new BnsTooltipHolder(),

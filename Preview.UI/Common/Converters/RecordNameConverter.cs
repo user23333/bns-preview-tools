@@ -34,6 +34,7 @@ public class RecordNameConverter : MarkupExtension, IValueConverter
 		{
 			case "item-combination" or "world-account-combination": return record.Attributes.Get<Text>("material-group-name")?.text;
 			case "text": return record.To<Text>().text;
+			case "world-account-card": return record.Attributes.Get<Item>("item")?.Name;
 			case "zone": return record.Attributes.Get<MapArea>("area")?.Name;
 
 			default:

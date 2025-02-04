@@ -3,7 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:hc="https://handyorg.github.io/handycontrol"
 		xmlns:cv="clr-namespace:Xylia.Preview.UI.Common.Converters"
-		xmlns:i="https://github.com/xyliaup/bns-preview-tools" 
+		xmlns:i="https://github.com/xyliaup/bns-preview-tools"
+		xmlns:VM="clr-namespace:Xylia.Preview.UI.ViewModels"
         Height="400" Width="550">
 	<Window.Resources>
 		<ContextMenu x:Key="ItemMenu" />
@@ -16,23 +17,28 @@
 			<RowDefinition />
 		</Grid.RowDefinitions>
 
+		<!-- Searcher -->
 		<DockPanel LastChildFill="True" Margin="5">
-			<hc:ButtonGroup Margin="0,0,6,0" Style="{StaticResource ButtonGroupSolid}" Visibility="Collapsed">
-				<RadioButton Command="hc:ControlCommands.SortByCategory" IsChecked="True">
-					<Rectangle Width="16" Height="16" Fill="{StaticResource SortByCategoryDrawingBrush}" />
-				</RadioButton>
-				<RadioButton Command="hc:ControlCommands.SortByName">
-					<Rectangle Width="16" Height="16" Fill="{StaticResource SortByNameDrawingBrush}" />
-				</RadioButton>
+			<hc:ButtonGroup Margin="0,0,6,0" Style="{StaticResource ButtonGroupSolid}">
+				<ToggleButton x:Name="ShowKey" Content="&#xEA37;" FontFamily="{DynamicResource SegoeAssets}" ToolTip="{DynamicResource TableView_ShowKey}" 
+					IsChecked="{Binding TextEditor_ShowKey,Source={x:Static VM:UserSettings.Default}}" />
 			</hc:ButtonGroup>
 			<hc:SearchBar IsRealTime="True" hc:InfoElement.ShowClearButton="True" Style="{StaticResource SearchBarPlus}" SearchStarted="SearchStarted" />
 		</DockPanel>
-		<ListBox x:Name="ColumnList" Grid.Row="1" HorizontalContentAlignment="Stretch">
+		
+		<!-- Data -->
+		<ListBox x:Name="DataList" Grid.Row="1" HorizontalContentAlignment="Stretch">
 			<ListBox.ItemTemplate>
 				<DataTemplate>
 					<Border MinHeight="40" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0 1 0 0" Background="Transparent" ContextMenu="{StaticResource ItemMenu}" ToolTip="{StaticResource TooltipHolder}">
 						<Grid VerticalAlignment="Center">
-							<TextBlock Text="{Binding Converter={cv:RecordNameConverter},Mode=OneWay}" FontSize="12" Margin="20,0" />
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
+
+							<TextBlock Text="{Binding PrimaryKey}" FontSize="12" Margin="3,0,10,0" Visibility="{Binding IsChecked,ElementName=ShowKey,Converter={StaticResource Boolean2VisibilityConverter}}"/>
+							<TextBlock Text="{Binding Converter={cv:RecordNameConverter},Mode=OneWay}" FontSize="12" Margin="10,0" Grid.Column="1" />
 						</Grid>
 					</Border>
 				</DataTemplate>

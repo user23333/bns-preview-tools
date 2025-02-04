@@ -12,6 +12,7 @@ internal class PreviewProbability : RecordCommand
 	[
 		"item",
 		"npc",
+		"npc-sealed-dungeon-reward",
 		"zoneenv2",
 	];
 
@@ -59,25 +60,49 @@ internal class PreviewProbability : RecordCommand
 				var PersonalDroppedPouchRewardDifficultyType2 = record.Attributes.Get<Reward>("personal-dropped-pouch-reward-difficulty-type-2");
 				var PersonalDroppedPouchRewardDifficultyType3 = record.Attributes.Get<Reward>("personal-dropped-pouch-reward-difficulty-type-3");
 
-				// client is missing fields
+				// WARNING: client is missing fields
 				var RewardTable = record.Owner.Owner.GetTable<Reward>("reward");
-				var RewardDefault = (record.Attributes.Get<Reward>("reward-default") ?? RewardTable[FixAlias(PersonalDroppedPouchReward)] ?? RewardTable[record.ToString()]);
+				var RewardDefault = record.Attributes.Get<Reward>("reward-default") ?? RewardTable[FixAlias(PersonalDroppedPouchReward)] ?? RewardTable[record.ToString()];
+				var RewardEvent = record.Attributes.Get<Reward>("reward-event");
 				var RewardDifficultyType1 = record.Attributes.Get<Reward>("reward-difficulty-type-1") ?? RewardTable[FixAlias(PersonalDroppedPouchRewardDifficultyType1)];
 				var RewardDifficultyType2 = record.Attributes.Get<Reward>("reward-difficulty-type-2") ?? RewardTable[FixAlias(PersonalDroppedPouchRewardDifficultyType2)];
 				var RewardDifficultyType3 = record.Attributes.Get<Reward>("reward-difficulty-type-3") ?? RewardTable[FixAlias(PersonalDroppedPouchRewardDifficultyType3)];
+				var SealedDungeonReward = record.Attributes.Get<NpcSealedDungeonReward>("sealed-dungeon-reward");
+
+				// TODO: set smart flag
 
 				// display
-				Application.Current.Dispatcher.Invoke(() => new ItemGrowth2TooltipPanel { DataContext = new List<NameObject<object>>()
+				Application.Current.Dispatcher.Invoke(() => new ItemGrowth2TooltipPanel
 				{
-					new(StringHelper.Get("UI.RandomBox.Probability.CommonDroppedPouch"), RewardDefault) { Flag = true },
-					new(StringHelper.Get("UI.RandomBox.Probability.PersonalDroppedPouch"), PersonalDroppedPouchReward),
-					new(StringHelper.Get("UI.RandomBox.Probability.CommonDroppedPouch.Difficulty1"), RewardDifficultyType1),
-					new(StringHelper.Get("UI.RandomBox.Probability.PersonalDroppedPouch.Difficulty1"), PersonalDroppedPouchRewardDifficultyType1),
-					new(StringHelper.Get("UI.RandomBox.Probability.CommonDroppedPouch.Difficulty2"), RewardDifficultyType2),
-					new(StringHelper.Get("UI.RandomBox.Probability.PersonalDroppedPouch.Difficulty2"), PersonalDroppedPouchRewardDifficultyType2),
-					new(StringHelper.Get("UI.RandomBox.Probability.CommonDroppedPouch.Difficulty3"), RewardDifficultyType3),
-					new(StringHelper.Get("UI.RandomBox.Probability.PersonalDroppedPouch.Difficulty3"), PersonalDroppedPouchRewardDifficultyType3),
-				}}.Show());
+					DataContext = new List<NameObject<object>>()
+					{
+						new(StringHelper.Get("UI.RandomBox.Probability.CommonDroppedPouch"), RewardDefault) { Flag = true },
+						new(StringHelper.Get("UI.RandomBox.Probability.PersonalDroppedPouch"), PersonalDroppedPouchReward),
+						new(StringHelper.Get("UI.RandomBox.Probability.CommonDroppedPouch.Difficulty1"), RewardDifficultyType1),
+						new(StringHelper.Get("UI.RandomBox.Probability.PersonalDroppedPouch.Difficulty1"), PersonalDroppedPouchRewardDifficultyType1),
+						new(StringHelper.Get("UI.RandomBox.Probability.CommonDroppedPouch.Difficulty2"), RewardDifficultyType2),
+						new(StringHelper.Get("UI.RandomBox.Probability.PersonalDroppedPouch.Difficulty2"), PersonalDroppedPouchRewardDifficultyType2),
+						new(StringHelper.Get("UI.RandomBox.Probability.CommonDroppedPouch.Difficulty3"), RewardDifficultyType3),
+						new(StringHelper.Get("UI.RandomBox.Probability.PersonalDroppedPouch.Difficulty3"), PersonalDroppedPouchRewardDifficultyType3),
+					}
+				}.Show());
+				break;
+			}
+
+			case "npc-sealed-dungeon-reward":
+			{
+				var RewardDefault = record.Attributes.Get<Reward>("reward-default");
+				var RewardEvent = record.Attributes.Get<Reward>("reward-event");
+				var RewardPersonalDroppedPouch = record.Attributes.Get<Reward>("reward-personal-dropped-pouch");
+
+				Application.Current.Dispatcher.Invoke(() => new ItemGrowth2TooltipPanel
+				{
+					DataContext = new List<NameObject<object>>()
+					{
+						new(StringHelper.Get("UI.RandomBox.Probability.CommonDroppedPouch"), RewardDefault) { Flag = true },
+						new(StringHelper.Get("UI.RandomBox.Probability.PersonalDroppedPouch"), RewardPersonalDroppedPouch),
+					}
+				}.Show());
 				break;
 			}
 
@@ -85,10 +110,13 @@ internal class PreviewProbability : RecordCommand
 			{
 				var reward = record.Attributes.Get<Reward>("reward");
 
-				Application.Current.Dispatcher.Invoke(() => new ItemGrowth2TooltipPanel { DataContext = new List<NameObject<object>>()
+				Application.Current.Dispatcher.Invoke(() => new ItemGrowth2TooltipPanel
 				{
-					new("UI.RandomBox.Probability.PersonalDroppedPouch".GetText(), reward) { Flag = true },
-				}}.Show());
+					DataContext = new List<NameObject<object>>()
+					{
+						new("UI.RandomBox.Probability.PersonalDroppedPouch".GetText(), reward) { Flag = true },
+					}
+				}.Show());
 				break;
 			}
 

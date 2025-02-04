@@ -97,26 +97,37 @@ public class LayoutData
 	}
 
 
-	internal static Point ComputeOffset(Size clientSize, FVector2D inkSize, EHorizontalAlignment ha = default, EVerticalAlignment va = default, FVector2D Padding = default, FVector2D Offset = default)
+	internal static Size ComputeSpace(Size clientSize, FVector2D padding)
 	{
-		var offset = new Point
+#if !DEBUG
+		return clientSize;
+#endif
+		if (clientSize.Width == 0) clientSize.Width = double.PositiveInfinity;
+		if (clientSize.Height == 0) clientSize.Height = double.PositiveInfinity;
+
+		var width = clientSize.Width - 2 * padding.X;
+		var height = clientSize.Height - 2 * padding.Y;
+		return new Size(width, height);
+	}
+
+	internal static Point ComputeOffset(Size clientSize, FVector2D inkSize, EHorizontalAlignment ha = default, EVerticalAlignment va = default, FVector2D padding = default, FVector2D offset = default)
+	{
+		return new Point
 		{
-			X = Padding.X + Offset.X + (ha switch
+			X = padding.X + offset.X + (ha switch
 			{
 				EHorizontalAlignment.HAlign_Right => clientSize.Width - inkSize.X,
 				EHorizontalAlignment.HAlign_Center => (clientSize.Width - inkSize.X) * 0.5,
 				_ => 0,
 			}),
 
-			Y = Padding.Y + Offset.Y + (va switch
+			Y = padding.Y + offset.Y + (va switch
 			{
 				EVerticalAlignment.VAlign_Bottom => clientSize.Height - inkSize.Y,
 				EVerticalAlignment.VAlign_Center => (clientSize.Height - inkSize.Y) * 0.5,
 				_ => 0,
 			})
 		};
-
-		return offset;
 	}
-	#endregion
+#endregion
 }

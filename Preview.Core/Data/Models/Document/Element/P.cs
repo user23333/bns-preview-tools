@@ -1,30 +1,32 @@
 ﻿namespace Xylia.Preview.Data.Models.Document;
 public class P : HtmlElementNode
 {
-	public HorizontalAlignment HorizontalAlignment { get => GetAttributeValue<HorizontalAlignment>(); set => SetAttributeValue(value); }
-	public VerticalAlignment VerticalAlignment { get => GetAttributeValue<VerticalAlignment>(); set => SetAttributeValue(value); }
-	public HorizontalAlignment FirstLineHorizontalAlignment { get => GetAttributeValue<HorizontalAlignment>(); set => SetAttributeValue(value); }
-	public JustificationType JustificationType { get => GetAttributeValue<JustificationType>(); set => SetAttributeValue(value); }
+	//bulletimage
+	//backgroundimagesetpath
 
-	public float RightMargin { get => GetAttributeValue<float>(); set => SetAttributeValue(value); }
-	public float TopMargin { get => GetAttributeValue<float>(); set => SetAttributeValue(value); }
-	public float LeftMargin { get => GetAttributeValue<float>(); set => SetAttributeValue(value); }
-	public float BottomMargin { get => GetAttributeValue<float>(); set => SetAttributeValue(value); }
+	public HorizontalAlignment HorizontalAlignment;
+	public VerticalAlignment VerticalAlignment;
+	public HorizontalAlignment FirstLineHorizontalAlignment;
+	public JustificationType JustificationType;
 
+	public float RightMargin;
+	public float TopMargin;
+	public float LeftMargin;
+	public float BottomMargin;
 
 	//idt
 	//spacebetweenlines
 	//BackgroundImagePaddingX
 	//BackgroundImagePaddingY
 	//wordwrap
-	public bool Justification { get => GetAttributeValue<bool>(); set => SetAttributeValue(value); }
-	//disableparagraphbreak
+	public bool Justification;
 
+	public bool DisableParagraphBreak;
 
-	//bullethorizontalalignment
-	public string bulletsfontset { get => GetAttributeValue<string>(); set => SetAttributeValue(value); }
-	public string bulletsfontset2 { get => GetAttributeValue<string>(); set => SetAttributeValue(value); }
-	public string Bullets { get => GetAttributeValue<string>(); set => SetAttributeValue(value); }
+	public HorizontalAlignment BulletHorizontalAlignment;
+	public string BulletsFontset;
+	public string BulletsFontset2;
+	public string Bullets;
 
 	//bulletimage
 	//backgroundimagesetpath

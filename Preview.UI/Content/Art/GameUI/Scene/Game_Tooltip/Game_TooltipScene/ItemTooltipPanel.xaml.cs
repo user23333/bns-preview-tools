@@ -41,7 +41,7 @@ public partial class ItemTooltipPanel
 
 		#region Common	
 		TextArguments arguments = [null, record];
-		ItemName.String.LabelText = record.ItemName;
+		ItemName.String.LabelText = record.ItemNameOnly;
 		ItemIcon.ExpansionComponentList["BackgroundImage"]?.SetValue(record.BackgroundImage);
 		ItemIcon.ExpansionComponentList["IconImage"]?.SetValue(record.FrontIcon);
 		ItemIcon.ExpansionComponentList["UnusableImage"]?.SetValue(record.UnusableImage);

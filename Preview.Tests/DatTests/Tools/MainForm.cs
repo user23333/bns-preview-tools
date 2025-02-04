@@ -269,12 +269,12 @@ public partial class MainForm : Form
 	}
 
 
-	private DatabaseTests set;
+	private BnsDatabaseTest set;
 	private void button6_Click(object sender, EventArgs e)
 	{
 		Task.Run(() =>
 		{
-			set ??= new DatabaseTests(DefaultProvider.Load(textBox2.Text), textBox3.Text);
+			set ??= new BnsDatabaseTest(DefaultProvider.Load(textBox2.Text), textBox3.Text);
 			try
 			{
 				set.Output(textBox1.Text.Split('|'));

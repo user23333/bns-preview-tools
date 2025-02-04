@@ -1,11 +1,16 @@
-﻿namespace Xylia.Preview.Data.Models.Document;
+﻿using System.Globalization;
+
+namespace Xylia.Preview.Data.Models.Document;
 public class Link : HtmlElementNode
 {
-    #region Fields
-    public bool IgnoreInput { get => GetAttributeValue<bool>(); set => SetAttributeValue(value); }
+	#region Fields
+	public string Id;
+	public bool IgnoreInput;
+	public bool Editable;
 
-    public bool Editable { get => GetAttributeValue<bool>(); set => SetAttributeValue(value); }
+	#endregion
 
-    public string Id { get => GetAttributeValue<string>(); set => SetAttributeValue(value); }
+	#region Methods 
+	public static long[] Parse(string id) => id.Split('.').Select(x => long.Parse(x, NumberStyles.HexNumber)).ToArray();
 	#endregion
 }

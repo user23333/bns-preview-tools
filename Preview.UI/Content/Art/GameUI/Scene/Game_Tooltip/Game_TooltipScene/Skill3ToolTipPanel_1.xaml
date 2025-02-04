@@ -128,7 +128,7 @@
 						<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" TintColor="FFFFFF" GrayWeightValue="0.15" Opacity="1" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" />
 					</UBnsCustomExpansionComponent.ImageProperty>
 					<UBnsCustomExpansionComponent.StringProperty>
-						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_14.Normal_14" LabelText="Key" SpaceBetweenLines="3" ClippingBound="4 4" Opacity="1" TextScale="1" AnimScale="1" />
+						<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/UITitle_14.UITitle_14" LabelText="Key" SpaceBetweenLines="3" ClippingBound="4 4" Opacity="1" TextScale="1" AnimScale="1" />
 					</UBnsCustomExpansionComponent.StringProperty>
 				</UBnsCustomExpansionComponent>
 				<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="IMAGE" ExpansionName="Slot" MetaData="">
@@ -279,7 +279,7 @@
 				<ImageProperty EnableDrawImage="true" Opacity="1" />
 			</BnsCustomImageWidget.BaseImageProperty>
 		</BnsCustomImageWidget>
-		<BnsCustomLabelWidget Name="Skill3ToolTipPanel_1_CastingRangeLabel" LayoutData.Offsets="0 0 82 33.000977" MetaData="textref=UI.CreateCharacter.Distance">
+		<BnsCustomLabelWidget Name="Skill3ToolTipPanel_1_CastingRangeLabel" LayoutData.Offsets="0 0 82 33.000977" MetaData="textref=UI.SkillTooltip.Distance">
 			<BnsCustomLabelWidget.HorizontalResizeLink>
 				<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" Offset1="10" LinkWidgetName1="Skill3ToolTipPanel_1_Sub_ResizeDummy" />
 			</BnsCustomLabelWidget.HorizontalResizeLink>

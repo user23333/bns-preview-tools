@@ -5,7 +5,7 @@ using Xylia.Preview.UI.ViewModels;
 using Xylia.Preview.UI.Views.Editor;
 
 namespace Xylia.Preview.UI.Views;
-public partial class SettingsView : Window
+public partial class SettingsView
 {
 	public SettingsView()
 	{

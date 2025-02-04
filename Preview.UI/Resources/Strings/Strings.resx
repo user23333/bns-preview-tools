@@ -1038,4 +1038,10 @@ Please note that do not modify the order of nodes</value>
   <data name="UI.Tooltip.Skill.damage-percent-min-max" xml:space="preserve">
     <value>{0}~{1}xAP</value>
   </data>
+  <data name="TableView_ShowKey" xml:space="preserve">
+    <value>Display Key</value>
+  </data>
+  <data name="Name.SendMessage" xml:space="preserve">
+    <value>Send link to game.</value>
+  </data>
 </root>

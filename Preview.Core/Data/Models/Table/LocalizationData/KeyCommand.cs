@@ -1,51 +1,125 @@
-﻿using Xylia.Preview.Common;
+﻿using System.Runtime.InteropServices;
+using Xylia.Preview.Common;
+using Xylia.Preview.Common.Extension;
+using Xylia.Preview.Data.Common.Abstractions;
 using Xylia.Preview.Data.Models.Sequence;
 
 namespace Xylia.Preview.Data.Models;
 public sealed class KeyCommand : ModelElement
 {
+	[StructLayout(LayoutKind.Explicit, Size = 64)]
+	public struct KeyCommandKey(KeyCommandSeq command, JobSeq pcjob) : IGameDataKey
+	{
+		[FieldOffset(0)] public KeyCommandSeq Command = command;
+		[FieldOffset(2)] public JobSeq PcJob = pcjob;
+	}
+
 	#region Attributes
 	public KeyCommandSeq Command { get; set; }
 
+	public JobSeq PcJob { get; set; }
+
+	public CategorySeq Category { get; set; }
+
+	public enum CategorySeq
+	{
+		None,
+		Movement,
+		Panel,
+		Function,
+		Skill,
+		Social,
+		Mark,
+		BnsMode,
+		Joypad,
+		Spectate,
+		COUNT
+	}
+
+	public JoypadCategorySeq JoypadCategory { get; set; }
+
+	public enum JoypadCategorySeq
+	{
+		None,
+		JoypadMovement,
+		JoypadSkill,
+		JoypadPanelAndFunction,
+		JoypadSocial,
+		JoypadMark,
+		JoypadSpecialFunction,
+		JoypadSpectate,
+		COUNT
+	}
+
+	public Ref<Text> Name { get; set; }
+
 	public string DefaultKeycap { get; set; }
+
+	public bool ModifierEnabled { get; set; }
+
+	public sbyte SortNo { get; set; }
+
+	public sbyte Layer { get; set; }
+
+	public short OptionSortNo { get; set; }
+
+	public UsableJoypadModeSeq UsableJoypadMode { get; set; }
+
+	public enum UsableJoypadModeSeq
+	{
+		None,
+		Any,
+		Ui,
+		Action,
+		COUNT
+	}
+
+	public bool JoypadCustomizeEnabled { get; set; }
+
+	public bool JoypadOverlappedBindingEnabled { get; set; }
 	#endregion
 
-
 	#region Methods
-	private KeyCap[] GetKeyCaps()
+	/// <summary>
+	/// 0 is HotKey<br/>1 is SubHotKey<br/>2 is Joypad
+	/// </summary>
+	/// <returns></returns>
+	private List<KeyCap[]> GetKeyCodes()
 	{
-		var result = new List<KeyCap>();
+		var result = new List<KeyCap[]>();
 
-		if (this.DefaultKeycap != null)
+		if (DefaultKeycap != null)
 		{
-			foreach (var o in DefaultKeycap.Split(','))
+			foreach (var s in DefaultKeycap.Split(','))
 			{
-				if (string.IsNullOrWhiteSpace(o) || o == "none") continue;
+				var caps = new KeyCap[2];
 
-				if (o.StartsWith('^'))
+				if (s.StartsWith('^'))
 				{
-					result.Add(KeyCap.Cast(KeyCode.Control));
-					result.Add(KeyCap.Cast(o[1..]));
+					caps[0] = KeyCode.Control;
+					caps[1] = KeyCap.GetKeyCode(s[1..]);
 				}
-				else if (o.StartsWith('~'))
+				else if (s.StartsWith('~'))
 				{
-					result.Add(KeyCap.Cast(KeyCode.Alt));
-					result.Add(KeyCap.Cast(o[1..]));
+					caps[0] = KeyCode.Alt;
+					caps[1] = KeyCap.GetKeyCode(s[1..]);
 				}
-				else result.Add(KeyCap.Cast(o));
+				else
+				{
+					caps[1] = KeyCap.GetKeyCode(s);
+				}
+
+				result.Add(caps);
 			}
 		}
 
-		return [.. result];
+		return result;
 	}
 
-	private KeyCap GetKey(int Index) => this.GetKeyCaps().Length >= Index + 1 ? this.GetKeyCaps()[Index] : null;
+	public KeyCap Key1 => GetKeyCodes()[0][1];
 
-	public KeyCap Key1 => GetKey(0);
-	public KeyCap Key2 => GetKey(1);
+	public override string ToString() => string.Join('+', GetKeyCodes()[0].SelectNotNull(code => code?.Name.GetText()));
 
-	public override string ToString() => this.Key1?.Image;
-
-	public static KeyCommand Cast(KeyCommandSeq KeyCommand) => Globals.GameData.Provider.GetTable<KeyCommand>().FirstOrDefault(o => o.Command == KeyCommand);
+	public static KeyCommand Cast(KeyCommandSeq command) => Globals.GameData.Provider.GetTable<KeyCommand>()[new KeyCommandKey(command, JobSeq.JobNone)];
 	#endregion
 }

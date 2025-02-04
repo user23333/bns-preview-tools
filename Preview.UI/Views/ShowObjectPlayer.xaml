@@ -1,4 +1,4 @@
-﻿<Window x:Class="Xylia.Preview.UI.Views.ShowObjectPlayer"
+﻿<hc:Window x:Class="Xylia.Preview.UI.Views.ShowObjectPlayer"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:converters="clr-namespace:Xylia.Preview.UI.Common.Converters"
@@ -42,4 +42,4 @@
 
 		</Grid>
 	</Grid>
-</Window>
+</hc:Window>

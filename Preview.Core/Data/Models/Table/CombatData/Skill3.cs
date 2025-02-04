@@ -10,13 +10,10 @@ public abstract class Skill3 : ModelElement, IHaveName
 	#region Attributes
 	public short[] RevisedEventProbabilityInExec { get; set; }
 
-	public Ref<SkillSystematization>[] Systematization { get; set; }
 	public short DamageRatePvp { get; set; }
 	public short DamageRateStandardStats { get; set; }
 
-
 	public Ref<Text> Name2 { get; set; }
-
 	public KeyCommandSeq ShortCutKey { get; set; }
 	public KeyCommandSeq ShortCutKeyClassic { get; set; }
 	public KeyCommandSeq ShortCutKeySimpleContext { get; set; }
@@ -31,7 +28,6 @@ public abstract class Skill3 : ModelElement, IHaveName
 	public short IconIndex { get; set; }
 	public Icon Icon { get; set; }
 
-
 	public sealed class ActiveSkill : Skill3
 	{
 		public FlowTypeSeq FlowType { get; set; }
@@ -41,7 +37,10 @@ public abstract class Skill3 : ModelElement, IHaveName
 			LeaveCaster,
 			TransferSimslot,
 			DirectlySimslot,
+			COUNT
 		}
+
+		public SkillTypeSeq SkillType { get; set; }
 
 		public Ref<SkillDashAttribute3> DashAttribute { get; set; }
 
@@ -59,18 +58,26 @@ public abstract class Skill3 : ModelElement, IHaveName
 		public Msec RecycleGroupDuration { get; set; }
 		public RecycleGroup BoundRecycleGroup { get; set; }
 		public sbyte BoundRecycleGroupId { get; set; }
-
 		public short ConsumeHpValue { get; set; }
-		public ConsumeType ConsumeHpType { get; set; }
+		public ConsumeTypeSeq ConsumeHpType { get; set; }
 		public short[] ConsumeSpValue { get; set; }
-		public ConsumeType[] ConsumeSpType { get; set; }
+		public ConsumeTypeSeq[] ConsumeSpType { get; set; }
 		public short ConsumeSummonedHpValue { get; set; }
-		public ConsumeType ConsumeSummonedHpType { get; set; }
-
+		public ConsumeTypeSeq ConsumeSummonedHpType { get; set; }
 
 		public sbyte FlowRepeat { get; set; }
 		public sbyte ExpandedFlowRepeatCount { get; set; }
 		public sbyte ExpandedFlowRepeatStartFlowStep { get; set; }
+
+
+		public bool UiShowForceInstantRecycle { get; set; }
+		public bool UiShowRecycle { get; set; }
+		public bool UiShowRecycleSimpleContextMode { get; set; }
+		public Icon UiRecycleIcon { get; set; }
+		public Ref<Text> UiRecycleName { get; set; }
+		public Ref<Text> UiRecycleDescription { get; set; }
+		public short UiSpHealValue { get; set; }
+		public ConsumeTypeSeq UiSpHealType { get; set; }
 	}
 
 	public sealed class PassiveSkill : Skill3
@@ -84,6 +91,9 @@ public abstract class Skill3 : ModelElement, IHaveName
 	}
 	#endregion
 
+	#region Properties
+	public Stance UiStance => Provider.GetTable<Stance>()[(byte)Attributes.Get<StanceSeq>("ui-stance-1")];
+	#endregion
 
 	#region Methods
 	public string Name => Name2.GetText();

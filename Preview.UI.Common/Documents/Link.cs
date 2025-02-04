@@ -19,6 +19,8 @@ public class Link : BaseElement<Data.Models.Document.Link>
 		var type = tmp[0]?.Trim();
 		switch (type)
 		{
+			case "emoticon": Id = new Links.Emoticon(); break;
+			case "glyph": Id = new Links.Glyph(); break;
 			case "item": Id = new Links.Item(); break;
 			case "item-name": Id = new Links.ItemName(); break;
 			case "tooltip": Id = new Links.Tooltip(); break;

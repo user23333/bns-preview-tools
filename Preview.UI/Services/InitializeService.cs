@@ -35,6 +35,7 @@ internal class InitializeService : IService
 		BnsTooltipHolder.RegisterTemplate<NpcTooltipPanel>(typeof(Npc));
 		BnsTooltipHolder.RegisterTemplate<RewardTooltipPanel>(typeof(Reward));
 		BnsTooltipHolder.RegisterTemplate<Skill3ToolTipPanel_1>(typeof(Skill3));
+		BnsTooltipHolder.RegisterTemplate<MuseumCardTooltipPanel>(typeof(WorldAccountCard));
 		BnsTooltipHolder.RegisterTemplate<RewardTooltipPanel>(typeof(WorldAccountCombination));
 		BnsTooltipHolder.RegisterTemplate<AttractionMapUnitToolTipPanel>(typeof(IAttraction));
 		#endregion

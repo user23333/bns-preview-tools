@@ -1,4 +1,4 @@
-﻿<Window x:Class="Xylia.Preview.UI.Views.Editor.DatabaseManager"
+﻿<hc:Window x:Class="Xylia.Preview.UI.Views.Editor.DatabaseManager"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -73,4 +73,4 @@
 
 		<Button Grid.Row="3" MinWidth="78" Margin="0 0 0 0" HorizontalAlignment="Right" VerticalAlignment="Bottom" d:Content="Ok" Content="{DynamicResource Text.Ok}" Command="ApplicationCommands.Open" IsDefault="True" />
 	</Grid>
-</Window>
+</hc:Window>

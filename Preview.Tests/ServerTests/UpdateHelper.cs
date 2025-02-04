@@ -9,9 +9,10 @@ namespace Xylia.Preview.Tests.ServerTests;
 public class UpdateHelper
 {
 	[TestMethod]
-	[DataRow("BNSR/Binaries/Win64/BNSR.exe", 40, 4)]
-	[DataRow("BNSR/Content/local/ZNCS/data/xml64.dat", 40, 4)]
-	[DataRow("BNSR/Content/local/ZNCS/Korean/data/local64.dat", 40, 0)]
+	[DataRow("BNSR/Binaries/Win64/BNSR.exe", 50, 4)]
+	[DataRow("BNSR/Content/local/ZNCS/data/xml64.dat", 49, 4)]
+	[DataRow("BNSR/Content/local/ZNCS/Korean/data/local64.dat", 49, 0)]
+	[DataRow("BNSR/Content/Paks/Pak_0_N_PA_UI_11-WindowsNoEditor.pak", 49, 7)]
 	public void Download(string path, int version = 1, int part = 0)
 	{
 		var client = new HttpClient();
@@ -37,15 +38,12 @@ public class UpdateHelper
 
 			archive.Seek(0, SeekOrigin.Begin);
 			archive.SaveAsync(name + ".7z").Wait();
-
-			//var extractor = new SevenZip.SevenZipExtractor(archive);
-			//extractor.ExtractArchive(@"C:\Users\Xylia\Downloads\BNSR\Content\local\ZNCS\data");
 		}
 	}
 
 	static async Task<Stream> DownloadFileAsync(string url, string path)
 	{
-		// check sum
+		// TODO: check sum
 		if (File.Exists(path)) return File.OpenRead(path);
 
 		using HttpClient client = new HttpClient();
@@ -63,7 +61,6 @@ public class UpdateHelper
 		{
 			await fileStream.WriteAsync(buffer.AsMemory(0, bytesRead));
 			totalBytesRead += bytesRead;
-			//Console.WriteLine($"下载进度: {totalBytesRead}/{totalBytes}");
 		}
 
 		return fileStream;

@@ -4,7 +4,7 @@
 		xmlns:hc="https://handyorg.github.io/handycontrol"
 		xmlns:VM="clr-namespace:Xylia.Preview.UI.ViewModels"
 		Background="{DynamicResource RegionBrush}" CornerRadius="10"
-		Width="{Binding ContainerSize.Width,Source={x:Static VM:UserSettings.Default},Converter={StaticResource RatioConverter},ConverterParameter='.8'}"
+		Width="{Binding ContainerSize.Width,Source={x:Static VM:UserSettings.Default},Converter={StaticResource RatioConverter},ConverterParameter='.9'}"
 		Height="{Binding ContainerSize.Height,Source={x:Static VM:UserSettings.Default},Converter={StaticResource RatioConverter},ConverterParameter='.85'}">
 	<Grid>
 		<Grid.RowDefinitions>

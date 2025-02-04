@@ -31,7 +31,7 @@ public class P : BaseElement<Data.Models.Document.P>
 		ArgumentNullException.ThrowIfNull(Element);
 
 		// bullet
-		if (Element.Bullets != null) Children.Insert(0, new Font(Element.bulletsfontset, new Run(Element.Bullets)));
+		if (Element.Bullets != null) Children.Insert(0, new Font(Element.BulletsFontset, new Run(Element.Bullets)));
 	}
 
 	protected internal override bool NewLine()

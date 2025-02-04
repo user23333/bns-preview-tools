@@ -1,4 +1,4 @@
-﻿<Window x:Class="Xylia.Preview.UI.Views.SettingsView"
+﻿<hc:Window x:Class="Xylia.Preview.UI.Views.SettingsView"
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -14,7 +14,7 @@
 			<TextBlock Text="{Binding Converter={converters:EnumConverter}}" />
 		</DataTemplate>
 	</Window.Resources>
-	
+
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" />
@@ -97,7 +97,7 @@
 					</ItemsControl>
 					<ItemsControl Visibility="Collapsed">
 						<TextBlock d:Text="Night Mode" Text="{DynamicResource Settings_NightMode}" />
-						<ComboBox Grid.Column="1" SelectedIndex="{Binding NightMode,Converter={StaticResource Bool2EnumConverter}}">
+						<ComboBox Grid.Column="1" SelectedIndex="{Binding NightMode}">
 							<ComboBoxItem Content="{DynamicResource Settings_NightMode_Auto}" />
 							<ComboBoxItem Content="{DynamicResource Settings_NightMode_Day}" />
 							<ComboBoxItem Content="{DynamicResource Settings_NightMode_Night}" />
@@ -228,5 +228,5 @@
 			</Grid>
 		</Border>
 	</Grid>
-
-</Window>
+	
+</hc:Window>

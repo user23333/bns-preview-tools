@@ -1938,6 +1938,8 @@ public partial class HtmlDocument
 					close = true;
 				}
 			}
+
+			if (_currentnode is HtmlElementNode element) element.Initialize();
 		}
 
 		if (close || !_currentnode._starttag)

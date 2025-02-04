@@ -22,6 +22,7 @@ internal partial class UserSettings
 	public string? TextView_OldPath { get => GetValue<string>(); set => SetValue(value); }
 	public string? TextView_NewPath { get => GetValue<string>(); set => SetValue(value); }
 
-	public bool TextEditor_WordWrap { get => GetValue<bool>(); set => SetValue(value); }
+	public bool TextEditor_ShowKey { get => GetValue<bool>(); set => SetValue(value); }
 	public bool TextEditor_ShowEndOfLine { get => GetValue<bool>(); set => SetValue(value); }
+	public bool TextEditor_WordWrap { get => GetValue<bool>(); set => SetValue(value); }
 }

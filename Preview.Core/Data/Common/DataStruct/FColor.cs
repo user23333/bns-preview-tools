@@ -2,10 +2,29 @@
 
 namespace Xylia.Preview.Data.Common.DataStruct;
 [StructLayout(LayoutKind.Sequential)]
-public struct FColor
+public struct FColor(float r, float g, float b)
 {
-	public static IColor Parse(string input)
+	public float R = r;
+	public float G = g;
+	public float B = b;
+
+	#region Methods
+	public static FColor Parse(string input)
 	{
-		throw new NotImplementedException();
+		var items = input.Split(',');
+
+		if (items.Length != 3)
+			throw new ArgumentException("Invalid FColor string input");
+
+		return new FColor(
+			float.Parse(items[0]),
+			float.Parse(items[1]),
+			float.Parse(items[2])
+		);
 	}
+
+	public readonly override int GetHashCode() => HashCode.Combine(R, G, B);
+
+	public readonly override string ToString() => $"{R:F4},{G:F4},{B:F4}";
+	#endregion
 }

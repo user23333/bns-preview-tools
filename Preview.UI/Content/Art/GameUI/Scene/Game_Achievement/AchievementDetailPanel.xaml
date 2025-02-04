@@ -592,7 +592,7 @@
 				<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AchievementDetailPanel_Register_1_Name" />
 			</BnsCustomLabelWidget.VerticalResizeLink>
 			<BnsCustomLabelWidget.String>
-				<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="Register Slot Column 1 Column 1" SpaceBetweenLines="3" ClippingBound="-205 -10" Padding="205 10" />
+				<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="Register Slot Column 1 Column 1" SpaceBetweenLines="3" />
 			</BnsCustomLabelWidget.String>
 			<BnsCustomLabelWidget.ExpansionComponentList>
 				<UBnsCustomExpansionComponent bShow="true" ExpansionType="STRING" ExpansionName="Right_Column_Name" MetaData="">
@@ -659,7 +659,7 @@
 				<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AchievementDetailPanel_Register_2_Name" />
 			</BnsCustomLabelWidget.VerticalResizeLink>
 			<BnsCustomLabelWidget.String>
-				<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="Register Slot Column 1 Column 1" SpaceBetweenLines="3" ClippingBound="-205 -10" Padding="205 10" />
+				<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="Register Slot Column 1 Column 1" SpaceBetweenLines="3" />
 			</BnsCustomLabelWidget.String>
 			<BnsCustomLabelWidget.ExpansionComponentList>
 				<UBnsCustomExpansionComponent bShow="true" ExpansionType="STRING" ExpansionName="Right_Column_Name" MetaData="">
@@ -726,7 +726,7 @@
 				<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AchievementDetailPanel_Register_3_Name" />
 			</BnsCustomLabelWidget.VerticalResizeLink>
 			<BnsCustomLabelWidget.String>
-				<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="Register Slot Column 1 Column 1" SpaceBetweenLines="3" ClippingBound="-205 -10" Padding="205 10" />
+				<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="Register Slot Column 1 Column 1" SpaceBetweenLines="3" />
 			</BnsCustomLabelWidget.String>
 			<BnsCustomLabelWidget.ExpansionComponentList>
 				<UBnsCustomExpansionComponent bShow="true" ExpansionType="STRING" ExpansionName="Right_Column_Name" MetaData="">
@@ -793,7 +793,7 @@
 				<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AchievementDetailPanel_Register_4_Name" />
 			</BnsCustomLabelWidget.VerticalResizeLink>
 			<BnsCustomLabelWidget.String>
-				<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="Register Slot Column 1 Column 1" SpaceBetweenLines="3" ClippingBound="-205 -10" Padding="205 10" />
+				<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="Register Slot Column 1 Column 1" SpaceBetweenLines="3" />
 			</BnsCustomLabelWidget.String>
 			<BnsCustomLabelWidget.ExpansionComponentList>
 				<UBnsCustomExpansionComponent bShow="true" ExpansionType="STRING" ExpansionName="Right_Column_Name" MetaData="">
@@ -860,7 +860,7 @@
 				<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="AchievementDetailPanel_Register_5_Name" />
 			</BnsCustomLabelWidget.VerticalResizeLink>
 			<BnsCustomLabelWidget.String>
-				<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="Register Slot Column 1 Column 1" SpaceBetweenLines="3" ClippingBound="-205 -10" Padding="205 10" />
+				<StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_12.Normal_12" LabelText="Register Slot Column 1 Column 1" SpaceBetweenLines="3" />
 			</BnsCustomLabelWidget.String>
 			<BnsCustomLabelWidget.ExpansionComponentList>
 				<UBnsCustomExpansionComponent bShow="true" ExpansionType="STRING" ExpansionName="Right_Column_Name" MetaData="">

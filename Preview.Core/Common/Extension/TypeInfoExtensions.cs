@@ -19,7 +19,9 @@ public static class TypeInfoExtensions
 	/// <returns></returns>
 	public static T To<T>(this object value)
 	{
-		value = To(value, typeof(T));
+		try { value = To(value, typeof(T)); }
+		catch { value = null; }
+
 		return value is null ? default : (T)value;
 	}
 

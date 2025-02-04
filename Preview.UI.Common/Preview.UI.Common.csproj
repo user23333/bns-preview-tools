@@ -7,6 +7,7 @@
 		<UseWPF>True</UseWPF>
 		<DelaySign>True</DelaySign>
 		<SignAssembly>True</SignAssembly>
+		<NoWarn>NU1701;NU1702</NoWarn>
 	</PropertyGroup>
 	
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -14,8 +15,8 @@
 	</PropertyGroup>
 	
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2849.39" />
-		<PackageReference Include="SkiaSharp.Views.WPF" Version="2.88.8" />
+		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2957.106" />
+		<PackageReference Include="SkiaSharp.Views.WPF" Version="3.116.1" />
 		<PackageReference Include="Vanara.PInvoke.Kernel32" Version="4.0.4" />
 		<PackageReference Include="Vanara.PInvoke.User32" Version="4.0.4" />
 	</ItemGroup>

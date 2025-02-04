@@ -1,14 +1,12 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Input;
 using Microsoft.Win32;
 using Xylia.Preview.Common;
 using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Engine.BinData.Helpers;
 using Xylia.Preview.Data.Models;
 using Xylia.Preview.UI.Common.Interactivity;
-using Xylia.Preview.UI.Controls;
 using static Xylia.Preview.Data.Models.MarketCategory2Group;
 
 namespace Xylia.Preview.UI.GameUI.Scene.Game_Auction;
@@ -34,41 +32,9 @@ public partial class LegacyAuctionPanel
 		ItemMenu = (ContextMenu)TryFindResource("ItemMenu");
 
 		var SetFavoriteCommand = new SetFavoriteCommand();
-		SetFavoriteCommand.Executed += UpdateList2;
+		SetFavoriteCommand.Executed += UpdateListIfFavorite;
 		RecordCommand.Bind(SetFavoriteCommand, ItemMenu);
 		RecordCommand.Find("item", (act) => RecordCommand.Bind(act, ItemMenu));
-	}
-
-	protected override void OnPreviewKeyDown(KeyEventArgs e)
-	{
-		switch (e.Key == Key.System ? e.SystemKey : e.Key)
-		{
-			case Key.LeftCtrl when TooltipHolder != null:
-			{
-				TooltipHolder.StaysOpen = true;
-				TooltipHolder.IsOpen = true;
-				TooltipHolder.Visibility = Visibility.Visible;
-				break;
-			}
-
-			case Key.LeftShift when TooltipHolder != null:
-			{
-#if DEBUG
-				(TooltipHolder.Content as BnsCustomWindowWidget)?.Show();
-#endif
-				break;
-			}
-		}
-	}
-
-	protected override void OnPreviewKeyUp(KeyEventArgs e)
-	{
-		base.OnPreviewKeyUp(e);
-
-		if (e.Key == Key.LeftCtrl && TooltipHolder != null)
-		{
-			TooltipHolder.IsOpen = false;
-		}
 	}
 	#endregion
 
@@ -103,7 +69,7 @@ public partial class LegacyAuctionPanel
 		});
 	}
 
-	private void UpdateList2(object? sender, EventArgs e)
+	private void UpdateListIfFavorite(object? sender, EventArgs e)
 	{
 		if (_viewModel.Category is Favorite) UpdateList(sender, e);
 	}

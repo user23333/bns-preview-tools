@@ -233,9 +233,6 @@ public abstract class BaseElement : ContentElement
 
 	public Size Measure(Size availableSize)
 	{
-		if (availableSize.Width == 0) availableSize.Width = double.PositiveInfinity;
-		if (availableSize.Height == 0) availableSize.Height = double.PositiveInfinity;
-
 		return DesiredSize = MeasureCore(availableSize);
 	}
 

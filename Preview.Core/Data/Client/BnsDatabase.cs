@@ -27,7 +27,7 @@ public class BnsDatabase : IEngine, IDisposable
 		{
 			if (IsInitialized) return;
 
-			IPlatformFilePak.DoSignatureCheck();
+			//IPlatformFilePak.DoSignatureCheck();
 
 			_provider.LoadData(_definition);
 			_definition.CreateMap();

@@ -21,26 +21,7 @@ public sealed class Quest : ModelElement, IHaveName
 
 	public LazyList<Transit> Transit { get; set; }
 
-
-	[Side(ReleaseSide.Server)]
-	public BroadcastCategorySeq BroadcastCategory { get; set; }
-	public enum BroadcastCategorySeq
-	{
-		None,
-		Field,
-		Always,
-		SoloQuartet,
-		Sextet,
-	}
-
-	//[Side(ReleaseSide.Server), Repeat(3)]
-	public Ref<Achievement>[] ExtraQuestCompleteAchievement { get; set; }
-
-	[Side(ReleaseSide.Server)]
-	public Ref<Cinematic> ReplayEpicZoneLeaveCinematic { get; set; }
-
 	public CategorySeq Category => Attributes.Get<CategorySeq>("category");
-
 	public enum CategorySeq
 	{
 		Epic,
@@ -56,7 +37,6 @@ public sealed class Quest : ModelElement, IHaveName
 	}
 
 	public DayOfWeekSeq DayOfWeek => Attributes.Get<DayOfWeekSeq>("day-of-week");
-
 	public enum DayOfWeekSeq
 	{
 		None,
@@ -76,9 +56,16 @@ public sealed class Quest : ModelElement, IHaveName
 	}
 
 	public ResetTypeSeq ResetType => Attributes.Get<ResetTypeSeq>("reset-type");
+	public enum ResetTypeSeq
+	{
+		None,
+		Daily,
+		Weekly,
+		Monthly,
+		COUNT
+	}
 
 	public ContentTypeSeq ContentType => Attributes.Get<ContentTypeSeq>("content-type");
-
 	public enum ContentTypeSeq
 	{
 		None,
@@ -93,28 +80,6 @@ public sealed class Quest : ModelElement, IHaveName
 		SideEpisode,
 		Hidden,
 		COUNT
-	}
-
-	public enum SaveType
-	{
-		All,
-
-		/// <summary>
-		/// 25000~25500
-		/// </summary>
-		Nothing,
-
-		/// <summary>
-		/// 20000~23000
-		/// </summary>
-		[Name("except-completion")]
-		ExceptCompletion,
-
-		/// <summary>
-		/// 28000~
-		/// </summary>
-		[Name("except-completion-and-logout-save")]
-		ExceptCompletionAndLogoutSave,
 	}
 	#endregion
 
@@ -233,42 +198,17 @@ public abstract class Case : ModelElement
 	public List<FilterSet> FilterSet { get; set; }
 	public List<ReactionSet> ReactionSet { get; set; }
 
+	[Side(ReleaseSide.Client)] public bool ShowInTooltip { get; set; }
+	[Side(ReleaseSide.Client)] public bool VisibleObject { get; set; }
+	[Side(ReleaseSide.Client)] public Ref<TalkSocial> CaseTalksocial { get; set; }
+	[Side(ReleaseSide.Client)] public float CaseTalksocialDelay { get; set; }
 
-	//[Side(ReleaseSide.Client)]
-	//public Indicator Indicator { get; set; }
-
-	[Side(ReleaseSide.Client)]
-	public bool ShowInTooltip { get; set; }
-
-	[Side(ReleaseSide.Client)]
-	public bool VisibleObject { get; set; }
-
-	[Side(ReleaseSide.Client)]
-	public Ref<TalkSocial> CaseTalksocial { get; set; }
-
-	[Side(ReleaseSide.Client)]
-	public float CaseTalksocialDelay { get; set; }
-
-
-
-	[Side(ReleaseSide.Server)]
-	public Ref<Zone> Zone { get; set; }
-
-	//[Side(ReleaseSide.Server)]
-	//public Ref<QuestDecision> QuestDecision { get; set; }
-
-	//[Side(ReleaseSide.Server)]
-	//public Ref<QuestDecision> FailQuestDecision { get; set; }
-
-	[Side(ReleaseSide.Server)]
-	public Ref<FieldItem> DropGadget { get; set; }
-
-	[Side(ReleaseSide.Server)]
-	public bool PartyBroadcast { get; set; }
-
-	[Side(ReleaseSide.Server)]
-	public bool TeamBroadcast { get; set; }
-
+	[Side(ReleaseSide.Server)] public Ref<Zone> Zone { get; set; }
+	//[Side(ReleaseSide.Server)] public Ref<QuestDecision> QuestDecision { get; set; }
+	//[Side(ReleaseSide.Server)] public Ref<QuestDecision> FailQuestDecision { get; set; }
+	[Side(ReleaseSide.Server)] public Ref<FieldItem> DropGadget { get; set; }
+	[Side(ReleaseSide.Server)] public bool PartyBroadcast { get; set; }
+	[Side(ReleaseSide.Server)] public bool TeamBroadcast { get; set; }
 
 	public virtual List<Record> Attractions { get; }
 	#endregion

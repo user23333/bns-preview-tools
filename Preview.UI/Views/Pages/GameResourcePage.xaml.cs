@@ -58,7 +58,7 @@ public partial class GameResourcePage
 
 			DateTime dt = DateTime.Now;
 			Extract.IsEnabled = false;
-			await GameResourcePageViewModel.UeExporter(Selector.Text, OutputClassName.IsChecked ?? true);
+			await GameResourcePageViewModel.ExtractPackage(Selector.Text, OutputClassName.IsChecked ?? true);
 
 			Growl.Success(StringHelper.Get("Text.TaskCompleted2", TimeConverter.Convert(DateTime.Now - dt, null)));
 		}
@@ -80,7 +80,7 @@ public partial class GameResourcePage
 			folder = Path.Combine(folder, "Mods");
 
 			Repack.IsEnabled = false;
-			await GameResourcePageViewModel.UeRepack(folder, _viewModel.Packages);
+			await GameResourcePageViewModel.RepackPackage(folder, _viewModel.Packages);
 
 			Growl.Success(StringHelper.Get("Text.TaskCompleted"));
 		}

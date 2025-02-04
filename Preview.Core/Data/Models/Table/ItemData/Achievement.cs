@@ -7,6 +7,14 @@ using Xylia.Preview.Data.Models.Sequence;
 namespace Xylia.Preview.Data.Models;
 public sealed class Achievement : ModelElement
 {
+	[StructLayout(LayoutKind.Explicit, Size = 64)]
+	public struct AchievementKey(short id, short step, JobSeq job) : IGameDataKey
+	{
+		[FieldOffset(0)] public short Id = id;
+		[FieldOffset(2)] public short Step = step;
+		[FieldOffset(4)] public JobSeq Job = job;
+	}
+
 	#region Attributes
 	public string Alias { get; set; }
 
@@ -174,15 +182,5 @@ public sealed class Achievement : ModelElement
 	public sbyte TitleGrade { get; set; }
 
 	public sbyte TitleInfieldUiBorderEffect { get; set; }
-	#endregion
-
-	#region Key
-	[StructLayout(LayoutKind.Explicit, Size = 64)]
-	public struct AchievementKey(short id, short step, JobSeq job) : IGameDataKey
-	{
-		[FieldOffset(0)] public short Id = id;
-		[FieldOffset(2)] public short Step = step;
-		[FieldOffset(4)] public JobSeq Job = job;
-	}
 	#endregion
 }

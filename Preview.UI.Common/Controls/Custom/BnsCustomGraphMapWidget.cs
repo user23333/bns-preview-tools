@@ -314,7 +314,7 @@ public class BnsCustomGraphMapWidget : BnsCustomBaseWidget
 				ImageScale = 0.625f,
 				Offset = new(0, 5),
 			});
-			widget.ExpansionComponentList["Node_ItemName"]!.SetValue(item.ItemName);
+			widget.ExpansionComponentList["Node_ItemName"]!.SetValue(item.ItemNameOnly);
 			widget.ExpansionComponentList["Node_ViaImage"]!.SetExpansionShow(false);
 			widget.ExpansionComponentList["Node_PurposeImage"]!.SetExpansionShow(false);
 			widget.ExpansionComponentList["Node_StartImage"]!.SetExpansionShow(false);

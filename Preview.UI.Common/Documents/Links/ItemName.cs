@@ -3,9 +3,12 @@
 namespace Xylia.Preview.UI.Documents.Links;
 public sealed class ItemName : LinkId
 {
+	#region Fields
 	public int Id;
 	public int Variant;
 	public short StackCount;
+	//public short Durability;
+	#endregion
 
 	#region Methods
 	internal override void Load(string text)

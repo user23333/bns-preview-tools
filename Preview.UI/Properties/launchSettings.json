@@ -2,7 +2,7 @@
   "profiles": {
     "Preview.UI": {
       "commandName": "Project",
-      "commandLineArgs": ":-command=output -type=ZoneNpcSpawn",
+      "commandLineArgs": ":-command=output -type=ZoneTriggerEvent",
       "nativeDebugging": true
     }
   }

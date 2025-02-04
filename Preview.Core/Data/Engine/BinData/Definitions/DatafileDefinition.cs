@@ -70,7 +70,7 @@ public abstract class DatafileDefinition : Collection<TableDefinition>
 
 internal class DefaultDatafileDefinition : DatafileDefinition
 {
-	internal override EPublisher Publisher => EPublisher.ZNcs;
+	internal override EPublisher Publisher => EPublisher.NcSoft;
 
 	public DefaultDatafileDefinition()
 	{

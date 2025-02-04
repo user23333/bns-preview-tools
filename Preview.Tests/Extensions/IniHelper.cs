@@ -1,3 +1,4 @@
+using System.Text;
 using IniParser;
 using Xylia.Preview.Properties;
 

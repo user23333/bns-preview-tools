@@ -6,6 +6,7 @@ using System.Windows.Threading;
 using HandyControl.Controls;
 using Serilog;
 using Vanara.PInvoke;
+using Xylia.Preview.Data.Engine.DatData;
 using Xylia.Preview.UI.Helpers;
 using Xylia.Preview.UI.Resources.Themes;
 using Xylia.Preview.UI.Services;
@@ -22,8 +23,7 @@ public partial class App : Application
 		InitializeArgs(e.Args);
 
 #if DEVELOP
-		UpdateSkin(SkinType.Default, true);
-		TestProvider.Set(@"D:\Tencent\BnsData\GameData_ZTx", new Locale()
+		TestProvider.Set(@"D:\Tencent\BnsData\GameData_ZTx", new()
 		{ 
 			Publisher = EPublisher.ZTx,
 			AdditionalPublisher = EPublisher.Tencent,
@@ -31,15 +31,16 @@ public partial class App : Application
 		});
 
 		//new GameUI.Scene.Game_Tooltip.AttractionMapUnitToolTipPanel().Show();
-		//new GameUI.Scene.Game_NpcTalk.NpcTalkPanel().Show();
 		//new GameUI.Scene.Game_Achievement.AchievementDetailPanel().Show();
+		//new GameUI.Scene.Game_Tooltip2.MuseumCardTooltipPanel().Show();
+		new GameUI.Scene.Game_Tooltip.RewardTooltipPanel().Show();
 #else
 		MainWindow = new MainWindow();
 		MainWindow.Show();
 #endif
 	}
 
-	internal static void UpdateSkin(SkinType skin, bool? night)
+	internal static void UpdateSkin(SkinType skin, int night)
 	{
 		var skins0 = Current.Resources.MergedDictionaries[0];
 		skins0.MergedDictionaries.Clear();
@@ -62,7 +63,8 @@ public partial class App : Application
 
 		// if advanced exception
 		var exception = arg.Exception;
-		if (exception is TargetInvocationException or XamlParseException) exception = exception.InnerException;
+		if (exception is TargetInvocationException or TypeInitializationException or XamlParseException)
+			exception = exception.InnerException;
 
 		switch (exception)
 		{
@@ -150,7 +152,8 @@ public partial class App : Application
 
 			switch (type)
 			{
-				case "soundwave": Commands.Soundwave_output(); break;
+				case "fontset": Commands.OutputFontSet(); break;
+				case "soundwave": Commands.OutputSoundWave(); break;
 				default: Commands.TableOutput(type); break;
 			}
 		}

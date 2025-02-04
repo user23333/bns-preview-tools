@@ -213,6 +213,10 @@ public abstract class BnsCustomBaseWidget : UserWidget
 		{
 			OnResizeLink(widget.HorizontalResizeLink, constraint, ref rcChild, true);
 			OnResizeLink(widget.VerticalResizeLink, constraint, ref rcChild, false);
+
+			// fix anchor space
+			var anchor = LayoutData.GetAnchors(child);
+			if (anchor.Minimum.X != anchor.Maximum.X) rcChild.Width = Math.Max(0, rcChild.Width - rcChild.X);
 		}
 
 		// support for scroll
@@ -261,10 +265,12 @@ public abstract class BnsCustomBaseWidget : UserWidget
 		if (p is null) return;
 
 		// layout
-		var size = p.Measure(RenderSize.Parse(), out var source);
-		if (source != null)
+		var clientSize = LayoutData.ComputeSpace(RenderSize, p.StaticPadding);
+		var size = p.Measure(clientSize.Parse(), out var source);
+
+		if (ctx != null && source != null)
 		{
-			var pos = LayoutData.ComputeOffset(RenderSize, size, p.HorizontalAlignment, p.VerticalAlignment, p.StaticPadding, p.Offset);
+			var pos = LayoutData.ComputeOffset(clientSize, size, p.HorizontalAlignment, p.VerticalAlignment, p.StaticPadding, p.Offset);
 			ctx?.DrawImage(source.ToWriteableBitmap(), new Rect(pos, new Size(size.X, size.Y)));
 		}
 	}
@@ -282,8 +288,9 @@ public abstract class BnsCustomBaseWidget : UserWidget
 		}
 
 		// layout
-		var size = document.Measure(RenderSize);
-		var pos = LayoutData.ComputeOffset(RenderSize, size.Parse(), p.HorizontalAlignment, p.VerticalAlignment, p.Padding, p.ClippingBound);
+		var clientSize = LayoutData.ComputeSpace(RenderSize, p.Padding);
+		var size = document.Measure(clientSize);
+		var pos = LayoutData.ComputeOffset(clientSize, size.Parse(), p.HorizontalAlignment, p.VerticalAlignment, p.Padding, p.ClippingBound);
 
 		if (ctx != null)
 		{

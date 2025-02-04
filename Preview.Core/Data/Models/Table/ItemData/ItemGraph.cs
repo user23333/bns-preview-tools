@@ -97,7 +97,7 @@ public class ItemGraph : ModelElement
 		#endregion
 
 		#region Helper
-		public string Title => $"{StartItem.Value?.ItemName} ➠ {EndItem.Value?.ItemName}";
+		public string Title => $"{StartItem.Value?.ItemNameOnly} ➠ {EndItem.Value?.ItemNameOnly}";
 
 		public RecipeHelper Recipe { get; internal set; }
 

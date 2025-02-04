@@ -30,11 +30,11 @@ internal class ZoneTriggerEventOut : OutSet
 #if DEBUG
 		foreach (var dayOfWeek in periods.GroupBy(x => x.DayOfWeek))
 		{
-			foreach (var period in dayOfWeek.GroupBy(x => x.StartHour))
+			foreach (var period in dayOfWeek.GroupBy(x => x.StartHour).OrderBy(x => x.Key))
 			{
 				var first = period.First();
 				var time = $"{first.StartHour}:{first.StartMinute:00}:00";
-				var zone = string.Join(",", period.Select(x => x.Data.GetName()));
+				var zone = string.Join(",", period.Select(x => string.Format("'{0}'", x.Data.GetName())));
 
 				Debug.WriteLine($"\t\t['day'=>{(int)dayOfWeek.Key},'time'=>'{time}','zone'=>[{zone}]],");
 			}

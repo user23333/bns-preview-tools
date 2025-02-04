@@ -1,0 +1,210 @@
+﻿<BnsCustomWindowWidget x:Class="Xylia.Preview.UI.GameUI.Scene.Game_Tooltip2.MuseumCardTooltipPanel"
+	xmlns="https://github.com/xyliaup/bns-preview-tools"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:s="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Width="295">
+	<BnsCustomWindowWidget.BaseImageProperty>
+		<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_Window.BNSR_Window" ImageUV="7 7" ImageUVSize="49 49" EnableDrawImage="true" EnableSkinAlpha="true" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" SperateImageType="BNS_SperateImageType_9Frame" StaticPadding="-17 -17" Opacity="1" />
+	</BnsCustomWindowWidget.BaseImageProperty>
+	<BnsCustomWindowWidget.ExpansionComponentList>
+		<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="Line" MetaData="">
+			<UBnsCustomExpansionComponent.ImageProperty>
+				<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window_R/BNSR_Window_Outfocus.BNSR_Window_Outfocus" EnableBrushOnly="true" ImageUV="7 7" ImageUVSize="49 49" EnableDrawImage="true" GrayWeightValue="0.15" ImageScale="1" SperateImageType="BNS_SperateImageType_9Frame" TintColor="FFFFFF" StaticPadding="-13 -13" Opacity="1" />
+			</UBnsCustomExpansionComponent.ImageProperty>
+		</UBnsCustomExpansionComponent>
+	</BnsCustomWindowWidget.ExpansionComponentList>
+	<BnsCustomLabelWidget Name="MuseumCardTooltipPanel_Guide" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="15 610.00244 15 14.000977">
+		<BnsCustomLabelWidget.HorizontalResizeLink>
+			<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_RIGHT_AND_LEFT" Offset1="15" Offset2="15" />
+		</BnsCustomLabelWidget.HorizontalResizeLink>
+		<BnsCustomLabelWidget.VerticalResizeLink>
+			<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="MuseumCardTooltipPanel_Price_Money" Offset1="20" />
+		</BnsCustomLabelWidget.VerticalResizeLink>
+		<BnsCustomLabelWidget.String>
+			<StringProperty fontset="BNSR/Content/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="원화보기 가능" SpaceBetweenLines="3" VerticalAlignment="VAlign_Center" />
+		</BnsCustomLabelWidget.String>
+	</BnsCustomLabelWidget>
+	<BnsCustomLabelWidget Name="MuseumCardTooltipPanel_Price_Money" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="15 577.50146 15 12.500977" Visibility="Collapsed">
+		<BnsCustomLabelWidget.HorizontalResizeLink>
+			<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_RIGHT_AND_LEFT" Offset1="15" Offset2="15" />
+		</BnsCustomLabelWidget.HorizontalResizeLink>
+		<BnsCustomLabelWidget.VerticalResizeLink>
+			<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="MuseumCardTooltipPanel_DropFilter" Offset1="10" />
+		</BnsCustomLabelWidget.VerticalResizeLink>
+		<BnsCustomLabelWidget.String>
+			<StringProperty fontset="BNSR/Content/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="판매가+보유수량" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" ClippingBound="-2 0" ClippingBoundFace_Horizontal="WidgetFaceFace_Right" />
+		</BnsCustomLabelWidget.String>
+	</BnsCustomLabelWidget>
+	<BnsCustomLabelWidget Name="MuseumCardTooltipPanel_DropFilter" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="15 555.0078 15 12.493652">
+		<BnsCustomLabelWidget.HorizontalResizeLink>
+			<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_RIGHT_AND_LEFT" Offset1="15" Offset2="15" />
+		</BnsCustomLabelWidget.HorizontalResizeLink>
+		<BnsCustomLabelWidget.VerticalResizeLink>
+			<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="MuseumCardTooltipPanel_Used" Offset1="2" />
+		</BnsCustomLabelWidget.VerticalResizeLink>
+		<BnsCustomLabelWidget.String>
+			<StringProperty fontset="BNSR/Content/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="xx불가, xx불가" SpaceBetweenLines="3" />
+		</BnsCustomLabelWidget.String>
+	</BnsCustomLabelWidget>
+	<BnsCustomLabelWidget Name="MuseumCardTooltipPanel_Used" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="15 540.50684 15 12.500977">
+		<BnsCustomLabelWidget.HorizontalResizeLink>
+			<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_RIGHT_AND_LEFT" Offset1="15" Offset2="15" />
+		</BnsCustomLabelWidget.HorizontalResizeLink>
+		<BnsCustomLabelWidget.VerticalResizeLink>
+			<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="MuseumCardTooltipPanel_FieldDescription" Offset1="15" />
+		</BnsCustomLabelWidget.VerticalResizeLink>
+		<BnsCustomLabelWidget.String>
+			<StringProperty fontset="BNSR/Content/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="Equip Used Info" SpaceBetweenLines="3" />
+		</BnsCustomLabelWidget.String>
+	</BnsCustomLabelWidget>
+	<BnsCustomLabelWidget Name="MuseumCardTooltipPanel_DecomposeDescription" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="15 443.50293 15 12.500977">
+		<BnsCustomLabelWidget.HorizontalResizeLink>
+			<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_RIGHT_AND_LEFT" Offset1="15" Offset2="15" />
+		</BnsCustomLabelWidget.HorizontalResizeLink>
+		<BnsCustomLabelWidget.VerticalResizeLink>
+			<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="MuseumCardTooltipPanel_DecomposeDescription_Title" Offset1="2" />
+		</BnsCustomLabelWidget.VerticalResizeLink>
+		<BnsCustomLabelWidget.String>
+			<StringProperty fontset="BNSR/Content/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="Decompose Result Description" SpaceBetweenLines="3" />
+		</BnsCustomLabelWidget.String>
+	</BnsCustomLabelWidget>
+	<BnsCustomLabelWidget Name="MuseumCardTooltipPanel_DecomposeDescription_Title" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="15 429.00195 15 12.500977">
+		<BnsCustomLabelWidget.HorizontalResizeLink>
+			<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_RIGHT_AND_LEFT" Offset1="15" Offset2="15" />
+		</BnsCustomLabelWidget.HorizontalResizeLink>
+		<BnsCustomLabelWidget.VerticalResizeLink>
+			<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="MuseumCardTooltipPanel_IllustrationInfo" Offset1="15" />
+		</BnsCustomLabelWidget.VerticalResizeLink>
+		<BnsCustomLabelWidget.String>
+			<StringProperty fontset="BNSR/Content/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Label_Cream_12_out.Label_Cream_12_out" LabelText="Decompose Result Description Title" SpaceBetweenLines="3" />
+		</BnsCustomLabelWidget.String>
+	</BnsCustomLabelWidget>
+	<BnsCustomLabelWidget Name="MuseumCardTooltipPanel_ItemDescription" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="15 485.50488 15 12.500977">
+		<BnsCustomLabelWidget.HorizontalResizeLink>
+			<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_RIGHT_AND_LEFT" Offset1="15" Offset2="15" />
+		</BnsCustomLabelWidget.HorizontalResizeLink>
+		<BnsCustomLabelWidget.VerticalResizeLink>
+			<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="MuseumCardTooltipPanel_ItemDescription_Title" Offset1="2" />
+		</BnsCustomLabelWidget.VerticalResizeLink>
+		<BnsCustomLabelWidget.String>
+			<StringProperty fontset="BNSR/Content/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="Item Description" SpaceBetweenLines="3" />
+		</BnsCustomLabelWidget.String>
+	</BnsCustomLabelWidget>
+	<BnsCustomLabelWidget Name="MuseumCardTooltipPanel_ItemDescription_Title" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="15 471.0039 15 12.500977">
+		<BnsCustomLabelWidget.HorizontalResizeLink>
+			<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_RIGHT_AND_LEFT" Offset1="15" Offset2="15" />
+		</BnsCustomLabelWidget.HorizontalResizeLink>
+		<BnsCustomLabelWidget.VerticalResizeLink>
+			<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="MuseumCardTooltipPanel_DecomposeDescription" Offset1="15" />
+		</BnsCustomLabelWidget.VerticalResizeLink>
+		<BnsCustomLabelWidget.String>
+			<StringProperty fontset="BNSR/Content/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Label_Cream_12_out.Label_Cream_12_out" LabelText="Item Description Title" SpaceBetweenLines="3" />
+		</BnsCustomLabelWidget.String>
+	</BnsCustomLabelWidget>
+	<BnsCustomLabelWidget Name="MuseumCardTooltipPanel_FieldDescription" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="15 513.00586 15 12.500977">
+		<BnsCustomLabelWidget.HorizontalResizeLink>
+			<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_RIGHT_AND_LEFT" Offset1="15" Offset2="15" />
+		</BnsCustomLabelWidget.HorizontalResizeLink>
+		<BnsCustomLabelWidget.VerticalResizeLink>
+			<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="MuseumCardTooltipPanel_ItemDescription" Offset1="15" />
+		</BnsCustomLabelWidget.VerticalResizeLink>
+		<BnsCustomLabelWidget.String>
+			<StringProperty fontset="BNSR/Content/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="획득처 정보" SpaceBetweenLines="3" />
+		</BnsCustomLabelWidget.String>
+	</BnsCustomLabelWidget>
+	<BnsCustomLabelWidget Name="MuseumCardTooltipPanel_IllustrationInfo" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="15 401.50098 15 12.500977">
+		<BnsCustomLabelWidget.HorizontalResizeLink>
+			<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_RIGHT_AND_LEFT" Offset1="15" Offset2="15" />
+		</BnsCustomLabelWidget.HorizontalResizeLink>
+		<BnsCustomLabelWidget.VerticalResizeLink>
+			<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="MuseumCardTooltipPanel_IllustrationInfo_Title" Offset1="2" />
+		</BnsCustomLabelWidget.VerticalResizeLink>
+		<BnsCustomLabelWidget.String>
+			<StringProperty fontset="BNSR/Content/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="원화 유무 정보" SpaceBetweenLines="3" />
+		</BnsCustomLabelWidget.String>
+	</BnsCustomLabelWidget>
+	<BnsCustomLabelWidget Name="MuseumCardTooltipPanel_IllustrationInfo_Title" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="15 387 15 12.500977">
+		<BnsCustomLabelWidget.HorizontalResizeLink>
+			<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_RIGHT_AND_LEFT" Offset1="15" Offset2="15" />
+		</BnsCustomLabelWidget.HorizontalResizeLink>
+		<BnsCustomLabelWidget.VerticalResizeLink>
+			<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="MuseumCardTooltipPanel_Dummy" />
+		</BnsCustomLabelWidget.VerticalResizeLink>
+		<BnsCustomLabelWidget.String>
+			<StringProperty fontset="BNSR/Content/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Label_Cream_12_out.Label_Cream_12_out" LabelText="원화유무" SpaceBetweenLines="3" />
+		</BnsCustomLabelWidget.String>
+	</BnsCustomLabelWidget>
+	<BnsCustomImageWidget Name="MuseumCardTooltipPanel_Card" LayoutData.Anchors="0.5 0 0.5 0" LayoutData.Offsets="0 20 260 351">
+		<BnsCustomImageWidget.HorizontalResizeLink>
+			<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_CENTER" />
+		</BnsCustomImageWidget.HorizontalResizeLink>
+		<BnsCustomImageWidget.VerticalResizeLink>
+			<BnsCustomResizeLink bEnable="true" Offset1="20" />
+		</BnsCustomImageWidget.VerticalResizeLink>
+		<BnsCustomImageWidget.BaseImageProperty>
+			<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_ImageSet/Museum_CollectionCard_Preview_Defult.Museum_CollectionCard_Preview_Defult" ImageUV="118 70" ImageUVSize="277 373" EnableDrawImage="true" EnableResourceSize="true" ImageScale="1" Opacity="1" />
+		</BnsCustomImageWidget.BaseImageProperty>
+		<BnsCustomImageWidget.ExpansionComponentList>
+			<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="Icon" MetaData="">
+				<UBnsCustomExpansionComponent.ImageProperty>
+					<ImageProperty ImageSet="BNSR/Content/Art/UI/GameUI/Resource/GameUI_CollectionCard3D/CollectionCard_3D_006.CollectionCard_3D_006" EnableImageSet="true" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="0.515" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" TintColor="FFFFFF" Offset="0 20" Opacity="1" />
+				</UBnsCustomExpansionComponent.ImageProperty>
+			</UBnsCustomExpansionComponent>
+			<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="CardNameback" MetaData="">
+				<UBnsCustomExpansionComponent.ImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Window2/GameUI_New_Scene_22.GameUI_New_Scene_22" ImageUV="0 685" ImageUVSize="262 42" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Top" TintColor="FFFFFF" Offset="0.5 -4" Opacity="1" />
+				</UBnsCustomExpansionComponent.ImageProperty>
+			</UBnsCustomExpansionComponent>
+			<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="CardName" MetaData="">
+				<UBnsCustomExpansionComponent.ImageProperty>
+					<ImageProperty ImageUVSize="1 1" EnableDrawImage="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" TintColor="FFFFFF" Opacity="1" />
+				</UBnsCustomExpansionComponent.ImageProperty>
+				<UBnsCustomExpansionComponent.StringProperty>
+					<StringProperty fontset="BNSR/Content/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_18.Normal_18" LabelText="CardName 카드이름" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" ClippingBound="0 -318" ClippingBoundFace_Vertical="WidgetFaceFace_Top" Opacity="1" TextScale="1" AnimScale="1" />
+				</UBnsCustomExpansionComponent.StringProperty>
+			</UBnsCustomExpansionComponent>
+			<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="Grade" MetaData="">
+				<UBnsCustomExpansionComponent.ImageProperty>
+					<ImageProperty ImageSet="BNSR/Content/Art/UI/GameUI/Resource/GameUI_ImageSet/CollectionCard_Preview_7.CollectionCard_Preview_7" EnableImageSet="true" EnableDrawImage="true" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="1" HorizontalAlignment="HAlign_Center" VerticalAlignment="VAlign_Center" TintColor="FFFFFF" Opacity="1" />
+				</UBnsCustomExpansionComponent.ImageProperty>
+			</UBnsCustomExpansionComponent>
+			<UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionName="UnusableImage" MetaData="">
+				<UBnsCustomExpansionComponent.ImageProperty>
+					<ImageProperty BaseImageTexture="BNSR/Content/Art/UI/GameUI/Resource/GameUI_Icon/unuseable_X1.unuseable_X1" ImageUVSize="64 64" EnableResourceSize="true" GrayWeightValue="0.15" ImageScale="0.7" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Bottom" TintColor="FFFFFF" Offset="13 -17" Opacity="1" />
+				</UBnsCustomExpansionComponent.ImageProperty>
+			</UBnsCustomExpansionComponent>
+		</BnsCustomImageWidget.ExpansionComponentList>
+	</BnsCustomImageWidget>
+	<BnsCustomImageWidget Name="MuseumCardTooltipPanel_Dummy" LayoutData.Offsets="0 387 200 0">
+		<BnsCustomImageWidget.HorizontalResizeLink>
+			<BnsCustomResizeLink bEnable="true" />
+		</BnsCustomImageWidget.HorizontalResizeLink>
+		<BnsCustomImageWidget.VerticalResizeLink>
+			<BnsCustomResizeLink bEnable="true" Offset1="387" />
+		</BnsCustomImageWidget.VerticalResizeLink>
+		<BnsCustomImageWidget.BaseImageProperty>
+			<ImageProperty EnableDrawImage="true" ImageScale="1" HorizontalAlignment="HAlign_Left" VerticalAlignment="VAlign_Top" Opacity="1" />
+		</BnsCustomImageWidget.BaseImageProperty>
+	</BnsCustomImageWidget>
+	<BnsCustomLabelWidget Name="MuseumCardTooltipPanel_CollectionTitle" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="15 640 0 12.000977" MetaData="textref=UI.Museum.CanUseCollection">
+		<BnsCustomLabelWidget.HorizontalResizeLink>
+			<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_RIGHT_AND_LEFT" Offset1="15" Offset2="15" />
+		</BnsCustomLabelWidget.HorizontalResizeLink>
+		<BnsCustomLabelWidget.VerticalResizeLink>
+			<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="MuseumCardTooltipPanel_Guide" Offset1="15" />
+		</BnsCustomLabelWidget.VerticalResizeLink>
+		<BnsCustomLabelWidget.String>
+			<StringProperty fontset="BNSR/Content/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Label_Cream_12_out.Label_Cream_12_out" LabelText="사용 가능 컬렉션#" SpaceBetweenLines="3" />
+		</BnsCustomLabelWidget.String>
+	</BnsCustomLabelWidget>
+	<BnsCustomLabelWidget Name="MuseumCardTooltipPanel_Collection" LayoutData.Anchors="0 0 1 0" LayoutData.Offsets="15 656 0 12.000977">
+		<BnsCustomLabelWidget.HorizontalResizeLink>
+			<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_BORDER_LINK_RIGHT_AND_LEFT" Offset1="15" Offset2="15" />
+		</BnsCustomLabelWidget.HorizontalResizeLink>
+		<BnsCustomLabelWidget.VerticalResizeLink>
+			<BnsCustomResizeLink bEnable="true" Type="BNS_CUSTOM_WIDGET_LINK_RIGHT" LinkWidgetName1="MuseumCardTooltipPanel_CollectionTitle" Offset1="7" />
+		</BnsCustomLabelWidget.VerticalResizeLink>
+		<BnsCustomLabelWidget.String>
+			<StringProperty fontset="BNSR/Content/Art/UI/GameUI/Resource/GameUI_FontSet/UI/Normal_12.Normal_12" LabelText="사용 가능 컬렉션" SpaceBetweenLines="5" />
+		</BnsCustomLabelWidget.String>
+	</BnsCustomLabelWidget>
+</BnsCustomWindowWidget>

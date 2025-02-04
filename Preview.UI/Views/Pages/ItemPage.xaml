@@ -61,14 +61,19 @@
 
 		<TabItem Header="Test" x:Name="TestHolder" Visibility="Collapsed">
 			<StackPanel>
-				<Button Content="TestButton1" Click="TestButton1_Click" />
-
-				<c:BnsCustomLabelWidget x:Name="TestLabel">
-					<c:BnsCustomLabelWidget.Text>
-						<![CDATA[<p topmargin="0">1111</p><p justification="true" leftmargin="0" topmargin="0">2222</p>]]>
-					</c:BnsCustomLabelWidget.Text>
-				</c:BnsCustomLabelWidget>
-
+				<Button Content="TestButton1" Click="ReloadText_Click" />
+				
+<!--
+				<c:BnsCustomImageWidget Name="ItemStore_ItemList_Column_1_1_PriceHoler_ExtraCost_DisposeItem_1" Width="32" Height="32" Background="BlanchedAlmond">
+					<c:BnsCustomImageWidget.ExpansionComponentList>
+						<c:UBnsCustomExpansionComponent bPostExpansitonRender="true" bShow="true" ExpansionType="STRING" ExpansionName="Count" MetaData="">
+							<c:UBnsCustomExpansionComponent.StringProperty>
+								<c:StringProperty fontset="BNSR/Content/Art/UI/GameUI_BNSR/Resource/GameUI_FontSet_R/UI/Normal_Out_08.Normal_Out_08" LabelText="99999" SpaceBetweenLines="3" HorizontalAlignment="HAlign_Right" VerticalAlignment="VAlign_Bottom" ClippingBound="52 2" Padding="-50 0" Opacity="1" TextScale="1" AnimScale="1" />
+							</c:UBnsCustomExpansionComponent.StringProperty>
+						</c:UBnsCustomExpansionComponent>
+					</c:BnsCustomImageWidget.ExpansionComponentList>
+				</c:BnsCustomImageWidget>
+-->
 				<c:BnsCustomListBoxWidget x:Name="TestListHolder">
 					<c:BnsCustomListBoxWidget.ItemTemplate>
 						<DataTemplate>

@@ -85,7 +85,7 @@ public abstract class Item : ModelElement, IHaveName
 	public int ImproveId => Attributes.Get<int>("improve-id");
 	public sbyte ImproveLevel => Attributes.Get<sbyte>("improve-level");
 
-	public string ItemName => $"<link id='item:{ToString()}'>{ItemNameOnly}</link>";
+	public string ItemName => $"<link id='item:{ToString()}'><font name=\"00008130.UI.Hypertext_Item_Grade1\">{ItemNameOnly}</font></link>";
 	public string ItemNameOnly
 	{
 		get

@@ -9,27 +9,35 @@ namespace Xylia.Preview.Data.Models.Document;
 public class Image : HtmlElementNode
 {
 	#region Fields
-	// jpgpath
-	public string Imagesetpath { get => GetAttributeValue<string>(); set => SetAttributeValue(value); }
-	public string Path { get => GetAttributeValue<string>(); set => SetAttributeValue(value); }
+	public string Imagesetpath;
+	public string Imagesetpath2;
+	public string Imagesetpath3;
 
-	public int U { get => GetAttributeValue<int>(); set => SetAttributeValue(value); }
-	public int V { get => GetAttributeValue<int>(); set => SetAttributeValue(value); }
-	public int UL { get => GetAttributeValue<int>(); set => SetAttributeValue(value); }
-	public int VL { get => GetAttributeValue<int>(); set => SetAttributeValue(value); }
-	public int Width { get => GetAttributeValue<int>(); set => SetAttributeValue(value); }
-	public int Height { get => GetAttributeValue<int>(); set => SetAttributeValue(value); }
+	public string Path;
+	public int U;
+	public int V;
+	public int UL;
+	public int VL;
+	public int Width;
+	public int Height;
 
-	public byte Red { get => GetAttributeValue<byte>(); set => SetAttributeValue(value); }
-	public byte Green { get => GetAttributeValue<byte>(); set => SetAttributeValue(value); }
-	public byte Blue { get => GetAttributeValue<byte>(); set => SetAttributeValue(value); }
+	public string Path2;
+	public int U2;
+	public int V2;
+	public int UL2;
+	public int VL2;
+	public int Width2;
+	public int Height2;
+
+	public byte Red;
+	public byte Green;
+	public byte Blue;
 
 	/// <summary>
 	/// Relative to line height
 	/// </summary>
-	public bool Enablescale { get => GetAttributeValue<bool>(); set => SetAttributeValue(value); }
-
-	public float Scalerate { get => GetAttributeValue<float>(); set => SetAttributeValue(value); }
+	public bool Enablescale;
+	public float Scalerate;
 	#endregion
 
 	#region Methods

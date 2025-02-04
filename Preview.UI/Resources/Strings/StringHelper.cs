@@ -16,7 +16,7 @@ namespace Xylia.Preview.UI;
 /// <summary>
 /// Text Controller
 /// </summary>
-public partial class StringHelper : ResourceDictionary, ITextProvider
+public class StringHelper : ResourceDictionary, ITextProvider
 {
 	#region Constructor
 	public static StringHelper? Current { get; private set; }

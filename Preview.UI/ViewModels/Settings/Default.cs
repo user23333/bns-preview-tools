@@ -18,7 +18,7 @@ internal partial class UserSettings : Settings
 	#endregion
 
 	#region Common 
-	private Size containerSize = new(900, 600);
+	private Size containerSize = new(800, 560);
 	public Size ContainerSize
 	{
 		get => containerSize;
@@ -65,9 +65,9 @@ internal partial class UserSettings : Settings
 	/// <summary>
 	/// Gets or sets night mode
 	/// </summary>
-	public bool? NightMode
+	public int NightMode
 	{
-		get => GetValue<bool?>();
+		get => GetValue<int>();
 		set
 		{
 			SetValue(value);

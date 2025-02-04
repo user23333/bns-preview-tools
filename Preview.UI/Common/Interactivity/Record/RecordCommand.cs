@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Markup;
+using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Models;
 using Xylia.Preview.UI.Views;
 using MessageBox = HandyControl.Controls.MessageBox;
@@ -15,7 +16,21 @@ namespace Xylia.Preview.UI.Common.Interactivity;
 /// </summary>
 public abstract class RecordCommand : MarkupExtension, ICommand
 {
-	#region Override Methods   
+	#region Properties
+	/// <summary>
+	/// Display text
+	/// </summary>
+	public virtual string Name => "Name." + GetType().Name;
+
+	protected virtual int SortOrder => 0;
+
+	/// <summary>
+	/// Supported table type, <see langword="Null"/> means all table. 
+	/// </summary>
+	protected abstract List<string>? Type { get; }
+	#endregion
+
+	#region Override Methods 
 	public override object ProvideValue(IServiceProvider serviceProvider) => this;
 
 	public event EventHandler? CanExecuteChanged;
@@ -47,18 +62,6 @@ public abstract class RecordCommand : MarkupExtension, ICommand
 	{
 		this.CanExecuteChanged?.Invoke(this, EventArgs.Empty);
 	}
-	#endregion
-
-	#region Instance Methods
-	/// <summary>
-	/// Display text
-	/// </summary>
-	public virtual string Name => "Name." + GetType().Name;
-
-	/// <summary>
-	/// Supported table type, <see langword="Null"/> means all table. 
-	/// </summary>
-	protected abstract List<string>? Type { get; }
 
 	/// <summary>
 	/// Defines the method that determines whether the command can execute in its current state.
@@ -83,14 +86,18 @@ public abstract class RecordCommand : MarkupExtension, ICommand
 	{
 		var assembly = Assembly.GetExecutingAssembly();
 		var baseType = typeof(RecordCommand);
+		var commands = new List<RecordCommand>();
 
 		foreach (var definedType in assembly.DefinedTypes)
 		{
 			if (definedType.IsAbstract || definedType.IsInterface || !baseType.IsAssignableFrom(definedType)) continue;
 
 			var instance = Activator.CreateInstance(definedType);
-			if (instance is RecordCommand command && command.CanExecute(name)) action.Invoke(command);
+			if (instance is RecordCommand command && command.CanExecute(name)) commands.Add(command);
 		}
+
+		// order
+		commands.OrderByDescending(x => x.SortOrder).ForEach(action.Invoke);
 	}
 
 	/// <summary>
@@ -101,9 +108,9 @@ public abstract class RecordCommand : MarkupExtension, ICommand
 	public static void Bind(RecordCommand command, ContextMenu menu)
 	{
 		var item = new MenuItem()
-		{
-			Header = StringHelper.Get(command.Name),
+		{	
 			Command = command,
+			Header = StringHelper.Get(command.Name)
 		};
 		item.SetBinding(MenuItem.CommandParameterProperty, new Binding("DataContext") { Source = menu });
 

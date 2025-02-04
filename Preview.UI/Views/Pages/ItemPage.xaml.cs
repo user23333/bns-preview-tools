@@ -23,9 +23,6 @@ public partial class ItemPage
 		{
 			"<br/>123456<br/>1111111<br/><br/>222222"
 		};
-
-		// timer
-		TestLabel.SetTimer(1, 1722541536967);
 #endif
 	}
 	#endregion
@@ -42,7 +39,7 @@ public partial class ItemPage
 		}
 	}
 
-	private void TestButton1_Click(object sender, RoutedEventArgs e)
+	private void ReloadText_Click(object sender, RoutedEventArgs e)
 	{
 		var dir = new DirectoryInfo(@"D:\Tencent\BnsData\GameData_ZNcs\20241011");
 		var table = Globals.GameData.Provider.GetTable("text");

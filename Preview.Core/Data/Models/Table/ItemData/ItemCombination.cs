@@ -80,7 +80,7 @@ public sealed class ItemCombination : ModelElement, IReward
 		internal double Probability;
 
 		object IRewardHelper.Data => Data;
-		public string Text => Data?.ItemName;
+		public string Text => Data?.ItemNameOnly;
 		public string Group { get; set; }
 		public string GroupText => null;
 		public string ProbabilityInfo => Probability.ToString("P4");

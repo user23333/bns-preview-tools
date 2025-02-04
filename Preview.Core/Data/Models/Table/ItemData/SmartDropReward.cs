@@ -1,14 +1,9 @@
 ﻿using Xylia.Preview.Common.Extension;
 using Xylia.Preview.Data.Models.Sequence;
 using Xylia.Preview.Properties;
+using static Xylia.Preview.Data.Models.Reward;
 
 namespace Xylia.Preview.Data.Models;
-/// <summary>
-/// SmartDropReward 
-/// </summary>
-/// <remarks>
-/// Only get one of the items. drop-rate will increase the probability of player job.
-/// </remarks>
 public class SmartDropReward : ModelElement
 {
 	#region Attributes
@@ -24,11 +19,13 @@ public class SmartDropReward : ModelElement
 	#endregion
 
 	#region Methods
-	public static implicit operator Item(SmartDropReward reward) => reward.GetItem(Settings.Default.Job);
-
-	public Item GetItem(params JobSeq[] job)
+	public IEnumerable<RewardInfo> GetRewards(string group, string text)
 	{
-		// No need to deal with drop-rate in our project.
+		// Warning: if no item for the job, a random item will be selected.
+		JobSeq[] job = [Settings.Default.Job];
+		var data = new List<RewardInfo>();
+
+		// deal with drop rate
 		var items = Item.Values().Where(x =>
 		{
 			foreach (var j in job)
@@ -37,11 +34,16 @@ public class SmartDropReward : ModelElement
 			}
 
 			return false;
-		});
+		}).ToArray();
 
-		// Only get one of the items.
-		// Warning: if no item for the job, a random item will be selected.
-		return items.FirstOrDefault();
+		return items.Select(item => new RewardInfo()
+		{
+			Data = item,
+			Probability = 1,
+			ProbabilityType = items.Length,
+			Group = group,
+			GroupText = text,
+		});
 	}
 	#endregion
 }

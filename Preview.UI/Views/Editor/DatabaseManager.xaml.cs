@@ -53,7 +53,9 @@ public partial class DatabaseManager
 		{
 			Provider_ModeHolder.Visibility = Visibility.Collapsed;
 			ProviderSearch.Visibility = Visibility.Visible;
-			ProviderSearch.Text = UserSettings.Default.GameFolder;
+
+			try { ProviderSearch.Text = UserSettings.Default.GameFolder; }
+			catch { }
 		}
 		else
 		{
